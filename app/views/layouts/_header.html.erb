@@ -1,0 +1,61 @@
+<header>
+
+	<div id="video" style="display:none;">
+		<video width="620" controls id="player">
+			<div class="missing-video">
+				Your browser does not support HTML5 video.
+			</div>
+		</video>
+		<a class="close" href="javascript:toggleVideo();">&times;</a>
+	</div>
+
+	<div id="subnav" class="navbar">
+		<div class="navbar-inner">
+			<div class="container">
+				<ul id="links" class="nav">
+					{% if page_prev %}
+					<li><a href="{{ url( page_prev[1] ) }}" rel="tooltip" title="{{ page_prev[0] }}"><i class="icon-chevron-left"></i></a></li>
+					{% else %}
+					<li><div class="filler"></div></li>
+					{% endif %}
+					{% block page_links %}
+					{% for name, target in page_items %}
+					<li class="dropdown">
+						<a href="{{ target }}" data-toggle="dropdown">
+							{{ name | icon_tag | raw }} {{ name }}
+						</a>
+						<ul class="dropdown-menu">
+							{% for subname, subtarget in target %}
+							<li>
+								{% if subtarget|slice(-4,4) in ['.mp4','.mov','.avi'] %}
+								<a href="{{ subtarget }}" onclick="showVideo('{{ subtarget }}'); return(false);">
+									{{ subname | icon_tag | raw }} {{ subname }}
+								</a>
+								{% elseif subtarget == 'SUBFOLDER' %}
+								<b class="nav-header">{{ subname | icon_tag | raw }} {{ subname }}</b>
+								{% else %}
+								<a href="{{ subtarget }}">
+									{{ subname | icon_tag | raw }} {{ subname }}
+								</a>
+								{% endif %}
+							</li>
+							{% endfor %}
+							</ul>
+					</li>
+					{% endfor %}
+					{% endblock %}
+				</ul>
+				<ul class="nav pull-right">					
+					{% if page_doneable and logged_in %}
+					<li id="done-progress" ><label onclick="change_progress('{{page_done[1]}}', '{{page_done[2]}}', '{{page_done[0]}}')" class="checkbox"><input type="checkbox" {{ page_done[0] == 'done' ? 'checked' : '' }}> Done</label></li>
+					{% endif %}
+
+					{% if page_next %}
+					<li><a href="{{ url( page_next[1] ) }}" rel="tooltip" title="{{ page_next[0] }}"><i class="icon-chevron-right"></i></a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</header>

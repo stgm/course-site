@@ -1,0 +1,657 @@
+html, body
+{
+	background-color: #eee;
+}
+
+body
+{
+	/* 40px to make the container go all the way to the bottom of the topbar */
+	padding-top: 40px;
+}
+
+header, section, footer
+{
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    *zoom: 1;
+}
+
+header:after, section:after, footer:before, header:after, section:after, footer:after {
+    display: table;
+    content: "";
+}
+header:after, section:after, footer:after {
+    clear: both;
+}
+
+
+/****************************************************************************
+ *  main navigation bar
+ *
+*/
+
+.navbar .container
+{
+    width:940px;
+}
+
+.navbar .dropdown-menu
+{
+	max-width:none;
+}
+
+.navbar .brand
+{
+	spadding:7px 20px 9px 20px;
+	color: #59ceff;
+	text-shadow: 0px 2px 0px red;
+	font-family: "Helvetica Neue", "Arial", sans-serif;
+	font-weight: bold;
+}
+
+.navbar .brand img
+{
+	height:22px;
+}
+
+.navbar .icon-white
+{
+    opacity:0.5;
+}
+
+.navbar .nav > li > a:hover > .icon-white
+{
+    opacity:1;
+}
+
+.dropdown:hover i, .open.dropdown i {
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+
+/****************************************************************************
+ *  masthead
+ *
+*/
+
+#masthead
+{
+	position:relative;
+	background-color: #ffc20e;
+	padding:20px 20px;
+	margin:0 -20px;
+	border-bottom:0;
+}
+
+#masthead h1
+{
+	color:#333;
+}
+
+#masthead h1 small
+{
+	color:#333;
+	text-shadow:none;
+}
+
+#masthead #done
+{
+	position:absolute;
+	bottom:10px;
+	right:20px;
+}
+
+/****************************************************************************
+ *  video player
+ *
+*/
+
+#video
+{
+	padding:0 20px;
+	margin:0 -20px;
+    background-color:black;
+    position:relative;
+}
+
+#video #player
+{
+    margin:0 auto;
+    display:block;
+}
+
+#video .close
+{
+    position:absolute;
+    top:10px;
+    right:10px;
+    color:white;
+	line-height:10px;
+}
+
+/****************************************************************************
+ *  sub navigation bar
+ *
+*/
+
+#subnav
+{
+	margin-bottom:0;
+}
+
+#subnav .navbar-inner
+{
+	padding:0 0px;
+	margin:0 -20px;
+
+    background-color:#ffc20e;
+    background-image: -webkit-linear-gradient(top, #ffc20e 30%, #CF9C0A 100%);
+	background-image: -moz-linear-gradient(top, #ffc20e 30%, #CF9C0A 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc20e', endColorstr='#CF9C0A', GradientType=0);
+
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow:none;
+    sborder-top:1px solid #D7A00C;
+}
+
+#subnav .container
+{
+	width:auto;
+}
+
+#subnav .navbar-inner .nav > li > a
+{
+    color:black;
+    text-shadow:none;
+}
+
+#subnav .navbar-inner .nav > .active > a, #subnav .navbar-inner  .nav > li > a:hover
+{
+    background-color:#ffc20e;
+}
+
+#links
+{
+	font-size:9pt;
+}
+
+#links li a
+{
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+#links li a:hover
+{
+	color:white;
+	text-shadow:none;
+	background-color:#565565;
+}
+
+/****************************************************************************
+ *  main content area, divided into rows
+ *
+*/
+
+section
+{
+	/* The white background content wrapper */
+	background-color: #fff;
+	padding:30px 20px;
+	/* negative indent the amount of the padding to maintain the grid system */
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+section + section
+{
+    background-image:url(../img/rule.png);
+    background-repeat:no-repeat;
+    border-top:1px solid #eee;
+}
+
+section:last-of-type
+{
+    margin-bottom:10px;
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+}
+
+section > .row + .row
+{
+    background-image:url(../img/rule.png);
+    background-repeat:no-repeat;
+    border-top:1px solid #eee;
+    margin-right:-20px;
+    padding-right:20px;
+    margin-top:20px;
+    padding-top:20px;
+}
+
+section h1, section small
+{
+    text-indent:-120px;
+}
+
+section h1, section h2, section h3
+{
+    stext-indent:-120px;
+    margin-bottom:1em;
+    margin-top:20px;
+}
+
+section h1
+{
+	line-height:1em;
+}
+
+section h4
+{
+    margin-bottom:20px;
+}
+
+section.markdown
+{
+    width:620px;
+    padding:30px 180px;
+}
+
+blockquote
+{
+    border:0;
+    margin:1.5em 0;
+    padding:0 2.5em;
+}
+
+blockquote p
+{
+	margin: inherit;
+}
+
+.markdown p, .markdown li, .markdown dl
+{
+    -webkit-hyphens:auto;
+    -moz-hyphens:none;
+    font-family:Georgia;
+    line-height:1.5;
+    font-size:16px;
+}
+
+.markdown dd
+{
+	margin: 0.5em 1em;
+}
+
+.markdown code, .markdown pre
+{
+	background-color:transparent;
+	border:0;
+	-webkit-hyphens:none;
+	-moz-hyphens:none;
+	padding:0;
+}
+
+.markdown pre
+{
+	padding: 0.5em 2em;
+}
+
+table.course-items th:first-child, table.course-items td:first-child
+{
+	width:20px;
+	text-align:center;
+}
+
+.table input[type=text]
+{
+	margin-bottom:0;
+}
+
+/****************************************************************************
+ *  footer
+ *
+*/
+
+footer
+{
+	margin-top:15px;
+	margin-bottom:15px;
+	text-align: center; 
+}
+
+footer small
+{
+    font-size:smaller;
+}
+
+/****************************************************************************
+ *  commenting section font & formatting
+ *
+ */
+
+#posts
+{
+	font-family: Helvetica, Arial;
+}
+
+#posts pre
+{
+    padding:5px;
+    background-color:white;
+}
+
+#posts p
+{
+	margin-bottom:0;
+}
+
+#posts p + p
+{
+	margin-bottom:0.5em;
+}
+
+#posts small
+{
+	font-size:80%;
+	color:gray;
+}
+
+/****************************************************************************
+ *  commenting section posts + replies
+ *
+ */
+
+#posts
+{
+	padding-left:65px;
+}
+
+#posts .post
+{
+	margin-top:20px;
+}
+
+#posts .post .avatar
+{
+	float:left;
+	width:50px;
+    margin-left:-58px;
+}
+
+/* this is the delete button on a comment */
+#posts .post > .pull-right, #posts .reply > .pull-right
+{
+	margin-right:3px;
+}
+
+#posts .replies
+{
+	margin-top:9px;
+}
+
+#posts .replies .reply, .post .comment-answer-form
+{
+	background-color:#EBF4FB;
+}
+
+#posts .replies .reply
+{
+	padding:5px 5px 5px 65px;
+	overflow:hidden;
+}
+
+/****************************************************************************
+ *  commenting form
+ *
+*/
+
+#posts input, textarea {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow:none;
+  -moz-box-shadow:none;
+  box-shadow:none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+
+#posts input:focus, textarea:focus {
+  border:none;
+  -webkit-box-shadow:none;
+  -moz-box-shadow:none;
+  box-shadow:none;
+  outline: 0;
+  outline: thin dotted \9;
+}
+
+.comment-form
+{
+	padding:0px;
+	margin: 0 0 9px;
+	font-size: 12px;
+	line-height: 18px;
+/*
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+*/
+}
+
+.comment-answer-form
+{
+	padding:4px;
+}
+
+.comment-form form, .comment-form textarea
+{
+	margin:0;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.comment-form textarea, .comment-answer-form textarea
+{
+	resize:none;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	border:none;
+	box-sizing:border-box; 
+	width:100%; 
+	font:13px monospace; 
+	border:0;
+}
+
+.comment-form textarea
+{
+	border-bottom:1px dotted #ccc;
+	border-bottom:1px dotted rgba(0, 0, 0, 0.15);
+}
+
+.comment-form .submit
+{
+	background-color: #f5f5f5;
+	color:gray;
+	padding:2px 7px;
+	line-height:30px;
+	overflow:auto;
+	display:none;
+}
+
+.comment-form input[type=file]
+{
+	margin:2px 5px 2px 40px;
+}
+
+/****************************************************************************
+ *  markdown editor
+ *
+*/
+
+#markdown-editor
+{
+	position:fixed;
+	right:0;
+	top:40px;
+	bottom:0;
+	width:600px;
+	background-color:white;
+	padding:5px;
+	box-shadow:0px 2px 2px #888;
+}
+
+#markdown-editor form
+{
+    width:100%;
+	height:100%;
+}
+
+#markdown-editor textarea
+{
+    width:100%;
+	height:100%;
+	margin:0;
+	padding:0;
+
+	font:13px monospace;
+	background-color:transparent;
+	border:none;
+	resize:none;
+}
+
+#markdown-editor button
+{
+	position:absolute;
+	bottom:5px; right:5px;
+}
+
+.admin-section-editor td:first-child, .admin-section-editor th:first-child
+{
+    width:116px;
+}
+
+.admin-section-editor th input[type=text]
+{
+    font-weight:bold;
+}
+
+.admin-section-editor form
+{
+    display:inline;
+    margin-bottom:0;
+}
+
+#done
+{
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+#done.done-done
+{
+    color:#44C471;
+}
+
+.navbar .nav > li > label
+{
+    cursor:pointer;
+    float: none;
+    padding: 10px 10px 11px;
+    line-height: 19px;
+    text-decoration: none;
+    margin-bottom:0;
+    white-space:nowrap;
+}
+
+.navbar .nav > li > label > input
+{
+    margin:4px 5px 0 0;
+}
+
+.table .progress
+{
+    margin-bottom:0;
+}
+
+/****************************************************************************
+ *  print styles
+ *
+*/
+
+@media print
+{
+    body
+    {
+        padding-top:0;
+        background-color:transparent ! important;
+    }
+
+    .navbar, header, footer, section#comments
+    {
+        display:none;
+    }
+
+    section
+    {
+        border:0;
+        -webkit-box-shadow:none;
+        -moz-box-shadow:none;
+        box-shadow:none;
+        background-image:none;
+    }
+}
+
+/*
+ *   table styles copied from bootstrap
+ */
+ 
+table {
+  width: 100%;
+  margin-bottom: 18px;
+}
+table th, table td {
+  padding: 8px;
+  line-height: 18px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+table th {
+  font-weight: bold;
+  background-color:#f6f6f6;
+}
+table thead th {
+  vertical-align: bottom;
+}
+table thead:first-child tr th, table thead:first-child tr td {
+  border-top: 0;
+}
+table tbody + tbody {
+  border-top: 2px solid #ddd;
+}
+
+table {
+  border: 1px solid #ddd;
+  border-collapse: separate;
+  *border-collapse: collapsed;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+table th + th,
+table td + td,
+table th + td,
+table td + th {
+  border-left: 1px solid #ddd;
+}

@@ -1,3 +1,4 @@
 class Subpage < ActiveRecord::Base
-  attr_accessible :content, :page, :position, :title
+	belongs_to :page
+	attr_accessible :content, :page, :position, :title
 end

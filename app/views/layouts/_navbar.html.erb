@@ -1,0 +1,48 @@
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<nav class="container">
+			<a class="brand" href="{{ url('') }}">{{ site_name }}</a>
+			<ul class="nav">
+				<% for section in Section.all %>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<% for page in section.pages %>
+						<li><a href="{{ page_url(page.id) }}"><%= page.title %></a></li>
+						<% end %>
+					</ul>
+				<% end %>
+				</li>
+			</ul>
+
+			<ul class="nav pull-right">
+				{% if logged_in %}
+				{% if page_editable and admin %}
+				<li>
+					<a href="#" onclick="editpage(); return(false);"><i class="icon-edit icon-white"></i> Edit</a>
+				</li>
+				{% endif %}
+				<li class="dropdown">
+
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> {{ username[0] }} {{ username[1] }}</a>
+					<ul class="dropdown-menu" style="min-width:200px;">
+						<li style="padding:6px 10px; background-color:white; margin-bottom:0;">
+							<div class="progress" style="margin-bottom:0;">
+						  		<div class="bar" style="width: {{ progress }}%;"></div>
+							</div>
+						</li>
+						<li class="divider"></li>
+						<li><a href="{{ url('admin/settings') }}">Settings</a></li>
+						<li><a href="{{ url('auth/logout') }}">Sign out</a></li>
+					</ul>
+				</li>
+				{% else %}
+				<li><a href="{{ url('auth/login') }}"><i class="icon-user icon-white"></i> Sign in</a></li>
+				{% endif %}
+			</ul>
+
+
+
+		</nav>
+	</div>
+</div>
