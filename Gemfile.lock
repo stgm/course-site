@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/rubycas/rubycas-client-rails.git
+  revision: b97de6edc7871bc43ca1c9572f4d9188a210b341
+  specs:
+    rubycas-client-rails (0.1.1)
+      rails (>= 3.0.0)
+      rubycas-client (~> 2.3.9.rc1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -41,6 +49,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    friendly_id (4.0.9)
     hike (1.2.1)
     i18n (0.6.1)
     journey (1.0.4)
@@ -86,7 +95,10 @@ GEM
     rake (10.0.3)
     rdoc (3.12)
       json (~> 1.4)
+    redcarpet (2.2.2)
     ref (1.0.2)
+    rubycas-client (2.3.9)
+      activesupport
     sass (3.2.3)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -119,10 +131,14 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  friendly_id (~> 4.0.1)
   jquery-rails
   less-rails
   libv8 (~> 3.11.8)
   rails (= 3.2.9)
+  redcarpet
+  rubycas-client
+  rubycas-client-rails!
   sass-rails (~> 3.2.3)
   sqlite3
   therubyracer

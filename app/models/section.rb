@@ -1,4 +1,10 @@
 class Section < ActiveRecord::Base
-	has_many :pages
+
+	extend FriendlyId
+	friendly_id :title, use: :slugged
+
 	attr_accessible :content, :position, :title
+
+	has_many :pages
+
 end

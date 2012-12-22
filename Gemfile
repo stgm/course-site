@@ -42,3 +42,8 @@ gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
 
+gem 'redcarpet'
+gem "friendly_id", "~> 4.0.1"
+
+gem 'rubycas-client'#, '2.2.1'
+gem 'rubycas-client-rails', :git => 'git://github.com/rubycas/rubycas-client-rails.git'

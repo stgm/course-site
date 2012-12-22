@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121220143107) do
+ActiveRecord::Schema.define(:version => 20121222115306) do
 
   create_table "categories", :force => true do |t|
     t.string   "title"
@@ -53,7 +53,10 @@ ActiveRecord::Schema.define(:version => 20121220143107) do
     t.integer  "section_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "slug"
   end
+
+  add_index "pages", ["slug"], :name => "index_pages_on_slug", :unique => true
 
   create_table "progresses", :force => true do |t|
     t.integer  "user_id"
@@ -69,7 +72,10 @@ ActiveRecord::Schema.define(:version => 20121220143107) do
     t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "slug"
   end
+
+  add_index "sections", ["slug"], :name => "index_sections_on_slug", :unique => true
 
   create_table "subpages", :force => true do |t|
     t.string   "title"
@@ -78,7 +84,10 @@ ActiveRecord::Schema.define(:version => 20121220143107) do
     t.integer  "page_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "slug"
   end
+
+  add_index "subpages", ["slug"], :name => "index_subpages_on_slug", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "name"

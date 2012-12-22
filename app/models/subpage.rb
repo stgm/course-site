@@ -1,4 +1,10 @@
 class Subpage < ActiveRecord::Base
-	belongs_to :page
+
+	extend FriendlyId
+	friendly_id :title, use: :slugged
+
 	attr_accessible :content, :page, :position, :title
+
+	belongs_to :page
+
 end
