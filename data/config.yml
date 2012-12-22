@@ -1,0 +1,8 @@
+site_title: Mobile software engineering
+site_short: MSE
+
+admins: mstegem1
+
+cas_login_url: https://bt-lap.ic.uva.nl/cas/login?service=
+cas_validate_url: https://bt-lap.ic.uva.nl/cas/serviceValidate?ticket=
+cas_logout_url: https://bt-lap.ic.uva.nl/cas/logout
