@@ -6,13 +6,18 @@ html, body
 body
 {
 	/* to make the container go all the way to the bottom of the topbar */
-	padding-top: 60px;
+/*  padding-top: 60px;*/
 }
 
 /****************************************************************************
  *  main navigation bar
  *
  */
+
+.navbar
+{
+    margin-bottom:2em;
+}
 
 .navbar .brand
 {
