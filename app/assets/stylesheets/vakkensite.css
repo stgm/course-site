@@ -161,6 +161,21 @@ table.course-items th:first-child, table.course-items td:first-child
     font-size:16px;
 }
 
+.markdown table
+{
+    margin-bottom:1em;
+}
+
+.markdown table th
+{
+    text-align:left;
+}
+
+.markdown table td, .markdown table th
+{
+    padding-right:1em;
+}
+
 .markdown dd
 {
 	margin: 0.5em 1em;
