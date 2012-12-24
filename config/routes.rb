@@ -4,6 +4,8 @@ CourseSite::Application.routes.draw do
 	post "admin/import_do"
 
 	get "homepage/index"
+	
+	root :to => "homepage#index"
 
 	match ":section/:page" => "page#index"
 

@@ -1,27 +1,26 @@
 <div class="navbar navbar-inverse navbar-static-top">
 	<div class="navbar-inner">
-		<!-- <div class="container"> -->
 
-		  	<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </a>
-		
-			<a class="brand" href="/">minprog</a>
+		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</a>
 
-			<div class="nav-collapse collapse">
-	      	
+		<a class="brand" href="/">minprog</a>
+
+		<div class="nav-collapse collapse">
+
 			<ul class="nav">
 				<% for section in Section.all %>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
-					<ul class="dropdown-menu">
+					<ul class="dropdown-menu" role="menu">
 						<% for page in section.pages %>
 						<li><%= link_to page.title, "/#{section.slug}/#{page.slug}" %></li>
 						<% end %>
 					</ul>
-				<% end %>
+					<% end %>
 				</li>
 			</ul>
 
@@ -38,11 +37,12 @@
 					<ul class="dropdown-menu" style="min-width:200px;">
 						<li style="padding:6px 10px; background-color:white; margin-bottom:0;">
 							<div class="progress" style="margin-bottom:0;">
-						  		<div class="bar" style="width: {{ progress }}%;"></div>
+								<div class="bar" style="width: {{ progress }}%;"></div>
 							</div>
 						</li>
 						<li class="divider"></li>
 						<li><a href="{{ url('admin/settings') }}">Settings</a></li>
+						<li><a href="/admin/import">Import</a></li>
 						<li><a href="{{ url('auth/logout') }}">Sign out</a></li>
 					</ul>
 				</li>
@@ -50,9 +50,8 @@
 				<li><%= link_to("<i class='icon-user icon-white'></i> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
 				<% end %>
 			</ul>
-			
-			</div>
-			
-		<!-- </div> -->
+
+		</div>
+
 	</div>
 </div>

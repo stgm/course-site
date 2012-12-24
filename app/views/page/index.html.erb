@@ -1,28 +1,12 @@
-<link rel="stylesheet" title="Default" href="highlight/styles/vs.css">
-<script type="text/javascript" src="highlight/highlight.pack.js"></script>
-<script type="text/javascript">
+<!-- <link rel="stylesheet" title="Default" href="highlight/styles/vs.css"> -->
+<!-- <script type="text/javascript" src="highlight/highlight.pack.js"></script> -->
+<!--script type="text/javascript">
 hljs.initHighlightingOnLoad();
-</script>
+</script-->
 
-<div class="container">
-  <div class="row-fluid">
-    <div class="span8">	
-	<ul id="links" class="nav nav-tabs">
-		<% if false # previous page %>
-		<li><a href="{{ url( page_prev[1] ) }}" rel="tooltip" title="{{ page_prev[0] }}"><i class="icon-chevron-left"></i></a></li>
-		<% else %>
-		<li><div class="filler"></div></li>
-		<% end %>
+<div class="row-fluid">
+	<div class="span8">	
 
-		<% @page.subpages.each_with_index do |subpage, index| %>
-		<li class="<%= 'active' if index == 0 %>">
-			<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
-		</li>
-		<% end %>
-
-	</ul>
-
-	<!--ul class="nav pull-right">
 		<% if false # doneable and logged_in %>
 		<li id="done-progress" ><label onclick="change_progress('{{page_done[1]}}', '{{page_done[2]}}', '{{page_done[0]}}')" class="checkbox"><input type="checkbox" {{ page_done[0] == 'done' ? 'checked' : '' }}> Done</label></li>
 		<% end %>
@@ -30,27 +14,42 @@ hljs.initHighlightingOnLoad();
 		<% if false # next page%>
 		<li><a href="{{ url( page_next[1] ) }}" rel="tooltip" title="{{ page_next[0] }}"><i class="icon-chevron-right"></i></a></li>
 		<% end %>
-	</ul-->
 
-	<section id="content">
+		<section id="content" style="padding:1em;">
 
-		<div class="tab-content">
-			<% @page.subpages.each_with_index do |subpage, index| %>
-			<div class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
-				<%= markdown(subpage.content) %>
+			<div class="tabbable">
+
+				<ul id="links" class="nav nav-tabs">
+					<% if false # previous page %>
+					<li><a href="{{ url( page_prev[1] ) }}" rel="tooltip" title="{{ page_prev[0] }}"><i class="icon-chevron-left"></i></a></li>
+					<% else %>
+					<li><div class="filler"></div></li>
+					<% end %>
+
+					<% @page.subpages.each_with_index do |subpage, index| %>
+					<li class="<%= 'active' if index == 0 %>">
+						<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
+					</li>
+					<% end %>
+
+				</ul>
+
+				<div class="tab-content">
+					<% @page.subpages.each_with_index do |subpage, index| %>
+					<div class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
+						<%= markdown(subpage.content) %>
+					</div>
+					<% end %>
+				</div>
+
 			</div>
-			<% end %>
-		</div>
 
-	</section>
-
-<!-- </div> -->
+		</section>
 
 	</div>
 	<div class="span4">
-	Commenting section!
+		Commenting section!
 	</div>
-</div>
 </div>
 
 
