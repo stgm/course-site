@@ -45,7 +45,7 @@ gem 'jquery-rails'
 gem 'thin'
 
 # markdown renderers
-gem 'redcarpet'
+gem 'coderay'
 gem 'kramdown'
 
 # slug generator

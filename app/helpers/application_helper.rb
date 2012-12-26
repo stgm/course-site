@@ -1,23 +1,16 @@
 module ApplicationHelper
 	
-	class LocalRender < Redcarpet::Render::SmartyHTML
-		
-		def initialize(args={})
-			@context = args[:context]
-			super args
+	class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
+		def convert_img(el, indent)
+			el.attr['src'] = File.join(@options[:image_prefix], el.attr['src'])
+			super
 		end
-		
-		def image(link, title, alt_text)
-			return "<img src='#{File.join('/', @context.public_url, link)}' alt='#{alt_text}'>"
-			# image_tag File.join('/public', link), { :title => title, :alt => alt_text }
-		end
-		
 	end
-	
-	def markdown(text, context)
-		# md = Redcarpet::Markdown.new(LocalRender.new({ :context => context, :autolink => true, :space_after_headers => true, :superscript => true, :tables => true }), { :context => 'context', :autolink => true, :space_after_headers => true, :superscript => true, :tables => true })
-		# md.render(text).html_safe
-		Kramdown::Document.new(text).to_html.html_safe
+
+	def markdown(text, page_context)
+		# pass public parl URL to the image converter
+		# :image_prefix is defined in config/application.rb
+		Kramdown::Document.new(text, :image_prefix => page_context.public_url, :coderay_tab_width => 4, :enable_coderay => true, :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
 	
 end
