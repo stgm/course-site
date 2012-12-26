@@ -15,8 +15,9 @@ module ApplicationHelper
 	end
 	
 	def markdown(text, context)
-		md = Redcarpet::Markdown.new(LocalRender.new({ :context => context, :autolink => true, :space_after_headers => true, :superscript => true, :tables => true }), { :context => 'context', :autolink => true, :space_after_headers => true, :superscript => true, :tables => true })
-		md.render(text).html_safe
+		# md = Redcarpet::Markdown.new(LocalRender.new({ :context => context, :autolink => true, :space_after_headers => true, :superscript => true, :tables => true }), { :context => 'context', :autolink => true, :space_after_headers => true, :superscript => true, :tables => true })
+		# md.render(text).html_safe
+		Kramdown::Document.new(text).to_html.html_safe
 	end
 	
 end

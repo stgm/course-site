@@ -1,3 +1,5 @@
+@import "bootstrap.min";
+
 html, body
 {
 	background-color: #eee;
@@ -507,3 +509,5 @@ footer small
         background-image:none;
     }
 }
+
+@import "bootstrap-responsive";

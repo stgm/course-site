@@ -37,13 +37,23 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
-gem 'libv8', '~> 3.11.8'
-gem "therubyracer"
-gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-# gem "twitter-bootstrap-rails"
+# gem 'libv8', '~> 3.11.8'
+# gem "therubyracer"
+# gem "less-rails"
 
+# faster local server
+gem 'thin'
+
+# markdown renderers
 gem 'redcarpet'
+gem 'kramdown'
+
+# slug generator
 gem "friendly_id", "~> 4.0.1"
 
+# cas
 gem 'rubycas-client'#, '2.2.1'
 gem 'rubycas-client-rails', :git => 'git://github.com/rubycas/rubycas-client-rails.git'
+
+# bootstrap
+gem 'bootstrap-sass'
