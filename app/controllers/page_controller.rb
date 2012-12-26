@@ -2,8 +2,6 @@ class PageController < ApplicationController
 	
 	before_filter RubyCAS::GatewayFilter
 	
-	# helper_attr :background_type
-	
 	def index
 		
 		# find section by url and bail out if not found
