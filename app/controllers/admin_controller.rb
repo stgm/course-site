@@ -13,19 +13,33 @@ class AdminController < ApplicationController
 		Section.delete_all
 		Page.delete_all
 		Subpage.delete_all
+		Answer.delete_all
+		PageSubmission.delete_all
 
 		Dir.glob(subdirs()) do |section|
 			logger.debug section
 			section = File.basename(section)
 			section_info = split_info(section)
-			db_sec = Section.create(:title => section_info[2], :position => section_info[1])
+			db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section)
 
 			Dir.glob(subdirs(section)) do |page|
 				page = File.basename(page)
 				page_info = split_info(page)
-				db_page = db_sec.pages.create(:title => page_info[2], :position => page_info[1])
 
-				Dir.glob(files(section, page)) do |subpage|
+				submit_config = load_config(files(section, page, "submit.yml"))
+				db_page = db_sec.pages.create(:title => page_info[2], :position => page_info[1], :path => page, :form => submit_config && submit_config['form'])
+				
+				if submit_config
+					['required', 'optional'].each do |modus|
+						if submit_config[modus]
+							submit_config[modus].each do |file|
+								db_page.page_submissions.create(:filename => file, :required => modus == 'required')
+							end
+						end
+					end
+				end
+				
+				Dir.glob(files(section, page, "*.md")) do |subpage|
 					subpage = File.basename(subpage)
 					subpage_info = split_info(subpage)
 					file = IO.read(File.join(COURSE_DIR, section, page, subpage))
@@ -45,11 +59,19 @@ class AdminController < ApplicationController
 	end
 
 	def files(*name)
-		return File.join(COURSE_DIR, name, "*.md")
+		return File.join(COURSE_DIR, name)
 	end
 
 	def split_info(object)
 		return object.match('(\d)\s+([^\.]*)')
+	end
+	
+	def load_config(filename)
+		if File.exists?(filename)
+			return YAML.load_file(filename)
+		else
+			return false
+		end
 	end
 
 end

@@ -148,7 +148,7 @@ table.course-items th:first-child, table.course-items td:first-child
 
 .markdown
 {
-/*    padding:30px;*/
+    padding:1em;
 }
 
 .markdown p, .markdown li, .markdown dl
@@ -193,6 +193,19 @@ table.course-items th:first-child, table.course-items td:first-child
 .markdown pre
 {
 	padding: 0.5em 2em;
+}
+
+.markdown textarea
+{
+    width:100%;
+    height:5em;
+    border:1px solid black;
+}
+
+.markdown input[type=text]
+{
+    border:0;
+    border-bottom:1px solid black;
 }
 
 /****************************************************************************

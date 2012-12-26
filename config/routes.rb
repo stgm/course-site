@@ -1,5 +1,8 @@
 CourseSite::Application.routes.draw do
 
+  resources :answers
+
+
 	get "admin/import"
 	post "admin/import_do"
 

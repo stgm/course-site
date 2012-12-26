@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222115306) do
+ActiveRecord::Schema.define(:version => 20121225105622) do
+
+  create_table "answers", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "answer_data"
+    t.integer  "page_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "answers", ["page_id"], :name => "index_answers_on_page_id"
+  add_index "answers", ["user_id"], :name => "index_answers_on_user_id"
 
   create_table "categories", :force => true do |t|
     t.string   "title"
@@ -46,6 +57,16 @@ ActiveRecord::Schema.define(:version => 20121222115306) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "page_submissions", :force => true do |t|
+    t.integer  "page_id"
+    t.string   "filename"
+    t.boolean  "required"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "page_submissions", ["page_id"], :name => "index_page_submissions_on_page_id"
+
   create_table "pages", :force => true do |t|
     t.string   "title"
     t.text     "content"
@@ -54,6 +75,8 @@ ActiveRecord::Schema.define(:version => 20121222115306) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "slug"
+    t.string   "path"
+    t.boolean  "form"
   end
 
   add_index "pages", ["slug"], :name => "index_pages_on_slug", :unique => true
@@ -73,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20121222115306) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "slug"
+    t.string   "path"
   end
 
   add_index "sections", ["slug"], :name => "index_sections_on_slug", :unique => true
