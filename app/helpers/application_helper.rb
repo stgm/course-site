@@ -1,6 +1,10 @@
 module ApplicationHelper
 	
 	class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
+		def convert_table(el, indent)
+			el.attr['class'] = 'table'
+			super
+		end
 		def convert_img(el, indent)
 			el.attr['src'] = File.join(@options[:image_prefix], el.attr['src'])
 			super
