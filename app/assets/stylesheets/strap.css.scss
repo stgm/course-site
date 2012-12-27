@@ -496,7 +496,7 @@ footer small
         background-color:transparent ! important;
     }
 
-    .navbar, header, footer, section#comments
+    .navbar, header, footer, section#comments, #links
     {
         display:none;
     }
@@ -509,6 +509,21 @@ footer small
         box-shadow:none;
         background-image:none;
     }
+    
+    .row-fluid [class*="offset"]:first-child {
+    margin-left: 0;
+    }
+    
+    [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
+    float: none;
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+    
 }
 
 @import "bootstrap-responsive";
