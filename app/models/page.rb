@@ -10,7 +10,11 @@ class Page < ActiveRecord::Base
 	has_many :page_submissions
 	
 	def public_url()
-		return File.join('/course', section.path, path)
+		if section
+			return File.join('/course', section.path, path)
+		else
+			return File.join('/course', path)
+		end
 	end
 	
 	def needs_submit?()

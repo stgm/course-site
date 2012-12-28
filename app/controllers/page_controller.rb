@@ -28,5 +28,14 @@ class PageController < ApplicationController
 		end
 		
 	end
+
+	def homepage
+		@page = Page.where(:section_id => nil).first		
+		render :text => "page not found" and return if !@page
+		
+		@user = current_user
+		render :index
+	end
+	
 	
 end

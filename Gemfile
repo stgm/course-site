@@ -57,3 +57,6 @@ gem 'rubycas-client-rails', :git => 'git://github.com/rubycas/rubycas-client-rai
 
 # bootstrap
 gem 'bootstrap-sass'
+
+# git integration
+gem 'git'

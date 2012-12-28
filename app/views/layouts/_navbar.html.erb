@@ -13,7 +13,7 @@
 
 			<ul class="nav">
 				<% for section in Section.all %>
-				<li class="dropdown">
+				<li class="dropdown active">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
 					<ul class="dropdown-menu" role="menu">
 						<% for page in section.pages %>
@@ -26,11 +26,6 @@
 
 			<ul class="nav pull-right">
 				<% if @user # logged_in %>
-				<% if false # page editable and admin %>
-				<li>
-					<a href="#" onclick="editpage(); return(false);"><i class="icon-edit icon-white"></i> Edit</a>
-				</li>
-				<% end %>
 				<li class="dropdown">
 
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <%= @user.uvanetid %></a>
@@ -41,9 +36,8 @@
 							</div>
 						</li>
 						<li class="divider"></li>
-						<li><a href="{{ url('admin/settings') }}">Settings</a></li>
-						<li><a href="/admin/import">Import</a></li>
-						<li><a href="{{ url('auth/logout') }}">Sign out</a></li>
+						<li><a href="#myModal" data-toggle="modal" data-backdrop="static">Update courseware...</a></li>
+						<li><%= link_to 'Logout', :controller => 'homepage', :action => 'logout' %></li>
 					</ul>
 				</li>
 				<% else %>
@@ -55,3 +49,25 @@
 
 	</div>
 </div>
+
+<div id="myModal" class="modal hide fade">
+	<div class="modal-header">
+		<h3>Updating courseware</h3>
+	</div>
+	<div id="modal-body" class="modal-body">
+		Starting...
+	</div>
+	<div class="modal-footer">
+		<a href="/" class="btn btn-primary">Close</a>
+	</div>
+</div>
+
+<script>
+$('#myModal').on('shown', function () {
+	$.post('/admin/import_do', function(data)
+		{
+			$('#modal-body').html(data);
+		}
+	)
+})
+</script>
