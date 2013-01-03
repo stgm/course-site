@@ -4,8 +4,8 @@ class Course
 
 	def self.reload
 
-		# get updates from from git remote
-		# update_repo(COURSE_DIR)
+		# get update from from git remote (pull)
+		update_repo(COURSE_DIR)
 
 		# remove all previous content
 		Section.delete_all
@@ -64,12 +64,16 @@ class Course
 		# each page is a descendant of a section and contains one or more markdown subpages
 		Dir.glob(subdirs(dir)) do |page|
 			
-			page_path = File.basename(page)
-			page_info = split_info(page_path)
+			page_path = File.basename(page)    # only the directory name
+			page_info = split_info(page_path)  # array of position and page name
 
-			submit_config = load_config(files(dir, "submit.yml"))
+			# load submit.yml config file which contains items to submit
+			submit_config = load_config(files(page, "submit.yml"))
+			
+			# create the page
 			db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path, :form => submit_config && submit_config['form'])
 
+			# if there was actually a config file present
 			if submit_config
 				['required', 'optional'].each do |modus|
 					if submit_config[modus]
@@ -91,13 +95,10 @@ class Course
 		
 		# a subpage is a markdown document that is copied into the database
 		Dir.glob(files(dir, "*.md")) do |subpage|
-			
+
 			subpage_path = File.basename(subpage)
 			subpage_info = split_info(subpage_path)
 			
-			# Rails.logger.debug "HUH\n\n\n"
-			# Rails.logger.debug subpage_info.inspect
-
 			file = IO.read(File.join(dir, subpage_path))
 			parent_page.subpages.create(:title => subpage_info[2], :position => subpage_info[1], :content => file)
 		end
