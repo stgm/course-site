@@ -139,6 +139,11 @@ table.course-items th:first-child, table.course-items td:first-child
 	margin-bottom:0;
 }
 
+table.table-padded td
+{
+    padding:0.5em 0;
+}
+
 /****************************************************************************
  *  any markdown
  *
