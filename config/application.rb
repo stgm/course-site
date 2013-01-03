@@ -63,6 +63,6 @@ module CourseSite
 		config.rubycas.cas_base_url = 'https://secure.uva.nl/cas/'
 		
 		# Kramdown plugin
-		Kramdown::Options.define(:image_prefix, String, '', 'Image prefix')
+		Kramdown::Options.define(:asset_prefix, String, '', 'Local asset prefix')
 	end
 end
