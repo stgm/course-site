@@ -60,3 +60,6 @@ gem 'bootstrap-sass'
 
 # git integration
 gem 'git'
+
+# dropbox integration
+gem 'dropbox-sdk'

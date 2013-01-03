@@ -28,7 +28,7 @@
 	<%= yield %>
 
 	<footer>
-		<small>This content is available under the <a href="http://cs164.tv/">Creative Commons BY-NC-SA license</a>. The website code is <a href="http://github.com/uva/iclass">available</a> under the MIT license.</small>
+		<small><%= Course.license.html_safe %> <a rel="tooltip" data-placement="top" title="<%= Course.acknowledgements %>">Acknowledgements.</a></small>
 	</footer>
 
 	<script type="text/javascript" charset="utf-8">

@@ -1,9 +1,9 @@
 class Course
 
 	COURSE_DIR = "public/course"
+	@@settings = nil
 
 	def self.reload
-
 		# get update from from git remote (pull)
 		update_repo(COURSE_DIR)
 
@@ -17,10 +17,22 @@ class Course
 		# add course info pages and all sections, recursively
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
-
+	end
+	
+	def self.method_missing(method_id)
+		if @@settings == nil
+			load_config
+		end
+		if @@settings.has_key?(method_id.to_s)
+			return @@settings[method_id.to_s]
+		end
 	end
 	
 	private
+	
+	def self.load_config()
+		@@settings = self.read_config(File.join(COURSE_DIR, 'course.yml'))
+	end
 	
 	def self.update_repo(dir)
 		
@@ -68,7 +80,7 @@ class Course
 			page_info = split_info(page_path)  # array of position and page name
 
 			# load submit.yml config file which contains items to submit
-			submit_config = load_config(files(page, "submit.yml"))
+			submit_config = read_config(files(page, "submit.yml"))
 			
 			# create the page
 			db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path, :form => submit_config && submit_config['form'])
@@ -117,7 +129,7 @@ class Course
 		return object.match('(\d)\s+([^\.]*)')
 	end
 	
-	def self.load_config(filename)
+	def self.read_config(filename)
 		if File.exists?(filename)
 			return YAML.load_file(filename)
 		else

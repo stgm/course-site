@@ -17,7 +17,7 @@ class PageController < ApplicationController
 		# get cached form answers for this page / TODO FUGLY
 		if logged_in?
 			answer = Answer.where(:user_id => @user.id, :page_id => @page.id).first
-			if answer
+			if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
 				answer = JSON.parse(answer.answer_data)
 				@answer_data = {}
 				answer.each do |field, value|

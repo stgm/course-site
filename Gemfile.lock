@@ -49,6 +49,8 @@ GEM
       execjs
     coffee-script-source (1.4.0)
     daemons (1.1.9)
+    dropbox-sdk (1.5.1)
+      json
     erubis (2.7.0)
     eventmachine (1.0.0)
     execjs (1.4.0)
@@ -129,6 +131,7 @@ DEPENDENCIES
   bootstrap-sass
   coderay
   coffee-rails (~> 3.2.1)
+  dropbox-sdk
   friendly_id (~> 4.0.1)
   git
   jquery-rails
