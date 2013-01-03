@@ -44,13 +44,13 @@
 								<% @page.page_submissions.each do |s| %>
 								<tr>
 									<td><%= s.filename %></td>
-									<td><%= file_field_tag "f[#{s.filename}]", :accept => File.extname(s.filename) %></td>
+									<td><%= file_field_tag "f[#{s.filename}]", :accept => File.extname(s.filename), :required => s.required %></td>
 									<td><%= 'required' if s.required %></td>
 								</tr>
 								<% end %>
 							</table>
 							<p>Notes: <%= text_area_tag 'notes' %></p>
-							<p><%= submit_tag 'Submit for grading', :confirm => 'question?', :class => 'btn btn-warning' %></p>
+							<p><%= submit_tag 'Submit for grading', :class => 'btn btn-warning' %></p>
 						</div>
 						<% end %>
 					</div>
