@@ -5,6 +5,7 @@ class Course
 
 	def self.reload
 		# get update from from git remote (pull)
+		Rails.logger.info "updating course in dir #{COURSE_DIR}..."
 		update_repo(COURSE_DIR)
 
 		# remove all previous content
@@ -37,7 +38,7 @@ class Course
 	def self.update_repo(dir)
 		
 		# simply performs a 'git pull'
-		g = Git.open dir, :log => Logger.new(STDOUT)
+		g = Git.open dir, :log => Rails.logger
 		g.pull
 		
 	end
@@ -47,7 +48,7 @@ class Course
 		# info should be a subdir of the root course dir and contain markdown files
 		# NOT IMPLEMENTED
 		info_dir = File.join(dir, 'info')
-		if Dir.exists?(info_dir)
+		if File.exist?(info_dir)
 			Rails.logger.debug info_dir
 			info_page = Page.create(:title => 'info', :position => 0, :path => info_dir, :form => false)
 			process_subpages(info_dir, info_page)
