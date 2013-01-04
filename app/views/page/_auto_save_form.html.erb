@@ -1,0 +1,22 @@
+<% if logged_in? %>
+	<script>
+		var form_cache = <%= @answer_data.to_json.html_safe %>;
+		if(form_cache)
+		{
+			$.each($("input[type=text], textarea"),
+			function(i,v)
+			{
+				if(form_cache[v.name])
+				{
+					v.value = form_cache[v.name];
+				}
+			}			)
+		};
+		$("input[type=text],textarea").change(function()
+		{
+			$("#loading").show();
+			$.post("/answers.json", $("#page_form").serialize());
+			window.setTimeout(function(){$("#loading").hide()}, 1000);
+		})
+	</script>
+<% end %>

@@ -1,89 +1,75 @@
 <div class="container-fluid">
+	<div class="gradient-header row-fluid">
+		
+		<div class="" style="max-width:768px; margin:0 auto;">
+	<% if @page.title %>
+	<h1><%= @page.title %></h1>
+	<% end %>
+</div>
+
+	</div>
+
 	<div class="row-fluid">
-		<div class="span8 offset2">
+		<div class="" style="max-width:768px; margin:0 auto;">
 
-			<section id="content" style="padding:1em;">
+			<div class="tabbable">
 
-				<div class="tabbable">
-					
-					<ul id="links" class="nav nav-tabs">
-						<% @page.subpages.each_with_index do |subpage, index| %>
-						<li class="<%= 'active' if index == 0 %>">
-							<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
-						</li>
-						<% end %>
-						<% if logged_in? && @page.needs_submit? %>
-						<li><a href="#submit" data-toggle="tab">Submit</a></li>
-						<% end %>
-					</ul>
+				<ul class="nav nav-tabs">
+					<% @page.subpages.each_with_index do |subpage, index| %>
+					<li class="<%= 'active' if index == 0 %>">
+						<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
+					</li>
+					<% end %>
+					<% if logged_in? && @page.needs_submit? %>
+					<li><a href="#submit" data-toggle="tab">Submit</a></li>
+					<% end %>
+				</ul>
 
-					<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
-					<%= hidden_field_tag :page_id, @page.id %>
-					<div class="tab-content">
-						<% @page.subpages.each_with_index do |subpage, index| %>
-						<div class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
-							<%= markdown(subpage.content, @page) %>
-						</div>
+				<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
+				<%= hidden_field_tag :page_id, @page.id %>
+				<div class="tab-content">
+
+					<% @page.subpages.each_with_index do |subpage, index| %>
+					<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
+						<%= markdown(subpage.content, @page) %>
+					</section>
+					<% end %>
+
+					<% if logged_in? && @page.needs_submit? %>
+					<section class="tab-pane markdown" id="submit">
+						<h1>Submit</h1>
+						<% if @page.form %>
+						<p>When you are ready to submit, make sure you have answered all questions, use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
+						<% else %>
+						<p>When you are ready to submit, please use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
 						<% end %>
-						<% if logged_in? && @page.needs_submit? %>
-						<div class="tab-pane markdown" id="submit">
-							<h1>Submit</h1>
+						<table class="table table-bordered">
 							<% if @page.form %>
-							<p>When you are ready to submit, make sure you have answered all questions, use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>							<% else %>
-							<p>When you are ready to submit, please use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
+							<tr>
+								<td>form.txt</td>
+								<td>Automatically generated from your answers.</td>
+								<td></td>
+							</tr>
 							<% end %>
-							<table class="table table-bordered">
-								<% if @page.form %>
-								<tr>
-									<td>form.txt</td>
-									<td>Automatically generated from your answers.</td>
-									<td></td>
-								</tr>
-								<% end %>
-								<% @page.page_submissions.each do |s| %>
-								<tr>
-									<td><%= s.filename %></td>
-									<td><%= file_field_tag "f[#{s.filename}]", :accept => File.extname(s.filename), :required => s.required %></td>
-									<td><%= 'required' if s.required %></td>
-								</tr>
-								<% end %>
-							</table>
-							<p>Notes: <%= text_area_tag 'notes' %></p>
-							<p><%= submit_tag 'Submit for grading', :class => 'btn btn-warning' %></p>
-						</div>
-						<% end %>
+							<% @page.page_submissions.each do |s| %>
+							<tr>
+								<td><%= s.filename %></td>
+								<td><%= file_field_tag "f[#{s.filename}]", :accept => File.extname(s.filename), :required => s.required %></td>
+								<td><%= 'required' if s.required %></td>
+							</tr>
+							<% end %>
+						</table>
+						<p>Notes: <%= text_area_tag 'notes' %></p>
+						<p><%= submit_tag 'Submit for grading', :class => 'btn btn-warning' %></p>
 					</div>
 					<% end %>
-					
-					<% if logged_in? %>
-					<script>
-						var form_cache = <%= @answer_data.to_json.html_safe %>;
-						if(form_cache)
-						{
-							$.each($("input[type=text], textarea"),
-								function(i,v)
-								{
-									if(form_cache[v.name])
-									{
-										v.value = form_cache[v.name];
-									}
-								}
-							);
-						}
-						$("input[type=text],textarea").change(function()
-						{
-							$("#loading").show();
-							// $("#page_form").submit();
-							$.post("/answers.json", $("#page_form").serialize());
-							window.setTimeout(function(){$("#loading").hide()}, 1000);
-						})
-					</script>
-					<% end %>
-
 				</div>
+				<% end %>
 
-			</section>
+			</div>
 
 		</div>
 	</div>
 </div>
+
+<%= render 'auto_save_form' %>

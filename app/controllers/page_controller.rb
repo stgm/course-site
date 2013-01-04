@@ -30,12 +30,9 @@ class PageController < ApplicationController
 	end
 
 	def homepage
-		@page = Page.where(:section_id => nil).first || Page.new(:title => 'Empty website')		
-		# render :text => "page not found" and return if !@page
-		
+		@page = Page.where(:section_id => nil).first || Page.new(:title => 'Empty course website')		
 		@user = current_user
 		render :index
 	end
-	
 	
 end

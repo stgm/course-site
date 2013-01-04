@@ -6,16 +6,30 @@ html, body
 	background-color: #eee;
 }
 
-body
-{
-	/* to make the container go all the way to the bottom of the topbar */
-    padding-top: 40px;
-}
-
 /****************************************************************************
  *  main navigation bar
  *
  */
+
+body
+{
+	/* to make the container go all the way to the bottom of the topbar */
+	padding:40px 0 0 0 ! important;
+/*	padding-top: 40px ! important;*/
+}
+
+@media (max-width: 979px)
+{
+	body
+	{
+		padding:0 ! important;
+	}
+	
+	.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	}
+}
 
 .navbar .brand
 {
@@ -23,19 +37,36 @@ body
 	text-shadow: 0px 2px 0px red;
 	font-family: "Helvetica Neue", "Arial", sans-serif;
 	font-weight: bold;
-    margin-left:0;
-    padding-top:8px;
-    margin:0;
+	margin-left:0;
+	padding-top:8px;
+	margin:0;
 }
 
-/****************************************************************************
- *  sub navigation bar
- *
- */
-
-#links
+.container-fluid
 {
-    margin-bottom:0;
+	padding:0 ! important;
+}
+
+.navbar-fixed-top
+{
+	margin-bottom:0 ! important;
+}
+
+.tabbable ul.nav li:first-child
+{
+	margin-left:0.75em;
+}
+
+.gradient-header
+{
+	background: -moz-linear-gradient(top, rgba(255,255,255,0.8) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.8)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0.8) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255,255,255,0.8) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(255,255,255,0.8) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(0,0,0,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ccffffff', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+	
 }
 
 /****************************************************************************
@@ -43,154 +74,86 @@ body
  *
  */
 
+h1
+{
+	font-size:2em;
+	padding:1em 0.25em;
+	margin:0 auto;
+}
+
+.nav
+{
+	margin-bottom:0;
+}
+
 section
 {
 	/* The white background content wrapper */
 	background-color: #fff;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	padding:2em;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
 }
 
-section + section
+section p, section li, section dl
 {
-    background-image:url(../img/rule.png);
-    background-repeat:no-repeat;
-    border-top:1px solid #eee;
-}
-
-section:last-of-type
-{
-    margin-bottom:10px;
-/*  -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
-*/
-}
-
-section > .row + .row
-{
-    background-image:url(../img/rule.png);
-    background-repeat:no-repeat;
-    border-top:1px solid #eee;
-    margin-right:-20px;
-    padding-right:20px;
-    margin-top:20px;
-    padding-top:20px;
-}
-
-section h1, section small
-{
-/*    margin-left:-120px;*/
+	-webkit-hyphens:auto;
+	hyphens:auto;
+	-moz-hyphens:none;
+	font-family:Georgia;
+	line-height:1.5;
+	font-size:16px;
 }
 
 section h1, section h2, section h3
 {
-    margin-bottom:1em;
-    margin-top:20px;
+	margin-bottom:1em;
+	margin-top:20px;
+	line-height:1em;
 }
 
 section h1
 {
 	line-height:1em;
-	font-size:2em;
+	font-size:1.5em;
+	padding:0;
 }
 
 section h2
 {
-    font-size:1.5em;
+	font-size:1.2em;
 }
 
 section h3
 {
-    font-size:1em;
+	font-size:1em;
 }
 
 section h4
 {
-    margin-bottom:20px;
+	margin-bottom:20px;
 }
 
-section h1, section h2, section h3
-{
-    line-height:1em;
-}
-
-blockquote
-{
-    border:0;
-    margin:1.5em 0;
-    padding:0 2.5em;
-}
-
-blockquote p
-{
-	margin: inherit;
-}
-
-table.course-items th:first-child, table.course-items td:first-child
-{
-	width:20px;
-	text-align:center;
-}
-
-.table input[type=text]
-{
-	margin-bottom:0;
-}
-
-table.table-padded td, table.table-padded th
-{
-    padding:0.5em 1em;
-/*    padding-left: ;*/
-}
-
-table.table-padded tr:last-child td
-{
-    padding-bottom:1em;
-}
-
-/****************************************************************************
- *  any markdown
- *
- */
-
-.markdown
-{
-    padding:1em;
-}
-
-.markdown p, .markdown li, .markdown dl
-{
-    -webkit-hyphens:auto;
-    hyphens:auto;
-    -moz-hyphens:none;
-    font-family:Georgia;
-    line-height:1.5;
-    font-size:16px;
-}
-
-.markdown table
-{
-    margin-bottom:1em;
-}
-
-.markdown table th
-{
-    text-align:left;
-}
-
-/*.markdown table td, .markdown table th
-{
-    padding-right:1em;
-}
-*/
-.markdown dd
+section dd
 {
 	margin: 0.5em 1em;
 }
 
-.markdown code, .markdown pre
+section blockquote
+{
+	border:0;
+	margin:1.5em 0;
+	padding:0 2.5em;
+}
+
+section blockquote p
+{
+	margin: inherit;
+}
+
+/********** code **********/
+
+section code, section pre
 {
 	background-color:transparent;
 	border:0;
@@ -199,22 +162,52 @@ table.table-padded tr:last-child td
 	padding:0;
 }
 
-.markdown pre
+section pre
 {
 	padding: 0.5em 2em;
 }
 
-.markdown textarea
+/********** forms **********/
+
+section textarea
 {
-    width:100%;
-    height:5em;
-    border:1px solid black;
+	width:100%;
+	height:5em;
+	border:1px solid black;
 }
 
-.markdown input[type=text]
+section input[type=text]
 {
-    border:0;
-    border-bottom:1px solid black;
+	border:0;
+	border-bottom:1px solid black;
+}
+
+/********** tables **********/
+
+section table
+{
+	margin-bottom:1em;
+}
+
+section table th
+{
+	text-align:left;
+}
+
+table input[type=text]
+{
+	margin-bottom:0;
+}
+
+table.table-padded td, table.table-padded th
+{
+	padding:0.5em 1em;
+	/*    padding-left: ;*/
+}
+
+table.table-padded tr:last-child td
+{
+	padding-bottom:1em;
 }
 
 /****************************************************************************
@@ -231,305 +224,47 @@ footer
 
 footer small
 {
-    font-size:smaller;
-}
-
-/****************************************************************************
- *  commenting section font & formatting
- *
- */
-
-#posts
-{
-	font-family: Helvetica, Arial;
-}
-
-#posts pre
-{
-    padding:5px;
-    background-color:white;
-}
-
-#posts p
-{
-	margin-bottom:0;
-}
-
-#posts p + p
-{
-	margin-bottom:0.5em;
-}
-
-#posts small
-{
-	font-size:80%;
-	color:gray;
-}
-
-/****************************************************************************
- *  commenting section posts + replies
- *
- */
-
-#posts
-{
-	padding-left:65px;
-}
-
-#posts .post
-{
-	margin-top:20px;
-}
-
-#posts .post .avatar
-{
-	float:left;
-	width:50px;
-    margin-left:-58px;
-}
-
-/* this is the delete button on a comment */
-#posts .post > .pull-right, #posts .reply > .pull-right
-{
-	margin-right:3px;
-}
-
-#posts .replies
-{
-	margin-top:9px;
-}
-
-#posts .replies .reply, .post .comment-answer-form
-{
-	background-color:#EBF4FB;
-}
-
-#posts .replies .reply
-{
-	padding:5px 5px 5px 65px;
-	overflow:hidden;
-}
-
-/****************************************************************************
- *  commenting form
- *
-*/
-
-/*
-#posts input, textarea {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-box-shadow:none;
-  -moz-box-shadow:none;
-  box-shadow:none;
-  -webkit-transition: none;
-  -moz-transition: none;
-  -ms-transition: none;
-  -o-transition: none;
-  transition: none;
-}
-
-#posts input:focus, textarea:focus {
-  border:none;
-  -webkit-box-shadow:none;
-  -moz-box-shadow:none;
-  box-shadow:none;
-  outline: 0;
-  outline: thin dotted \9;
-}
-*/
-.comment-form
-{
-	padding:0px;
-	margin: 0 0 9px;
-	font-size: 12px;
-	line-height: 18px;
-/*
-	border: 1px solid #ccc;
-	border: 1px solid rgba(0, 0, 0, 0.15);
-*/
-}
-
-.comment-answer-form
-{
-	padding:4px;
-}
-
-.comment-form form, .comment-form textarea
-{
-	margin:0;
-	border: 1px solid #ccc;
-	border: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.comment-form textarea, .comment-answer-form textarea
-{
-	resize:none;
-	-webkit-border-radius: 0;
-	border-radius: 0;
-	border:none;
-	box-sizing:border-box; 
-	width:100%; 
-	font:13px monospace; 
-	border:0;
-}
-
-.comment-form textarea
-{
-	border-bottom:1px dotted #ccc;
-	border-bottom:1px dotted rgba(0, 0, 0, 0.15);
-}
-
-.comment-form .submit
-{
-	background-color: #f5f5f5;
-	color:gray;
-	padding:2px 7px;
-	line-height:30px;
-	overflow:auto;
-	display:none;
-}
-
-.comment-form input[type=file]
-{
-	margin:2px 5px 2px 40px;
-}
-
-/****************************************************************************
- *  markdown editor
- *
-*/
-
-#markdown-editor
-{
-	position:fixed;
-	right:0;
-	top:40px;
-	bottom:0;
-    width:600px;
-	background-color:white;
-	padding:5px;
-	box-shadow:0px 2px 2px #888;
-}
-
-#markdown-editor form
-{
-    width:100%;
-	height:100%;
-}
-
-#markdown-editor textarea
-{
-    width:100%;
-	height:100%;
-	margin:0;
-	padding:0;
-
-	font:13px monospace;
-	background-color:transparent;
-	border:none;
-	resize:none;
-}
-
-#markdown-editor button
-{
-	position:absolute;
-	bottom:5px; right:5px;
-}
-
-.admin-section-editor td:first-child, .admin-section-editor th:first-child
-{
-    width:116px;
-}
-
-.admin-section-editor th input[type=text]
-{
-    font-weight:bold;
-}
-
-.admin-section-editor form
-{
-    display:inline;
-    margin-bottom:0;
-}
-
-#done
-{
-    -moz-transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
-}
-
-#done.done-done
-{
-    color:#44C471;
-}
-
-.navbar .nav > li > label
-{
-    cursor:pointer;
-    float: none;
-    padding: 10px 10px 11px;
-    line-height: 19px;
-    text-decoration: none;
-    margin-bottom:0;
-    white-space:nowrap;
-}
-
-.navbar .nav > li > label > input
-{
-    margin:4px 5px 0 0;
-}
-
-.table .progress
-{
-    margin-bottom:0;
+	font-size:smaller;
 }
 
 /****************************************************************************
  *  print styles
  *
-*/
+ */
 
 @media print
 {
-    body
-    {
-        padding-top:0;
-        background-color:transparent ! important;
-    }
+	body
+	{
+		padding-top:0;
+		background-color:transparent ! important;
+	}
 
-    .navbar, header, footer, section#comments, #links
-    {
-        display:none;
-    }
+	.navbar, header, footer
+	{
+		display:none;
+	}
 
-    section
-    {
-        border:0;
-        -webkit-box-shadow:none;
-        -moz-box-shadow:none;
-        box-shadow:none;
-        background-image:none;
-    }
-    
-    .row-fluid [class*="offset"]:first-child {
-    margin-left: 0;
-    }
-    
-    [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
-    float: none;
-    display: block;
-    width: 100%;
-    margin-left: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    }
-    
+	section
+	{
+		border:0;
+	}
+
+	.row-fluid [class*="offset"]:first-child
+	{
+		margin-left: 0;
+	}
+
+	[class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"]
+	{
+		float: none;
+		display: block;
+		width: 100%;
+		margin-left: 0;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
 }
 
 @import "bootstrap-responsive";
