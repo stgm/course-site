@@ -3,7 +3,7 @@ module ApplicationHelper
 	class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		
 		def convert_table(el, indent)
-			el.attr['class'] = 'table-padded'
+			el.attr['class'] = 'table-padded table-bordered'
 			super
 		end
 		
