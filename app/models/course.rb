@@ -50,7 +50,7 @@ class Course
 		info_dir = File.join(dir, 'info')
 		if File.exist?(info_dir)
 			Rails.logger.debug info_dir
-			info_page = Page.create(:title => self.course['title'], :position => 0, :path => info_dir, :form => false)
+			info_page = Page.create(:title => self.course['title'], :position => 0, :path => 'info', :form => false)
 			process_subpages(info_dir, info_page)
 		end
 
