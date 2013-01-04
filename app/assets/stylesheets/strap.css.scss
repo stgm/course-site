@@ -145,6 +145,11 @@ table.table-padded td, table.table-padded th
 /*    padding-left: ;*/
 }
 
+table.table-padded tr td:last-child
+{
+    padding-bottom:1em;
+}
+
 /****************************************************************************
  *  any markdown
  *
