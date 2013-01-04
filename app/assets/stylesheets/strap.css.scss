@@ -139,9 +139,10 @@ table.course-items th:first-child, table.course-items td:first-child
 	margin-bottom:0;
 }
 
-table.table-padded td
+table.table-padded td, table.table-padded th
 {
-    padding:0.5em 0;
+    padding:0.5em 1em;
+/*    padding-left: ;*/
 }
 
 /****************************************************************************
@@ -174,11 +175,11 @@ table.table-padded td
     text-align:left;
 }
 
-.markdown table td, .markdown table th
+/*.markdown table td, .markdown table th
 {
     padding-right:1em;
 }
-
+*/
 .markdown dd
 {
 	margin: 0.5em 1em;
