@@ -7,11 +7,16 @@
 			<span class="icon-bar"></span>
 		</a>
 
-		<a class="brand" href="/"><%= Course.course['short'] %></a>
+		<ul class="nav">
+			<li class="dropdown"><a href="/"><i class="icon-home icon-white"></i></a></li>
+		</ul>
+
+		<p class="brand"><%= @page.title %></p>
 
 		<div class="nav-collapse collapse">
-
 			<ul class="nav">
+				<!-- <li class="dropdown"><a href="/"><i class="icon-home icon-white"></i></a></li> -->
+				
 				<% for section in Section.all %>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
@@ -49,7 +54,6 @@
 				<li><%= link_to("<i class='icon-user icon-white'></i> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
 				<% end %>
 			</ul>
-
 		</div>
 
 	</div>
