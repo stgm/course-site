@@ -155,11 +155,18 @@ section code, section pre
 	-webkit-hyphens:none;
 	-moz-hyphens:none;
 	padding:0;
+	font-size:13px;
 }
 
 section pre
 {
 	padding: 0.5em 2em;
+	color:#d14;
+}
+
+section pre .comment
+{
+	color:#363;
 }
 
 /********** forms **********/
