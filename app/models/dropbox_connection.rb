@@ -68,8 +68,8 @@ class DropboxConnection
 		item_folder = item + "__" + Time.now.to_i.to_s
 
 		# compose info.txt file contents
-		info = "id = " + user
-		info += ("\nname = " + name) if name
+		info = "student_login_id = " + user
+		# info += ("\nname = " + name) if name
 		info += "\n\n"
 		info += notes if notes
 
