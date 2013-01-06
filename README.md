@@ -10,11 +10,6 @@ How to install
 	bundle install
 	rake db:migrate
 
-Warning!
---------
-
-Currently, all submissions depend on the page id, which will be regenerated every time you import the course.
-
 On the source format
 --------------------
 
@@ -23,10 +18,13 @@ On the source format
   and a `info` directory containing subpages for the homepage.
 
 * Numbering the course folders will make sure that they are imported and
-  displayed in order. There is no harm in re-numbering your folders.
+  displayed in order.
 
 * Changing the name of a folder will change the URL of that folder on the
   website. This will break links from others site to your course site.
+
+* Changing names and positions should not be a problem for form caching and
+  file submissions already done.
 
 TODO
 ----

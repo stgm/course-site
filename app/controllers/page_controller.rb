@@ -15,7 +15,7 @@ class PageController < ApplicationController
 		@user = current_user
 		
 		# get cached form answers for this page / TODO FUGLY
-		if logged_in?
+		if logged_in? && @page.pset
 			answer = Answer.where(:user_id => @user.id, :pset_id => @page.pset.id).first
 			if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
 				answer = JSON.parse(answer.answer_data)
