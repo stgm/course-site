@@ -13,10 +13,9 @@ class Course
 		Page.delete_all
 		Subpage.delete_all
 		Answer.delete_all
-		PageSubmission.delete_all
-		# Pset.delete_all
-		# PsetFile.delete_all
-		# Submit.delete_all
+		Pset.delete_all
+		PsetFile.delete_all
+		Submit.delete_all
 
 		# add course info pages and all sections, recursively
 		process_info(COURSE_DIR)
