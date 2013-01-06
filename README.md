@@ -31,7 +31,6 @@ On the source format
 TODO
 ----
 
-* Re-link pset to the right page on re-import, even if content is reordered.
 * Do not depend on dropbox config being present at start.
 * Add a setting for source git URL and do a `git clone`.
 * Add a setting for the dropbox upload folder to be used.

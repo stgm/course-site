@@ -6,7 +6,9 @@ class AnswersController < ApplicationController
 
 		if logged_in?
 
-			@answer = Answer.where(:user_id => current_user.id, :page_id => params[:page_id]).first_or_initialize
+			pset = Page.find(params[:page_id]).pset
+			
+			@answer = Answer.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 			@answer.answer_data = params[:a].to_json
 
 			respond_to do |format|

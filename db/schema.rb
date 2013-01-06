@@ -11,17 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130106154649) do
+ActiveRecord::Schema.define(:version => 20130106193521) do
 
   create_table "answers", :force => true do |t|
     t.integer  "user_id"
     t.text     "answer_data"
-    t.integer  "page_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "pset_id"
   end
 
-  add_index "answers", ["page_id"], :name => "index_answers_on_page_id"
   add_index "answers", ["user_id"], :name => "index_answers_on_user_id"
 
   create_table "categories", :force => true do |t|
@@ -59,14 +58,12 @@ ActiveRecord::Schema.define(:version => 20130106154649) do
 
   create_table "pages", :force => true do |t|
     t.string   "title"
-    t.text     "content"
     t.integer  "position"
     t.integer  "section_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "slug"
     t.string   "path"
-    t.boolean  "form"
   end
 
   add_index "pages", ["slug"], :name => "index_pages_on_slug", :unique => true
@@ -102,7 +99,6 @@ ActiveRecord::Schema.define(:version => 20130106154649) do
 
   create_table "sections", :force => true do |t|
     t.string   "title"
-    t.text     "content"
     t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
