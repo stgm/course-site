@@ -1,5 +1,6 @@
 class Page < ActiveRecord::Base
 
+	# this generates a url friendly part for the page
 	extend FriendlyId
 	friendly_id :title, :use => :slugged
 

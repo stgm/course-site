@@ -1,5 +1,6 @@
 class Section < ActiveRecord::Base
 
+	# this generates a url friendly part for the section
 	extend FriendlyId
 	friendly_id :title, :use => :slugged
 
