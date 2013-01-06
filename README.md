@@ -39,3 +39,6 @@ TODO
 * Possibly allow db:migrate to be run from front end.
 * Allow users to register name and email.
 * Allow user to register an avatar.
+* Allow the course to be hosted in dropbox.
+* Allow some kind of push hook that automatically updates the site when a
+  new course version is in the repository.
