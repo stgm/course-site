@@ -8,7 +8,7 @@
 					<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
 				</li>
 				<% end %>
-				<% if logged_in? && @page.needs_submit? %>
+				<% if logged_in? && @page.pset %>
 				<li><a href="#submit" data-toggle="tab">Submit</a></li>
 				<% end %>
 			</ul>
@@ -23,32 +23,9 @@
 				</section>
 				<% end %>
 
-				<% if logged_in? && @page.needs_submit? %>
+				<% if logged_in? && @page.pset %>
 				<section class="tab-pane markdown" id="submit">
-					<h1>Submit</h1>
-					<% if @page.form %>
-					<p>When you are ready to submit, make sure you have answered all questions, use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
-					<% else %>
-					<p>When you are ready to submit, please use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
-					<% end %>
-					<table class="table table-bordered">
-						<% if @page.form %>
-						<tr>
-							<td>form.txt</td>
-							<td>Automatically generated from your answers.</td>
-							<td></td>
-						</tr>
-						<% end %>
-						<% @page.page_submissions.each do |s| %>
-						<tr>
-							<td><%= s.filename %></td>
-							<td><%= file_field_tag "f[#{s.filename}]", :accept => File.extname(s.filename), :required => s.required %></td>
-							<td><%= 'required' if s.required %></td>
-						</tr>
-						<% end %>
-					</table>
-					<p>Notes: <%= text_area_tag 'notes' %></p>
-					<p><%= submit_tag 'Submit for grading', :class => 'btn btn-warning' %></p>
+					<%= render 'submit_tab' %>
 				</div>
 				<% end %>
 			</div>

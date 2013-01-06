@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  pset: 
+  submitted_at: 2013-01-06 16:16:50
+
+two:
+  user: 
+  pset: 
+  submitted_at: 2013-01-06 16:16:50

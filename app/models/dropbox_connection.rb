@@ -74,7 +74,7 @@ class DropboxConnection
 		Rails.logger.debug response.inspect
 		
 		# upload the form
-		response = @dropbox_client.put_file(File.join('SubmitTest', course, user, item_folder, 'form.txt'), form) if form
+		response = @dropbox_client.put_file(File.join('SubmitTest', course, user, item_folder, 'form.md'), form) if form
 		Rails.logger.debug response.inspect
 		
 		# upload all posted files

@@ -14,6 +14,9 @@ class Course
 		Subpage.delete_all
 		Answer.delete_all
 		PageSubmission.delete_all
+		# Pset.delete_all
+		# PsetFile.delete_all
+		# Submit.delete_all
 
 		# add course info pages and all sections, recursively
 		process_info(COURSE_DIR)
@@ -46,7 +49,6 @@ class Course
 	def self.process_info(dir)
 		
 		# info should be a subdir of the root course dir and contain markdown files
-		# NOT IMPLEMENTED
 		info_dir = File.join(dir, 'info')
 		if File.exist?(info_dir)
 			Rails.logger.debug info_dir
@@ -80,18 +82,20 @@ class Course
 			page_path = File.basename(page)    # only the directory name
 			page_info = split_info(page_path)  # array of position and page name
 
+			# create the page
+			db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path)
+
 			# load submit.yml config file which contains items to submit
 			submit_config = read_config(files(page, "submit.yml"))
 			
-			# create the page
-			db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path, :form => submit_config && submit_config['form'])
-
-			# if there was actually a config file present
+			# add pset to database if needed
 			if submit_config
+				db_pset = db_page.create_pset(:name => submit_config['name'], :description => page_info[2], :form => !!submit_config['form'])
+
 				['required', 'optional'].each do |modus|
 					if submit_config[modus]
 						submit_config[modus].each do |file|
-							db_page.page_submissions.create(:filename => file, :required => modus == 'required')
+							db_pset.pset_files.create(:filename => file, :required => modus == 'required')
 						end
 					end
 				end

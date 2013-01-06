@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121225105622) do
+ActiveRecord::Schema.define(:version => 20130106154649) do
 
   create_table "answers", :force => true do |t|
     t.integer  "user_id"
@@ -56,16 +57,6 @@ ActiveRecord::Schema.define(:version => 20121225105622) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "page_submissions", :force => true do |t|
-    t.integer  "page_id"
-    t.string   "filename"
-    t.boolean  "required"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "page_submissions", ["page_id"], :name => "index_page_submissions_on_page_id"
-
   create_table "pages", :force => true do |t|
     t.string   "title"
     t.text     "content"
@@ -88,6 +79,27 @@ ActiveRecord::Schema.define(:version => 20121225105622) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "pset_files", :force => true do |t|
+    t.string   "filename"
+    t.boolean  "required"
+    t.integer  "pset_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "pset_files", ["pset_id"], :name => "index_pset_files_on_pset_id"
+
+  create_table "psets", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "page_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.boolean  "form"
+  end
+
+  add_index "psets", ["page_id"], :name => "index_psets_on_page_id"
+
   create_table "sections", :force => true do |t|
     t.string   "title"
     t.text     "content"
@@ -99,6 +111,17 @@ ActiveRecord::Schema.define(:version => 20121225105622) do
   end
 
   add_index "sections", ["slug"], :name => "index_sections_on_slug", :unique => true
+
+  create_table "submits", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "pset_id"
+    t.datetime "submitted_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "submits", ["pset_id"], :name => "index_submits_on_pset_id"
+  add_index "submits", ["user_id"], :name => "index_submits_on_user_id"
 
   create_table "subpages", :force => true do |t|
     t.string   "title"

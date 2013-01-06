@@ -6,9 +6,9 @@ class Page < ActiveRecord::Base
 
 	attr_accessible :content, :position, :section, :title, :path, :form
 
-	belongs_to :section
-	has_many :subpages
-	has_many :page_submissions
+	belongs_to :section  # parent section
+	has_many :subpages   # content tabs
+	has_one :pset        # linked pset if available
 	
 	def public_url()
 		if section
@@ -18,8 +18,4 @@ class Page < ActiveRecord::Base
 		end
 	end
 	
-	def needs_submit?()
-		return form || page_submissions.count > 0
-	end
-
 end

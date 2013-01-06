@@ -31,8 +31,7 @@ On the source format
 TODO
 ----
 
-* Add required submission name to every submit.yml, in order to decouple
-  submits from page id.
+* Re-link pset to the right page on re-import, even if content is reordered.
 * Do not depend on dropbox config being present at start.
 * Add a setting for source git URL and do a `git clone`.
 * Add a setting for the dropbox upload folder to be used.

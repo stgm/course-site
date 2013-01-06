@@ -21,15 +21,18 @@ class UploadController < ApplicationController
 			# 	return
 			# end
 			
-			form_text = ""
+			form_text = nil
 			if params[:a]
+				form_text = ""
 				params[:a].each do |key, value|
 					form_text += "#{key}\n\n"
 					form_text += "#{value}\n\n"
 				end
 			end
+			
+			pset = Page.find(params[:page_id]).pset
 		
-			dropbox.submit(current_user.uvanetid, current_user.name, 'test', params[:page_id], params[:notes], form_text, params[:f])
+			dropbox.submit(current_user.uvanetid, current_user.name, Course.course['short'], pset.name, params[:notes], form_text, params[:f])
 
 			# success
 			redirect_to(:back, :notice => "Thanks for submitting! Make sure to ask your assistant for the results next week. NOTICE: Your upload will not immediately appear in the list on the right. No worries.")		
