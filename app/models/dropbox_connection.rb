@@ -69,12 +69,12 @@ class DropboxConnection
 
 		# compose info.txt file contents
 		info = "student_login_id = " + user
-		# info += ("\nname = " + name) if name
+		info += ("\nname = " + name) if name
 		info += "\n\n"
 		info += notes if notes
 
 		# upload the notes
-		response = @dropbox_client.put_file(File.join(dropbox_root, course, user, item_folder, 'info.txt'), notes) if notes
+		response = @dropbox_client.put_file(File.join(dropbox_root, course, user, item_folder, 'info.txt'), info) if notes
 		Rails.logger.debug response.inspect
 		
 		# upload the form
