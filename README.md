@@ -42,3 +42,5 @@ TODO
 * Allow the course to be hosted in dropbox.
 * Allow some kind of push hook that automatically updates the site when a
   new course version is in the repository.
+* Remove `security` section from course.yml, should be decoupled and
+  configurable in site.
