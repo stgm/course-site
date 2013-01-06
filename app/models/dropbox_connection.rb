@@ -13,12 +13,14 @@ class DropboxConnection
 
 		# need to authenticate first
 		return if !@dropbox_config["dropbox_session"]
-		
+
+		# this reads an existing session for this app instance
 		@dropbox_session = DropboxSession.deserialize(@dropbox_config["dropbox_session"])
 		
-		# need to authenticate again
+		# session could be valid, but de-authorized
 		return if !@dropbox_session.authorized?
-		
+
+		# open client for this request
 		@dropbox_client = DropboxClient.new(@dropbox_session, @dropbox_config["access_type"])
 
 	end
@@ -56,6 +58,8 @@ class DropboxConnection
 
 	def submit(user, name, course, item, notes, form, files)
 		
+		dropbox_root = "Submit"
+		
 		if !@dropbox_client
 			raise "No session to Dropbox yet."
 		end
@@ -70,16 +74,16 @@ class DropboxConnection
 		info += notes if notes
 
 		# upload the notes
-		response = @dropbox_client.put_file(File.join('SubmitTest', course, user, item_folder, 'info.txt'), notes) if notes
+		response = @dropbox_client.put_file(File.join(dropbox_root, course, user, item_folder, 'info.txt'), notes) if notes
 		Rails.logger.debug response.inspect
 		
 		# upload the form
-		response = @dropbox_client.put_file(File.join('SubmitTest', course, user, item_folder, 'form.md'), form) if form
+		response = @dropbox_client.put_file(File.join(dropbox_root, course, user, item_folder, 'form.md'), form) if form
 		Rails.logger.debug response.inspect
 		
 		# upload all posted files
 		files.each do |filename, file|
-			response = @dropbox_client.put_file(File.join('SubmitTest', course, user, item_folder, file.original_filename), file.read)
+			response = @dropbox_client.put_file(File.join(dropbox_root, course, user, item_folder, file.original_filename), file.read)
 		end
 
 	end
