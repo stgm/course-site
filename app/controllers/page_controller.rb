@@ -37,7 +37,7 @@ class PageController < ApplicationController
 	private
 	
 	def redirect_to_profile
-		if logged_in? && current_user.name == ''
+		if logged_in? && (current_user.name.nil? || current_user.name == '')
 			redirect_to :controller => 'homepage', :action => 'profile'
 		end
 	end
