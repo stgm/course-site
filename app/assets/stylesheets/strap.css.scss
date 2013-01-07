@@ -65,7 +65,6 @@ legend + .control-group {
 
 
 
-
 html, body
 {
 	background-color: #eee;
@@ -139,13 +138,6 @@ body
  *
  */
 
-h1
-{
-	font-size:2em;
-	padding:1em 0.25em;
-	margin:0 auto;
-}
-
 section
 {
 	/* The white background content wrapper */
@@ -209,6 +201,11 @@ section blockquote
 section blockquote p
 {
 	margin: inherit;
+}
+
+section p img:not(:only-child)
+{
+	float:right;
 }
 
 /********** code **********/
