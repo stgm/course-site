@@ -1,9 +1,15 @@
 class PageController < ApplicationController
 	
 	before_filter RubyCAS::GatewayFilter
+	before_filter :redirect_to_profile
+	
+	def homepage
+		@page = Page.where(:section_id => nil).first || Page.new(:title => 'Empty course website')		
+		@user = current_user
+		render :index
+	end
 	
 	def index
-		
 		# find section by url and bail out if not found
 		@section = Section.where(:slug => params[:section]).first
 		render :text => "section not found" and return if !@section
@@ -26,13 +32,14 @@ class PageController < ApplicationController
 				logger.debug @answer_data
 			end
 		end
-		
-	end
-
-	def homepage
-		@page = Page.where(:section_id => nil).first || Page.new(:title => 'Empty course website')		
-		@user = current_user
-		render :index
 	end
 	
+	private
+	
+	def redirect_to_profile
+		if logged_in? && current_user.name == ''
+			redirect_to :controller => 'homepage', :action => 'profile'
+		end
+	end
+
 end

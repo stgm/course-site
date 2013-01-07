@@ -33,5 +33,9 @@ module ApplicationHelper
 		# :image_prefix is defined in config/application.rb
 		Kramdown::Document.new(text, :asset_prefix => page_context.public_url, :coderay_css => :class, :coderay_tab_width => 4, :enable_coderay => true, :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
+	
+	def title()
+		(@page && @page.title) || @title
+	end
 
 end

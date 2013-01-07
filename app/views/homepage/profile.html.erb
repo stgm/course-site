@@ -1,0 +1,35 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+
+		<div class="tabbable">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+			</ul>
+
+			<div class="tab-content">
+				<section class="tab-pane markdown active" id="profile">
+					<%= form_tag '/homepage/save_profile', :class => 'form-horizontal' do |f| %>
+					<div class="control-group">
+						<label class="control-label" for="user_name">Full name</label>
+						<div class="controls">
+							<%= text_field_tag('user[name]', @user.name, :required => true) %>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="user_mail">E-mail</label>
+						<div class="controls">
+							<%= text_field_tag('user[mail]', @user.mail, :required => true) %>
+						</div>
+					</div>
+					<div class="control-group">
+					    <div class="controls">
+							<%= submit_tag 'Save' %>
+						</div>
+					</div>
+					<% end %>
+				</section>
+			</div>
+		</div>
+
+	</div>
+</div>

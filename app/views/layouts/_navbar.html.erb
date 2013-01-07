@@ -11,7 +11,7 @@
 			<li class="dropdown"><a href="/"><i class="icon-home icon-white"></i></a></li>
 		</ul>
 
-		<p class="brand"><%= @page.title %></p>
+		<p class="brand"><%= title %></p>
 
 		<div class="nav-collapse collapse">
 			<ul class="nav">
@@ -36,18 +36,14 @@
 				<li class="divider-vertical"></li>
 				<li class="dropdown">
 
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <%= @user.uvanetid %></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <%= @user.name || @user.uvanetid %></a>
 					<ul class="dropdown-menu" style="min-width:200px;">
-						<li style="padding:6px 10px; background-color:white; margin-bottom:0;">
-							<div class="progress" style="margin-bottom:0;">
-								<div class="bar" style="width: {{ progress }}%;"></div>
-							</div>
-						</li>
-						<li class="divider"></li>
 						<% if is_admin? %>
-						<li><a href="#myModal" data-toggle="modal" data-backdrop="static">Update courseware...</a></li>
+						<li><a href="#myModal" data-toggle="modal" data-backdrop="static"><i class="icon-refresh"></i> Update courseware...</a></li>
+						<li class="divider"></li>
 						<% end %>
-						<li><%= link_to 'Logout', :controller => 'homepage', :action => 'logout' %></li>
+						<li><%= link_to '<i class="icon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
+						<li><%= link_to '<i class="icon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
 					</ul>
 				</li>
 				<% else %>
