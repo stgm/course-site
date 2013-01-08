@@ -19,4 +19,13 @@
 			window.setTimeout(function(){$("#loading").hide()}, 1000);
 		})
 	</script>
+<% else %>
+	<script>
+		$("input[type=text],textarea").change(
+			function()
+			{
+				alert('Warning! You are not logged in. Your answers will not be saved.');
+			}
+		)
+	</script>
 <% end %>
