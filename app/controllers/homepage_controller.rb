@@ -13,7 +13,7 @@ class HomepageController < ApplicationController
 	end
 	
 	def save_profile # POST
-		if params[:user][:name] !~ /^[^\s][^\s]+\s+[^\s][^\s]+$/
+		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
 			render :text => 'Will not work! Enter a valid name.'
 			return
 		end
