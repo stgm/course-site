@@ -3,14 +3,15 @@ CourseSite::Application.routes.draw do
 	# homepage
 	root :to => "page#homepage"
 
-	# users only
-	get "homepage/logout"
-	get "homepage/profile"
+	# logged-in users only
+	get  "homepage/logout"
+	get  "homepage/profile"
 	post "homepage/save_profile"
 
 	# administrative
+	get  "admin/users"
 	post "admin/import_do"
-	get "dropbox/link"
+	get  "dropbox/link"
 
 	resources :answers
 	post "upload/submit"

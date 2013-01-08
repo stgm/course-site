@@ -6,5 +6,10 @@ class AdminController < ApplicationController
 		Course.reload
 		render :text => "Loaded!"
 	end
+	
+	def users
+		@user = current_user
+		@users = User.order('updated_at desc')
+	end
 
 end
