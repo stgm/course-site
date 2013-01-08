@@ -22,7 +22,7 @@ class PageController < ApplicationController
 		
 		# get cached form answers for this page / TODO FUGLY
 		if logged_in? && @page.pset
-			answer = Answer.where(:user_id => @user.id, :pset_id => @page.pset.id).first
+			answer = Answer.where(:user_id => @user.id, :pset_id => @page.pset.id).order('created_at').last
 			if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
 				answer = JSON.parse(answer.answer_data)
 				@answer_data = {}

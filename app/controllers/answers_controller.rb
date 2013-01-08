@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
 
 			pset = Page.find(params[:page_id]).pset
 			
-			@answer = Answer.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
+			@answer = Answer.new(:user_id => current_user.id, :pset_id => pset.id)
 			@answer.answer_data = params[:a].to_json
 
 			respond_to do |format|
