@@ -20,7 +20,6 @@ class UploadController < ApplicationController
 			# 	render :text => "You can't submit without choosing your course and pset, and attaching a file."
 			# 	return
 			# end
-			
 			form_text = nil
 			if params[:a]
 				form_text = ""

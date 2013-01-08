@@ -21,6 +21,8 @@ class AnswersController < ApplicationController
 				end
 			end
 
+		else
+			format.json { render :json => 'huh', :status => :unprocessable_entity }
 		end
 
 	end

@@ -15,7 +15,9 @@
 		$("input[type=text],textarea").change(function()
 		{
 			$("#loading").show();
-			$.post("/answers.json", $("#page_form").serialize());
+			$.post("/answers.json", $("#page_form").serialize(), function(data) {
+				console.log(data);
+			}).error(function() { alert("Your form was not saved due to an error. Check if you are still logged in by reloading the page."); });
 			window.setTimeout(function(){$("#loading").hide()}, 1000);
 		})
 	</script>
