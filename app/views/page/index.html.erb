@@ -1,6 +1,13 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 
+		<% if flash[:error] %>
+		<div class="alert alert-error">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <%= flash[:error] %>
+		</div>
+		<% end %>
+
 		<% if flash[:notice] %>
 		<div class="alert alert-success">
 		  <button type="button" class="close" data-dismiss="alert">&times;</button>

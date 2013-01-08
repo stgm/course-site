@@ -20,6 +20,16 @@ class UploadController < ApplicationController
 			# 	render :text => "You can't submit without choosing your course and pset, and attaching a file."
 			# 	return
 			# end
+			
+			page = Page.where(:id => params[:page_id]).first
+			logger.debug "HUH"
+			logger.debug page.inspect
+			if page.nil?
+				flash[:error] = "<b>Error!</b> Submit fail. Try again.".html_safe
+				redirect_to(:back)
+				return
+			end
+			
 			form_text = nil
 			if params[:a]
 				form_text = ""
