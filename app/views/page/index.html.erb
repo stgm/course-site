@@ -1,5 +1,13 @@
 <div class="container-fluid">
 	<div class="row-fluid">
+
+		<% if flash[:notice] %>
+		<div class="alert alert-success">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <%= flash[:notice] %>
+		</div>
+		<% end %>
+		
 		<div class="tabbable">
 
 			<ul class="nav nav-tabs">

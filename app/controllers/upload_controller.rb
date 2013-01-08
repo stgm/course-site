@@ -34,7 +34,7 @@ class UploadController < ApplicationController
 			dropbox.submit(current_user.uvanetid, current_user.name, Course.course['short'], pset.name, params[:notes], form_text, params[:f])
 
 			# success
-			redirect_to(:back, :notice => "Thanks for submitting! Make sure to ask your assistant for the results next week. NOTICE: Your upload will not immediately appear in the list on the right. No worries.")		
+			redirect_to(:back, :notice => "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
 		else			
 			render :text => 'Dropbox is not linked, please warn your professor immediately.'
 		end
