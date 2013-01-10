@@ -21,6 +21,7 @@ class AdminController < ApplicationController
 		source.each_line do |line|
 			next if line.strip == ""
 			line = line.split("\t")
+			next if line[7] == "Group"
 			group = Group.where(:name => line[7]).first_or_create if line[7] != ""
 			user = User.where('uvanetid in (?)', line[0..1]).first
 			if user && group
