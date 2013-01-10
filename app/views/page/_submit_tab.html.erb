@@ -36,3 +36,9 @@
 <p>Notes: <%= text_area_tag 'notes' %></p>
 
 <p><%= submit_tag 'Submit for grading', :class => 'btn btn-warning' %></p>
+
+<script>
+$('#page_form').submit(function(){
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+});
+</script>
