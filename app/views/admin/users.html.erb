@@ -3,11 +3,16 @@
 
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+				<% Group.all.each_with_index do |group,i| %>
+				<li><a href="#group<%= i %>" data-toggle="tab"><%= group.name %></a></li>
+				<% end %>
+				<li class="active"><a href="#other" data-toggle="tab">Other</a></li>
+				<li><a href="#import" data-toggle="tab">Import</a></li>
 			</ul>
 
 			<div class="tab-content">
-				<section class="tab-pane markdown active" id="profile">
+				<% Group.all.each_with_index do |group,i| %>
+				<section class="tab-pane markdown" id="group<%= i %>">
 					<table class="table table-bordered">
 						<tr>
 							<th>Name</th><th>Email</th><th>Last login</th>
@@ -15,7 +20,7 @@
 							<th><%= pset.name %></th>
 							<% end %>
 						</tr>
-						<% @users.each do |user| %>
+						<% group.users.each do |user| %>
 						<tr>
 							<td><%= user.name %></td>
 							<td><%= user.mail %></td>
@@ -26,6 +31,34 @@
 						</tr>
 						<% end %>
 					</table>
+				</section>
+				<% end %>
+				<section class="tab-pane markdown active" id="other">
+					<table class="table table-bordered">
+						<tr>
+							<th>Name</th><th>Email</th><th>Last login</th>
+							<% @psets.each do |pset| %>
+							<th><%= pset.name %></th>
+							<% end %>
+						</tr>
+						<% @groupless.each do |user| %>
+						<tr>
+							<td><%= user.name %></td>
+							<td><%= user.mail %></td>
+							<td><%= time_ago_in_words(user.updated_at) %> ago</td>
+							<% @psets.each do |pset| %>
+							<td><%= 'yes' if user.submit(pset) %></td>
+							<% end %>
+						</tr>
+						<% end %>
+					</table>
+				</section>
+				<section class="tab-pane markdown" id="import">
+					<p>Paste all data lines from a .xls datanose user export.</p>
+					<%= form_tag '/admin/import_groups', :method => :post do %>
+					<textarea name="paste"></textarea>
+					<p><input type="submit" class="btn"></p>
+					<% end %>
 				</section>
 			</div>
 		</div>

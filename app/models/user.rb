@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	
 	attr_accessible :avatar, :mail, :name, :uvanetid
+	belongs_to :group
 	has_many :submits
 
 	def submit(pset)

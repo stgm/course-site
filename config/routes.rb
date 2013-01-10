@@ -11,6 +11,7 @@ CourseSite::Application.routes.draw do
 	# administrative
 	get  "admin/users"
 	post "admin/import_do"
+	post "admin/import_groups"
 	get  "dropbox/link"
 
 	resources :answers

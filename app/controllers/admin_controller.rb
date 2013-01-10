@@ -9,8 +9,23 @@ class AdminController < ApplicationController
 	
 	def users
 		@user = current_user
-		@users = User.order('updated_at desc')
+		# @users = User.order('updated_at desc').group_by(&:group)
+		@groupless = User.where(:group_id => nil).order('updated_at desc')
 		@psets = Pset.order(:name)
+		@title = "List users"
+	end
+	
+	def import_groups
+		source = params[:paste]
+		source.each_line do |line|
+			line = line.split("\t")
+			group = Group.where(:name => line[7]).first_or_create if line[7] != ""
+			user = User.where('uvanetid in (?)', line[0..1]).first
+			if user && group
+				user.group = group
+				user.save
+			end
+		end
 	end
 
 end
