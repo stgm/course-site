@@ -4,15 +4,15 @@
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
 				<% Group.all.each_with_index do |group,i| %>
-				<li><a href="#group<%= i %>" data-toggle="tab"><%= group.name %></a></li>
+				<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group.name %></a></li>
 				<% end %>
-				<li class="active"><a href="#other" data-toggle="tab">Other</a></li>
+				<li><a href="#other" data-toggle="tab">Other</a></li>
 				<li><a href="#import" data-toggle="tab">Import</a></li>
 			</ul>
 
 			<div class="tab-content">
 				<% Group.all.each_with_index do |group,i| %>
-				<section class="tab-pane markdown" id="group<%= i %>">
+				<section class="tab-pane markdown <%= 'active' if i==0 %>" id="group<%= i %>">
 					<table class="table table-bordered">
 						<tr>
 							<th>Name</th><th>Email</th>
@@ -32,7 +32,7 @@
 					</table>
 				</section>
 				<% end %>
-				<section class="tab-pane markdown active" id="other">
+				<section class="tab-pane markdown" id="other">
 					<table class="table table-bordered">
 						<tr>
 							<th>Name</th><th>Email</th>
