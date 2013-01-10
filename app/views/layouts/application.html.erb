@@ -9,7 +9,7 @@
 	<%= stylesheet_link_tag    "application", :media => "all" %>
 	<%= javascript_include_tag "application" %>
 	<%= csrf_meta_tags %>
-
+	
 	<script type="text/x-mathjax-config">
 		MathJax.Hub.Config({
 			showProcessingMessages: false,
@@ -23,6 +23,12 @@
 	</script>
 </head>
 <body>
+	
+	<!--[if lt IE 9]>
+	<div style="background-color:white; z-index:10000; position:absolute; top:0; left:0; right:0; bottom:0;">
+		<p style="text-align:center; margin-top:6em;">You are using a pretty old version of Internet Explorer. Please use a newer version, or Firefox, Chrome, Opera or Safari.</p>
+	</div>
+	<![endif]-->
 
 	<%= render "layouts/navbar" %>
 
