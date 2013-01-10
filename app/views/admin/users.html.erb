@@ -4,9 +4,9 @@
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
 				<% Group.all.each_with_index do |group,i| %>
-				<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group.name %></a></li>
+				<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group.name %> (<%= group.users.count %>)</a></li>
 				<% end %>
-				<li><a href="#other" data-toggle="tab">Other</a></li>
+				<li><a href="#other" data-toggle="tab">Other (<%= @groupless.count %>)</a></li>
 				<li><a href="#import" data-toggle="tab">Import</a></li>
 			</ul>
 
