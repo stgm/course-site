@@ -15,7 +15,7 @@
 				<section class="tab-pane markdown <%= 'active' if i==0 %>" id="group<%= i %>">
 					<table class="table table-bordered">
 						<tr>
-							<th>Name</th><th>Email</th>
+							<th>Name</th><th>Email</th><th>ID</th>
 							<% @psets.each do |pset| %>
 							<th><%= pset.name %></th>
 							<% end %>
@@ -24,6 +24,7 @@
 						<tr>
 							<td><%= user.name %></td>
 							<td><%= user.mail %></td>
+							<td><%= user.uvanetid %></td>
 							<% @psets.each do |pset| %>
 							<td><%= 'yes' if user.submit(pset) %></td>
 							<% end %>
@@ -35,7 +36,7 @@
 				<section class="tab-pane markdown" id="other">
 					<table class="table table-bordered">
 						<tr>
-							<th>Name</th><th>Email</th>
+							<th>Name</th><th>Email</th><th>ID</th>
 							<% @psets.each do |pset| %>
 							<th><%= pset.name %></th>
 							<% end %>
@@ -44,6 +45,7 @@
 						<tr>
 							<td><%= user.name %></td>
 							<td><%= user.mail %></td>
+							<td><%= user.uvanetid %></td>
 							<% @psets.each do |pset| %>
 							<td><%= 'yes' if user.submit(pset) %></td>
 							<% end %>
