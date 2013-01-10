@@ -22,8 +22,6 @@ class UploadController < ApplicationController
 			# end
 			
 			page = Page.where(:id => params[:page_id]).first
-			logger.debug "HUH"
-			logger.debug page.inspect
 			if page.nil?
 				flash[:error] = "<b>Error!</b> Submit fail. Try again.".html_safe
 				redirect_to(:back)
@@ -40,9 +38,15 @@ class UploadController < ApplicationController
 			end
 			
 			pset = Page.find(params[:page_id]).pset
-		
+
+			# upload to dropbox
 			dropbox.submit(current_user.uvanetid, current_user.name, Course.course['short'], pset.name, params[:notes], form_text, params[:f])
 
+			# create submit record
+			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
+			submit.submitted_at = Time.now
+			submit.save
+			
 			# success
 			redirect_to(:back, :notice => "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
 		else			

@@ -15,14 +15,12 @@
 
 		<div class="nav-collapse collapse">
 			<ul class="nav">
-				<!-- <li class="dropdown"><a href="/"><i class="icon-home icon-white"></i></a></li> -->
-				
 				<% for section in Section.all %>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
 					<ul class="dropdown-menu" role="menu">
 						<% for page in section.pages %>
-						<li><%= link_to page.title, "/#{section.slug}/#{page.slug}" %></li>
+						<li><%= link_to (page.title + page_done_icon(@user, page.pset)).html_safe, "/#{section.slug}/#{page.slug}" %></li>
 						<% end %>
 					</ul>
 					<% end %>

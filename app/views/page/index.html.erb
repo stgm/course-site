@@ -24,7 +24,7 @@
 				</li>
 				<% end %>
 				<% if logged_in? && @page.pset %>
-				<li><a href="#submit" data-toggle="tab">Submit</a></li>
+				<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
 				<% end %>
 			</ul>
 

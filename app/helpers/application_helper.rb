@@ -1,5 +1,15 @@
 module ApplicationHelper
 
+	def page_done_icon(user, pset)
+		logger.debug user.inspect
+		logger.debug pset.inspect
+		if user && pset && Submit.where(:user_id => user.id, :pset_id => pset.id).count > 0
+			" <i class='icon-thumbs-up'></i>".html_safe
+		else
+			""
+		end
+	end
+
 	class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		
 		def convert_table(el, indent)

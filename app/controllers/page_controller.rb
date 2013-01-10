@@ -29,8 +29,9 @@ class PageController < ApplicationController
 				answer.each do |field, value|
 					@answer_data["a[#{field}]"] = value
 				end
-				logger.debug @answer_data
 			end
+			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
+			logger.debug @submitted.inspect
 		end
 	end
 	
