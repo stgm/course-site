@@ -10,6 +10,7 @@ class AdminController < ApplicationController
 	def users
 		@user = current_user
 		@users = User.order('updated_at desc')
+		@psets = Pset.order(:name)
 	end
 
 end

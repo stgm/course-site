@@ -9,9 +9,21 @@
 			<div class="tab-content">
 				<section class="tab-pane markdown active" id="profile">
 					<table class="table table-bordered">
-						<tr><th>Name</th><th>Email</th><th>Last login</th></tr>
+						<tr>
+							<th>Name</th><th>Email</th><th>Last login</th>
+							<% @psets.each do |pset| %>
+							<th><%= pset.name %></th>
+							<% end %>
+						</tr>
 						<% @users.each do |user| %>
-						<tr><td><%= user.name %></td><td><%= user.mail %><td><%= time_ago_in_words(user.updated_at) %> ago</td></tr>
+						<tr>
+							<td><%= user.name %></td>
+							<td><%= user.mail %></td>
+							<td><%= time_ago_in_words(user.updated_at) %> ago</td>
+							<% @psets.each do |pset| %>
+							<td><%= 'yes' if user.submit(pset) %></td>
+							<% end %>
+						</tr>
 						<% end %>
 					</table>
 				</section>
