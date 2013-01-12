@@ -203,7 +203,7 @@ section blockquote p
 	margin: inherit;
 }
 
-section p img:not(:only-child)
+section p img.inline
 {
 	float:right;
 }
