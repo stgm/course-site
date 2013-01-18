@@ -26,6 +26,21 @@ On the source format
 * Changing names and positions should not be a problem for form caching and
   file submissions already done.
 
+Formattting your pages
+----------------------
+
+* All pages are to be formatted with [Markdown] and the [Kramdown] extensions.
+
+* You can use [AsciiMath] if enclosed within two dollar signs ($). Also check
+  the [AsciiMath syntax].
+
+* We intend to use the native Kramdown math parser if this is workable.
+
+[Markdown]: http://daringfireball.net/projects/markdown/syntax
+[Kramdown]: http://kramdown.rubyforge.org/syntax.html
+[AsciiMath]: http://www.wjagray.co.uk/maths/ASCIIMathTutorial.html
+[AsciiMath syntax]: http://www.intmath.com/help/send-math-email-syntax.php
+
 TODO
 ----
 
