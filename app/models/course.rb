@@ -187,7 +187,7 @@ class Course
 	# Only accepts paths where the first characters are numbers and followed by white space.
 	#
 	def self.split_info(object)
-		return object.match('(\d+)\s+(.*).md')
+		return object.match('(\d+)\s+(.*).md$') || object.match('(\d+)\s+(.*)$')
 	end
 	
 	##
