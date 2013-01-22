@@ -142,7 +142,7 @@ section
 {
 	/* The white background content wrapper */
 	background-color: #fff;
-	padding:3em 4em;
+	padding:2em 4em;
 	border-left:1px solid #ddd;
 	border-right:1px solid #ddd;
 }
@@ -155,7 +155,6 @@ section p, section li, section dl
 	font-family:Georgia;
 	line-height:1.5;
 	font-size:16px;
-	margin-bottom:1em;
 }
 
 section h1, section h2, section h3
@@ -197,7 +196,7 @@ section ul, section ol
 	margin:1em 3em;
 }
 
-section ul li, section ol li, section ul p, section ol p
+section ul p, section ol p
 {
 	margin-bottom:0.5em
 }
