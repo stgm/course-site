@@ -23,7 +23,7 @@
 						<% group.users.each do |user| %>
 						<tr>
 							<td><%= user.name %></td>
-							<td><%= link_to user.mail, 'mailto:'+user.mail %></td>
+							<td><%= link_to user.mail, 'mailto:'+user.mail if user.mail %></td>
 							<td><%= user.uvanetid %></td>
 							<% @psets.each do |pset| %>
 							<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
