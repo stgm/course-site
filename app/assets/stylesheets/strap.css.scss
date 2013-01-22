@@ -142,7 +142,7 @@ section
 {
 	/* The white background content wrapper */
 	background-color: #fff;
-	padding:2em;
+	padding:4em 4em;
 	border-left:1px solid #ddd;
 	border-right:1px solid #ddd;
 }
@@ -155,6 +155,7 @@ section p, section li, section dl
 	font-family:Georgia;
 	line-height:1.5;
 	font-size:16px;
+	margin-bottom:16px;
 }
 
 section h1, section h2, section h3
@@ -191,6 +192,16 @@ section dd
 	margin: 0.5em 1em;
 }
 
+section ul, section ol
+{
+	margin:1em 3em;
+}
+
+section ul p, section ol p
+{
+	margin-bottom:0.5em
+}
+
 section blockquote
 {
 	border:0;
@@ -206,6 +217,7 @@ section blockquote p
 section p img.inline
 {
 	float:right;
+	margin:0.5em 0 0.5em 1em;
 }
 
 /********** code **********/
