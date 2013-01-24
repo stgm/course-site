@@ -30,11 +30,12 @@ module ApplicationHelper
 		end
 		
 		# TODO: want to center maths
-		# def convert_math(el, indent)
-		# 	block = (el.options[:category] == :block)
-		# 	value = (el.value =~ /<|&/ ? "% <![CDATA[\n#{el.value} %]]>" : el.value)
-		# 	"<div class=\"maths\"><script type=\"math/tex#{block ? '; mode=display' : ''}\">#{value}</script></div>#{block ? "\n" : ''}"
-		# end
+		def convert_math(el, indent)
+			# block = (el.options[:category] == :block)
+			# value = (el.value =~ /<|&/ ? "% <![CDATA[\n#{el.value} %]]>" : el.value)
+			# "<div class=\"maths\"><script type=\"math/tex#{block ? '; mode=display' : ''}\">#{value}</script></div>#{block ? "\n" : ''}"
+			"`#{el.value}`"
+		end
 		
 	end
 
