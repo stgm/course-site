@@ -6,9 +6,16 @@ This site serves courses that reside in a git repo consisting of mostly Markdown
 How to install
 --------------
 
+Clone the application:
+
 	git clone git@github.com:uva/course-site.git
 	bundle install
 	rake db:migrate
+
+And clone the course contents into the `public/course` directory:
+
+	cd public
+	git clone <course-url> course
 
 On the source format
 --------------------
@@ -18,23 +25,27 @@ On the source format
   and a `info` directory containing subpages for the homepage.
 
 * Numbering the course folders will make sure that they are imported and
-  displayed in order.
+  displayed in order. Any folders besides `info` that are not numbered will
+  not be imported.
+
+* Non-markdown files, like images or downloads, will be hosted directly in the
+  public directory and can be referenced using relative links.
 
 * Changing the name of a folder will change the URL of that folder on the
   website. This will break links from others site to your course site.
 
 * Changing names and positions should not be a problem for form caching and
-  file submissions already done.
+  file submissions already done. (**Warning**: updating the course while users
+  have the page loaded will break their submit experience. Do not update the
+  course mid-session for now.)
 
-Formattting your pages
+Formatting your pages
 ----------------------
 
 * All pages are to be formatted with [Markdown] and the [Kramdown] extensions.
 
-* You can use [AsciiMath] if enclosed within two dollar signs ($). Also check
+* You can use [AsciiMath] if enclosed within pairs of dollar signs ($$). Check
   the [AsciiMath syntax].
-
-* We intend to use the native Kramdown math parser if this is workable.
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [Kramdown]: http://kramdown.rubyforge.org/syntax.html
@@ -44,14 +55,20 @@ Formattting your pages
 TODO
 ----
 
-* Do not depend on dropbox config being present at start.
+### Easy setup
+
 * Add a setting for source git URL and do a `git clone`.
-* Add a setting for the dropbox upload folder to be used.
-* Possibly allow db:migrate to be run from front end.
-* Allow users to register name and email.
-* Allow user to register an avatar.
+* Possibly allow db:migrate to be run from front end for easy installing.
 * Allow the course to be hosted in dropbox.
-* Allow some kind of push hook that automatically updates the site when a
-  new course version is in the repository.
+
+### Configuration
+
+* Do not depend on dropbox config being present at start.
+* Add a setting for the dropbox upload folder to be used.
 * Remove `security` section from course.yml, should be decoupled and
   configurable in site.
+
+### Course updates
+
+* Allow some kind of push hook that automatically updates the site when a
+  new course version is in the repository.
