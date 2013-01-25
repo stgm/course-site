@@ -23,7 +23,7 @@ class Course
 		# - Answer
 		# - Submit
 
-		# not implemented yet, so no cleaning needed
+		# not implemented yet, so no cleaning needed (YAGNI violation)
 		# Progress.delete_all
 		# Category.delete_all
 		# Item.delete_all

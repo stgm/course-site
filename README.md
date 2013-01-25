@@ -43,7 +43,6 @@ Formatting your pages
 ----------------------
 
 * All pages are to be formatted with [Markdown] and the [Kramdown] extensions.
-
 * You can use [AsciiMath] if enclosed within pairs of dollar signs ($$). Check
   the [AsciiMath syntax].
 
