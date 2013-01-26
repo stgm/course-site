@@ -147,7 +147,7 @@ section
 	border-right:1px solid #ddd;
 }
 
-section p, section li, section dl
+section
 {
 	-webkit-hyphens:auto;
 	hyphens:auto;
@@ -224,6 +224,13 @@ section p img.inline
 {
 	float:right;
 	margin:0.5em 0 0.5em 1em;
+}
+
+div.footnotes
+{
+	font-size:0.6em;
+	padding-top:1em;
+	border-top:1px solid #eee;
 }
 
 /********** code **********/
