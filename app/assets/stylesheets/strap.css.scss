@@ -192,9 +192,14 @@ section dd
 }
 
 /* only top-level lists get this wide a margin */
-section > ul, section > ol, section > dl
+section > ul, section > ol
 {
 	margin:1em 3em;
+}
+
+section > dl
+{
+	margin:1em 2em;
 }
 
 /* all paragraphs IN all lists get this */
