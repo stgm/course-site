@@ -1,72 +1,12 @@
 /* this is bootstrap without the form styles */
 @import "bootstrap.min";
 
-
-.control-group {
-  margin-bottom: 10px;
-}
-
-legend + .control-group {
-  margin-top: 20px;
-  -webkit-margin-top-collapse: separate;
-}
-
-.form-horizontal .control-group {
-  margin-bottom: 20px;
-  *zoom: 1;
-}
-
-.form-horizontal .control-group:before,
-.form-horizontal .control-group:after {
-  display: table;
-  line-height: 0;
-  content: "";
-}
-
-.form-horizontal .control-group:after {
-  clear: both;
-}
-
-.form-horizontal .control-label {
-  float: left;
-  width: 160px;
-  padding-top: 5px;
-  text-align: right;
-}
-
-.form-horizontal .controls {
-  *display: inline-block;
-  *padding-left: 20px;
-  margin-left: 180px;
-  *margin-left: 0;
-}
-
-.form-horizontal .controls:first-child {
-  *padding-left: 180px;
-}
-
-.form-horizontal .help-block {
-  margin-bottom: 0;
-}
-
-.form-horizontal input + .help-block,
-.form-horizontal select + .help-block,
-.form-horizontal textarea + .help-block,
-.form-horizontal .uneditable-input + .help-block,
-.form-horizontal .input-prepend + .help-block,
-.form-horizontal .input-append + .help-block {
-  margin-top: 10px;
-}
-
-.form-horizontal .form-actions {
-  padding-left: 180px;
-}
-
-
-
-
-html, body
+body
 {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	color: #333333;
 	background-color: #eee;
 }
 
@@ -79,7 +19,6 @@ body
 {
 	/* to make the container go all the way to the bottom of the topbar */
 	padding:40px 0 0 0 ! important;
-/*	padding-top: 40px ! important;*/
 }
 
 @media (max-width: 979px)
@@ -117,6 +56,13 @@ body
 	margin-bottom:0 ! important;
 }
 
+ul,
+ol {
+  padding: 0;
+  margin: 0 0 10px 25px;
+}
+
+
 .tabbable
 {
 	max-width:768px;
@@ -145,15 +91,12 @@ section
 	padding:2em 4em;
 	border-left:1px solid #ddd;
 	border-right:1px solid #ddd;
-}
 
-section
-{
 	-webkit-hyphens:auto;
 	hyphens:auto;
 	-moz-hyphens:none;
 	font-family:Georgia;
-	line-height:1.5;
+	line-height:1.6;
 	font-size:16px;
 }
 
@@ -206,7 +149,12 @@ section > dl
 /* all paragraphs IN all lists get this */
 section ul p, section ol p
 {
-	margin-bottom:0.5em
+	margin:0 0 0.5em 0;
+}
+
+section ul p + p, section ol p + p
+{
+	margin:0 0 0.5em 0;
 }
 
 section blockquote
@@ -236,6 +184,58 @@ div.footnotes
 
 /********** code **********/
 
+
+code,
+pre {
+  padding: 0 3px 2px;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-size: 12px;
+  color: #333333;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+code {
+  padding: 2px 4px;
+  color: #d14;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  white-space: nowrap;
+}
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 20px;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre;
+  white-space: pre-wrap;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+pre.prettyprint {
+  margin-bottom: 20px;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: 0;
+}
+.pre-scrollable {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+
+
 section code, section pre
 {
 	background-color:transparent;
@@ -243,7 +243,7 @@ section code, section pre
 	-webkit-hyphens:none;
 	-moz-hyphens:none;
 	padding:0;
-	font-size:13px;
+/*	font-size:11px;*/
 }
 
 section pre
