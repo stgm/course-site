@@ -12,7 +12,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# prefixes all local image src with the right directory in /public/course
 	#
 	def convert_img(el, indent)
-		if el.attr['src'] && el.attr['src'] !~ /^[\w]*:/
+		if el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end
 		super
@@ -22,7 +22,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# prefixes all local links with the right directory in /public/course
 	#
 	def convert_a(el, indent)
-		if el.attr['href'] && el.attr['href'] !~ /^[\w]*:/
+		if el.attr['href'] && el.attr['href'] !~ /(^[\w]*:|^\/)/
 			el.attr['href'] = File.join(@options[:asset_prefix], el.attr['href'])
 		end
 		super
