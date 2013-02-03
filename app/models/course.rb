@@ -130,6 +130,7 @@ class Course
 					# checks if pset already exists under name
 					db_pset = Pset.where(:name => submit_config['name']).first_or_initialize
 					db_pset.description = page_info[2]
+					db_pset.message = submit_config['message'] if submit_config['message']
 					db_pset.form = !!submit_config['form']
 					# restore link to owning page!!
 					db_pset.page = db_page
