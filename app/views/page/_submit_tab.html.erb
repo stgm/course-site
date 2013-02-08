@@ -13,6 +13,12 @@
 <p>When you are ready to submit, please use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
 <% end %>
 
+<% if @page.pset.message %>
+<p><strong><%= @page.pset.message %></strong></p>
+<% end %>
+
+<% if @page.pset.form || @page.pset.pset_files.length > 0 %>
+
 <table class="table table-bordered">
 
 	<% if @page.pset.form %>
@@ -32,6 +38,8 @@
 	<% end %>
 
 </table>
+
+<% end %>
 
 <p>Notes: <%= text_area_tag 'notes' %></p>
 

@@ -15,15 +15,18 @@
 				<section class="tab-pane markdown <%= 'active' if i==0 %>" id="group<%= i %>">
 					<table class="table">
 						<tr>
-							<th>Name</th><th>Email</th><th>ID</th>
+							<th>Name</th><th>ID</th>
 							<% @psets.each do |pset| %>
 							<th><%= pset.name %></th>
 							<% end %>
 						</tr>
 						<% group.users.each do |user| %>
 						<tr>
+							<% if user.mail %>
+							<td><%= link_to user.name, 'mailto:'+user.mail %></td>
+							<% else %>
 							<td><%= user.name %></td>
-							<td><%= link_to user.mail, 'mailto:'+user.mail if user.mail %></td>
+							<% end %>
 							<td><%= user.uvanetid %></td>
 							<% @psets.each do |pset| %>
 							<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
@@ -36,15 +39,18 @@
 				<section class="tab-pane markdown" id="other">
 					<table class="table">
 						<tr>
-							<th>Name</th><th>Email</th><th>ID</th>
+							<th>Name</th><th>ID</th>
 							<% @psets.each do |pset| %>
 							<th><%= pset.name %></th>
 							<% end %>
 						</tr>
 						<% @groupless.each do |user| %>
 						<tr>
+							<% if user.mail %>
+							<td><%= link_to user.name, 'mailto:'+user.mail %></td>
+							<% else %>
 							<td><%= user.name %></td>
-							<td><%= link_to user.mail, 'mailto:'+user.mail if user.mail %></td>
+							<% end %>
 							<td><%= user.uvanetid %></td>
 							<% @psets.each do |pset| %>
 							<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
