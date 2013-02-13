@@ -62,11 +62,21 @@ ol {
   margin: 0 0 10px 25px;
 }
 
-
 .tabbable
 {
 	max-width:768px;
 	margin:1em auto;
+}
+
+.container-fluid.wide .tabbable
+{
+	max-width:none;
+}
+
+.container-fluid.wide section
+{
+	border-left:none;
+	border-right:none;
 }
 
 .tabbable .nav
