@@ -17,7 +17,7 @@ class HomepageController < ApplicationController
 			render :text => 'Will not work! Enter a valid name.'
 			return
 		end
-		if params[:user][:mail] !~ /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+		if params[:user][:mail] !~ /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
 			render :text => 'Will not work! Enter a valid email address.'
 			return
 		end
