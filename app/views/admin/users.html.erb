@@ -13,7 +13,7 @@
 			<div class="tab-content">
 				<% Group.all.each_with_index do |group,i| %>
 				<section class="tab-pane markdown <%= 'active' if i==0 %>" id="group<%= i %>">
-					<table class="table">
+					<table class="table table-bordered table-condensed">
 						<tr>
 							<th>Name</th><th>ID</th>
 							<% @psets.each do |pset| %>
