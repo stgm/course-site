@@ -36,8 +36,8 @@
 					</table>
 				</section>
 				<% end %>
-				<section class="tab-pane markdown" id="other">
-					<table class="table">
+				<section class="tab-pane markdown <%= 'active' if Group.count == 0 %>" id="other">
+					<table class="table table-bordered table-condensed">
 						<tr>
 							<th>Name</th><th>ID</th>
 							<% @psets.each do |pset| %>
