@@ -17,7 +17,11 @@
 		
 		<div class="tabbable">
 
-			<ul class="nav nav-tabs">
+			<% if @page.subpages.count > 1 %>
+				
+			<h1><%= title %></h1>
+			
+			<ul class="nav nav-pills">
 				<% @page.subpages.each_with_index do |subpage, index| %>
 				<li class="<%= 'active' if index == 0 %>">
 					<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
@@ -27,6 +31,7 @@
 				<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
 				<% end %>
 			</ul>
+			<% end %>
 
 			<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
 			<%= hidden_field_tag :page_id, @page.id %>

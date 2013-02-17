@@ -79,6 +79,16 @@ ol {
 	border-right:none;
 }
 
+.tabbable
+{
+	/* The white background content wrapper */
+	margin: 0em auto;
+	background-color: #fff;
+	padding:2em 4em;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
+}
+
 .tabbable .nav
 {
 	margin-bottom:0;
@@ -86,7 +96,7 @@ ol {
 
 .tabbable .nav li:first-child
 {
-	margin-left:0.75em;
+	smargin-left:0.75em;
 }
 
 /****************************************************************************
@@ -96,18 +106,20 @@ ol {
 
 section
 {
-	/* The white background content wrapper */
-	background-color: #fff;
-	padding:2em 4em;
-	border-left:1px solid #ddd;
-	border-right:1px solid #ddd;
-
 	-webkit-hyphens:auto;
 	hyphens:auto;
 	-moz-hyphens:none;
 	font-family:Georgia;
 	line-height:1.6;
 	font-size:16px;
+	
+	margin-top:1em;
+	border-top:1px solid #39F;
+}
+
+section:first-child:last-child
+{
+	border-top:none;
 }
 
 section .banner
