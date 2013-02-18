@@ -26,7 +26,7 @@
 						<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
 					</li>
 					<% end %>
-					<% if logged_in? && @page.pset %>
+					<% if @page.pset %>
 					<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
 					<% end %>
 				</ul>
