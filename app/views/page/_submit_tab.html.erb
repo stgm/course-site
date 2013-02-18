@@ -41,6 +41,8 @@
 
 <% end %>
 
+<% if logged_in? %>
+
 <p>Notes: <%= text_area_tag 'notes' %></p>
 
 <p><%= submit_tag 'Submit for grading', :class => 'btn btn-warning' %></p>
@@ -50,3 +52,10 @@ $('#page_form').submit(function(){
     $('input[type=submit]', this).attr('disabled', 'disabled');
 });
 </script>
+
+<% else %>
+
+<p>Please login to submit.</p>
+
+<% end %>
+
