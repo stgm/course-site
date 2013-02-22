@@ -29,6 +29,6 @@ CourseSite::Application.configure do
 	config.active_support.deprecation = :notify
 
 	# RubyCAS
-	config.rubycas.cas_base_url = 'https://bt-lap.ic.uva.nl/cas/'
+	config.rubycas.cas_base_url = 'https://secure.uva.nl/cas/'
 
 end
