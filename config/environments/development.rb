@@ -38,4 +38,7 @@ CourseSite::Application.configure do
 	
 	config.assets.logger = nil
 
+	# RubyCAS
+	config.rubycas.cas_base_url = 'https://bt-lap.ic.uva.nl/cas/'	
+
 end

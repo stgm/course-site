@@ -59,9 +59,6 @@ module CourseSite
 		# Version of your assets, change this if you want to expire all your assets
 		config.assets.version = '1.0'
 
-		# RubyCAS
-		config.rubycas.cas_base_url = 'https://secure.uva.nl/cas/'
-		
 		# Kramdown plugin
 		Kramdown::Options.define(:asset_prefix, String, '', 'Local asset prefix')
 	end
