@@ -9,7 +9,6 @@ class AdminController < ApplicationController
 	
 	def users
 		@user = current_user
-		# @users = User.order('updated_at desc').group_by(&:group)
 		@groupless = User.where(:group_id => nil).order('updated_at desc')
 		@psets = Pset.order(:name)
 		@title = "List users"

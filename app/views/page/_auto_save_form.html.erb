@@ -3,16 +3,16 @@
 		var form_cache = <%= @answer_data.to_json.html_safe %>;
 		if(form_cache)
 		{
-			$.each($("input[type=text], textarea"),
+			$.each($("input[type=text],textarea[name!='notes']"),
 			function(i,v)
 			{
 				if(form_cache[v.name])
 				{
 					v.value = form_cache[v.name];
 				}
-			}			)
+			})
 		};
-		$("input[type=text],textarea").change(function()
+		$("input[type=text],textarea[name!='notes']").change(function()
 		{
 			$("#loading").show();
 			$.post("/answers.json", $("#page_form").serialize(), function(data) {
@@ -23,7 +23,7 @@
 	</script>
 <% else %>
 	<script>
-		$("input[type=text],textarea").change(
+			$("input[type=text],textarea[name!='notes']").change(
 			function()
 			{
 				alert('Warning! You are not logged in. Your answers will not be saved.');

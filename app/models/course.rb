@@ -23,7 +23,7 @@ class Course
 		# - Answer
 		# - Submit
 
-		# not implemented yet, so no cleaning needed
+		# not implemented yet, so no cleaning needed (YAGNI violation)
 		# Progress.delete_all
 		# Category.delete_all
 		# Item.delete_all
@@ -94,11 +94,13 @@ class Course
 			
 			section_path = File.basename(section)
 			next if section_path == "info" # skip info directory
-			section_info = split_info(section_path)
-			
-			db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section_path)
 
-			process_pages(section, db_sec)
+			# if this directory name is parsable
+			section_info = split_info(section_path)
+			if section_info
+				db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section_path)
+				process_pages(section, db_sec)
+			end
 		end
 
 	end
@@ -115,35 +117,38 @@ class Course
 			page_path = File.basename(page)    # only the directory name
 			page_info = split_info(page_path)  # array of position and page name
 
-			# create the page
-			db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path)
+			# if this directory name is parsable
+			if page_info
+				# create the page
+				db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path)
 
-			# load submit.yml config file which contains items to submit
-			submit_config = read_config(files(page, "submit.yml"))
-			
-			# add pset to database
-			if submit_config
-				# checks if pset already exists under name
-				db_pset = Pset.where(:name => submit_config['name']).first_or_initialize
-				db_pset.description = page_info[2]
-				db_pset.form = !!submit_config['form']
-				# restore link to owning page!!
-				db_pset.page = db_page
-				db_pset.save
+				# load submit.yml config file which contains items to submit
+				submit_config = read_config(files(page, "submit.yml"))
 
-				# always recreate so it's possible to remove files from submit
-				['required', 'optional'].each do |modus|
-					if submit_config[modus]
-						submit_config[modus].each do |file|
-							db_pset.pset_files.create(:filename => file, :required => modus == 'required')
+				# add pset to database
+				if submit_config
+					# checks if pset already exists under name
+					db_pset = Pset.where(:name => submit_config['name']).first_or_initialize
+					db_pset.description = page_info[2]
+					db_pset.message = submit_config['message'] if submit_config['message']
+					db_pset.form = !!submit_config['form']
+					# restore link to owning page!!
+					db_pset.page = db_page
+					db_pset.save
+
+					# always recreate so it's possible to remove files from submit
+					['required', 'optional'].each do |modus|
+						if submit_config[modus]
+							submit_config[modus].each do |file|
+								db_pset.pset_files.create(:filename => file, :required => modus == 'required')
+							end
 						end
 					end
 				end
+				process_subpages(page, db_page)
 			end
-
-			process_subpages(page, db_page)
+	
 		end
-		
 	end
 	
 	##
@@ -156,8 +161,11 @@ class Course
 			subpage_path = File.basename(subpage)
 			subpage_info = split_info(subpage_path)
 			
-			file = IO.read(File.join(dir, subpage_path))
-			parent_page.subpages.create(:title => subpage_info[2], :position => subpage_info[1], :content => file)
+			# if parsable file name
+			if subpage_info
+				file = IO.read(File.join(dir, subpage_path))
+				parent_page.subpages.create(:title => subpage_info[2], :position => subpage_info[1], :content => file)
+			end
 		end
 	end
 
@@ -180,7 +188,7 @@ class Course
 	# Only accepts paths where the first characters are numbers and followed by white space.
 	#
 	def self.split_info(object)
-		return object.match('(\d)\s+([^\.]*)')
+		return object.match('(\d+)\s+(.*).md$') || object.match('(\d+)\s+(.*)$')
 	end
 	
 	##

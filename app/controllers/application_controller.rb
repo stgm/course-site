@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 	
 	def is_admin?
 		admins = Course.security['professors']
-		return current_user && admins && admins.include?(session[:cas_user])
+		return current_user && admins && admins.include?(session[:cas_user].to_s)
 	end
 	
 end
