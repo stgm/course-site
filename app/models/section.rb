@@ -8,4 +8,7 @@ class Section < ActiveRecord::Base
 
 	has_many :pages
 
+	# Make sure the subpages are always ordered
+	default_scope order(:position)
+
 end
