@@ -286,11 +286,11 @@ section pre .comment
 	color:#363;
 }
 
-video
+.video-js
 {
 	background-color:black;
-	height:480px;
-	width:100%;
+	height:480px !important; /* overrides stupid html width + height */
+	width:100% !important;
 }
 
 /********** forms **********/

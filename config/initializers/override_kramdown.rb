@@ -13,7 +13,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_img(el, indent)
 		if el.attr['alt'] == 'videoplayer'
-			return "<video src='#{cdn_url(el.attr['src'])}' controls preload='none'>"
+			return "<video src='#{cdn_url(el.attr['src'])}' controls preload='none' class='video-js vjs-default-skin' data-setup='{}'>"
 		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end
