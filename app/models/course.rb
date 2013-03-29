@@ -45,6 +45,8 @@ class Course
 		end
 		if @@settings.has_key?(method_id.to_s)
 			return @@settings[method_id.to_s]
+		else
+			return nil
 		end
 	end
 	

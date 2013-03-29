@@ -22,7 +22,11 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# prefixes all local links with the right directory in /public/course
 	#
 	def convert_a(el, indent)
-		# any hrefs not starting with proto: or / or # are relative and will be prefixed
+		if @options[:cdn_prefix]
+			el.attr['href'].sub!(/^cdn:\//, @options[:cdn_prefix])
+		end
+		# any hrefs not starting with proto: or / or # are relative and 
+		# will be prefixed
 		if el.attr['href'] && el.attr['href'] !~ /(^[\w]*:|^\/|^\#)/
 			el.attr['href'] = File.join(@options[:asset_prefix], el.attr['href'])
 		end
@@ -30,7 +34,8 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	end
 	
 	##
-	# simply abuse the kramdown math markers, transform them to ASCIImath.js markers
+	# simply abuse the kramdown math markers, transform 
+	# them to ASCIImath.js markers
 	#
 	def convert_math(el, indent)
 		"`#{el.value}`"
