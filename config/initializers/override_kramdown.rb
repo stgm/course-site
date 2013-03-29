@@ -23,7 +23,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_a(el, indent)
 		# any hrefs not starting with proto: or / or # are relative and will be prefixed
-		if el.attr['href'] && el.attr['href'] !~ /(^[\w]*:|^\/|^#)/
+		if el.attr['href'] && el.attr['href'] !~ /(^[\w]*:|^\/|^\#)/
 			el.attr['href'] = File.join(@options[:asset_prefix], el.attr['href'])
 		end
 		super
