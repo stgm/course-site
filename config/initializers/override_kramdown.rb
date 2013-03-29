@@ -12,7 +12,9 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# prefixes all local image src with the right directory in /public/course
 	#
 	def convert_img(el, indent)
-		if el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
+		if el.attr['alt'] == 'videoplayer'
+			return "<video src='#{cdn_url(el.attr['src'])}' controls preload='none'>"
+		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end
 		super
@@ -23,7 +25,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_a(el, indent)
 		if @options[:cdn_prefix]
-			el.attr['href'].sub!(/^cdn:\//, @options[:cdn_prefix])
+			el.attr['href'] = cdn_url(el.attr['href'])
 		end
 		# any hrefs not starting with proto: or / or # are relative and 
 		# will be prefixed
@@ -39,6 +41,12 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_math(el, indent)
 		"`#{el.value}`"
+	end
+	
+	private
+	
+	def cdn_url(source)
+		source.sub(/^cdn:\//, @options[:cdn_prefix])
 	end
 	
 end
