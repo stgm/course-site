@@ -1,6 +1,9 @@
 class AdminController < ApplicationController
 
 	before_filter RubyCAS::Filter
+	before_filter :require_admin
+	skip_before_filter :require_admin, only: [ :claim ]
+	skip_before_filter :require_users, only: [ :claim ]
 
 	def import_do
 		Course.reload
@@ -12,6 +15,51 @@ class AdminController < ApplicationController
 		@groupless = User.where(:group_id => nil).order('updated_at desc')
 		@psets = Pset.order(:name)
 		@title = "List users"
+	end
+	
+	def dropbox
+		@user = current_user
+		logger.debug Settings['dropbox.session']
+		@dropbox_session = Settings['dropbox.session'] != nil
+		@dropbox_app_key = Settings['dropbox.app_key']
+		@dropbox_app_secret = Settings['dropbox.app_secret']
+	end
+	
+	def dropbox_save
+		Settings['dropbox.app_key'] = params['dropbox_app_key']
+		Settings['dropbox.app_secret'] = params['dropbox_app_secret']
+		# redirect_to :back
+		
+		# Allows the admin user to link the course to dropbox.
+		dropbox = DropboxConnection.new
+		
+		if not params[:oauth_token] then
+			# pass to get_authorize_url a callback url that will return the user here
+			redirect_to dropbox.create_session(url_for(:controller => 'dropbox', :action => 'link'))
+		else
+			# the user has returned from Dropbox so save the session and go away
+			dropbox.authorized
+			redirect_to :root
+		end
+		
+		# render text: "Done"
+	end
+	
+	def admins
+		@user = current_user
+		@admins = Settings.admins.join("\n")
+	end
+	
+	def admins_save
+		Settings.admins = params[:admins].split(/\r?\n/)
+		redirect_to :back
+	end
+	
+	def claim
+		unless Settings['admins'] && Settings['admins'].size > 0 # if no admin is defined
+			Settings['admins'] = [ session[:cas_user] ]
+			redirect_to :root
+		end
 	end
 	
 	def import_groups

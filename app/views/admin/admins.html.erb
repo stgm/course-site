@@ -1,0 +1,19 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+
+	<%= form_tag action: "admins" do %>
+	  <div class="control-group">
+	    <label class="control-label" for="inputAdmins">Admin ids</label>
+	    <div class="controls">
+	      <textarea id="inputAdmins" name="admins"><%= @admins %></textarea>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <div class="controls">
+	      <button type="submit" class="btn">Save</button>
+	    </div>
+	  </div>
+	<% end %>
+	
+	</div>
+</div>

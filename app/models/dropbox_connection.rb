@@ -4,24 +4,24 @@ class DropboxConnection
 
 	def initialize
 
-		@dropbox_config = YAML::load_file("#{Rails.root}/config/dropbox.yml")
+		@dropbox_config = Settings
 		@dropbox_client = nil
 		
 		if !@dropbox_config
-			raise "There is no valid dropbox.yml"
+			raise "There is no valid settings object."
 		end
 
 		# need to authenticate first
-		return if !@dropbox_config["dropbox_session"]
+		return if !@dropbox_config["dropbox.session"]
 
 		# this reads an existing session for this app instance
-		@dropbox_session = DropboxSession.deserialize(@dropbox_config["dropbox_session"])
+		@dropbox_session = DropboxSession.deserialize(@dropbox_config["dropbox.session"])
 		
 		# session could be valid, but de-authorized
 		return if !@dropbox_session.authorized?
 
 		# open client for this request
-		@dropbox_client = DropboxClient.new(@dropbox_session, @dropbox_config["access_type"])
+		@dropbox_client = DropboxClient.new(@dropbox_session, @dropbox_config["dropbox.access_type"])
 
 	end
 	
@@ -31,11 +31,10 @@ class DropboxConnection
 	
 	def create_session(return_to_url)
 		# create a new session for this application
-		dropbox_session = DropboxSession.new(@dropbox_config["app_key"], @dropbox_config["app_secret"])
+		dropbox_session = DropboxSession.new(@dropbox_config["dropbox.app_key"], @dropbox_config["dropbox.app_secret"])
 
 		# store the session for when the user has returned to our app
-		@dropbox_config["dropbox_session"] = dropbox_session.serialize
-		update_dropbox_configuration
+		@dropbox_config["dropbox.session"] = dropbox_session.serialize
 
 		return dropbox_session.get_authorize_url return_to_url
 	end
@@ -44,18 +43,13 @@ class DropboxConnection
 		# we've been authorized, so now request an access_token
 		
 		# restore session, will automatically connect to dropbox
-		dropbox_session = DropboxSession.deserialize(@dropbox_config["dropbox_session"])
+		dropbox_session = DropboxSession.deserialize(@dropbox_config["dropbox.session"])
 		dropbox_session.get_access_token
 		
 		# save it for later connections
-		@dropbox_config["dropbox_session"] = dropbox_session.serialize
-		update_dropbox_configuration
+		@dropbox_config["dropbox.session"] = dropbox_session.serialize
 	end
 	
-	def update_dropbox_configuration
-		File.open("#{Rails.root}/config/dropbox.yml", 'w') { |f| YAML.dump(@dropbox_config, f) }
-	end
-
 	def submit(user, name, course, item, notes, form, files)
 		
 		dropbox_root = "Submit"

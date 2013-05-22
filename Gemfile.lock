@@ -87,6 +87,8 @@ GEM
       activesupport (= 3.2.12)
       bundler (~> 1.0)
       railties (= 3.2.12)
+    rails-settings-cached (0.2.4)
+      rails (>= 3.0.0)
     railties (3.2.12)
       actionpack (= 3.2.12)
       activesupport (= 3.2.12)
@@ -137,6 +139,7 @@ DEPENDENCIES
   jquery-rails
   kramdown
   rails (= 3.2.12)
+  rails-settings-cached (= 0.2.4)
   rubycas-client
   rubycas-client-rails!
   sass-rails (~> 3.2.3)

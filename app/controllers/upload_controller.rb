@@ -8,7 +8,7 @@ class UploadController < ApplicationController
 		dropbox = DropboxConnection.new
 		# upload = params[:attachment]
 		
-		if dropbox.linked?		
+		if dropbox.linked?
 			# validate file size
 			# if upload && upload.size > 504800
 			# 	render :text => "Your file is too big. Make sure you only submit your source files. (Ask your assistant what this means!)"

@@ -63,3 +63,6 @@ gem 'git'
 
 # dropbox integration
 gem 'dropbox-sdk'
+
+# manages settings in database
+gem "rails-settings-cached", "0.2.4"
