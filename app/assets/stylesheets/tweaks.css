@@ -1,0 +1,6 @@
+/* fix for the scrollbar on the submit tab */
+textarea#notes
+{
+	 box-sizing: border-box;
+	 -moz-box-sizing: border-box;
+}
