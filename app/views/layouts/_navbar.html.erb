@@ -28,6 +28,7 @@
 				<li><%= link_to '<i class="icon-refresh"></i> Update courseware...'.html_safe, '/admin/import_do', method: :post %></li>
 				<li class="divider"></li>
 				<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
+				<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Admins'.html_safe, :controller => 'admin', :action => 'admins' %></li>
 				<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
 				<li class="divider"></li>
 				<% end %>

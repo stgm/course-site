@@ -1,31 +1,37 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 
-	<% if @dropbox_session %>
-		Dropbox is currently connected.
-	<% else %>
-		There is no Dropbox connection.
-	<% end %>
+		<div class="tabbable">
+			<div class="tab-content">
+
+				<% if @dropbox_session %>
+				Dropbox is currently connected.
+				<% else %>
+				There is no Dropbox connection.
+				<% end %>
 	
-	<%= form_tag action: "dropbox" do %>
-	  <div class="control-group">
-	    <label class="control-label" for="inputAppKey">App Key</label>
-	    <div class="controls">
-	      <input type="text" id="inputAppKey" name="dropbox_app_key">
-	    </div>
-	  </div>
-	  <div class="control-group">
-	    <label class="control-label" for="inputAppSecret">App Secret</label>
-	    <div class="controls">
-	      <input type="text" id="inputAppSecret" name="dropbox_app_secret">
-	    </div>
-	  </div>
-	  <div class="control-group">
-	    <div class="controls">
-	      <button type="submit" class="btn">Sign in</button>
-	    </div>
-	  </div>
-	<% end %>
+				<%= form_tag action: "dropbox" do %>
+				<div class="control-group">
+					<label class="control-label" for="inputAppKey">App Key</label>
+					<div class="controls">
+						<input type="text" id="inputAppKey" name="dropbox_app_key">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputAppSecret">App Secret</label>
+					<div class="controls">
+						<input type="text" id="inputAppSecret" name="dropbox_app_secret">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn">Sign in</button>
+					</div>
+				</div>
+				<% end %>
+	
+			</div>
+		</div>
 	
 	</div>
 </div>
