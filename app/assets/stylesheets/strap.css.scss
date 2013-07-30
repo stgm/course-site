@@ -366,14 +366,15 @@ footer small
 		background-color:transparent ! important;
 	}
 
-	.navbar, header, footer
+	.navbar, header, footer, ul.nav, .tabbable > h1
 	{
 		display:none;
 	}
 
-	section
+	section, .tabbable
 	{
-		border:0;
+		border:none;
+		font-size:10pt;
 	}
 
 	.row-fluid [class*="offset"]:first-child
