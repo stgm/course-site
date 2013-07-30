@@ -5,7 +5,7 @@
 	<ul class="nav navbar-nav">
 		<% for section in Section.all %>
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <span class="caret"></span></a>
 			<ul class="dropdown-menu" role="menu">
 				<% for page in section.pages %>
 				<li><%= link_to (page.title + page_done_icon(@user, page.pset)).html_safe, "/#{section.slug}/#{page.slug}" %></li>
@@ -17,15 +17,15 @@
 
 	<ul class="nav navbar-nav pull-right">
 		<% if logged_in? %>
-		<li><p class="navbar-text" id="loading" style="display:none;"><i class="icon-fire icon-white"></i> Saving</p></li>
+		<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
 
 		<li class="divider-vertical"></li>
 		<li class="dropdown">
 
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <%= @user.name || @user.uvanetid %></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <%= @user.name || @user.uvanetid %></a>
 			<ul class="dropdown-menu" style="min-width:200px;">
 				<% if is_admin? %>
-				<li><a href="#myModal" data-toggle="modal" data-backdrop="static"><i class="icon-refresh"></i> Update courseware...</a></li>
+				<li><a href="#myModal" data-toggle="modal" data-backdrop="static"><i class="glyphicon glyphicon-refresh"></i> Update courseware...</a></li>
 				<li class="divider"></li>
 				<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
 				<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
