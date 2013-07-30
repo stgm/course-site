@@ -25,7 +25,7 @@
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= @user.name || @user.uvanetid %></a>
 			<ul class="dropdown-menu" style="min-width:200px;">
 				<% if is_admin? %>
-				<li><%= link_to '<i class="icon-refresh"></i> Update courseware...', '/admin/import_do', method: :post %></li>
+				<li><%= link_to '<i class="icon-refresh"></i> Update courseware...'.html_safe, '/admin/import_do', method: :post %></li>
 				<li class="divider"></li>
 				<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
 				<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
