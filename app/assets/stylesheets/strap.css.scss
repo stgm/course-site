@@ -21,62 +21,23 @@ body
 	padding:40px 0 0 0 ! important;
 }
 
-@media (max-width: 979px)
+.navbar
 {
-	body
-	{
-		padding:0 ! important;
-	}
-	
-	.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-	}
+	border-bottom:1px solid #dddddd;
 }
 
-.navbar .brand
+.navbar .navbar-brand
 {
 	color: #59ceff;
 	text-shadow: 0px 2px 0px red;
 	font-family: "Helvetica Neue", "Arial", sans-serif;
 	font-weight: bold;
-	margin-left:0;
-	padding:0.5em;
-	padding-top:8px;
-	margin:0;
-}
-
-.container-fluid
-{
-	padding:0 ! important;
-}
-
-.navbar-fixed-top
-{
-	margin-bottom:0 ! important;
-}
-
-ul,
-ol {
-  padding: 0;
-  margin: 0 0 10px 25px;
 }
 
 .tabbable
 {
 	max-width:768px;
 	margin:1em auto;
-}
-
-.container-fluid.wide .tabbable
-{
-	max-width:none;
-}
-
-.container-fluid.wide section
-{
-	border-left:none;
-	border-right:none;
 }
 
 .tabbable
@@ -162,6 +123,12 @@ section h4
 section dd
 {
 	margin: 0.5em 1em;
+}
+
+section ul, section ol
+{
+  padding: 0;
+  margin: 0 0 10px 25px;
 }
 
 /* only top-level lists get this wide a margin */
@@ -394,4 +361,4 @@ footer small
 	}
 }
 
-@import "bootstrap-responsive";
+//@import "bootstrap-responsive";

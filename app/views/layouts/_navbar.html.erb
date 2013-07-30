@@ -1,59 +1,49 @@
-<div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar-inner">
+<div class="navbar navbar-fixed-top">
 
-		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</a>
+	<ul class="nav navbar-nav">
+		<li class="dropdown"><a href="/"><i class="icon-home icon-white"></i></a></li>
+	</ul>
 
-		<ul class="nav">
-			<li class="dropdown"><a href="/"><i class="icon-home icon-white"></i></a></li>
-		</ul>
+	<a href="/" class="navbar-brand"><%= Course.course['short'] %></a>
 
-		<a href="/" class="brand"><%= Course.course['short'] %></a>
-
-		<div class="nav-collapse collapse">
-			<ul class="nav">
-				<% for section in Section.all %>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
-					<ul class="dropdown-menu" role="menu">
-						<% for page in section.pages %>
-						<li><%= link_to (page.title + page_done_icon(@user, page.pset)).html_safe, "/#{section.slug}/#{page.slug}" %></li>
-						<% end %>
-					</ul>
-					<% end %>
-				</li>
-			</ul>
-
-			<ul class="nav pull-right">
-				<% if logged_in? %>
-				<li><p class="navbar-text" id="loading" style="display:none;"><i class="icon-fire icon-white"></i> Saving</p></li>
-
-				<li class="divider-vertical"></li>
-				<li class="dropdown">
-
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <%= @user.name || @user.uvanetid %></a>
-					<ul class="dropdown-menu" style="min-width:200px;">
-						<% if is_admin? %>
-						<li><a href="#myModal" data-toggle="modal" data-backdrop="static"><i class="icon-refresh"></i> Update courseware...</a></li>
-						<li class="divider"></li>
-						<li><%= link_to '<i class="icon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
-						<li><%= link_to '<i class="icon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
-						<li class="divider"></li>
-						<% end %>
-						<li><%= link_to '<i class="icon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
-						<li><%= link_to '<i class="icon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
-					</ul>
-				</li>
-				<% else %>
-				<li><%= link_to("<i class='icon-user icon-white'></i> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
+	<ul class="nav navbar-nav">
+		<% for section in Section.all %>
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <b class="caret"></b></a>
+			<ul class="dropdown-menu" role="menu">
+				<% for page in section.pages %>
+				<li><%= link_to (page.title + page_done_icon(@user, page.pset)).html_safe, "/#{section.slug}/#{page.slug}" %></li>
 				<% end %>
 			</ul>
-		</div>
+			<% end %>
+		</li>
+	</ul>
 
-	</div>
+	<ul class="nav navbar-nav pull-right">
+		<% if logged_in? %>
+		<li><p class="navbar-text" id="loading" style="display:none;"><i class="icon-fire icon-white"></i> Saving</p></li>
+
+		<li class="divider-vertical"></li>
+		<li class="dropdown">
+
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <%= @user.name || @user.uvanetid %></a>
+			<ul class="dropdown-menu" style="min-width:200px;">
+				<% if is_admin? %>
+				<li><a href="#myModal" data-toggle="modal" data-backdrop="static"><i class="icon-refresh"></i> Update courseware...</a></li>
+				<li class="divider"></li>
+				<li><%= link_to '<i class="icon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
+				<li><%= link_to '<i class="icon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
+				<li class="divider"></li>
+				<% end %>
+				<li><%= link_to '<i class="icon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
+				<li><%= link_to '<i class="icon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
+			</ul>
+		</li>
+		<% else %>
+		<li><%= link_to("<i class='icon-user icon-white'></i> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
+		<% end %>
+	</ul>
+
 </div>
 
 <div id="myModal" class="modal hide fade">

@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/intridea/bootstrap-sass.git
+  revision: 368bd4bccf49efa5caac493cd16e29bedbbf545a
+  branch: 3.0.0-wip
+  specs:
+    bootstrap-sass (2.3.1.0)
+      sass (~> 3.2)
+
+GIT
   remote: git://github.com/rubycas/rubycas-client-rails.git
   revision: b97de6edc7871bc43ca1c9572f4d9188a210b341
   specs:
@@ -37,8 +45,6 @@ GEM
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     arel (3.0.2)
-    bootstrap-sass (2.3.2.1)
-      sass (~> 3.2)
     builder (3.0.4)
     coderay (1.0.9)
     coffee-rails (3.2.2)
@@ -129,7 +135,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass
+  bootstrap-sass!
   coderay
   coffee-rails (~> 3.2.1)
   dropbox-sdk
