@@ -23,18 +23,20 @@ body
 .navbar
 {
 	border-bottom:1px solid #dddddd;
-	background-color:#FEE024;
+	background-color: #FED718;
 }
 
 .navbar .navbar-brand
 {
-	color: #13A1FE;
-	height:50px	;
+	color:#4EA1F5;
 }
 
-.navbar-brand .glyphicon-home, .navbar .glyphicon-user
+.navbar .glyphicon
 {
 	font-size:12px;
+	display:inline-block;
+	margin-bottom:-4px;
+	vertical-align:center;
 }
 
 .tabbable

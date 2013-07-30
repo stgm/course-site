@@ -1,6 +1,6 @@
 <div class="navbar navbar-fixed-top">
 
-	<a href="/" class="navbar-brand"><i class="glyphicon glyphicon-home"></i> <%= Course.course['short'] %></a>
+	<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Course.course['short'] %></a>
 
 	<ul class="nav navbar-nav">
 		<% for section in Section.all %>
@@ -22,7 +22,7 @@
 		<li class="divider-vertical"></li>
 		<li class="dropdown">
 
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <%= @user.name || @user.uvanetid %></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= @user.name || @user.uvanetid %></a>
 			<ul class="dropdown-menu" style="min-width:200px;">
 				<% if is_admin? %>
 				<li><a data-target="#myModal" data-toggle="modal"><i class="glyphicon glyphicon-refresh"></i> Update courseware...</a></li>
@@ -36,7 +36,7 @@
 			</ul>
 		</li>
 		<% else %>
-		<li><%= link_to("<i class='glyphicon glyphicon-user'></i> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
+		<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
 		<% end %>
 	</ul>
 
