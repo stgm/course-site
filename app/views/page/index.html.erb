@@ -17,20 +17,21 @@
 		
 		<div class="tabbable">
 
-			<% if @page.pset or @page.subpages.count > 1 %>
+			<div class="page-header">
 				<h1><%= title %></h1>
-			
-				<ul class="nav nav-pills">
-					<% @page.subpages.each_with_index do |subpage, index| %>
-					<li class="<%= 'active' if index == 0 %>">
-						<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
-					</li>
-					<% end %>
-					<% if @page.pset %>
-					<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
-					<% end %>
-				</ul>
-			<% end %>
+				<% if @page.pset or @page.subpages.count > 1 %>
+					<ul class="nav nav-pills">
+						<% @page.subpages.each_with_index do |subpage, index| %>
+						<li class="<%= 'active' if index == 0 %>">
+							<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
+						</li>
+						<% end %>
+						<% if @page.pset %>
+						<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
+						<% end %>
+					</ul>
+				<% end %>
+			</div>
 
 			<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
 				<%= hidden_field_tag :page_id, @page.id %>
