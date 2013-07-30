@@ -39,6 +39,21 @@ body
 	vertical-align:center;
 }
 
+.navbar .dropdown.open .dropdown-toggle
+{
+	background-color:#BF960C;
+}
+
+.dropdown-menu
+{
+	margin-top:2px;
+}
+
+.dropdown-menu > li > a
+{
+	line-height:1.7;
+}
+
 .tabbable
 {
 	max-width:768px;
