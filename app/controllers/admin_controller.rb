@@ -7,7 +7,8 @@ class AdminController < ApplicationController
 
 	def import_do
 		Course.reload
-		render :text => "Loaded!"
+		redirect_to :back
+		# render :text => "Loaded!"
 	end
 	
 	def users
