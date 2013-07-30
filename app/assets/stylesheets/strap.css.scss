@@ -1,4 +1,3 @@
-/* this is bootstrap without the form styles */
 @import "bootstrap";
 
 body
@@ -18,20 +17,24 @@ body
 body
 {
 	/* to make the container go all the way to the bottom of the topbar */
-	padding:40px 0 0 0 ! important;
+	padding:40px 0 0 0;
 }
 
 .navbar
 {
 	border-bottom:1px solid #dddddd;
+	background-color:#FEE024;
 }
 
 .navbar .navbar-brand
 {
-	color: #59ceff;
-	text-shadow: 0px 2px 0px red;
-	font-family: "Helvetica Neue", "Arial", sans-serif;
-	font-weight: bold;
+	color: #13A1FE;
+	height:50px	;
+}
+
+.navbar-brand .glyphicon-home, .navbar .glyphicon-user
+{
+	font-size:12px;
 }
 
 .tabbable

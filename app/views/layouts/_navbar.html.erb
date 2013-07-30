@@ -1,10 +1,6 @@
 <div class="navbar navbar-fixed-top">
 
-	<ul class="nav navbar-nav">
-		<li class="dropdown"><a href="/"><i class="icon-home icon-white"></i></a></li>
-	</ul>
-
-	<a href="/" class="navbar-brand"><%= Course.course['short'] %></a>
+	<a href="/" class="navbar-brand"><i class="glyphicon glyphicon-home"></i> <%= Course.course['short'] %></a>
 
 	<ul class="nav navbar-nav">
 		<% for section in Section.all %>
@@ -31,16 +27,16 @@
 				<% if is_admin? %>
 				<li><a href="#myModal" data-toggle="modal" data-backdrop="static"><i class="icon-refresh"></i> Update courseware...</a></li>
 				<li class="divider"></li>
-				<li><%= link_to '<i class="icon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
-				<li><%= link_to '<i class="icon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
+				<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
+				<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
 				<li class="divider"></li>
 				<% end %>
-				<li><%= link_to '<i class="icon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
-				<li><%= link_to '<i class="icon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
+				<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
+				<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
 			</ul>
 		</li>
 		<% else %>
-		<li><%= link_to("<i class='icon-user icon-white'></i> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
+		<li><%= link_to("<i class='glyphicon glyphicon-user'></i> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
 		<% end %>
 	</ul>
 

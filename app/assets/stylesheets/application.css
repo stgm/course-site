@@ -10,5 +10,6 @@
  *
  *= require_self
  *= require 'strap'
+ *= require 'bootstrap-glyphicons'
  *= require 'tweaks'
  */
