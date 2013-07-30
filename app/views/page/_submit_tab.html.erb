@@ -1,5 +1,5 @@
 <% if @submitted %>
-<div class="alert alert-success" style="margin:-2em; margin-bottom:2em; border:0; border-radius:0;">
+<div class="alert alert-success" style="border:0; border-radius:0;">
 	You have submitted this problem set <%= time_ago_in_words(@page.pset.submit_from(@user).submitted_at) %> ago.
 </div>
 <% end %>
