@@ -4,7 +4,7 @@
 		<h1>Users</h1>
 	</header>
 
-	<ul class="nav nav-tabs">
+	<ul class="nav nav-pills">
 		<% Group.all.each_with_index do |group,i| %>
 		<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group.name %> (<%= group.users.count %>)</a></li>
 		<% end %>
