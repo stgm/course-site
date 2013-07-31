@@ -1,73 +1,69 @@
-<div class="container-fluid wide">
-	<div class="row-fluid">
+<div id="content" class="container">
 
-		<div class="tabbable">
-			<ul class="nav nav-tabs">
-				<% Group.all.each_with_index do |group,i| %>
-				<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group.name %> (<%= group.users.count %>)</a></li>
-				<% end %>
-				<li <%= 'class="active"'.html_safe if Group.count == 0 %>><a href="#other" data-toggle="tab">Other (<%= @groupless.count %>)</a></li>
-				<li><a href="#import" data-toggle="tab">Import</a></li>
-			</ul>
+	<ul class="nav nav-tabs">
+		<% Group.all.each_with_index do |group,i| %>
+		<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group.name %> (<%= group.users.count %>)</a></li>
+		<% end %>
+		<li <%= 'class="active"'.html_safe if Group.count == 0 %>><a href="#other" data-toggle="tab">Other (<%= @groupless.count %>)</a></li>
+		<li><a href="#import" data-toggle="tab">Import</a></li>
+	</ul>
 
-			<div class="tab-content">
-				<% Group.all.each_with_index do |group,i| %>
-				<section class="tab-pane markdown <%= 'active' if i==0 %>" id="group<%= i %>">
-					<table class="table table-bordered table-condensed">
-						<tr>
-							<th>Name</th><th>ID</th>
-							<% @psets.each do |pset| %>
-							<th><%= pset.name %></th>
-							<% end %>
-						</tr>
-						<% group.users.each do |user| %>
-						<tr>
-							<% if user.mail %>
-							<td><%= link_to user.name, 'mailto:'+user.mail %></td>
-							<% else %>
-							<td><%= user.name %></td>
-							<% end %>
-							<td><%= user.uvanetid %></td>
-							<% @psets.each do |pset| %>
-							<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
-							<% end %>
-						</tr>
-						<% end %>
-					</table>
-				</section>
-				<% end %>
-				<section class="tab-pane markdown <%= 'active' if Group.count == 0 %>" id="other">
-					<table class="table table-bordered table-condensed">
-						<tr>
-							<th>Name</th><th>ID</th>
-							<% @psets.each do |pset| %>
-							<th><%= pset.name %></th>
-							<% end %>
-						</tr>
-						<% @groupless.each do |user| %>
-						<tr>
-							<% if user.mail %>
-							<td><%= link_to user.name, 'mailto:'+user.mail %></td>
-							<% else %>
-							<td><%= user.name %></td>
-							<% end %>
-							<td><%= user.uvanetid %></td>
-							<% @psets.each do |pset| %>
-							<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
-							<% end %>
-						</tr>
-						<% end %>
-					</table>
-				</section>
-				<section class="tab-pane markdown" id="import">
-					<p>Paste all data lines from a .xls datanose user export.</p>
-					<%= form_tag '/admin/import_groups', :method => :post do %>
-					<textarea name="paste"></textarea>
-					<p><input type="submit" class="btn"></p>
+	<div class="tab-content">
+		<% Group.all.each_with_index do |group,i| %>
+		<section class="tab-pane markdown <%= 'active' if i==0 %>" id="group<%= i %>">
+			<table class="table table-bordered table-condensed">
+				<tr>
+					<th>Name</th><th>ID</th>
+					<% @psets.each do |pset| %>
+					<th><%= pset.name %></th>
 					<% end %>
-				</section>
-			</div>
-		</div>
-
+				</tr>
+				<% group.users.each do |user| %>
+				<tr>
+					<% if user.mail %>
+					<td><%= link_to user.name, 'mailto:'+user.mail %></td>
+					<% else %>
+					<td><%= user.name %></td>
+					<% end %>
+					<td><%= user.uvanetid %></td>
+					<% @psets.each do |pset| %>
+					<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
+					<% end %>
+				</tr>
+				<% end %>
+			</table>
+		</section>
+		<% end %>
+		<section class="tab-pane markdown <%= 'active' if Group.count == 0 %>" id="other">
+			<table class="table table-bordered table-condensed">
+				<tr>
+					<th>Name</th><th>ID</th>
+					<% @psets.each do |pset| %>
+					<th><%= pset.name %></th>
+					<% end %>
+				</tr>
+				<% @groupless.each do |user| %>
+				<tr>
+					<% if user.mail %>
+					<td><%= link_to user.name, 'mailto:'+user.mail %></td>
+					<% else %>
+					<td><%= user.name %></td>
+					<% end %>
+					<td><%= user.uvanetid %></td>
+					<% @psets.each do |pset| %>
+					<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
+					<% end %>
+				</tr>
+				<% end %>
+			</table>
+		</section>
+		<section class="tab-pane markdown" id="import">
+			<p>Paste all data lines from a .xls datanose user export.</p>
+			<%= form_tag '/admin/import_groups', :method => :post do %>
+			<textarea name="paste"></textarea>
+			<p><input type="submit" class="btn"></p>
+			<% end %>
+		</section>
 	</div>
+
 </div>
