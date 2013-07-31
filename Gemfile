@@ -54,7 +54,7 @@ gem 'rubycas-client-rails', :git => 'git://github.com/rubycas/rubycas-client-rai
 # gem 'bootstrap-sass'
 
 gem 'sass-rails',   '~> 3.2.3'
-gem 'bootstrap-sass', :git => 'git://github.com/intridea/bootstrap-sass.git', :branch => '3.0.0-wip'
+gem 'bootstrap-sass', :git => 'git://github.com/intridea/bootstrap-sass.git', :branch => '3'
 
 # git integration
 gem 'git'

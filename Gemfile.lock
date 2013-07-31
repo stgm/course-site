@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/intridea/bootstrap-sass.git
-  revision: 368bd4bccf49efa5caac493cd16e29bedbbf545a
-  branch: 3.0.0-wip
+  revision: 711068f12c3b193c5a29be5a40236a11eac0d0bb
+  branch: 3
   specs:
-    bootstrap-sass (2.3.1.0)
+    bootstrap-sass (3.0.0.0)
       sass (~> 3.2)
 
 GIT
