@@ -14,7 +14,7 @@
 	</div>
 	<% end %>
 	
-	<div class="page-header">
+	<header class="page-header">
 		<h1><%= title %></h1>
 		<% if @page.pset or @page.subpages.count > 1 %>
 			<ul class="nav nav-pills">
@@ -28,7 +28,7 @@
 				<% end %>
 			</ul>
 		<% end %>
-	</div>
+	</header>
 
 	<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
 		<%= hidden_field_tag :page_id, @page.id %>
