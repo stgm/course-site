@@ -184,6 +184,11 @@ section blockquote p
 	margin: inherit;
 }
 
+section img
+{
+	max-width:100%;
+}
+
 section p img.inline
 {
 	float:right;
