@@ -43,7 +43,7 @@
 
 <% end %>
 
-<% if not logged_in? %>
+<% if logged_in? %>
 
 <p>Notes: <%= text_area_tag 'notes', nil, class:'form-control' %></p>
 
