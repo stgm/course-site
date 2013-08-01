@@ -2,6 +2,25 @@ class Course
 
 	COURSE_DIR = "public/course"
 	@@settings = nil
+	
+	def self.reset
+		# remove all previous content
+		# TODO this is not too efficient but quite hard to prevent
+		Section.delete_all
+		Page.delete_all
+		Subpage.delete_all
+		PsetFile.delete_all
+		Pset.delete_all
+
+		User.where("uvanetid not in (?)", Settings['admins']).delete_all
+		Group.delete_all
+		Answer.delete_all
+		Submit.delete_all
+
+		# add course info pages and all sections, recursively
+		process_info(COURSE_DIR)
+		process_sections(COURSE_DIR)
+	end
 
 	##
 	# Re-read the course contents from the git repository.
@@ -23,18 +42,11 @@ class Course
 		# - Answer
 		# - Submit
 
-		# not implemented yet, so no cleaning needed (YAGNI violation)
-		# Progress.delete_all
-		# Category.delete_all
-		# Item.delete_all
-		# Comment.delete_all
-		# CommentThread.delete_all
-		
 		# add course info pages and all sections, recursively
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
 	end
-	
+		
 	##
 	# This class doubles as a settings class, you can call Course.* to read.
 	# The settings are read from course.yml in the course repository.
