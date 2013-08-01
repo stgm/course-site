@@ -40,7 +40,7 @@ class UploadController < ApplicationController
 			pset = Page.find(params[:page_id]).pset
 
 			# upload to dropbox
-			dropbox.submit(current_user.uvanetid, current_user.name, Course.course['short'], pset.name, params[:notes], form_text, params[:f])
+			dropbox.submit(current_user.uvanetid, current_user.name, Course.course['submit'], pset.name, params[:notes], form_text, params[:f])
 
 			# create submit record
 			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
