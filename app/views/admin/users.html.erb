@@ -30,7 +30,7 @@
 					<% end %>
 					<td><%= user.uvanetid %></td>
 					<% @psets.each do |pset| %>
-					<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
+					<td><%= '<span class="glyphicon glyphicon-thumbs-up"></span>'.html_safe if user.submit(pset) %></td>
 					<% end %>
 				</tr>
 				<% end %>
@@ -54,7 +54,7 @@
 					<% end %>
 					<td><%= user.uvanetid %></td>
 					<% @psets.each do |pset| %>
-					<td><%= '<i class="icon-thumbs-up"></i>'.html_safe if user.submit(pset) %></td>
+					<td><%= '<span class="glyphicon glyphicon-thumbs-up"></span>'.html_safe if user.submit(pset) %></td>
 					<% end %>
 				</tr>
 				<% end %>

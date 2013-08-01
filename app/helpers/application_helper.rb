@@ -2,7 +2,7 @@ module ApplicationHelper
 
 	def page_done_icon(user, pset)
 		if user && pset && Submit.where(:user_id => user.id, :pset_id => pset.id).count > 0
-			" <i class='icon-thumbs-up'></i>".html_safe
+			" <span class='glyphicon glyphicon-thumbs-up'></span>".html_safe
 		else
 			""
 		end
