@@ -31,7 +31,6 @@ class PageController < ApplicationController
 				end
 			end
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
-			logger.debug @submitted.inspect
 		end
 	end
 	

@@ -1,4 +1,4 @@
-<div id="content">
+<div id="content" class="admin">
 
 	<header class="page-header">
 		<h1>Users</h1>
@@ -13,7 +13,7 @@
 
 	<div class="tab-content">
 		<% Group.all.each_with_index do |group,i| %>
-		<section class="tab-pane markdown <%= 'active' if i==0 %>" id="group<%= i %>">
+		<section class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
 			<table class="table table-bordered table-condensed">
 				<tr>
 					<th>Name</th><th>ID</th>
@@ -37,7 +37,7 @@
 			</table>
 		</section>
 		<% end %>
-		<section class="tab-pane markdown <%= 'active' if Group.count == 0 %>" id="other">
+		<section class="tab-pane <%= 'active' if Group.count == 0 %>" id="other">
 			<table class="table table-bordered table-condensed">
 				<tr>
 					<th>Name</th><th>ID</th>
@@ -60,7 +60,7 @@
 				<% end %>
 			</table>
 		</section>
-		<section class="tab-pane markdown" id="import">
+		<section class="tab-pane" id="import">
 			<p>Paste all data lines from a .xls datanose user export.</p>
 			<%= form_tag '/admin/import_groups', :method => :post do %>
 			<textarea name="paste" class="form-control"></textarea>

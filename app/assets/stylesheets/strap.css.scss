@@ -72,6 +72,11 @@ body
 	border-right:1px solid #ddd;
 }
 
+#content.admin
+{
+	max-width:none;
+}
+
 #content .nav
 {
 	margin-bottom:0;
@@ -86,6 +91,11 @@ header .nav > li > a
  *  content sections
  *
  */
+
+form .btn
+{
+	margin-top:0.5em;
+}
 
 section
 {
