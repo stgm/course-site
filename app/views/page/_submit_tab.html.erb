@@ -43,9 +43,9 @@
 
 <% end %>
 
-<% if logged_in? %>
+<% if not logged_in? %>
 
-<p>Notes: <%= text_area_tag 'notes', class:'form-control' %></p>
+<p>Notes: <%= text_area_tag 'notes', nil, class:'form-control' %></p>
 
 <p><%= submit_tag 'Submit for grading', class:'btn btn-warning' %></p>
 
