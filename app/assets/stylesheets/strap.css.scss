@@ -71,6 +71,7 @@ body
 	padding:2em 4em;
 	border-left:1px solid #ddd;
 	border-right:1px solid #ddd;
+	border-bottom:1px solid #ddd;
 }
 
 #content.wide
@@ -226,7 +227,9 @@ section .video-js
 {
 	background-color:black;
 	height:480px !important; /* overrides html width + height */
-	width:100% !important;
+	width:auto !important;
+	margin-left:-56px;
+	margin-right:-56px;
 }
 
 section table
