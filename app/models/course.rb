@@ -4,20 +4,20 @@ class Course
 	@@settings = nil
 	
 	def self.reset
-		# remove all previous content
-		# TODO this is not too efficient but quite hard to prevent
+		puts "Deleting any previous content..."
 		Section.delete_all
 		Page.delete_all
 		Subpage.delete_all
 		PsetFile.delete_all
 		Pset.delete_all
 
+		puts "Deleting any user settings..."
 		User.where("uvanetid not in (?)", Settings['admins']).delete_all
 		Group.delete_all
 		Answer.delete_all
 		Submit.delete_all
-
-		# add course info pages and all sections, recursively
+		
+		puts "Reloading all information..."
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
 	end
