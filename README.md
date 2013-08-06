@@ -39,12 +39,26 @@ On the source format
   have the page loaded will break their submit experience. Do not update the
   course mid-session for now.)
 
+* Add a content delivery network server by adding a link to it in `course.yml`:
+
+		cdn: http://cdn.mprog.nl/data-science
+
+
 Formatting your pages
 ----------------------
 
 * All pages are to be formatted with [Markdown] and the [Kramdown] extensions.
+
 * You can use [AsciiMath] if enclosed within pairs of dollar signs ($$). Check
   the [AsciiMath syntax].
+
+* Add a table of contents to a page using for example:
+
+		* Table of Contents
+		{:toc}
+
+  This bullet is then replaced with a full table of contents of level 1 and 2
+  headings.
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [Kramdown]: http://kramdown.rubyforge.org/syntax.html
@@ -62,10 +76,7 @@ TODO
 
 ### Configuration
 
-* Do not depend on dropbox config being present at start.
 * Add a setting for the dropbox upload folder to be used.
-* Remove `security` section from course.yml, should be decoupled and
-  configurable in site.
 
 ### Course updates
 
