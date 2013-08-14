@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
 
 	protect_from_forgery
+
 	before_filter :require_users
+	before_filter :load_navigation
+
 	helper_method :logged_in?, :is_admin?
 	
 	def logged_in?
@@ -25,6 +28,10 @@ class ApplicationController < ActionController::Base
 		unless Settings['admins'] && Settings['admins'].size > 0 # if no admin is defined
 			redirect_to admin_claim_url
 		end
+	end
+	
+	def load_navigation
+		@sections = Section.includes(pages: :pset).all
 	end
 	
 end

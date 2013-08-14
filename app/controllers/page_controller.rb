@@ -1,6 +1,6 @@
 class PageController < ApplicationController
 	
-	before_filter RubyCAS::GatewayFilter
+	prepend_before_filter RubyCAS::GatewayFilter
 	before_filter :redirect_to_profile
 	
 	def homepage

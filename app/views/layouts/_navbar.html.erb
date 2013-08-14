@@ -3,12 +3,12 @@
 	<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Course.course['short'] %></a>
 
 	<ul class="nav navbar-nav">
-		<% for section in Section.all %>
+		<% for section in @sections %>
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <span class="caret"></span></a>
 			<ul class="dropdown-menu" role="menu">
 				<% for page in section.pages %>
-				<li><%= link_to (page.title + page_done_icon(@user, page.pset)).html_safe, "/#{section.slug}/#{page.slug}" %></li>
+				<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}" %></li>
 				<% end %>
 			</ul>
 			<% end %>
