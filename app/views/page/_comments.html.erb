@@ -1,0 +1,40 @@
+<div id="comments">
+	<div class="list-group new-question">
+		<div class="list-group-item">
+			<%= form_tag("/comment/post_question", method: :post) do %>
+			<%= hidden_field_tag :page_id, @page.id %>
+			<textarea class="form-control" name="comment" placeholder="Ask a question"></textarea>
+			<input type="submit" class="btn-small btn-default btn" value="Post">
+			<% end %>
+		</div>
+	</div>
+
+	<% @comments.each do |thread| %>
+	<div class="list-group question">
+		<% if thread.comments.first %>
+		<div class="list-group-item">
+			<% if is_admin? %>
+			<%= link_to "&times;".html_safe, comment_delete_question_url(thread_id: thread.id), method: :post, class: 'close' %>
+			<% end %>
+			<h4 class="list-group-item-heading"><%= thread.comments.first.content.split('.')[0] %></h4>
+			<p class="list-group-item-text"><strong><%= thread.comments.first.user.name %></strong><%= thread.comments.first.content.split('.').drop(1).join('.') %> <small></small></p>
+		</div>
+		<% end %>
+		<% thread.comments.drop(1).each do |comment| %>
+		<div class="list-group-item">
+			<% if is_admin? %>
+			<%= link_to "&times;".html_safe, comment_delete_answer_url(comment_id: comment.id), method: :post, class: 'close' %>
+			<% end %>
+			<p class="list-group-item-text"><strong><%= comment.user.name %></strong> <%= comment.content %></p>
+		</div>
+		<% end %>
+		<div href="#" class="list-group-item">
+			<%= form_tag("/comment/post_answer", method: 'post') do %>
+			<%= hidden_field_tag :thread_id, thread.id %>
+			<textarea class="form-control" name="comment" placeholder="Write a comment"></textarea>
+			<input type="submit" class="btn-small btn-default btn" value="Post">
+			<% end %>
+		</div>
+	</div>
+	<% end %>
+</div>

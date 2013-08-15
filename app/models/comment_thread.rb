@@ -1,3 +1,4 @@
 class CommentThread < ActiveRecord::Base
-  attr_accessible :page, :title
+	has_many :comments
+	attr_accessible :page_id, :title
 end

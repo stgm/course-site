@@ -1,53 +1,65 @@
-<div id="content" class="container">
-
-	<% if flash[:error] %>
-	<div class="alert alert-error">
-	  <button type="button" class="close" data-dismiss="alert">&times;</button>
-	  <%= flash[:error] %>
-	</div>
-	<% end %>
-
-	<% if flash[:notice] %>
-	<div class="alert alert-success">
-	  <button type="button" class="close" data-dismiss="alert">&times;</button>
-	  <%= flash[:notice] %>
-	</div>
-	<% end %>
+<div class="row">
+	<div class="col-lg-9">
+		<div id="content">
 	
-	<header class="page-header">
-		<h1><%= title %></h1>
-		<% if @page.pset or @page.subpages.count > 1 %>
-			<ul class="nav nav-pills">
-				<% @page.subpages.each_with_index do |subpage, index| %>
-				<li class="<%= 'active' if index == 0 %>">
-					<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
-				</li>
-				<% end %>
-				<% if @page.pset %>
-				<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
-				<% end %>
-			</ul>
-		<% end %>
-	</header>
-
-	<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
-		<%= hidden_field_tag :page_id, @page.id %>
-		<div class="tab-content">
-
-			<% @page.subpages.each_with_index do |subpage, index| %>
-			<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
-				<%= markdown(subpage.content, @page) %>
-			</section>
+			<% if flash[:error] %>
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<%= flash[:error] %>
+			</div>
 			<% end %>
 
-			<% if @page.pset %>
-			<section class="tab-pane markdown" id="submit">
-				<%= render 'submit_tab' %>
-			</section>
+			<% if flash[:notice] %>
+			<div class="alert alert-success">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<%= flash[:notice] %>
+			</div>
+			<% end %>
+	
+			<header class="page-header">
+				<h1><%= title %></h1>
+				<% if @page.pset or @page.subpages.count > 1 %>
+				<ul class="nav nav-pills">
+					<% @page.subpages.each_with_index do |subpage, index| %>
+					<li class="<%= 'active' if index == 0 %>">
+						<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
+					</li>
+					<% end %>
+					<% if @page.pset %>
+					<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
+					<% end %>
+				</ul>
+				<% end %>
+			</header>
+
+
+			<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
+			<%= hidden_field_tag :page_id, @page.id %>
+			<div class="tab-content">
+
+				<% @page.subpages.each_with_index do |subpage, index| %>
+				<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
+					<%= markdown(subpage.content, @page) %>
+				</section>
+				<% end %>
+
+				<% if @page.pset %>
+				<section class="tab-pane markdown" id="submit">
+					<%= render 'submit_tab' %>
+				</section>
+				<% end %>
+			</div>
 			<% end %>
 		</div>
+	</div>
+
+	<% if logged_in? %>
+	<div class="col-lg-3">
+		<%= render 'comments' %>
+	</div>
 	<% end %>
 
 </div>
 
-<%= render 'auto_save_form' %>
+
+<%= render 'auto_save_form' if @has_form %>

@@ -19,8 +19,15 @@ CourseSite::Application.routes.draw do
 	post "admin/import_groups"
 	get  "dropbox/link"
 
+	# commenting
+	post "comment/post_question"
+	post "comment/post_answer"
+	post "comment/delete_question"
+	post "comment/delete_answer"
+
 	resources :answers
 	post "upload/submit"
 	match ":section/:page" => "page#index"
+	
 
 end

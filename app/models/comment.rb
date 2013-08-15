@@ -1,3 +1,4 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :comment_thread, :content, :orig_content, :user
+	belongs_to :user
+	attr_accessible :comment_thread_id, :content, :orig_content, :user_id
 end

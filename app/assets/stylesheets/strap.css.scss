@@ -16,12 +16,13 @@ body
 
 body
 {
-	padding-top:50px; /* navbar correction */
+//	padding-top:50px; /* navbar correction */
 }
 
 .navbar
 {
 	background-color: #385729;
+	margin-bottom:0px;
 }
 
 .navbar .navbar-brand
@@ -65,13 +66,15 @@ body
 
 #content
 {
-	max-width:768px;
 	margin: 0em auto;
 	background-color: #fff;
 	padding:2em 4em;
 	border-left:1px solid #ddd;
 	border-right:1px solid #ddd;
 	border-bottom:1px solid #ddd;
+	border:none;
+	box-shadow:0.15em 0.5em 1em #999;
+//	border-right:1px solid #BDBDBD;
 }
 
 #content.wide
@@ -87,6 +90,11 @@ body
 header .nav > li > a
 {
 	padding:5px 10px;
+}
+
+.row
+{
+	margin:0;
 }
 
 /****************************************************************************
@@ -229,8 +237,6 @@ section .video-js
 	background-color:black;
 	height:480px !important; /* overrides html width + height */
 	width:auto !important;
-	margin-left:-56px;
-	margin-right:-56px;
 }
 
 section table
@@ -256,6 +262,70 @@ section table.table-padded td, table.table-padded th
 section table.table-padded tr:last-child td
 {
 	padding-bottom:1em;
+}
+
+/****************************************************************************
+ *  commenting
+ *
+ */
+
+#comments
+{
+	margin-top:40px; /* like page-header */
+	font-size:9pt;
+	border:0;
+	color:#818181;
+}
+
+#comments .list-group
+{
+}
+
+#comments .list-group-item
+{
+	padding-left:0;
+	background-color:transparent;
+	border:0;
+	border-radius:0;
+}
+
+#comments .list-group-item:last-child
+{
+}
+
+#comments textarea
+{
+	border-top-left-radius:0;
+	border-top-right-radius:0;
+	border-bottom-left-radius:0;
+	border-bottom-right-radius:0;
+}
+
+#comments .btn
+{
+	border-top-left-radius:0;
+	border-top-right-radius:0;
+	border-bottom-left-radius:0;
+	border-bottom-right-radius:0;
+	width:100%;
+	margin-top:0
+}
+
+#comments .list-group.question
+{
+	padding-top:20px;
+	border-top:1px solid #C5C5C5;
+	
+}
+
+#comments .new-question .btn
+{
+}
+
+#comments .new-question textarea
+{
+	border-top-left-radius:0;
+	border-top-right-radius:0;
 }
 
 /****************************************************************************
@@ -288,7 +358,7 @@ footer small
 		background-color:transparent ! important;
 	}
 
-	.navbar, footer, ul.nav, #content > h1
+	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe
 	{
 		display:none;
 	}
@@ -298,6 +368,7 @@ footer small
 		border:none;
 		font-size:10pt;
 		display:block;
+		font-size:8pt;
 	}
 	
 	.tab-content > .tab-pane, .pill-content > .pill-pane /* show all tabs */
@@ -305,7 +376,7 @@ footer small
 		display:block;
 	}
 	
-	.tab-content > #submit /* except submit tab */
+	.tab-content > #submit, #comments /* except submit tab */
 	{
 		display:none;
 	}
@@ -319,5 +390,13 @@ footer small
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
+	}
+	
+	@page  
+	{ 
+	    size: auto;   /* auto is the initial value */ 
+
+	    /* this affects the margin in the printer settings */ 
+	    margin: 20mm 40mm 20mm 0mm;  
 	}
 }
