@@ -7,6 +7,7 @@ body
 	line-height: 20px;
 	color: #333333;
 	background-color: #eee;
+	background-color:white;
 }
 
 /****************************************************************************
@@ -73,8 +74,7 @@ body
 	border-right:1px solid #ddd;
 	border-bottom:1px solid #ddd;
 	border:none;
-	box-shadow:0.15em 0.5em 1em #999;
-//	border-right:1px solid #BDBDBD;
+	box-shadow:1em 0.5em 2em #999;
 }
 
 #content.wide
@@ -95,6 +95,11 @@ header .nav > li > a
 .row
 {
 	margin:0;
+}
+
+#content .row
+{
+	margin:1em 0;
 }
 
 /****************************************************************************
@@ -274,7 +279,7 @@ section table.table-padded tr:last-child td
 	margin-top:40px; /* like page-header */
 	font-size:9pt;
 	border:0;
-	color:#818181;
+	color:#686868;
 }
 
 #comments .list-group
@@ -287,18 +292,25 @@ section table.table-padded tr:last-child td
 	background-color:transparent;
 	border:0;
 	border-radius:0;
+	padding-top:0;
+	padding-bottom:0;
 }
 
-#comments .list-group-item:last-child
+#comments .list-group-item.reply
 {
+	margin-left:2em;
 }
 
 #comments textarea
 {
+	border:1px solid #D2D2D2;
+	margin:0.5em 0;
 	border-top-left-radius:0;
 	border-top-right-radius:0;
 	border-bottom-left-radius:0;
 	border-bottom-right-radius:0;
+	background-color:transparent;
+	font-size:inherit;
 }
 
 #comments .btn
@@ -307,14 +319,14 @@ section table.table-padded tr:last-child td
 	border-top-right-radius:0;
 	border-bottom-left-radius:0;
 	border-bottom-right-radius:0;
-	width:100%;
+//	width:100%;
 	margin-top:0
 }
 
 #comments .list-group.question
 {
 	padding-top:20px;
-	border-top:1px solid #C5C5C5;
+//	border-top:1px solid #C5C5C5;
 	
 }
 
@@ -324,6 +336,7 @@ section table.table-padded tr:last-child td
 
 #comments .new-question textarea
 {
+	border:1px solid #D2D2D2;
 	border-top-left-radius:0;
 	border-top-right-radius:0;
 }
