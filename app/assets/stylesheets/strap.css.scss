@@ -70,16 +70,13 @@ body
 	margin: 0em auto;
 	background-color: #fff;
 	padding:2em 4em;
-	border-left:1px solid #ddd;
-	border-right:1px solid #ddd;
-	border-bottom:1px solid #ddd;
 	border:none;
-	box-shadow:1em 0.5em 2em #999;
 }
 
 #content.wide
 {
 	max-width:none;
+	width:auto;
 }
 
 #content .nav
@@ -274,26 +271,25 @@ section table.table-padded tr:last-child td
  *
  */
 
+#comments-column
+{
+	border-left:1px solid #C7C7C7;
+}
+
 #comments
 {
-	margin-top:40px; /* like page-header */
+	margin-top:60px; /* like page-header */
 	font-size:9pt;
 	border:0;
 	color:#686868;
 }
 
-#comments .list-group
-{
-}
-
 #comments .list-group-item
 {
-	padding-left:0;
+	padding:0;
 	background-color:transparent;
 	border:0;
 	border-radius:0;
-	padding-top:0;
-	padding-bottom:0;
 }
 
 #comments .list-group-item.reply
@@ -305,40 +301,20 @@ section table.table-padded tr:last-child td
 {
 	border:1px solid #D2D2D2;
 	margin:0.5em 0;
-	border-top-left-radius:0;
-	border-top-right-radius:0;
-	border-bottom-left-radius:0;
-	border-bottom-right-radius:0;
+	border-radius:0;
 	background-color:transparent;
 	font-size:inherit;
 }
 
 #comments .btn
 {
-	border-top-left-radius:0;
-	border-top-right-radius:0;
-	border-bottom-left-radius:0;
-	border-bottom-right-radius:0;
-//	width:100%;
+	border-radius:0;
 	margin-top:0
 }
 
 #comments .list-group.question
 {
 	padding-top:20px;
-//	border-top:1px solid #C5C5C5;
-	
-}
-
-#comments .new-question .btn
-{
-}
-
-#comments .new-question textarea
-{
-	border:1px solid #D2D2D2;
-	border-top-left-radius:0;
-	border-top-right-radius:0;
 }
 
 /****************************************************************************
