@@ -271,14 +271,13 @@ section table.table-padded tr:last-child td
  *
  */
 
-#comments-column
-{
-	border-left:1px solid #C7C7C7;
-}
-
 #comments
 {
-	margin-top:60px; /* like page-header */
+	box-shadow:0em 0em 1em #999;
+	border-left:1px solid #C7C7C7;
+	padding:1em;
+	background-color:#D7F5D9;
+	margin-top:80px; /* like page-header */
 	font-size:9pt;
 	border:0;
 	color:#686868;
@@ -302,7 +301,7 @@ section table.table-padded tr:last-child td
 	border:1px solid #D2D2D2;
 	margin:0.5em 0;
 	border-radius:0;
-	background-color:transparent;
+//	background-color:transparent;
 	font-size:inherit;
 }
 
