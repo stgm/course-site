@@ -71,14 +71,7 @@ body > .row /* shouldn't be necessary according to bootstrap docs? */
 	margin: 0em auto;
 	background-color: #fff;
 	padding:2em 4em;
-	border:none;
 	border:1px solid  #D9D9D9;
-}
-
-#content.wide
-{
-	max-width:none;
-	width:auto;
 }
 
 #content .nav
@@ -385,5 +378,18 @@ footer
 
 	    /* this affects the margin in the printer settings */ 
 	    margin: 20mm 40mm 20mm 0mm;  
+	}
+}
+
+@media screen and (max-width: 991px)
+{
+	#content
+	{
+		border:0;
+	}
+	
+	.navbar-static-top
+	{
+		margin-bottom:0;
 	}
 }

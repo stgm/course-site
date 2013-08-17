@@ -1,18 +1,18 @@
-<div id="content">
+<div id="content" class="container">
 
 	<header class="page-header">
 		<h1>Dropbox</h1>
 	</header>
 
 	<p>
-	<% if @dropbox_session %>
-	Dropbox is currently connected.
-	<% else %>
-	There is no Dropbox connection.
-	<% end %>
+		<% if @dropbox_session %>
+		Dropbox is currently connected.
+		<% else %>
+		There is no Dropbox connection.
+		<% end %>
 	</p>
 	
-	<%= form_tag({ action: "dropbox" }, { class: "form-horizontal" }) do %>
+	<%= form_tag({ action: "dropbox" }) do %>
 	<div class="form-group">
 		<label class="control-label col-2" for="inputAppKey">App Key</label>
 		<div class="col-10">
@@ -27,5 +27,5 @@
 		</div>
 	</div>
 	<% end %>
-	
+
 </div>

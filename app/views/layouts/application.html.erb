@@ -34,9 +34,11 @@
 
 	<%= yield %>
 
+	<% if @page %>
 	<footer>
 		<%= Course.license.html_safe %> <a rel="tooltip" data-placement="top" title="<%= markdown(Course.acknowledgements.join("\n\n"), @page).html_safe %>">Acknowledgements.</a>
 	</footer>
+	<% end %>
 
 	<script type="text/javascript" charset="utf-8">
 		$(function()
@@ -44,7 +46,6 @@
 			$('a[rel=tooltip]').tooltip({ animation:false, html:true })
 		})
 	</script>
-
 
 </body>
 </html>
