@@ -1,9 +1,9 @@
 class HomepageController < ApplicationController
 
-	before_filter RubyCAS::Filter, :only => [ :profile ]
+	before_filter CASClient::Frameworks::Rails::Filter, :only => [ :profile ]
 	
 	def logout
-		RubyCAS::Filter.logout(self)
+		CASClient::Frameworks::Rails::Filter.logout(self)
 	end
 	
 	def profile

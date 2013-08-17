@@ -1,19 +1,3 @@
-GIT
-  remote: git://github.com/intridea/bootstrap-sass.git
-  revision: 711068f12c3b193c5a29be5a40236a11eac0d0bb
-  branch: 3
-  specs:
-    bootstrap-sass (3.0.0.0)
-      sass (~> 3.2)
-
-GIT
-  remote: git://github.com/rubycas/rubycas-client-rails.git
-  revision: b97de6edc7871bc43ca1c9572f4d9188a210b341
-  specs:
-    rubycas-client-rails (0.1.1)
-      rails (>= 3.0.0)
-      rubycas-client (~> 2.3.9.rc1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -104,7 +88,7 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    rubycas-client (2.3.10.rc1)
+    rubycas-client (2.3.9)
       activesupport
     sass (3.2.10)
     sass-rails (3.2.6)
@@ -135,7 +119,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass!
   coderay
   coffee-rails (~> 3.2.1)
   dropbox-sdk
@@ -146,7 +129,6 @@ DEPENDENCIES
   rails (= 3.2.14)
   rails-settings-cached (= 0.2.4)
   rubycas-client
-  rubycas-client-rails!
   sass-rails (~> 3.2.3)
   sqlite3
   thin

@@ -1,7 +1,7 @@
 class UploadController < ApplicationController
 	
 	# will break the submit if not logged in!
-	before_filter RubyCAS::Filter
+	before_filter CASClient::Frameworks::Rails::Filter
 	
 	def submit
 		

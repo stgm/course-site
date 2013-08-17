@@ -1,6 +1,6 @@
 class DropboxController < ApplicationController
 
-	before_filter RubyCAS::Filter
+	before_filter CASClient::Frameworks::Rails::Filter
 
 	def link
 		# Allows the admin user to link the course to dropbox.

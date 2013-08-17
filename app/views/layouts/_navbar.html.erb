@@ -46,7 +46,7 @@
 				</ul>
 			</li>
 			<% else %>
-			<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
+			<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
 			<% end %>
 		</ul>
 	</div>

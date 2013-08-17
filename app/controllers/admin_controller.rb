@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
 
-	before_filter RubyCAS::Filter
+	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin
 	skip_before_filter :require_admin, only: [ :claim ]
 	skip_before_filter :require_users, only: [ :claim ]

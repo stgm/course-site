@@ -48,13 +48,13 @@ gem "friendly_id", "~> 4.0.1"
 
 # cas
 gem 'rubycas-client'#, '2.2.1'
-gem 'rubycas-client-rails', :git => 'git://github.com/rubycas/rubycas-client-rails.git'
+# gem 'rubycas-client-rails', :git => 'git://github.com/rubycas/rubycas-client-rails.git'
 
 # bootstrap
 # gem 'bootstrap-sass'
 
 gem 'sass-rails',   '~> 3.2.3'
-gem 'bootstrap-sass', :git => 'git://github.com/intridea/bootstrap-sass.git', :branch => '3'
+# gem 'bootstrap-sass', :git => 'git://github.com/intridea/bootstrap-sass.git', :branch => '3'
 
 # git integration
 gem 'git'

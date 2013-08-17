@@ -1,6 +1,6 @@
 class CommentController < ApplicationController
 
-	before_filter RubyCAS::Filter
+	before_filter CASClient::Frameworks::Rails::Filter
 
 	def post_question
 		content = params[:comment]
