@@ -1,4 +1,4 @@
-module RubyCAS
+module CASClient::Frameworks::Rails
 	class Filter
 		def self.unauthorized!(controller, vr = nil)
 			if controller.params[:format] == "xml"
