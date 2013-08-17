@@ -340,9 +340,19 @@ footer
 		background-color:transparent ! important;
 	}
 
-	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe
+	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe, #schedule, #comments-column
 	{
 		display:none;
+	}
+
+	.tab-content > #submit /* except submit tab */
+	{
+		display:none;
+	}
+	
+	#content
+	{
+		width:auto;
 	}
 
 	#content, section
@@ -358,11 +368,6 @@ footer
 		display:block;
 	}
 	
-	.tab-content > #submit, #comments /* except submit tab */
-	{
-		display:none;
-	}
-
 	[class*="span"], .uneditable-input[class*="span"]
 	{
 		float: none;
