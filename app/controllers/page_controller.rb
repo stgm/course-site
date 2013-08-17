@@ -35,7 +35,7 @@ class PageController < ApplicationController
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
-		@comments = @page.comment_threads.includes(:comments).order(:created_at => :desc).all
+		@comments = @page.comment_threads.includes(:comments).order('created_at desc').all
 		
 	end
 	

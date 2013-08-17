@@ -1,6 +1,7 @@
 <div class="row">
-	<div class="col-lg-9">
-		<div id="content">
+	<div class="col-lg-2" id="schedule">
+	</div>
+	<div class="col-lg-8" id="content">
 	
 			<% if flash[:error] %>
 			<div class="alert alert-error">
@@ -50,11 +51,10 @@
 				<% end %>
 			</div>
 			<% end %>
-		</div>
 	</div>
 
 	<% if logged_in? %>
-	<div class="col-lg-3" id="comments-column">
+	<div class="col-lg-2" id="comments-column">
 		<%= render 'comments' %>
 	</div>
 	<% end %>

@@ -35,13 +35,13 @@
 	<%= yield %>
 
 	<footer>
-		<small><%= Course.license.html_safe %> <a rel="tooltip" data-placement="top" title="<%= Course.acknowledgements %>">Acknowledgements.</a></small>
+		<%= Course.license.html_safe %> <a rel="tooltip" data-placement="top" title="<%= markdown(Course.acknowledgements.join("\n\n"), @page).html_safe %>">Acknowledgements.</a>
 	</footer>
 
 	<script type="text/javascript" charset="utf-8">
 		$(function()
 		{
-			$('a[rel=tooltip]').tooltip({ animation:false, placement:'bottom' })
+			$('a[rel=tooltip]').tooltip({ animation:false, html:true })
 		})
 	</script>
 

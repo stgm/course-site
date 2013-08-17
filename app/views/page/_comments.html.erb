@@ -5,7 +5,7 @@
 			<%= form_tag("/comment/post_question", method: :post) do %>
 			<%= hidden_field_tag :page_id, @page.id %>
 			<textarea class="form-control" name="comment" placeholder="Type your question here"></textarea>
-			<input type="submit" class="btn-mini btn-default btn pull-right" value="Post">
+			<input type="submit" class="btn btn-xs btn-primary pull-right" value="Post">
 			<% end %>
 		</div>
 	</div>
@@ -35,7 +35,7 @@
 			<%= form_tag("/comment/post_answer", method: 'post') do %>
 			<%= hidden_field_tag :thread_id, thread.id %>
 			<textarea class="form-control" name="comment" placeholder="Write a comment"></textarea>
-			<input type="submit" class="btn-mini btn-default btn pull-right" value="Post">
+			<input type="submit" class="btn-xs btn-default btn pull-right" value="Post">
 			<% end %>
 		</div>
 	</div>

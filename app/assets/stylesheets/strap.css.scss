@@ -1,4 +1,4 @@
-@import "bootstrap";
+@import "bootstrap.min"; /* import of manual download of bootstrap 3.0 rc2 */
 
 body
 {
@@ -7,7 +7,11 @@ body
 	line-height: 20px;
 	color: #333333;
 	background-color: #eee;
-	background-color:white;
+}
+
+body > .row /* shouldn't be necessary according to bootstrap docs? */
+{
+	margin:0;
 }
 
 /****************************************************************************
@@ -15,21 +19,14 @@ body
  *
  */
 
-body
-{
-//	padding-top:50px; /* navbar correction */
-}
-
 .navbar
 {
-	background-color: #385729;
-	margin-bottom:0px;
+	background-color: #449E1F;
 }
 
 .navbar .navbar-brand
 {
 	color:#000;
-	margin-left:0;
 }
 
 .navbar .glyphicon
@@ -40,19 +37,23 @@ body
 	vertical-align:center;
 }
 
-.navbar .dropdown .dropdown-toggle
+.navbar a, .navbar-nav > li > a, .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus
 {
 	color:#FFF;
+}
+
+.navbar-nav > .open > a .caret,
+.navbar-nav > .open > a:hover .caret,
+.navbar-nav > .open > a:focus .caret,
+.navbar-nav > .dropdown > a .caret
+{
+	border-top-color: #FFF;
+	border-bottom-color: #FFF;
 }
 
 .navbar .dropdown.open .dropdown-toggle
 {
 	background-color:#8DB77A;
-}
-
-.navbar .dropdown-menu
-{
-	margin-left:-1px;
 }
 
 .navbar .dropdown-menu > li > a
@@ -71,6 +72,7 @@ body
 	background-color: #fff;
 	padding:2em 4em;
 	border:none;
+	border:1px solid  #D9D9D9;
 }
 
 #content.wide
@@ -84,19 +86,14 @@ body
 	margin-bottom:0;
 }
 
-header .nav > li > a
-{
-	padding:5px 10px;
-}
-
-.row
-{
-	margin:0;
-}
-
 #content .row
 {
 	margin:1em 0;
+}
+
+#content header .nav > li > a /* the pills below the page's H1 */
+{
+	padding:5px 10px;
 }
 
 /****************************************************************************
@@ -104,17 +101,13 @@ header .nav > li > a
  *
  */
 
-form .btn
-{
-	margin-top:1em;
-}
-
 section
 {
-	-webkit-hyphens:auto;
 	hyphens:auto;
+	-webkit-hyphens:auto;
 	-moz-hyphens:none;
-	font-family:Georgia;
+
+	font-family:Georgia, palatino, serif;
 	line-height:1.6;
 	font-size:16px;
 	margin-top:1em;
@@ -161,8 +154,7 @@ section ul, section ol
   margin: 0 0 10px 25px;
 }
 
-/* only top-level lists get this wide a margin */
-section > ul, section > ol
+section > ul, section > ol /* only top-level lists get this wide a margin */
 {
 	margin:1em 3em;
 }
@@ -172,8 +164,7 @@ section > dl
 	margin:1em 2em;
 }
 
-/* all paragraphs IN all lists get this */
-section ul p, section ol p
+section ul p, section ol p /* all paragraphs IN all lists get this */
 {
 	margin:0 0 0.5em 0;
 }
@@ -271,29 +262,43 @@ section table.table-padded tr:last-child td
  *
  */
 
+form .btn
+{
+	margin-top:1em;
+}
+
 #comments
 {
-	box-shadow:0em 0em 1em #999;
-	border-left:1px solid #C7C7C7;
-	padding:1em;
-	background-color:#D7F5D9;
-	margin-top:80px; /* like page-header */
+	opacity:0.4;
+	margin-top:2em;
 	font-size:9pt;
-	border:0;
-	color:#686868;
+	margin-left:-15px;
+}
+
+#comments:hover, #comments:active
+{
+	opacity:0.9;
+}
+
+#comments .list-group
+{
+	padding:1em;
+	background-color:white;
+	border-top:1px solid #D9D9D9;
+	border-bottom:1px solid #D9D9D9;
+	border-right:1px solid #D9D9D9;
 }
 
 #comments .list-group-item
 {
 	padding:0;
-	background-color:transparent;
 	border:0;
 	border-radius:0;
 }
 
 #comments .list-group-item.reply
 {
-	margin-left:2em;
+	padding-left:2em;
 }
 
 #comments textarea
@@ -301,19 +306,12 @@ section table.table-padded tr:last-child td
 	border:1px solid #D2D2D2;
 	margin:0.5em 0;
 	border-radius:0;
-//	background-color:transparent;
 	font-size:inherit;
 }
 
 #comments .btn
 {
-	border-radius:0;
 	margin-top:0
-}
-
-#comments .list-group.question
-{
-	padding-top:20px;
 }
 
 /****************************************************************************
@@ -326,10 +324,6 @@ footer
 	margin-top:15px;
 	margin-bottom:15px;
 	text-align: center; 
-}
-
-footer small
-{
 	font-size:smaller;
 }
 

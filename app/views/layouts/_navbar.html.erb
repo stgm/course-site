@@ -1,44 +1,54 @@
-<div class="navbar navbar-static-top">
+<nav class="navbar navbar-static-top">
 
-	<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Course.course['short'] %></a>
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Course.course['short'] %></a>
+	</div>
 
-	<ul class="nav navbar-nav">
-		<% for section in @sections %>
-		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <span class="caret"></span></a>
-			<ul class="dropdown-menu" role="menu">
-				<% for page in section.pages %>
-				<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}" %></li>
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav">
+			<% for section in @sections %>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<% for page in section.pages %>
+					<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}" %></li>
+					<% end %>
+				</ul>
 				<% end %>
-			</ul>
+			</li>
+		</ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			<% if logged_in? %>
+			<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
+
+			<li class="divider-vertical"></li>
+			<li class="dropdown">
+
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= @user.name || @user.uvanetid %></a>
+				<ul class="dropdown-menu" style="min-width:200px;">
+					<% if is_admin? %>
+					<li><%= link_to '<i class="icon-refresh"></i> Update courseware...'.html_safe, '/admin/import_do', method: :post %></li>
+					<li class="divider"></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Admins'.html_safe, :controller => 'admin', :action => 'admins' %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
+					<li class="divider"></li>
+					<% end %>
+					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
+				</ul>
+			</li>
+			<% else %>
+			<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
 			<% end %>
-		</li>
-	</ul>
+		</ul>
+	</div>
 
-	<ul class="nav navbar-nav pull-right">
-		<% if logged_in? %>
-		<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
-
-		<li class="divider-vertical"></li>
-		<li class="dropdown">
-
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= @user.name || @user.uvanetid %></a>
-			<ul class="dropdown-menu" style="min-width:200px;">
-				<% if is_admin? %>
-				<li><%= link_to '<i class="icon-refresh"></i> Update courseware...'.html_safe, '/admin/import_do', method: :post %></li>
-				<li class="divider"></li>
-				<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
-				<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Admins'.html_safe, :controller => 'admin', :action => 'admins' %></li>
-				<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
-				<li class="divider"></li>
-				<% end %>
-				<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
-				<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
-			</ul>
-		</li>
-		<% else %>
-		<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, RubyCAS::Filter.login_url(controller))%></li>
-		<% end %>
-	</ul>
-
-</div>
+</nav>
