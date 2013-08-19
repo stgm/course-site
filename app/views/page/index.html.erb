@@ -23,11 +23,13 @@
 				<ul class="nav nav-pills">
 					<% @page.subpages.each_with_index do |subpage, index| %>
 					<li class="<%= 'active' if index == 0 %>">
-						<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
+						<a href="#<%= subpage.slug %>" data-target="#<%= subpage.slug %>-content" data-toggle="tab"><%= subpage.title %></a>
 					</li>
 					<% end %>
 					<% if @page.pset %>
-					<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
+					<li>
+					  <a href="#submit" data-target="#submit-content" data-toggle="tab">Submit <%= submitted_icon %></a>
+					</li>
 					<% end %>
 				</ul>
 				<% end %>
@@ -39,13 +41,13 @@
 			<div class="tab-content">
 
 				<% @page.subpages.each_with_index do |subpage, index| %>
-				<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
+				<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>-content">
 					<%= markdown(subpage.content, @page) %>
 				</section>
 				<% end %>
 
 				<% if @page.pset %>
-				<section class="tab-pane markdown" id="submit">
+				<section class="tab-pane markdown" id="submit-content">
 					<%= render 'submit_tab' %>
 				</section>
 				<% end %>
