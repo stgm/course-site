@@ -12,6 +12,7 @@
 				}
 			})
 		};
+		
 		$("input[type=text],textarea[name!='notes']").change(function()
 		{
 			$("#loading").show();
@@ -23,11 +24,10 @@
 	</script>
 <% else %>
 	<script>
-			$("input[type=text],textarea[name!='notes']").change(
-			function()
-			{
-				alert('Warning! You are not logged in. Your answers will not be saved.');
-			}
-		)
+	$("input[type=text],textarea[name!='notes']").prop('disabled', true);
+	$("input[type=text],textarea[name!='notes']").click(function()
+	{
+		alert('Warning! You are not logged in. Your answers will not be saved.');
+	})
 	</script>
 <% end %>

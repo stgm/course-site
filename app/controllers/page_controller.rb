@@ -36,6 +36,7 @@ class PageController < ApplicationController
 		end
 		
 		@comments = @page.comment_threads.includes(:comments).order('created_at desc').all
+		@has_form = @page.pset && @page.pset.form
 		
 	end
 	

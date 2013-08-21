@@ -25,5 +25,13 @@ module ApplicationHelper
 	def title()
 		(@page && @page.title) || @title
 	end
+	
+	def form_tag_if(condition, url_for_options = {}, options = {}, &block)
+		if condition
+			form_tag(url_for_options, options, &block)
+		else
+			capture(&block)
+		end			
+	end
 
 end

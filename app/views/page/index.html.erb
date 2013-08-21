@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-2" id="schedule">
+	<div class="col-md-2" id="schedule-column">
 	</div>
 	<div class="col-md-8" id="content">
 	
@@ -23,29 +23,31 @@
 				<ul class="nav nav-pills">
 					<% @page.subpages.each_with_index do |subpage, index| %>
 					<li class="<%= 'active' if index == 0 %>">
-						<a href="#<%= subpage.slug %>" data-toggle="tab"><%= subpage.title %></a>
+						<a href="#<%= subpage.slug %>" data-target="#<%= subpage.slug %>-content" data-toggle="tab"><%= subpage.title %></a>
 					</li>
 					<% end %>
-					<% if @page.pset %>
-					<li><a href="#submit" data-toggle="tab">Submit <%= submitted_icon %></a></li>
+					<% if logged_in? and @page.pset %>
+					<li>
+					  <a href="#submit" data-target="#submit-content" data-toggle="tab">Submit <%= submitted_icon %></a>
+					</li>
 					<% end %>
 				</ul>
 				<% end %>
 			</header>
 
 
-			<%= form_tag({ :controller => 'upload', :action => 'submit' }, { :multipart => true, :id => "page_form" }) do %>
+			<%= form_tag_if(logged_in? && @page.pset && @page.pset.form, upload_submit_url, { :multipart => true, :id => "page_form" }) do %>
 			<%= hidden_field_tag :page_id, @page.id %>
 			<div class="tab-content">
 
 				<% @page.subpages.each_with_index do |subpage, index| %>
-				<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>">
+				<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>-content">
 					<%= markdown(subpage.content, @page) %>
 				</section>
 				<% end %>
 
-				<% if @page.pset %>
-				<section class="tab-pane markdown" id="submit">
+				<% if logged_in? and @page.pset %>
+				<section class="tab-pane markdown" id="submit-content">
 					<%= render 'submit_tab' %>
 				</section>
 				<% end %>
