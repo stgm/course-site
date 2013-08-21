@@ -4,7 +4,12 @@ class PageController < ApplicationController
 	before_filter :redirect_to_profile
 	
 	def homepage
-		@page = Page.where(:section_id => nil).first || Page.new(:title => 'Empty course website')		
+		# the homepage is the page without a parent section
+		@page = Page.where(:section_id => nil).first
+		
+		# if not found, course is presumably empty, redirect to onboarding
+		redirect_to welcome_url and return if @page.nil?
+		
 		@user = current_user
 		@comments = @page.comment_threads.includes(:comments).order('created_at desc').all
 		@has_form = @page.pset && @page.pset.form

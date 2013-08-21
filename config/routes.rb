@@ -24,10 +24,18 @@ CourseSite::Application.routes.draw do
 	post "comment/post_answer"
 	post "comment/delete_question"
 	post "comment/delete_answer"
-
-	resources :answers
-	post "upload/submit"
-	match ":section/:page" => "page#index"
 	
+	# onboarding
+	get  "welcome" => "welcome#index"
+	get  "welcome/clone"
+
+	# filled-in form caching for users
+	resources :answers
+	
+	# submit
+	post "upload/submit"
+	
+	# default route, for content pages
+	match ":section/:page" => "page#index"
 
 end

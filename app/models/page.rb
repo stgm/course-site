@@ -14,7 +14,7 @@ class Page < ActiveRecord::Base
 	# Make sure the subpages are always ordered
 	default_scope order(:position)
 	
-	def public_url()
+	def public_url
 		if section
 			return File.join('/course', section.path, path)
 		else

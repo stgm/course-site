@@ -71,6 +71,13 @@ class Course
 		@@settings = self.read_config(File.join(COURSE_DIR, 'course.yml'))
 	end
 	
+	def self.has_repo?
+		g = Git.open(COURSE_DIR, :log => Rails.logger)
+		return true
+	rescue
+		return false
+	end
+	
 	##
 	# Performs a git pull on the course repo.
 	# Git.pull has been overridden in order to function well!

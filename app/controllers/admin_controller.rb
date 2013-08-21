@@ -1,9 +1,10 @@
 class AdminController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin
 	skip_before_filter :require_admin, only: [ :claim ]
 	skip_before_filter :require_users, only: [ :claim ]
+
+	before_filter CASClient::Frameworks::Rails::Filter
+	before_filter :require_admin
 
 	def import_do
 		Course.reload
@@ -56,13 +57,6 @@ class AdminController < ApplicationController
 		redirect_to :back
 	end
 	
-	def claim
-		unless Settings['admins'] && Settings['admins'].size > 0 # if no admin is defined
-			Settings['admins'] = [ session[:cas_user] ]
-			redirect_to :root
-		end
-	end
-	
 	def import_groups
 		# this is very dependent on datanose export format: id's in col 0 and 1, group name in 7
 		source = params[:paste]
@@ -83,5 +77,11 @@ class AdminController < ApplicationController
 		
 		redirect_to :back
 	end
+	
+	private
 
+	def require_admin
+		redirect_to :root unless is_admin?
+	end
+	
 end
