@@ -28,6 +28,7 @@ CourseSite::Application.routes.draw do
 	# onboarding
 	get  "welcome" => "welcome#index"
 	get  "welcome/clone"
+	get  "welcome/claim"
 
 	# filled-in form caching for users
 	resources :answers
