@@ -169,11 +169,11 @@ ActiveRecord::Schema.define(:version => 20130908153822) do
     t.string   "uvanetid"
     t.string   "mail"
     t.string   "avatar"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "group_id"
-    t.boolean  "done"
-    t.boolean  "active"
+    t.boolean  "done",       :default => false
+    t.boolean  "active",     :default => true
   end
 
 end
