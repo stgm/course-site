@@ -13,7 +13,9 @@ class AdminController < ApplicationController
 	end
 	
 	def users
-		@groupless = User.where(:group_id => nil).order('updated_at desc')
+		@groupless = User.where(active: true, done: false, group_id: nil).order('updated_at desc')
+		@done = User.where(done: true).order('updated_at desc')
+		@inactive = User.where(active: false).order('updated_at desc')
 		@psets = Pset.order(:name)
 		@title = "List users"
 	end
@@ -87,6 +89,26 @@ class AdminController < ApplicationController
 			dropbox.authorized
 			redirect_to :root
 		end
+	end
+	
+	##
+	# POST
+	# ajax-only enable/disable of students
+	#
+	def enable
+		reg = User.find(params[:id])
+		reg.update_attribute(:active, params[:active])
+		render :nothing => true
+	end
+
+	##
+	# POST
+	# ajax-only done/not done of students
+	#
+	def done
+		reg = User.find(params[:id])
+		reg.update_attribute(:done, params[:done])
+		render :nothing => true
 	end
 	
 	private

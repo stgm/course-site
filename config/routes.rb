@@ -20,6 +20,8 @@ CourseSite::Application.routes.draw do
 	post "admin/admins" => "admin#admins_save"
 	post "admin/import_do"
 	post "admin/import_groups"
+	post "admin/done"
+	post "admin/enable"
 
 	# commenting
 	post "comment/post_question"
