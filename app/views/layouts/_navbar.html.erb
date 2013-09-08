@@ -31,7 +31,7 @@
 			<li class="divider-vertical"></li>
 			<li class="dropdown">
 
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= @user.name || @user.uvanetid %></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user.name || current_user.uvanetid %></a>
 				<ul class="dropdown-menu" style="min-width:200px;">
 					<% if is_admin? %>
 					<li><%= link_to '<i class="icon-refresh"></i> Update courseware...'.html_safe, '/admin/import_do', method: :post %></li>

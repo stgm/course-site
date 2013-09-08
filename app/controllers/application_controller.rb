@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 	before_filter :check_admins
 	before_filter :load_navigation
 
-	helper_method :logged_in?, :is_admin?
+	helper_method :current_user, :logged_in?, :is_admin?
 	
 	def check_repo
 		unless Course.has_repo?
@@ -21,11 +21,15 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def current_user
-		return logged_in? && User.where(:uvanetid => session[:cas_user]).first_or_create
+		@current_user ||= logged_in? && User.where(:uvanetid => session[:cas_user]).first_or_create
 	end
 	
 	def logged_in?
 		return !!session[:cas_user]
+	end
+	
+	def valid_profile?
+		not current_user.name.nil? and current_user.name != ''
 	end
 	
 	def is_admin?

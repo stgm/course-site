@@ -13,14 +13,12 @@ class AdminController < ApplicationController
 	end
 	
 	def users
-		@user = current_user
 		@groupless = User.where(:group_id => nil).order('updated_at desc')
 		@psets = Pset.order(:name)
 		@title = "List users"
 	end
 	
 	def dropbox
-		@user = current_user
 		logger.debug Settings['dropbox.session']
 		@dropbox_session = Settings['dropbox.session'] != nil
 		@dropbox_app_key = Settings['dropbox.app_key']
@@ -48,7 +46,6 @@ class AdminController < ApplicationController
 	end
 	
 	def admins
-		@user = current_user
 		@admins = Settings.admins.join("\n")
 	end
 	

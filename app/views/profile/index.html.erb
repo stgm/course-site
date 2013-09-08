@@ -8,13 +8,13 @@
 		<div class="form-group">
 			<label class="col-2 control-label" for="user_name">Full name</label>
 			<div class="col-10">
-				<%= text_field_tag('user[name]', @user.name, required:true, class:'form-control') %>
+				<%= text_field_tag('user[name]', current_user.name, required:true, class:'form-control') %>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-2 control-label" for="user_mail">E-mail</label>
 			<div class="col-10">
-				<%= text_field_tag('user[mail]', @user.mail, required:true, class:'form-control') %>
+				<%= text_field_tag('user[mail]', current_user.mail, required:true, class:'form-control') %>
 				<%= submit_tag 'Save', class:'btn' %>
 			</div>
 		</div>

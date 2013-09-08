@@ -8,8 +8,6 @@ class ProfileController < ApplicationController
 	
 	def index
 		@title = "Profile"
-		@user = current_user
-		raise "No current user?" if !@user
 	end
 	
 	def save # POST
@@ -22,8 +20,7 @@ class ProfileController < ApplicationController
 			return
 		end
 
-		@user = current_user
-		@user.update_attributes(params[:user])
+		current_user.update_attributes(params[:user])
 		redirect_to :root
 	end
 	

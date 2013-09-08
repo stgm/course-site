@@ -1,5 +1,7 @@
 CourseSite::Application.routes.draw do
 
+	resources :grades
+
 	# homepage
 	root :to => "page#homepage"
 

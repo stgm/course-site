@@ -10,7 +10,6 @@ class PageController < ApplicationController
 		# if not found, course is presumably empty, redirect to onboarding
 		redirect_to welcome_url and return if @page.nil?
 		
-		@user = current_user
 		@comments = @page.comment_threads.includes(:comments).order('created_at desc').all
 		@has_form = @page.pset && @page.pset.form
 		render :index
@@ -25,11 +24,9 @@ class PageController < ApplicationController
 		@page = @section.pages.where(:slug => params[:page]).first		
 		render :text => "page not found" and return if !@page
 		
-		@user = current_user
-		
 		# get cached form answers for this page / TODO FUGLY
 		if logged_in? && @page.pset
-			answer = Answer.where(:user_id => @user.id, :pset_id => @page.pset.id).order('created_at').last
+			answer = Answer.where(:user_id => current_user.id, :pset_id => @page.pset.id).order('created_at').last
 			if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
 				answer = JSON.parse(answer.answer_data)
 				@answer_data = {}
@@ -98,34 +95,25 @@ class PageController < ApplicationController
 	end
 	
 	def save_answers
+		pset = Page.find(params[:page_id]).pset
+		
+		@answer = Answer.new(:user_id => current_user.id, :pset_id => pset.id)
+		@answer.answer_data = params[:a].to_json
 
-		if logged_in?
-
-			pset = Page.find(params[:page_id]).pset
-			
-			@answer = Answer.new(:user_id => current_user.id, :pset_id => pset.id)
-			@answer.answer_data = params[:a].to_json
-
-			respond_to do |format|
-				if @answer.save
-					format.json { render :json => @answer, :status => :created }
-				else
-					format.json { render :json => @answer.errors, :status => :unprocessable_entity }
-				end
+		respond_to do |format|
+			if @answer.save
+				format.json { render :json => @answer, :status => :created }
+			else
+				format.json { render :json => @answer.errors, :status => :unprocessable_entity }
 			end
-
-		else
-			format.json { render :json => 'huh', :status => :unprocessable_entity }
 		end
-
 	end
-	
 	
 	private
 	
 	def redirect_to_profile
-		if logged_in? && (current_user.name.nil? || current_user.name == '')
-			redirect_to :controller => 'profile'
+		if logged_in? and not valid_profile?
+			redirect_to controller: 'profile'
 		end
 	end
 

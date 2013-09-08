@@ -14,51 +14,11 @@
 	<div class="tab-content">
 		<% Group.all.each_with_index do |group,i| %>
 		<section class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
-			<table class="table table-bordered table-condensed">
-				<tr>
-					<th>Name</th><th>ID</th>
-					<% @psets.each do |pset| %>
-					<th><%= pset.name %></th>
-					<% end %>
-				</tr>
-				<% group.users.each do |user| %>
-				<tr>
-					<% if user.mail %>
-					<td><%= link_to user.name, 'mailto:'+user.mail %></td>
-					<% else %>
-					<td><%= user.name %></td>
-					<% end %>
-					<td><%= user.uvanetid %></td>
-					<% @psets.each do |pset| %>
-					<td><%= '<span class="glyphicon glyphicon-thumbs-up"></span>'.html_safe if user.submit(pset) %></td>
-					<% end %>
-				</tr>
-				<% end %>
-			</table>
+			<%= render partial: 'grade_table', locals: { users: group.users } %>
 		</section>
 		<% end %>
 		<section class="tab-pane <%= 'active' if Group.count == 0 %>" id="other">
-			<table class="table table-bordered table-condensed">
-				<tr>
-					<th>Name</th><th>ID</th>
-					<% @psets.each do |pset| %>
-					<th><%= pset.name %></th>
-					<% end %>
-				</tr>
-				<% @groupless.each do |user| %>
-				<tr>
-					<% if user.mail %>
-					<td><%= link_to user.name, 'mailto:'+user.mail %></td>
-					<% else %>
-					<td><%= user.name %></td>
-					<% end %>
-					<td><%= user.uvanetid %></td>
-					<% @psets.each do |pset| %>
-					<td><%= '<span class="glyphicon glyphicon-thumbs-up"></span>'.html_safe if user.submit(pset) %></td>
-					<% end %>
-				</tr>
-				<% end %>
-			</table>
+			<%= render partial: 'grade_table', locals: { users: @groupless } %>
 		</section>
 		<section class="tab-pane" id="import">
 			<p>Paste all data lines from a .xls datanose user export.</p>
