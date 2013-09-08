@@ -36,7 +36,7 @@
 			</header>
 
 
-			<%= form_tag_if(logged_in? && @page.pset, upload_submit_url, { :multipart => true, :id => "page_form" }) do %>
+			<%= form_tag_if(logged_in? && @page.pset, page_submit_url, { :multipart => true, :id => "page_form" }) do %>
 			<%= hidden_field_tag :page_id, @page.id %>
 			<div class="tab-content">
 

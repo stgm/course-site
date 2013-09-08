@@ -45,11 +45,87 @@ class PageController < ApplicationController
 		
 	end
 	
+	def submit
+		
+		dropbox = DropboxConnection.new
+		# upload = params[:attachment]
+		
+		if dropbox.linked?
+			# validate file size
+			# if upload && upload.size > 504800
+			# 	render :text => "Your file is too big. Make sure you only submit your source files. (Ask your assistant what this means!)"
+			# 	return
+			# end
+
+			# validate form
+			# if !upload || params[:course] == "" || params[:pset] == "" || params[:name] == ""
+			# 	render :text => "You can't submit without choosing your course and pset, and attaching a file."
+			# 	return
+			# end
+			
+			page = Page.where(:id => params[:page_id]).first
+			if page.nil?
+				flash[:error] = "<b>Error!</b> Submit fail. Try again.".html_safe
+				redirect_to(:back)
+				return
+			end
+			
+			form_text = nil
+			if params[:a]
+				form_text = ""
+				params[:a].each do |key, value|
+					form_text += "#{key}\n\n"
+					form_text += "#{value}\n\n"
+				end
+			end
+			
+			pset = Page.find(params[:page_id]).pset
+
+			# upload to dropbox
+			dropbox.submit(current_user.uvanetid, current_user.name, Course.course['submit'], pset.name, params[:notes], form_text, params[:f])
+
+			# create submit record
+			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
+			submit.submitted_at = Time.now
+			submit.save
+			
+			# success
+			redirect_to(:back, :notice => "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
+		else			
+			render :text => 'Dropbox is not linked, please warn your professor immediately.'
+		end
+
+	end
+	
+	def save_answers
+
+		if logged_in?
+
+			pset = Page.find(params[:page_id]).pset
+			
+			@answer = Answer.new(:user_id => current_user.id, :pset_id => pset.id)
+			@answer.answer_data = params[:a].to_json
+
+			respond_to do |format|
+				if @answer.save
+					format.json { render :json => @answer, :status => :created }
+				else
+					format.json { render :json => @answer.errors, :status => :unprocessable_entity }
+				end
+			end
+
+		else
+			format.json { render :json => 'huh', :status => :unprocessable_entity }
+		end
+
+	end
+	
+	
 	private
 	
 	def redirect_to_profile
 		if logged_in? && (current_user.name.nil? || current_user.name == '')
-			redirect_to :controller => 'homepage', :action => 'profile'
+			redirect_to :controller => 'profile'
 		end
 	end
 

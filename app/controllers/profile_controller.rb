@@ -1,4 +1,4 @@
-class HomepageController < ApplicationController
+class ProfileController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter, :only => [ :profile ]
 	
@@ -6,13 +6,13 @@ class HomepageController < ApplicationController
 		CASClient::Frameworks::Rails::Filter.logout(self)
 	end
 	
-	def profile
+	def index
 		@title = "Profile"
 		@user = current_user
 		raise "No current user?" if !@user
 	end
 	
-	def save_profile # POST
+	def save # POST
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
 			render :text => 'Will not work! Enter a valid name.'
 			return
