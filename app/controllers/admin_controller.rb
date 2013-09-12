@@ -13,14 +13,14 @@ class AdminController < ApplicationController
 	end
 	
 	def users
-		@user = current_user
-		@groupless = User.where(:group_id => nil).order('updated_at desc')
+		@groupless = User.where(active: true, done: false, group_id: nil).order('updated_at desc')
+		@done = User.where(done: true).order('updated_at desc')
+		@inactive = User.where(active: false).order('updated_at desc')
 		@psets = Pset.order(:name)
 		@title = "List users"
 	end
 	
 	def dropbox
-		@user = current_user
 		logger.debug Settings['dropbox.session']
 		@dropbox_session = Settings['dropbox.session'] != nil
 		@dropbox_app_key = Settings['dropbox.app_key']
@@ -37,7 +37,7 @@ class AdminController < ApplicationController
 		
 		if not params[:oauth_token] then
 			# pass to get_authorize_url a callback url that will return the user here
-			redirect_to dropbox.create_session(url_for(:controller => 'dropbox', :action => 'link'))
+			redirect_to dropbox.create_session(url_for(:controller => 'admin', :action => 'link'))
 		else
 			# the user has returned from Dropbox so save the session and go away
 			dropbox.authorized
@@ -48,7 +48,6 @@ class AdminController < ApplicationController
 	end
 	
 	def admins
-		@user = current_user
 		@admins = Settings.admins.join("\n")
 	end
 	
@@ -76,6 +75,40 @@ class AdminController < ApplicationController
 		end
 		
 		redirect_to :back
+	end
+	
+	def link
+		# Allows the admin user to link the course to dropbox.
+		dropbox = DropboxConnection.new
+		
+		if not params[:oauth_token] then
+			# pass to get_authorize_url a callback url that will return the user here
+			redirect_to dropbox.create_session(url_for(:action => 'link'))
+		else
+			# the user has returned from Dropbox so save the session and go away
+			dropbox.authorized
+			redirect_to :root
+		end
+	end
+	
+	##
+	# POST
+	# ajax-only enable/disable of students
+	#
+	def enable
+		reg = User.find(params[:id])
+		reg.update_attribute(:active, params[:active])
+		render :nothing => true
+	end
+
+	##
+	# POST
+	# ajax-only done/not done of students
+	#
+	def done
+		reg = User.find(params[:id])
+		reg.update_attribute(:done, params[:done])
+		render :nothing => true
 	end
 	
 	private

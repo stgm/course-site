@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  submit: 
+  grader: MyString
+  scope: 1
+  correctness: 1
+  design: 1
+  style: 1
+  comments: MyText
+  grade: 1
+
+two:
+  submit: 
+  grader: MyString
+  scope: 1
+  correctness: 1
+  design: 1
+  style: 1
+  comments: MyText
+  grade: 1

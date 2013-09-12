@@ -1,23 +1,27 @@
 CourseSite::Application.routes.draw do
 
+	resources :grades
+
 	# homepage
 	root :to => "page#homepage"
 
 	# logged-in users only
-	get  "homepage/logout"
-	get  "homepage/profile"
-	post "homepage/save_profile"
+	get  "profile" => "profile#index"
+	post "profile/save"
+	get  "profile/logout"
 
 	# administrative
 	get  "admin/users"
 	get  "admin/claim"
 	get  "admin/dropbox"
 	post "admin/dropbox" => "admin#dropbox_save"
+	get  "admin/link"
 	get  "admin/admins"
 	post "admin/admins" => "admin#admins_save"
 	post "admin/import_do"
 	post "admin/import_groups"
-	get  "dropbox/link"
+	post "admin/done"
+	post "admin/enable"
 
 	# commenting
 	post "comment/post_question"
@@ -31,10 +35,8 @@ CourseSite::Application.routes.draw do
 	get  "welcome/claim"
 
 	# filled-in form caching for users
-	resources :answers
-	
-	# submit
-	post "upload/submit"
+	post "page/save_answers"
+	post "page/submit"
 	
 	# default route, for content pages
 	match ":section/:page" => "page#index"

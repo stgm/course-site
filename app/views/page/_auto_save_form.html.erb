@@ -16,7 +16,7 @@
 		$("input[type=text],textarea[name!='notes']").change(function()
 		{
 			$("#loading").show();
-			$.post("/answers.json", $("#page_form").serialize(), function(data) {
+			$.post("/page/save_answers.json", $("#page_form").serialize(), function(data) {
 				console.log(data);
 			}).error(function() { alert("Your form was not saved due to an error. Check if you are still logged in by reloading the page."); });
 			window.setTimeout(function(){$("#loading").hide()}, 1000);

@@ -31,7 +31,7 @@
 			<li class="divider-vertical"></li>
 			<li class="dropdown">
 
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= @user.name || @user.uvanetid %></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user.name || current_user.uvanetid %></a>
 				<ul class="dropdown-menu" style="min-width:200px;">
 					<% if is_admin? %>
 					<li><%= link_to '<i class="icon-refresh"></i> Update courseware...'.html_safe, '/admin/import_do', method: :post %></li>
@@ -41,8 +41,8 @@
 					<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
 					<li class="divider"></li>
 					<% end %>
-					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Edit Profile'.html_safe, :controller => 'homepage', :action => 'profile' %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, :controller => 'homepage', :action => 'logout' %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Edit Profile'.html_safe, :controller => 'profile' %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, :controller => 'profile', :action => 'logout' %></li>
 				</ul>
 			</li>
 			<% else %>

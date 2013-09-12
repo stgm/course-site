@@ -6,7 +6,7 @@ class WelcomeController < ApplicationController
 	prepend_before_filter CASClient::Frameworks::Rails::Filter
 	
 	def index
-		@user = current_user
+
 	end
 
 	def clone

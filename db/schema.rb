@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130521114449) do
+ActiveRecord::Schema.define(:version => 20130908153822) do
 
   create_table "answers", :force => true do |t|
     t.integer  "user_id"
@@ -46,6 +46,21 @@ ActiveRecord::Schema.define(:version => 20130521114449) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
+
+  create_table "grades", :force => true do |t|
+    t.integer  "submit_id"
+    t.string   "grader"
+    t.integer  "scope"
+    t.integer  "correctness"
+    t.integer  "design"
+    t.integer  "style"
+    t.text     "comments"
+    t.integer  "grade"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "grades", ["submit_id"], :name => "index_grades_on_submit_id"
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -154,9 +169,11 @@ ActiveRecord::Schema.define(:version => 20130521114449) do
     t.string   "uvanetid"
     t.string   "mail"
     t.string   "avatar"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "group_id"
+    t.boolean  "done",       :default => false
+    t.boolean  "active",     :default => true
   end
 
 end

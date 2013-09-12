@@ -7,6 +7,8 @@
 			<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group.name %> (<%= group.users.count %>)</a></li>
 			<% end %>
 			<li <%= 'class="active"'.html_safe if Group.count == 0 %>><a href="#other" data-toggle="tab">Other (<%= @groupless.count %>)</a></li>
+			<li><a href="#done" data-toggle="tab">Done (<%= @done.count %>)</a></li>
+			<li><a href="#inactive" data-toggle="tab">Inactive (<%= @inactive.count %>)</a></li>
 			<li><a href="#import" data-toggle="tab">Import</a></li>
 		</ul>
 	</header>
@@ -14,51 +16,17 @@
 	<div class="tab-content">
 		<% Group.all.each_with_index do |group,i| %>
 		<section class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
-			<table class="table table-bordered table-condensed">
-				<tr>
-					<th>Name</th><th>ID</th>
-					<% @psets.each do |pset| %>
-					<th><%= pset.name %></th>
-					<% end %>
-				</tr>
-				<% group.users.each do |user| %>
-				<tr>
-					<% if user.mail %>
-					<td><%= link_to user.name, 'mailto:'+user.mail %></td>
-					<% else %>
-					<td><%= user.name %></td>
-					<% end %>
-					<td><%= user.uvanetid %></td>
-					<% @psets.each do |pset| %>
-					<td><%= '<span class="glyphicon glyphicon-thumbs-up"></span>'.html_safe if user.submit(pset) %></td>
-					<% end %>
-				</tr>
-				<% end %>
-			</table>
+			<%= render partial: 'grade_table', locals: { users: group.users } %>
 		</section>
 		<% end %>
 		<section class="tab-pane <%= 'active' if Group.count == 0 %>" id="other">
-			<table class="table table-bordered table-condensed">
-				<tr>
-					<th>Name</th><th>ID</th>
-					<% @psets.each do |pset| %>
-					<th><%= pset.name %></th>
-					<% end %>
-				</tr>
-				<% @groupless.each do |user| %>
-				<tr>
-					<% if user.mail %>
-					<td><%= link_to user.name, 'mailto:'+user.mail %></td>
-					<% else %>
-					<td><%= user.name %></td>
-					<% end %>
-					<td><%= user.uvanetid %></td>
-					<% @psets.each do |pset| %>
-					<td><%= '<span class="glyphicon glyphicon-thumbs-up"></span>'.html_safe if user.submit(pset) %></td>
-					<% end %>
-				</tr>
-				<% end %>
-			</table>
+			<%= render partial: 'grade_table', locals: { users: @groupless } %>
+		</section>
+		<section class="tab-pane" id="done">
+			<%= render partial: 'grade_table', locals: { users: @done } %>
+		</section>
+		<section class="tab-pane" id="inactive">
+			<%= render partial: 'grade_table', locals: { users: @inactive } %>
 		</section>
 		<section class="tab-pane" id="import">
 			<p>Paste all data lines from a .xls datanose user export.</p>

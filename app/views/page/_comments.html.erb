@@ -31,7 +31,7 @@
 		</div>
 		<% end %>
 		<div class="list-group-item reply clearfix">
-			<p class="list-group-item-text"><strong><%= @user.name %></strong></p>
+			<p class="list-group-item-text"><strong><%= current_user.name %></strong></p>
 			<%= form_tag("/comment/post_answer", method: 'post') do %>
 			<%= hidden_field_tag :thread_id, thread.id %>
 			<textarea class="form-control" name="comment" placeholder="Write a comment"></textarea>
