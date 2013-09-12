@@ -31,5 +31,6 @@ CourseSite::Application.configure do
 end
 
 CASClient::Frameworks::Rails::Filter.configure(
-  :cas_base_url => "https://secure.uva.nl/cas/"
+  cas_base_url: "https://secure.uva.nl/cas/",
+  validate_url: "https://secure.uva.nl/cas/serviceValidate"
 )
