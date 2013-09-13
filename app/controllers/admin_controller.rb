@@ -1,10 +1,9 @@
 class AdminController < ApplicationController
 
-	skip_before_filter :require_admin, only: [ :claim ]
-	skip_before_filter :require_users, only: [ :claim ]
-
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin
+	skip_before_filter :require_admin, only: [:users]
+	before_filter :require_admin_or_assistant, only: [:users]
 
 	def import_do
 		Course.reload
@@ -49,10 +48,16 @@ class AdminController < ApplicationController
 	
 	def admins
 		@admins = Settings.admins.join("\n")
+		@assistants = Settings.assistants.join("\n")
 	end
 	
 	def admins_save
 		Settings.admins = params[:admins].split(/\r?\n/)
+		redirect_to :back
+	end
+	
+	def assistants_save
+		Settings.assistants = params[:assistants].split(/\r?\n/)
 		redirect_to :back
 	end
 	
@@ -123,6 +128,10 @@ class AdminController < ApplicationController
 
 	def require_admin
 		redirect_to :root unless is_admin?
+	end
+	
+	def require_admin_or_assistant
+		redirect_to :root unless is_admin? or is_assistant?
 	end
 	
 end

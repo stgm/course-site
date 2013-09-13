@@ -20,6 +20,7 @@ CourseSite::Application.routes.draw do
 	get  "admin/link"
 	get  "admin/admins"
 	post "admin/admins" => "admin#admins_save"
+	post "admin/assistants" => "admin#assistants_save"
 	post "admin/import_do"
 	post "admin/import_groups"
 	post "admin/done"

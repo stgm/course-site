@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 	before_filter :check_admins
 	before_filter :load_navigation
 
-	helper_method :current_user, :logged_in?, :is_admin?
+	helper_method :current_user, :logged_in?, :is_admin?, :is_assistant?
 	
 	def check_repo
 		unless Course.has_repo?
@@ -35,6 +35,11 @@ class ApplicationController < ActionController::Base
 	def is_admin?
 		admins = Settings['admins']
 		return current_user && admins && admins.include?(session[:cas_user].to_s)
+	end
+	
+	def is_assistant?
+		assistants = Settings['assistants']
+		return current_user && assistants && assistants.include?(session[:cas_user].to_s)
 	end
 	
 	def load_navigation
