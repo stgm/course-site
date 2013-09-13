@@ -34,7 +34,7 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user.name || current_user.uvanetid %></a>
 				<ul class="dropdown-menu" style="min-width:200px;">
 					<% if is_assistant? or is_admin? %>
-					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'admin', :action => 'users' %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'grades', :action => 'users' %></li>
 					<li class="divider"></li>
 					<% end %>
 					<% if is_admin? %>

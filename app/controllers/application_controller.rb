@@ -46,4 +46,12 @@ class ApplicationController < ActionController::Base
 		@sections = Section.includes(pages: :pset).all
 	end
 	
+	def require_admin
+		redirect_to :root unless is_admin?
+	end
+	
+	def require_admin_or_assistant
+		redirect_to :root unless is_admin? or is_assistant?
+	end
+	
 end

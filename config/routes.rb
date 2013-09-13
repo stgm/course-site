@@ -1,9 +1,5 @@
 CourseSite::Application.routes.draw do
 
-	resources :submits do
-		resource :grade
-	end
-
 	# homepage
 	root :to => "page#homepage"
 
@@ -13,7 +9,6 @@ CourseSite::Application.routes.draw do
 	get  "profile/logout"
 
 	# administrative
-	get  "admin/users"
 	get  "admin/claim"
 	get  "admin/dropbox"
 	post "admin/dropbox" => "admin#dropbox_save"
@@ -23,9 +18,15 @@ CourseSite::Application.routes.draw do
 	post "admin/assistants" => "admin#assistants_save"
 	post "admin/import_do"
 	post "admin/import_groups"
-	post "admin/done"
-	post "admin/enable"
-	post "admin/create_submit"
+
+	# grading
+	get  "grades/users"
+	post "grades/create_submit"
+	post "grades/done"
+	post "grades/enable"
+	resources :submits do
+		resource :grade
+	end
 
 	# commenting
 	post "comment/post_question"

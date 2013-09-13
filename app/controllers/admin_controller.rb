@@ -2,21 +2,11 @@ class AdminController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin
-	skip_before_filter :require_admin, only: [:users]
-	before_filter :require_admin_or_assistant, only: [:users]
 
 	def import_do
 		Course.reload
 		redirect_to :back
 		# render :text => "Loaded!"
-	end
-	
-	def users
-		@groupless = User.where(active: true, done: false, group_id: nil).order('updated_at desc')
-		@done = User.where(done: true).order('updated_at desc')
-		@inactive = User.where(active: false).order('updated_at desc')
-		@psets = Pset.order(:name)
-		@title = "List users"
 	end
 	
 	def dropbox
@@ -82,14 +72,6 @@ class AdminController < ApplicationController
 		redirect_to :back
 	end
 	
-	def create_submit
-		@submit = Submit.create do |s|
-			s.user_id = params[:user_id]
-			s.pset_id = params[:pset_id]
-		end
-		redirect_to new_submit_grade_url(submit_id:@submit.id)
-	end
-	
 	def link
 		# Allows the admin user to link the course to dropbox.
 		dropbox = DropboxConnection.new
@@ -102,36 +84,6 @@ class AdminController < ApplicationController
 			dropbox.authorized
 			redirect_to :root
 		end
-	end
-	
-	##
-	# POST
-	# ajax-only enable/disable of students
-	#
-	def enable
-		reg = User.find(params[:id])
-		reg.update_attribute(:active, params[:active])
-		render :nothing => true
-	end
-
-	##
-	# POST
-	# ajax-only done/not done of students
-	#
-	def done
-		reg = User.find(params[:id])
-		reg.update_attribute(:done, params[:done])
-		render :nothing => true
-	end
-	
-	private
-
-	def require_admin
-		redirect_to :root unless is_admin?
-	end
-	
-	def require_admin_or_assistant
-		redirect_to :root unless is_admin? or is_assistant?
 	end
 	
 end
