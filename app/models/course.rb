@@ -165,6 +165,13 @@ class Course
 							end
 						end
 					end
+					
+					if submit_config['dependent_grades']
+						Rails.logger.info "dependent grades"
+						submit_config['dependent_grades'].each do |grade|
+							Pset.where(:name => grade).first_or_create
+						end
+					end
 				end
 				process_subpages(page, db_page)
 			end
