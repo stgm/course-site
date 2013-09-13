@@ -1,6 +1,8 @@
 CourseSite::Application.routes.draw do
 
-	resources :grades
+	resources :submits do
+		resource :grade
+	end
 
 	# homepage
 	root :to => "page#homepage"
@@ -22,6 +24,7 @@ CourseSite::Application.routes.draw do
 	post "admin/import_groups"
 	post "admin/done"
 	post "admin/enable"
+	post "admin/create_submit"
 
 	# commenting
 	post "comment/post_question"

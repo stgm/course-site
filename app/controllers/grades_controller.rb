@@ -14,7 +14,7 @@ class GradesController < ApplicationController
 	# GET /grades/1
 	# GET /grades/1.json
 	def show
-		@grade = Grade.find(params[:id])
+		@grade = Submit.find(params[:submit_id]).grade
 
 		respond_to do |format|
 			format.html # show.html.erb
@@ -25,7 +25,9 @@ class GradesController < ApplicationController
 	# GET /grades/new
 	# GET /grades/new.json
 	def new
-		@grade = Grade.new
+		@grade = Submit.find(params[:submit_id]).build_grade do |e|
+			e.grader = current_user.uvanetid
+		end
 
 		respond_to do |format|
 			format.html # new.html.erb
@@ -35,7 +37,7 @@ class GradesController < ApplicationController
 
 	# GET /grades/1/edit
 	def edit
-		@grade = Grade.where(submit_id: params[:id]).first_or_create do |e|
+		@grade = Submit.find(params[:submit_id]).grade do |e|
 			e.grader = current_user.uvanetid
 		end
 	end
@@ -44,10 +46,11 @@ class GradesController < ApplicationController
 	# POST /grades.json
 	def create
 		@grade = Grade.new(params[:grade])
+		@grade.submit_id = params[:submit_id]
 
 		respond_to do |format|
 			if @grade.save
-				format.html { redirect_to @grade, notice: 'Grade was successfully created.' }
+				format.html { redirect_to admin_users_url, notice: 'Grade was successfully created.' }
 				format.json { render json: @grade, status: :created, location: @grade }
 			else
 				format.html { render action: "new" }
@@ -59,7 +62,7 @@ class GradesController < ApplicationController
 	# PUT /grades/1
 	# PUT /grades/1.json
 	def update
-		@grade = Grade.find(params[:id])
+		@grade = Submit.find(params[:submit_id]).grade
 
 		respond_to do |format|
 			if @grade.update_attributes(params[:grade])
@@ -75,7 +78,7 @@ class GradesController < ApplicationController
 	# DELETE /grades/1
 	# DELETE /grades/1.json
 	def destroy
-		@grade = Grade.find(params[:id])
+		@grade = Submit.find(params[:submit_id]).grade
 		@grade.destroy
 
 		respond_to do |format|

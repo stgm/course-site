@@ -1,4 +1,4 @@
-<%= form_for(@grade) do |f| %>
+<%= form_for(@grade, url: submit_grade_path(@grade.submit)) do |f| %>
 <% if @grade.errors.any? %>
 <div id="error_explanation">
 	<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
@@ -11,35 +11,41 @@
 </div>
 <% end %>
 
-<div class="field">
-	<%= f.label :grader %><br />
-	<%= f.text_field :grader, class: 'form-control', disabled: true %>
-</div>
-<div class="field">
-	<%= f.label :scope %><br />
-	<%= f.number_field :scope, class: 'form-control' %>
-</div>
-<div class="field">
-	<%= f.label :correctness %><br />
-	<%= f.number_field :correctness, class: 'form-control' %>
-</div>
-<div class="field">
-	<%= f.label :design %><br />
-	<%= f.number_field :design, class: 'form-control' %>
-</div>
-<div class="field">
-	<%= f.label :style %><br />
-	<%= f.number_field :style, class: 'form-control' %>
-</div>
-<div class="field">
-	<%= f.label :comments %><br />
-	<%= f.text_area :comments, class: 'form-control' %>
-</div>
-<div class="field">
-	<%= f.label :grade %><br />
-	<%= f.number_field :grade, class: 'form-control' %>
-</div>
-<div class="actions">
-	<%= f.submit class: 'btn btn-default form-control' %>
-</div>
+<div class="row">
+	<div class="col-lg-6">
+		<div class="field">
+			<%= f.label :grader %><br />
+			<%= f.text_field :grader, class: 'form-control', disabled: true %>
+		</div>
+		<div class="field">
+			<%= f.label :scope %><br />
+			<%= f.number_field :scope, class: 'form-control' %>
+		</div>
+		<div class="field">
+			<%= f.label :correctness %><br />
+			<%= f.number_field :correctness, class: 'form-control' %>
+		</div>
+		<div class="field">
+			<%= f.label :design %><br />
+			<%= f.number_field :design, class: 'form-control' %>
+		</div>
+		<div class="field">
+			<%= f.label :style %><br />
+			<%= f.number_field :style, class: 'form-control' %>
+		</div>
+		<div class="field">
+			<%= f.label :grade %><br />
+			<%= f.number_field :grade, class: 'form-control' %>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="field">
+			<%= f.label :comments %><br />
+			<%= f.text_area :comments, class: 'form-control' %>
+		</div>
+		<div class="actions">
+			<%= f.submit class: 'btn btn-default form-control' %>
+		</div>
+	</div>
+</div>	
 <% end %>

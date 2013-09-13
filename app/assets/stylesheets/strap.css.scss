@@ -413,3 +413,18 @@ footer
 		margin-bottom:0;
 	}
 }
+
+#grade-table .auto-hide
+{
+	opacity:0.1;
+}
+
+#grade-table td:hover > .auto-hide
+{
+	opacity:1;
+}
+
+#grade-table td
+{
+	vertical-align:middle;
+}

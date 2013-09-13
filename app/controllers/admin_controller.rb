@@ -77,6 +77,14 @@ class AdminController < ApplicationController
 		redirect_to :back
 	end
 	
+	def create_submit
+		@submit = Submit.create do |s|
+			s.user_id = params[:user_id]
+			s.pset_id = params[:pset_id]
+		end
+		redirect_to new_submit_grade_url(submit_id:@submit.id)
+	end
+	
 	def link
 		# Allows the admin user to link the course to dropbox.
 		dropbox = DropboxConnection.new
