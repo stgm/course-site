@@ -76,9 +76,10 @@ class GradesController < ApplicationController
 
 	# GET /grades/1/edit
 	def edit
-		@grade = Submit.find(params[:submit_id]).grade do |e|
-			e.grader = current_user.uvanetid
-		end
+		@grade = Submit.find(params[:submit_id]).grade
+		@grade.grader = current_user.uvanetid
+		
+		puts @grade.inspect
 	end
 
 	# POST /grades
@@ -89,7 +90,7 @@ class GradesController < ApplicationController
 
 		respond_to do |format|
 			if @grade.save
-				format.html { redirect_to admin_users_url, notice: 'Grade was successfully created.' }
+				format.html { redirect_to grades_users_url, notice: 'Grade was successfully created.' }
 				format.json { render json: @grade, status: :created, location: @grade }
 			else
 				format.html { render action: "new" }
@@ -105,7 +106,7 @@ class GradesController < ApplicationController
 
 		respond_to do |format|
 			if @grade.update_attributes(params[:grade])
-				format.html { redirect_to admin_users_url, notice: 'Grade was successfully updated.' }
+				format.html { redirect_to grades_users_url, notice: 'Grade was successfully updated.' }
 				format.json { head :no_content }
 			else
 				format.html { render action: "edit" }

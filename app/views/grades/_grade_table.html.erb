@@ -31,7 +31,7 @@
 				<%= link_to 'sub', new_submit_grade_url(submit_id: submitted.id), class: 'btn btn-default' %>
 				<% end %>
 			<% else %>
-				<%= link_to 'no', grades_create_submit_url(user_id: user.id, pset_id: pset.id), method: :post, class:'btn btn-default auto-hide' %>
+				<%= button_to 'no', grades_create_submit_url(user_id: user.id, pset_id: pset.id), method: :post, class:'btn btn-default auto-hide', onclick:'return confirm("Would you like to enter a grade for this unsubmitted pset?");' %>
 			<% end %>
 		</td>
 		<% end %>
