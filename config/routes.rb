@@ -9,6 +9,7 @@ CourseSite::Application.routes.draw do
 	get  "profile/logout"
 
 	# administrative
+	get  "admin/grading_list"
 	get  "admin/claim"
 	get  "admin/dropbox"
 	post "admin/dropbox" => "admin#dropbox_save"

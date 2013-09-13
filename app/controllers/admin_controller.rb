@@ -9,6 +9,10 @@ class AdminController < ApplicationController
 		# render :text => "Loaded!"
 	end
 	
+	def grading_list
+		@submits = Submit.includes(:user, :pset, :grade).where("users.active = ? and (grades.updated_at < submits.updated_at or grades.updated_at is null)", true).order('psets.name')
+	end
+	
 	def dropbox
 		logger.debug Settings['dropbox.session']
 		@dropbox_session = Settings['dropbox.session'] != nil
