@@ -85,7 +85,8 @@ class GradesController < ApplicationController
 	# POST /grades.json
 	def create
 		@grade = Grade.new(params[:grade])
-		@grade.submit_id = current_user.uvanetid
+		@grade.submit_id = params[:submit_id]
+		@grade.grader = current_user.uvanetid
 
 		respond_to do |format|
 			if @grade.save
