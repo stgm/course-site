@@ -14,7 +14,7 @@
 	</header>
 
 	<div class="tab-content">
-		<% Group.all.each_with_index do |group,i| %>
+		<% Group.order(:name).all.each_with_index do |group,i| %>
 		<section class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
 			<%= render partial: 'grade_table', locals: { users: group.users } %>
 		</section>
