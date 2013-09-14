@@ -78,7 +78,6 @@ class GradesController < ApplicationController
 	# GET /grades/1/edit
 	def edit
 		@grade = Submit.find(params[:submit_id]).grade
-		@grade.grader = current_user.uvanetid
 		
 		puts @grade.inspect
 	end
