@@ -58,7 +58,7 @@ class AdminController < ApplicationController
 	def import_groups
 		# this is very dependent on datanose export format: id's in col 0 and 1, group name in 7
 		if source = params[:paste]
-			User.update_all(group: nil)
+			User.update_all(group_id: nil)
 			Group.delete_all
 			
 			source.each_line do |line|
