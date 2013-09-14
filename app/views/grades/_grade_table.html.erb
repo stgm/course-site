@@ -26,12 +26,12 @@
 		<td>
 			<% if submitted = user.submit(pset) %>
 				<% if submitted.grade and not submitted.grade.grade.blank? %>
-				<%= link_to "#{submitted.grade.grade}", edit_submit_grade_url(submit_id: submitted.id), class: 'btn btn-primary' %>
+				<%= link_to "#{submitted.grade.grade}", edit_submit_grade_url(submit_id: submitted.id), class: 'btn btn-primary btn-xs' %>
 				<% else %>
-				<%= link_to 'sub', new_submit_grade_url(submit_id: submitted.id), class: 'btn btn-default' %>
+				<%= link_to 'sub', new_submit_grade_url(submit_id: submitted.id), class: 'btn btn-default btn-xs' %>
 				<% end %>
 			<% else %>
-				<%= link_to 'no', grades_create_submit_url(user_id: user.id, pset_id: pset.id), method: :post, class:'btn btn-default auto-hide', confirm:'Would you like to enter a grade for this unsubmitted pset?' %>
+				<%= link_to 'no', grades_create_submit_url(user_id: user.id, pset_id: pset.id), method: :post, class:'btn btn-default btn-xs auto-hide', confirm:'Would you like to enter a grade for this unsubmitted pset?' %>
 			<% end %>
 		</td>
 		<% end %>
