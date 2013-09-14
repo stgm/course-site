@@ -12,9 +12,10 @@ class GradesController < ApplicationController
 	end
 
 	def users
-		@groupless = User.where(active: true, done: false, group_id: nil).order('updated_at desc')
+		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('updated_at desc')
 		@done = User.where(done: true).order('updated_at desc')
 		@inactive = User.where(active: false).order('updated_at desc')
+		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or []))
 		@psets = Pset.order(:name)
 		@title = "List users"
 	end
