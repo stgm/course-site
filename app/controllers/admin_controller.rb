@@ -64,10 +64,10 @@ class AdminController < ApplicationController
 			source.each_line do |line|
 				next if line.strip == ""
 				line = line.split("\t")
-				next if line[7] == "Group"
 
 				user_id = line[0..1]
 				group_name = line[7].strip
+				next if group_name == "Group"
 			
 				group = Group.where(:name => group_name).first_or_create if group_name != ""
 				user = User.where('uvanetid in (?)', user_id).first
