@@ -57,19 +57,28 @@ class AdminController < ApplicationController
 	
 	def import_groups
 		# this is very dependent on datanose export format: id's in col 0 and 1, group name in 7
-		source = params[:paste]
-		source.each_line do |line|
-			next if line.strip == ""
-			line = line.split("\t")
-			next if line[7] == "Group"
-			group = Group.where(:name => line[7]).first_or_create if line[7] != ""
-			user = User.where('uvanetid in (?)', line[0..1]).first
-			if user && group
-				user.group = group
-				user.save
-			elsif user
-				user.group = nil
-				user.save
+		if source = params[:paste]
+			User.update_all(group: nil)
+			Group.delete_all
+			
+			source.each_line do |line|
+				next if line.strip == ""
+				line = line.split("\t")
+				next if line[7] == "Group"
+
+				user_id = line[0..1]
+				group_name = line[7].strip
+			
+				group = Group.where(:name => group_name).first_or_create if group_name != ""
+				user = User.where('uvanetid in (?)', user_id).first
+
+				if user && group
+					user.group = group
+					user.save
+				elsif user
+					user.group = nil
+					user.save
+				end
 			end
 		end
 		
