@@ -42,7 +42,7 @@ class AdminController < ApplicationController
 	
 	def admins
 		@admins = Settings.admins.join("\n")
-		@assistants = Settings.assistants.join("\n")
+		@assistants = (Settings.assistants || []).join("\n")
 	end
 	
 	def admins_save
