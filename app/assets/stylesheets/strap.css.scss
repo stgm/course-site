@@ -414,12 +414,17 @@ footer
 	}
 }
 
+#grade-table td:nth-child(n+5), #grade-table th:nth-child(n+5)
+{
+	text-align:center;
+}
+
 #grade-table .auto-hide
 {
 	opacity:0.1;
 }
 
-#grade-table td:hover > .auto-hide
+#grade-table td:hover .auto-hide
 {
 	opacity:1;
 }
@@ -432,4 +437,9 @@ footer
 form .btn
 {
 	margin-top:0;
+}
+
+#grade-table
+{
+	font-size:0.8em;
 }
