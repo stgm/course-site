@@ -77,8 +77,7 @@ class GradesController < ApplicationController
 
 	# GET /grades/1/edit
 	def edit
-		@grade = Submit.find(params[:submit_id]).grade
-		
+		@grade = Submit.find(params[:submit_id]).grade		
 		puts @grade.inspect
 	end
 
@@ -86,7 +85,7 @@ class GradesController < ApplicationController
 	# POST /grades.json
 	def create
 		@grade = Grade.new(params[:grade])
-		@grade.submit_id = params[:submit_id]
+		@grade.submit_id = current_user.uvanetid
 
 		respond_to do |format|
 			if @grade.save
