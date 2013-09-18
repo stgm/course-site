@@ -7,5 +7,9 @@ class User < ActiveRecord::Base
 	def submit(pset)
 		submits.where(:pset_id => pset.id).first
 	end
+	
+	def activate
+		update_attribute :active, true
+	end
 
 end

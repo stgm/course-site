@@ -54,4 +54,10 @@ class ApplicationController < ActionController::Base
 		redirect_to :root unless is_admin? or is_assistant?
 	end
 	
+	def redirect_to_profile
+		if logged_in? and not valid_profile?
+			redirect_to controller: 'profile'
+		end
+	end
+
 end

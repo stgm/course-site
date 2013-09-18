@@ -39,59 +39,34 @@ class PageController < ApplicationController
 		
 		@comments = @page.comment_threads.includes(:comments).order('created_at desc').all
 		@has_form = @page.pset && @page.pset.form
-		
 	end
 	
 	def submit
-		
 		dropbox = DropboxConnection.new
-		# upload = params[:attachment]
 		
 		if dropbox.linked?
-			# validate file size
-			# if upload && upload.size > 504800
-			# 	render :text => "Your file is too big. Make sure you only submit your source files. (Ask your assistant what this means!)"
-			# 	return
-			# end
-
-			# validate form
-			# if !upload || params[:course] == "" || params[:pset] == "" || params[:name] == ""
-			# 	render :text => "You can't submit without choosing your course and pset, and attaching a file."
-			# 	return
-			# end
-			
-			page = Page.where(:id => params[:page_id]).first
-			if page.nil?
-				flash[:error] = "<b>Error!</b> Submit fail. Try again.".html_safe
-				redirect_to(:back)
-				return
-			end
-			
-			form_text = nil
-			if params[:a]
-				form_text = ""
-				params[:a].each do |key, value|
-					form_text += "#{key}\n\n"
-					form_text += "#{value}\n\n"
-				end
-			end
-			
-			pset = Page.find(params[:page_id]).pset
+			page = Page.find(params[:page_id])
+			pset = page.pset
+			form_text = render_form_text(params[:a])
+			logger.debug form_text.inspect
 
 			# upload to dropbox
-			dropbox.submit(current_user.uvanetid, current_user.name, Course.course['submit'], pset.name, params[:notes], form_text, params[:f])
+			dropbox.submit(current_user.uvanetid, current_user.name,
+			               Course.course['submit'], pset.name, params[:notes], form_text, params[:f])
 
 			# create submit record
 			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 			submit.submitted_at = Time.now
 			submit.save
 			
+			# re-activate user if necessary -- someone who submits is active, no?
+			current_user.activate
+			
 			# success
 			redirect_to(:back, :notice => "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
 		else			
-			render :text => 'Dropbox is not linked, please warn your professor immediately.'
+			render :text => 'There is a problem in the submit configuration, please warn your professor immediately and mention Dropbox.'
 		end
-
 	end
 	
 	def save_answers
@@ -111,10 +86,17 @@ class PageController < ApplicationController
 	
 	private
 	
-	def redirect_to_profile
-		if logged_in? and not valid_profile?
-			redirect_to controller: 'profile'
+	# writes hash with form contents to a plain text string
+	def render_form_text(form)
+		form_text = nil
+		if form
+			form_text = ""
+			form.each do |key, value|
+				form_text += "#{key}\n\n"
+				form_text += "#{value}\n\n"
+			end
 		end
+		return form_text
 	end
-
+	
 end
