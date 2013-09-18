@@ -1,6 +1,6 @@
 class ProfileController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter, :only => [ :profile ]
+	before_filter CASClient::Frameworks::Rails::Filter, :only => [ :profile, :grades, :save ]
 	
 	def logout
 		CASClient::Frameworks::Rails::Filter.logout(self)
