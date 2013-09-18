@@ -35,7 +35,13 @@
 		</div>
 		<div class="field">
 			<%= f.label :grade %><br />
-			<%= f.number_field :grade, class: 'form-control' %>
+			<div class="input-group">
+				<%= f.number_field :grade, class: 'form-control' %>
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" id="pass-btn">Pass</button>
+					<button class="btn btn-default" type="button" id="fail-btn">Fail</button>
+				</span>
+			</div>
 		</div>
 	</div>
 	<div class="col-lg-6">
@@ -47,5 +53,5 @@
 			<%= f.submit class: 'btn btn-default form-control' %>
 		</div>
 	</div>
-</div>	
+</div>
 <% end %>
