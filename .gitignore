@@ -15,6 +15,7 @@
 /tmp
 
 .DS_Store
+.dir-locals.el
 
 # The course contents should not be included in this source code
 /public/course
