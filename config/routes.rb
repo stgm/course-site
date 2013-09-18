@@ -6,6 +6,7 @@ CourseSite::Application.routes.draw do
 	# logged-in users only
 	get  "profile" => "profile#index"
 	post "profile/save"
+	get  "profile/grades"
 	get  "profile/logout"
 
 	# administrative

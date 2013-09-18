@@ -10,6 +10,10 @@ class ProfileController < ApplicationController
 		@title = "Profile"
 	end
 	
+	def grades
+		@grades = Grade.includes(:submit).where("submits.user_id = ?", current_user.id)
+	end
+	
 	def save # POST
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
 			render :text => 'Will not work! Enter a valid name.'

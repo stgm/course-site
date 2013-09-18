@@ -1,0 +1,34 @@
+<div id="content" class="container">
+
+	<header class="page-header">
+		<h1>Grades</h1>
+	</header>
+
+	<% @grades.each do |grade| %>
+	
+	<h2><%= grade.submit.pset.name %></h2>
+	
+	<table class="table table-bordered" style="width:auto">
+		<tr>
+			<td>Scope</td>
+			<td><%= grade.scope %>
+		</tr>
+		<tr>
+			<td>Correctness</td>
+			<td><%= grade.correctness %>
+		</tr>
+		<tr>
+			<td>Design</td>
+			<td><%= grade.design %>
+		</tr>
+		<tr>
+			<td>Style</td>
+			<td><%= grade.style %>
+		</tr>
+	</table>
+	
+	<%= simple_markdown(grade.comments) %>
+	
+	<% end %>
+
+</div>

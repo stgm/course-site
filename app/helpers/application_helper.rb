@@ -22,6 +22,18 @@ module ApplicationHelper
 		                       :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
 	
+	def simple_markdown(text)
+		# pass public parl URL to the image converter
+		# :image_prefix is defined in config/application.rb
+		Kramdown::Document.new(text,
+		                       :auto_ids => false,
+							   :parse_block_html => true,
+		                       :coderay_css => :class,
+		                       :coderay_tab_width => 4,
+		                       :enable_coderay => true,
+		                       :coderay_line_numbers => nil).to_custom_html.html_safe
+	end
+	
 	def title()
 		(@page && @page.title) || @title
 	end
