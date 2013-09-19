@@ -63,9 +63,9 @@ class PageController < ApplicationController
 			current_user.activate
 			
 			# success
-			redirect_to(:back, :notice => "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
+			redirect_to(:back, notice: "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
 		else			
-			render :text => 'There is a problem in the submit configuration, please warn your professor immediately and mention Dropbox.'
+			redirect_to(:back, flash: { error: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe })
 		end
 	end
 	

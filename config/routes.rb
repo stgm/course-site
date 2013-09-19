@@ -10,19 +10,23 @@ CourseSite::Application.routes.draw do
 	get  "profile/logout"
 
 	# administrative
-	get  "admin/grading_list"
 	get  "admin/claim"
-	get  "admin/dropbox"
-	post "admin/dropbox" => "admin#dropbox_save"
-	get  "admin/link"
 	get  "admin/admins"
 	post "admin/admins" => "admin#admins_save"
 	post "admin/assistants" => "admin#assistants_save"
-	post "admin/import_do"
-	post "admin/import_groups"
+
+	# course management
+	get  "course/grading_list"
+	post "course/import"
+	post "course/import_groups"
+
+	# dropbox
+	get  "dropbox" => "dropbox#index"
+	post "dropbox/connect"
+	get  "dropbox/oauth"
 
 	# grading
-	get  "grades/users"
+	get  "grades" => "grades#index"
 	post "grades/create_submit"
 	post "grades/done"
 	post "grades/enable"

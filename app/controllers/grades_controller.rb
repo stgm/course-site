@@ -11,15 +11,6 @@ class GradesController < ApplicationController
 		redirect_to new_submit_grade_url(submit_id:@submit.id)
 	end
 
-	def users
-		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('updated_at desc')
-		@done = User.where(done: true).order('updated_at desc')
-		@inactive = User.where(active: false).order('updated_at desc')
-		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or []))
-		@psets = Pset.order(:name)
-		@title = "List users"
-	end
-	
 	##
 	# POST
 	# ajax-only enable/disable of students
@@ -43,7 +34,12 @@ class GradesController < ApplicationController
 	# GET /grades
 	# GET /grades.json
 	def index
-		@grades = Grade.all
+		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('updated_at desc')
+		@done = User.where(done: true).order('updated_at desc')
+		@inactive = User.where(active: false).order('updated_at desc')
+		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or []))
+		@psets = Pset.order(:name)
+		@title = "List users"
 
 		respond_to do |format|
 			format.html # index.html.erb
@@ -90,7 +86,7 @@ class GradesController < ApplicationController
 
 		respond_to do |format|
 			if @grade.save
-				format.html { redirect_to grades_users_url, notice: 'Grade was successfully created.' }
+				format.html { redirect_to grades_url, notice: 'Grade was successfully created.' }
 				format.json { render json: @grade, status: :created, location: @grade }
 			else
 				format.html { render action: "new" }
@@ -106,7 +102,7 @@ class GradesController < ApplicationController
 
 		respond_to do |format|
 			if @grade.update_attributes(params[:grade])
-				format.html { redirect_to grades_users_url, notice: 'Grade was successfully updated.' }
+				format.html { redirect_to grades_url, notice: 'Grade was successfully updated.' }
 				format.json { head :no_content }
 			else
 				format.html { render action: "edit" }

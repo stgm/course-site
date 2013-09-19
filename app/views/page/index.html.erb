@@ -2,57 +2,42 @@
 	<div class="col-md-2" id="schedule-column">
 	</div>
 	<div class="col-md-8" id="content">
-	
-			<% if flash[:error] %>
-			<div class="alert alert-error">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<%= flash[:error] %>
-			</div>
-			<% end %>
-
-			<% if flash[:notice] %>
-			<div class="alert alert-success">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<%= flash[:notice] %>
-			</div>
-			<% end %>
-	
-			<header class="page-header">
-				<h1><%= title %></h1>
-				<% if @page.pset or @page.subpages.count > 1 %>
-				<ul class="nav nav-pills">
-					<% @page.subpages.each_with_index do |subpage, index| %>
-					<li class="<%= 'active' if index == 0 %>">
-						<a href="#<%= subpage.slug %>" data-target="#<%= subpage.slug %>-content" data-toggle="tab"><%= subpage.title %></a>
-					</li>
-					<% end %>
-					<% if logged_in? and @page.pset %>
-					<li>
-					  <a href="#submit" data-target="#submit-content" data-toggle="tab">Submit <%= submitted_icon %></a>
-					</li>
-					<% end %>
-				</ul>
-				<% end %>
-			</header>
-
-
-			<%= form_tag_if(logged_in? && @page.pset, page_submit_url, { :multipart => true, :id => "page_form" }) do %>
-			<%= hidden_field_tag :page_id, @page.id %>
-			<div class="tab-content">
-
+		<header class="page-header">
+			<h1><%= title %></h1>
+			<% if @page.pset or @page.subpages.count > 1 %>
+			<ul class="nav nav-pills">
 				<% @page.subpages.each_with_index do |subpage, index| %>
-				<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>-content">
-					<%= markdown(subpage.content, @page) %>
-				</section>
+				<li class="<%= 'active' if index == 0 %>">
+					<a href="#<%= subpage.slug %>" data-target="#<%= subpage.slug %>-content" data-toggle="tab"><%= subpage.title %></a>
+				</li>
 				<% end %>
-
 				<% if logged_in? and @page.pset %>
-				<section class="tab-pane markdown" id="submit-content">
-					<%= render 'submit_tab' %>
-				</section>
+				<li>
+				  <a href="#submit" data-target="#submit-content" data-toggle="tab">Submit <%= submitted_icon %></a>
+				</li>
 				<% end %>
-			</div>
+			</ul>
 			<% end %>
+		</header>
+
+
+		<%= form_tag_if(logged_in? && @page.pset, page_submit_url, { :multipart => true, :id => "page_form" }) do %>
+		<%= hidden_field_tag :page_id, @page.id %>
+		<div class="tab-content">
+
+			<% @page.subpages.each_with_index do |subpage, index| %>
+			<section class="tab-pane markdown <%= 'active' if index == 0 %>" id="<%= subpage.slug %>-content">
+				<%= markdown(subpage.content, @page) %>
+			</section>
+			<% end %>
+
+			<% if logged_in? and @page.pset %>
+			<section class="tab-pane markdown" id="submit-content">
+				<%= render 'submit_tab' %>
+			</section>
+			<% end %>
+		</div>
+		<% end %>
 	</div>
 
 	<% if logged_in? %>

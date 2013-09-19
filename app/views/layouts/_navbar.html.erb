@@ -33,19 +33,21 @@
 
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user.name || current_user.uvanetid %></a>
 				<ul class="dropdown-menu" style="min-width:200px;">
-					<% if is_assistant? or is_admin? %>
-					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, :controller => 'grades', :action => 'users' %></li>
-					<li class="divider"></li>
-					<% end %>
 					<% if is_admin? %>
-					<li><%= link_to '<i class="glyphicon glyphicon-list-alt"></i> Grading list'.html_safe, :controller => 'admin', :action => 'grading_list' %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, '/admin/import_do', method: :post %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Admins'.html_safe, :controller => 'admin', :action => 'admins' %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-asterisk"></i> Manage dropbox'.html_safe, :controller => 'admin', :action => 'dropbox' %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Manage students'.html_safe, grades_path %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-list-alt"></i> Grading list'.html_safe, course_grading_list_path %></li>
+					<li class="divider"></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Admins'.html_safe, admin_admins_path %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-asterisk"></i> Manage dropbox'.html_safe, dropbox_path %></li>
 					<li class="divider"></li>
 					<% end %>
-					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Grades'.html_safe, :controller => 'profile', :action => 'grades' %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, :controller => 'profile', :action => 'logout' %></li>
+					<% if is_assistant? %>
+					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> List users'.html_safe, grades_path %></li>
+					<% else %>
+					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Grades'.html_safe, profile_grades_path %></li>
+					<% end %>
+					<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, profile_logout_path %></li>
 				</ul>
 			</li>
 			<% else %>
@@ -55,3 +57,17 @@
 	</div>
 
 </nav>
+
+<% if flash[:error] %>
+<div class="alert alert-danger">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= flash[:error] %>
+</div>
+<% end %>
+
+<% if flash[:notice] %>
+<div class="alert alert-success">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= flash[:notice] %>
+</div>
+<% end %>

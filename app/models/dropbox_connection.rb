@@ -26,7 +26,7 @@ class DropboxConnection
 	end
 	
 	def linked?
-		return !!@dropbox_client
+		return (@dropbox_session and @dropbox_session.authorized?)
 	end
 	
 	def create_session(return_to_url)

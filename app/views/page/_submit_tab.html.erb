@@ -1,6 +1,6 @@
 <% if @submitted %>
 <div class="alert alert-success" style="border:0; border-radius:0;">
-	You have submitted this problem set <%= time_ago_in_words(@page.pset.submit_from(current_user).submitted_at) %> ago.
+	You have submitted this problem set <%= time_ago_in_words((@page.pset.submit_from(current_user).submitted_at or Time.now)) %> ago.
 </div>
 <% end %>
 
