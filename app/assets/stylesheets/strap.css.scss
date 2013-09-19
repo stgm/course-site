@@ -90,6 +90,12 @@ body > .row /* shouldn't be necessary according to bootstrap docs? */
 	padding:5px 10px;
 }
 
+#content > #submitted_pset
+{
+	margin:-2em -4em 0 -4em;
+	border:0; border-radius:0;
+}
+
 /****************************************************************************
  *  content sections
  *
