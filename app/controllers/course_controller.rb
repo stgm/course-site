@@ -41,7 +41,7 @@ class CourseController < ApplicationController
 			end
 		end
 		
-		redirect_to :back
+		redirect_to :back, notice: 'Student groups were successfully imported.'
 	end
 
 end
