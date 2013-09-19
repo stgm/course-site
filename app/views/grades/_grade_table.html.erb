@@ -10,7 +10,7 @@
 		<% end %>
 	</tr>
 
-	<% users.each do |user| %>
+	<% users.includes(:submits).each do |user| %>
 	<tr>
 		<td><%= check_box_tag "active#{user.id}", 'yes', user.active, :onclick => "$.post('/grades/enable', { id:'#{user.id}', active:$(this).is(':checked') });" %></td>
 		<td><%= check_box_tag "done#{user.id}", 'yes', user.done, :onclick => "$.post('/grades/done', { id:'#{user.id}', done:$(this).is(':checked') });" %></td>
@@ -24,7 +24,7 @@
 		<td><%= user.uvanetid %></td>
 		<% @psets.each do |pset| %>
 		<td>
-			<% if submitted = user.submit(pset) %>
+			<% if submitted = user.submits.where(pset_id: pset.id).first %>
 				<% if submitted.grade and not submitted.grade.grade.blank? %>
 				<%= link_to "#{submitted.grade.grade}", edit_submit_grade_url(submit_id: submitted.id), class: 'btn btn-primary btn-xs' %>
 				<% else %>
