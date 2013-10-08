@@ -3,9 +3,9 @@
 	</div>
 	<div class="col-md-8" id="content">
 
-		<% if @submitted %>
+		<% if @submitted and date = @page.pset.submit_from(current_user).submitted_at %>
 		<div id="submitted_pset" class="alert alert-success">
-			You have submitted this problem set <%= time_ago_in_words((@page.pset.submit_from(current_user).submitted_at or Time.now)) %> ago.
+			You have submitted this problem set <%= time_ago_in_words(date) %> ago.
 		</div>
 		<% end %>
 
