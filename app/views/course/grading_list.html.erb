@@ -6,7 +6,7 @@
 
 	<ul>
 		<% @submits.each do |submit| %>
-			<li><%= submit.pset.name %> from <%= submit.user.name %> <%= submit.user.uvanetid %></li>
+			<li><%= submit.pset.name %> from <%= submit.user.name %> <%= submit.user.uvanetid %>: <%= time_ago_in_words(submit.submitted_at) if submit.submitted_at %> ago</li>
 		<% end %>
 	</ul>
 	
