@@ -34,10 +34,10 @@ class GradesController < ApplicationController
 	# GET /grades
 	# GET /grades.json
 	def index
-		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('updated_at desc')
-		@done = User.where(done: true).order('updated_at desc')
-		@inactive = User.where(active: false).order('updated_at desc')
-		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or []))
+		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name desc')
+		@done = User.where(done: true).order('name desc')
+		@inactive = User.where(active: false).order('name desc')
+		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name desc')
 		@psets = Pset.order(:name)
 		@title = "List users"
 
