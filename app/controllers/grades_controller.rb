@@ -73,8 +73,8 @@ class GradesController < ApplicationController
 
 	# GET /grades/1/edit
 	def edit
-		@grade = Submit.find(params[:submit_id]).grade		
-		puts @grade.inspect
+		@grade = Submit.find(params[:submit_id]).grade
+		logger.info @grade.inspect
 	end
 
 	# POST /grades
