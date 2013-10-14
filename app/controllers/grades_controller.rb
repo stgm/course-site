@@ -38,7 +38,7 @@ class GradesController < ApplicationController
 		@done = User.where(done: true).order('name')
 		@inactive = User.where(active: false).order('name')
 		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@psets = Pset.order(:name)
+		@psets = Pset.order(:id)
 		@title = "List users"
 
 		respond_to do |format|
