@@ -2,7 +2,7 @@ class Page < ActiveRecord::Base
 
 	# this generates a url friendly part for the page
 	extend FriendlyId
-	friendly_id :title, :use => :slugged
+	friendly_id :title, use: [ :slugged, :scoped ], scope: :section
 
 	attr_accessible :content, :position, :section, :title, :path, :form
 

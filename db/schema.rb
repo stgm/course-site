@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130908153822) do
+ActiveRecord::Schema.define(:version => 20131015163603) do
 
   create_table "answers", :force => true do |t|
     t.integer  "user_id"
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(:version => 20130908153822) do
     t.string   "path"
   end
 
-  add_index "pages", ["slug"], :name => "index_pages_on_slug", :unique => true
+  add_index "pages", ["slug", "section_id"], :name => "index_pages_on_slug_and_section_id", :unique => true
 
   create_table "progresses", :force => true do |t|
     t.integer  "user_id"
