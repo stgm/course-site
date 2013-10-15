@@ -15,7 +15,7 @@
 	<div class="col-lg-6">
 		<div class="field">
 			<%= f.label :grader %><br />
-			<%= f.text_field :grader, class: 'form-control', disabled: true %>
+			<%= f.text_field :grader, class: 'form-control', disabled: true, value: User.where(uvanetid: @grade.grader).first.name %>
 		</div>
 		<div class="field">
 			<%= f.label :scope %><br />

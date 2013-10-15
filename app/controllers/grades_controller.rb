@@ -34,11 +34,11 @@ class GradesController < ApplicationController
 	# GET /grades
 	# GET /grades.json
 	def index
-		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('updated_at desc')
-		@done = User.where(done: true).order('updated_at desc')
-		@inactive = User.where(active: false).order('updated_at desc')
-		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or []))
-		@psets = Pset.order(:name)
+		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+		@done = User.where(done: true).order('name')
+		@inactive = User.where(active: false).order('name')
+		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+		@psets = Pset.order(:id)
 		@title = "List users"
 
 		respond_to do |format|
@@ -73,8 +73,8 @@ class GradesController < ApplicationController
 
 	# GET /grades/1/edit
 	def edit
-		@grade = Submit.find(params[:submit_id]).grade		
-		puts @grade.inspect
+		@grade = Submit.find(params[:submit_id]).grade
+		logger.info @grade.inspect
 	end
 
 	# POST /grades
