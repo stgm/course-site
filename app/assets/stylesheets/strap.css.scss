@@ -134,6 +134,11 @@ section h2
 	font-size:1.2em;
 }
 
+section h2 small
+{
+    font-size:0.8em;
+}
+
 section h3
 {
 	font-size:1em;
@@ -217,8 +222,14 @@ section code, section pre
 
 section pre
 {
-	padding: 0.5em 2em;
+	padding: 0.5em 3em;
 	color:#d14;
+    font-size:inherit;
+}
+
+section code
+{
+    font-size:0.9em;
 }
 
 section pre .comment
@@ -231,6 +242,21 @@ section .video-js
 	background-color:black;
 	height:480px !important; /* overrides html width + height */
 	width:auto !important;
+}
+
+section ul.checkboxes, section ul.radios, section ul.none
+{
+    list-style-type:none;
+}
+
+section ul.checkboxes li:before
+{
+    content: "\25A2\2002";
+}
+
+section ul.radios li:before
+{
+    content: "\25EF\2002";
 }
 
 /****************************************************************************
@@ -268,12 +294,12 @@ section .kramdown-table tr:last-child td
 section input[type=text]
 {
 	border:none;
-	border-bottom:1px solid black;
+	border-bottom:1pt solid black;
 }
 
 section textarea
 {
-	border:1px solid black;
+	border:1pt solid black;
 	width:100%;
 }
 
@@ -382,6 +408,11 @@ footer
 		display:block;
 		font-size:8pt;
 	}
+    
+    section textarea
+    {
+        resize:none;
+    }
 	
 	.tab-content > .tab-pane, .pill-content > .pill-pane /* show all tabs */
 	{
