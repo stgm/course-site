@@ -27,6 +27,7 @@ CourseSite::Application.routes.draw do
 
 	# grading
 	get  "grades" => "grades#index"
+	get  "grades/export"
 	post "grades/create_submit"
 	post "grades/done"
 	post "grades/enable"

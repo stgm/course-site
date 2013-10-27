@@ -30,6 +30,12 @@ class GradesController < ApplicationController
 		reg.update_attribute(:done, params[:done])
 		render :nothing => true
 	end
+	
+	def export
+		@users = User.where(active: true).order('name')
+		@psets = Pset.order(:id)
+		@title = "Export grades"
+	end
 		
 	# GET /grades
 	# GET /grades.json
