@@ -17,6 +17,7 @@ CourseSite::Application.routes.draw do
 
 	# course management
 	get  "course/grades"
+	post "course/touch_submit"
 	post "course/import"
 	post "course/import_groups"
 

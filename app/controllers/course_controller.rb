@@ -19,6 +19,11 @@ class CourseController < ApplicationController
 		@title = "List users"
 	end
 	
+	def touch_submit
+		Submit.find(params[:submit_id]).update_attribute(:submitted_at, Time.now)
+		redirect_to :back
+	end
+	
 	def import_groups
 		# this is very dependent on datanose export format: id's in col 0 and 1, group name in 7
 		if source = params[:paste]
