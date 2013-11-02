@@ -61,7 +61,7 @@ class GradesController < ApplicationController
 		@grade = @submit.build_grade do |e|
 			e.grader = current_user.uvanetid
 		end
-		@grades = Grade.includes(:submit).where("submits.user_id = ?", current_user.id)
+		@grades = Grade.includes(:submit).where("submits.user_id = ?", @submit.user_id)
 
 		respond_to do |format|
 			format.html # new.html.erb
@@ -71,8 +71,9 @@ class GradesController < ApplicationController
 
 	# GET /grades/1/edit
 	def edit
-		@grade = Submit.find(params[:submit_id]).grade
-		@grades = Grade.includes(:submit).where("submits.user_id = ?", current_user.id)
+		@submit = Submit.find(params[:submit_id])
+		@grade = @submit.grade
+		@grades = Grade.includes(:submit).where("submits.user_id = ?", @submit.user_id)
 		logger.info @grade.inspect
 	end
 
