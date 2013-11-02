@@ -1,7 +1,7 @@
 <div id="content" class="container">
 
 	<header class="page-header">
-		<h1>Grading <small><%= @grade.submit.pset.name %> by <%= @grade.submit.user.name %></small></h1>
+		<h1>Grading <small><%= @grade.submit.pset.name %> by <%= @grade.submit.user.name %> / <%= @grade.submit.user.uvanetid %></small></h1>
 	</header>
 
 	<%= render 'form' %>
