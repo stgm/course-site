@@ -1,4 +1,5 @@
 <%= form_for(@grade, url: submit_grade_path(@grade.submit)) do |f| %>
+
 <% if @grade.errors.any? %>
 <div id="error_explanation">
 	<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
@@ -12,7 +13,8 @@
 <% end %>
 
 <div class="row">
-	<div class="col-lg-6">
+
+	<div class="col-lg-2">
 		<div class="field">
 			<%= f.label :grader %><br />
 			<%= f.text_field :grader, class: 'form-control', disabled: true, value: User.where(uvanetid: @grade.grader).first.name %>
@@ -35,8 +37,8 @@
 		</div>
 		<div class="field">
 			<%= f.label :grade %><br />
-			<div class="input-group">
 				<%= f.number_field :grade, class: 'form-control' %>
+			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" id="pass-btn">Pass</button>
 					<button class="btn btn-default" type="button" id="fail-btn">Fail</button>
@@ -44,14 +46,34 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-6">
+	
+	<div class="col-lg-5">
 		<div class="field">
-			<%= f.label :comments %><br />
+			<%= f.label :comments, "Feedback" %><br />
 			<%= f.text_area :comments, class: 'form-control' %>
 		</div>
 		<div class="actions">
 			<%= f.submit class: 'btn btn-default form-control' %>
 		</div>
 	</div>
+	
+	<div class="col-lg-5">
+		<% @grades.each do |grade| %>
+		<h2><%= grade.submit.pset.name %></h2>
+		<table class="table table-bordered" style="width:auto">
+			<tr><th>S</th><th>C</th><th>D</th><th>S</th><th>F</th></tr>
+			<tr>
+				<td><%= grade.scope %></td>
+				<td><%= grade.correctness %></td>
+				<td><%= grade.design %></td>
+				<td><%= grade.style %></td>
+				<td><%= translate_grade(grade.grade) %></td>
+			</tr>
+		</table>
+		<%= simple_markdown(grade.comments) %>
+		<% end %>
+	</div>
+	
 </div>
+
 <% end %>

@@ -35,8 +35,8 @@
 				<ul class="dropdown-menu" style="min-width:200px;">
 					<% if is_admin? %>
 					<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Manage students'.html_safe, grades_path %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-list-alt"></i> Grading list'.html_safe, course_grading_list_path %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-list-alt"></i> Grading list'.html_safe, grades_path %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Manage students'.html_safe, course_grades_path %></li>
 					<li class="divider"></li>
 					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Admins'.html_safe, admin_admins_path %></li>
 					<li><%= link_to '<i class="glyphicon glyphicon-asterisk"></i> Manage dropbox'.html_safe, dropbox_path %></li>

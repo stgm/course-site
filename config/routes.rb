@@ -16,7 +16,7 @@ CourseSite::Application.routes.draw do
 	post "admin/assistants" => "admin#assistants_save"
 
 	# course management
-	get  "course/grading_list"
+	get  "course/grades"
 	post "course/import"
 	post "course/import_groups"
 

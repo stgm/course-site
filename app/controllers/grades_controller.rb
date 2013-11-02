@@ -40,17 +40,7 @@ class GradesController < ApplicationController
 	# GET /grades
 	# GET /grades.json
 	def index
-		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@done = User.where(done: true).order('name')
-		@inactive = User.where(active: false).order('name')
-		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@psets = Pset.order(:id)
-		@title = "List users"
-
-		respond_to do |format|
-			format.html # index.html.erb
-			format.json { render json: @grades }
-		end
+		@submits = Submit.includes(:user, :pset, :grade).where("users.active = ? and users.done = ? and (grades.updated_at < submits.updated_at or grades.updated_at is null)", true, false).order('psets.name')
 	end
 
 	# GET /grades/1
@@ -67,9 +57,11 @@ class GradesController < ApplicationController
 	# GET /grades/new
 	# GET /grades/new.json
 	def new
-		@grade = Submit.find(params[:submit_id]).build_grade do |e|
+		@submit = Submit.find(params[:submit_id])
+		@grade = @submit.build_grade do |e|
 			e.grader = current_user.uvanetid
 		end
+		@grades = Grade.includes(:submit).where("submits.user_id = ?", current_user.id)
 
 		respond_to do |format|
 			format.html # new.html.erb
@@ -80,6 +72,7 @@ class GradesController < ApplicationController
 	# GET /grades/1/edit
 	def edit
 		@grade = Submit.find(params[:submit_id]).grade
+		@grades = Grade.includes(:submit).where("submits.user_id = ?", current_user.id)
 		logger.info @grade.inspect
 	end
 
