@@ -40,7 +40,7 @@ class GradesController < ApplicationController
 	# GET /grades
 	# GET /grades.json
 	def index
-		@submits = Submit.includes(:user, :pset, :grade).where("users.active = ? and users.done = ? and (grades.updated_at < submits.updated_at or grades.updated_at is null or grades.updated_at < ?)", true, false, 5.days.ago).order('psets.name')
+		@submits = Submit.includes(:user, :pset, :grade).where("users.active = ? and users.done = ? and (grades.updated_at < submits.updated_at or grades.updated_at is null or grades.updated_at > ?)", true, false, 5.days.ago).order('psets.name')
 	end
 
 	# GET /grades/1
