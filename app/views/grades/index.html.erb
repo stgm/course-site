@@ -9,7 +9,8 @@
 			<th>pset</th>
 			<th>name</th>
 			<th>id</th>
-			<th>submit date</th>
+			<th>submitted</th>
+			<th>grade</th>
 			<th></th>
 		</tr>
 		
@@ -19,6 +20,7 @@
 			<td><%= submit.user.name %></td>
 			<td><%= submit.user.uvanetid %></td>
 			<td><%= time_ago_in_words(submit.submitted_at) if submit.submitted_at %> ago</td>
+			<td><%= submit.grade.grade if submit.grade %></td>
 			<td><%= submit_grade_link(submit) %></td>
 		</tr>
 		<% end %>
