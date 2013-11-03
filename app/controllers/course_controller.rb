@@ -19,6 +19,11 @@ class CourseController < ApplicationController
 		@title = "List users"
 	end
 	
+	def toggle_public_grades
+		Settings.public_grades = !Settings.public_grades
+		redirect_to :back
+	end
+	
 	def touch_submit
 		Submit.find(params[:submit_id]).update_attribute(:submitted_at, Time.now)
 		redirect_to :back

@@ -4,6 +4,8 @@
 		<h1>Grades</h1>
 	</header>
 
+	<% if Settings.public_grades %>
+	
 	<% @grades.each do |grade| %>
 	
 	<h2><%= grade.submit.pset.name %></h2>
@@ -32,6 +34,12 @@
 	</table>
 	
 	<%= simple_markdown(grade.comments) %>
+	
+	<% end %>
+	
+	<% else %>
+	
+	Grades are currently hidden, but should be published after the weekend.
 	
 	<% end %>
 

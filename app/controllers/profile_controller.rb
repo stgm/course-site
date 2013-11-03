@@ -11,7 +11,9 @@ class ProfileController < ApplicationController
 	end
 	
 	def grades
-		@grades = Grade.includes(:submit).where("submits.user_id = ?", current_user.id)
+		if Settings.public_grades
+			@grades = Grade.includes(:submit).where("submits.user_id = ?", current_user.id)
+		end
 	end
 	
 	def save # POST
