@@ -44,7 +44,7 @@ class GradesController < ApplicationController
 	end
 	
 	def check
-		pset_id = 'hw3'
+		pset_id = 'hw2'
 		@pset = Pset.where(name:pset_id).first
 		existing_grades = Grade.joins(:submit => :user).where("submits.pset_id = ?", @pset.id).pluck("users.uvanetid")
 		if(existing_grades.count > 0)
