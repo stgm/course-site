@@ -1,0 +1,23 @@
+<div id="content" class="container">
+
+	<header class="page-header">
+		<h1>Grading list</h1>
+	</header>
+
+	<table class="table table-bordered">
+		<tr>
+			<th>name</th>
+			<th>done</th>
+		</tr>
+		<% @users.each do |user| %>
+		<tr id="td<%= user.uvanetid %>">
+			<td><%= user.name %></td>
+			<td>
+				<%= link_to 'pass', grades_create_or_update_path(grade:{ grade:-1 }, pset_id:@pset.id, user_id:user.id), method: :post, remote: true, onclick:"$('#td#{user.uvanetid}').fadeOut()" %> ---
+				<%= link_to 'fail', grades_create_or_update_path(grade:{ grade:0 }, pset_id:@pset.id, user_id:user.id), method: :post, remote: true, onclick:"$('#td#{user.uvanetid}').fadeOut()" %>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+
+</div>

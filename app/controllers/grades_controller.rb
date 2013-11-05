@@ -42,6 +42,17 @@ class GradesController < ApplicationController
 	def index
 		@submits = Submit.includes(:user, :pset, :grade).where("users.active = ? and users.done = ? and (grades.updated_at < submits.updated_at or grades.updated_at is null or grades.updated_at > ?)", true, false, 5.days.ago).order('psets.name')
 	end
+	
+	def check
+		pset_id = 'hw3'
+		@pset = Pset.where(name:pset_id).first
+		existing_grades = Grade.joins(:submit => :user).where("submits.pset_id = ?", @pset.id).pluck("users.uvanetid")
+		if(existing_grades.count > 0)
+			@users = User.where('uvanetid not in (?)', existing_grades)
+		else
+			@users = User.all
+		end
+	end
 
 	# GET /grades/1
 	# GET /grades/1.json
@@ -109,6 +120,18 @@ class GradesController < ApplicationController
 				format.json { render json: @grade.errors, status: :unprocessable_entity }
 			end
 		end
+	end
+	
+	def create_or_update
+		# @pset = Pset.find(params[:pset_id])
+		@submit = Submit.where(pset_id: params[:pset_id], user_id: params[:user_id]).first_or_create
+		if @submit.grade
+			@submit.grade.update_attributes(params[:grade])
+		else
+			@submit.create_grade(params[:grade])
+			@submit.grade.update_attribute(:grader, current_user.uvanetid)
+		end
+		render nothing: true
 	end
 
 	# DELETE /grades/1
