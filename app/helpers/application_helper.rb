@@ -25,7 +25,8 @@ module ApplicationHelper
 	def simple_markdown(text)
 		# pass public parl URL to the image converter
 		# :image_prefix is defined in config/application.rb
-		Kramdown::Document.new(text,
+		
+		return text && Kramdown::Document.new(text,
 		                       :auto_ids => false,
 							   :parse_block_html => true,
 		                       :coderay_css => :class,
