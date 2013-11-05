@@ -1,0 +1,91 @@
+<div id="content" class="container">
+
+	<header class="page-header">
+		<h1>Grading <small><%= @pset.name %> by <%= @user.name %> / <%= @user.uvanetid %></small></small></h1>
+	</header>
+
+	<%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
+
+	<% if is_admin? and @submit %>
+	<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %>
+	<% end %>
+
+	<% if @grade.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
+
+		<ul>
+			<% @grade.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+
+	<div class="row">
+
+		<div class="col-lg-2">
+			<div class="field">
+				<%= f.label :grader %><br />
+				<%= f.text_field :grader, class: 'form-control', disabled: true, value: @grade.grader_name %>
+			</div>
+			<div class="field">
+				<%= f.label :scope %><br />
+				<%= f.number_field :scope, class: 'form-control' %>
+			</div>
+			<div class="field">
+				<%= f.label :correctness %><br />
+				<%= f.number_field :correctness, class: 'form-control' %>
+			</div>
+			<div class="field">
+				<%= f.label :design %><br />
+				<%= f.number_field :design, class: 'form-control' %>
+			</div>
+			<div class="field">
+				<%= f.label :style %><br />
+				<%= f.number_field :style, class: 'form-control' %>
+			</div>
+			<div class="field">
+				<%= f.label :grade %><br />
+					<%= f.number_field :grade, class: 'form-control' %>
+				<div class="input-group">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" id="pass-btn">Pass</button>
+						<button class="btn btn-default" type="button" id="fail-btn">Fail</button>
+					</span>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-lg-5">
+			<div class="field">
+				<%= f.label :comments, "Feedback" %><br />
+				<%= f.text_area :comments, class: 'form-control' %>
+			</div>
+			<div class="actions">
+				<%= f.submit class: 'btn btn-default form-control' %>
+			</div>
+		</div>
+	
+		<div class="col-lg-5">
+			<% @grades.each do |grade| %>
+			<h2><%= grade.submit.pset.name %></h2>
+			<table class="table table-bordered" style="width:auto">
+				<tr><th>S</th><th>C</th><th>D</th><th>S</th><th>F</th></tr>
+				<tr>
+					<td><%= grade.scope %></td>
+					<td><%= grade.correctness %></td>
+					<td><%= grade.design %></td>
+					<td><%= grade.style %></td>
+					<td><%= translate_grade(grade.grade) %></td>
+				</tr>
+			</table>
+			<%= simple_markdown(grade.comments) %>
+			<% end %>
+		</div>
+	
+	</div>
+
+	<% end %>
+
+</div>

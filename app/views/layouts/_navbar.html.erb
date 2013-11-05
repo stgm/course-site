@@ -35,7 +35,7 @@
 				<ul class="dropdown-menu" style="min-width:200px;">
 					<% if is_admin? %>
 					<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
-					<li><%= link_to '<i class="glyphicon glyphicon-list-alt"></i> Grading list'.html_safe, grades_path %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-list-alt"></i> Grading list'.html_safe, grading_path %></li>
 					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Manage students'.html_safe, course_grades_path %></li>
 					<% if Settings.public_grades %>
 					<li><%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Grades are public, hide now'.html_safe, course_toggle_public_grades_path, method: :post %></li>
@@ -48,7 +48,7 @@
 					<li class="divider"></li>
 					<% end %>
 					<% if is_assistant? %>
-					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading'.html_safe, grades_path %></li>
+					<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading'.html_safe, grading_path %></li>
 					<% else %>
 					<li><%= link_to '<i class="glyphicon glyphicon-user"></i> Grades'.html_safe, profile_grades_path %></li>
 					<% end %>

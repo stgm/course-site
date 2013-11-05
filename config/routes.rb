@@ -17,6 +17,9 @@ CourseSite::Application.routes.draw do
 
 	# course management
 	get  "course/grades"
+	get  "course/export_grades"
+	post "course/done"
+	post "course/enable"
 	post "course/touch_submit"
 	post "course/toggle_public_grades"
 	post "course/import"
@@ -27,23 +30,21 @@ CourseSite::Application.routes.draw do
 	post "dropbox/connect"
 	get  "dropbox/oauth"
 
-	# grading
-	get  "grades" => "grades#index"
-	get  "grades/check"
-	get  "grades/export"
-	post "grades/create_submit"
-	post "grades/done"
-	post "grades/enable"
-	post "grades/create_or_update"
-	resources :submits do
-		resource :grade
-	end
+	# grading overview
+	get  "grading" => "grading#index"
 
+	# check off homework
+	get  "check/:pset" => "check#index"
+
+	# individual grades
+	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
+	post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
+	
 	# commenting
-	post "comment/post_question"
-	post "comment/post_answer"
-	post "comment/delete_question"
-	post "comment/delete_answer"
+	# post "comment/post_question"
+	# post "comment/post_answer"
+	# post "comment/delete_question"
+	# post "comment/delete_answer"
 	
 	# onboarding
 	get  "welcome" => "welcome#index"

@@ -3,13 +3,41 @@ class CourseController < ApplicationController
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin
 
+	#
 	# update the courseware from the linked git repository
+	#
 	def import
 		Course.reload
 		redirect_to :back, notice: 'The course content was successfully updated.'
 	end
 	
-	# list all psets that have not been graded since last submit
+	def export_grades
+		@users = User.where(active: true).order('name')
+		@psets = Pset.order(:id)
+		@title = "Export grades"
+	end
+
+	#
+	# ajax-only enable/disable of students
+	#
+	def enable
+		reg = User.find(params[:id])
+		reg.update_attribute(:active, params[:active])
+		render :nothing => true
+	end
+
+	#
+	# ajax-only done/not done of students
+	#
+	def done
+		reg = User.find(params[:id])
+		reg.update_attribute(:done, params[:done])
+		render :nothing => true
+	end
+	
+	#
+	# list all submits
+	#
 	def grades
 		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 		@done = User.where(done: true).order('name')
@@ -19,16 +47,25 @@ class CourseController < ApplicationController
 		@title = "List users"
 	end
 	
+	#
+	# visibility of grades by normal users
+	#
 	def toggle_public_grades
 		Settings.public_grades = !Settings.public_grades
 		redirect_to :back
 	end
 	
+	#
+	# update submit date for single submit, in order to get it into the queue again
+	#
 	def touch_submit
 		Submit.find(params[:submit_id]).update_attribute(:submitted_at, Time.now)
 		redirect_to :back
 	end
 	
+	#
+	# divide users into groups from a csv
+	#
 	def import_groups
 		# this is very dependent on datanose export format: id's in col 0 and 1, group name in 7
 		if source = params[:paste]

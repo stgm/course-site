@@ -47,12 +47,12 @@ module ApplicationHelper
 		end
 	end
 
-	def submit_grade_link(submit)
-		if submit.grade.nil?
-			link_to 'enter new grade', new_submit_grade_url(submit_id: submit.id)
-		else
-			link_to 'revise grade', edit_submit_grade_url(submit_id: submit.id)
-		end
-	end
+	# def submit_grade_link(submit)
+	# 	if submit.grade.nil?
+	# 		link_to 'enter new grade', new_submit_grade_url(submit_id: submit.id)
+	# 	else
+	# 		link_to 'revise grade', edit_submit_grade_url(submit_id: submit.id)
+	# 	end
+	# end
 
 end
