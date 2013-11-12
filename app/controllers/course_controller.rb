@@ -56,6 +56,14 @@ class CourseController < ApplicationController
 	end
 	
 	#
+	# allow access to grading module
+	#
+	def toggle_grading_allowed
+		Settings.allow_grading = !Settings.allow_grading
+		redirect_to :back
+	end
+	
+	#
 	# update submit date for single submit, in order to get it into the queue again
 	#
 	def touch_submit
