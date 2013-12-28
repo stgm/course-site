@@ -39,8 +39,7 @@ class CourseController < ApplicationController
 	# list all submits
 	#
 	def grades
-		@groupless = User.where(active: true, done: false, group_id: nil).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@done = User.where(done: true).order('name')
+		@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 		@inactive = User.where(active: false).order('name')
 		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 		@psets = Pset.order(:id)
@@ -53,7 +52,6 @@ class CourseController < ApplicationController
 	def track_grades
 		current_track = Course.tracks[params[:track]]
 		@psets = Pset.where("name" => current_track['requirements'])
-		# @users = User.select("users.*, count(submits.id) as prio").joins(:submits, :psets).where("psets.name" => current_track['requirements']).where(active:true).order("prio")
 		@users = User.includes(:submits, :psets).where("psets.name" => current_track['requirements']).where(active:true)
 		@users = @users.sort { |a,b| a.submits.size <=> b.submits.size }
 		@title = current_track['name']
