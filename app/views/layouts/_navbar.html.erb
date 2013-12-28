@@ -33,6 +33,17 @@
 
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user.name || current_user.uvanetid %></a>
 				<ul class="dropdown-menu" style="min-width:200px;">
+					<% Track.for(current_user).each do |track_name, track_status| %>
+					<li role="presentation" class="dropdown-header" style="padding:2px 10px 0 10px;"><%= track_name %></li>
+					<li>
+						<div class="progress" style="margin:4px 10px;">
+						  <div class="progress-bar" role="progressbar" aria-valuenow="<%= track_status[0] %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= track_status[0] %>%;">
+						    <span class="sr-only"><%= track_status[0] %>% Complete</span>
+						  </div>
+						</div>
+					</li>
+					<li class="divider"></li>
+					<% end %>
 					<% if is_admin? %>
 					<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
 					<li><%= link_to '<i class="glyphicon glyphicon-list-alt"></i> Grading list'.html_safe, grading_path %></li>
