@@ -40,7 +40,7 @@ class CourseController < ApplicationController
 	#
 	def grades
 		@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@inactive = User.where(active: false).order('name')
+		@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 		@psets = Pset.order(:id)
 		@title = "List users"
