@@ -4,7 +4,7 @@
 		<th>Active</th>
 		<th>Name</th>
 		<th>ID</th>
-		<% @psets.each do |pset| %>
+		<% psets.each do |pset| %>
 		<th><%= pset.name %></th>
 		<% end %>
 	</tr>
@@ -20,7 +20,7 @@
 			<% end %>
 		</td>
 		<td><%= user.uvanetid %></td>
-		<% @psets.each do |pset| %>
+		<% psets.each do |pset| %>
 		<td>
 			<% if submitted = user.submits.where(pset_id: pset.id).first %>
 				<% if submitted.grade and not submitted.grade.grade.blank? %>
