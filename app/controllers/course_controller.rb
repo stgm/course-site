@@ -50,7 +50,7 @@ class CourseController < ApplicationController
 				@groups << { psets: psets, users: users, title: title }
 				all_grouped_users += users
 			end
-			@groupless = User.where("users.id not in (?)", all_grouped_users).includes(:submits)
+			@groupless = User.where("users.id not in (?) and active:true", all_grouped_users).includes(:submits)
 			@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@psets = Pset.order(:id)
