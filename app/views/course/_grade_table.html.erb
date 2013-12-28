@@ -13,7 +13,6 @@
 	<% users.includes(:submits).each do |user| %>
 	<tr>
 		<td><%= check_box_tag "active#{user.id}", 'yes', user.active, :onclick => "$.post('/course/enable', { id:'#{user.id}', active:$(this).is(':checked') });" %></td>
-		<td><%= check_box_tag "done#{user.id}", 'yes', user.done, :onclick => "$.post('/course/done', { id:'#{user.id}', done:$(this).is(':checked') });" %></td>
 		<td>
 			<% if user.mail %>
 			<%= link_to user.name, 'mailto:' + user.mail %>

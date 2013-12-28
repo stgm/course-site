@@ -52,7 +52,7 @@ class CourseController < ApplicationController
 	#
 	def track_grades
 		current_track = Course.tracks[params[:track]]
-		@users = User.includes(:submits => :pset).where("psets.name" => current_track['requirements']).where(active:true, done:false)
+		@users = User.includes(:submits => :pset).where("psets.name" => current_track['requirements']).where(active:true)
 		@psets = Pset.where("name" => current_track['requirements'])
 		@title = current_track['name']
 	end
