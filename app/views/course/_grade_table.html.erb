@@ -24,7 +24,7 @@
 		<td>
 			<% if submitted = user.submits.where(pset_id: pset.id).first %>
 				<% if submitted.grade and not submitted.grade.grade.blank? %>
-				<%= link_to "#{submitted.grade.grade}", grade_form_path(user_id: user.id, pset_id: pset.id), class: 'btn btn-primary btn-xs' %>
+				<%= link_to "#{submitted.grade.grade}", grade_form_path(user_id: user.id, pset_id: pset.id), class: "btn btn-xs #{submitted.grade.grade < 6 ? 'btn-danger':'btn-success'}" %>
 				<% else %>
 				<%= link_to 'sub', grade_form_path(user_id: user.id, pset_id: pset.id), class: 'btn btn-default btn-xs' %>
 				<% end %>
