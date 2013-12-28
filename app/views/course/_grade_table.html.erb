@@ -9,7 +9,7 @@
 		<% end %>
 	</tr>
 
-	<% users.includes(:submits).each do |user| %>
+	<% users.each do |user| %>
 	<tr>
 		<td><%= check_box_tag "active#{user.id}", 'yes', user.active, :onclick => "$.post('/course/enable', { id:'#{user.id}', active:$(this).is(':checked') });" %></td>
 		<td>

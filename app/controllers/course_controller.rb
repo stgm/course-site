@@ -52,8 +52,10 @@ class CourseController < ApplicationController
 	#
 	def track_grades
 		current_track = Course.tracks[params[:track]]
-		@users = User.includes(:submits => :pset).where("psets.name" => current_track['requirements']).where(active:true)
 		@psets = Pset.where("name" => current_track['requirements'])
+		# @users = User.select("users.*, count(submits.id) as prio").joins(:submits, :psets).where("psets.name" => current_track['requirements']).where(active:true).order("prio")
+		@users = User.includes(:submits, :psets).where("psets.name" => current_track['requirements']).where(active:true)
+		@users = @users.sort { |a,b| a.submits.size <=> b.submits.size }
 		@title = current_track['name']
 	end
 	
