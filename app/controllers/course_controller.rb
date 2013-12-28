@@ -39,11 +39,28 @@ class CourseController < ApplicationController
 	# list all submits
 	#
 	def grades
-		@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-		@psets = Pset.order(:id)
-		@title = "List users"
+		if Course.tracks
+			@groups = []
+			Course.tracks.each do |s,t|
+				psets = Pset.where("name" => t['requirements'])
+				users = User.includes(:submits, :psets).where("psets.name" => t['requirements']).where(active:true)
+				users = @users.sort { |a,b| a.submits.size <=> b.submits.size } if @users
+				title = t['name']
+				@groups << { psets: psets, users: users, title: title }
+			end
+			@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@psets = Pset.order(:id)
+			@title = "List users"
+			render "grades_tracks"
+		else
+			@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@psets = Pset.order(:id)
+			@title = "List users"
+		end
 	end
 	
 	#
