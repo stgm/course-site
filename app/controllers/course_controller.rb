@@ -41,14 +41,16 @@ class CourseController < ApplicationController
 	def grades
 		if Course.tracks
 			@groups = []
+			all_grouped_users = []
 			Course.tracks.each do |s,t|
 				psets = Pset.where("name" => t['requirements'])
 				users = User.includes(:submits, :psets).where("psets.name" => t['requirements']).where(active:true)
 				users = @users.sort { |a,b| a.submits.size <=> b.submits.size } if @users
 				title = t['name']
 				@groups << { psets: psets, users: users, title: title }
+				all_grouped_users += users
 			end
-			@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@groupless = User.where("users.id not in (?)", all_grouped_users).includes(:submits)
 			@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@psets = Pset.order(:id)
