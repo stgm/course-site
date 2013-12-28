@@ -10,6 +10,7 @@
 	</tr>
 
 	<% users.each do |user| %>
+	<% subs = user.submits.group_by(&:pset_id)%>
 	<tr>
 		<td><%= check_box_tag "active#{user.id}", 'yes', user.active, :onclick => "$.post('/course/enable', { id:'#{user.id}', active:$(this).is(':checked') });" %></td>
 		<td>
@@ -22,7 +23,8 @@
 		<td><%= user.uvanetid %></td>
 		<% psets.each do |pset| %>
 		<td>
-			<% if submitted = user.submits.where(pset_id: pset.id).first %>
+			<% if subs[pset.id] %>
+				<% submitted = subs[pset.id][0] %>
 				<% if submitted.grade and not submitted.grade.grade.blank? %>
 				<%= link_to "#{submitted.grade.grade}", grade_form_path(user_id: user.id, pset_id: pset.id), class: "btn btn-xs #{0 <= submitted.grade.grade && submitted.grade.grade < 5.5 ? 'btn-danger':'btn-success'}" %>
 				<% else %>
