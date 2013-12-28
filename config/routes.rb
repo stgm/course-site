@@ -17,6 +17,7 @@ CourseSite::Application.routes.draw do
 
 	# course management
 	get  "course/grades"
+	get  "course/grades/:track" => "course#track_grades"
 	get  "course/export_grades"
 	post "course/done"
 	post "course/enable"

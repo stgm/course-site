@@ -48,6 +48,16 @@ class CourseController < ApplicationController
 	end
 	
 	#
+	# list all submits
+	#
+	def track_grades
+		current_track = Course.tracks[params[:track]]
+		@users = User.includes(:submits => :pset).where("psets.name" => current_track['requirements'])
+		@psets = Pset.where("name" => current_track['requirements'])
+		@title = current_track['name']
+	end
+	
+	#
 	# visibility of grades by normal users
 	#
 	def toggle_public_grades
