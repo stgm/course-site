@@ -43,6 +43,7 @@ class Course
 		# - Submit
 
 		# add course info pages and all sections, recursively
+		load_tracks(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
 	end
@@ -85,6 +86,18 @@ class Course
 	def self.update_repo(dir)
 		g = Git.open dir, :log => Rails.logger
 		g.pull
+	end
+
+	def self.load_tracks(dir)
+		config = self.read_config(File.join(dir, 'course.yml'))
+		
+		if config['tracks']
+			config['tracks'].each do |nm,track|
+				if track['final']
+					Pset.where(name: track['final']).first_or_create
+				end
+			end
+		end
 	end
 
 	##
