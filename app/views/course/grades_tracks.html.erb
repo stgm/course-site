@@ -1,7 +1,7 @@
 <div id="content" class="container">
 	
 	<header class="page-header">
-		<h1>Users</h1>
+		<h1>Students</h1>
 		<ul class="nav nav-pills">
 			<% @groups.each_with_index do |group,i| %>
 			<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group[:title] %> (<%= group[:users].count %>)</a></li>
@@ -9,7 +9,6 @@
 			<li <%= 'class="active"'.html_safe if @groups.size == 0 %>><a href="#other" data-toggle="tab">Other (<%= @groupless.count %>)</a></li>
 			<li><a href="#inactive" data-toggle="tab">Inactive (<%= @inactive.count %>)</a></li>
 			<li><a href="#admins" data-toggle="tab">Admins (<%= @admins.count %>)</a></li>
-			<li><a href="#import" data-toggle="tab">Import</a></li>
 		</ul>
 	</header>
 
@@ -28,15 +27,6 @@
 		<section class="tab-pane" id="admins">
 			<%= render partial: 'grade_table', locals: { users: @admins, psets: @psets } %>
 		</section>
-		<section class="tab-pane" id="import">
-			<p>Paste all data lines from a .xls datanose user export.</p>
-			<%= form_tag course_import_groups_path, :method => :post do %>
-			<textarea name="paste" class="form-control"></textarea>
-			<p><input type="submit" class="btn"></p>
-			<% end %>
-		</section>
 	</div>
-
-	<%= link_to 'Export', course_export_grades_path %>
-
+	
 </div>

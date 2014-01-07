@@ -44,3 +44,5 @@ CASClient::Frameworks::Rails::Filter.configure(
   cas_base_url: "https://bt-lap.ic.uva.nl/cas/",
   validate_url: "https://bt-lap.ic.uva.nl/cas/serviceValidate"
 )
+
+CASClient::Frameworks::Rails::Filter.fake("mstegem1")

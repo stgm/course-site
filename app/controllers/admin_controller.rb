@@ -3,6 +3,10 @@ class AdminController < ApplicationController
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin
 	
+	def index
+		
+	end
+	
 	# show admins and assistants
 	def admins
 		@admins = Settings.admins.join("\n")

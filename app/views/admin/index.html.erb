@@ -1,0 +1,16 @@
+<div id="content" class="container">
+
+	<header class="page-header">
+		<h1>Settings</h1>
+	</header>
+	
+
+	<%= link_to '<span class="glyphicon glyphicon-fire"></span> Edit Admins'.html_safe, admin_admins_path, class:'btn btn-default btn-lg' %>
+
+	<%= link_to '<i class="glyphicon glyphicon-gift"></i> Manage Dropbox'.html_safe, dropbox_path, class:'btn btn-default btn-lg' %>
+
+	<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Export Grades'.html_safe, course_export_grades_path, class:'btn btn-default btn-lg' %>
+
+	<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Users'.html_safe, admin_import_users_path, class:'btn btn-default btn-lg' %>
+
+</div>

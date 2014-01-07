@@ -10,7 +10,9 @@ CourseSite::Application.routes.draw do
 	get  "profile/logout"
 
 	# administrative
+	get  "admin" => "admin#index"
 	get  "admin/claim"
+	get  "admin/import_users"
 	get  "admin/admins"
 	post "admin/admins" => "admin#admins_save"
 	post "admin/assistants" => "admin#assistants_save"
