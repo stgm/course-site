@@ -45,6 +45,7 @@ class CourseController < ApplicationController
 			# tracks have been defined in course.yml
 
 			@groups = []
+			@done = []
 			all_grouped_users = []
 			Course.tracks.each do |s,t|
 				final_grade = Pset.where("name" => t['final']).first
@@ -53,7 +54,7 @@ class CourseController < ApplicationController
 				all_grouped_users += users
 				
 				# filter out all users that have gotten a final grade for this track
-				if t['final']
+				if t['final'] and not params[:done]
 					users = users.select do |u|
 						!u.submits.index { |s| s.pset_id == final_grade.id }
 					end
