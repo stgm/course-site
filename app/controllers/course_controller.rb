@@ -50,7 +50,7 @@ class CourseController < ApplicationController
 			Course.tracks.each do |s,t|
 				final_grade = Pset.where("name" => t['final']).first
 				psets = Pset.where("name" => t['requirements']).order(:name)
-				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.name" => t['requirements'])
+				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.name" => t['requirements']).order("users.created_at")
 				all_grouped_users += users
 				
 				# filter out all users that have gotten a final grade for this track
