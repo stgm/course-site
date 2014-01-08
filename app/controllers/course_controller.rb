@@ -44,8 +44,7 @@ class CourseController < ApplicationController
 			all_grouped_users = []
 			Course.tracks.each do |s,t|
 				psets = Pset.where("name" => t['requirements']).order(:name)
-				users = User.includes({ :submits => :grade }, :psets).where("psets.name" => t['requirements']).where(active:true)
-				users = @users.sort { |a,b| a.submits.size <=> b.submits.size } if @users
+				users = User.includes({ :submits => :grade }, :psets).where("psets.name" => t['requirements'])
 				title = t['name']
 				@groups << { psets: psets, users: users, title: title }
 				all_grouped_users += users

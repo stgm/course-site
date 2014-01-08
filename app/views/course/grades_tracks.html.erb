@@ -6,7 +6,7 @@
 			<% @groups.each_with_index do |group,i| %>
 			<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group[:title] %> (<%= group[:users].count %>)</a></li>
 			<% end %>
-			<li <%= 'class="active"'.html_safe if @groups.size == 0 %>><a href="#other" data-toggle="tab">Other (<%= @groupless.count %>)</a></li>
+			<li <%= 'class="active"'.html_safe if @groups.size == 0 %>><a href="#other" data-toggle="tab">Not started (<%= @groupless.count %>)</a></li>
 			<li><a href="#inactive" data-toggle="tab">Inactive (<%= @inactive.count %>)</a></li>
 			<li><a href="#admins" data-toggle="tab">Admins (<%= @admins.count %>)</a></li>
 		</ul>
