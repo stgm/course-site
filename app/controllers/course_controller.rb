@@ -39,12 +39,25 @@ class CourseController < ApplicationController
 	# list all submits
 	#
 	def grades
+		
 		if Course.tracks
+
+			# tracks have been defined in course.yml
+
 			@groups = []
 			all_grouped_users = []
 			Course.tracks.each do |s,t|
+				final_grade = Pset.where("name" => t['final']).first
 				psets = Pset.where("name" => t['requirements']).order(:name)
 				users = User.includes({ :submits => :grade }, :psets).where("psets.name" => t['requirements'])
+				
+				# filter out all users that have gotten a final grade for this track
+				if t['final']
+					users = users.select do |u|
+						!u.submits.index { |s| s.pset_id == final_grade.id }
+					end
+				end
+				
 				title = t['name']
 				@groups << { psets: psets, users: users, title: title }
 				all_grouped_users += users
@@ -55,12 +68,17 @@ class CourseController < ApplicationController
 			@psets = Pset.order(:name)
 			@title = "List users"
 			render "grades_tracks"
+			
 		else
+
+			# tracks have NOT been defined in course.yml
+
 			@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@psets = Pset.order(:name)
 			@title = "List users"
+			
 		end
 	end
 	
