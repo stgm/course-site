@@ -50,6 +50,7 @@ class CourseController < ApplicationController
 				final_grade = Pset.where("name" => t['final']).first
 				psets = Pset.where("name" => t['requirements']).order(:name)
 				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.name" => t['requirements'])
+				all_grouped_users += users
 				
 				# filter out all users that have gotten a final grade for this track
 				if t['final']
@@ -60,8 +61,8 @@ class CourseController < ApplicationController
 				
 				title = t['name']
 				@groups << { psets: psets, users: users, title: title }
-				all_grouped_users += users
 			end
+			
 			@groupless = User.where("users.id not in (?) and active = 't'", all_grouped_users).includes({ :submits => :grade })
 			@inactive = User.includes({ :submits => :grade }).where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
 			@admins = User.includes({ :submits => :grade }).where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
