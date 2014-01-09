@@ -1,7 +1,16 @@
 class Course
+	
+	# This class is responsible for importing course information from
+	# the source into the database.
+	# 
+	#
+	#
 
 	COURSE_DIR = "public/course"
-	@@settings = nil
+	
+	#
+	# Clear all settings, users, etc. Only available through the
+	# command-line interface (rake).
 	
 	def self.reset
 		puts "Deleting any previous content..."
@@ -10,6 +19,7 @@ class Course
 		Subpage.delete_all
 		PsetFile.delete_all
 		Pset.delete_all
+		Track.delete_all
 
 		puts "Deleting any user settings..."
 		User.where("uvanetid not in (?)", Settings['admins']).delete_all
@@ -18,13 +28,15 @@ class Course
 		Submit.delete_all
 		
 		puts "Reloading all information..."
+		load_course_info(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
 	end
 
-	##
-	# Re-read the course contents from the git repository.
 	#
+	#
+	# Re-read the course contents from the git repository.
+	
 	def self.reload
 		# get update from from git remote (pull)
 		update_repo(COURSE_DIR)
@@ -37,7 +49,7 @@ class Course
 		PsetFile.delete_all
 		Track.delete_all
 		
-		# these tables have to be preserved nicely, contain user content
+		# these tables have to be preserved nicely, because they contain user content
 		# - Pset
 		# - User
 		# - Answer
@@ -45,19 +57,11 @@ class Course
 
 		# add course info pages and all sections, recursively
 		load_course_info(COURSE_DIR)
-		load_tracks(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
 	end
 		
 	private
-	
-	##
-	# Load configuration from course.yml in the root of the course repo.
-	#
-	def self.load_config()
-		@@settings = self.read_config(File.join(COURSE_DIR, 'course.yml'))
-	end
 	
 	def self.has_repo?
 		g = Git.open(COURSE_DIR, :log => Rails.logger)
@@ -66,14 +70,18 @@ class Course
 		return false
 	end
 	
-	##
-	# Performs a git pull on the course repo.
-	# Git.pull has been overridden in order to function well!
 	#
+	# Performs a git pull on the course repo. `Git.pull` has been
+	# overridden in an initializer in order to function well!
+	
 	def self.update_repo(dir)
 		g = Git.open dir, :log => Rails.logger
 		g.pull
 	end
+	
+	#
+	#
+	# Loads course settings from the course.yml file
 	
 	def self.load_course_info(dir)
 		config = self.read_config(File.join(dir, 'course.yml'))
@@ -88,11 +96,7 @@ class Course
 		Settings['display_license'] = config['license'] if config['license']
 
 		Settings['cdn_prefix'] = config['cdn'] if config['cdn']
-	end
 
-	def self.load_tracks(dir)
-		config = self.read_config(File.join(dir, 'course.yml'))
-		
 		if config['tracks']
 			config['tracks'].each do |nm,track|
 				if track['final']
@@ -109,27 +113,23 @@ class Course
 		end
 	end
 
-	##
-	# Reads the `info` directory in the course repo.
-	# It creates a page for it and fills it with the subpages.
-	# This special page does not support forms and submitting.
-	#
+	# Reads the `info` directory in the course repo. It creates a
+	# page for it and fills it with the subpages. This special page
+	# does not support forms and submitting of psets.
+	
 	def self.process_info(dir)
-		
 		# info should be a subdir of the root course dir and contain markdown files
 		info_dir = File.join(dir, 'info')
 		if File.exist?(info_dir)
-			Rails.logger.debug info_dir
 			info_page = Page.create(:title => Settings.long_course_name, :position => 0, :path => 'info')
 			process_subpages(info_dir, info_page)
 		end
-
 	end
 	
-	##
-	# Reads the top-level sections from the course repo.
-	# Creates a section in the database and recursively reads pages in the section.
 	#
+	# Reads the top-level sections from the course repo. Creates a
+	# section in the database and recursively reads pages in the section.
+	
 	def self.process_sections(dir)
 		
 		# sections should be direct descendants of the root course dir
@@ -148,10 +148,10 @@ class Course
 
 	end
 	
-	##
-	# Reads the second-level pages from the course repo.
-	# Creates a page in the database and recursively reads subpages in the page.
 	#
+	# Reads the second-level pages from the course repo. Creates a page
+	# in the database and recursively reads subpages in the page.
+	
 	def self.process_pages(dir, parent_section)
 		
 		# each page is a descendant of a section and contains one or more markdown subpages
@@ -203,11 +203,11 @@ class Course
 	
 		end
 	end
-	
-	##
-	# Reads the third-level subpages from the course repo.
-	# Creates a subpage in the database for each.
+
 	#
+	# Reads the third-level subpages from the course repo. Creates a
+	# subpage (tab) in the database for each.
+	
 	def self.process_subpages(dir, parent_page)
 		Dir.glob(files(dir, "*.md")) do |subpage|
 
@@ -222,31 +222,34 @@ class Course
 		end
 	end
 
-	##
-	# Returns a subdir glob pattern.
 	#
+	#
+	# Returns a subdir glob pattern.
+	
 	def self.subdirs(*name)
 		return File.join(name, "*/")
 	end
 
-	##
-	# Returns a file glob pattern. Yes, this is a really simple function.
 	#
+	#
+	# Returns a file glob pattern. Yes, this is a really simple function.
+	
 	def self.files(*name)
 		return File.join(name)
 	end
 
-	##
 	# Splits a path name of the form "nn textextextext" into two parts.
-	# Only accepts paths where the first characters are numbers and followed by white space.
-	#
+	# Only accepts paths where the first characters are numbers and
+	# followed by white space.
+	
 	def self.split_info(object)
 		return object.match('(\d+)\s+(.*).md$') || object.match('(\d+)\s+(.*)$')
 	end
 	
-	##
-	# Reads the config file and returns the contents.
 	#
+	#
+	# Reads the config file and returns the contents.
+	
 	def self.read_config(filename)
 		if File.exists?(filename)
 			return YAML.load_file(filename)
