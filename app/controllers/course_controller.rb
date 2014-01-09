@@ -49,7 +49,7 @@ class CourseController < ApplicationController
 			all_grouped_users = []
 			Course.tracks.each do |s,t|
 				final_grade = Pset.where("name" => t['final']).first
-				psets = Pset.where("name" => t['requirements']).order(:name)
+				psets = Pset.where("name" => t['requirements'])
 				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.name" => t['requirements']).order("users.created_at")
 				all_grouped_users += users
 				
