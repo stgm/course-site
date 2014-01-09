@@ -35,6 +35,7 @@ class Course
 		Page.delete_all
 		Subpage.delete_all
 		PsetFile.delete_all
+		Track.delete_all
 		
 		# these tables have to be preserved nicely, contain user content
 		# - Pset
@@ -43,26 +44,12 @@ class Course
 		# - Submit
 
 		# add course info pages and all sections, recursively
+		load_course_info(COURSE_DIR)
 		load_tracks(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
 	end
 		
-	##
-	# This class doubles as a settings class, you can call Course.* to read.
-	# The settings are read from course.yml in the course repository.
-	#
-	def self.method_missing(method_id)
-		if @@settings == nil
-			load_config
-		end
-		if @@settings.has_key?(method_id.to_s)
-			return @@settings[method_id.to_s]
-		else
-			return nil
-		end
-	end
-	
 	private
 	
 	##
@@ -87,6 +74,21 @@ class Course
 		g = Git.open dir, :log => Rails.logger
 		g.pull
 	end
+	
+	def self.load_course_info(dir)
+		config = self.read_config(File.join(dir, 'course.yml'))
+		
+		if config['course']
+			Settings['long_course_name'] = config['course']['title'] if config['course']['title']
+			Settings['short_course_name'] = config['course']['short'] if config['course']['short']
+			Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
+		end
+		
+		Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
+		Settings['display_license'] = config['license'] if config['license']
+
+		Settings['cdn_prefix'] = config['cdn'] if config['cdn']
+	end
 
 	def self.load_tracks(dir)
 		config = self.read_config(File.join(dir, 'course.yml'))
@@ -94,7 +96,14 @@ class Course
 		if config['tracks']
 			config['tracks'].each do |nm,track|
 				if track['final']
-					Pset.where(name: track['final']).first_or_create
+					final = Pset.where(name: track['final']).first_or_create
+				end
+				new_track = Track.where(name:track['name']).first_or_create do |t|
+					t.final_grade_id = final.id
+				end
+				track['requirements'].each do |pset|
+					pset = Pset.where(name: pset).first_or_create
+					new_track.psets << pset
 				end
 			end
 		end
@@ -111,7 +120,7 @@ class Course
 		info_dir = File.join(dir, 'info')
 		if File.exist?(info_dir)
 			Rails.logger.debug info_dir
-			info_page = Page.create(:title => self.course['title'], :position => 0, :path => 'info')
+			info_page = Page.create(:title => Settings.long_course_name, :position => 0, :path => 'info')
 			process_subpages(info_dir, info_page)
 		end
 

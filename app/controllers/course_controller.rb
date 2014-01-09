@@ -40,27 +40,27 @@ class CourseController < ApplicationController
 	#
 	def grades
 		
-		if Course.tracks
+		if Track.any?
 
 			# tracks have been defined in course.yml
 
 			@groups = []
 			@done = []
 			all_grouped_users = []
-			Course.tracks.each do |s,t|
-				final_grade = Pset.where("name" => t['final']).first
-				psets = Pset.where("name" => t['requirements'])
-				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.name" => t['requirements']).order("users.created_at")
+			Track.all.each do |track|
+				final_grade = track.final_grade
+				psets = track.psets
+				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.id" => psets).order("users.created_at")
 				all_grouped_users += users
 				
 				# filter out all users that have gotten a final grade for this track
-				if t['final'] and not params[:done]
+				if track.final_grade and not params[:done]
 					users = users.select do |u|
-						!u.submits.index { |s| s.pset_id == final_grade.id }
+						!u.submits.index { |s| s.pset_id == track.final_grade.id }
 					end
 				end
 				
-				title = t['name']
+				title = track.name
 				@groups << { psets: psets, users: users, title: title }
 			end
 			
@@ -82,17 +82,6 @@ class CourseController < ApplicationController
 			@title = "List users"
 			
 		end
-	end
-	
-	#
-	# list all submits
-	#
-	def track_grades
-		current_track = Course.tracks[params[:track]]
-		@psets = Pset.where("name" => current_track['requirements'])
-		@users = User.includes(:submits, :psets).where("psets.name" => current_track['requirements']).where(active:true)
-		@users = @users.sort { |a,b| a.submits.size <=> b.submits.size }
-		@title = current_track['name']
 	end
 	
 	#

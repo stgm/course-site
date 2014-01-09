@@ -52,7 +52,7 @@ class PageController < ApplicationController
 
 			# upload to dropbox
 			dropbox.submit(current_user.uvanetid, current_user.name,
-			               Course.course['submit'], pset.name, params[:notes], form_text, params[:f])
+			               Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
 
 			# create submit record
 			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize

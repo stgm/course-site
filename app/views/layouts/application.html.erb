@@ -36,7 +36,7 @@
 
 	<% if @page %>
 	<footer>
-		<%= Course.license.html_safe if Course.licence %> <a rel="tooltip" data-placement="top" title="<%= simple_markdown(Course.acknowledgements.join("\n\n")).html_safe if Course.acknowledgements %>">Acknowledgements.</a>
+		<%= Settings.display_license.html_safe if Settings.display_license %> <a rel="tooltip" data-placement="top" title="<%= simple_markdown(Settings.display_acknowledgements.join("\n\n")).html_safe if Settings.display_acknowledgements %>">Acknowledgements.</a>
 	</footer>
 	<% end %>
 

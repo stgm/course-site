@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131015163603) do
+ActiveRecord::Schema.define(:version => 20140109204604) do
 
   create_table "answers", :force => true do |t|
     t.integer  "user_id"
@@ -119,6 +119,14 @@ ActiveRecord::Schema.define(:version => 20131015163603) do
 
   add_index "psets", ["page_id"], :name => "index_psets_on_page_id"
 
+  create_table "psets_tracks", :force => true do |t|
+    t.integer "pset_id"
+    t.integer "track_id"
+  end
+
+  add_index "psets_tracks", ["track_id", "pset_id"], :name => "index_psets_tracks_on_track_id_and_pset_id"
+  add_index "psets_tracks", ["track_id"], :name => "index_psets_tracks_on_track_id"
+
   create_table "sections", :force => true do |t|
     t.string   "title"
     t.integer  "position"
@@ -163,6 +171,13 @@ ActiveRecord::Schema.define(:version => 20131015163603) do
   end
 
   add_index "subpages", ["slug"], :name => "index_subpages_on_slug", :unique => true
+
+  create_table "tracks", :force => true do |t|
+    t.integer  "final_grade_id"
+    t.string   "name"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"

@@ -14,7 +14,7 @@ module ApplicationHelper
 		Kramdown::Document.new(text,
 		                       :auto_ids => false,
 		                       :asset_prefix => page_context.public_url,
-		                       :cdn_prefix => Course.cdn,
+		                       :cdn_prefix => Settings.cdn_prefix,
 							   :parse_block_html => true,
 		                       :coderay_css => :class,
 		                       :coderay_tab_width => 4,
