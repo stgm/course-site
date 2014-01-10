@@ -24,5 +24,10 @@ class AdminController < ApplicationController
 		Settings.assistants = params[:assistants].split(/\r?\n/)
 		redirect_to :back
 	end
+	
+	def dump_grades
+		@grades = Grade.includes(:submit => [:pset,:user]).where("grades.submit_id is not null").order("psets.name")
+		render layout:nil
+	end
 		
 end

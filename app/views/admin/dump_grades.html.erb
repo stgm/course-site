@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Grade dump</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%= stylesheet_link_tag    "application", :media => "all" %>
+</head>
+<body>
+
+
+	<table class="table">
+		<% @grades.each do |g| %>
+		<tr>
+			<td><%= g.submit.pset.name %></td>
+			<td><%= g.submit.user.uvanetid if g.submit.user %></td>
+			<td><%= g.design %></td>
+			<td><%= simple_markdown(g.comments) %></td>
+		</tr>
+		<% end %>
+	</table>
+
+</body>
