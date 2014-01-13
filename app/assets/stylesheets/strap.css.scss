@@ -465,7 +465,7 @@ footer
 	}
 }
 
-#grade-table td:nth-child(n+5), #grade-table th:nth-child(n+5)
+#grade-table td:nth-child(n+4), #grade-table th:nth-child(n+4)
 {
 	text-align:center;
 }
@@ -483,6 +483,11 @@ footer
 #grade-table td
 {
 	vertical-align:middle;
+}
+
+#grade-table th
+{
+	border-top:0;
 }
 
 form .btn

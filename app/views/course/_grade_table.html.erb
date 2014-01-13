@@ -1,4 +1,4 @@
-<table id="grade-table" class="table table-condensed">
+<table id="grade-table" class="table table-condensed table-">
 
 	<tr>
 		<th>Active</th>
@@ -26,12 +26,12 @@
 			<% if subs[pset.id] %>
 				<% submitted = subs[pset.id][0] %>
 				<% if submitted.grade and not submitted.grade.grade.blank? %>
-				<%= link_to "#{submitted.grade.grade}", grade_form_path(user_id: user.id, pset_id: pset.id), class: "btn btn-xs #{0 <= submitted.grade.grade && submitted.grade.grade < 5.5 ? 'btn-danger':'btn-success'}" %>
+				<%= link_to "#{submitted.grade.grade}", grade_form_path(user_id: user.id, pset_id: pset.id), class: "btn btn-xs btn-block #{0 <= submitted.grade.grade && submitted.grade.grade < 5.5 ? 'btn-danger':'btn-success'}" %>
 				<% else %>
-				<%= link_to 'sub', grade_form_path(user_id: user.id, pset_id: pset.id), class: 'btn btn-default btn-xs' %>
+				<%= link_to 'sub', grade_form_path(user_id: user.id, pset_id: pset.id), class: 'btn btn-default btn-xs btn-block' %>
 				<% end %>
 			<% else %>
-				<%= link_to 'no', grade_form_path(user_id: user.id, pset_id: pset.id), class:'btn btn-default btn-xs auto-hide', confirm:'Would you like to enter a grade for this unsubmitted pset?' %>
+				<%= link_to 'no', grade_form_path(user_id: user.id, pset_id: pset.id), class:'btn btn-default btn-xs btn-block auto-hide', confirm:'Would you like to enter a grade for this unsubmitted pset?' %>
 			<% end %>
 		</td>
 		<% end %>
