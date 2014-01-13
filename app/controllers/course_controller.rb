@@ -50,7 +50,7 @@ class CourseController < ApplicationController
 			all_psets = []
 			Track.all.each do |track|
 				final_grade = track.final_grade
-				psets = track.psets
+				psets = track.psets.order("psets_tracks.id")
 				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.id" => psets).order("users.created_at")
 				all_grouped_users += users
 				all_psets += psets
