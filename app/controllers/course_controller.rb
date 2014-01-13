@@ -64,9 +64,9 @@ class CourseController < ApplicationController
 				@groups << { psets: psets, users: users, title: title }
 			end
 			
-			@groupless = User.where("users.id not in (?) and active = 't'", all_grouped_users).includes({ :submits => :grade })
-			@inactive = User.includes({ :submits => :grade }).where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-			@admins = User.includes({ :submits => :grade }).where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@groupless = User.includes({ :submits => :grade }).active.not_admin.but_not(all_grouped_users).order(:name)
+			@inactive = User.includes({ :submits => :grade }).inactive.not_admin.order(:name)
+			@admins = User.includes({ :submits => :grade }).admin.order(:name)
 			@psets = Pset.order(:name)
 			@title = "List users"
 			render "grades_tracks"
@@ -74,10 +74,9 @@ class CourseController < ApplicationController
 		else
 
 			# tracks have NOT been defined in course.yml
-
-			@groupless = User.where(active: true).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-			@inactive = User.where(active: false).where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
-			@admins = User.where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])).order('name')
+			@groupless = User.active.not_admin.order(:name)
+			@inactive = User.inactive.not_admin.order(:name)
+			@admins = User.admin.order(:name)
 			@psets = Pset.order(:name)
 			@title = "List users"
 			

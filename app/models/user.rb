@@ -14,5 +14,11 @@ class User < ActiveRecord::Base
 	def activate
 		update_attribute :active, true
 	end
+	
+	scope :admin,     -> { where("uvanetid in (?)", Settings['admins'] + (Settings['assistants'] or [])) }
+	scope :not_admin, -> { where("uvanetid not in (?)", Settings['admins'] + (Settings['assistants'] or [])) }
+	scope :inactive,  -> { where(active: false) }
+	scope :active,    -> { where(active: true) }
+	scope :but_not,   -> users { where("users.id not in (?)", users) }
 
 end
