@@ -20,5 +20,5 @@ class User < ActiveRecord::Base
 	scope :inactive,  -> { where(active: false) }
 	scope :active,    -> { where(active: true) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
-
+	
 end

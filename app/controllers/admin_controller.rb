@@ -29,5 +29,33 @@ class AdminController < ApplicationController
 		@grades = Grade.joins(:submit).includes(:submit => [:pset,:user]).where("grades.submit_id is not null").order("psets.name")
 		render layout:nil
 	end
+	
+	def stats
+		
+		# wie het vak gehaald heeft
+		# wie afgelopen 3 weken nog ingelogd is
+		
+		@tracks = []
+		
+		if Track.any?
+			Track.all.each do |track|
+				final_grade = track.final_grade
+				psets = track.psets.order("psets_tracks.id")
+				users = User.includes({ :submits => :grade }, :psets).where("psets.id" => psets)
+				@done_users = users.select do |u|
+					u.submits.index { |s| s.pset_id == track.final_grade.id }
+				end
+				@active_users = users.where(active: true).select do |u|
+					!u.submits.index { |s| s.pset_id == track.final_grade.id }
+				end
+				@tracks << [track.name, @active_users.count, @done_users.count]
+			end
+		else
+			@active_users = User.active.not_admin.count
+			@done_users = nil
+		end
+		
+		render layout: nil
+	end
 		
 end
