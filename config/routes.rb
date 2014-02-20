@@ -18,6 +18,8 @@ CourseSite::Application.routes.draw do
 	post "admin/assistants" => "admin#assistants_save"
 	get  "admin/dump_grades"
 	get  "admin/stats"
+	get  "admin/api"
+	post "admin/api_save"
 
 	# course management
 	get  "course/grades"
@@ -60,6 +62,9 @@ CourseSite::Application.routes.draw do
 	# filled-in form caching for users
 	post "page/save_answers"
 	post "page/submit"
+	
+	# api
+	get  "api/students"
 	
 	# default route, for content pages
 	match ":section/:page" => "page#index"
