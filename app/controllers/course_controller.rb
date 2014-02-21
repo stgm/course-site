@@ -52,6 +52,7 @@ class CourseController < ApplicationController
 				final_grade = track.final_grade
 				psets = track.psets.order("psets_tracks.id")
 				users = User.includes({ :submits => :grade }, :psets).not_admin.where("psets.id" => psets).order("users.created_at")
+				users = track.users.order("registrations.term, registrations.status").all
 				all_grouped_users += users
 				all_psets += psets
 				
