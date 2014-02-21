@@ -22,4 +22,7 @@ class User < ActiveRecord::Base
 	scope :active,    -> { where(active: true) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	
+	scope :from_term, -> term  { where("registrations.term" => term) if not (term.nil? or term.empty?) }
+	scope :having_status, -> status  { where("registrations.status" => status) if not (status.nil? or status.empty?) }
+	
 end

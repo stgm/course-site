@@ -2,7 +2,30 @@
 	
 	<header class="page-header" style="border-bottom:0">
 		<h1>Students</h1>
+
+		<form method="get" accept-charset="utf-8">
+			Term: 
+	
+			<select name="term" id="term" onchange="" size="1">
+				<option value="">all</option>
+				<option value="sem1">sem1</option>
+				<option value="sem2">sem2</option>
+			</select>
+	
+			Status:
+	
+			<select name="status" id="status" onchange="" size="1">
+				<option value="">all</option>
+				<option value="active">active</option>
+				<option value="inactive">inactive</option>
+				<option value="done">done</option>
+			</select>
+			
+			<input type="submit" value="Filter" id="">
+
+		</form>
 	</header>
+	
 
 	<ul class="nav nav-tabs">
 		<% @groups.each_with_index do |group,i| %>

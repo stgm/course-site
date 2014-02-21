@@ -42,8 +42,7 @@ class CourseController < ApplicationController
 		
 		if Track.any?
 
-			# tracks have been defined in course.yml
-
+			# if tracks have been defined in course.yml
 			@groups = []
 			@done = []
 			all_grouped_users = []
@@ -51,32 +50,23 @@ class CourseController < ApplicationController
 			Track.all.each do |track|
 				final_grade = track.final_grade
 				psets = track.psets.order("psets_tracks.id")
-				users = User.includes({ :submits => :grade }, :psets).not_admin.where("psets.id" => psets).order("users.created_at")
-				users = track.users.order("registrations.term, registrations.status").all
+				users = track.users.from_term(params[:term]).having_status(params[:status]).order("registrations.term, registrations.status")
 				all_grouped_users += users
 				all_psets += psets
-				
-				# filter out all users that have gotten a final grade for this track
-				if track.final_grade and not params[:done]
-					users = users.select do |u|
-						!u.submits.index { |s| s.pset_id == track.final_grade.id }
-					end
-				end
-				
 				title = track.name
 				@groups << { psets: psets, users: users, title: title, track:track }
 			end
 			
 			@groupless = User.includes({ :submits => :grade }).active.not_admin.but_not(all_grouped_users).order(:name)
 			@admins = User.includes({ :submits => :grade }).admin.order(:name)
-			@psets = all_psets #Pset.order(:name)
+			@psets = all_psets
 			@title = "List users"
 						
 			render "grades_tracks"
 			
 		else
 
-			# tracks have NOT been defined in course.yml
+			# if tracks have NOT been defined in course.yml
 			@groupless = User.active.not_admin.order(:name)
 			@inactive = User.inactive.not_admin.order(:name)
 			@admins = User.admin.order(:name)
