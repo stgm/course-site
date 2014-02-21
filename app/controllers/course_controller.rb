@@ -63,7 +63,7 @@ class CourseController < ApplicationController
 				end
 				
 				title = track.name
-				@groups << { psets: psets, users: users, title: title }
+				@groups << { psets: psets, users: users, title: title, track:track }
 			end
 			
 			@groupless = User.includes({ :submits => :grade }).active.not_admin.but_not(all_grouped_users).order(:name)

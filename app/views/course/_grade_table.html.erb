@@ -35,6 +35,10 @@
 			<% end %>
 		</td>
 		<% end %>
+		<% if track and r = user.registrations.where(track_id:track.id).first %>
+		<td><%= r.term %></td>
+		<td><%= r.status %></td>
+		<% end %>
 	</tr>
 	<% end %>
 
