@@ -1,8 +1,9 @@
 <% @tracks.each do |track| %>
 <%= track[0] %><br>
+<%= track[1] %><br>
 <ul>
-	<li>Active: <%= track[1] %></li>
-	<li>Done: <%= track[2] %></li>
-	<li>MIA: <%= track[3] %></li>
+	<li>Active: <%= track[2] %></li>
+	<li>Done: <%= track[3] %></li>
+	<li>MIA: <%= track[4] %></li>
 </ul>
 <% end %>
