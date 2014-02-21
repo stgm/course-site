@@ -9,7 +9,6 @@
 		<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group[:title] %> (<%= group[:users].count %>)</a></li>
 		<% end %>
 		<li <%= 'class="active"'.html_safe if @groups.size == 0 %>><a href="#other" data-toggle="tab">Not started (<%= @groupless.count %>)</a></li>
-		<li><a href="#inactive" data-toggle="tab">Inactive (<%= @inactive.count %>)</a></li>
 		<li><a href="#admins" data-toggle="tab">Admins (<%= @admins.count %>)</a></li>
 	</ul>
 
@@ -21,9 +20,6 @@
 		<% end %>
 		<div class="tab-pane <%= 'active' if @groups.size == 0 %>" id="other">
 			<%= render partial: 'grade_table', locals: { users: @groupless, psets: @psets, track: nil } %>
-		</div>
-		<div class="tab-pane" id="inactive">
-			<%= render partial: 'grade_table', locals: { users: @inactive, psets: @psets, track: nil } %>
 		</div>
 		<div class="tab-pane" id="admins">
 			<%= render partial: 'grade_table', locals: { users: @admins, psets: @psets, track: nil } %>

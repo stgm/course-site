@@ -51,7 +51,7 @@ class CourseController < ApplicationController
 			Track.all.each do |track|
 				final_grade = track.final_grade
 				psets = track.psets.order("psets_tracks.id")
-				users = User.includes({ :submits => :grade }, :psets).where(active: true).where("psets.id" => psets).order("users.created_at")
+				users = User.includes({ :submits => :grade }, :psets).not_admin.where("psets.id" => psets).order("users.created_at")
 				all_grouped_users += users
 				all_psets += psets
 				
@@ -67,7 +67,6 @@ class CourseController < ApplicationController
 			end
 			
 			@groupless = User.includes({ :submits => :grade }).active.not_admin.but_not(all_grouped_users).order(:name)
-			@inactive = User.includes({ :submits => :grade }).inactive.not_admin.order(:name)
 			@admins = User.includes({ :submits => :grade }).admin.order(:name)
 			@psets = all_psets #Pset.order(:name)
 			@title = "List users"
