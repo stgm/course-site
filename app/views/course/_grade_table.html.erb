@@ -1,7 +1,6 @@
 <table id="grade-table" class="table table-condensed table-">
 
 	<tr>
-		<th>Active</th>
 		<th>Name</th>
 		<th>ID</th>
 		<% psets.each do |pset| %>
@@ -12,7 +11,6 @@
 	<% users.each do |user| %>
 	<% subs = user.submits.group_by(&:pset_id)%>
 	<tr>
-		<td><%= check_box_tag "active#{user.id}", 'yes', user.active, :onclick => "$.post('/course/enable', { id:'#{user.id}', active:$(this).is(':checked') });" %></td>
 		<td>
 			<% if user.mail %>
 			<%= link_to user.name, 'mailto:' + user.mail %>
