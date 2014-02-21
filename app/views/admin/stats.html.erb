@@ -1,9 +1,13 @@
-<% @tracks.each do |track| %>
-<%= track[0] %><br>
-<%= track[1] %><br>
-<ul>
-	<li>Active: <%= track[2] %></li>
-	<li>Done: <%= track[3] %></li>
-	<li>MIA: <%= track[4] %></li>
-</ul>
+<% @terms.each do |term| %>
+	<h4><%= term.term %></h4>
+	<% Track.all.each do |track| %>
+		<%= track.name %><br>
+		<% statuses = Registration.select("distinct status").where(term:term.term) %>
+		<% users = track.users.from_term(term.term) %>
+		<ul>
+			<% statuses.each do |status| %>
+			<li><%= status.status %>: <%= users.having_status(status.status).count %></li>
+			<% end %>
+		</ul>
+	<% end %>
 <% end %>

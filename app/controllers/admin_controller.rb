@@ -40,29 +40,8 @@ class AdminController < ApplicationController
 	end
 	
 	def stats
-		
-		# wie het vak gehaald heeft
-		# wie afgelopen 3 weken nog ingelogd is
-		
-		terms = Registration.select("distinct term")
-		
-		@tracks = []
-		
-		if Track.any?
-			terms.each do |term|
-				Track.all.each do |track|
-					users = track.users.from_term(term.term)
-					done_users = users.having_status('done')
-					active_users = users.having_status('active')
-					missing_users = users.having_status('MIA')
-					@tracks << [term.term, track.name, active_users.count, done_users.count, missing_users.count]
-				end
-			end
-		else
-			@active_users = User.active.not_admin.count
-			@done_users = nil
-		end
-		
+		# needs tracksssss
+		@terms = Registration.select("distinct term")
 		render layout: nil
 	end
 		
