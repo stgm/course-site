@@ -36,8 +36,8 @@
 		</td>
 		<% end %>
 		<% if track and r = user.registrations.where(track_id:track.id).first %>
-		<td><%= r.term %></td>
-		<td><%= r.status %></td>
+		<td><%= best_in_place r, :term, type: :input, path: registration_path(id: r.id) %></td>
+		<td><%= best_in_place r, :status, type: :input, path: registration_path(id: r.id) %></td>
 		<% end %>
 	</tr>
 	<% end %>

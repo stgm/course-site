@@ -66,6 +66,8 @@ CourseSite::Application.routes.draw do
 	# api
 	get  "api/students"
 	
+	resource :registration
+	
 	# default route, for content pages
 	match ":section/:page" => "page#index"
 
