@@ -17,10 +17,12 @@ class CreateRegistrations < ActiveRecord::Migration
 				psets = t.psets.order("psets_tracks.id")
 				if u.submits.joins(:grade).where("submits.pset_id" => t.final_grade.id).count > 0
 					Registration.create user:u, track:t, term:"", status:"done"
-				elsif !u.active
-					Registration.create user:u, track:t, term:"", status:"inactive"
 				elsif u.submits.where("pset_id" => psets).count > 0
-					Registration.create user:u, track:t, term:"", status:"active"
+					if u.active
+						Registration.create user:u, track:t, term:"", status:"active"
+					else
+						Registration.create user:u, track:t, term:"", status:"inactive"
+					end
 				end
 			end
 		end
