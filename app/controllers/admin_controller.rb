@@ -48,16 +48,11 @@ class AdminController < ApplicationController
 		
 		if Track.any?
 			Track.all.each do |track|
-				final_grade = track.final_grade
-				psets = track.psets.order("psets_tracks.id")
-				users = User.includes({ :submits => :grade }, :psets).where("psets.id" => psets)
-				@done_users = users.select do |u|
-					u.submits.index { |s| s.pset_id == track.final_grade.id }
-				end
-				@active_users = users.where(active: true).select do |u|
-					!u.submits.index { |s| s.pset_id == track.final_grade.id }
-				end
-				@tracks << [track.name, @active_users.count, @done_users.count]
+				users = track.users
+				done_users = users.having_status('done')
+				active_users = users.having_status('active')
+				missing_users = users.having_status('MIA')
+				@tracks << [track.name, active_users.count, done_users.count, missing_users.count]
 			end
 		else
 			@active_users = User.active.not_admin.count
