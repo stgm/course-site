@@ -44,7 +44,7 @@ class AdminController < ApplicationController
 		# wie het vak gehaald heeft
 		# wie afgelopen 3 weken nog ingelogd is
 		
-		terms = Registration.select(:term)
+		terms = Registration.select("distinct term")
 		
 		@tracks = []
 		
