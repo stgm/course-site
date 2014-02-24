@@ -47,7 +47,7 @@ class Course
 		Page.delete_all
 		Subpage.delete_all
 		PsetFile.delete_all
-		Track.delete_all
+		# Track.delete_all
 		
 		# these tables have to be preserved nicely, because they contain user content
 		# - Pset

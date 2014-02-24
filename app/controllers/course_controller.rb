@@ -48,7 +48,6 @@ class CourseController < ApplicationController
 			all_grouped_users = []
 			all_psets = []
 			Track.all.each do |track|
-				final_grade = track.final_grade
 				psets = track.psets.order("psets_tracks.id")
 				users = track.users.from_term(params[:term]).having_status(params[:status]).order("registrations.term, registrations.status")
 				all_grouped_users += users
