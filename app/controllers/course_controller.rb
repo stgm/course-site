@@ -56,7 +56,7 @@ class CourseController < ApplicationController
 				@groups << { psets: psets, users: users, title: title, track:track }
 			end
 			
-			@groupless = User.includes({ :submits => :grade }).active.not_admin.but_not(all_grouped_users).order(:name)
+			@groupless = User.includes({ :submits => :grade }).not_admin.but_not(all_grouped_users).order(:name)
 			@admins = User.includes({ :submits => :grade }).admin.order(:name)
 			@psets = all_psets
 			@title = "List users"
