@@ -17,7 +17,7 @@
 		<% @submits.each do |submit| %>
 		<tr>
 			<td><%= submit.pset.name %></td>
-			<td><%= submit.user.name if submit.user %></td>
+			<td><%= submit.user.name %></td>
 			<td><%= submit.user.uvanetid %></td>
 			<td><%= time_ago_in_words(submit.submitted_at) if submit.submitted_at %> ago</td>
 			<td><%= submit.grade.grade if submit.grade %></td>
