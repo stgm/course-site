@@ -2,38 +2,8 @@
 	
 	<header class="page-header" style="border-bottom:0">
 		<h1>Students</h1>
-
-
-		<form method="get" accept-charset="utf-8">
-			Term: 
-	
-			<select name="term" id="term" onchange="" size="1">
-				<option value="">all</option>
-				<option value="sem1">sem1</option>
-				<option value="sem2">sem2</option>
-				<option value="sem2">per1</option>
-				<option value="sem2">per2</option>
-				<option value="sem2">per3</option>
-				<option value="sem2">per4</option>
-				<option value="sem2">per5</option>
-				<option value="sem2">per6</option>
-			</select>
-	
-			Status:
-	
-			<select name="status" id="status" onchange="" size="1">
-				<option value="">all</option>
-				<option value="active">active</option>
-				<option value="inactive">inactive</option>
-				<option value="done">done</option>
-			</select>
-			
-			<input type="submit" value="Filter" id="">
-
-		</form>
 	</header>
 	
-
 	<ul class="nav nav-tabs">
 		<% @groups.each_with_index do |group,i| %>
 		<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group[:title] %> (<%= group[:users].count %>)</a></li>
@@ -45,9 +15,8 @@
 	<div class="tab-content">
 		<% @groups.each_with_index do |group,i| %>
 		<div class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
-			<%= link_to '<li class="glyphicon glyphicon-flash"></li> Add student'.html_safe, "javascript:add_student(#{group[:track].id})", class:'btn btn-default'  %>
-
 			<%= render partial: 'grade_table', locals: { users: group[:users], psets: group[:psets], track: group[:track] } %>
+			<%= link_to '<li class="glyphicon glyphicon-flash"></li> Add student'.html_safe, "javascript:add_student(#{group[:track].id})", class:'btn btn-default'  %>
 		</div>
 		<% end %>
 		<div class="tab-pane <%= 'active' if @groups.size == 0 %>" id="other">
