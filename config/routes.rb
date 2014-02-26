@@ -48,6 +48,7 @@ CourseSite::Application.routes.draw do
 	# individual grades
 	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
 	post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
+	delete "grade" => "grades#destroy"
 	
 	# commenting
 	# post "comment/post_question"

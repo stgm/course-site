@@ -21,5 +21,12 @@ class GradesController < ApplicationController
 		end
 		redirect_to params[:referer]
 	end
+	
+	def destroy
+		@submit = Submit.find(params[:submit_id])
+		@submit.grade.destroy if @submit.grade
+		@submit.destroy
+		redirect_to params[:referer]
+	end
 
 end
