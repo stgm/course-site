@@ -5,7 +5,7 @@
 		<% if is_admin? and @submit %>
 		<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %>
 		<% end %>
-		/ Latest submission time: <%= time_ago_in_words(@submit.submitted_at) if @submit.submitted_at %> ago
+		/ Latest submission time: <%= time_ago_in_words(@submit.submitted_at) if @submit and @submit.submitted_at %> ago
 	</header>
 
 	<%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
