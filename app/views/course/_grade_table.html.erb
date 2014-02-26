@@ -9,18 +9,20 @@
 		<% if track %>
 		<th>
 			<form method="get" accept-charset="utf-8">
-				<select name="term" id="term" onchange="this.form.submit();" size="1">
-					<%= options_from_collection_for_select Registration.select("distinct term"), :term, :term, selected:params[:term] %>
-				</select>
+				<%= select_tag :term, 
+						options_from_collection_for_select(Registration.select("distinct term"), :term, :term, selected:params[:term]),
+						include_blank: true,
+						onchange: 'this.form.submit();' %>
 				<%= hidden_field_tag "status", params[:status] %>
 			</form>
 		</th>
 		<th>
 			<form method="get" accept-charset="utf-8">
 				<%= hidden_field_tag "term", params[:term] %>
-				<select name="status" id="status" onchange="this.form.submit();" size="1">
-					<%= options_from_collection_for_select Registration.select("distinct status"), :status, :status, selected:params[:status] %>
-				</select>
+				<%= select_tag :status, 
+						options_from_collection_for_select(Registration.select("distinct status"), :status, :status, selected:params[:status]),
+						include_blank: true,
+						onchange: 'this.form.submit();' %>
 			</form>
 		</th>
 		<% end %>
