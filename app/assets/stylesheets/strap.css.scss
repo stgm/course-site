@@ -465,7 +465,7 @@ footer
 	}
 }
 
-#grade-table td:nth-child(n+4), #grade-table th:nth-child(n+4)
+#grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
 {
 	text-align:center;
 }
@@ -493,11 +493,6 @@ footer
 form .btn
 {
 	margin-top:0;
-}
-
-#grade-table
-{
-	font-size:0.8em;
 }
 
 body > .alert
