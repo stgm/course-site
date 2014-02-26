@@ -16,6 +16,10 @@ class CourseController < ApplicationController
 		@psets = Pset.order(:id)
 		@title = "Export grades"
 	end
+	
+	def add_student
+		Track.find(params[:track_id]).users << User.where(uvanetid:params[:student_id]).first_or_create
+	end
 
 	#
 	# ajax-only enable/disable of students

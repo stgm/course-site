@@ -3,6 +3,7 @@
 	<header class="page-header" style="border-bottom:0">
 		<h1>Students</h1>
 
+
 		<form method="get" accept-charset="utf-8">
 			Term: 
 	
@@ -44,6 +45,8 @@
 	<div class="tab-content">
 		<% @groups.each_with_index do |group,i| %>
 		<div class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
+			<%= link_to '<li class="glyphicon glyphicon-flash"></li> Add student'.html_safe, "javascript:add_student(#{group[:track].id})", class:'btn btn-default'  %>
+
 			<%= render partial: 'grade_table', locals: { users: group[:users], psets: group[:psets], track: group[:track] } %>
 		</div>
 		<% end %>
@@ -59,4 +62,16 @@
 
 <script type="text/javascript" charset="utf-8">
 	$('.best_in_place').best_in_place()
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	function add_student(track_id)
+	{
+		x = prompt("Student id?");
+		if(x)
+		{
+			$.post("/course/add_student", { track_id: track_id, student_id: x });
+			location.reload();
+		}
+	}
 </script>

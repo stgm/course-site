@@ -32,6 +32,7 @@ CourseSite::Application.routes.draw do
 	post "course/toggle_grading_allowed"
 	post "course/import"
 	post "course/import_groups"
+	post "course/add_student"
 
 	# dropbox
 	get  "dropbox" => "dropbox#index"
