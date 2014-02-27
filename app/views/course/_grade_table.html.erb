@@ -29,7 +29,7 @@
 	</tr>
 
 	<% users.each do |user| %>
-	<% subs = user.submits.group_by(&:pset_id)%>
+	<% subs = user.submits.group_by(&:pset_id); submitted = false %>
 	<tr>
 		<td>
 			<% if user.mail %>
@@ -37,7 +37,6 @@
 			<% else %>
 			<%= user.name %>
 			<% end %>
-			<%= link_to_if track && subs.empty?, '<span class="glyphicon glyphicon-trash"></span>'.html_safe, course_remove_student_path(student_id: user.uvanetid, track_id: track), method: :post, confirm: "Sikker?" do "" end %>
 		</td>
 		<td><%= user.uvanetid %></td>
 		<% psets.each do |pset| %>
@@ -58,6 +57,10 @@
 		<td><%= best_in_place r, :term, type: :input, path: registration_path(id: r.id) %></td>
 		<td><%= best_in_place r, :status, type: :input, path: registration_path(id: r.id) %></td>
 		<% end %>
+		<td>
+		<%= link_to_if track && !submitted, '<span class="glyphicon glyphicon-trash"></span>'.html_safe, course_remove_student_path(student_id: user.uvanetid, track_id: track), method: :post, confirm: "Sikker?" do "" end %>
+		</td>
+		
 	</tr>
 	<% end %>
 
