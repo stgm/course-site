@@ -37,6 +37,7 @@
 			<% else %>
 			<%= user.name %>
 			<% end %>
+			<%= link_to_if track && subs.empty?, '<span class="glyphicon glyphicon-trash"></span>'.html_safe, course_remove_student_path(student_id: user.uvanetid, track_id: track), method: :post, confirm: "Sikker?" do "" end %>
 		</td>
 		<td><%= user.uvanetid %></td>
 		<% psets.each do |pset| %>

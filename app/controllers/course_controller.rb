@@ -20,6 +20,13 @@ class CourseController < ApplicationController
 	def add_student
 		Track.find(params[:track_id]).users << User.where(uvanetid:params[:student_id]).first_or_create
 	end
+	
+	def remove_student
+		Track.find(params[:track_id]).users.delete(User.where(uvanetid:params[:student_id]))
+		logger.debug Track.find(params[:track_id]).users.inspect
+		logger.debug User.where(uvanetid:params[:student_id]).inspect
+		redirect_to :back
+	end
 
 	#
 	# ajax-only enable/disable of students

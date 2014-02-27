@@ -33,6 +33,7 @@ CourseSite::Application.routes.draw do
 	post "course/import"
 	post "course/import_groups"
 	post "course/add_student"
+	post "course/remove_student"
 
 	# dropbox
 	get  "dropbox" => "dropbox#index"
