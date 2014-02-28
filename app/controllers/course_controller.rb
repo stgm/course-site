@@ -19,6 +19,7 @@ class CourseController < ApplicationController
 	
 	def add_student
 		Track.find(params[:track_id]).users << User.where(uvanetid:params[:student_id]).first_or_create
+		render nothing: true, status: 200
 	end
 	
 	def remove_student
