@@ -92,6 +92,6 @@
 	
 	<hr>
 
-	<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-warning' %>
+	<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-warning' if @submit %>
 
 </div>
