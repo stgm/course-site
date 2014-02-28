@@ -12,7 +12,7 @@ class Page < ActiveRecord::Base
 	has_many :comment_threads
 
 	# Make sure the subpages are always ordered
-	default_scope order(:position)
+	default_scope { order(:position) }
 	
 	def public_url
 		if section

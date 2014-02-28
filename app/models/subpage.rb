@@ -8,6 +8,6 @@ class Subpage < ActiveRecord::Base
 
 	belongs_to :page
 
-	default_scope order(:position)
+	default_scope { order(:position) }
 
 end

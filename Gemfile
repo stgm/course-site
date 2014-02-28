@@ -1,46 +1,32 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.14'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.0.0'
+
+# Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+# sass
+gem 'sass-rails', '~> 4.0.0'
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
 
-  gem 'uglifier', '>= 1.0.3'
-end
-
+# Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+# gem 'jbuilder', '~> 1.2'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
-
-# gem 'libv8', '~> 3.11.8'
-# gem "therubyracer"
-# gem "less-rails"
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
+end
 
 # faster local server
 gem 'thin'
 
 # markdown renderers
-gem 'coderay'
 gem 'kramdown'
 
 # slug generator
@@ -48,13 +34,6 @@ gem "friendly_id", "~> 4.0.1"
 
 # cas
 gem 'rubycas-client'#, '2.2.1'
-# gem 'rubycas-client-rails', :git => 'git://github.com/rubycas/rubycas-client-rails.git'
-
-# bootstrap
-# gem 'bootstrap-sass'
-
-gem 'sass-rails',   '~> 3.2.3'
-# gem 'bootstrap-sass', :git => 'git://github.com/intridea/bootstrap-sass.git', :branch => '3'
 
 # git integration
 gem 'git'
@@ -63,6 +42,13 @@ gem 'git'
 gem 'dropbox-sdk'
 
 # manages settings in database
-gem "rails-settings-cached", "0.2.4"
+gem "rails-settings-cached", "0.3.1"
 
-gem "best_in_place"
+# in-place editing for grade table
+gem 'best_in_place', github: "bernat/best_in_place"
+
+# remove this after removing all attr_ stuff
+gem 'protected_attributes'
+
+# If you are not using Protected Attributes, you can remove any options related to this gem such as whitelist_attributes or mass_assignment_sanitizer options.
+
