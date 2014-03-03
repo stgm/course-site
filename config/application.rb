@@ -62,5 +62,7 @@ module CourseSite
 		# Kramdown plugin
 		Kramdown::Options.define(:asset_prefix, String, '', 'Local asset prefix')
 		Kramdown::Options.define(:cdn_prefix, String, '', 'CDN prefix')
+		
+		config.action_mailer.smtp_settings = { address: 'smtp.xs4all.nl', domain: 'mprog.nl' }
 	end
 end

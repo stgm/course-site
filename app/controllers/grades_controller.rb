@@ -19,6 +19,7 @@ class GradesController < ApplicationController
 			@submit.create_grade(params[:grade])
 			@submit.grade.update_attribute(:grader, current_user.uvanetid)
 		end
+		GradeMailer.new_mail(@submit.grade).deliver
 		redirect_to params[:referer]
 	end
 	
