@@ -10,7 +10,7 @@ class GradeMailer < ActionMailer::Base
 		@feedback = grade.comments
 		@grade = grade.grade
 		
-		mail(to: grade.user.mail, subject: "Feedback for #{Settings['course.short']}")
+		mail(to: grade.user.mail, subject: "Feedback for #{Settings.short_course_name}")
 	end
 	
 end
