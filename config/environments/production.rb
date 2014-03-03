@@ -29,6 +29,8 @@ CourseSite::Application.configure do
 	config.active_support.deprecation = :notify
 
 	config.eager_load = true
+
+	config.middleware.use('PartyFoul::Middleware')
 end
 
 CASClient::Frameworks::Rails::Filter.configure(
