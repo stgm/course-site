@@ -3,6 +3,8 @@ Course website
 
 This site serves courses that reside in a git repo consisting of mostly Markdown-formatted text files and any other source files that should be served to the students.
 
+Ruby 1.9 or later is required. Will still work on Rails 3.2, but 4.0 is imminent.
+
 How to install
 --------------
 
@@ -10,7 +12,7 @@ Clone the application:
 
 	git clone git@github.com:uva/course-site.git
 	bundle install
-	rake db:migrate
+	rake db:schema:load
 
 And clone the course contents into the `public/course` directory:
 
@@ -20,29 +22,22 @@ And clone the course contents into the `public/course` directory:
 On the source format
 --------------------
 
-* Have a look at https://github.com/uva/prog-natster for information on how to
-  organize your course repository. At the very least, you need a `course.yml`
-  and a `info` directory containing subpages for the homepage.
+* Have a look at https://github.com/uva/uva-prog-physics for information on
+  how to organize your course repository. At the very least, you need a
+  `course.yml` and a `info` directory containing subpages for the homepage.
 
 * Numbering the course folders will make sure that they are imported and
   displayed in order. Any folders besides `info` that are not numbered will
   not be imported.
 
-* Non-markdown files, like images or downloads, will be hosted directly in the
-  public directory and can be referenced using relative links.
+* Small non-markdown files, like images or downloads, will be hosted directly
+  in the public directory and can be referenced using relative links.
 
 * Changing the name of a folder will change the URL of that folder on the
   website. This will break links from others site to your course site.
 
-* Changing names and positions should not be a problem for form caching and
-  file submissions already done. (**Warning**: updating the course while users
-  have the page loaded will break their submit experience. Do not update the
-  course mid-session for now.)
-
-* Add a content delivery network server by adding a link to it in `course.yml`:
-
-		cdn: http://cdn.mprog.nl/data-science
-
+* Changing names and positions of folders and Markdown files should not be a
+  problem for form caching and file submissions already done.
 
 Formatting your pages
 ----------------------
@@ -52,33 +47,35 @@ Formatting your pages
 * You can use [AsciiMath] if enclosed within pairs of dollar signs ($$). Check
   the [AsciiMath syntax].
 
-* Add a table of contents to a page using for example:
+* Add a table of contents to a page using:
 
 		* Table of Contents
 		{:toc}
 
-  This bullet is then replaced with a full table of contents of level 1 and 2
-  headings.
+    This single bullet item is then replaced with a full table of contents of
+    level 1 and 2 headings.
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [Kramdown]: http://kramdown.rubyforge.org/syntax.html
 [AsciiMath]: http://www.wjagray.co.uk/maths/ASCIIMathTutorial.html
 [AsciiMath syntax]: http://www.intmath.com/help/send-math-email-syntax.php
 
-TODO
-----
+* Add a content delivery network server by adding a link to it in
+  `course.yml`:
 
-### Easy setup
+		cdn: http://cdn.mprog.nl/data-science
+
+    Then, any link starting with `cdn://` will be rewritten to start with
+    that cdn url.
+
+* Use `videoplayer` as the alt text for an image link in order to generate a video player:
+
+        ![videoplayer](cdn://video/lecture001.mp4)
+
+
+Some stuff we still want
+------------------------
 
 * Add a setting for source git URL and do a `git clone`.
-* Possibly allow db:migrate to be run from front end for easy installing.
 * Allow the course to be hosted in dropbox.
-
-### Configuration
-
-* Add a setting for the dropbox upload folder to be used.
-
-### Course updates
-
-* Allow some kind of push hook that automatically updates the site when a
-  new course version is in the repository.
+* Support some other authentication mechanism than CAS only.
