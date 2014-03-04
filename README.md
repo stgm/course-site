@@ -72,6 +72,18 @@ Formatting your pages
 
         ![videoplayer](cdn://video/lecture001.mp4)
 
+Admin configuration options
+---------------------------
+
+(This doesn't work yet, thank you.)
+
+* Setting a valid `GITHUB_TOKEN`, `GITHUB_OWNER` and `GITHUB_REPO` will log
+  the application errors to the `course-site` repository on GitHub.
+
+* Setting a `DROPBOX_KEY` and `DROPBOX_SECRET` will allow the admin user to
+  connect their Dropbox account to the course site.
+
+* Setting an `API_TOKEN` will allow another website to import some data from a special endpoint.
 
 Some stuff we still want
 ------------------------
