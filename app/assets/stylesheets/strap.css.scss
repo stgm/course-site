@@ -5,6 +5,7 @@ body
 	line-height: 20px;
 	color: #333333;
 	background-color: #eee;
+	padding-top:50px;
 }
 
 /****************************************************************************
@@ -79,6 +80,11 @@ body
   background-color: white;
 }
 
+.alert
+{
+	margin-bottom:0;
+}
+
 /****************************************************************************
  *  main content wrapper
  *
@@ -86,9 +92,8 @@ body
 
 #content
 {
-	margin-top: 50px;
 	background-color: #fff;
-	padding:1em 5%;
+	padding:1em 2em;
 }
 
 #content .nav
@@ -103,7 +108,7 @@ body
 
 #content > #submitted_pset
 {
-	margin:-2em -4em 0 -4em;
+	margin:-1em -2em 0 -2em;
 	border:0; border-radius:0;
 }
 
