@@ -20,6 +20,13 @@ CourseSite::Application.routes.draw do
 	get  "admin/stats"
 	get  "admin/api"
 	post "admin/api_save"
+	
+	namespace :admin do
+		# dropbox
+		get  "dropbox" => "dropbox#index"
+		post "dropbox/connect"
+		get  "dropbox/oauth"
+	end
 
 	# course management
 	get  "course/grades"
@@ -34,11 +41,6 @@ CourseSite::Application.routes.draw do
 	post "course/import_groups"
 	post "course/add_student"
 	post "course/remove_student"
-
-	# dropbox
-	get  "dropbox" => "dropbox#index"
-	post "dropbox/connect"
-	get  "dropbox/oauth"
 
 	# grading overview
 	get  "grading" => "grading#index"
