@@ -77,6 +77,8 @@ Admin configuration options
 
 (This doesn't work yet, thank you.)
 
+* Setting a `CAS_BASE_URL` is needed for authentication. You can optionally set a `CAS_FAKE_USER` to prevent CAS roundtrips during testing.
+
 * Setting a valid `GITHUB_TOKEN`, `GITHUB_OWNER` and `GITHUB_REPO` will log
   the application errors to the `course-site` repository on GitHub.
 
@@ -84,6 +86,8 @@ Admin configuration options
   connect their Dropbox account to the course site.
 
 * Setting an `API_TOKEN` will allow another website to import some data from a special endpoint.
+
+* Setting a `MAILER_ADDRESS`, `MAILER_DOMAIN`, `MAILER_USERNAME` and `MAILER_PASSWORD` will allow mails to be sent to users.
 
 Some stuff we still want
 ------------------------
