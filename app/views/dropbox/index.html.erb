@@ -13,19 +13,7 @@
 	</p>
 	
 	<%= form_tag({ action: "connect" }) do %>
-	<div class="form-group">
-		<label class="control-label col-2" for="inputAppKey">App Key</label>
-		<div class="col-10">
-			<input type="text" id="inputAppKey" name="dropbox_app_key" class="form-control">
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-2" for="inputAppSecret">App Secret</label>
-		<div class="col-10">
-			<input type="text" id="inputAppSecret" name="dropbox_app_secret" class="form-control">
-			<%= submit_tag 'Save', class:'btn' %>
-		</div>
-	</div>
+		<%= submit_tag 'Connect', class:'btn' %>
 	<% end %>
 
 </div>

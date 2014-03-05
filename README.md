@@ -75,15 +75,15 @@ Formatting your pages
 Admin configuration options
 ---------------------------
 
-(This doesn't work yet, thank you.)
+* Setting a `DROPBOX_KEY` and `DROPBOX_SECRET` will allow the admin user to
+  connect their Dropbox account to the course site.
+
+(The next doesn't work yet, thank you.)
 
 * Setting a `CAS_BASE_URL` is needed for authentication. You can optionally set a `CAS_FAKE_USER` to prevent CAS roundtrips during testing.
 
 * Setting a valid `GITHUB_TOKEN`, `GITHUB_OWNER` and `GITHUB_REPO` will log
   the application errors to the `course-site` repository on GitHub.
-
-* Setting a `DROPBOX_KEY` and `DROPBOX_SECRET` will allow the admin user to
-  connect their Dropbox account to the course site.
 
 * Setting an `API_TOKEN` will allow another website to import some data from a special endpoint.
 

@@ -42,9 +42,9 @@ class PageController < ApplicationController
 	end
 	
 	def submit
-		dropbox = DropboxConnection.new
-		
-		if dropbox.linked?
+		if Dropbox.connected?
+			dropbox = Dropbox.connection
+
 			page = Page.find(params[:page_id])
 			pset = page.pset
 			form_text = render_form_text(params[:a])
