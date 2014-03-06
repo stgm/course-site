@@ -321,61 +321,9 @@ section textarea
 	width:100%;
 }
 
-/****************************************************************************
- *  commenting
- *
- */
-
 form .btn
 {
 	margin-top:1em;
-}
-
-#comments
-{
-	opacity:0.4;
-	margin-top:2em;
-	font-size:9pt;
-	margin-left:-15px;
-}
-
-#comments:hover, #comments:active
-{
-	opacity:0.9;
-}
-
-#comments .list-group
-{
-	padding:1em;
-	background-color:white;
-	border-top:1px solid #D9D9D9;
-	border-bottom:1px solid #D9D9D9;
-	border-right:1px solid #D9D9D9;
-}
-
-#comments .list-group-item
-{
-	padding:0;
-	border:0;
-	border-radius:0;
-}
-
-#comments .list-group-item.reply
-{
-	padding-left:2em;
-}
-
-#comments textarea
-{
-	border:1px solid #D2D2D2;
-	margin:0.5em 0;
-	border-radius:0;
-	font-size:inherit;
-}
-
-#comments .btn
-{
-	margin-top:0
 }
 
 /****************************************************************************

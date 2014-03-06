@@ -10,7 +10,6 @@ class PageController < ApplicationController
 		# if not found, course is presumably empty, redirect to onboarding
 		redirect_to welcome_url and return if @page.nil?
 		
-		@comments = @page.comment_threads.includes(:comments).order('created_at desc').all
 		@has_form = @page.pset && @page.pset.form
 		render :index
 	end
@@ -37,7 +36,6 @@ class PageController < ApplicationController
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
-		@comments = @page.comment_threads.includes(:comments).order('created_at desc').all
 		@has_form = @page.pset && @page.pset.form
 	end
 	

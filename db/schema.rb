@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140221115415) do
+ActiveRecord::Schema.define(:version => 20140306202925) do
 
   create_table "answers", :force => true do |t|
     t.integer  "user_id"
@@ -29,22 +29,6 @@ ActiveRecord::Schema.define(:version => 20140221115415) do
     t.integer  "subpage_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "comment_threads", :force => true do |t|
-    t.string   "title"
-    t.integer  "page_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "comments", :force => true do |t|
-    t.text     "content"
-    t.text     "orig_content"
-    t.integer  "comment_thread_id"
-    t.integer  "user_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
   end
 
   create_table "grades", :force => true do |t|
@@ -68,15 +52,6 @@ ActiveRecord::Schema.define(:version => 20140221115415) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "items", :force => true do |t|
-    t.string   "title"
-    t.integer  "position"
-    t.string   "reference"
-    t.integer  "category_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
   create_table "pages", :force => true do |t|
     t.string   "title"
     t.integer  "position"
@@ -88,14 +63,6 @@ ActiveRecord::Schema.define(:version => 20140221115415) do
   end
 
   add_index "pages", ["slug", "section_id"], :name => "index_pages_on_slug_and_section_id", :unique => true
-
-  create_table "progresses", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "page_id"
-    t.boolean  "done"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
 
   create_table "pset_files", :force => true do |t|
     t.string   "filename"

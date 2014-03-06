@@ -53,12 +53,6 @@ CourseSite::Application.routes.draw do
 	post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
 	delete "grade" => "grades#destroy"
 	
-	# commenting
-	# post "comment/post_question"
-	# post "comment/post_answer"
-	# post "comment/delete_question"
-	# post "comment/delete_answer"
-	
 	# onboarding
 	get  "welcome" => "welcome#index"
 	get  "welcome/clone"
