@@ -22,5 +22,10 @@ class Admin::DropboxController < ApplicationController
 			redirect_to :root
 		end
 	end
+	
+	def set_root_folder
+		Settings['dropbox.root_folder'] = params['folder'] if params['folder'].present?
+		redirect_to :back, notice: 'Root folder saved.'
+	end
 
 end

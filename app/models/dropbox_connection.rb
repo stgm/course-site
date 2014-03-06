@@ -6,7 +6,7 @@ class DropboxConnection
 		
 	def submit(user, name, course, item, notes, form, files)
 		
-		dropbox_root = "Submit"
+		dropbox_root = Settings['dropbox.root_folder']
 		
 		if !@dropbox_client
 			raise "No session to Dropbox yet."

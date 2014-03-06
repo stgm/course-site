@@ -12,6 +12,11 @@
 		<% end %>
 	</p>
 	
+	<%= form_tag(action: 'set_root_folder') do %>
+		<%= text_field_tag 'folder', Settings['dropbox.root_folder'], required: true %>
+		<%= submit_tag 'Change', class:'btn' %>
+	<% end %>
+	
 	<%= form_tag({ action: "connect" }) do %>
 		<%= submit_tag 'Connect', class:'btn' %>
 	<% end %>

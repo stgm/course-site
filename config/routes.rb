@@ -25,6 +25,7 @@ CourseSite::Application.routes.draw do
 		get  "dropbox" => "dropbox#index"
 		post "dropbox/connect"
 		get  "dropbox/oauth"
+		post "dropbox/set_root_folder"
 		
 		get  "users/import"
 		post "users/import_groups"

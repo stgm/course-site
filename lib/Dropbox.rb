@@ -4,12 +4,13 @@ module Dropbox
 	
 	@@dropbox_key = ENV['DROPBOX_KEY']
 	@@dropbox_secret = ENV['DROPBOX_SECRET']
+	@@dropbox_access_type = ENV['DROPBOX_ACCESS_TYPE']
 
 	@@session = nil
 	@@connection = nil
 
 	def self.available?
-		return @@dropbox_key.present? && @@dropbox_secret.present?
+		return @@dropbox_key.present? && @@dropbox_secret.present? && @@dropbox_access_type.present?
 	end
 	
 	def self.connected?
@@ -18,7 +19,7 @@ module Dropbox
 	end
 
 	def self.connection
-		return @@connection ||= DropboxConnection.new(@@session, Settings["dropbox.access_type"]) if self.connected?
+		return @@connection ||= DropboxConnection.new(@@session, @@dropbox_access_type) if self.connected?
 	end
 	
 	def self.get_dropbox_auth_url(return_url)
