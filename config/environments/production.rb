@@ -29,8 +29,3 @@ CourseSite::Application.configure do
 	config.active_support.deprecation = :notify
 
 end
-
-CASClient::Frameworks::Rails::Filter.configure(
-  cas_base_url: "https://secure.uva.nl/cas/",
-  validate_url: "https://secure.uva.nl/cas/serviceValidate"
-)

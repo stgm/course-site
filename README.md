@@ -80,9 +80,9 @@ Admin configuration options
 
 * Setting an `COURSESITE_API_TOKEN` will allow another website to import some data from a special endpoint.
 
-(The next doesn't work yet, thank you.)
-
 * Setting a `CAS_BASE_URL` is needed for authentication. You can optionally set a `CAS_FAKE_USER` to prevent CAS roundtrips during testing.
+
+(The next doesn't work yet, thank you.)
 
 * Setting a valid `GITHUB_TOKEN`, `GITHUB_OWNER` and `GITHUB_REPO` will log
   the application errors to the `course-site` repository on GitHub.
