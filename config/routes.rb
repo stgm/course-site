@@ -12,7 +12,6 @@ CourseSite::Application.routes.draw do
 	# administrative
 	get  "admin" => "admin#index"
 	get  "admin/claim"
-	get  "admin/import_users"
 	get  "admin/admins"
 	post "admin/admins" => "admin#admins_save"
 	post "admin/assistants" => "admin#assistants_save"
@@ -22,23 +21,24 @@ CourseSite::Application.routes.draw do
 	post "admin/api_save"
 	
 	namespace :admin do
-		# dropbox
+
 		get  "dropbox" => "dropbox#index"
 		post "dropbox/connect"
 		get  "dropbox/oauth"
+		
+		get  "users/import"
+		post "users/import_groups"
+		get  "users/export_grades"
+		
 	end
 
 	# course management
 	get  "course/grades"
 	get  "course/grades/:track" => "course#track_grades"
-	get  "course/export_grades"
-	post "course/done"
-	post "course/enable"
 	post "course/touch_submit"
 	post "course/toggle_public_grades"
 	post "course/toggle_grading_allowed"
 	post "course/import"
-	post "course/import_groups"
 	post "course/add_student"
 	post "course/remove_student"
 

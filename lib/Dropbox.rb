@@ -8,6 +8,10 @@ module Dropbox
 	@@session = nil
 	@@connection = nil
 
+	def self.available?
+		return @@dropbox_key.present? && @@dropbox_secret.present?
+	end
+	
 	def self.connected?
 		@@session ||= DropboxSession.deserialize(Settings["dropbox.session"]) if Settings['dropbox.session']
 		return !!@@session && @@session.authorized?
@@ -15,10 +19,6 @@ module Dropbox
 
 	def self.connection
 		return @@connection ||= DropboxConnection.new(@@session, Settings["dropbox.access_type"]) if self.connected?
-	end
-	
-	def self.configured?
-		return @@dropbox_key.present? && @@dropbox_secret.present?
 	end
 	
 	def self.get_dropbox_auth_url(return_url)

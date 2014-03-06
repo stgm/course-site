@@ -7,15 +7,6 @@ class AdminController < ApplicationController
 		
 	end
 	
-	def api
-		@apikey = Settings.apikey
-	end
-	
-	def api_save
-		Settings.apikey = params[:apikey]
-		redirect_to :back
-	end
-	
 	# show admins and assistants
 	def admins
 		@admins = Settings.admins.join("\n")

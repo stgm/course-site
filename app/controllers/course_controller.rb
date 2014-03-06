@@ -11,12 +11,6 @@ class CourseController < ApplicationController
 		redirect_to :back, notice: 'The course content was successfully updated.'
 	end
 	
-	def export_grades
-		@users = User.where(active: true).order('name')
-		@psets = Pset.order(:id)
-		@title = "Export grades"
-	end
-	
 	def add_student
 		Track.find(params[:track_id]).users << User.where(uvanetid:params[:student_id]).first_or_create
 		render nothing: true, status: 200
@@ -29,24 +23,6 @@ class CourseController < ApplicationController
 		redirect_to :back
 	end
 
-	#
-	# ajax-only enable/disable of students
-	#
-	def enable
-		reg = User.find(params[:id])
-		reg.update_attribute(:active, params[:active])
-		render :nothing => true
-	end
-
-	#
-	# ajax-only done/not done of students
-	#
-	def done
-		reg = User.find(params[:id])
-		reg.update_attribute(:done, params[:done])
-		render :nothing => true
-	end
-	
 	#
 	# list all submits
 	#
@@ -111,37 +87,4 @@ class CourseController < ApplicationController
 		redirect_to :back
 	end
 	
-	#
-	# divide users into groups from a csv
-	#
-	def import_groups
-		# this is very dependent on datanose export format: id's in col 0 and 1, group name in 7
-		if source = params[:paste]
-			User.update_all(group_id: nil)
-			Group.delete_all
-			
-			source.each_line do |line|
-				next if line.strip == ""
-				line = line.split("\t")
-
-				user_id = line[0..1]
-				group_name = line[7].strip
-				next if group_name == "Group"
-			
-				group = Group.where(:name => group_name).first_or_create if group_name != ""
-				user = User.where('uvanetid in (?)', user_id).first
-
-				if user && group
-					user.group = group
-					user.save
-				elsif user
-					user.group = nil
-					user.save
-				end
-			end
-		end
-		
-		redirect_to :back, notice: 'Student groups were successfully imported.'
-	end
-
 end
