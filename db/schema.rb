@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140306202925) do
+ActiveRecord::Schema.define(:version => 20140309152839) do
 
   create_table "answers", :force => true do |t|
     t.integer  "user_id"
@@ -99,12 +99,34 @@ ActiveRecord::Schema.define(:version => 20140306202925) do
     t.integer  "track_id"
     t.string   "term"
     t.string   "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "schedule_id"
+    t.integer  "schedule_span_id"
   end
 
   add_index "registrations", ["track_id"], :name => "index_registrations_on_track_id"
   add_index "registrations", ["user_id"], :name => "index_registrations_on_user_id"
+
+  create_table "schedule_spans", :force => true do |t|
+    t.string   "name"
+    t.integer  "schedule_id"
+    t.text     "content"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "schedule_spans", ["schedule_id"], :name => "index_schedule_spans_on_schedule_id"
+
+  create_table "schedules", :force => true do |t|
+    t.string   "name"
+    t.integer  "track_id"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "schedules", ["track_id"], :name => "index_schedules_on_track_id"
 
   create_table "sections", :force => true do |t|
     t.string   "title"

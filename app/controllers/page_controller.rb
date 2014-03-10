@@ -11,7 +11,13 @@ class PageController < ApplicationController
 		redirect_to welcome_url and return if @page.nil?
 		
 		@has_form = @page.pset && @page.pset.form
-		render :index
+		
+		logger.info load_schedule().any?
+		if load_schedule().any?
+			render :index_schedule
+		else
+			render :index
+		end
 	end
 	
 	def index
@@ -37,6 +43,35 @@ class PageController < ApplicationController
 		end
 		
 		@has_form = @page.pset && @page.pset.form
+		
+		if load_schedule().any?
+			render :index_schedule
+		else
+			render :index
+		end
+	end
+	
+	def load_schedule
+		return false if Track.blank?
+		@registrations = current_user.registrations.where("schedule_id is not null and schedule_span_id is not null")
+	end
+	
+	def prev_in_schedule
+		reg = current_user.registrations.where(id: params[:registration_id]).first
+		if reg.schedule_span.present?
+			reg.schedule_span = reg.schedule_span.previous if reg.schedule_span.previous.present?
+		else
+			reg.schedule_span = reg.schedule.schedule_spans.first
+		end
+		reg.save
+		redirect_to :back
+	end
+
+	def next_in_schedule
+		reg = current_user.registrations.where(id: params[:registration_id]).first
+		reg.schedule_span = reg.schedule_span.next if reg.schedule_span.next.present?
+		reg.save
+		redirect_to :back
 	end
 	
 	def submit

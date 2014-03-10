@@ -2,6 +2,8 @@ class Track < ActiveRecord::Base
 	
 	has_and_belongs_to_many :psets
 	belongs_to :final_grade, class_name: 'Pset'#, foreign_key: 'id'
+	has_many :schedules
+	
 	has_many :registrations
 	has_many :users, through: :registrations
 

@@ -113,6 +113,43 @@ class Course
 				end
 			end
 		end
+		
+		# read tracks, if any
+		Dir.glob(subdirs(File.join(dir, 'tracks'))) do |track_dir|
+			track_name = File.basename(track_dir)
+
+			# read track config, including name and related psets
+			track_conf = self.read_config(File.join(track_dir, 'track.yml'))
+			if track_conf['final']
+				final = Pset.where(name: track_conf['final']).first_or_create
+			end
+			new_track = Track.where(name:track_conf['name']).first_or_create do |t|
+				t.final_grade_id = final.id
+			end
+			
+			### THIS 'IF' is only needed as long as we're supporting the tracks being provided in course.yml (not for long)
+			if !config['tracks']
+				track_conf['requirements'].each do |pset|
+					pset = Pset.where(name: pset).first_or_create
+					new_track.psets << pset
+				end
+			end
+
+			# read schedules, if any
+			Dir.glob(subdirs(track_dir)) do |schedule_dir|
+				schedule_name = File.basename(schedule_dir)
+				new_schedule = Schedule.where(track_id: new_track.id, name: schedule_name).first_or_create
+				Dir.glob(files(schedule_dir, "*.yml")) do |span_conf_file|
+					span_conf = self.read_config(span_conf_file)
+					span_name = File.basename(span_conf_file, '.yml')
+					ScheduleSpan.where(schedule_id: new_schedule.id, name: span_name).first_or_create do |s|
+						s.content = span_conf.to_yaml
+					end
+					# Rails.logger.debug "#{track_name} - #{schedule_name} - #{span_name}"
+				end
+			end
+		end
+		
 	end
 
 	# Reads the `info` directory in the course repo. It creates a

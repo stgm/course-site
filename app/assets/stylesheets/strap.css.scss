@@ -4,7 +4,7 @@ body
 	font-size: 14px;
 	line-height: 20px;
 	color: #333333;
-	background-color: #eee;
+	background-color:#EEE;
 	padding-top:50px;
 }
 
@@ -80,9 +80,79 @@ body
   background-color: white;
 }
 
+/****************************************************************************
+ *  alert just below navbar
+ *
+ */
+
 .alert
 {
 	margin-bottom:0;
+}
+
+/****************************************************************************
+ *  schedule column on left
+ *
+ */
+
+#schedule
+{
+	margin-top:5em;
+	padding-bottom:1em;
+}
+
+@media (max-width:767px)
+{
+	#schedule
+	{
+		margin-top:0;
+	}
+	
+	#schedule #heading, #schedule #description
+	{
+		display:none;
+	}
+}
+
+#schedule
+{
+	color:#A2A2A2;
+}
+
+#schedule > *
+{
+	font-size:0.9em;
+}
+
+#schedule #heading, #sschedule #description
+{
+	padding:0 1em;
+	color:#9F9F9F;
+}
+
+#schedule #heading
+{
+	text-transform:uppercase;
+}
+
+#schedule #description
+{
+	font-size:0.9em;
+	line-height:auto;
+}
+
+#schedule #contents
+{
+	border-top:1px solid #F1F1F1;
+	border-bottom:1px solid #F1F1F1;
+	padding-top:0.5em;
+	padding-bottom:0.5em;
+}
+
+#schedule #contents li
+{
+	margin-top:0.25em;
+	margin-bottom:0.25em;
 }
 
 /****************************************************************************
@@ -94,6 +164,7 @@ body
 {
 	background-color: #fff;
 	padding:1em 2em;
+	box-shadow:0px -1px 5px #CCC;
 }
 
 #content .nav
@@ -352,7 +423,7 @@ footer
 		background-color:transparent ! important;
 	}
 
-	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe, #schedule, #comments-column
+	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe, #schedule-column, #comments-column
 	{
 		display:none;
 	}
@@ -402,19 +473,6 @@ footer
 
 	    /* this affects the margin in the printer settings */ 
 	    margin: 20mm 40mm 20mm 0mm;  
-	}
-}
-
-@media screen and (max-width: 991px)
-{
-	#content
-	{
-		border:0;
-	}
-	
-	.navbar-static-top
-	{
-		margin-bottom:0;
 	}
 }
 

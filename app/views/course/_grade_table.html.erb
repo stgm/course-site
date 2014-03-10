@@ -3,6 +3,10 @@
 	<tr>
 		<th>Name</th>
 		<th>ID</th>
+		<% if track && track.schedules.any? %>
+		<th>Schedule</th>
+		<th>Progress</th>
+		<% end %>
 		<% psets.each do |pset| %>
 		<th><%= pset.name %></th>
 		<% end %>
@@ -39,6 +43,15 @@
 			<% end %>
 		</td>
 		<td><%= user.uvanetid %></td>
+		<% if track && track.schedules.any? %>
+		<td>
+			<% r = user.registrations.where(track_id:track.id).first %>
+			<%= best_in_place r, :schedule_id, type: :select, path: registration_path(id: r.id), collection: track.schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
+		</td>
+		<td>
+			<%= x = user.registrations.where(track_id:track.id).first.schedule_span and x.name %>
+		</td>
+		<% end %>
 		<% psets.each do |pset| %>
 		<td>
 			<% if subs[pset.id] %>
