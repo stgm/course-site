@@ -62,7 +62,7 @@
 				<%= link_to 'sub', grade_form_path(user_id: user.id, pset_id: pset.id), class: 'btn btn-default btn-xs btn-block' %>
 				<% end %>
 			<% else %>
-				<%= link_to 'no', grade_form_path(user_id: user.id, pset_id: pset.id), class:'btn btn-default btn-xs btn-block auto-hide', confirm:'Would you like to enter a grade for this unsubmitted pset?' %>
+				<%= link_to 'no', grade_form_path(user_id: user.id, pset_id: pset.id), class:'btn btn-default btn-xs btn-block auto-hide', data: { confirm:'Would you like to enter a grade for this unsubmitted pset?' } %>
 			<% end %>
 		</td>
 		<% end %>
@@ -71,7 +71,7 @@
 		<td><%= best_in_place r, :status, type: :input, path: registration_path(id: r.id) %></td>
 		<% end %>
 		<td>
-		<%= link_to_if track && !submitted, '<span class="glyphicon glyphicon-trash"></span>'.html_safe, course_remove_student_path(student_id: user.uvanetid, track_id: track), method: :post, confirm: "Sikker?" do "" end %>
+		<%= link_to_if track && !submitted, '<span class="glyphicon glyphicon-trash"></span>'.html_safe, course_remove_student_path(student_id: user.uvanetid, track_id: track), method: :post, data: { confirm: "Sikker?" } do "" end %>
 		</td>
 		
 	</tr>

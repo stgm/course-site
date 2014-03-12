@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_navigation
-		@sections = Section.includes(pages: :pset).all
+		@sections = Section.includes(pages: :pset)
 	end
 	
 	def require_admin

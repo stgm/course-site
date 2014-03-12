@@ -71,6 +71,6 @@ CourseSite::Application.routes.draw do
 	resource :registration
 	
 	# default route, for content pages
-	match ":section/:page" => "page#index"
+	get  ":section/:page" => "page#index"
 
 end

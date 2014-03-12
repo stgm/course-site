@@ -11,7 +11,7 @@ class Page < ActiveRecord::Base
 	has_one :pset        # linked pset if available
 
 	# Make sure the subpages are always ordered
-	default_scope order(:position)
+	default_scope { order(:position) }
 	
 	def public_url
 		if section
