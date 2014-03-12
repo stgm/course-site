@@ -1,10 +1,6 @@
-<div id="content" class="container">
+<div id="content">
 	
-	<header class="page-header" style="border-bottom:0">
-		<h1>Students</h1>
-	</header>
-	
-	<ul class="nav nav-tabs">
+	<ul class="nav nav-pills">
 		<% @groups.each_with_index do |group,i| %>
 		<li <%= 'class="active"'.html_safe if i==0 %>><a href="#group<%= i %>" data-toggle="tab"><%= group[:title] %> (<%= group[:users].count %>)</a></li>
 		<% end %>

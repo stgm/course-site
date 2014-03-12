@@ -163,13 +163,18 @@ body
 #content
 {
 	background-color: #fff;
-	padding:1em 2em;
+	padding:2em 2em;
 	box-shadow:0px 3px 5px #CCC;
+}
+
+#content header
+{
+	margin-top:0;
 }
 
 #content .nav
 {
-	margin-bottom:0;
+	margin-bottom:1em;
 }
 
 #content header .nav > li > a /* the pills below the page's H1 */
@@ -181,6 +186,16 @@ body
 {
 	margin:-1em -2em 0 -2em;
 	border:0; border-radius:0;
+}
+
+.form-inline input[type=number]
+{
+	width:4em;
+}
+
+#grade_comments
+{
+	height:325px;
 }
 
 /****************************************************************************
