@@ -118,7 +118,7 @@ private
 	def Course.load_tracks_2(dir, load_psets)
 		
 		# read tracks, if any
-		Dir.glob(subdirs(dir)) do |track_dir|
+		subdirs_of(dir) do |track_dir|
 			track_name = File.basename(track_dir)
 
 			# read track config, including name and related psets
@@ -146,10 +146,10 @@ private
 	
 	def Course.load_schedules(dir, new_track)
 		# read schedules, if any
-		Dir.glob(subdirs(dir)) do |schedule_dir|
+		subdirs_of(dir) do |schedule_dir|
 			schedule_name = File.basename(schedule_dir)
 			new_schedule = Schedule.where(track_id: new_track.id, name: schedule_name).first_or_create
-			Dir.glob(files(schedule_dir, "*.yml")) do |span_conf_file|
+			yaml_files_in(schedule_dir) do |span_conf_file|
 				span_conf = Course.read_config(span_conf_file)
 				span_name = File.basename(span_conf_file, '.yml')
 				ScheduleSpan.where(schedule_id: new_schedule.id, name: span_name).first_or_create do |s|
@@ -179,7 +179,7 @@ private
 	def Course.process_sections(dir)
 		
 		# sections should be direct descendants of the root course dir
-		Dir.glob(subdirs(dir)) do |section|
+		subdirs_of(dir) do |section|
 			
 			section_path = File.basename(section)
 			next if section_path == "info" # skip info directory
@@ -201,7 +201,7 @@ private
 	def Course.process_pages(dir, parent_section)
 		
 		# each page is a descendant of a section and contains one or more markdown subpages
-		Dir.glob(subdirs(dir)) do |page|
+		subdirs_of(dir) do |page|
 			
 			page_path = File.basename(page)    # only the directory name
 			page_info = split_info(page_path)  # array of position and page name
@@ -255,7 +255,7 @@ private
 	# subpage (tab) in the database for each.
 	
 	def Course.process_subpages(dir, parent_page)
-		Dir.glob(files(dir, "*.md")) do |subpage|
+		markdown_files_in(dir) do |subpage|
 
 			subpage_path = File.basename(subpage)
 			subpage_info = split_info(subpage_path)
@@ -275,6 +275,12 @@ private
 	def Course.subdirs(*name)
 		return File.join(name, "*/")
 	end
+	
+	def Course.subdirs_of(*name)
+		Dir.glob(subdirs(name)).each do |dir|
+			yield dir
+		end
+	end
 
 	#
 	#
@@ -282,6 +288,24 @@ private
 	
 	def Course.files(*name)
 		return File.join(name)
+	end
+	
+	def Course.files_in(*name)
+		Dir.glob(files(name)).each do |file|
+			yield file
+		end
+	end
+	
+	def Course.markdown_files_in(*name)
+		files_in(name, "*.md") do |file|
+			yield file
+		end
+	end
+
+	def Course.yaml_files_in(*name)
+		files_in(name, "*.yml") do |file|
+			yield file
+		end
 	end
 
 	# Splits a path name of the form "nn textextextext" into two parts.
