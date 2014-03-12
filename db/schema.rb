@@ -112,8 +112,8 @@ ActiveRecord::Schema.define(version: 20140309152839) do
     t.string   "name"
     t.integer  "schedule_id"
     t.text     "content"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "schedule_spans", ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
@@ -122,8 +122,8 @@ ActiveRecord::Schema.define(version: 20140309152839) do
     t.string   "name"
     t.integer  "track_id"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "schedules", ["track_id"], name: "index_schedules_on_track_id"
