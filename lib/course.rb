@@ -1,4 +1,4 @@
-class Course
+module Course
 	
 	# This class is responsible for importing course information from
 	# the source into the database.
@@ -12,7 +12,7 @@ class Course
 	# Clear all settings, users, etc. Only available through the
 	# command-line interface (rake).
 	
-	def self.reset
+	def Course.reset
 		puts "Deleting any previous content..."
 		Section.delete_all
 		Page.delete_all
@@ -37,7 +37,7 @@ class Course
 	#
 	# Re-read the course contents from the git repository.
 	
-	def self.reload
+	def Course.reload
 		# get update from from git remote (pull)
 		update_repo(COURSE_DIR)
 
@@ -63,9 +63,9 @@ class Course
 		process_sections(COURSE_DIR)
 	end
 		
-	private
+private
 	
-	def self.has_repo?
+	def Course.has_repo?
 		g = Git.open(COURSE_DIR, :log => Rails.logger)
 		return true
 	rescue
@@ -76,7 +76,7 @@ class Course
 	# Performs a git pull on the course repo. `Git.pull` has been
 	# overridden in an initializer in order to function well!
 	
-	def self.update_repo(dir)
+	def Course.update_repo(dir)
 		g = Git.open dir, :log => Rails.logger
 		g.pull
 	end
@@ -85,41 +85,44 @@ class Course
 	#
 	# Loads course settings from the course.yml file
 	
-	def self.load_course_info(dir)
-		config = self.read_config(File.join(dir, 'course.yml'))
-		
+	def Course.load_course_info(dir)
+		config = Course.read_config(File.join(dir, 'course.yml'))
 		if config['course']
 			Settings['long_course_name'] = config['course']['title'] if config['course']['title']
 			Settings['short_course_name'] = config['course']['short'] if config['course']['short']
 			Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
 		end
-		
 		Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
 		Settings['display_license'] = config['license'] if config['license']
-
 		Settings['cdn_prefix'] = config['cdn'] if config['cdn']
-
-		if config['tracks']
-			config['tracks'].each do |nm,track|
-				if track['final']
-					final = Pset.where(name: track['final']).first_or_create
-				end
-				new_track = Track.where(name:track['name']).first_or_create do |t|
-					t.final_grade_id = final.id
-				end
-				track['requirements'].each do |pset|
-					pset = Pset.where(name: pset).first_or_create
-					new_track.psets << pset
-				end
+		
+		load_tracks(config['tracks']) if config['tracks']
+		load_tracks_2(File.join(dir, 'tracks'), !config['tracks'])
+	end
+	
+	def Course.load_tracks(track_config)		
+		track_config.each do |nm,track|
+			if track['final']
+				final = Pset.where(name: track['final']).first_or_create
+			end
+			new_track = Track.where(name:track['name']).first_or_create do |t|
+				t.final_grade_id = final.id
+			end
+			track['requirements'].each do |pset|
+				pset = Pset.where(name: pset).first_or_create
+				new_track.psets << pset
 			end
 		end
+	end
+	
+	def Course.load_tracks_2(dir, load_psets)
 		
 		# read tracks, if any
-		Dir.glob(subdirs(File.join(dir, 'tracks'))) do |track_dir|
+		Dir.glob(subdirs(dir)) do |track_dir|
 			track_name = File.basename(track_dir)
 
 			# read track config, including name and related psets
-			track_conf = self.read_config(File.join(track_dir, 'track.yml'))
+			track_conf = Course.read_config(File.join(track_dir, 'track.yml'))
 			if track_conf['final']
 				final = Pset.where(name: track_conf['final']).first_or_create
 			end
@@ -128,35 +131,39 @@ class Course
 			end
 			
 			### THIS 'IF' is only needed as long as we're supporting the tracks being provided in course.yml (not for long)
-			if !config['tracks']
+			if load_psets
 				track_conf['requirements'].each do |pset|
 					pset = Pset.where(name: pset).first_or_create
 					new_track.psets << pset
 				end
 			end
 
-			# read schedules, if any
-			Dir.glob(subdirs(track_dir)) do |schedule_dir|
-				schedule_name = File.basename(schedule_dir)
-				new_schedule = Schedule.where(track_id: new_track.id, name: schedule_name).first_or_create
-				Dir.glob(files(schedule_dir, "*.yml")) do |span_conf_file|
-					span_conf = self.read_config(span_conf_file)
-					span_name = File.basename(span_conf_file, '.yml')
-					ScheduleSpan.where(schedule_id: new_schedule.id, name: span_name).first_or_create do |s|
-						s.content = span_conf.to_yaml
-					end
-					# Rails.logger.debug "#{track_name} - #{schedule_name} - #{span_name}"
+			load_schedules(track_dir, new_track)
+
+		end
+		
+	end
+	
+	def Course.load_schedules(dir, new_track)
+		# read schedules, if any
+		Dir.glob(subdirs(dir)) do |schedule_dir|
+			schedule_name = File.basename(schedule_dir)
+			new_schedule = Schedule.where(track_id: new_track.id, name: schedule_name).first_or_create
+			Dir.glob(files(schedule_dir, "*.yml")) do |span_conf_file|
+				span_conf = Course.read_config(span_conf_file)
+				span_name = File.basename(span_conf_file, '.yml')
+				ScheduleSpan.where(schedule_id: new_schedule.id, name: span_name).first_or_create do |s|
+					s.content = span_conf.to_yaml
 				end
 			end
 		end
-		
 	end
 
 	# Reads the `info` directory in the course repo. It creates a
 	# page for it and fills it with the subpages. This special page
 	# does not support forms and submitting of psets.
 	
-	def self.process_info(dir)
+	def Course.process_info(dir)
 		# info should be a subdir of the root course dir and contain markdown files
 		info_dir = File.join(dir, 'info')
 		if File.exist?(info_dir)
@@ -169,7 +176,7 @@ class Course
 	# Reads the top-level sections from the course repo. Creates a
 	# section in the database and recursively reads pages in the section.
 	
-	def self.process_sections(dir)
+	def Course.process_sections(dir)
 		
 		# sections should be direct descendants of the root course dir
 		Dir.glob(subdirs(dir)) do |section|
@@ -191,7 +198,7 @@ class Course
 	# Reads the second-level pages from the course repo. Creates a page
 	# in the database and recursively reads subpages in the page.
 	
-	def self.process_pages(dir, parent_section)
+	def Course.process_pages(dir, parent_section)
 		
 		# each page is a descendant of a section and contains one or more markdown subpages
 		Dir.glob(subdirs(dir)) do |page|
@@ -247,7 +254,7 @@ class Course
 	# Reads the third-level subpages from the course repo. Creates a
 	# subpage (tab) in the database for each.
 	
-	def self.process_subpages(dir, parent_page)
+	def Course.process_subpages(dir, parent_page)
 		Dir.glob(files(dir, "*.md")) do |subpage|
 
 			subpage_path = File.basename(subpage)
@@ -265,7 +272,7 @@ class Course
 	#
 	# Returns a subdir glob pattern.
 	
-	def self.subdirs(*name)
+	def Course.subdirs(*name)
 		return File.join(name, "*/")
 	end
 
@@ -273,7 +280,7 @@ class Course
 	#
 	# Returns a file glob pattern. Yes, this is a really simple function.
 	
-	def self.files(*name)
+	def Course.files(*name)
 		return File.join(name)
 	end
 
@@ -281,7 +288,7 @@ class Course
 	# Only accepts paths where the first characters are numbers and
 	# followed by white space.
 	
-	def self.split_info(object)
+	def Course.split_info(object)
 		return object.match('(\d+)\s+(.*).md$') || object.match('(\d+)\s+(.*)$')
 	end
 	
@@ -289,7 +296,7 @@ class Course
 	#
 	# Reads the config file and returns the contents.
 	
-	def self.read_config(filename)
+	def Course.read_config(filename)
 		if File.exists?(filename)
 			return YAML.load_file(filename)
 		else
