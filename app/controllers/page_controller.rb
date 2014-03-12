@@ -12,7 +12,6 @@ class PageController < ApplicationController
 		
 		@has_form = @page.pset && @page.pset.form
 		
-		logger.info load_schedule().any?
 		if load_schedule().any?
 			render :index_schedule
 		else
@@ -29,25 +28,28 @@ class PageController < ApplicationController
 		@page = @section.pages.where(:slug => params[:page]).first		
 		render(status:404, text:"404 Page") and return if !@page
 		
-		# get cached form answers for this page / TODO FUGLY
 		if logged_in? && @page.pset
-			answer = Answer.where(:user_id => current_user.id, :pset_id => @page.pset.id).order('created_at').last
-			if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
-				answer = JSON.parse(answer.answer_data)
-				@answer_data = {}
-				answer.each do |field, value|
-					@answer_data["a[#{field}]"] = value
-				end
-			end
+			@has_form = @page.pset.form
+			load_form_answers() if @has_form
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
-		
-		@has_form = @page.pset && @page.pset.form
 		
 		if load_schedule().any?
 			render :index_schedule
 		else
 			render :index
+		end
+	end
+	
+	def load_form_answers
+		# get cached form answers for this page / TODO FUGLY
+		answer = Answer.where(:user_id => current_user.id, :pset_id => @page.pset.id).order('created_at').last
+		if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
+			answer = JSON.parse(answer.answer_data)
+			@answer_data = {}
+			answer.each do |field, value|
+				@answer_data["a[#{field}]"] = value
+			end
 		end
 	end
 	
@@ -81,7 +83,6 @@ class PageController < ApplicationController
 			page = Page.find(params[:page_id])
 			pset = page.pset
 			form_text = render_form_text(params[:a])
-			logger.debug form_text.inspect
 
 			# upload to dropbox
 			dropbox.submit(current_user.uvanetid, current_user.name,
@@ -91,9 +92,6 @@ class PageController < ApplicationController
 			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 			submit.submitted_at = Time.now
 			submit.save
-			
-			# re-activate user if necessary -- someone who submits is active, no?
-			current_user.activate
 			
 			# success
 			redirect_to(:back, notice: "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
