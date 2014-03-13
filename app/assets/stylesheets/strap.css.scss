@@ -99,23 +99,6 @@ body
 {
 	margin-top:5em;
 	padding-bottom:1em;
-}
-
-@media (max-width:767px)
-{
-	#schedule
-	{
-		margin-top:0;
-	}
-	
-	#schedule #heading, #schedule #description
-	{
-		display:none;
-	}
-}
-
-#schedule
-{
 	color:#A2A2A2;
 }
 
@@ -124,15 +107,10 @@ body
 	font-size:0.9em;
 }
 
-#schedule #heading, #sschedule #description
-{
-	padding:0 1em;
-	color:#9F9F9F;
-}
-
 #schedule #heading
 {
-	text-transform:uppercase;
+	margin-left:0.5em;
+	margin-right:0.5em;
 }
 
 #schedule #description
@@ -143,16 +121,26 @@ body
 
 #schedule #contents
 {
-	border-top:1px solid #F1F1F1;
-	border-bottom:1px solid #F1F1F1;
-	padding-top:0.5em;
-	padding-bottom:0.5em;
+	margin-bottom:4px;
 }
 
 #schedule #contents li
 {
 	margin-top:0.25em;
 	margin-bottom:0.25em;
+}
+
+@media (max-width:767px)
+{
+	#schedule
+	{
+		margin-top:0;
+	}
+	
+	#schedule #description
+	{
+		display:none;
+	}
 }
 
 /****************************************************************************
