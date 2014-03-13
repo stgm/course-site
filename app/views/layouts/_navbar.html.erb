@@ -50,6 +50,7 @@
 					<li class="divider"></li>
 					<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, course_grades_path %></li>
 					<li><%= link_to '<i class="glyphicon glyphicon-list"></i> Grading list'.html_safe, grading_path %></li>
+					<li class="divider"></li>
 					<% if Settings.public_grades %>
 					<li><%= link_to '<i class="glyphicon glyphicon-eye-open"></i> Grades are public'.html_safe, course_toggle_public_grades_path, method: :post %></li>
 					<% else %>
@@ -59,6 +60,11 @@
 					<li><%= link_to '<i class="glyphicon glyphicon-thumbs-up"></i> Grading is allowed'.html_safe, course_toggle_grading_allowed_path, method: :post %></li>
 					<% else %>
 					<li><%= link_to '<i class="glyphicon glyphicon-thumbs-down"></i> Grading is not allowed'.html_safe, course_toggle_grading_allowed_path, method: :post %></li>
+					<% end %>
+					<% if Settings.send_grade_mails %>
+					<li><%= link_to '<i class="glyphicon glyphicon-envelope"></i> Will send grade emails'.html_safe, course_toggle_send_grade_mails_path, method: :post %></li>
+					<% else %>
+					<li><%= link_to '<i class="glyphicon glyphicon-envelope"></i> Will not send grade emails'.html_safe, course_toggle_send_grade_mails_path, method: :post %></li>
 					<% end %>
 					<li class="divider"></li>
 					<% end %>

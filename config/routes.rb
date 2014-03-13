@@ -39,6 +39,7 @@ CourseSite::Application.routes.draw do
 	post "course/touch_submit"
 	post "course/toggle_public_grades"
 	post "course/toggle_grading_allowed"
+	post "course/toggle_send_grade_mails"
 	post "course/import"
 	post "course/add_student"
 	post "course/remove_student"
