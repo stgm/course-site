@@ -152,7 +152,7 @@ private
 			yaml_files_in(schedule_dir) do |span_conf_file|
 				span_conf = Course.read_config(span_conf_file)
 				span_name = File.basename(span_conf_file, '.yml')
-				ScheduleSpan.where(schedule_id: new_schedule.id, name: span_name).first_or_create do |s|
+				ScheduleSpan.where(schedule_id: new_schedule.id, name: span_name).first_or_create.tap do |s|
 					s.content = span_conf.to_yaml
 				end
 			end
