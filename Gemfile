@@ -53,3 +53,5 @@ gem 'protected_attributes'
 # If you are not using Protected Attributes, you can remove any options related to this gem such as whitelist_attributes or mass_assignment_sanitizer options.
 
 gem 'party_foul'
+
+gem 'rufus-scheduler'

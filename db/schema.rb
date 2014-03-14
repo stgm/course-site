@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140309152839) do
+ActiveRecord::Schema.define(version: 20140314153100) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -40,8 +40,9 @@ ActiveRecord::Schema.define(version: 20140309152839) do
     t.integer  "style"
     t.text     "comments"
     t.integer  "grade"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.datetime "mailed_at",   default: '-4712-01-01 00:00:00', null: false
   end
 
   add_index "grades", ["submit_id"], name: "index_grades_on_submit_id"
