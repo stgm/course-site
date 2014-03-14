@@ -1,13 +1,14 @@
 <div class="row">
-	
-	<div class="col-sm-3 col-lg-3" id="schedule">
-		<%= render 'schedule' %>
+	<div id="desktop" class="col-sm-12">
+		<div class="row">
+			<div class="col-sm-3" id="schedule">
+				<%= render 'schedule' %>
+			</div>
+			<div class="col-sm-9" id="content">
+				<%= render 'content' %>
+			</div>
+		</div>
 	</div>
-	
-	<div class="col-sm-9 col-lg-8" id="content">
-		<%= render 'content' %>
-	</div>
-
 </div>
 
 <%= render 'auto_save_form' if @has_form %>

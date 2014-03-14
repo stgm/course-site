@@ -1,9 +1,11 @@
 <div class="row">
-	
-	<div class="col-sm-10 col-sm-offset-1" id="content">
-		<%= render 'content' %>
+	<div id="desktop" class="col-sm-12">
+		<div class="row">
+			<div class="col-sm-10 col-sm-offset-1" id="content">
+				<%= render 'content' %>
+			</div>
+		</div>
 	</div>
-
 </div>
 
 <%= render 'auto_save_form' if @has_form %>
