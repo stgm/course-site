@@ -1,0 +1,6 @@
+<% if @page %>
+<footer>
+	<%= Settings.display_license.html_safe if Settings.display_license %>
+	<a rel="tooltip" data-placement="top" title="<%= simple_markdown(Settings.display_acknowledgements.join("\n\n")).html_safe if Settings.display_acknowledgements %>">Acknowledgements.</a>
+</footer>
+<% end %>

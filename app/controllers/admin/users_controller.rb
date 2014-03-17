@@ -4,6 +4,7 @@ class Admin::UsersController < ApplicationController
 		@users = User.where(active: true).order('name')
 		@psets = Pset.order(:id)
 		@title = "Export grades"
+		render layout:'full_width'
 	end
 	
 	#

@@ -13,7 +13,7 @@ class PageController < ApplicationController
 		@has_form = @page.pset && @page.pset.form
 		
 		if current_user && load_schedule().any?
-			render :index_schedule
+			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
 		end
@@ -35,7 +35,7 @@ class PageController < ApplicationController
 		end
 		
 		if current_user && load_schedule().any?
-			render :index_schedule
+			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
 		end

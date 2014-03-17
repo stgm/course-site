@@ -37,6 +37,11 @@ body
 	margin-bottom:0;
 }
 
+/****************************************************************************
+ *  layout
+ *
+ */
+
 .container-fluid
 {
 	background-color:white;
@@ -45,12 +50,9 @@ body
 	max-width: 60em; /* or 950px */
 }
 
-@media (min-width:768px)
+.container-fluid.room-for-schedule
 {
-	#desktop
-	{
-		border:1px solid #BFBFBF;
-	}
+	max-width: 1024px;
 }
 
 /****************************************************************************
@@ -122,6 +124,7 @@ body
 
 #content
 {
+	background-color:white;
 	padding:2em 2em;
 }
 

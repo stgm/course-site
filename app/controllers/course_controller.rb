@@ -41,7 +41,7 @@ class CourseController < ApplicationController
 		@admins = User.admin.order(:name)
 		@psets = Pset.order(:name)
 		@title = 'List users'
-		render 'grades_groups'
+		render 'grades_groups', layout:'full_width'
 	end
 	
 	def grades_tracks
@@ -64,7 +64,7 @@ class CourseController < ApplicationController
 		@psets = all_psets
 		@title = 'List users'
 					
-		render 'grades_tracks'
+		render 'grades_tracks', layout:'full_width'
 	end
 	
 	def toggle_public_grades
