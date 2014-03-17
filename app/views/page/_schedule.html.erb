@@ -9,18 +9,18 @@
 
 </div>
 
-<div id="contents" class="list-group">
-	<% @week_contents.each do |item, link| %>
-	<a href="<%= link %>" class="list-group-item"><%= item.sub('[', '<span class="label label-info">').sub(']', '</span>').html_safe %></a>
+<div class="btn-group btn-group-justified">
+	<%= link_to({ action: :prev_in_schedule, registration_id: registration.id }, { method: :post, class: 'btn btn-xs' }) do %>
+	<span class='glyphicon glyphicon-arrow-left'></span>
+	<% end %>
+	<%= link_to({ action: :next_in_schedule, registration_id: registration.id }, { method: :post, class: 'btn btn-xs' }) do %>
+	<span class='glyphicon glyphicon-arrow-right'></span>
 	<% end %>
 </div>
 
-<div class="btn-group btn-group-justified">
-	<%= link_to({ action: :prev_in_schedule, registration_id: registration.id }, { method: :post, class: 'btn btn-xs btn-info' }) do %>
-	<span class='glyphicon glyphicon-arrow-left'></span>
-	<% end %>
-	<%= link_to({ action: :next_in_schedule, registration_id: registration.id }, { method: :post, class: 'btn btn-xs btn-info' }) do %>
-	<span class='glyphicon glyphicon-arrow-right'></span>
+<div id="contents" class="list-group">
+	<% @week_contents.each do |item, link| %>
+	<a href="<%= link %>" class="list-group-item"><%= item.sub('[', '<span class="label label-info">').sub(']', '</span>').html_safe %></a>
 	<% end %>
 </div>
 

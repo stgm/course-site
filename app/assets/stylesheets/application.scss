@@ -9,7 +9,22 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require 'bootstrap'
- *= require 'strap'
- *= require 'tweaks'
  */
+
+$brand-primary: #CCA300;
+
+$navbar-default-bg: #fc0;
+
+$navbar-default-color: #7F6E26;
+$navbar-default-link-color: #7F6E26;
+
+$component-active-bg: #7F6600;
+
+$font-size-h1: 32px;
+$font-size-h2: 20px;
+$font-size-h3: 16px;
+$font-size-h4: 14px;
+
+@import "bootstrap";
+@import "strap";
+@import "tweaks";

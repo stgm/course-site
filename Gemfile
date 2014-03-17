@@ -55,3 +55,5 @@ gem 'protected_attributes'
 gem 'party_foul'
 
 gem 'rufus-scheduler'
+
+gem 'bootstrap-sass', '~> 3.1.1'
