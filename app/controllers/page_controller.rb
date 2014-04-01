@@ -93,6 +93,10 @@ class PageController < ApplicationController
 			submit.submitted_at = Time.now
 			submit.save
 			
+			if Track.any? && pset.tracks.count == 1
+				pset.tracks.first.users << current_user
+			end
+			
 			# success
 			redirect_to(:back, notice: "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
 		else			
