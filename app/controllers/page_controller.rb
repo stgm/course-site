@@ -98,7 +98,7 @@ class PageController < ApplicationController
 			end
 			
 			# success
-			redirect_to(:back, notice: "<b>Thanks for submitting!</b> Everything was successfully uploaded.".html_safe)
+			redirect_to(:back)
 		else			
 			redirect_to(:back, flash: { error: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe })
 		end
