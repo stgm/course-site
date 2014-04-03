@@ -93,7 +93,7 @@ class PageController < ApplicationController
 			submit.submitted_at = Time.now
 			submit.save
 			
-			if Track.any? && pset.tracks.count == 1
+			if Track.any? && pset.tracks.count == 1 && !pset.tracks.first.users.include?(s.user)
 				pset.tracks.first.users << current_user
 			end
 			
