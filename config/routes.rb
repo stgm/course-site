@@ -43,6 +43,7 @@ CourseSite::Application.routes.draw do
 	post "course/import"
 	post "course/add_student"
 	post "course/remove_student"
+	put  "course/change_user_name"
 
 	# grading overview
 	get  "grading" => "grading#index"

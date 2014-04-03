@@ -36,13 +36,15 @@
 	<% subs = user.submits.group_by(&:pset_id); submitted = false %>
 	<tr>
 		<td>
+			<%= best_in_place user, :name, type: :input, path: course_change_user_name_path(id: user.id) %>
+		</td>
+		<td>
 			<% if user.mail %>
-			<%= link_to user.name, 'mailto:' + user.mail %>
+			<%= link_to user.uvanetid, 'mailto:' + user.mail %>
 			<% else %>
-			<%= user.name %>
+			<%= user.uvanetid %>
 			<% end %>
 		</td>
-		<td><%= user.uvanetid %></td>
 		<% if track && track.schedules.any? %>
 		<td>
 			<% r = user.registrations.where(track_id:track.id).first %>

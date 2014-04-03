@@ -22,6 +22,11 @@ class CourseController < ApplicationController
 		logger.debug User.where(uvanetid:params[:student_id]).inspect
 		redirect_to :back
 	end
+	
+	def change_user_name
+		User.find(params[:id]).update_attributes(params[:user])
+		render json:true
+	end
 
 	#
 	# list all submits

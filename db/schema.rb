@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
   create_table "answers", force: true do |t|
     t.integer  "user_id"
     t.text     "answer_data"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "pset_id"
   end
 
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.string   "title"
     t.integer  "position"
     t.integer  "subpage_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "grades", force: true do |t|
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.integer  "style"
     t.text     "comments"
     t.integer  "grade"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "mailed_at",   default: '-4712-01-01 00:00:00', null: false
   end
 
@@ -49,16 +49,16 @@ ActiveRecord::Schema.define(version: 20140314153100) do
 
   create_table "groups", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pages", force: true do |t|
     t.string   "title"
     t.integer  "position"
     t.integer  "section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "slug"
     t.string   "path"
   end
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.string   "filename"
     t.boolean  "required"
     t.integer  "pset_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "pset_files", ["pset_id"], name: "index_pset_files_on_pset_id"
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.string   "name"
     t.text     "description"
     t.integer  "page_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "form"
     t.text     "message"
   end
@@ -100,8 +100,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.integer  "track_id"
     t.string   "term"
     t.string   "status"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "schedule_id"
     t.integer  "schedule_span_id"
   end
@@ -132,8 +132,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
   create_table "sections", force: true do |t|
     t.string   "title"
     t.integer  "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "slug"
     t.string   "path"
   end
@@ -145,8 +145,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.text     "value"
     t.integer  "thing_id"
     t.string   "thing_type", limit: 30
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
@@ -155,8 +155,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.integer  "user_id"
     t.integer  "pset_id"
     t.datetime "submitted_at"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "submits", ["pset_id"], name: "index_submits_on_pset_id"
@@ -167,8 +167,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.text     "content"
     t.integer  "position"
     t.integer  "page_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "slug"
   end
 
@@ -177,8 +177,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
   create_table "tracks", force: true do |t|
     t.integer  "final_grade_id"
     t.string   "name"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
@@ -186,8 +186,8 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.string   "uvanetid"
     t.string   "mail"
     t.string   "avatar"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "group_id"
     t.boolean  "done",       default: false
     t.boolean  "active",     default: true
