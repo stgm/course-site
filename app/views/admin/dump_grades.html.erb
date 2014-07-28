@@ -6,20 +6,35 @@
 	<title>Grade dump</title>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= stylesheet_link_tag    "bootstrap", :media => "all" %>
 </head>
 <body>
 
+	<div class="container">
 
-	<table class="table">
-		<% @grades.each do |g| %>
-		<tr>
-			<td><%= g.submit.pset.name %></td>
-			<td><%= g.submit.user.uvanetid if g.submit.user %></td>
-			<td><%= g.design %></td>
-			<td><%= simple_markdown(g.comments) %></td>
-		</tr>
+	<% @students.each do |s| %>
+		<% if s.submits.any? %>
+		<table class="table table-condensed">
+			<tr>
+				<th><%= s.name %> (<%= s.uvanetid %>)</th>
+				<th>pset</th>
+				<th>grade</th>
+				<th>subgrades</th>
+				<th>comments</th>
+			</tr>
+			<% s.submits.each do |sub| %>
+			<tr>
+				<td></td>
+				<td><%= sub.pset.name %><br><small><%= sub.created_at %></small></td>
+				<td><%= sub.grade.grade %><br><small><%= sub.grade.updated_at %></small></td>
+				<td><%= sub.grade.scope %> / <%= sub.grade.correctness %> / <%= sub.grade.design %> / <%= sub.grade.style %></td>
+				<td><%= simple_markdown(sub.grade.comments) %></td>
+			</tr>
+			<% end %>
+		</table>
 		<% end %>
-	</table>
+	<% end %>
+	
+	</div>
 
 </body>

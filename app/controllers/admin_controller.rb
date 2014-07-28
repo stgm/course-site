@@ -26,7 +26,8 @@ class AdminController < ApplicationController
 	end
 	
 	def dump_grades
-		@grades = Grade.joins(:submit).includes(:submit => [:pset,:user]).where("grades.submit_id is not null").order("psets.name")
+		@students = User.all
+		# @grades = Grade.joins(:submit).includes(:submit => [:pset,:user]).where("grades.submit_id is not null").order("psets.name")
 		render layout:nil
 	end
 	
