@@ -7,6 +7,12 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<%= stylesheet_link_tag    "bootstrap", :media => "all" %>
+	<style type="text/css" media="screen">
+		table.grades tr td:nth-child(-n+4)
+		{
+			white-space:nowrap;
+		}
+	</style>
 </head>
 <body>
 
@@ -14,7 +20,7 @@
 
 	<% @students.each do |s| %>
 		<% if s.submits.any? %>
-		<table class="table table-condensed">
+		<table class="table table-condensed grades">
 			<tr>
 				<th><%= s.name %> (<%= s.uvanetid %>)</th>
 				<th>pset</th>
@@ -27,7 +33,7 @@
 				<td></td>
 				<td><%= sub.pset.name %><br><small><%= sub.created_at %></small></td>
 				<% if sub.grade.present? %>
-				<td><%= sub.grade.grade %><br><small><%= sub.grade.updated_at %></small></td>
+				<td><%= sub.grade.grade %><br><small><%= sub.grade.updated_at %> (<%= sub.grade.grader %>)</small></td>
 				<td><%= sub.grade.scope %> / <%= sub.grade.correctness %> / <%= sub.grade.design %> / <%= sub.grade.style %></td>
 				<td><%= simple_markdown(sub.grade.comments) %></td>
 				<% else %>
