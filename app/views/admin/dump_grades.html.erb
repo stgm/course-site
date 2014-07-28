@@ -26,9 +26,13 @@
 			<tr>
 				<td></td>
 				<td><%= sub.pset.name %><br><small><%= sub.created_at %></small></td>
+				<% if sub.grade.present? %>
 				<td><%= sub.grade.grade %><br><small><%= sub.grade.updated_at %></small></td>
 				<td><%= sub.grade.scope %> / <%= sub.grade.correctness %> / <%= sub.grade.design %> / <%= sub.grade.style %></td>
 				<td><%= simple_markdown(sub.grade.comments) %></td>
+				<% else %>
+				<td colspan="3">not graded</td>
+				<% end %>
 			</tr>
 			<% end %>
 		</table>
