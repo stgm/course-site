@@ -6,8 +6,13 @@
 	<title>Grade dump</title>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<%= stylesheet_link_tag    "bootstrap", :media => "all" %>
+	<%= stylesheet_link_tag    "application", :media => "all" %>
 	<style type="text/css" media="screen">
+		table.grades
+		{
+			background-color:white;
+		}
+		
 		table.grades tr td:nth-child(-n+4)
 		{
 			white-space:nowrap;
