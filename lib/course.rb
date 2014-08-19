@@ -87,17 +87,19 @@ private
 	
 	def Course.load_course_info(dir)
 		config = Course.read_config(File.join(dir, 'course.yml'))
-		if config['course']
-			Settings['long_course_name'] = config['course']['title'] if config['course']['title']
-			Settings['short_course_name'] = config['course']['short'] if config['course']['short']
-			Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
-		end
-		Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
-		Settings['display_license'] = config['license'] if config['license']
-		Settings['cdn_prefix'] = config['cdn'] if config['cdn']
+		if config
+			if config['course']
+				Settings['long_course_name'] = config['course']['title'] if config['course']['title']
+				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
+				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
+			end
+			Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
+			Settings['display_license'] = config['license'] if config['license']
+			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 		
-		load_tracks(config['tracks']) if config['tracks']
-		load_tracks_2(File.join(dir, 'tracks'), !config['tracks'])
+			load_tracks(config['tracks']) if config['tracks']
+			load_tracks_2(File.join(dir, 'tracks'), !config['tracks'])
+		end
 	end
 	
 	def Course.load_tracks(track_config)		

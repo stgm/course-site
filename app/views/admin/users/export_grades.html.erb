@@ -1,5 +1,44 @@
 <div id="content">
 
-<%= render partial: 'course/grade_table', locals: { users: @users, psets: @psets, track: nil } %>
+<% 0 #= render partial: 'course/grade_table', locals: { users: @users, psets: @psets, track: nil } %>
+
+<table id="grade-table" class="table table-condensed">
+
+	<tr>
+		<th>Name</th>
+		<th>ID</th>
+		<% @psets.each do |pset| %>
+		<th><%= pset.name %></th>
+		<% end %>
+	</tr>
+
+	<% @users.each do |user| %>
+	<% subs = user.submits.group_by(&:pset_id); submitted = false %>
+	<tr>
+		<td>
+			<%= user.name %>
+		</td>
+		<td>
+			<%= user.uvanetid %>
+		</td>
+		<% @psets.each do |pset| %>
+		<td>
+			<% if subs[pset.id] %>
+				<% submitted = subs[pset.id][0] %>
+				<% if submitted.grade and not submitted.grade.grade.blank? %>
+				<%= "#{submitted.grade.grade}" %>
+				<% else %>
+				sub
+				<% end %>
+			<% else %>
+				
+			<% end %>
+		</td>
+		<% end %>
+		
+	</tr>
+	<% end %>
+
+</table>
 
 </div>
