@@ -68,7 +68,8 @@ CourseSite::Application.routes.draw do
 	post "page/next_in_schedule/:registration_id" => "page#next_in_schedule"
 	
 	# api
-	get  "api/students"
+	# get  "api/students"
+	get  "api/update_webhook"
 	
 	resource :registration
 	
