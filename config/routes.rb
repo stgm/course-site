@@ -69,7 +69,7 @@ CourseSite::Application.routes.draw do
 	
 	# api
 	# get  "api/students"
-	get  "api/update_webhook"
+	post "api/update_webhook"
 	
 	resource :registration
 	
