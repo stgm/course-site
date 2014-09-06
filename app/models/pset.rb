@@ -2,8 +2,6 @@ class Pset < ActiveRecord::Base
 
 	belongs_to :page
 
-	has_and_belongs_to_many :tracks
-
 	has_many :pset_files
 	has_many :submits
 

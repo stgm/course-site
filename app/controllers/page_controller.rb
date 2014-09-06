@@ -54,7 +54,6 @@ class PageController < ApplicationController
 	end
 	
 	def load_schedule
-		return false if Track.blank?
 		@registrations = current_user.registrations.where("schedule_id is not null and schedule_span_id is not null")
 	end
 	
@@ -92,10 +91,6 @@ class PageController < ApplicationController
 			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 			submit.submitted_at = Time.now
 			submit.save
-			
-			if Track.any? && pset.tracks.count == 1 && !pset.tracks.first.users.include?(current_user)
-				pset.tracks.first.users << current_user
-			end
 			
 			# success
 			redirect_to(:back)

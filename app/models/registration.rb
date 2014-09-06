@@ -1,12 +1,11 @@
 class Registration < ActiveRecord::Base
 
 	belongs_to :user
-	belongs_to :track
 	
 	belongs_to :schedule
 	belongs_to :schedule_span
 
-	attr_accessible :term, :status, :user, :track, :schedule_id, :schedule_span_id
+	attr_accessible :term, :status, :user, :schedule_id, :schedule_span_id
 	
 	# ensure that if a schedule is selected, a valid schedule_span is also present
 	before_save do |r|
