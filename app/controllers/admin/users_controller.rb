@@ -21,17 +21,13 @@ class Admin::UsersController < ApplicationController
 				line = line.split("\t")
 
 				user_id = line[0..1]
-				group_name = line[7].strip
-				next if group_name == "Group"
+				group_name = line[7] && line[7].strip
+				next if !group_name || group_name == "Group"
 		
-				group = Group.where(:name => group_name).first_or_create if group_name != ""
 				user = User.where('uvanetid in (?)', user_id).first
-
-				if user && group
+				if user.present? && group_name != ""
+					group = Group.where(:name => group_name).first_or_create
 					user.group = group
-					user.save
-				elsif user
-					user.group = nil
 					user.save
 				end
 			end
