@@ -30,3 +30,24 @@
 	</div>
 
 </div>
+
+
+<script type="text/javascript" charset="utf-8">
+	$('.best_in_place').best_in_place()
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	function add_student(track_id)
+	{
+		x = prompt("Student id?");
+		if(x)
+		{
+			$.post("/course/add_student", { track_id: track_id, student_id: x },
+				function()
+				{
+					location.reload();
+				}
+			);
+		}
+	}
+</script>
