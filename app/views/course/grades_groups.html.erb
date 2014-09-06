@@ -15,17 +15,17 @@
 	<div class="tab-content">
 		<% Group.order(:name).all.each_with_index do |group,i| %>
 		<section class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
-			<%= render partial: 'grade_table', locals: { users: group.users.where(active:true, done:false).order(:name), psets: @psets, track: nil } %>
+			<%= render partial: 'grade_table', locals: { users: group.users.where(active:true, done:false).order(:name), psets: @psets, schedules: Schedule.all } %>
 		</section>
 		<% end %>
 		<section class="tab-pane <%= 'active' if Group.count == 0 %>" id="other">
-			<%= render partial: 'grade_table', locals: { users: @groupless, psets: @psets, track: nil } %>
+			<%= render partial: 'grade_table', locals: { users: @groupless, psets: @psets, schedules: Schedule.all } %>
 		</section>
 		<section class="tab-pane" id="inactive">
-			<%= render partial: 'grade_table', locals: { users: @inactive, psets: @psets, track: nil } %>
+			<%= render partial: 'grade_table', locals: { users: @inactive, psets: @psets, schedules: Schedule.all } %>
 		</section>
 		<section class="tab-pane" id="admins">
-			<%= render partial: 'grade_table', locals: { users: @admins, psets: @psets, track: nil } %>
+			<%= render partial: 'grade_table', locals: { users: @admins, psets: @psets, schedules: Schedule.all } %>
 		</section>
 	</div>
 
