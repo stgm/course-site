@@ -32,44 +32,13 @@ class CourseController < ApplicationController
 	# list all submits
 	#
 	def grades
-		if Track.any?
-			grades_tracks
-		else
-			grades_groups
-		end
-	end
-	
-	def grades_groups
 		# if tracks have NOT been defined in course.yml
-		@groupless = User.active.not_admin.order(:name)
+		@groupless = User.active.no_group.not_admin.order(:name)
 		@inactive = User.inactive.not_admin.order(:name)
 		@admins = User.admin.order(:name)
 		@psets = Pset.order(:name)
 		@title = 'List users'
 		render 'grades_groups', layout:'full_width'
-	end
-	
-	def grades_tracks
-		# if tracks have been defined in course.yml
-		@groups = []
-		@done = []
-		all_grouped_users = []
-		all_psets = []
-		Track.all.each do |track|
-			psets = track.psets.order("psets_tracks.id")
-			users = track.users.from_term(params[:term]).having_status(params[:status]).order("registrations.term, registrations.status")
-			all_grouped_users += users
-			all_psets += psets
-			title = track.name
-			@groups << { psets: psets, users: users, title: title, track:track }
-		end
-		
-		@groupless = User.includes({ :submits => :grade }).not_admin.but_not(all_grouped_users).order(:name)
-		@admins = User.includes({ :submits => :grade }).admin.order(:name)
-		@psets = all_psets
-		@title = 'List users'
-					
-		render 'grades_tracks', layout:'full_width'
 	end
 	
 	def toggle_public_grades

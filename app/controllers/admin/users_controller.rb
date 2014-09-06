@@ -25,10 +25,15 @@ class Admin::UsersController < ApplicationController
 				next if !group_name || group_name == "Group"
 		
 				user = User.where('uvanetid in (?)', user_id).first
-				if user.present? && group_name != ""
-					group = Group.where(:name => group_name).first_or_create
-					user.group = group
-					user.save
+				if user.present?
+					if group_name != ""
+						group = Group.where(:name => group_name).first_or_create
+						user.group = group
+						user.save
+					else
+						user.group = nil
+						user.save
+					end
 				end
 			end
 		end
