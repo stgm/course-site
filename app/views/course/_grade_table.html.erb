@@ -45,11 +45,14 @@
 		</td>
 		<% if schedules.any? %>
 		<td>
-			<% r = user.registrations.first %>
+			<% if r = user.registrations.first %>
 			<%= best_in_place r, :schedule_id, type: :select, path: registration_path(id: r.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
+			<% end %>
 		</td>
 		<td>
-			<%= x = user.registrations.first.schedule_span and x.name %>
+			<% if r = user.registrations.first %>
+			<%= x = r.schedule_span and x.name %>
+			<% end %>
 		</td>
 		<% end %>
 		<% psets.each do |pset| %>
