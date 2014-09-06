@@ -2,7 +2,7 @@
 
 <div id="heading">
 
-	<h5><%= registration.track.name %><br><%= registration.schedule_span.name %></h5>
+	<h5><%= registration.schedule_span.name %></h5>
 
 	<% @week_contents = registration.schedule_span.content %>
 	<p id="description" ><%= @week_contents.delete('description') %></p>
