@@ -97,60 +97,15 @@ private
 			Settings['display_license'] = config['license'] if config['license']
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 		
-			load_tracks(config['tracks']) if config['tracks']
-			load_tracks_2(File.join(dir, 'tracks'), !config['tracks'])
+			load_schedules(File.join(dir, 'schedules')
 		end
-	end
-	
-	def Course.load_tracks(track_config)		
-		track_config.each do |nm,track|
-			if track['final']
-				final = Pset.where(name: track['final']).first_or_create
-			end
-			new_track = Track.where(name:track['name']).first_or_create do |t|
-				t.final_grade_id = final.id
-			end
-			track['requirements'].each do |pset|
-				pset = Pset.where(name: pset).first_or_create
-				new_track.psets << pset
-			end
-		end
-	end
-	
-	def Course.load_tracks_2(dir, load_psets)
-		
-		# read tracks, if any
-		subdirs_of(dir) do |track_dir|
-			track_name = File.basename(track_dir)
-
-			# read track config, including name and related psets
-			track_conf = Course.read_config(File.join(track_dir, 'track.yml'))
-			if track_conf['final']
-				final = Pset.where(name: track_conf['final']).first_or_create
-			end
-			new_track = Track.where(name:track_conf['name']).first_or_create do |t|
-				t.final_grade_id = final.id
-			end
-			
-			### THIS 'IF' is only needed as long as we're supporting the tracks being provided in course.yml (not for long)
-			if load_psets
-				track_conf['requirements'].each do |pset|
-					pset = Pset.where(name: pset).first_or_create
-					new_track.psets << pset
-				end
-			end
-
-			load_schedules(track_dir, new_track)
-
-		end
-		
 	end
 	
 	def Course.load_schedules(dir, new_track)
 		# read schedules, if any
 		subdirs_of(dir) do |schedule_dir|
 			schedule_name = File.basename(schedule_dir)
-			new_schedule = Schedule.where(track_id: new_track.id, name: schedule_name).first_or_create
+			new_schedule = Schedule.where(name: schedule_name).first_or_create
 			yaml_files_in(schedule_dir) do |span_conf_file|
 				span_conf = Course.read_config(span_conf_file)
 				span_name = File.basename(span_conf_file, '.yml')

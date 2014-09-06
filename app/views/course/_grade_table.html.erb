@@ -3,14 +3,13 @@
 	<tr>
 		<th>Name</th>
 		<th>ID</th>
-		<% if track && track.schedules.any? %>
+		<% if schedules.any? %>
 		<th>Schedule</th>
 		<th>Progress</th>
 		<% end %>
 		<% psets.each do |pset| %>
 		<th><%= pset.name %></th>
 		<% end %>
-		<% if track %>
 		<th>
 			<form method="get" accept-charset="utf-8">
 				<%= select_tag :term, 
@@ -45,13 +44,13 @@
 			<%= user.uvanetid %>
 			<% end %>
 		</td>
-		<% if track && track.schedules.any? %>
+		<% if schedules.any? %>
 		<td>
-			<% r = user.registrations.where(track_id:track.id).first %>
-			<%= best_in_place r, :schedule_id, type: :select, path: registration_path(id: r.id), collection: track.schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
+			<% r = user.registrations.first %>
+			<%= best_in_place r, :schedule_id, type: :select, path: registration_path(id: r.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
 		</td>
 		<td>
-			<%= x = user.registrations.where(track_id:track.id).first.schedule_span and x.name %>
+			<%= x = user.registrations.first.schedule_span and x.name %>
 		</td>
 		<% end %>
 		<% psets.each do |pset| %>
@@ -68,12 +67,12 @@
 			<% end %>
 		</td>
 		<% end %>
-		<% if track and r = user.registrations.where(track_id:track.id).first %>
+		<% if r = user.registrations.first %>
 		<td><%= best_in_place r, :term, type: :input, path: registration_path(id: r.id) %></td>
 		<td><%= best_in_place r, :status, type: :input, path: registration_path(id: r.id) %></td>
 		<% end %>
 		<td>
-		<%= link_to_if track && !submitted, '<span class="glyphicon glyphicon-trash"></span>'.html_safe, course_remove_student_path(student_id: user.uvanetid, track_id: track), method: :post, data: { confirm: "Sikker?" } do "" end %>
+		<%= link_to_if !submitted, '<span class="glyphicon glyphicon-trash"></span>'.html_safe, course_remove_student_path(student_id: user.uvanetid), method: :post, data: { confirm: "Sikker?" } do "" end %>
 		</td>
 		
 	</tr>
