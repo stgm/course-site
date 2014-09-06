@@ -97,11 +97,11 @@ private
 			Settings['display_license'] = config['license'] if config['license']
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 		
-			load_schedules(File.join(dir, 'schedules')
+			load_schedules(File.join(dir, 'schedules'))
 		end
 	end
 	
-	def Course.load_schedules(dir, new_track)
+	def Course.load_schedules(dir)
 		# read schedules, if any
 		subdirs_of(dir) do |schedule_dir|
 			schedule_name = File.basename(schedule_dir)
