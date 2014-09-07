@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 	before_filter :check_admins
 	before_filter :load_navigation
 
-	helper_method :current_user, :logged_in?, :is_admin?, :is_assistant?
+	helper_method :current_user, :logged_in?, :valid_profile?, :is_admin?, :is_assistant?
 	
 	def check_admins
 		# if no admin is defined

@@ -1,7 +1,7 @@
 class PageController < ApplicationController
 	
 	prepend_before_filter CASClient::Frameworks::Rails::GatewayFilter
-	before_filter :redirect_to_profile
+	# before_filter :redirect_to_profile
 	
 	def homepage
 		# the homepage is the page without a parent section

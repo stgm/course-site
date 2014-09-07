@@ -31,6 +31,8 @@
 			<li class="divider-vertical"></li>
 			<li class="dropdown">
 
+				<% if valid_profile? %>
+
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user.name || current_user.uvanetid %></a>
 				<ul class="dropdown-menu" style="min-width:200px;">
 					<% Track.for(current_user).each do |track_name, track_status| %>
@@ -74,6 +76,13 @@
 					<li><%= link_to '<i class="glyphicon glyphicon-list"></i> Grades'.html_safe, profile_grades_path %></li>
 					<% end %>
 					<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, profile_logout_path %></li>
+				<% else %>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= session[:cas_user] %></a>
+				<ul class="dropdown-menu" style="min-width:200px;">
+					<%= render 'profile/edit' %>
+				</ul>
+				<% end %>
+					
 				</ul>
 			</li>
 			<% else %>
