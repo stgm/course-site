@@ -1,4 +1,4 @@
-<%= form_tag '/profile/save', class:'form-horizontal' do |f| %>
+<%= form_tag '/profile/save', class:'form-horizontal profile-form' do |f| %>
 
 <div class="modal-dialog">
 	<div class="modal-content">
@@ -38,7 +38,6 @@
 			<% end %>
 		</div>
 		<div class="modal-footer">
-			<!-- <button type="button" class="btn btn-default">Cancel / Logout</button> -->
 			<%= link_to 'Logout', '/profile/logout', class: 'btn btn-default' %>
 			<%= submit_tag 'Create Profile', class:'btn btn-primary' %>
 		</div>

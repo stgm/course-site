@@ -1,0 +1,52 @@
+<% if valid_profile? %>
+
+	<% Track.for(current_user).each do |track_name, track_status| %>
+	<li role="presentation" class="dropdown-header" style="padding:2px 10px 0 10px;"><%= track_name %></li>
+	<li>
+		<div class="progress" style="margin:4px 10px;">
+			<div class="progress-bar" role="progressbar" aria-valuenow="<%= track_status[0] %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= track_status[0] %>%;">
+				<span class="sr-only"><%= track_status[0] %>% Complete</span>
+			</div>
+		</div>
+	</li>
+	<li class="divider"></li>
+	<% end %>
+	<% if is_admin? %>
+	<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
+	<li><%= link_to '<i class="glyphicon glyphicon-pencil"></i> Settings'.html_safe, admin_path %></li>
+	<li class="divider"></li>
+	<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, course_grades_path %></li>
+	<li><%= link_to '<i class="glyphicon glyphicon-list"></i> Grading list'.html_safe, grading_path %></li>
+	<li class="divider"></li>
+	<% if Settings.public_grades %>
+	<li><%= link_to '<i class="glyphicon glyphicon-eye-open"></i> Grades are public'.html_safe, course_toggle_public_grades_path, method: :post %></li>
+	<% else %>
+	<li><%= link_to '<i class="glyphicon glyphicon-eye-close"></i> Grades are hidden'.html_safe, course_toggle_public_grades_path, method: :post %></li>
+	<% end %>
+	<% if Settings.allow_grading %>
+	<li><%= link_to '<i class="glyphicon glyphicon-thumbs-up"></i> Grading is allowed'.html_safe, course_toggle_grading_allowed_path, method: :post %></li>
+	<% else %>
+	<li><%= link_to '<i class="glyphicon glyphicon-thumbs-down"></i> Grading is not allowed'.html_safe, course_toggle_grading_allowed_path, method: :post %></li>
+	<% end %>
+	<% if Settings.send_grade_mails %>
+	<li><%= link_to '<i class="glyphicon glyphicon-envelope"></i> Will send grade emails'.html_safe, course_toggle_send_grade_mails_path, method: :post %></li>
+	<% else %>
+	<li><%= link_to '<i class="glyphicon glyphicon-envelope"></i> Will not send grade emails'.html_safe, course_toggle_send_grade_mails_path, method: :post %></li>
+	<% end %>
+	<li class="divider"></li>
+	<% end %>
+	<% if is_assistant? %>
+	<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading'.html_safe, grading_path %></li>
+	<% else %>
+	<li><%= link_to '<i class="glyphicon glyphicon-list"></i> Grades'.html_safe, profile_grades_path %></li>
+	<% end %>
+	<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, profile_logout_path %></li>
+
+<% else %>
+
+	<li>
+		<%= render 'profile/edit' %>
+	</li>
+
+<% end %>
+					

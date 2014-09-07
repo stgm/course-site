@@ -6,9 +6,15 @@
 <% end %>
 
 <% if !valid_profile? %>
-<script type="text/javascript">
-$(function () {
-  $('#profile-menu').dropdown('toggle');
-});	
-</script>
+	<script type="text/javascript">
+	$(function () {
+		$('#user-menu').dropdown('toggle');
+		return false;
+	});
+	
+	$('.profile-form').click(function(e) {
+	    e.stopPropagation();
+	})
+	
+	</script>
 <% end %>
