@@ -463,6 +463,7 @@ footer img
 #grade-table th
 {
 	border-top:0;
+	vertical-align:bottom;
 }
 
 #grade-table .btn-block
@@ -494,4 +495,25 @@ body > .alert
 	margin:0;
 	box-shadow:none;
 	border:none;
+}
+
+th.rotate
+{
+	/* Something you can count on */
+	height: 140px;
+	white-space: nowrap;
+	vertical-align:bottom;
+}
+
+th.rotate > div
+{
+	hyphens:none;
+	-webkit-hyphens:none;
+	-moz-hyphens:none;
+
+	transform: translate(25px, 51px) rotate(315deg);
+	-webkit-transform: translate(10px, -10px) rotate(315deg);
+	-ms-transform: translate(25px, 51px) rotate(315deg);
+
+	width: 30px;
 }
