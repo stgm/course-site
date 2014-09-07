@@ -14,6 +14,7 @@ class ProfileController < ApplicationController
 		if Settings.public_grades
 			@grades = Grade.includes(:submit).where("submits.user_id = ? and grades.grade is not null", current_user.id).references(:submits)
 		end
+		render layout:'application'
 	end
 	
 	def save # POST
@@ -26,7 +27,13 @@ class ProfileController < ApplicationController
 			return
 		end
 
-		current_user.update_attributes(params[:user])
+		if current_user
+			current_user.update_attributes(params[:user])
+		else
+			User.where(:uvanetid => session[:cas_user]).first_or_create do |u|
+				u.update_attributes(params[:user])
+			end
+		end
 		redirect_to :root
 	end
 	
