@@ -33,7 +33,7 @@ class AdminController < ApplicationController
 	
 	def stats
 		# needs tracksssss
-		@terms = Registration.select("distinct term")
+		@terms = User.select("distinct term")
 		render layout: nil
 	end
 		

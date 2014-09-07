@@ -64,14 +64,14 @@ CourseSite::Application.routes.draw do
 	# filled-in form caching for users
 	post "page/save_answers"
 	post "page/submit"
-	post "page/prev_in_schedule/:registration_id" => "page#prev_in_schedule"
-	post "page/next_in_schedule/:registration_id" => "page#next_in_schedule"
+	post "page/prev_in_schedule"
+	post "page/next_in_schedule"
 	
 	# api
 	# get  "api/students"
 	post "api/update_webhook"
 	
-	resource :registration
+	resource :user
 	
 	# default route, for content pages
 	get  ":section/:page" => "page#index"

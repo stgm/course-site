@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140314153100) do
+ActiveRecord::Schema.define(version: 20140907095930) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -189,8 +189,15 @@ ActiveRecord::Schema.define(version: 20140314153100) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.boolean  "done",       default: false
-    t.boolean  "active",     default: true
+    t.boolean  "done",             default: false
+    t.boolean  "active",           default: true
+    t.string   "term"
+    t.string   "status"
+    t.integer  "schedule_id"
+    t.integer  "schedule_span_id"
   end
+
+  add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"
+  add_index "users", ["schedule_span_id"], name: "index_users_on_schedule_span_id"
 
 end

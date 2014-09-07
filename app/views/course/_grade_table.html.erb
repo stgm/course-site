@@ -13,8 +13,7 @@
 		<th>
 			<form method="get" accept-charset="utf-8">
 				<%= select_tag :term, 
-						options_from_collection_for_select(Registration.select("distinct term"), :term, :term, selected:params[:term]),
-						include_blank: true,
+						options_from_collection_for_select(User.select("distinct term"), :term, :term, selected:params[:term]),
 						onchange: 'this.form.submit();' %>
 				<%= hidden_field_tag "status", params[:status] %>
 			</form>
@@ -23,8 +22,7 @@
 			<form method="get" accept-charset="utf-8">
 				<%= hidden_field_tag "term", params[:term] %>
 				<%= select_tag :status, 
-						options_from_collection_for_select(Registration.select("distinct status"), :status, :status, selected:params[:status]),
-						include_blank: true,
+						options_from_collection_for_select(User.select("distinct status"), :status, :status, selected:params[:status]),
 						onchange: 'this.form.submit();' %>
 			</form>
 		</th>
@@ -45,14 +43,10 @@
 		</td>
 		<% if schedules.any? %>
 		<td>
-			<% if r = user.registrations.first %>
-			<%= best_in_place r, :schedule_id, type: :select, path: registration_path(id: r.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
-			<% end %>
+			<%= best_in_place user, :schedule_id, type: :select, path: user_path(id: user.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
 		</td>
 		<td>
-			<% if r = user.registrations.first %>
-			<%= x = r.schedule_span and x.name %>
-			<% end %>
+			<%= x = user.schedule_span and x.name %>
 		</td>
 		<% end %>
 		<% psets.each do |pset| %>
@@ -69,9 +63,8 @@
 			<% end %>
 		</td>
 		<% end %>
-		<% if r = user.registrations.first %>
-		<td><%= best_in_place r, :status, type: :input, path: registration_path(id: r.id) %></td>
-		<% end %>
+		<td><%= best_in_place user, :term  , type: :input, path: user_path(id: user.id) %></td>
+		<td><%= best_in_place user, :status, type: :input, path: user_path(id: user.id) %></td>
 	</tr>
 	<% end %>
 

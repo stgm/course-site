@@ -12,7 +12,7 @@ class PageController < ApplicationController
 		
 		@has_form = @page.pset && @page.pset.form
 		
-		if current_user && load_schedule().any?
+		if current_user && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
@@ -54,24 +54,22 @@ class PageController < ApplicationController
 	end
 	
 	def load_schedule
-		@registrations = current_user.registrations.where("schedule_id is not null and schedule_span_id is not null")
+		@schedule = current_user.schedule
 	end
 	
 	def prev_in_schedule
-		reg = current_user.registrations.where(id: params[:registration_id]).first
-		if reg.schedule_span.present?
-			reg.schedule_span = reg.schedule_span.previous if reg.schedule_span.previous.present?
+		if current_user.schedule_span.present?
+			current_user.schedule_span = current_user.schedule_span.previous if current_user.schedule_span.previous.present?
 		else
-			reg.schedule_span = reg.schedule.schedule_spans.first
+			current_user.schedule_span = current_user.schedule.schedule_spans.first
 		end
-		reg.save
+		current_user.save
 		redirect_to :back
 	end
 
 	def next_in_schedule
-		reg = current_user.registrations.where(id: params[:registration_id]).first
-		reg.schedule_span = reg.schedule_span.next if reg.schedule_span.next.present?
-		reg.save
+		current_user.schedule_span = current_user.schedule_span.next if current_user.schedule_span.next.present?
+		current_user.save
 		redirect_to :back
 	end
 	

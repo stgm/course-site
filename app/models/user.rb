@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
 	has_many :submits
 	has_many :psets, through: :submits
-	has_many :registrations
+	# has_many :registrations
 
 	def submit(pset)
 		submits.where(:pset_id => pset.id).first
@@ -23,7 +23,30 @@ class User < ActiveRecord::Base
 	scope :no_group,  -> { where(group_id: nil) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	
-	scope :from_term, -> term  { where("registrations.term" => term) if not (term.nil? or term.empty?) }
-	scope :having_status, -> status  { where("registrations.status" => status) if not (status.nil? or status.empty?) }
+	scope :from_term, -> term  { where("term" => term) if not (term.nil? or term.empty?) }
+	scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
+	
+	belongs_to :schedule
+	belongs_to :schedule_span
+
+	attr_accessible :term, :status, :schedule_id, :schedule_span_id
+	
+	# ensure that if a schedule is selected, a valid schedule_span is also present
+	before_save do |r|
+		if r.schedule.present?
+			logger.debug "SCHED PRES"
+			if r.schedule_span.present?
+				logger.debug "SPAN PRES"
+				r.schedule_span = r.schedule.schedule_spans.first if not r.schedule.schedule_spans.include?(r.schedule_span)
+			else
+				logger.debug "SPAN NOT PRES"
+				r.schedule_span = r.schedule.schedule_spans.first
+			end
+		else
+			logger.debug "nuttin PRES"
+			
+			r.schedule_span = nil
+		end
+	end
 	
 end
