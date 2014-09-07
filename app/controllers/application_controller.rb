@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def current_user
-		@current_user ||= logged_in? && User.where(:uvanetid => session[:cas_user]).first_or_create
+		@current_user ||= logged_in? && User.where(:uvanetid => session[:cas_user]).first #_or_create
 	end
 	
 	def logged_in?
@@ -23,7 +23,8 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def valid_profile?
-		not current_user.name.nil? and current_user.name != ''
+		!!current_user && !current_user.name.blank?
+		# not current_user.name.nil? and current_user.name != ''
 	end
 	
 	def is_admin?
