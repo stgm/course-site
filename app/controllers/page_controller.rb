@@ -34,7 +34,7 @@ class PageController < ApplicationController
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
-		if current_user && load_schedule().any?
+		if current_user && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
