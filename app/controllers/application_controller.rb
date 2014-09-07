@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 	before_filter :check_admins
 	before_filter :load_navigation
 
-	helper_method :current_user, :logged_in?, :valid_profile?, :is_admin?, :is_assistant?
+	helper_method :current_user, :logged_in?, :known_user?, :valid_profile?, :is_admin?, :is_assistant?
 	
 	def check_admins
 		# if no admin is defined
@@ -23,8 +23,13 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def valid_profile?
+		Rails.logger.debug (!!current_user && !current_user.name.blank?).inspect
 		!!current_user && !current_user.name.blank?
 		# not current_user.name.nil? and current_user.name != ''
+	end
+	
+	def known_user?
+		valid_profile?
 	end
 	
 	def is_admin?

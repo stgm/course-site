@@ -12,7 +12,7 @@ class PageController < ApplicationController
 		
 		@has_form = @page.pset && @page.pset.form
 		
-		if current_user && load_schedule
+		if known_user? && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
@@ -28,13 +28,13 @@ class PageController < ApplicationController
 		@page = @section.pages.where(:slug => params[:page]).first		
 		render(status:404, text:"404 Page") and return if !@page
 		
-		if logged_in? && @page.pset
+		if known_user? && @page.pset
 			@has_form = @page.pset.form
 			load_form_answers() if @has_form
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
-		if current_user && load_schedule
+		if known_user? && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
