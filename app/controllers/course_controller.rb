@@ -35,7 +35,7 @@ class CourseController < ApplicationController
 		# if tracks have NOT been defined in course.yml
 		@groupless = User.active.no_group.not_admin.order(:name)
 		@admins = User.admin.order(:name)
-		@psets = Pset.order(:name)
+		@psets = Pset.order(:order)
 		@title = 'List users'
 		render 'grades_groups', layout:'full_width'
 	end

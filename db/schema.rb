@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140907095930) do
+ActiveRecord::Schema.define(version: 20140907134214) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20140907095930) do
     t.datetime "updated_at"
     t.boolean  "form"
     t.text     "message"
+    t.integer  "order"
   end
 
   add_index "psets", ["page_id"], name: "index_psets_on_page_id"

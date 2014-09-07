@@ -31,6 +31,7 @@ module Course
 		load_course_info(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
+		clean_psets
 	end
 
 	#
@@ -61,6 +62,7 @@ module Course
 		load_course_info(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
+		clean_psets
 	end
 		
 private
@@ -83,6 +85,20 @@ private
 	
 	#
 	#
+	# Walks all psets named in course.yml and ranks them in the database
+	
+	def Course.clean_psets
+		counter = 1
+		Settings['psets'].each do |pset|
+			if p = Pset.find_by(name:pset)
+				p.update_attribute(:order,counter)
+				counter += 1
+			end
+		end
+	end
+	
+	#
+	#
 	# Loads course settings from the course.yml file
 	
 	def Course.load_course_info(dir)
@@ -96,6 +112,7 @@ private
 			Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
 			Settings['display_license'] = config['license'] if config['license']
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
+			Settings['psets'] = config['psets'] if config['psets']
 		
 			load_schedules(File.join(dir, 'schedules'))
 		end
