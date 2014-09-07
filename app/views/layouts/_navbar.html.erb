@@ -78,7 +78,7 @@
 					<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, profile_logout_path %></li>
 				<% else %>
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= session[:cas_user] %></a>
-				<ul class="dropdown-menu" style="min-width:200px;">
+				<ul class="dropdown-menu" id="profile-menu" style="min-width:200px;">
 					<%= render 'profile/edit' %>
 				</ul>
 				<% end %>

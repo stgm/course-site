@@ -4,3 +4,11 @@
 	<a rel="tooltip" data-placement="top" title="<%= simple_markdown(Settings.display_acknowledgements.join("\n\n")).html_safe if Settings.display_acknowledgements %>">Acknowledgements.</a>
 </footer>
 <% end %>
+
+<% if !valid_profile? %>
+<script type="text/javascript">
+$(function () {
+  $('#profile-menu').dropdown('toggle');
+});	
+</script>
+<% end %>
