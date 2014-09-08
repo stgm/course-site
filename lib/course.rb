@@ -88,11 +88,13 @@ private
 	# Walks all psets named in course.yml and ranks them in the database
 	
 	def Course.clean_psets
-		counter = 1
-		Settings['psets'].each do |pset|
-			if p = Pset.find_by(name:pset)
-				p.update_attribute(:order,counter)
-				counter += 1
+		if Settings['psets']
+			counter = 1
+			Settings['psets'].each do |pset|
+				if p = Pset.find_by(name:pset)
+					p.update_attribute(:order,counter)
+					counter += 1
+				end
 			end
 		end
 	end
