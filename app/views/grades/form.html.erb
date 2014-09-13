@@ -3,15 +3,23 @@
 	<header class="page-header">
 		<h1>Grading <small><%= @pset.name %> by <%= @user.name %> / <%= @user.uvanetid %></small></small></h1>
 		<% if is_admin? and @submit %>
-		<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %>
+		<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %> /
 		<% end %>
-		/ Latest submission time:
+		Latest submit:
 		<% if @submit and @submit.submitted_at %>
 		<%= @submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@submit.submitted_at) %> ago)
 		<% else %>
 		never
 		<% end %>
-		/ grader: <%= @grade.grader_name %>
+		/ 
+		Graded:
+		<% if @grade.created_at %>
+		<%= @grade.created_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@grade.created_at) %> ago)
+		<% else %>
+		never
+		<% end %>
+		/
+		grader: <%= @grade.grader_name %>
 	</header>
 
 	<%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
@@ -36,52 +44,64 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="field">
-						<%= f.label :comments, "Feedback" %><br />
+						<p>
 						<%= f.text_area :comments, class: 'form-control' %>
+						</p>
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-xs-2">
-					<%= f.label :scope %>
-					<%= f.number_field :scope, class: 'form-control' %>
-				</div>
-				<div class="col-xs-2">
 					<div class="form-group">
-						<%= f.label :correctness %>
-						<%= f.number_field :correctness, class: 'form-control' %>
+						<div class="input-group">
+							<div class="input-group-addon"><%= f.label :scope, 'sc' %></div>
+							<%= f.text_field :scope, class: 'form-control' %>
+						</div>
 					</div>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
-						<%= f.label :design %>
-						<%= f.number_field :design, class: 'form-control' %>
+						<div class="input-group">
+							<div class="input-group-addon"><%= f.label :correctness, 'cr' %></div>
+							<%= f.text_field :correctness, class: 'form-control' %>
+						</div>
 					</div>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
-						<%= f.label :style %>
-						<%= f.number_field :style, class: 'form-control' %>
+						<div class="input-group">
+							<div class="input-group-addon"><%= f.label :design, 'ds' %></div>
+							<%= f.text_field :design, class: 'form-control' %>
+						</div>
 					</div>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
-						<%= f.label :grade %>
-						<%= f.number_field :grade, class: 'form-control' %>
+						<div class="input-group">
+							<div class="input-group-addon"><%= f.label :style, 'st' %></div>
+							<%= f.text_field :style, class: 'form-control' %>
+						</div>
 					</div>
 				</div>
-				<div class="col-xs-2">
-					<%= f.label 'Pass' %><br>
-					<button class="btn btn-default" type="button" id="pass-btn">P</button>
-					<button class="btn btn-default" type="button" id="fail-btn">F</button>
+				<div class="col-xs-4">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><%= f.label :correctness, '==' %></div>
+							<%= f.text_field :grade, class: 'form-control' %>
+							<div class="input-group-addon">
+								<button class="" type="button" id="pass-btn">P</button>
+								<button class="" type="button" id="fail-btn">F</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="actions">
-						<%= f.submit class: 'btn btn-default form-control' %>
+						<%= f.submit class: 'btn btn-primary form-control' %>
 					</div>
 				</div>
 			</div>
@@ -90,27 +110,28 @@
 		
 		<div class="col-xs-4">
 			<% @grades.each do |grade| %>
-			<h2><%= grade.submit.pset.name %></h2>
-			<table class="table table-bordered" style="width:auto">
-				<tr><th>S</th><th>C</th><th>D</th><th>S</th><th>F</th></tr>
-				<tr>
-					<td><%= grade.scope %></td>
-					<td><%= grade.correctness %></td>
-					<td><%= grade.design %></td>
-					<td><%= grade.style %></td>
-					<td><%= translate_grade(grade.grade) %></td>
-				</tr>
-			</table>
-			<%= simple_markdown(grade.comments) %>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<%= grade.submit.pset.name %>
+					<div class="pull-right">
+						S: <%= grade.scope %> / C: <%= grade.correctness %> / D: <%= grade.design %> / S: <%= grade.style %> / <strong><%= translate_grade(grade.grade) %></strong>
+					</div>
+				</div>
+				<div class="panel-body">
+					<%= simple_markdown(grade.comments) %>
+				</div>
+			</div>
 			<% end %>
 		</div>
 	
 	</div>
 	
 	<% end %>
-	
-	<hr>
 
-	<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-warning' if @submit %>
+
+	<% if is_admin? %>
+	<hr>
+	<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-danger' if @submit %>
+	<% end %>
 
 </div>

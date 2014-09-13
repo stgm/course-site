@@ -13,6 +13,7 @@ class GradingController < ApplicationController
 		@submits = @submits.order('psets.name')
 		@groups = Group.all
 		@psets = Pset.all
+		render layout:'full_width'
 	end
 	
 	private
