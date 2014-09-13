@@ -12,7 +12,7 @@
 		Group:<br>
 		<div class="btn-group-vertical">
 			<%= link_to 'All', params.merge(group: nil), class: 'btn btn-default' %>
-			<% @groups.each do |u| %>
+			<% @groups.each do |g| %>
 			<%= link_to g.name, params.merge(group: g), class: 'btn btn-default' %>
 			<% end %>
 		</div>
