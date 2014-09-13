@@ -3,6 +3,34 @@
 	<header class="page-header">
 		<h1>Grading list</h1>
 	</header>
+	
+	<div class="row">
+	
+	<div class="col-sm-2">
+
+	<p>
+		Group:<br>
+		<div class="btn-group-vertical">
+			<%= link_to 'All', params.merge(group: nil), class: 'btn btn-default' %>
+			<% @groups.each do |u| %>
+			<%= link_to g.name, params.merge(group: g), class: 'btn btn-default' %>
+			<% end %>
+		</div>
+	</p>
+
+	<p>
+		Problem set:<br>
+		<div class="btn-group-vertical">
+			<%= link_to 'All', params.merge(pset: nil), class: 'btn btn-default' %>
+			<% @psets.each do |p| %>
+			<%= link_to p.name, params.merge(pset: p), class: 'btn btn-default' %>
+			<% end %>
+		</div>
+	</p>
+	
+	</div>
+	
+	<div class="col-sm-10">
 
 	<table class="table table-bordered">
 		<tr>
@@ -11,19 +39,21 @@
 			<th>id</th>
 			<th>submitted</th>
 			<th>grade</th>
-			<th></th>
 		</tr>
 		
 		<% @submits.each do |submit| %>
 		<tr>
 			<td><%= submit.pset.name %></td>
-			<td><%= submit.user.name %></td>
+			<td><%= link_to submit.user.name, grade_form_path(user_id: submit.user_id, pset_id: submit.pset_id) %></td>
 			<td><%= submit.user.uvanetid %></td>
 			<td><% if submit.submitted_at %><%= submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(submit.submitted_at) %> ago)<% end %></td>
 			<td><%= submit.grade.grade if submit.grade %></td>
-			<td><%= link_to 'grade', grade_form_path(user_id: submit.user_id, pset_id: submit.pset_id) %></td>
 		</tr>
 		<% end %>
-	</ul>
+	</table>
+	
+	</div>
+	
+	</div>
 	
 </div>
