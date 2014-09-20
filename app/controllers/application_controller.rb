@@ -29,10 +29,10 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def known_user?
-		if Group.any? && !current_user.group.present? && valid_profile?
+		if !!current_user && Group.any? && !current_user.group.present? && valid_profile?
 			flash[:error] = "You are not in a group for this course. Please contact your instructor."
 		end
-		if Group.any?
+		if !!current_user && Group.any?
 			current_user.group.present? and valid_profile?
 		else
 			valid_profile?
