@@ -12,7 +12,7 @@ class PageController < ApplicationController
 		
 		@has_form = @page.pset && @page.pset.form
 		
-		if known_user? && load_schedule
+		if valid_profile? && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
@@ -34,7 +34,7 @@ class PageController < ApplicationController
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
-		if known_user? && load_schedule
+		if valid_profile? && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
