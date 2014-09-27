@@ -14,7 +14,7 @@
 	<div class="list-group question">
 		<% if thread.comments.first %>
 		<div class="list-group-item">
-			<% if is_admin? %>
+			<% if current_user.is_admin? %>
 			<%= link_to "&times;".html_safe, comment_delete_question_url(thread_id: thread.id), method: :post, class: 'close' %>
 			<% end %>
 			<p class="list-group-item-text"><strong><%= thread.comments.first.user.name %></strong></p>
@@ -23,7 +23,7 @@
 		<% end %>
 		<% thread.comments.drop(1).each do |comment| %>
 		<div class="list-group-item reply">
-			<% if is_admin? %>
+			<% if current_user.is_admin? %>
 			<%= link_to "&times;".html_safe, comment_delete_answer_url(comment_id: comment.id), method: :post, class: 'close' %>
 			<% end %>
 			<p class="list-group-item-text"><strong><%= comment.user.name %></strong></p>

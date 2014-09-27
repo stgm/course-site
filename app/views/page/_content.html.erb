@@ -13,7 +13,7 @@
 			<a href="#<%= subpage.slug %>" data-target="#<%= subpage.slug %>-content" data-toggle="tab"><%= subpage.title %></a>
 		</li>
 		<% end %>
-		<% if known_user? and @page.pset %>
+		<% if current_user.can_submit? and @page.pset %>
 		<li>
 			<a href="#submit" data-target="#submit-content" data-toggle="tab">Submit <%= submitted_icon %></a>
 		</li>
@@ -32,7 +32,7 @@
 	</section>
 	<% end %>
 
-	<% if known_user? and @page.pset %>
+	<% if current_user.can_submit? and @page.pset %>
 	<section class="tab-pane markdown" id="submit-content">
 		<%= render 'submit_tab' %>
 	</section>

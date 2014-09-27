@@ -1,7 +1,6 @@
 class PageController < ApplicationController
 	
 	prepend_before_filter CASClient::Frameworks::Rails::GatewayFilter
-	# before_filter :redirect_to_profile
 	
 	def homepage
 		# the homepage is the page without a parent section
@@ -12,7 +11,7 @@ class PageController < ApplicationController
 		
 		@has_form = @page.pset && @page.pset.form
 		
-		if valid_profile? && load_schedule
+		if current_user.valid_profile? && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index
@@ -28,13 +27,13 @@ class PageController < ApplicationController
 		@page = @section.pages.where(:slug => params[:page]).first		
 		render(status:404, text:"404 Page") and return if !@page
 		
-		if known_user? && @page.pset
+		if @page.pset && current_user.can_submit?
 			@has_form = @page.pset.form
 			load_form_answers() if @has_form
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
-		if valid_profile? && load_schedule
+		if current_user.valid_profile? && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
 			render :index

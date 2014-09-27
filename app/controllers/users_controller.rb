@@ -10,5 +10,5 @@ class UsersController < ApplicationController
 		p.update_attributes!(params[:user])
 		respond_with p
 	end
-
+	
 end

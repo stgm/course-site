@@ -5,7 +5,7 @@
 </footer>
 <% end %>
 
-<% if !valid_profile? %>
+<% if !current_user.valid_profile? %>
 	<script type="text/javascript">
 	$(function () {
 		$('#user-menu').dropdown('toggle');

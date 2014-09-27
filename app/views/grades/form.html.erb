@@ -2,7 +2,7 @@
 
 	<header class="page-header">
 		<h1><%= @pset.name %> <small> by <%= @user.name %> / <%= @user.uvanetid %></small></small></h1>
-		<% if is_admin? and @submit %>
+		<% if current_user.is_admin? and @submit %>
 		<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %> /
 		<% end %>
 		Latest submit:
@@ -129,7 +129,7 @@
 	<% end %>
 
 
-	<% if is_admin? %>
+	<% if current_user.is_admin? %>
 	<hr>
 	<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-danger' if @submit %>
 	<% end %>

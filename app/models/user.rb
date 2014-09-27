@@ -47,5 +47,28 @@ class User < ActiveRecord::Base
 			r.schedule_span = nil
 		end
 	end
+
+	def valid_profile?
+		return !self.name.blank?
+	end
+	
+	def can_submit?
+		if Group.any?
+			can = self.valid_profile? && self.group.present?
+		else
+			can = self.valid_profile?
+		end		
+		return can
+	end
+	
+	def is_admin?
+		admins = Settings['admins']
+		return admins && admins.include?(self.uvanetid)
+	end
+	
+	def is_assistant?
+		assistants = Settings['assistants']
+		return assistants && assistants.include?(self.uvanetid)
+	end
 	
 end
