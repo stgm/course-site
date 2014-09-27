@@ -21,11 +21,11 @@ class PageController < ApplicationController
 	def index
 		# find section by url and bail out if not found
 		@section = Section.where(:slug => params[:section]).first
-		render(status:404, text:"404 Section") and return if !@section
+	    raise ActionController::RoutingError.new('Not Found') if !@section
 		
 		# find page by url in section and bail out if not found
 		@page = @section.pages.where(:slug => params[:page]).first		
-		render(status:404, text:"404 Page") and return if !@page
+	    raise ActionController::RoutingError.new('Not Found') if !@page
 		
 		if @page.pset && current_user.can_submit?
 			@has_form = @page.pset.form
