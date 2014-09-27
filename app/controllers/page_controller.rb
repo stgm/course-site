@@ -33,6 +33,10 @@ class PageController < ApplicationController
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
+		if !current_user.can_submit?
+			flash[:error] = "You are not in a group for this course. Please contact your instructor."
+		end
+		
 		if current_user.valid_profile? && load_schedule
 			render :index_schedule, layout:'with_schedule'
 		else
