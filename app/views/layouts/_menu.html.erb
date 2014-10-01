@@ -11,6 +11,12 @@
 	</li>
 	<li class="divider"></li>
 	<% end %>
+	<% if current_user && current_user.group.present? %>
+	<li class="dropdown-header">
+		<%= current_user.group.name %>
+	</li>
+	<li class="divider"></li>
+	<% end %>
 	<% if current_user.is_admin? %>
 	<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
 	<li><%= link_to '<i class="glyphicon glyphicon-pencil"></i> Settings'.html_safe, admin_path %></li>
