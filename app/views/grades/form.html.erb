@@ -25,7 +25,7 @@
 	<%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
 	
 	<%= hidden_field_tag :referer, request.referer %>
-
+	
 	<% if @grade.errors.any? %>
 	<div id="error_explanation">
 		<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
@@ -44,6 +44,10 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="field">
+						<% if @submit and not @submit.url.blank? %>
+						<p><div class="alert alert-warning" role="alert"><%= link_to @submit.url, @submit.url %></div></p>
+						<% end %>
+
 						<p>
 						<%= f.text_area :comments, class: 'form-control' %>
 						</p>
