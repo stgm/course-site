@@ -1,9 +1,13 @@
 <h1>Submit</h1>
 
 <% if @page.pset.form %>
-<p>When you are ready to submit, make sure you have answered all questions, use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
-<% else %>
-<p>When you are ready to submit, please use the form below to select all required files, enter a note and press the Submit button. If you do not select all required files, you cannot submit.</p>
+<p>When you are ready to submit, make sure you have answered all questions, use
+the form below to select all required files and press the Submit
+button. If you do not select all required files, you cannot submit.</p>
+<% elsif @page.pset.pset_files.length > 0 %>
+<p>When you are ready to submit, please use the form below to select all
+required files and press the Submit button. If you do not select
+all required files, you cannot submit.</p>
 <% end %>
 
 <% if @page.pset.message %>
@@ -11,7 +15,6 @@
 <% end %>
 
 <% if @page.pset.form || @page.pset.pset_files.length > 0 %>
-
 <table class="table table-hover">
 
 	<% if @page.pset.form %>
@@ -31,10 +34,11 @@
 	<% end %>
 
 </table>
-
 <% end %>
 
-<p>Notes: <%= text_area_tag 'notes', nil, class:'form-control' %></p>
+<% if @page.pset.url %>
+<p>Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
+<% end %>
 
 <p><%= submit_tag 'Submit for grading', class:'btn btn-primary' %></p>
 

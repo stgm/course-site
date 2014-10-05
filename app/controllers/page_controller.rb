@@ -77,27 +77,30 @@ class PageController < ApplicationController
 	end
 	
 	def submit
-		if Dropbox.connected?
-			dropbox = Dropbox.connection
+		page = Page.find(params[:page_id])
+		pset = page.pset
 
-			page = Page.find(params[:page_id])
-			pset = page.pset
-			form_text = render_form_text(params[:a])
-
-			# upload to dropbox
-			dropbox.submit(current_user.uvanetid, current_user.name,
-			               Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
-
-			# create submit record
-			submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
-			submit.submitted_at = Time.now
-			submit.save
-			
-			# success
-			redirect_to(:back)
-		else			
-			redirect_to(:back, flash: { error: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe })
+		if pset.form || pset.pset_files.length > 0 && !Dropbox.connected?
+			redirect_to(:back, flash: { error: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
 		end
+		
+		form_text = render_form_text(params[:a])
+
+		# upload to dropbox
+		if pset.form || pset.pset_files.length > 0
+			dropbox = Dropbox.connection
+			dropbox.submit(current_user.uvanetid, current_user.name,
+		               Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
+		end
+
+		# create submit record
+		submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
+		submit.submitted_at = Time.now
+		submit.url = params[:url]
+		submit.save
+	
+		# success
+		redirect_to(:back)
 	end
 	
 	def save_answers

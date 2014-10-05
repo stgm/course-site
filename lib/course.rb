@@ -200,8 +200,8 @@ private
 						db_pset.description = page_info[2]
 						db_pset.message = submit_config['message'] if submit_config['message']
 						db_pset.form = !!submit_config['form']
-						# restore link to owning page!!
-						db_pset.page = db_page
+						db_pset.url = !!submit_config['url']
+						db_pset.page = db_page  # restore link to owning page!
 						db_pset.save
 
 						# always recreate so it's possible to remove files from submit

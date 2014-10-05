@@ -5,6 +5,6 @@ class Submit < ActiveRecord::Base
 
 	has_one :grade
 
-	attr_accessible :submitted_at
+	attr_accessible :submitted_at, :url
 
 end

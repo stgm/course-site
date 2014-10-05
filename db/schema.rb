@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140907134214) do
+ActiveRecord::Schema.define(version: 20141005163947) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20140907134214) do
     t.boolean  "form"
     t.text     "message"
     t.integer  "order"
+    t.boolean  "url"
   end
 
   add_index "psets", ["page_id"], name: "index_psets_on_page_id"
@@ -158,6 +159,7 @@ ActiveRecord::Schema.define(version: 20140907134214) do
     t.datetime "submitted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "url"
   end
 
   add_index "submits", ["pset_id"], name: "index_submits_on_pset_id"
