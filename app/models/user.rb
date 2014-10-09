@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 	has_many :submits
 	has_many :psets, through: :submits
 	# has_many :registrations
+	
+	has_one :ping
 
 	def submit(pset)
 		submits.where(:pset_id => pset.id).first
