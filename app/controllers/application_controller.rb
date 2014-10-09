@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def current_user
-		@current_user ||= logged_in? && User.where(:uvanetid => session[:cas_user]).first || User.new
+		@current_user ||= logged_in? && User.where(:uvanetid => session[:cas_user]).first # || User.new
 	end
 	
 	def require_admin
