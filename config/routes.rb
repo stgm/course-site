@@ -34,14 +34,14 @@ CourseSite::Application.routes.draw do
 	
 	namespace :tracking do
 		# for getting a token
-		get  "register" => "register#identify"
+		post "register" => "register#identify"
 		# for getting info based on token id
-		get  "tokenized/identify(/:token)" => "tokenized#identify"
-		get  "tokenized/ping(/:token)" => "tokenized#ping"
-		get  "tokenized/gone(/:token)" => "tokenized#gone"
-		get  "tokenized/help(/:token)" => "tokenized#help"
-		get  "tokenized/list_assistants(/:token)" => "tokenized#list_assistants"
-		get  "tokenized/list_students(/:token)" => "tokenized#list_students"
+		post "tokenized/identify(/:token)" => "tokenized#identify"
+		post "tokenized/ping(/:token)" => "tokenized#ping"
+		post "tokenized/gone(/:token)" => "tokenized#gone"
+		post "tokenized/help(/:token)" => "tokenized#help"
+		post "tokenized/list_assistants(/:token)" => "tokenized#list_assistants"
+		post "tokenized/list_students(/:token)" => "tokenized#list_students"
 	end
 
 	# course management
