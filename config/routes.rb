@@ -35,10 +35,11 @@ CourseSite::Application.routes.draw do
 		# for getting a token
 		get  "register" => "register#identify"
 		# for getting info based on token id
-		get  "tokenized/identify"
-		get  "tokenized/update"
-		get  "tokenized/list_assistants"
-		get  "tokenized/list_students"
+		get  "tokenized/identify(/:token)" => "tokenized#identify"
+		get  "tokenized/ping(/:token)" => "tokenized#ping"
+		get  "tokenized/help(/:token)" => "tokenized#help"
+		get  "tokenized/list_assistants(/:token)" => "tokenized#list_assistants"
+		get  "tokenized/list_students(/:token)" => "tokenized#list_students"
 	end
 
 	# course management
