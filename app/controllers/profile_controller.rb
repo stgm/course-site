@@ -27,7 +27,7 @@ class ProfileController < ApplicationController
 			return
 		end
 
-		if current_user
+		if current_user.persisted?
 			current_user.update_attributes(params[:user])
 		else
 			User.where(:uvanetid => session[:cas_user]).first_or_create do |u|
