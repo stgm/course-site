@@ -10,6 +10,11 @@ class ProfileController < ApplicationController
 		@title = "Profile"
 	end
 	
+	def pair
+		current_user.generate_pairing_code!
+		render text: "Pairing code is #{"%04d" % current_user.token}"
+	end
+	
 	def grades
 		if Settings.public_grades
 			@grades = Grade.includes(:submit).where("submits.user_id = ? and grades.grade is not null", current_user.id).references(:submits)

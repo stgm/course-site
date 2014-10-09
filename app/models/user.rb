@@ -78,4 +78,9 @@ class User < ActiveRecord::Base
 		self.save
 	end
 	
+	def generate_pairing_code!
+		self.token = SecureRandom.random_number(10000)
+		self.save
+	end
+	
 end
