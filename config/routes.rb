@@ -33,7 +33,7 @@ CourseSite::Application.routes.draw do
 	
 	namespace :tracking do
 		# for getting a token
-		get  "register/identify"
+		get  "register" => "register#identify"
 		# for getting info based on token id
 		get  "tokenized/identify"
 		get  "tokenized/update"
