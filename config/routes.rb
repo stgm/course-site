@@ -21,7 +21,6 @@ CourseSite::Application.routes.draw do
 	post "admin/api_save"
 	
 	namespace :admin do
-
 		get  "dropbox" => "dropbox#index"
 		post "dropbox/connect"
 		get  "dropbox/oauth"
@@ -30,7 +29,16 @@ CourseSite::Application.routes.draw do
 		get  "users/import"
 		post "users/import_groups"
 		get  "users/export_grades"
-		
+	end
+	
+	namespace :tracking do
+		# for getting a token
+		get  "register/identify"
+		# for getting info based on token id
+		get  "tokenized/identify"
+		get  "tokenized/update"
+		get  "tokenized/list_assistants"
+		get  "tokenized/list_students"
 	end
 
 	# course management

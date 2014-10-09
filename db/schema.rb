@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141005163947) do
+ActiveRecord::Schema.define(version: 20141009104202) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 20141005163947) do
     t.string   "status"
     t.integer  "schedule_id"
     t.integer  "schedule_span_id"
+    t.string   "token"
   end
 
   add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"
