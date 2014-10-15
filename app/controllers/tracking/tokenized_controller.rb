@@ -28,12 +28,12 @@ class Tracking::TokenizedController < ActionController::Base
 	end
 	
 	def list_assistants
-		result = Ping.active.assistants.map { |a| [a.user.name, a.loca, a.locb, !!a.help, a.updated_at] }
+		result = Ping.active.assistants.map { |a| { name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
 		render json: result
 	end
 	
 	def list_students
-		result = Ping.active.students.map { |a| [a.user.name, a.loca, a.locb, !!a.help, a.updated_at] }
+		result = Ping.active.students.map { |a| { name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
 		render json: result
 	end
 	
