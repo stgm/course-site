@@ -12,20 +12,20 @@ class CreateRegistrations < ActiveRecord::Migration
 		add_index :registrations, :user_id
 		add_index :registrations, :track_id
 		
-		User.not_admin.each do |u|
-			Track.all.each do |t|
-				psets = t.psets.order("psets_tracks.id")
-				if u.submits.joins(:grade).where("submits.pset_id" => t.final_grade.id).count > 0
-					Registration.create user:u, track:t, term:"", status:"done"
-				elsif u.submits.where("pset_id" => psets).count > 0
-					if u.active
-						Registration.create user:u, track:t, term:"", status:"active"
-					else
-						Registration.create user:u, track:t, term:"", status:"inactive"
-					end
-				end
-			end
-		end
+#		User.not_admin.each do |u|
+#			Track.all.each do |t|
+#				psets = t.psets.order("psets_tracks.id")
+#				if u.submits.joins(:grade).where("submits.pset_id" => t.final_grade.id).count > 0
+#					Registration.create user:u, track:t, term:"", status:"done"
+#				elsif u.submits.where("pset_id" => psets).count > 0
+#					if u.active
+#						Registration.create user:u, track:t, term:"", status:"active"
+#					else
+#						Registration.create user:u, track:t, term:"", status:"inactive"
+#					end
+#				end
+#			end
+#		end
 	end
 	
 	def down

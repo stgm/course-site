@@ -19,7 +19,7 @@ module Course
 		Subpage.delete_all
 		PsetFile.delete_all
 		Pset.delete_all
-		Track.delete_all
+		#Track.delete_all
 
 		puts "Deleting any user settings..."
 		User.where("uvanetid not in (?)", Settings['admins']).delete_all
