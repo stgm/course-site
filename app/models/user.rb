@@ -55,12 +55,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def can_submit?
-		if Group.any?
-			can = self.valid_profile? && self.group.present?
-		else
-			can = self.valid_profile?
-		end		
-		return can
+		return self.valid_profile?
 	end
 	
 	def is_admin?
