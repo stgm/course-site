@@ -1,7 +1,7 @@
 class Tracking::TokenizedController < ActionController::Base
 	
 	before_action :require_user
-	before_action :admin_rights?, only: [:list_students]
+	before_action :admin_rights?, only: [:list_students, :clear]
 	before_action :create_ping, only: [:ping, :gone, :help]
 	
 	def identify
@@ -27,13 +27,17 @@ class Tracking::TokenizedController < ActionController::Base
 		render json: true
 	end
 	
+	def clear
+		User.find_by_id(params[:user]).update_attribute(:help, false)
+	end
+	
 	def list_assistants
-		result = Ping.active.assistants.map { |a| { name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
+		result = Ping.active.assistants.map { |a| { id:a.user.id, name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
 		render json: result
 	end
 	
 	def list_students
-		result = Ping.active.students.map { |a| { name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
+		result = Ping.active.students.map { |a| { id:a.user.id, name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
 		render json: result
 	end
 	
