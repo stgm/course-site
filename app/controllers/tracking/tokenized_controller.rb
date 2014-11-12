@@ -28,7 +28,8 @@ class Tracking::TokenizedController < ActionController::Base
 	end
 	
 	def clear
-		User.find_by_id(params[:user]).update_attribute(:help, false)
+		User.find_by_id(params[:user]).ping.update_attribute(:help, false)
+		render json: true
 	end
 	
 	def list_assistants
