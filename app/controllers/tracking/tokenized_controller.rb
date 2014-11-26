@@ -31,16 +31,17 @@ class Tracking::TokenizedController < ActionController::Base
 	
 	def clear
 		User.find_by_id(params[:user]).ping.update_attribute(:help, false)
+		User.find_by_id(params[:user]).ping.update_attribute(:help_question, nil)
 		render json: true
 	end
 	
 	def list_assistants
-		result = Ping.active.assistants.map { |a| { id:a.user.id, name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
+		result = Ping.active.assistants.map { |a| { id:a.user.id, name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, help_question:a.help_question, updated:a.updated_at } }
 		render json: result
 	end
 	
 	def list_students
-		result = Ping.active.students.map { |a| { id:a.user.id, name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, updated:a.updated_at } }
+		result = Ping.active.students.map { |a| { id:a.user.id, name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, help_question:a.help_question, updated:a.updated_at } }
 		render json: result
 	end
 	
