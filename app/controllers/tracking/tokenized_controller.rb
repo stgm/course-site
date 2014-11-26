@@ -23,7 +23,7 @@ class Tracking::TokenizedController < ActionController::Base
 	end
 	
 	def help
-		current_user.ping.help = !!params[:help])
+		current_user.ping.help = !!params[:help]
 		current_user.ping.help_question = params[:help_question] if params[:help]
 		current_user.ping.save
 		render json: true
