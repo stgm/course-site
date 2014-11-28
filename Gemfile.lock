@@ -49,6 +49,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     friendly_id (4.0.10)
     git (1.2.6)
+    hashids (1.0.1)
     hike (1.2.3)
     i18n (0.6.9)
     jquery-rails (3.1.0)
@@ -142,6 +143,7 @@ DEPENDENCIES
   dropbox-sdk
   friendly_id (~> 4.0.1)
   git
+  hashids
   jquery-rails
   kramdown
   party_foul
