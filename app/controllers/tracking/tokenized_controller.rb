@@ -41,16 +41,14 @@ class Tracking::TokenizedController < ActionController::Base
 	def list_assistants
 		hashid = Hashids.new(ENV['DROPBOX_KEY'])
 	
-		id = hashid.encode(a.user.uvanetid.to_i)
-		result = Ping.active.assistants.map { |a| { id:id, name:a.user.name, loca:a.loca, locb:a.locb, updated:a.updated_at } }
+		result = Ping.active.assistants.map { |a| { id:hashid.encode(a.user.uvanetid.to_i), name:a.user.name, loca:a.loca, locb:a.locb, updated:a.updated_at } }
 		render json: result
 	end
 	
 	def list_students
 		hashid = Hashids.new(ENV['DROPBOX_KEY'])
 	
-		id = hashid.encode(a.user.uvanetid.to_i)
-		result = Ping.active.students.map { |a| { id:id, name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, help_question:a.help_question, updated:a.updated_at } }
+		result = Ping.active.students.map { |a| { id:hashid.encode(a.user.uvanetid.to_i), name:a.user.name, loca:a.loca, locb:a.locb, help:!!a.help, help_question:a.help_question, updated:a.updated_at } }
 		render json: result
 	end
 	
