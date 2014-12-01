@@ -33,8 +33,8 @@ class Tracking::TokenizedController < ActionController::Base
 		hashid = Hashids.new(ENV['DROPBOX_KEY'])
 	
 		id = hashid.decode(params[:user])
-		User.find_by_id(id).ping.update_attribute(:help, false)
-		User.find_by_id(id).ping.update_attribute(:help_question, nil)
+		User.find_by_uvanetid(id).ping.update_attribute(:help, false)
+		User.find_by_uvanetid(id).ping.update_attribute(:help_question, nil)
 		render json: true
 	end
 	
