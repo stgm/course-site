@@ -32,7 +32,9 @@ class Tracking::TokenizedController < ActionController::Base
 	def clear
 		hashid = Hashids.new(ENV['DROPBOX_KEY'])
 	
-		id = hashid.decode(params[:user])
+		# make student #id 7 digit at least
+		id = "%07d" % hashid.decode(params[:user])
+
 		User.find_by_uvanetid(id).ping.update_attribute(:help, false)
 		User.find_by_uvanetid(id).ping.update_attribute(:help_question, nil)
 		render json: true
