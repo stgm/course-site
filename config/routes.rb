@@ -40,6 +40,7 @@ CourseSite::Application.routes.draw do
 		post "tokenized/ping(/:token)" => "tokenized#ping"
 		post "tokenized/gone(/:token)" => "tokenized#gone"
 		post "tokenized/help(/:token)" => "tokenized#help"
+		post "tokenized/clear/:user" => "tokenized#clear"
 		post "tokenized/list_assistants(/:token)" => "tokenized#list_assistants"
 		post "tokenized/list_students(/:token)" => "tokenized#list_students"
 	end

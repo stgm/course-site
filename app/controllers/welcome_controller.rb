@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
 
 	skip_before_filter :check_repo
-	skip_before_filter :check_admins
+	skip_before_filter :require_one_admin_user
 
 	prepend_before_filter CASClient::Frameworks::Rails::Filter
 	

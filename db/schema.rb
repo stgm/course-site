@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009143636) do
+ActiveRecord::Schema.define(version: 20141117114035) do
 
   create_table "answers", force: true do |t|
     t.integer  "user_id"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20141009143636) do
     t.boolean  "active"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "help_question"
   end
 
   add_index "pings", ["user_id"], name: "index_pings_on_user_id"

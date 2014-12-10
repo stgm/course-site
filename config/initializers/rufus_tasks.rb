@@ -5,9 +5,9 @@ scheduler = Rufus::Scheduler.new
 # and one for making sure only grades of a certain age are emailed, to allow
 # for corrections within that timeframe.
 
-scheduler.every '1h' do
+scheduler.every '15m' do
 	if Settings.send_grade_mails
-		Grade.where("updated_at < ? and mailed_at < updated_at and grade is not null", 2.hours.ago).find_each do |g|
+		Grade.where("grades.updated_at < ? and grades.mailed_at < grades.updated_at and grades.grade is not null", 2.hours.ago).joins([:submit]).find_each do |g|
 			GradeMailer.new_mail(g).deliver
 			g.touch(:mailed_at)
 		end
