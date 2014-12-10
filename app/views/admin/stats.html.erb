@@ -1,13 +1,10 @@
 <% @terms.each do |term| %>
 	<h4><%= term.term %></h4>
-	<% Track.all.each do |track| %>
-		<%= track.name %><br>
-		<% statuses = Registration.select("distinct status").where(term:term.term) %>
-		<% users = track.users.from_term(term.term) %>
+		<% statuses = User.select("distinct status").where(term:term.term) %>
+		<% users = User.from_term(term.term) %>
 		<ul>
 			<% statuses.each do |status| %>
 			<li><%= status.status %>: <%= users.having_status(status.status).count %></li>
 			<% end %>
 		</ul>
-	<% end %>
 <% end %>
