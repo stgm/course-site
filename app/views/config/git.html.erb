@@ -1,0 +1,14 @@
+<div id="content">
+
+	<header class="page-header">
+		<h1>Git connection</h1>
+	</header>
+
+	<p>
+		<%= form_tag(action: 'save_git_repo', class:'form-horizontal') do %>
+			<%= text_field_tag 'repo_url', Settings['git.repo_url'], required: true %>
+			<%= submit_tag 'Change', class:'btn' %>
+		<% end %>
+	</p>
+
+</div>

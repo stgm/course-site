@@ -19,7 +19,8 @@
 	<% end %>
 	<% if current_user.is_admin? %>
 	<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
-	<li><%= link_to '<i class="glyphicon glyphicon-pencil"></i> Settings'.html_safe, admin_path %></li>
+	<li><%= link_to '<i class="glyphicon glyphicon-stats"></i> Administration'.html_safe, admin_path %></li>
+	<li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
 	<li class="divider"></li>
 	<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, course_grades_path %></li>
 	<li><%= link_to '<i class="glyphicon glyphicon-list"></i> Grading list'.html_safe, grading_path %></li>

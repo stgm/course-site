@@ -12,17 +12,27 @@ CourseSite::Application.routes.draw do
 
 	# administrative
 	get  "admin" => "admin#index"
-	get  "admin/claim"
-	get  "admin/admins"
-	post "admin/admins" => "admin#admins_save"
-	post "admin/assistants" => "admin#assistants_save"
 	get  "admin/dump_grades"
 	get  "admin/stats"
+	
+	# configuration
+	get  "config" => "config#index"
+	get  "config/admins"
+	get  "config/dropbox"
+	get  "config/git"
+
+	post "config/admins"       => "config#admins_save"
+	post "config/assistants"   => "config#assistants_save"
+	post "config/dropbox_root" => "config#save_dropbox_root"
+	post "config/git_repo"     => "config#save_git_repo"
+
 	get  "admin/api"
 	post "admin/api_save"
+
+	# first-time use claims website
+	get  "admin/claim"
 	
 	namespace :admin do
-		get  "dropbox" => "dropbox#index"
 		post "dropbox/connect"
 		get  "dropbox/oauth"
 		post "dropbox/set_root_folder"
@@ -34,15 +44,15 @@ CourseSite::Application.routes.draw do
 	
 	namespace :tracking do
 		# for getting a token
-		post "register" => "register#identify"
+		post "register"                           => "register#identify"
 		# for getting info based on token id
-		post "tokenized/identify(/:token)" => "tokenized#identify"
-		post "tokenized/ping(/:token)" => "tokenized#ping"
-		post "tokenized/gone(/:token)" => "tokenized#gone"
-		post "tokenized/help(/:token)" => "tokenized#help"
-		post "tokenized/clear/:user" => "tokenized#clear"
+		post "tokenized/identify(/:token)"        => "tokenized#identify"
+		post "tokenized/ping(/:token)"            => "tokenized#ping"
+		post "tokenized/gone(/:token)"            => "tokenized#gone"
+		post "tokenized/help(/:token)"            => "tokenized#help"
+		post "tokenized/clear/:user"              => "tokenized#clear"
 		post "tokenized/list_assistants(/:token)" => "tokenized#list_assistants"
-		post "tokenized/list_students(/:token)" => "tokenized#list_students"
+		post "tokenized/list_students(/:token)"   => "tokenized#list_students"
 	end
 
 	# course management

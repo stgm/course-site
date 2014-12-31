@@ -1,12 +1,9 @@
+require 'dropbox'
+
 class Admin::DropboxController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin
-
-	# key entry page, also shows if already having a session
-	def index
-		@dropbox_linked = Dropbox.connected?
-	end
 
 	# redirects to dropbox to allow oauth confirmation
 	def connect
@@ -23,9 +20,4 @@ class Admin::DropboxController < ApplicationController
 		end
 	end
 	
-	def set_root_folder
-		Settings['dropbox.root_folder'] = params['folder'] if params['folder'].present?
-		redirect_to :back, notice: 'Root folder saved.'
-	end
-
 end

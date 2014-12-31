@@ -6,7 +6,7 @@ class DropboxConnection
 		
 	def submit(user, name, course, item, notes, form, files)
 		
-		dropbox_root = Settings['dropbox.root_folder']
+		dropbox_root = ENV['DROPBOX_ROOT']
 		
 		# cache timestamp for folder name
 		item_folder = item + "__" + Time.now.to_i.to_s

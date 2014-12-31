@@ -6,7 +6,7 @@
 
 	<b>Admins</b>
 	
-	<%= form_tag({ action: "admins" }, method: :post) do %>
+	<%= form_tag(config_admins_url, method: :post) do %>
 	<div class="form-group">
 		<div class="col-10">
 			<textarea id="inputAdmins" name="admins" class="form-control" style="height:10em;"><%= @admins %></textarea>
@@ -17,7 +17,7 @@
 
 	<b>Assistants</b>
 
-	<%= form_tag(admin_assistants_url, method: :post) do %>
+	<%= form_tag(config_assistants_url, method: :post) do %>
 	<div class="form-group">
 		<div class="col-10">
 			<textarea id="inputAdmins" name="assistants" class="form-control" style="height:10em;"><%= @assistants %></textarea>
