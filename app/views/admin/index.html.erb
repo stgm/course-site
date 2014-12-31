@@ -4,12 +4,12 @@
 		<h1>Administration</h1>
 	</header>
 	
-	<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Export Grades for Excel'.html_safe, admin_users_export_grades_path, class:'btn btn-default btn-lg' %>
+	<p><%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path, class:'btn btn-default btn-lg' %></p>
 
-	<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:'btn btn-default btn-lg' %>
+	<p><%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:'btn btn-default btn-lg' %></p>
 
-	<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:'btn btn-default btn-lg' %>
+	<p><%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:'btn btn-default btn-lg' %></p>
 
-	<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Users'.html_safe, admin_users_import_path, class:'btn btn-default btn-lg' %>
+	<p><%= link_to '<i class="glyphicon glyphicon-user"></i> Import Users'.html_safe, admin_import_path, class:'btn btn-default btn-lg' %></p>
 
 </div>

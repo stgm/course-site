@@ -14,6 +14,9 @@ CourseSite::Application.routes.draw do
 	get  "admin" => "admin#index"
 	get  "admin/dump_grades"
 	get  "admin/stats"
+	get  "admin/import"
+	post "admin/import_groups"
+	get  "admin/export_grades"
 	
 	# configuration
 	get  "config" => "config#index"
@@ -31,16 +34,10 @@ CourseSite::Application.routes.draw do
 
 	# first-time use claims website
 	get  "admin/claim"
-	
-	namespace :admin do
-		post "dropbox/connect"
-		get  "dropbox/oauth"
-		post "dropbox/set_root_folder"
-		
-		get  "users/import"
-		post "users/import_groups"
-		get  "users/export_grades"
-	end
+
+	# dropbox linking
+	post "dropbox/connect"
+	get  "dropbox/oauth"
 	
 	namespace :tracking do
 		# for getting a token
