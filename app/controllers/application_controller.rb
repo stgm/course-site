@@ -2,16 +2,9 @@ class ApplicationController < ActionController::Base
 
 	protect_from_forgery
 
-	before_filter :require_one_admin_user
 	before_filter :load_navigation
 
 	helper_method :current_user, :logged_in?
-	
-	def require_one_admin_user
-		unless Settings['admins'] && Settings['admins'].size > 0
-			redirect_to welcome_claim_url
-		end
-	end
 	
 	def load_navigation
 		@sections = Section.includes(pages: :pset)

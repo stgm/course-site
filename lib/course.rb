@@ -1,3 +1,5 @@
+require 'course_git'
+
 module Course
 	
 	# This class is responsible for importing course information from
@@ -67,11 +69,9 @@ module Course
 		
 private
 	
+	# TODO remove?
 	def Course.has_repo?
-		g = Git.open(COURSE_DIR, :log => Rails.logger)
-		return true
-	rescue
-		return false
+		CourseGit.local_repo
 	end
 	
 	#
@@ -79,8 +79,7 @@ private
 	# overridden in an initializer in order to function well!
 	
 	def Course.update_repo(dir)
-		g = Git.open dir, :log => Rails.logger
-		g.pull
+		CourseGit.pull
 	end
 	
 	#

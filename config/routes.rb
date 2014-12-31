@@ -32,9 +32,6 @@ CourseSite::Application.routes.draw do
 	get  "admin/api"
 	post "admin/api_save"
 
-	# first-time use claims website
-	get  "admin/claim"
-
 	# dropbox linking
 	post "dropbox/connect"
 	get  "dropbox/oauth"

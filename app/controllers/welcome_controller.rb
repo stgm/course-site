@@ -1,25 +1,14 @@
 class WelcomeController < ApplicationController
 
-	skip_before_filter :check_repo
-	skip_before_filter :require_one_admin_user
-
-	prepend_before_filter CASClient::Frameworks::Rails::Filter
+	before_filter CASClient::Frameworks::Rails::GatewayFilter
 	
 	def index
-
-	end
-
-	def clone
-		render layout:nil
-	end
-
-	def claim
-		# if no admin is defined
-		unless Settings['admins'] && Settings['admins'].size > 0
-			logger.debug session[:cas_user]
-			Settings['admins'] = [ session[:cas_user] ]
-			redirect_to :root
+		if logged_in?
+			unless Settings['admins'] && Settings['admins'].size > 0
+				Settings['admins'] = [ session[:cas_user] ]
+			end
+			redirect_to config_url and return
 		end
 	end
-	
+
 end
