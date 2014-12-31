@@ -33,7 +33,6 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    addressable (2.3.6)
     arel (4.0.2)
     bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
@@ -44,8 +43,6 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.4)
     execjs (2.2.2)
-    faraday (0.9.0)
-      multipart-post (>= 1.2, < 3)
     friendly_id (4.0.10)
     git (1.2.8)
     hashids (1.0.2)
@@ -61,11 +58,6 @@ GEM
     mime-types (2.4.3)
     minitest (4.7.5)
     multi_json (1.10.1)
-    multipart-post (2.0.0)
-    octokit (3.7.0)
-      sawyer (~> 0.6.0, >= 0.5.3)
-    party_foul (1.5.5)
-      octokit (~> 3.1)
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
     rack (1.5.2)
@@ -99,9 +91,6 @@ GEM
       sass (~> 3.2.2)
       sprockets (~> 2.8, < 3.0)
       sprockets-rails (~> 2.0)
-    sawyer (0.6.0)
-      addressable (~> 2.3.5)
-      faraday (~> 0.8, < 0.10)
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -139,7 +128,6 @@ DEPENDENCIES
   hashids
   jquery-rails
   kramdown
-  party_foul
   protected_attributes
   rails (~> 4.0.3)
   rails-settings-cached (= 0.3.1)
