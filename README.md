@@ -1,9 +1,7 @@
 Course website
 ==============
 
-This site serves courses that reside in a git repo consisting of mostly Markdown-formatted text files and any other source files that should be served to the students.
-
-Ruby 1.9 or later is required. Will still work on Rails 3.2, but 4.0 is imminent.
+This site serves courses that reside in a git repo consisting of mostly Markdown-formatted text files and any other source files that should be served to the students. Ruby 1.9 with Rails 4.0 is required.
 
 How to install
 --------------
@@ -14,7 +12,9 @@ Clone the application:
 	bundle install
 	rake db:schema:load
 
-And clone the course contents into the `public/course` directory:
+You can now claim the site by authenticating, and then load the initial content by specifiying a git repository URL that can be cloned.
+
+Alternatively, you can clone the course contents yourself, into the `public/course` directory:
 
 	cd public
 	git clone <course-url> course
@@ -34,7 +34,7 @@ On the source format
   in the public directory and can be referenced using relative links.
 
 * Changing the name of a folder will change the URL of that folder on the
-  website. This will break links from others site to your course site.
+  website. This will break links from other sites to your course site.
 
 * Changing names and positions of folders and Markdown files should not be a
   problem for form caching and file submissions already done.
@@ -55,22 +55,22 @@ Formatting your pages
     This single bullet item is then replaced with a full table of contents of
     level 1 and 2 headings.
 
-[Markdown]: http://daringfireball.net/projects/markdown/syntax
-[Kramdown]: http://kramdown.rubyforge.org/syntax.html
-[AsciiMath]: http://www.wjagray.co.uk/maths/ASCIIMathTutorial.html
-[AsciiMath syntax]: http://www.intmath.com/help/send-math-email-syntax.php
-
 * Add a content delivery network server by adding a link to it in
   `course.yml`:
 
-		cdn: http://cdn.mprog.nl/data-science
+		cdn: http://cdn.mprog.nl/uva-prog-physics
 
     Then, any link starting with `cdn://` will be rewritten to start with
-    that cdn url.
+    that exact cdn url.
 
 * Use `videoplayer` as the alt text for an image link in order to generate a video player:
 
         ![videoplayer](cdn://video/lecture001.mp4)
+
+[Markdown]: http://daringfireball.net/projects/markdown/syntax
+[Kramdown]: http://kramdown.rubyforge.org/syntax.html
+[AsciiMath]: http://www.wjagray.co.uk/maths/ASCIIMathTutorial.html
+[AsciiMath syntax]: http://www.intmath.com/help/send-math-email-syntax.php
 
 Admin configuration options
 ---------------------------
@@ -84,14 +84,10 @@ Admin configuration options
 
 (The next doesn't work yet, thank you.)
 
-* Setting a valid `GITHUB_TOKEN`, `GITHUB_OWNER` and `GITHUB_REPO` will log
-  the application errors to the `course-site` repository on GitHub.
-
 * Setting a `MAILER_ADDRESS`, `MAILER_DOMAIN`, `MAILER_USERNAME` and `MAILER_PASSWORD` will allow mails to be sent to users.
 
 Some stuff we still want
 ------------------------
 
-* Add a setting for source git URL and do a `git clone`.
 * Allow the course to be hosted in dropbox.
 * Support some other authentication mechanism than CAS only.
