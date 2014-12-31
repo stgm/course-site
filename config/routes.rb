@@ -26,8 +26,7 @@ CourseSite::Application.routes.draw do
 
 	post "config/admins"       => "config#admins_save"
 	post "config/assistants"   => "config#assistants_save"
-	post "config/dropbox_root" => "config#save_dropbox_root"
-	post "config/git_repo"     => "config#save_git_repo"
+	post "config/git_repo"     => "config#git_repo_save"
 
 	get  "admin/api"
 	post "admin/api_save"

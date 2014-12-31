@@ -27,5 +27,10 @@ class ConfigController < ApplicationController
 	def dropbox
 		@dropbox_linked = Dropbox.connected?
 	end
+	
+	def git_repo_save
+		Settings.git_repo = params[:repo_url]
+		redirect_to :back
+	end
 
 end
