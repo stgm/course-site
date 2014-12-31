@@ -1,3 +1,5 @@
+require 'dropbox'
+
 class PageController < ApplicationController
 	
 	prepend_before_filter CASClient::Frameworks::Rails::GatewayFilter

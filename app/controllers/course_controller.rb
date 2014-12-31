@@ -1,3 +1,5 @@
+require 'course'
+
 class CourseController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter

@@ -1,3 +1,5 @@
+require 'course'
+
 namespace :course do
 
 	desc "Reset whole site, including students and submissions."

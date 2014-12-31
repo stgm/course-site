@@ -1,3 +1,6 @@
+require 'course'
+require 'api_provider'
+
 class ApiController < ApplicationController
 
 	# before_filter :restrict_access, only: :students
