@@ -4,10 +4,12 @@
 		<h1>Website configuration</h1>
 	</header>
 	
-	<p><%= link_to '<span class="glyphicon glyphicon-fire"></span> Edit Admins'.html_safe, config_admins_path, class:'btn btn-default btn-lg' %></p>
+	<p><%= link_to '<span class="glyphicon glyphicon-fire"></span> Edit admins'.html_safe, config_admins_path, class:'btn btn-default btn-lg' %></p>
 
 	<p><%= link_to '<i class="glyphicon glyphicon-gift"></i> Manage Dropbox'.html_safe, config_dropbox_path, class:'btn btn-default btn-lg' if Dropbox.available? %></p>
 
-	<p><%= link_to '<i class="glyphicon glyphicon-cloud"></i> Manage git repo'.html_safe, config_git_path, class:'btn btn-default btn-lg' if Dropbox.available? %></p>
+	<p><%= link_to '<i class="glyphicon glyphicon-cloud"></i> Manage git repo'.html_safe, config_git_path, class:'btn btn-default btn-lg' %></p>
+
+	<p><%= link_to '<i class="glyphicon glyphicon-eye-close"></i> Connect webhook'.html_safe, config_webhook_path, class:'btn btn-default btn-lg' %></p>
 
 </div>

@@ -23,10 +23,12 @@ Rails.application.routes.draw do
 	get  "config/admins"
 	get  "config/dropbox"
 	get  "config/git"
+	get  "config/webhook"
 
 	post "config/admins"       => "config#admins_save"
 	post "config/assistants"   => "config#assistants_save"
 	post "config/git_repo"     => "config#git_repo_save"
+	post "config/generate_secret"
 
 	get  "admin/api"
 	post "admin/api_save"
@@ -83,8 +85,7 @@ Rails.application.routes.draw do
 	post "page/next_in_schedule"
 	
 	# api
-	# get  "api/students"
-	post "api/update_webhook"
+	get "api/reload"
 	
 	resource :user
 	

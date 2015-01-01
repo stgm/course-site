@@ -3,39 +3,9 @@ require 'api_provider'
 
 class ApiController < ApplicationController
 
-	# before_filter :restrict_access, only: :students
-	#
-	# def students
-	# 	@students = []
-	#
-	# 	if Track.any?
-	# 		Track.all.each do |track|
-	# 			final_grade = track.final_grade
-	# 			psets = track.psets.order("psets_tracks.id")
-	# 			users = User.includes({ :submits => :grade }, :psets).where("psets.id" => psets)
-	# 			@done_users = users.select do |u|
-	# 				u.submits.index { |s| s.pset_id == track.final_grade.id }
-	# 			end
-	# 			@active_users = users.where(active: true).select do |u|
-	# 				!u.submits.index { |s| s.pset_id == track.final_grade.id }
-	# 			end
-	#
-	# 			@done_users.each do |u|
-	# 				subs = u.submits.includes(:pset).where("psets.id" => psets).order("submits.created_at")
-	# 				@students << [Settings['short_course_name'], track.name, u.uvanetid, subs.first.created_at, subs.last.created_at, true]
-	# 			end
-	#
-	# 			@active_users.each do |u|
-	# 				subs = u.submits.includes(:pset).where("psets.id" => psets).order("submits.created_at")
-	# 				@students << [Settings['short_course_name'], track.name, u.uvanetid, subs.first.created_at, subs.last.created_at, false]
-	# 			end
-	# 		end
-	# 	end
-	#
-	# 	render json: @students
-	# end
+	before_action :restrict_access
 	
-	def update_webhook
+	def reload
 		Course.reload
 		render json: nil
 	end
@@ -43,9 +13,16 @@ class ApiController < ApplicationController
 	private
 	
 	def restrict_access
-		authenticate_or_request_with_http_token do |token, options|
-			ApiProvider.available? and ApiProvider.check_token(token)
-		end
+		request.body.rewind
+		payload_body = request.body.read
+		verify_signature(payload_body)
 	end
 
+	def verify_signature(payload_body)
+		secret = Settings.webhook_secret
+		signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, payload_body)
+		render text:'no' unless request.env['HTTP_X_HUB_SIGNATURE'].present? && Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+		#halt 500, "Signatures didn't match!" unless 
+	end
+	
 end

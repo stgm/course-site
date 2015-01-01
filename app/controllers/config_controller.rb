@@ -32,5 +32,15 @@ class ConfigController < ApplicationController
 		Settings.git_repo = params[:repo_url]
 		redirect_to :back
 	end
+	
+	def generate_secret
+		secret = SecureRandom.hex(20)
+		Settings.webhook_secret = secret
+		render js:"$('#secret').html('#{secret}');"
+	end
+	
+	def webhook
+		@secret = Settings.webhook_secret
+	end
 
 end
