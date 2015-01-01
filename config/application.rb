@@ -20,6 +20,6 @@ module CourseSite
 		# config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
 		# config.i18n.default_locale = :de
        
-		config.action_mailer.smtp_settings = { address: 'smtp.xs4all.nl', domain: 'mprog.nl' }
+		config.action_mailer.smtp_settings = { address: ENV["MAILER_ADDRESS"], domain: ENV["MAILER_DOMAIN"] }
 	end
 end

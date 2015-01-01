@@ -82,9 +82,7 @@ Admin configuration options
 
 * Setting a `CAS_BASE_URL` is needed for authentication. You can optionally set a `CAS_FAKE_USER` to prevent CAS roundtrips during testing.
 
-(The next doesn't work yet, thank you.)
-
-* Setting a `MAILER_ADDRESS`, `MAILER_DOMAIN`, `MAILER_USERNAME` and `MAILER_PASSWORD` will allow mails to be sent to users.
+* Setting a `MAILER_ADDRESS` and `MAILER_DOMAIN` will allow mails to be sent to users.
 
 Some stuff we still want
 ------------------------
