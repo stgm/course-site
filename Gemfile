@@ -54,3 +54,6 @@ gem 'rufus-scheduler'
 gem 'bootstrap-sass', '~> 3.2.0'
 
 gem 'hashids'
+
+# remove assets logging in development mode
+gem 'quiet_assets', group: :development
