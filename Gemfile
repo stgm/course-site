@@ -49,10 +49,13 @@ gem 'protected_attributes'
 
 # If you are not using Protected Attributes, you can remove any options related to this gem such as whitelist_attributes or mass_assignment_sanitizer options.
 
+# scheduled email sending for grades
 gem 'rufus-scheduler'
 
+# this simply is bootstrap
 gem 'bootstrap-sass', '~> 3.2.0'
 
+# generate hash tokens for mobile app
 gem 'hashids'
 
 # remove assets logging in development mode
