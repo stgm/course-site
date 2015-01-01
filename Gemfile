@@ -15,9 +15,6 @@ gem 'uglifier', '>= 1.3.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder', '~> 1.2'
-
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -33,7 +30,6 @@ gem 'kramdown'
 gem "friendly_id", "~> 5.0.0"
 
 # cas
-# gem 'rubycas-client'#, '2.2.1'
 gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
 
 # git integration
