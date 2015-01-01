@@ -22,12 +22,19 @@ body
 .navbar .glyphicon
 {
 	font-size:12px;
+	margin-right:3px;
+}
+
+.navbar .empty
+{
+	width:12px;
 }
 
 .navbar .dropdown-menu > li > a
 {
 	padding-top:0.4em;
 	padding-bottom:0.4em;
+	padding-right:2em;
 }
 
 /****************************************************************************
