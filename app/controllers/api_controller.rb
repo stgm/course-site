@@ -7,7 +7,7 @@ class ApiController < ApplicationController
 	
 	def reload
 		Course.reload
-		render json: nil
+		render text:''
 	end
 
 	private
@@ -21,7 +21,7 @@ class ApiController < ApplicationController
 	def verify_signature(payload_body)
 		secret = Settings.webhook_secret
 		signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, payload_body)
-		render text:'no' unless request.env['HTTP_X_HUB_SIGNATURE'].present? && Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+		render text:'', status:500 unless request.env['HTTP_X_HUB_SIGNATURE'].present? && Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
 		#halt 500, "Signatures didn't match!" unless 
 	end
 	
