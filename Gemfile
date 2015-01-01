@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>4.0.3'
+gem 'rails', '~>4.1.0'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -30,10 +30,11 @@ gem 'thin'
 gem 'kramdown'
 
 # slug generator
-gem "friendly_id", "~> 4.0.1"
+gem "friendly_id", "~> 5.0.0"
 
 # cas
-gem 'rubycas-client'#, '2.2.1'
+# gem 'rubycas-client'#, '2.2.1'
+gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
 
 # git integration
 gem 'git'
@@ -45,7 +46,7 @@ gem 'dropbox-sdk'
 gem "rails-settings-cached", "0.3.1"
 
 # in-place editing for grade table
-gem 'best_in_place', github: "bernat/best_in_place"
+gem 'best_in_place', '~> 3.0.1'
 
 # remove this after removing all attr_ stuff
 gem 'protected_attributes'

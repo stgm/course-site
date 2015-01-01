@@ -1,49 +1,54 @@
 GIT
-  remote: git://github.com/bernat/best_in_place.git
-  revision: 072e60b700bef718907ac6f3c43897fd43fef559
+  remote: git://github.com/rubycas/rubycas-client.git
+  revision: 195a4b70333029be474b0ac70efdc85bd4288861
   specs:
-    best_in_place (3.0.2)
-      actionpack (>= 3.2)
-      railties (>= 3.2)
+    rubycas-client (2.3.10.rc1)
+      activesupport
 
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (4.0.12)
-      actionpack (= 4.0.12)
+    actionmailer (4.1.8)
+      actionpack (= 4.1.8)
+      actionview (= 4.1.8)
       mail (~> 2.5, >= 2.5.4)
-    actionpack (4.0.12)
-      activesupport (= 4.0.12)
-      builder (~> 3.1.0)
-      erubis (~> 2.7.0)
+    actionpack (4.1.8)
+      actionview (= 4.1.8)
+      activesupport (= 4.1.8)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    activemodel (4.0.12)
-      activesupport (= 4.0.12)
-      builder (~> 3.1.0)
-    activerecord (4.0.12)
-      activemodel (= 4.0.12)
-      activerecord-deprecated_finders (~> 1.0.2)
-      activesupport (= 4.0.12)
-      arel (~> 4.0.0)
-    activerecord-deprecated_finders (1.0.3)
-    activesupport (4.0.12)
+    actionview (4.1.8)
+      activesupport (= 4.1.8)
+      builder (~> 3.1)
+      erubis (~> 2.7.0)
+    activemodel (4.1.8)
+      activesupport (= 4.1.8)
+      builder (~> 3.1)
+    activerecord (4.1.8)
+      activemodel (= 4.1.8)
+      activesupport (= 4.1.8)
+      arel (~> 5.0.0)
+    activesupport (4.1.8)
       i18n (~> 0.6, >= 0.6.9)
-      minitest (~> 4.2)
-      multi_json (~> 1.3)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
       thread_safe (~> 0.1)
-      tzinfo (~> 0.3.37)
-    arel (4.0.2)
+      tzinfo (~> 1.1)
+    arel (5.0.1.20140414130214)
+    best_in_place (3.0.2)
+      actionpack (>= 3.2)
+      railties (>= 3.2)
     bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
-    builder (3.1.4)
+    builder (3.2.2)
     daemons (1.1.9)
     dropbox-sdk (1.6.4)
       json
     erubis (2.7.0)
     eventmachine (1.0.4)
     execjs (2.2.2)
-    friendly_id (4.0.10)
+    friendly_id (5.0.4)
+      activerecord (>= 4.0.0)
     git (1.2.8)
     hashids (1.0.2)
     hike (1.2.3)
@@ -56,33 +61,33 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
-    minitest (4.7.5)
+    minitest (5.5.0)
     multi_json (1.10.1)
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (4.0.12)
-      actionmailer (= 4.0.12)
-      actionpack (= 4.0.12)
-      activerecord (= 4.0.12)
-      activesupport (= 4.0.12)
+    rails (4.1.8)
+      actionmailer (= 4.1.8)
+      actionpack (= 4.1.8)
+      actionview (= 4.1.8)
+      activemodel (= 4.1.8)
+      activerecord (= 4.1.8)
+      activesupport (= 4.1.8)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.0.12)
+      railties (= 4.1.8)
       sprockets-rails (~> 2.0)
     rails-settings-cached (0.3.1)
       rails (>= 4.0.0.beta1)
-    railties (4.0.12)
-      actionpack (= 4.0.12)
-      activesupport (= 4.0.12)
+    railties (4.1.8)
+      actionpack (= 4.1.8)
+      activesupport (= 4.1.8)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
-    rubycas-client (2.3.9)
-      activesupport
     rufus-scheduler (3.0.9)
       tzinfo
     sass (3.2.19)
@@ -111,7 +116,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    tzinfo (0.3.42)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
     uglifier (2.6.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -120,18 +126,18 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  best_in_place!
+  best_in_place (~> 3.0.1)
   bootstrap-sass (~> 3.2.0)
   dropbox-sdk
-  friendly_id (~> 4.0.1)
+  friendly_id (~> 5.0.0)
   git
   hashids
   jquery-rails
   kramdown
   protected_attributes
-  rails (~> 4.0.3)
+  rails (~> 4.1.0)
   rails-settings-cached (= 0.3.1)
-  rubycas-client
+  rubycas-client!
   rufus-scheduler
   sass-rails (~> 4.0.0)
   sdoc

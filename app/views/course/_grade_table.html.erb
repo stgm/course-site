@@ -32,7 +32,7 @@
 	<% subs = user.submits.group_by(&:pset_id); submitted = false %>
 	<tr>
 		<td>
-			<%= best_in_place user, :name, type: :input, path: course_change_user_name_path(id: user.id) %>
+			<%= best_in_place user, :name, as: :input, url: course_change_user_name_path(id: user.id) %>
 		</td>
 		<td>
 			<% if user.mail %>
@@ -43,7 +43,7 @@
 		</td>
 		<% if schedules.any? %>
 		<td>
-			<%= best_in_place user, :schedule_id, type: :select, path: user_path(id: user.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
+			<%= best_in_place user, :schedule_id, as: :select, url: user_path(id: user.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
 		</td>
 		<td>
 			<%= x = user.schedule_span and x.name %>
@@ -63,8 +63,8 @@
 			<% end %>
 		</td>
 		<% end %>
-		<td><%= best_in_place user, :term  , type: :input, path: user_path(id: user.id) %></td>
-		<td><%= best_in_place user, :status, type: :input, path: user_path(id: user.id) %></td>
+		<td><%= best_in_place user, :term  , as: :input, url: user_path(id: user.id) %></td>
+		<td><%= best_in_place user, :status, as: :input, url: user_path(id: user.id) %></td>
 	</tr>
 	<% end %>
 

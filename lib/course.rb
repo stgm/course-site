@@ -143,6 +143,7 @@ private
 		# info should be a subdir of the root course dir and contain markdown files
 		info_dir = File.join(dir, 'info')
 		if File.exist?(info_dir)
+			Rails.logger.info "HUH #{Page}"
 			info_page = Page.create(:title => Settings.long_course_name, :position => 0, :path => 'info')
 			process_subpages(info_dir, info_page)
 		end
