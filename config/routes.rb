@@ -85,7 +85,7 @@ Rails.application.routes.draw do
 	post "page/next_in_schedule"
 	
 	# api
-	get "api/reload"
+	post "api/reload"
 	
 	resource :user
 	
