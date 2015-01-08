@@ -8,7 +8,7 @@ class GradesController < ApplicationController
 		@pset = Pset.find(params[:pset_id])
 		@submit = Submit.where(pset_id: params[:pset_id], user_id: params[:user_id]).first
 		@grade = (@submit && @submit.grade) || Grade.new
-		@grades = Grade.includes(:submit).where('submits.user_id = ?', @user.id).order('grades.created_at desc')
+		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('grades.created_at desc')
 		render layout:'full_width'
 	end
 	
