@@ -1,4 +1,4 @@
-require 'lib/cas.rb'
+require '/lib/cas.rb'
 
 CASClient::Frameworks::Rails::Filter.configure(
 	cas_base_url: Cas.base_url,
