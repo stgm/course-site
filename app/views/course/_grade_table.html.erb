@@ -26,6 +26,7 @@
 						onchange: 'this.form.submit();' %>
 			</form>
 		</th>
+		<th>Active?</th>
 	</tr>
 
 	<% users.each do |user| %>
@@ -65,6 +66,7 @@
 		<% end %>
 		<td><%= best_in_place user, :term  , as: :input, url: user_path(id: user.id) %></td>
 		<td><%= best_in_place user, :status, as: :input, url: user_path(id: user.id) %></td>
+		<td><%= best_in_place user, :active, as: :checkbox, url: user_path(id: user.id) %></td>
 	</tr>
 	<% end %>
 

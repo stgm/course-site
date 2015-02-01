@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
 	
 	attr_accessible :avatar, :mail, :name, :uvanetid
-
+	attr_accessible :term, :status, :schedule_id, :schedule_span_id, :active
+	
 	belongs_to :group
 
 	has_many :submits
@@ -30,8 +31,6 @@ class User < ActiveRecord::Base
 	belongs_to :schedule
 	belongs_to :schedule_span
 
-	attr_accessible :term, :status, :schedule_id, :schedule_span_id
-	
 	# ensure that if a schedule is selected, a valid schedule_span is also present
 	before_save do |r|
 		if r.schedule.present?
