@@ -14,7 +14,7 @@
 	<div class="tab-content">
 		<% Group.order(:name).all.each_with_index do |group,i| %>
 		<section class="tab-pane <%= 'active' if i==0 %>" id="group<%= i %>">
-			<%= render partial: 'grade_table', locals: { users: group.users.where(active:true, done:false).order(:name), psets: @psets, schedules: Schedule.all } %>
+			<%= render partial: 'grade_table', locals: { users: group.users.order(:name), psets: @psets, schedules: Schedule.all } %>
 		</section>
 		<% end %>
 		<section class="tab-pane <%= 'active' if Group.count == 0 %>" id="other">
