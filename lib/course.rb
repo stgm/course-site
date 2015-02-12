@@ -1,4 +1,5 @@
 require 'course_git'
+require 'course_tools'
 
 module Course
 	
@@ -64,7 +65,7 @@ module Course
 		load_course_info(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
-		clean_psets
+		CourseTools.clean_psets
 	end
 		
 private
@@ -80,22 +81,6 @@ private
 	
 	def Course.update_repo(dir)
 		CourseGit.pull
-	end
-	
-	#
-	#
-	# Walks all psets named in course.yml and ranks them in the database
-	
-	def Course.clean_psets
-		if Settings['psets']
-			counter = 1
-			Settings['psets'].each do |pset|
-				if p = Pset.find_by(name:pset)
-					p.update_attribute(:order,counter)
-					counter += 1
-				end
-			end
-		end
 	end
 	
 	#

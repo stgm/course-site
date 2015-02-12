@@ -5,7 +5,7 @@ class Pset < ActiveRecord::Base
 	has_many :pset_files
 	has_many :submits
 
-	attr_accessible :description, :name, :form, :message
+	attr_accessible :description, :name, :form, :message, :weight, :order
 	
 	def submit_from(user)
 		Submit.where(:user_id => user.id, :pset_id => id).first

@@ -10,6 +10,7 @@
 		<% psets.each do |pset| %>
 		<th class="rotate"><div><%= pset.name %></div></th>
 		<% end %>
+		<th class="rotate">final</th>
 		<th>
 			<form method="get" accept-charset="utf-8">
 				<%= select_tag :term, 
@@ -26,7 +27,7 @@
 						onchange: 'this.form.submit();' %>
 			</form>
 		</th>
-		<th>Active?</th>
+		<th class="rotate">Active?</th>
 	</tr>
 
 	<% users.each do |user| %>
@@ -50,12 +51,16 @@
 			<%= x = user.schedule_span and x.name %>
 		</td>
 		<% end %>
+			<% grade = 0; weight = 0 %>
 		<% psets.each do |pset| %>
 		<td>
 			<% if subs[pset.id] %>
 				<% submitted = subs[pset.id][0] %>
 				<% if submitted.grade and not submitted.grade.grade.blank? %>
 				<%= link_to "#{submitted.grade.grade}", grade_form_path(user_id: user.id, pset_id: pset.id), class: "btn btn-xs btn-block #{0 <= submitted.grade.grade && submitted.grade.grade < 5.5 ? 'btn-danger':'btn-success'}" %>
+				<% if pset.weight
+					grade += submitted.grade.grade; weight += pset.weight
+					end %>
 				<% else %>
 				<%= link_to 'sub', grade_form_path(user_id: user.id, pset_id: pset.id), class: 'btn btn-default btn-xs btn-block' %>
 				<% end %>
@@ -64,6 +69,9 @@
 			<% end %>
 		</td>
 		<% end %>
+		<td>
+			<%= 1.0 * grade / weight %>
+		</td>
 		<td><%= best_in_place user, :term  , as: :input, url: user_path(id: user.id) %></td>
 		<td><%= best_in_place user, :status, as: :input, url: user_path(id: user.id) %></td>
 		<td><%= best_in_place user, :active, as: :checkbox, url: user_path(id: user.id) %></td>

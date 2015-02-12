@@ -67,6 +67,10 @@ class User < ActiveRecord::Base
 		return assistants && assistants.include?(self.uvanetid)
 	end
 	
+	def final_grade
+		'N/A'
+	end
+	
 	def generate_token!
 		self.token = SecureRandom.hex(16)
 		self.save
