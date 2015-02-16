@@ -26,6 +26,25 @@ class CourseTools
 				end
 			end
 		end
+		
+		if Settings['grading']
+			Settings['grading'].each do |type, definition|
+				if type == 'calculation'
+					#
+				else
+					definition['grades'].each do |grade,weigth|
+						p = Pset.where(name: grade).first_or_create
+						p.update_attribute(:order, counter)
+						Rails.logger.info definition['type']
+						p.update_attribute(:grade_type, definition['type'])
+						counter += 1
+					end
+				end
+			end
+			p = Pset.where(name: 'final').first_or_create
+			p.update_attribute(:order, counter)
+			p.update_attribute(:grade_type, :float)
+		end
 
 	end
 	

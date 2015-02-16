@@ -34,7 +34,7 @@ module Course
 		load_course_info(COURSE_DIR)
 		process_info(COURSE_DIR)
 		process_sections(COURSE_DIR)
-		clean_psets
+		CourseTools.clean_psets
 	end
 
 	#
@@ -101,6 +101,11 @@ private
 			Settings['psets'] = config['psets'] if config['psets']
 		
 			load_schedules(File.join(dir, 'schedules'))
+		end
+
+		grading = Course.read_config(File.join(dir, 'grading.yml'))
+		if grading
+			Settings['grading'] = grading
 		end
 	end
 	
