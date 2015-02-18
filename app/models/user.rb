@@ -76,7 +76,8 @@ class User < ActiveRecord::Base
 		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0].grade }
 		final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
 		final.create_grade if !final.grade
-		final.grade.update_attribute(:grade, GradeTools.new.calc_final_grade(subs))
+		grade = GradeTools.new.calc_final_grade(subs)
+		final.grade.update_attribute(:grade, grade) if grade > 0
 	end
 	
 	def generate_token!
