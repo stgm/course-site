@@ -37,7 +37,7 @@ class GradeTools
 		total_weight = 0
 		
 		@grading[subtype]['grades'].each do |grade, weight|
-			return 0 if subs[grade].nil?
+			return 0 if subs[grade].nil? or subs[grade] == 0
 			total += subs[grade] * weight
 			total_weight += weight
 		end
