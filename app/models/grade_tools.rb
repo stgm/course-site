@@ -27,7 +27,13 @@ class GradeTools
 			total_weight += weight
 		end
 		
-		return (1.0 * total / total_weight).round(1)
+		return uva_round(total.to_f / total_weight.to_f)
+	end
+	
+	def uva_round(grade)
+		return 5 if grade >= 4.75 && grade < 5.5
+		return 6 if grade >= 5.5 && grade < 6.25
+		return (2.0 * grade).round(0) / 2.0
 	end
 	
 	def calc_final_grade_subtype(subs, subtype)
