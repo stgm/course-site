@@ -13,8 +13,8 @@
 		<th>
 			<form method="get" accept-charset="utf-8">
 				<%= select_tag :term, 
-						options_from_collection_for_select(User.select("distinct term"), :term, :term, selected:params[:term]),
-						onchange: 'this.form.submit();' %>
+				options_from_collection_for_select(User.select("distinct term"), :term, :term, selected:params[:term]),
+				onchange: 'this.form.submit();' %>
 				<%= hidden_field_tag "status", params[:status] %>
 			</form>
 		</th>
@@ -22,19 +22,19 @@
 			<form method="get" accept-charset="utf-8">
 				<%= hidden_field_tag "term", params[:term] %>
 				<%= select_tag :status, 
-						options_from_collection_for_select(User.select("distinct status"), :status, :status, selected:params[:status]),
-						onchange: 'this.form.submit();' %>
+				options_from_collection_for_select(User.select("distinct status"), :status, :status, selected:params[:status]),
+				onchange: 'this.form.submit();' %>
 			</form>
 		</th>
 		<th class="rotate">Active?</th>
 	</tr>
 
 	<% users.each do |user| %>
-	<% subs = user.submits.group_by(&:pset_id); submitted = false %>
 	<tr>
 		<td>
 			<%= best_in_place user, :name, as: :input, url: course_change_user_name_path(id: user.id) %>
 		</td>
+
 		<td>
 			<% if user.mail %>
 			<%= link_to user.uvanetid, 'mailto:' + user.mail %>
@@ -42,6 +42,7 @@
 			<%= user.uvanetid %>
 			<% end %>
 		</td>
+
 		<% if schedules.any? %>
 		<td>
 			<%= best_in_place user, :schedule_id, as: :select, url: user_path(id: user.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
@@ -50,23 +51,13 @@
 			<%= x = user.schedule_span and x.name %>
 		</td>
 		<% end %>
-			<% grade = 0; weight = 0 %>
+
 		<% psets.each do |pset| %>
 		<td>
-			<% if subs[pset.id] %>
-				<% submitted = subs[pset.id][0] %>
-				<% if submitted.grade and not submitted.grade.grade.blank? %>
-				<% grade = submitted.grade.grade %>
-				<% grade = (grade / 10.0).round(1) if pset.grade_type == 'float' %>
-				<%= link_to "#{grade}", grade_form_path(user_id: user.id, pset_id: pset.id), class: "btn btn-xs btn-block #{0 <= grade && grade < 5.5 ? 'btn-danger':'btn-success'}" %>
-				<% else %>
-				<%= link_to 'sub', grade_form_path(user_id: user.id, pset_id: pset.id), class: 'btn btn-default btn-xs btn-block' %>
-				<% end %>
-			<% else %>
-				<%= link_to 'no', grade_form_path(user_id: user.id, pset_id: pset.id), class:'btn btn-default btn-xs btn-block auto-hide', data: { confirm:'Would you like to enter a grade for this unsubmitted pset?' } %>
-			<% end %>
+			<%= grade_button(user, pset)%>
 		</td>
 		<% end %>
+
 		<td><%= best_in_place user, :term  , as: :input, url: user_path(id: user.id) %></td>
 		<td><%= best_in_place user, :status, as: :input, url: user_path(id: user.id) %></td>
 		<td><%= best_in_place user, :active, as: :checkbox, url: user_path(id: user.id) %></td>

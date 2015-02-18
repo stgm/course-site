@@ -71,6 +71,13 @@ class User < ActiveRecord::Base
 		'N/A'
 	end
 	
+	def assign_final_grade
+		subs = self.submits.group_by { |i| i.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0].grade.grade }
+		final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
+		final.create_grade if !final.grade
+		final.grade.update_attribute(:grade, GradeTools.new.calc_final_grade(subs))
+	end
+	
 	def generate_token!
 		self.token = SecureRandom.hex(16)
 		self.save

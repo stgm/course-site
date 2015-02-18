@@ -7,4 +7,8 @@ class Submit < ActiveRecord::Base
 
 	attr_accessible :submitted_at, :url
 
+	def graded?
+		return (self.grade && !self.grade.grade.blank?)
+	end
+
 end

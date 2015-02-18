@@ -92,7 +92,7 @@
 					<div class="form-group">
 						<div class="input-group">
 							<div class="input-group-addon"><%= f.label :correctness, '==' %></div>
-							<%= f.text_field :grade, class: 'form-control' %>
+							<%= f.text_field :grade, class: 'form-control', value: @grade.grade %>
 <span class="input-group-btn">
       								<button class="btn btn-default" type="button" id="pass-btn">P</button>
 								<button class="btn btn-default" type="button" id="fail-btn">F</button>
