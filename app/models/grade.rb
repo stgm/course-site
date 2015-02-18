@@ -8,7 +8,8 @@ class Grade < ActiveRecord::Base
 	
 	def grade
 		g = (read_attribute(:grade)/10.0).round(1)
-
+		return nil if !g
+		
 		case pset.grade_type
 		when 'float'
 			return g
