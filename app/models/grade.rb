@@ -7,8 +7,9 @@ class Grade < ActiveRecord::Base
 	attr_accessible :comments, :correctness, :design, :grade, :grader, :scope, :style
 	
 	def grade
-		g = (read_attribute(:grade)/10.0).round(1)
+		g = read_attribute(:grade)
 		return nil if !g
+		g = (g/10.0).round(1)
 		
 		case pset.grade_type
 		when 'float'
