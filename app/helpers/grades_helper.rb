@@ -27,7 +27,7 @@ module GradesHelper
 			'btn-success'
 		when "P"
 			'btn-success'
-		when "--"
+		when "--", "S"
 			'btn-default'
 		else
 			'btn-danger'
