@@ -25,12 +25,14 @@ module GradesHelper
 		case grade
 		when 5.5..10.0
 			'btn-success'
+		when 0
+			'btn-danger'
 		when "P"
 			'btn-success'
 		when "--", "S"
 			'btn-default'
 		else
-			'btn-danger'
+			'btn-warning'
 		end
 	end
 	
