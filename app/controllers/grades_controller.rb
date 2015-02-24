@@ -17,8 +17,8 @@ class GradesController < ApplicationController
 		if @submit.grade
 			@submit.grade.update_attributes(params[:grade])
 		else
-			@submit.create_grade(params[:grade])
-			@submit.grade.update_attribute(:grader, current_user.uvanetid)
+			@submit.create_grade
+			@submit.grade.update_attributes(params[:grade].merge(grader: current_user.uvanetid))
 		end
 		redirect_to params[:referer]
 	end

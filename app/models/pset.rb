@@ -5,7 +5,7 @@ class Pset < ActiveRecord::Base
 	has_many :pset_files
 	has_many :submits
 	
-	enum grade_type: [:integer, :float, :pass]
+	enum grade_type: [:integer, :float, :pass, :percentage]
 
 	attr_accessible :description, :name, :form, :message, :weight, :order
 	

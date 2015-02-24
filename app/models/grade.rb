@@ -11,7 +11,7 @@ class Grade < ActiveRecord::Base
 		return nil if !g
 		g = (g/10.0).round(1)
 		
-		case pset.grade_type
+		case self.pset.grade_type
 		when 'float'
 			return g
 		else # integer, pass
@@ -21,7 +21,7 @@ class Grade < ActiveRecord::Base
 	
 	def grade=(new_grade)
 		new_grade.sub!(/,/,'.') if new_grade.class == String
-		case pset.grade_type
+		case self.pset.grade_type
 		when 'float'
 			super(10.0 * new_grade.to_f)
 		else # integer, pass

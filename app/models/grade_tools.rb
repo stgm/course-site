@@ -37,18 +37,40 @@ class GradeTools
 	end
 	
 	def calc_final_grade_subtype(subs, subtype)
+		puts subtype
 		return 0 if !@grading[subtype]['grades']
 
 		total = 0
 		total_weight = 0
 		
-		@grading[subtype]['grades'].each do |grade, weight|
-			return 0 if subs[grade].nil? or subs[grade] == 0
-			total += subs[grade] * weight
-			total_weight += weight
+		case @grading[subtype]['type']
+		when 'pass'
+			allow_drop = @grading[subtype]['drop'] == 'any' ? 1 : 0
+			@grading[subtype]['grades'].each do |grade, weight|
+				return 0 if subs[grade].nil?
+				return 0 if @grading[subtype]['required'] == true && subs[grade] == 0
+				puts subs[grade]
+				if subs[grade] == 0 && allow_drop >= 1
+					puts 'drop'
+					allow_drop -= 1
+				else
+					total += weight if subs[grade] < 0
+					total_weight += weight
+				end
+			end
+			puts (1.0 + 9.0 * total / total_weight).round(1)
+			return (1.0 + 9.0 * total / total_weight).round(1)
+		when 'percentage'
+			#
+		else
+			@grading[subtype]['grades'].each do |grade, weight|
+				return 0 if subs[grade].nil? or subs[grade] == 0
+				total += subs[grade] * weight
+				total_weight += weight
+			end
+			puts (1.0 * total / total_weight).round(1)
+			return (1.0 * total / total_weight).round(1)
 		end
-		
-		return (1.0 * total / total_weight).round(1)
 	end
 
 end
