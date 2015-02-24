@@ -23,7 +23,7 @@ module GradesHelper
 	
 	def grade_button_type(grade)
 		case grade
-		when 5.5..10.0
+		when -1, 5.5..10.0
 			'btn-success'
 		when 0
 			'btn-danger'
