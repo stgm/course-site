@@ -48,13 +48,14 @@ class GradeTools
 			allow_drop = @grading[subtype]['drop'] == 'any' ? 1 : 0
 			@grading[subtype]['grades'].each do |grade, weight|
 				return 0 if subs[grade].nil?
-				return 0 if @grading[subtype]['required'] == true && subs[grade] == 0
-				puts subs[grade]
-				if subs[grade] == 0 && allow_drop >= 1
+				# puts subs[grade].inspect
+				# puts subs[grade][0]
+				return 0 if @grading[subtype]['required'] == true && subs[grade].grade == 0
+				if subs[grade].grade == 0 && allow_drop >= 1
 					puts 'drop'
 					allow_drop -= 1
 				else
-					total += weight if subs[grade] < 0
+					total += weight if subs[grade].grade < 0
 					total_weight += weight
 				end
 			end
@@ -63,14 +64,22 @@ class GradeTools
 		when 'percentage'
 			#
 		else
+			droppable_grade = nil
+			if allow_drop = @grading[subtype]['drop'] == 'scope' ? 1 : 0
+				droppable_grade = User.first.grades.joins(:pset).where('psets.name in (?) and grades.correctness >= 2', Settings['grading']['psets']['grades'].keys).order('grade asc').first
+			end
+			
 			@grading[subtype]['grades'].each do |grade, weight|
-				return 0 if subs[grade].nil? or subs[grade] == 0
-				total += subs[grade] * weight
-				total_weight += weight
+				return 0 if subs[grade].nil? or subs[grade].grade == 0
+				if subs[grade] != droppable_grade
+					puts "count: #{subs[grade].inspect}"
+					total += subs[grade].grade * weight
+					total_weight += weight
+				end
 			end
 			puts (1.0 * total / total_weight).round(1)
 			return (1.0 * total / total_weight).round(1)
 		end
 	end
-
+	
 end

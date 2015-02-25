@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def assign_final_grade
-		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0].grade }
+		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
 		grade = GradeTools.new.calc_final_grade(subs)
 		if grade > 0
 			final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
