@@ -65,7 +65,7 @@ class GradeTools
 			#
 		else
 			droppable_grade = nil
-			if allow_drop = @grading[subtype]['drop'] == 'scope' ? 1 : 0
+			if allow_drop = @grading[subtype]['drop'] == 'correctness' ? 1 : 0
 				droppable_grade = User.first.grades.joins(:pset).where('psets.name in (?) and grades.correctness >= 2', Settings['grading']['psets']['grades'].keys).order('grade asc').first
 			end
 			
