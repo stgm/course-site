@@ -25,6 +25,10 @@ class CourseController < ApplicationController
 		redirect_to :back
 	end
 	
+	def assign_final_grade
+		User.find(params[:id]).assign_final_grade
+	end
+	
 	def change_user_name
 		User.find(params[:id]).update_attributes(params[:user])
 		render json:true

@@ -61,6 +61,7 @@ Rails.application.routes.draw do
 	post "course/add_student"
 	post "course/remove_student"
 	put  "course/change_user_name"
+	put  "course/assign_final_grade"
 
 	# grading overview
 	get  "grading" => "grading#index"
