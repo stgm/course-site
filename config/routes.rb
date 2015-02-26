@@ -51,8 +51,10 @@ Rails.application.routes.draw do
 	end
 
 	# course management
-	get  "course/grades"
-	get  "course/grades/:track" => "course#track_grades"
+	get  "course/grades/admins"  , to: "course#grades_for_admins"
+	get  "course/grades/other"   , to: "course#grades_for_other"
+	get  "course/grades/inactive", to: "course#grades_for_inactive"
+	get  "course/grades(/:group)", to: "course#grades_for_group", as: 'course_grades'
 	post "course/touch_submit"
 	post "course/toggle_public_grades"
 	post "course/toggle_grading_allowed"

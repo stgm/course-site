@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
 	scope :admin,     -> { where("uvanetid in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
 	scope :not_admin, -> { where("uvanetid not in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
 	scope :active,    -> { where(active: true) }
+	scope :inactive,  -> { where(active: false) }
 	scope :no_group,  -> { where(group_id: nil) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	

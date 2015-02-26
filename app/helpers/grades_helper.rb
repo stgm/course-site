@@ -7,8 +7,7 @@ module GradesHelper
 		return grade.to_s
 	end
 	
-	def grade_button(user, pset)
-		subs = user.submits.group_by(&:pset_id)
+	def grade_button(user, pset, subs)
 		if subs[pset.id]
 			submitted = subs[pset.id][0]
 			if submitted.graded?

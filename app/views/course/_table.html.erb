@@ -52,9 +52,10 @@
 		</td>
 		<% end %>
 
+		<% subs = user.submits.includes(:grade).all.group_by(&:pset_id) %>
 		<% psets.each do |pset| %>
 		<td>
-			<%= grade_button(user, pset)%>
+			<%= grade_button(user, pset, subs)%>
 		</td>
 		<% end %>
 

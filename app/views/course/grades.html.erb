@@ -1,0 +1,34 @@
+<div id="content">
+	
+	<header class="page-header">
+		<h1>Students</h1>
+		<%= render partial: 'tabs' %>
+	</header>
+
+	<div class="tab-content">
+		<section class="tab-pane active">
+			<%= render partial: 'table', locals: { users: @users.order(:name), psets: @psets, schedules: Schedule.all } %>
+		</section>
+	</div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('.best_in_place').best_in_place()
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	function add_student(track_id)
+	{
+		x = prompt("Student id?");
+		if(x)
+		{
+			$.post("/course/add_student", { track_id: track_id, student_id: x },
+				function()
+				{
+					location.reload();
+				}
+			);
+		}
+	}
+</script>

@@ -37,15 +37,48 @@ class CourseController < ApplicationController
 	#
 	# list all submits
 	#
-	def grades
-		# if tracks have NOT been defined in course.yml
-		@users = User
-		@users = @users.active if !params[:active]
-		@groupless = @users.no_group.not_admin.order(:name)
-		@admins = User.admin.order(:name)
-		@psets = Pset.order(:order)
+	def grades_for_group
+		if params[:group].present?
+			@users = Group.find_by_name(params[:group]).users
+		else
+			@users = Group.order(:name).first.users
+		end
+		@psets = Pset.order(:order).all
+		@groupless_count = User.active.no_group.not_admin.count
+		@admin_count = User.admin.order(:name).count
+		@inactive_count = User.inactive.not_admin.count
 		@title = 'List users'
-		render 'grades_groups', layout:'full_width'
+		render 'grades', layout:'full_width'
+	end
+	
+	def grades_for_inactive
+		@users = User.inactive.not_admin.order(:name)
+		@psets = Pset.order(:order)
+		@groupless_count = User.active.no_group.not_admin.count
+		@admin_count = User.admin.order(:name).count
+		@inactive_count = User.inactive.not_admin.count
+		@title = 'List users'
+		render 'grades', layout:'full_width'
+	end
+	
+	def grades_for_other
+		@users = User.active.no_group.not_admin.order(:name)
+		@psets = Pset.order(:order)
+		@groupless_count = User.active.no_group.not_admin.count
+		@admin_count = User.admin.order(:name).count
+		@inactive_count = User.inactive.not_admin.count
+		@title = 'List users'
+		render 'grades', layout:'full_width'
+	end
+	
+	def grades_for_admins
+		@users = User.admin.order(:name)
+		@psets = Pset.order(:order)
+		@groupless_count = User.active.no_group.not_admin.count
+		@admin_count = User.admin.order(:name).count
+		@inactive_count = User.inactive.not_admin.count
+		@title = 'List users'
+		render 'grades', layout:'full_width'
 	end
 	
 	def toggle_public_grades
