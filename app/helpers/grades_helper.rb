@@ -11,12 +11,21 @@ module GradesHelper
 		if subs[pset.id]
 			submitted = subs[pset.id][0]
 			if submitted.graded?
-				grade_button_html(user.id, pset.id, submitted.grade.grade)
+				grade_button_html(user.id, pset.id, format_grade(submitted.grade.grade, pset.grade_type))
 			else
 				grade_button_html(user.id, pset.id, 'S')
 			end
 		else
 			grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
+		end
+	end
+	
+	def format_grade(grade, type)
+		case type
+		when 'float'
+			return grade
+		else # integer, pass
+			return grade.to_i
 		end
 	end
 	

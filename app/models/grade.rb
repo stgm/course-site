@@ -10,13 +10,7 @@ class Grade < ActiveRecord::Base
 		g = read_attribute(:grade)
 		return nil if !g
 		g = (g/10.0).round(1)
-		
-		case self.pset.grade_type
-		when 'float'
-			return g
-		else # integer, pass
-			return g.to_i
-		end
+		return g
 	end
 	
 	def grade=(new_grade)
@@ -27,7 +21,6 @@ class Grade < ActiveRecord::Base
 		else # integer, pass
 			super(10.0 * new_grade.to_i)
 		end
-
 	end
 	
 	def grader_name
