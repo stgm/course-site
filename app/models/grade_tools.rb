@@ -37,7 +37,6 @@ class GradeTools
 	end
 	
 	def calc_final_grade_subtype(subs, subtype)
-		puts subtype
 		return 0 if !@grading[subtype]['grades']
 
 		total = 0
@@ -48,36 +47,31 @@ class GradeTools
 			allow_drop = @grading[subtype]['drop'] == 'any' ? 1 : 0
 			@grading[subtype]['grades'].each do |grade, weight|
 				return 0 if subs[grade].nil?
-				# puts subs[grade].inspect
-				# puts subs[grade][0]
 				return 0 if @grading[subtype]['required'] == true && subs[grade].grade == 0
 				if subs[grade].grade == 0 && allow_drop >= 1
-					puts 'drop'
 					allow_drop -= 1
 				else
 					total += weight if subs[grade].grade < 0
 					total_weight += weight
 				end
 			end
-			puts (1.0 + 9.0 * total / total_weight).round(1)
 			return (1.0 + 9.0 * total / total_weight).round(1)
 		when 'percentage'
 			#
 		else
 			droppable_grade = nil
 			if allow_drop = @grading[subtype]['drop'] == 'correctness' ? 1 : 0
-				droppable_grade = User.first.grades.joins(:pset).where('psets.name in (?) and grades.correctness >= 2', Settings['grading']['psets']['grades'].keys).order('grade asc').first
+				# droppable_grade = User.first.grades.joins(:pset).where('psets.name in (?) and grades.correctness >= 2', Settings['grading']['psets']['grades'].keys).order('grade asc').first
+				droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc').first
 			end
 			
 			@grading[subtype]['grades'].each do |grade, weight|
 				return 0 if subs[grade].nil? or subs[grade].grade == 0
 				if subs[grade] != droppable_grade
-					puts "count: #{subs[grade].inspect}"
 					total += subs[grade].grade * weight
 					total_weight += weight
 				end
 			end
-			puts (1.0 * total / total_weight).round(1)
 			return (1.0 * total / total_weight).round(1)
 		end
 	end
