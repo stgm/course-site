@@ -1,3 +1,6 @@
+<p>Gestart: <%= @gestart %></p>
+<p>Gehaald: <%= @gehaald %></p>
+
 <% @terms.each do |term| %>
 	<h4><%= term.term %></h4>
 		<% statuses = User.select("distinct status").where(term:term.term) %>

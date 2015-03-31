@@ -17,6 +17,10 @@ class AdminController < ApplicationController
 	
 	def stats
 		# needs tracksssss
+		@gestart = User.joins(:submits).uniq.count
+		final = Pset.find_by_name('final')
+		@gehaald = User.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
+		logger.debug @gehaald.inspect
 		@terms = User.select("distinct term")
 		render layout:nil
 	end
