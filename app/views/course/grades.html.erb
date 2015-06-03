@@ -7,7 +7,7 @@
 
 	<div class="tab-content">
 		<section class="tab-pane active">
-			<%= render partial: 'table', locals: { users: @users.order(:name), psets: @psets, schedules: Schedule.all } %>
+			<%= render partial: 'table', locals: { users: @users, psets: @psets, schedules: Schedule.all } %>
 		</section>
 	</div>
 

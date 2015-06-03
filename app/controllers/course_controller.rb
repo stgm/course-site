@@ -39,10 +39,10 @@ class CourseController < ApplicationController
 	#
 	def grades_for_group
 		if params[:group].present?
-			@users = Group.find_by_name(params[:group]).users.includes(:submits => [:pset, :grade])
+			@users = Group.find_by_name(params[:group]).users.includes(:submits => [:pset, :grade]).order(:name)
 		else
 			if Group.count > 0
-				@users = Group.order(:name).first.users
+				@users = Group.order(:name).first.users.order(:name)]
 			end
 		end
 		@psets = Pset.order(:order).all
