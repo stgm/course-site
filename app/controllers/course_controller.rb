@@ -41,7 +41,9 @@ class CourseController < ApplicationController
 		if params[:group].present?
 			@users = Group.find_by_name(params[:group]).users.includes(:submits => [:pset, :grade])
 		else
-			@users = Group.order(:name).first.users
+			if Group.count > 0
+				@users = Group.order(:name).first.users
+			end
 		end
 		@psets = Pset.order(:order).all
 		@groupless_count = User.active.no_group.not_admin.count
