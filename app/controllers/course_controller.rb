@@ -42,7 +42,7 @@ class CourseController < ApplicationController
 			@users = Group.find_by_name(params[:group]).users.includes(:submits => [:pset, :grade]).order(:name)
 		else
 			if Group.count > 0
-				@users = Group.order(:name).first.users.order(:name)]
+				@users = Group.order(:name).first.users.order(:name)
 			end
 		end
 		@psets = Pset.order(:order).all
