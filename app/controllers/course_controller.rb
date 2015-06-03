@@ -43,6 +43,8 @@ class CourseController < ApplicationController
 		else
 			if Group.count > 0
 				@users = Group.order(:name).first.users.order(:name)
+			else
+				@users = User.active.no_group.not_admin.order(:name)
 			end
 		end
 		@psets = Pset.order(:order).all
