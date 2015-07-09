@@ -9,7 +9,7 @@ class GradeMailer < ActionMailer::Base
 		@grade_name = grade.pset.name
 		@feedback = grade.comments
 		@grade = grade.grade
-		
+		Rails.logger.info ENV["MAILER_ADDRESS"]
 		mail(to: grade.user.mail, subject: "Feedback for #{Settings.short_course_name}")
 	end
 	
