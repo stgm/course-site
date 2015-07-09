@@ -137,8 +137,15 @@ body
 
 #content
 {
-	background-color:white;
+	sbackground-color:white;
+	spadding:2em 2em;
+}
+
+#content section, header
+{
 	padding:2em 2em;
+	background-color:white;
+	margin-bottom:1.5em;
 }
 
 #content:nth-child(2)
@@ -197,7 +204,12 @@ section p, section ul, section ol, section blockquote
 	font-weight:normal;
 }
 
-section h1
+.page-header
+{
+	margin:0;
+}
+
+h1
 {
 	font-size:26px;
 }
