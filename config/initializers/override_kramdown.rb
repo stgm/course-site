@@ -41,9 +41,9 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# simply abuse the kramdown math markers, transform 
 	# them to ASCIImath.js markers
 	#
-	def convert_math(el, indent)
-		"`#{el.value}`"
-	end
+	# def convert_math(el, indent)
+	# 	"`#{el.value}`"
+	# end
 	
 	##
 	# convert 'bold' text to kbd tag, which will display it as keyboard 
