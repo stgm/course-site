@@ -67,7 +67,7 @@ module Course
 		process_sections(COURSE_DIR)
 		CourseTools.clean_psets
 	end
-		
+
 private
 	
 	# TODO remove?
@@ -94,6 +94,7 @@ private
 				Settings['long_course_name'] = config['course']['title'] if config['course']['title']
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
 				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
+				Settings['mail_address'] = config['course']['mail'] if config['course']['mail']
 			end
 			Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
 			Settings['display_license'] = config['license'] if config['license']

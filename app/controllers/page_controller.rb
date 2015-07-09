@@ -12,12 +12,8 @@ class PageController < ApplicationController
 		redirect_to welcome_url and return if @page.nil?
 		
 		@has_form = @page.pset && @page.pset.form
-		
-		if current_user.valid_profile? && load_schedule
-			render :index_schedule, layout:'with_schedule'
-		else
-			render :index
-		end
+    
+    render :index
 	end
 	
 	def index
@@ -39,11 +35,7 @@ class PageController < ApplicationController
 			flash[:error] = "You are not in a group for this course. Please contact your instructor."
 		end
 		
-		if current_user.valid_profile? && load_schedule
-			render :index_schedule, layout:'with_schedule'
-		else
-			render :index
-		end
+		render :index
 	end
 	
 	def load_form_answers

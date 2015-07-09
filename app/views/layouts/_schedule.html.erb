@@ -1,0 +1,21 @@
+<div class="panel-group" id="accordion3" role="tablist" aria-multiselectable="true" style="margin:0">
+	<% for schedule in current_user.schedule.schedule_spans.each %>
+	<div class="panel panel-default" style="border:0; border-radius:0">
+		<div class="panel-heading" role="tab" id="heading<%= schedule.name.gsub(/\s+/, "") %>"  style="border-radius:0">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion3" href="#collapse<%= schedule.name.gsub(/\s+/, "") %>" aria-expanded="true" aria-controls="collapse<%= schedule.name.gsub(/\s+/, "") %>">
+					<%= schedule.name %>
+				</a>
+			</h4>
+		</div>
+		<div id="collapse<%= schedule.name.gsub(/\s+/, "") %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= schedule.name.gsub(/\s+/, "") %>">
+			<div class="list-group">
+				<% schedule.content.delete('description')%>
+				<% schedule.content.each do |item, link|  %>
+				<%= link_to item.sub('[', '<span class="label label-info">').sub(']', '</span>').html_safe, link, class:'list-group-item' %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<% end %>
+</div>

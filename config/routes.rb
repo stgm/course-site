@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 	get  "profile/grades"
 	get  "profile/pair"
 	get  "profile/logout"
+	post "profile/ask"
 
 	# administrative
 	get  "admin" => "admin#index"

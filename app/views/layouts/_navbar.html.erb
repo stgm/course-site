@@ -1,57 +1,75 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-
-	<div class="navbar-header">
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a href="/" class="navbar-brand hidden-sm"><span class="glyphicon glyphicon-home"></span> <%= Settings.short_course_name %></a>
-	</div>
-
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav">
-			<% for section in @sections %>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= section.title %> <span class="caret"></span></a>
-				<ul class="dropdown-menu" role="menu">
-					<% for page in section.pages %>
-					<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}" %></li>
-					<% end %>
+			<li class="dropdown dropdown-accordion">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-time"></span></a>
+				<ul class="dropdown-menu" id="user-menu" style="min-width:300px; padding-top:0.25em">
+					<%= render 'layouts/schedule' %>
 				</ul>
-				<% end %>
+			</li>
+
+			<li class="dropdown dropdown-accordion">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list"></span></a>
+				<ul class="dropdown-menu" id="user-menu" style="min-width:300px; padding-top:0.25em">
+					<%= render 'layouts/materials' %>
+				</ul>
 			</li>
 		</ul>
-
-		<ul class="nav navbar-nav navbar-right">
+		<div class="navbar-header">
+			<a href="/" class="navbar-brand"><%= Settings.long_course_name %></a>
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+	</div>
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav navbar-right"  style="position: absolute; bottom:0; right:0;">
+			<% if Settings.mail_address && current_user.valid_profile? %>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-question-sign"></span> Ask</a>
+				<ul class="dropdown-menu" id="user-menu" style="min-width:300px;">
+					<%= render 'layouts/ama' %>
+				</ul>
+			</li>
+			<% end %>
 			<% if logged_in? %>
-				<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
-				<li class="divider-vertical"></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
-					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
-						<%= render 'layouts/menu' %>
-					</ul>
-				</li>
+			<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
+				<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
+					<%= render 'layouts/menu' %>
+				</ul>
+			</li>
 			<% else %>
-				<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
+			<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
 			<% end %>
 		</ul>
 	</div>
-
 </nav>
 
 <% if flash[:error] %>
-<div class="alert alert-danger">
+<div class="alert alert-danger alert-dismissible">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<%= flash[:error] %>
 </div>
 <% end %>
 
 <% if flash[:notice] %>
-<div class="alert alert-success">
+<div class="alert alert-success alert-dismissible">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<%= flash[:notice] %>
 </div>
 <% end %>
+
+<script>
+// Prevent dropdown to be closed when we click on an accordion link
+$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+	$($(this).data('parent')).find('.panel-collapse.in').collapse('hide');
+	$($(this).attr('href')).collapse('show');
+})
+</script>
