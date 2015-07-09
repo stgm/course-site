@@ -51,6 +51,11 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		format_as_span_html('kbd', el.attr, inner(el, indent))
 	end
 	
+	def convert_blockquote(el, opts)
+		el.attr['class'] = 'protip'
+        format_as_indented_block_html(el.type, el.attr, '<span class="glyphicon glyphicon-pushpin dropcap"></span>' + inner(el, indent), indent)
+	end
+	
 	private
 	
 	def cdn_url(source)
