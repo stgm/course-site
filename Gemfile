@@ -60,3 +60,6 @@ gem 'hashids'
 
 # remove assets logging in development mode
 gem 'quiet_assets', group: :development
+
+# for delayed mailers
+gem 'sucker_punch'

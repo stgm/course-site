@@ -43,7 +43,7 @@ class ProfileController < ApplicationController
 	end
 	
 	def ask
-		AskMailer.ask_me_anything(current_user, params['question']).deliver_now
+		AskMailer.ask_me_anything(current_user, params['question']).deliver_later
 		flash[:notice] = "Your question has been received! Expect an answer sometime soon."
 		redirect_to :back
 	end
