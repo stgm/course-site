@@ -21,5 +21,7 @@ module CourseSite
 		# config.i18n.default_locale = :de
        
 		config.action_mailer.smtp_settings = { address: ENV["MAILER_ADDRESS"], domain: ENV["MAILER_DOMAIN"] }
+		config.active_job.queue_adapter = :sucker_punch
+		
 	end
 end
