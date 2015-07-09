@@ -18,6 +18,7 @@ module ApplicationHelper
 							   :parse_block_html => true,
 		                       :coderay_css => :class,
 		                       :coderay_tab_width => 4,
+							   :math_engine => nil,
 		                       :enable_coderay => true,
 		                       :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
@@ -31,6 +32,7 @@ module ApplicationHelper
 							   :parse_block_html => true,
 		                       :coderay_css => :class,
 		                       :coderay_tab_width => 4,
+							   :math_engine => nil,
 		                       :enable_coderay => true,
 		                       :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
