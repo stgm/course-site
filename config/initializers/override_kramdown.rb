@@ -14,6 +14,8 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	def convert_img(el, indent)
 		if el.attr['alt'] == 'videoplayer'
 			return "<video src='#{cdn_url(el.attr['src'])}' controls preload='none' class='video-js vjs-default-skin' data-setup='{}'>"
+		elsif el.attr['alt'] == 'embed'
+			return "<div style='margin-left:-2em;margin-right:-2em;'><div class='embed-responsive embed-responsive-16by9'><iframe class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
 		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end

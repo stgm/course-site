@@ -259,22 +259,22 @@ section ul p + p, section ol p + p
 section blockquote
 {
 	border:0;
-	background-color:#ddb294;
+	background-color:#ffcaa9;
 	padding:1em;
 	margin-top:2em;
 	margin-bottom:2em;
-	margin-left:-2.5em;
-	margin-right:-2.5em;
+	margin-left:-2em;
+	margin-right:-2em;
 }
 
 section blockquote:first-child
 {
-	margin-top:-1em;
+	margin-top:-2em;
 }
 
 section blockquote:last-child
 {
-	margin-bottom:-1em;
+	margin-bottom:-2em;
 }
 
 .dropcap
@@ -342,6 +342,8 @@ section .video-js
 	background-color:black;
 	height:480px !important; /* overrides html width + height */
 	width:auto !important;
+	margin-left:-2.5em;
+	margin-right:-2.5em;
 }
 
 section ul.checkboxes, section ul.radios, section ul.none
@@ -438,8 +440,14 @@ footer img
 	{
 		padding-top:0;
 		background-color:transparent ! important;
+		font-size:10pt ! important;
 	}
-
+	
+	section p, section ul, section ol, section blockquote
+	{
+		font-size:10pt;
+	}
+	
 	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe, #schedule-column, #comments-column
 	{
 		display:none;
@@ -458,9 +466,7 @@ footer img
 	#content, section
 	{
 		border:none;
-		font-size:10pt;
 		display:block;
-		font-size:8pt;
 	}
 
     section textarea
