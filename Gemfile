@@ -65,3 +65,4 @@ gem 'quiet_assets', group: :development
 gem 'sucker_punch'
 
 gem 'mathjax-rails'
+gem 'videojs_rails'
