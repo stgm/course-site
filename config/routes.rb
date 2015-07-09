@@ -93,6 +93,8 @@ Rails.application.routes.draw do
 	
 	resource :user
 	
+	mathjax 'mathjax'
+
 	# default route, for content pages
 	get  ":section/:page" => "page#index"
 

@@ -63,3 +63,5 @@ gem 'quiet_assets', group: :development
 
 # for delayed mailers
 gem 'sucker_punch'
+
+gem 'mathjax-rails'
