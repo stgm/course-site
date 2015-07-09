@@ -1,6 +1,6 @@
 <li role="presentation" class="dropdown-header" style="padding:2px 10px 0 10px;">Ask us anything.</li>
 <li class="dropdown-header"  style="padding:2px 10px 0 10px;">
-	<%= form_tag(controller: 'profile', action: 'ask', method: :post) do %>
+	<%= form_tag({controller: 'profile', action: 'ask'}, method: :post) do %>
 		<textarea name="question" class="form-control" rows="3" style="border:1px solid #ddd"></textarea>
 		<button type="submit" style="margin-top:0.5em;  margin-bottom:0.5em" class="btn btn-default btn-sm btn-block btn-danger">Send question</button>
 	<% end %>
