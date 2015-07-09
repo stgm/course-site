@@ -267,6 +267,16 @@ section blockquote
 	margin-right:-2.5em;
 }
 
+section blockquote:first-child
+{
+	margin-top:-1.75em;
+}
+
+section blockquote:last-child
+{
+	margin-bottom:-1.75em;
+}
+
 .dropcap
 {
     display: block;
