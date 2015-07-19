@@ -1,5 +1,14 @@
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<div class="navbar-header">
+			<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Settings.long_course_name %></a>
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
 		<ul class="nav navbar-nav">
 			<% if logged_in? && current_user.schedule && current_user.schedule.schedule_spans %>
 			<li class="dropdown dropdown-accordion">
@@ -11,21 +20,21 @@
 			<% end %>
 
 			<li class="dropdown dropdown-accordion">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list"></span></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-paperclip"></span></a>
 				<ul class="dropdown-menu" id="user-menu" style="min-width:300px; padding-top:0.25em">
 					<%= render 'layouts/materials' %>
 				</ul>
 			</li>
+
+			<% if logged_in? and @alerts.count > 0 %>
+			<li class="dropdown dropdown-accordion">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span><span class=""><%= @alerts.count %></span></a>
+				<ul class="dropdown-menu" id="user-menu" style="min-width:300px; padding-top:0.25em">
+					<%= render 'layouts/alerts' %>
+				</ul>
+			</li>
+			<% end %>
 		</ul>
-		<div class="navbar-header">
-			<a href="/" class="navbar-brand"><%= Settings.long_course_name %></a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-		</div>
 	</div>
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav navbar-right"  style="position: absolute; bottom:0; right:0;">

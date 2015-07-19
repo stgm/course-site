@@ -2,12 +2,18 @@ class ApplicationController < ActionController::Base
 
 	protect_from_forgery
 
-	before_filter :load_navigation
+	before_action :load_navigation
+	before_action :load_schedule
 
 	helper_method :current_user, :logged_in?
 	
 	def load_navigation
 		@sections = Section.includes(pages: :pset)
+	end
+	
+	def load_schedule
+		@schedule = current_user.schedule
+		@alerts = Alert.order("created_at desc")
 	end
 	
 	def logged_in?

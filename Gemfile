@@ -66,3 +66,5 @@ gem 'sucker_punch'
 
 gem 'mathjax-rails'
 gem 'videojs_rails'
+
+gem 'turbolinks'

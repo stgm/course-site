@@ -1,0 +1,5 @@
+<div class="list-group">
+	<% for alert in @alerts %>
+	<%= link_to "#{alert.title} <span class='badge'> #{time_ago_in_words(alert.created_at)} ago</span>".html_safe, "javascript:$('#popup').load('#{url_for(alert)}', function() {$('#alert-popup').modal()})", class:'list-group-item' %>
+	<% end %>
+</div>

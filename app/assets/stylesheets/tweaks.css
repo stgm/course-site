@@ -5,17 +5,17 @@ textarea#notes
 	-moz-box-sizing: border-box;
 }
 
-.panel-group .list-group {
+.navbar .list-group {
 	margin-bottom: 0;
 }
 
-.panel-group .list-group .list-group-item {
+.navbar .list-group .list-group-item {
 	border-radius: 0;
 	border-left: none;
 	border-right: none;
 }
 
-.panel-group .list-group .list-group-item:last-child {
+.navbar .list-group .list-group-item:last-child {
 	border-bottom: none;
 }
 

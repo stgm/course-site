@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :alerts
 	# homepage
 	root :to => "page#homepage"
 

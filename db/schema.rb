@@ -11,9 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150216201951) do
+ActiveRecord::Schema.define(version: 20150713122940) do
 
-  create_table "answers", force: true do |t|
+  create_table "alerts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "body"
+    t.boolean  "published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "answers", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "answer_data"
     t.datetime "created_at"
@@ -23,17 +31,17 @@ ActiveRecord::Schema.define(version: 20150216201951) do
 
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
 
-  create_table "categories", force: true do |t|
-    t.string   "title"
+  create_table "categories", force: :cascade do |t|
+    t.string   "title",      limit: 255
     t.integer  "position"
     t.integer  "subpage_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "grades", force: true do |t|
+  create_table "grades", force: :cascade do |t|
     t.integer  "submit_id"
-    t.string   "grader"
+    t.string   "grader",      limit: 255
     t.integer  "scope"
     t.integer  "correctness"
     t.integer  "design"
@@ -42,30 +50,30 @@ ActiveRecord::Schema.define(version: 20150216201951) do
     t.integer  "grade"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "mailed_at",   default: '-4712-01-01 00:00:00', null: false
+    t.datetime "mailed_at",               default: '-4712-01-01 00:00:00', null: false
   end
 
   add_index "grades", ["submit_id"], name: "index_grades_on_submit_id"
 
-  create_table "groups", force: true do |t|
-    t.string   "name"
+  create_table "groups", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "pages", force: true do |t|
-    t.string   "title"
+  create_table "pages", force: :cascade do |t|
+    t.string   "title",      limit: 255
     t.integer  "position"
     t.integer  "section_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
-    t.string   "path"
+    t.string   "slug",       limit: 255
+    t.string   "path",       limit: 255
   end
 
   add_index "pages", ["slug", "section_id"], name: "index_pages_on_slug_and_section_id", unique: true
 
-  create_table "pings", force: true do |t|
+  create_table "pings", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "loca"
     t.integer  "locb"
@@ -78,8 +86,8 @@ ActiveRecord::Schema.define(version: 20150216201951) do
 
   add_index "pings", ["user_id"], name: "index_pings_on_user_id"
 
-  create_table "pset_files", force: true do |t|
-    t.string   "filename"
+  create_table "pset_files", force: :cascade do |t|
+    t.string   "filename",   limit: 255
     t.boolean  "required"
     t.integer  "pset_id"
     t.datetime "created_at"
@@ -88,8 +96,8 @@ ActiveRecord::Schema.define(version: 20150216201951) do
 
   add_index "pset_files", ["pset_id"], name: "index_pset_files_on_pset_id"
 
-  create_table "psets", force: true do |t|
-    t.string   "name"
+  create_table "psets", force: :cascade do |t|
+    t.string   "name",        limit: 255
     t.text     "description"
     t.integer  "page_id"
     t.datetime "created_at"
@@ -104,7 +112,7 @@ ActiveRecord::Schema.define(version: 20150216201951) do
 
   add_index "psets", ["page_id"], name: "index_psets_on_page_id"
 
-  create_table "psets_tracks", force: true do |t|
+  create_table "psets_tracks", force: :cascade do |t|
     t.integer "pset_id"
     t.integer "track_id"
   end
@@ -112,11 +120,11 @@ ActiveRecord::Schema.define(version: 20150216201951) do
   add_index "psets_tracks", ["track_id", "pset_id"], name: "index_psets_tracks_on_track_id_and_pset_id"
   add_index "psets_tracks", ["track_id"], name: "index_psets_tracks_on_track_id"
 
-  create_table "registrations", force: true do |t|
+  create_table "registrations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "track_id"
-    t.string   "term"
-    t.string   "status"
+    t.string   "term",             limit: 255
+    t.string   "status",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "schedule_id"
@@ -126,8 +134,8 @@ ActiveRecord::Schema.define(version: 20150216201951) do
   add_index "registrations", ["track_id"], name: "index_registrations_on_track_id"
   add_index "registrations", ["user_id"], name: "index_registrations_on_user_id"
 
-  create_table "schedule_spans", force: true do |t|
-    t.string   "name"
+  create_table "schedule_spans", force: :cascade do |t|
+    t.string   "name",        limit: 255
     t.integer  "schedule_id"
     t.text     "content"
     t.datetime "created_at"
@@ -136,8 +144,8 @@ ActiveRecord::Schema.define(version: 20150216201951) do
 
   add_index "schedule_spans", ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
 
-  create_table "schedules", force: true do |t|
-    t.string   "name"
+  create_table "schedules", force: :cascade do |t|
+    t.string   "name",        limit: 255
     t.integer  "track_id"
     t.text     "description"
     t.datetime "created_at"
@@ -146,19 +154,19 @@ ActiveRecord::Schema.define(version: 20150216201951) do
 
   add_index "schedules", ["track_id"], name: "index_schedules_on_track_id"
 
-  create_table "sections", force: true do |t|
-    t.string   "title"
+  create_table "sections", force: :cascade do |t|
+    t.string   "title",      limit: 255
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
-    t.string   "path"
+    t.string   "slug",       limit: 255
+    t.string   "path",       limit: 255
   end
 
   add_index "sections", ["slug"], name: "index_sections_on_slug", unique: true
 
-  create_table "settings", force: true do |t|
-    t.string   "var",                   null: false
+  create_table "settings", force: :cascade do |t|
+    t.string   "var",        limit: 255, null: false
     t.text     "value"
     t.integer  "thing_id"
     t.string   "thing_type", limit: 30
@@ -168,52 +176,52 @@ ActiveRecord::Schema.define(version: 20150216201951) do
 
   add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
 
-  create_table "submits", force: true do |t|
+  create_table "submits", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "pset_id"
     t.datetime "submitted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",          limit: 255
   end
 
   add_index "submits", ["pset_id"], name: "index_submits_on_pset_id"
   add_index "submits", ["user_id"], name: "index_submits_on_user_id"
 
-  create_table "subpages", force: true do |t|
-    t.string   "title"
+  create_table "subpages", force: :cascade do |t|
+    t.string   "title",      limit: 255
     t.text     "content"
     t.integer  "position"
     t.integer  "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
+    t.string   "slug",       limit: 255
   end
 
   add_index "subpages", ["slug"], name: "index_subpages_on_slug", unique: true
 
-  create_table "tracks", force: true do |t|
+  create_table "tracks", force: :cascade do |t|
     t.integer  "final_grade_id"
-    t.string   "name"
+    t.string   "name",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "name"
-    t.string   "uvanetid"
-    t.string   "mail"
-    t.string   "avatar"
+  create_table "users", force: :cascade do |t|
+    t.string   "name",             limit: 255
+    t.string   "uvanetid",         limit: 255
+    t.string   "mail",             limit: 255
+    t.string   "avatar",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.boolean  "done",             default: false
-    t.boolean  "active",           default: true
-    t.string   "term"
-    t.string   "status"
+    t.boolean  "done",                         default: false
+    t.boolean  "active",                       default: true
+    t.string   "term",             limit: 255
+    t.string   "status",           limit: 255
     t.integer  "schedule_id"
     t.integer  "schedule_span_id"
-    t.string   "token"
+    t.string   "token",            limit: 255
   end
 
   add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"

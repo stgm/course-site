@@ -50,10 +50,6 @@ class PageController < ApplicationController
 		end
 	end
 	
-	def load_schedule
-		@schedule = current_user.schedule
-	end
-	
 	def prev_in_schedule
 		if current_user.schedule_span.present?
 			current_user.schedule_span = current_user.schedule_span.previous if current_user.schedule_span.previous.present?
