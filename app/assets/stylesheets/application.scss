@@ -19,7 +19,9 @@ $navbar-default-link-color: #f7faff;
 
 $component-active-bg: #7F6600;
 
-$font-size-h1: 32px;
+$font-size-base: 14px;
+
+$font-size-h1: 26px;
 $font-size-h2: 20px;
 $font-size-h3: 16px;
 $font-size-h4: 14px;
@@ -28,5 +30,6 @@ $font-size-h4: 14px;
 @import "bootstrap";
 @import "strap";
 @import "tweaks";
+@import "fonts";
 
 @import "video-js";
