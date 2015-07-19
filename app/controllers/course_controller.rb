@@ -52,7 +52,7 @@ class CourseController < ApplicationController
 		@admin_count = User.admin.order(:name).count
 		@inactive_count = User.inactive.not_admin.count
 		@title = 'List users'
-		render 'grades', layout:'full_width'
+		render 'grades'
 	end
 	
 	def grades_for_inactive
@@ -62,7 +62,7 @@ class CourseController < ApplicationController
 		@admin_count = User.admin.order(:name).count
 		@inactive_count = User.inactive.not_admin.count
 		@title = 'List users'
-		render 'grades', layout:'full_width'
+		render 'grades'
 	end
 	
 	def grades_for_other
@@ -72,7 +72,7 @@ class CourseController < ApplicationController
 		@admin_count = User.admin.order(:name).count
 		@inactive_count = User.inactive.not_admin.count
 		@title = 'List users'
-		render 'grades', layout:'full_width'
+		render 'grades'
 	end
 	
 	def grades_for_admins
@@ -82,7 +82,7 @@ class CourseController < ApplicationController
 		@admin_count = User.admin.order(:name).count
 		@inactive_count = User.inactive.not_admin.count
 		@title = 'List users'
-		render 'grades', layout:'full_width'
+		render 'grades'
 	end
 	
 	def toggle_public_grades

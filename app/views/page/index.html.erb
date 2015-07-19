@@ -1,10 +1,5 @@
-<div style="display:-webkit-flex;">
-
-	<div id="desktop" style="-webkit-flex:1; -webkit-justify-content: center; justify-content: center;   display: -webkit-flex; display: flex; overflow:scroll">
-			<div id="content" style="max-width:60em;">
-				<%= render 'content' %>
-			</div>
-	</div>
+<div id="content" style="max-width:60em;" class="container">
+	<%= render 'content' %>
 </div>
 
 <%= render 'auto_save_form' if @has_form %>

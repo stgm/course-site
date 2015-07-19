@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
 	<meta charset="UTF-8">
-	<title><%= title %></title>
-
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= javascript_include_tag "application" %>
 	<%= csrf_meta_tags %>
+
+	<title><%= title %></title>
 
 	<script type="text/x-mathjax-config">
 		MathJax.Hub.Config({
-			showProcessingMessages: false
+			showProcessingMessages: true
 		});
 	</script>
+
+	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= javascript_include_tag "application" %>
 	<%= mathjax_tag %>
 </head>
-<body>
 
+<body>
 	<%= render 'layouts/navbar' %>
 	<%= yield %>
 	<%= render 'layouts/footer' %>
-
 	<div id="popup"></div>
-
 </body>
+
 </html>

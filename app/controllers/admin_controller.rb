@@ -7,12 +7,12 @@ class AdminController < ApplicationController
 		@users = User.where(active: true).order('name')
 		@psets = Pset.order(:id)
 		@title = "Export grades"
-		render layout:nil
+		render layout: false
 	end
 	
 	def dump_grades
 		@students = User.order(:name)
-		render layout:nil
+		render layout: false
 	end
 	
 	def stats
@@ -22,7 +22,7 @@ class AdminController < ApplicationController
 		@gehaald = User.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
 		logger.debug @gehaald.inspect
 		@terms = User.select("distinct term")
-		render layout:nil
+		render layout: false
 	end
 		
 	#
