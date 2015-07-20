@@ -59,8 +59,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	end
 	
 	def convert_p(el, indent)
-		Rails.logger.info "HAHA:#{el.inspect}"
-		if el.children.length == 1 && el.children.first.type == :img
+		if el.children.length == 1 && el.children.first.type == :img && el.children.first.attr['alt'] == 'embed'
 			inner(el, indent)
 		else
 			super
