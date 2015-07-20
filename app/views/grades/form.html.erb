@@ -1,141 +1,135 @@
-<div id="content">
+<h1><%= @pset.name %> <small> by <%= @user.name %> / <%= @user.uvanetid %></small></small></h1>
+<% if current_user.is_admin? and @submit %>
+<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %> /
+<% end %>
+Latest submit:
+<% if @submit and @submit.submitted_at %>
+<%= @submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@submit.submitted_at) %> ago)
+<% else %>
+never
+<% end %>
+/ 
+Graded:
+<% if @grade.created_at %>
+<%= @grade.created_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@grade.created_at) %> ago)
+<% else %>
+never
+<% end %>
+/
+grader: <%= @grade.grader_name %>
 
-	<header class="page-header">
-		<h1><%= @pset.name %> <small> by <%= @user.name %> / <%= @user.uvanetid %></small></small></h1>
-		<% if current_user.is_admin? and @submit %>
-		<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %> /
-		<% end %>
-		Latest submit:
-		<% if @submit and @submit.submitted_at %>
-		<%= @submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@submit.submitted_at) %> ago)
-		<% else %>
-		never
-		<% end %>
-		/ 
-		Graded:
-		<% if @grade.created_at %>
-		<%= @grade.created_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@grade.created_at) %> ago)
-		<% else %>
-		never
-		<% end %>
-		/
-		grader: <%= @grade.grader_name %>
-	</header>
-
-	<%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
+<%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
 	
-	<%= hidden_field_tag :referer, request.referer %>
+<%= hidden_field_tag :referer, request.referer %>
 	
-	<% if @grade.errors.any? %>
-	<div id="error_explanation">
-		<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
+<% if @grade.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
 
-		<ul>
-			<% @grade.errors.full_messages.each do |msg| %>
-			<li><%= msg %></li>
-			<% end %>
-		</ul>
-	</div>
-	<% end %>
+	<ul>
+		<% @grade.errors.full_messages.each do |msg| %>
+		<li><%= msg %></li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
 
-	<div class="row">
+<div class="row">
 
-		<div class="col-xs-8">
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="field">
-						<% if @submit and not @submit.url.blank? %>
-						<p><div class="alert alert-warning" role="alert"><%= link_to @submit.url, @submit.url %></div></p>
-						<% end %>
+	<div class="col-xs-8">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="field">
+					<% if @submit and not @submit.url.blank? %>
+					<p><div class="alert alert-warning" role="alert"><%= link_to @submit.url, @submit.url %></div></p>
+					<% end %>
 
-						<p>
+					<p>
 						<%= f.text_area :comments, class: 'form-control' %>
-						</p>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-2">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon"><%= f.label :scope, 'sc' %></div>
+						<%= f.text_field :scope, class: 'form-control' %>
 					</div>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-xs-2">
-					<div class="form-group">
-						<div class="input-group">
-							<div class="input-group-addon"><%= f.label :scope, 'sc' %></div>
-							<%= f.text_field :scope, class: 'form-control' %>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-2">
-					<div class="form-group">
-						<div class="input-group">
-							<div class="input-group-addon"><%= f.label :correctness, 'cr' %></div>
-							<%= f.text_field :correctness, class: 'form-control' %>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-2">
-					<div class="form-group">
-						<div class="input-group">
-							<div class="input-group-addon"><%= f.label :design, 'ds' %></div>
-							<%= f.text_field :design, class: 'form-control' %>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-2">
-					<div class="form-group">
-						<div class="input-group">
-							<div class="input-group-addon"><%= f.label :style, 'st' %></div>
-							<%= f.text_field :style, class: 'form-control' %>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-4">
-					<div class="form-group">
-						<div class="input-group">
-							<div class="input-group-addon"><%= f.label :correctness, '==' %></div>
-							<%= f.text_field :grade, class: 'form-control', value: @grade.grade %>
-<span class="input-group-btn">
-      								<button class="btn btn-default" type="button" id="pass-btn">P</button>
-								<button class="btn btn-default" type="button" id="fail-btn">F</button>
-							</span>
-						</div>
+			<div class="col-xs-2">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon"><%= f.label :correctness, 'cr' %></div>
+						<%= f.text_field :correctness, class: 'form-control' %>
 					</div>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="actions">
-						<%= f.submit class: 'btn btn-primary form-control' %>
+			<div class="col-xs-2">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon"><%= f.label :design, 'ds' %></div>
+						<%= f.text_field :design, class: 'form-control' %>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon"><%= f.label :style, 'st' %></div>
+						<%= f.text_field :style, class: 'form-control' %>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon"><%= f.label :correctness, '==' %></div>
+						<%= f.text_field :grade, class: 'form-control', value: @grade.grade %>
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" id="pass-btn">P</button>
+							<button class="btn btn-default" type="button" id="fail-btn">F</button>
+						</span>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="actions">
+					<%= f.submit class: 'btn btn-primary form-control' %>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 		
-		<div class="col-xs-4">
-			<% @grades.each do |grade| %>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<%= grade.submit.pset.name %>
-					<div class="pull-right">
-						S: <%= grade.scope %> / C: <%= grade.correctness %> / D: <%= grade.design %> / S: <%= grade.style %> / <strong><%= translate_grade(grade.grade) %></strong>
-					</div>
-				</div>
-				<div class="panel-body">
-					<%= simple_markdown(grade.comments) %>
+	<div class="col-xs-4">
+		<% @grades.each do |grade| %>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<%= grade.submit.pset.name %>
+				<div class="pull-right">
+					S: <%= grade.scope %> / C: <%= grade.correctness %> / D: <%= grade.design %> / S: <%= grade.style %> / <strong><%= translate_grade(grade.grade) %></strong>
 				</div>
 			</div>
-			<% end %>
+			<div class="panel-body">
+				<%= simple_markdown(grade.comments) %>
+			</div>
 		</div>
-	
+		<% end %>
 	</div>
 	
-	<% end %>
-
-
-	<% if current_user.is_admin? %>
-	<hr>
-	<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-danger' if @submit %>
-	<% end %>
-
 </div>
+	
+<% end %>
+
+
+<% if current_user.is_admin? %>
+<hr>
+<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-danger' if @submit %>
+<% end %>

@@ -58,17 +58,12 @@ body
 	margin-left: auto;
 }
 
-.container-fluid.room-for-schedule
-{
-	max-width: 1024px;
-}
-
 /****************************************************************************
  *  main content wrapper
  *
  */
 
-#content
+.container.limit-width
 {
 	max-width:55em;
 }

@@ -9,12 +9,24 @@
 
 	<title><%= title %></title>
 
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			showProcessingMessages: true
+		});
+	</script>
+
 	<%= stylesheet_link_tag    "application", :media => "all" %>
 	<%= javascript_include_tag "application" %>
+	<%= mathjax_tag %>
 </head>
 
 <body>
-	<%= yield %>
+	<%= render 'layouts/navbar' %>
+	<div id="content" class="container limit-width">
+		<%= yield %>
+	</div>
+	<%= render 'layouts/footer' %>
+	<div id="popup"></div>
 </body>
 
 </html>

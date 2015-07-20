@@ -1,20 +1,14 @@
-<div id="content">
+<h1>Dropbox</h1>
 
-	<header class="page-header">
-		<h1>Dropbox</h1>
-	</header>
-
-	<p>
-		<% if @dropbox_linked %>
-		Dropbox is currently connected.
+<p>
+	<% if @dropbox_linked %>
+	Dropbox is currently connected.
 		
-		<% else %>
-		There is no Dropbox connection.
-		<%= form_tag(dropbox_connect_url) do %>
-		<%= submit_tag 'Connect', class:'btn' %>
-		<% end %>
+	<% else %>
+	There is no Dropbox connection.
+	<%= form_tag(dropbox_connect_url) do %>
+	<%= submit_tag 'Connect', class:'btn' %>
+	<% end %>
 
-		<% end %>
-	</p>
-	
-</div>
+	<% end %>
+</p>

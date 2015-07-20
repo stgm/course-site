@@ -1,17 +1,11 @@
-<div id="content">
+<h1>Connect webhook</h1>
 
-	<header class="page-header">
-		<h1>Connect webhook</h1>
-	</header>
-
-	<p>
-		Webhook secret: <span id="secret"><%= @secret %></span>
-	</p>
+<p>
+	Webhook secret: <span id="secret"><%= @secret %></span>
+</p>
 	
-	<% if !@secret.present? %>
-	<p>
-		<%= link_to "Generate", config_generate_secret_url, method:'post', remote:true, class:'btn' %>
-	</p>
-	<% end %>
-	
-</div>
+<% if !@secret.present? %>
+<p>
+	<%= link_to "Generate", config_generate_secret_url, method:'post', remote:true, class:'btn' %>
+</p>
+<% end %>

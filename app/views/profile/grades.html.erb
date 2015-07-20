@@ -1,46 +1,41 @@
-<div id="content">
+<h1>Grades</h1>
 
-	<header class="page-header">
-		<h1>Grades</h1>
-	</header>
+<% if Settings.public_grades %>
 
-	<% if Settings.public_grades %>
-	
-	<% @grades.each do |grade| %>
-	
-	<h2><%= grade.submit.pset.name %></h2>
-	
-	<table class="table table-bordered" style="width:auto">
-		<tr>
-			<td>Scope</td>
-			<td><%= grade.scope %>
-		</tr>
-		<tr>
-			<td>Correctness</td>
-			<td><%= grade.correctness %>
-		</tr>
-		<tr>
-			<td>Design</td>
-			<td><%= grade.design %>
-		</tr>
-		<tr>
-			<td>Style</td>
-			<td><%= grade.style %>
-		</tr>
-		<tr>
-			<td>Final</td>
-			<td><%= translate_grade(grade.grade) %>
-		</tr>
-	</table>
-	
-	<%= simple_markdown(grade.comments) %>
-	
-	<% end %>
-	
-	<% else %>
-	
-	Grades are currently hidden.
-	
-	<% end %>
+<% @grades.each do |grade| %>
 
-</div>
+<h2><%= grade.submit.pset.name %></h2>
+
+<table class="table table-bordered" style="width:auto">
+	<tr>
+		<td>Scope</td>
+		<td><%= grade.scope %></td>
+	</tr>
+	<tr>
+		<td>Correctness</td>
+		<td><%= grade.correctness %></td>
+	</tr>
+	<tr>
+		<td>Design</td>
+		<td><%= grade.design %></td>
+	</tr>
+	<tr>
+		<td>Style</td>
+		<td><%= grade.style %></td>
+	</tr>
+	<tr>
+		<td>Final</td>
+		<td><%= translate_grade(grade.grade) %></td>
+	</tr>
+</table>
+
+<%= simple_markdown(grade.comments) %>
+
+<% end %>
+
+<% else %>
+
+Grades are currently hidden.
+
+<% end %>
+

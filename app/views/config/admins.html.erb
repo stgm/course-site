@@ -1,29 +1,21 @@
-<div id="content">
+<h1>Admins</h1>
 
-	<header class="page-header">
-		<h1>Admins</h1>
-	</header>
-
-	<b>Admins</b>
-	
+<p>	
 	<%= form_tag(config_admins_url, method: :post) do %>
 	<div class="form-group">
-		<div class="col-10">
-			<textarea id="inputAdmins" name="admins" class="form-control" style="height:10em;"><%= @admins %></textarea>
-			<%= submit_tag 'Save', class:'btn' %>
-		</div>
+		<label for="inputAdmins">Admins</label>
+		<textarea id="inputAdmins" name="admins" class="form-control" style="height:10em;"><%= @admins %></textarea>
 	</div>
+	<%= submit_tag 'Save', class:'btn' %>
 	<% end %>
+</p>
 
-	<b>Assistants</b>
-
+<p>
 	<%= form_tag(config_assistants_url, method: :post) do %>
 	<div class="form-group">
-		<div class="col-10">
-			<textarea id="inputAdmins" name="assistants" class="form-control" style="height:10em;"><%= @assistants %></textarea>
-			<%= submit_tag 'Save', class:'btn' %>
-		</div>
+		<label for="inputAdmins">Assistants</label>
+		<textarea id="inputAdmins" name="assistants" class="form-control" style="height:10em;"><%= @assistants %></textarea>
 	</div>
+	<%= submit_tag 'Save', class:'btn' %>
 	<% end %>
-	
-</div>
+</p>
