@@ -15,7 +15,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		if el.attr['alt'] == 'videoplayer'
 			return "<video src='#{cdn_url(el.attr['src'])}' controls preload='none' class='video-js vjs-default-skin' data-setup='{}'>"
 		elsif el.attr['alt'] == 'embed'
-			return "<div style='margin-left:-2em;margin-right:-2em;'><div class='embed-responsive embed-responsive-16by9'><iframe class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
+			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><iframe class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
 		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end
@@ -56,6 +56,15 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	def convert_blockquote(el, opts)
 		el.attr['class'] = 'protip'
         format_as_indented_block_html(el.type, el.attr, '<span class="glyphicon glyphicon-pushpin dropcap"></span>' + inner(el, indent), indent)
+	end
+	
+	def convert_p(el, indent)
+		Rails.logger.info "HAHA:#{el.inspect}"
+		if el.children.length == 1 && el.children.first.type == :img
+			inner(el, indent)
+		else
+			super
+		end
 	end
 	
 	private

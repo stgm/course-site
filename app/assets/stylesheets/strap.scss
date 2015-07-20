@@ -165,12 +165,18 @@ section blockquote
 	margin-right:-2em;
 }
 
-section blockquote:first-child
+section .embed
+{
+	margin-left:-2em;
+	margin-right:-2em;
+}
+
+section blockquote:first-child, section .embed:first-child
 {
 	margin-top:-2em;
 }
 
-section blockquote:last-child
+section blockquote:last-child, section .embed:last-child
 {
 	margin-bottom:-2em;
 }
@@ -317,7 +323,7 @@ footer img
 		background-color:transparent ! important;
 	}
 	
-	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe, #schedule-column, #comments-column
+	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe, #schedule-column, #comments-column, .embed
 	{
 		display:none;
 	}
