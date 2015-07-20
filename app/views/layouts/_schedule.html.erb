@@ -10,8 +10,8 @@
 		</div>
 		<div id="collapse<%= schedule.name.gsub(/\s+/, "") %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= schedule.name.gsub(/\s+/, "") %>">
 			<div class="list-group">
-				<% schedule.content.delete('description')%>
 				<% schedule.content.each do |item, link|  %>
+				<% next if item == 'description' %>
 				<%= link_to item.sub('[', '<span class="label label-info">').sub(']', '</span>').html_safe, link, class:'list-group-item' %>
 				<% end %>
 			</div>
