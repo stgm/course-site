@@ -30,4 +30,8 @@ textarea#notes
 	border:none;
 	border-radius:0;
 	opacity:0.95;
+	min-width:300px;
+	padding-top:0.25em;
+	max-height:400px;
+	overflow-y:scroll;
 }
