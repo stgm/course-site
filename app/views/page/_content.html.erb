@@ -4,12 +4,6 @@
 </div>
 <% end %>
 
-<header>
-	<div class="page-header">
-	<h1><%= title %></h1>
-	</div>
-</header>
-
 <%= form_tag_if(logged_in? && @page.pset, page_submit_url, { :multipart => true, :id => "page_form" }) do %>
 <%= hidden_field_tag :page_id, @page.id %>
 
