@@ -10,5 +10,9 @@ class Section < ActiveRecord::Base
 
 	# Make sure the subpages are always ordered
 	default_scope { order(:position) }
+	
+	def normalize_friendly_id(string)
+		super.gsub("problem-sets", "psets")
+	end
 
 end
