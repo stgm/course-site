@@ -101,7 +101,7 @@ private
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 			Settings['psets'] = config['psets'] if config['psets']
 		
-			load_schedules(File.join(dir, 'schedules'))
+			load_schedules(dir)
 		end
 
 		grading = Course.read_config(File.join(dir, 'grading.yml'))
@@ -112,15 +112,11 @@ private
 	
 	def Course.load_schedules(dir)
 		# read schedules, if any
-		subdirs_of(dir) do |schedule_dir|
-			schedule_name = File.basename(schedule_dir)
-			new_schedule = Schedule.where(name: schedule_name).first_or_create
-			yaml_files_in(schedule_dir) do |span_conf_file|
-				span_conf = Course.read_config(span_conf_file)
-				span_name = File.basename(span_conf_file, '.yml')
-
-				span = ScheduleSpan.where(schedule_id: new_schedule.id, name: span_name).first_or_initialize
-				span.content = span_conf.to_yaml
+		if schedule = Course.read_config(File.join(dir, 'schedule.yml'))
+			new_schedule = Schedule.where(name: 'Standard').first_or_create
+			schedule.each do |sch_name, items|
+				span = ScheduleSpan.where(schedule_id: new_schedule.id, name: sch_name).first_or_initialize
+				span.content = items.to_yaml
 				span.save
 			end
 		end
