@@ -1,0 +1,28 @@
+<h1>Published pages</h1>
+
+<p>Check the pages that should be visible to all users.</p>
+
+<% @all_sections.each do |section| %>
+<h2><%= section.title %></h2>
+<% section.pages.each do |page| %>
+<p>
+	<%= check_box_tag('public', '1', page.public, id: page.id, class: 'toggle-public') %> <%= page.title %>
+</p>
+<% end %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.toggle-public').bind('change', function(a) {
+	$.ajax({
+		url: "<%= page_path %>?id=" + a.currentTarget.id,
+		headers: {
+			Accept : "text/javascript; charset=utf-8",
+			"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+		},
+		type: 'PUT',
+		data: {
+			page: { 'public': $(a.currentTarget).prop('checked') }
+		}
+	});
+});
+</script>
