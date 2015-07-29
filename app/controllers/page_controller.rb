@@ -108,6 +108,12 @@ class PageController < ApplicationController
 		end
 	end
 	
+	def update
+		p = Page.find(params[:id])
+		p.update_attributes!(params[:page])
+		render json: p
+	end
+	
 	private
 	
 	# writes hash with form contents to a plain text string

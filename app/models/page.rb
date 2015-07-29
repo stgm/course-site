@@ -4,7 +4,7 @@ class Page < ActiveRecord::Base
 	extend FriendlyId
 	friendly_id :title, use: [ :slugged, :scoped ], scope: :section
 
-	attr_accessible :content, :position, :section, :title, :path, :form
+	attr_accessible :content, :position, :section, :title, :path, :form, :public
 
 	belongs_to :section  # parent section
 	has_many :subpages   # content tabs

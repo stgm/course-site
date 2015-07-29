@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 	
 	def load_navigation
 		@sections = Section.includes(pages: :pset)
+		@sections = @sections.where("pages.public" => true) unless current_user.is_admin?
 	end
 	
 	def load_schedule

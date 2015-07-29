@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 	get  "admin/import"
 	post "admin/import_groups"
 	get  "admin/export_grades"
+	get  "admin/pages"
 	
 	# configuration
 	get  "config" => "config#index"
@@ -88,6 +89,7 @@ Rails.application.routes.draw do
 	post "page/submit"
 	post "page/prev_in_schedule"
 	post "page/next_in_schedule"
+	put  "page" => "page#update"
 	
 	# api
 	post "api/reload"

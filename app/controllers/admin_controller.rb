@@ -15,6 +15,10 @@ class AdminController < ApplicationController
 		render layout: false
 	end
 	
+	def pages
+		@all_sections = Section.includes(pages: :pset)
+	end
+	
 	def stats
 		# needs tracksssss
 		@gestart = User.joins(:submits).uniq.count
