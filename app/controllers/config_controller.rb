@@ -1,3 +1,4 @@
+require 'course'
 require 'dropbox'
 
 class ConfigController < ApplicationController
@@ -30,7 +31,8 @@ class ConfigController < ApplicationController
 	
 	def git_repo_save
 		Settings.git_repo = params[:repo_url]
-		redirect_to :back
+		Course.reload
+		redirect_to :back, notice: 'The course content was successfully cloned.'
 	end
 	
 	def generate_secret

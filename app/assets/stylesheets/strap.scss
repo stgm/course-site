@@ -276,13 +276,13 @@ section .kramdown-table td, .kramdown-table th
 	padding:0.5em 1em;
 }
 
-section input[type=text]
+section.markdown input[type=text]
 {
 	border:none;
 	border-bottom:1pt solid black;
 }
 
-section textarea
+section.markdown textarea
 {
 	border:1pt solid black;
 	width:100%;
