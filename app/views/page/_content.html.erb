@@ -14,7 +14,7 @@
 	<% end %>
 
 	<% if current_user.can_submit? and @page.pset %>
-	<section class="markdown" id="submit-content">
+	<section id="submit-content">
 		<%= render 'submit_tab' %>
 	</section>
 	<% end %>
