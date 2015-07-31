@@ -12,7 +12,11 @@
 			<div class="list-group">
 				<% schedule.content.each do |item, link|  %>
 				<% next if item == 'description' %>
-				<%= link_to item.sub('[', '<span class="label label-info">').sub(']', '</span>').html_safe, link, class:'list-group-item' %>
+                <% if link.nil? %>
+                    <div class="list-group-item"><%= item.sub('[', '<span class="label label-info">').sub(']', '</span>').html_safe %></div>
+                <% else %>
+    				<%= link_to item.sub('[', '<span class="label label-info">').sub(']', '</span>').html_safe, link, class:'list-group-item' %>
+                <% end %>
 				<% end %>
 			</div>
 		</div>
