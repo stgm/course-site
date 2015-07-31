@@ -13,7 +13,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_img(el, indent)
 		if el.attr['alt'] == 'videoplayer'
-			return "<video src='#{cdn_url(el.attr['src'])}' controls preload='none' class='video-js vjs-default-skin' data-setup='{}'>"
+			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><video src='#{cdn_url(el.attr['src'])}' controls width='auto' height='auto' preload='none' class='embed-responsive-item video-js vjs-default-skin' data-setup='{}'></div></div>"
 		elsif el.attr['alt'] == 'embed'
 			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><iframe class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
 		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/

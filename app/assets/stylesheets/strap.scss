@@ -226,10 +226,10 @@ section pre .comment
 section .video-js
 {
 	background-color:black;
-	height:480px !important; /* overrides html width + height */
-	width:auto !important;
-	margin-left:-2.5em;
-	margin-right:-2.5em;
+	sheight:480px !important; /* overrides html width + height */
+	swidth:auto !important;
+	smargin-left:-2.5em;
+	smargin-right:-2.5em;
 }
 
 section ul.checkboxes, section ul.radios, section ul.none
