@@ -15,6 +15,12 @@ textarea#notes
 	border-right: none;
 }
 
+a.list-group-item
+{
+    color:black;
+    text-decoration:underline;
+}
+
 .navbar .list-group .list-group-item:last-child {
 	border-bottom: none;
 }
