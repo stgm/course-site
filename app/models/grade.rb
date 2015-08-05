@@ -14,12 +14,16 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def grade=(new_grade)
-		new_grade.sub!(/,/,'.') if new_grade.class == String
-		case self.pset.grade_type
-		when 'float'
-			super(10.0 * new_grade.to_f)
-		else # integer, pass
-			super(10.0 * new_grade.to_i)
+		if new_grade.blank? # erases the grade
+			return super(nil)
+		elsif new_grade.class == String
+			new_grade.sub!(/,/,'.')
+			case self.pset.grade_type
+			when 'float'
+				super(10.0 * new_grade.to_f)
+			else # integer, pass
+				super(10.0 * new_grade.to_i)
+			end
 		end
 	end
 	
