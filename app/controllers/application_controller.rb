@@ -33,4 +33,8 @@ class ApplicationController < ActionController::Base
 		redirect_to :root unless current_user.is_admin? or current_user.is_assistant?
 	end
 	
+	def default_url_options(options={})
+		{ :secure => true }
+	end 
+	
 end
