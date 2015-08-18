@@ -1,3 +1,6 @@
 <h1>Welcome</h1>
 
-<p>This course website is empty. You can bootstrap it by specifying a <%= link_to "git repository", config_git_path %> and importing it.</p>
+<p>
+    This course website is empty.
+    <% if @current_user.is_admin? %> You can bootstrap it by specifying a <%= link_to "git repository", config_git_path %> and importing it.<% end %>
+</p>
