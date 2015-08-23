@@ -37,9 +37,9 @@
 
 		<td>
 			<% if user.mail %>
-			<%= link_to user.uvanetid, 'mailto:' + user.mail %>
+			<%= link_to user.logins.first.login, 'mailto:' + user.mail %>
 			<% else %>
-			<%= user.uvanetid %>
+			<%= user.logins.first.login %>
 			<% end %>
 		</td>
 
