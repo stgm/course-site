@@ -66,7 +66,7 @@ class CourseController < ApplicationController
 	end
 	
 	def grades_for_other
-		@users = User.active.no_group.not_admin.order(:name)
+		@users = User.active.no_group.not_admin.includes(:logins, :submits => [:pset, :grade]).order(:name)
 		@psets = Pset.order(:order)
 		@groupless_count = User.active.no_group.not_admin.count
 		@admin_count = User.admin.order(:name).count
