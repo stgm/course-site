@@ -50,7 +50,7 @@ class AdminController < ApplicationController
 
 				if user_id[0] == user_id[1]
 					login = Login.where(login: user_id[0]).first_or_create
-					user = login.user or (login.create_user and login.save)
+					user = login.user or (user = login.create_user and login.save)
 					user.update_columns(name: user_name, mail: user_mail)
 					if group_name != ""
 						group = Group.where(:name => group_name).first_or_create
