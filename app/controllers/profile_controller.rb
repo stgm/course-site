@@ -31,14 +31,14 @@ class ProfileController < ApplicationController
 			return
 		end
 
-		if current_user.persisted?
+		# if current_user.persisted?
 			current_user.update_attributes(params[:user])
-		else
-			User.where(:uvanetid => session[:cas_user]).first_or_create do |u|
-				u.update_attributes(params[:user])
-			end
-		end
-		redirect_to :root
+		# else
+		# 	User.where(:uvanetid => session[:cas_user]).first_or_create do |u|
+		# 		u.update_attributes(params[:user])
+		# 	end
+		# end
+		redirect_to :back
 	end
 	
 	def ask

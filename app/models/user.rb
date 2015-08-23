@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 	
 	belongs_to :group
 
+	has_many :logins
 	has_many :submits
 	has_many :grades, through: :submits
 	has_many :psets, through: :submits
@@ -20,8 +21,8 @@ class User < ActiveRecord::Base
 		update_attribute :active, true
 	end
 	
-	scope :admin,     -> { where("uvanetid in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
-	scope :not_admin, -> { where("uvanetid not in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
+	scope :admin,     -> { joins(:logins).where("logins.login in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
+	scope :not_admin, -> { joins(:logins).where("logins.login not in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
 	scope :active,    -> { where(active: true) }
 	scope :inactive,  -> { where(active: false) }
 	scope :no_group,  -> { where(group_id: nil) }
@@ -61,12 +62,12 @@ class User < ActiveRecord::Base
 	
 	def is_admin?
 		admins = Settings['admins']
-		return admins && admins.include?(self.uvanetid)
+		return admins && (admins & self.logins.pluck(:login))
 	end
 	
 	def is_assistant?
 		assistants = Settings['assistants']
-		return assistants && assistants.include?(self.uvanetid)
+		return assistants && (assistants & self.logins.pluck(:login))
 	end
 	
 	def final_grade
