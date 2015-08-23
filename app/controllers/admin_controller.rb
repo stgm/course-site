@@ -65,9 +65,9 @@ class AdminController < ApplicationController
 					second_user = User.with_login(user_id[1]).first
 					if first_user.nil? && second_user.nil?
 						login = Login.where(login: user_id[0]).first_or_create
-						user = login.user or (login.create_user and login.save)
+						user = login.user or (user = login.create_user and login.save)
 						login2 = Login.where(login: user_id[1]).first_or_create
-						login2.user = login.user and login.save
+						login2.user = login.user and login2.save
 						user.update_columns(name: user_name, mail: user_mail)
 						if group_name != ""
 							group = Group.where(:name => group_name).first_or_create
