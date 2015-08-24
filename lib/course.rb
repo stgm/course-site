@@ -115,6 +115,7 @@ private
 	def Course.load_schedules(dir)
 		# read schedules, if any
 		if schedule = Course.read_config(File.join(dir, 'schedule.yml'))
+			logger.info "Schedule found"
 			new_schedule = Schedule.where(name: 'Standard').first_or_create
 			schedule.each do |sch_name, items|
 				span = ScheduleSpan.where(schedule_id: new_schedule.id, name: sch_name).first_or_initialize
