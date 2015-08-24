@@ -63,12 +63,12 @@ class User < ActiveRecord::Base
 	
 	def is_admin?
 		admins = Settings['admins']
-		return admins && (admins & self.logins.pluck(:login))
+		return admins && (admins & self.logins.pluck(:login)).size > 0
 	end
 	
 	def is_assistant?
 		assistants = Settings['assistants']
-		return assistants && (assistants & self.logins.pluck(:login))
+		return assistants && (assistants & self.logins.pluck(:login)).size > 0
 	end
 	
 	def final_grade
