@@ -22,6 +22,8 @@ module Course
 		Subpage.delete_all
 		PsetFile.delete_all
 		Pset.delete_all
+		ScheduleSpan.delete_all
+		Schedule.delete_all
 		#Track.delete_all
 
 		puts "Deleting any user settings..."
@@ -119,6 +121,8 @@ private
 				span.content = items.to_yaml
 				span.save
 			end
+		else
+			logger.info "No schedule found"
 		end
 	end
 
