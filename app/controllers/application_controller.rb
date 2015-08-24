@@ -23,10 +23,12 @@ class ApplicationController < ActionController::Base
 	
 	def current_user
 		if logged_in?
+			# there is session information to be had containing login info
 			login = Login.where(login: session[:cas_user]).first_or_create
 			@current_user = login.user || (login.create_user && login.save)
 		else
-			false
+			# no session, so fake empty user
+			@current_user = User.new
 		end
 	end
 	
