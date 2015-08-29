@@ -55,7 +55,7 @@ private
 		end
 		
 		# remove psets that have no submits and no parent page
-		to_remove = Pset.where("psets.id in (?)", orphan_psets).includes(:submits).where(:submits => { :id => nil }).pluck(:id)
+		to_remove = Pset.where("psets.id in (?)", orphan_psets.map(&:id)).includes(:submits).where(:submits => { :id => nil }).pluck(:id)
 		Pset.where("psets.id in (?)", to_remove).delete_all
 	end
 	
