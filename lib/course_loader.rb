@@ -181,7 +181,8 @@ private
 						db_pset.page = db_page  # restore link to owning page!
 						db_pset.save
 						
-						Pset.where("id != ?", db_pset).where(page_id: db_page).delete_all
+						# dangerous, will delete pset that has submits
+						# Pset.where("id != ?", db_pset).where(page_id: db_page).delete_all
 
 						# remove previous files
 						db_pset.pset_files.delete_all
