@@ -6,7 +6,7 @@ class ApiController < ApplicationController
 	before_action :restrict_access
 	
 	def reload
-		Course.reload
+		CourseLoader.new.start
 		render text:''
 	end
 

@@ -1,4 +1,5 @@
 require 'course'
+require 'course_loader'
 
 class CourseController < ApplicationController
 
@@ -9,7 +10,7 @@ class CourseController < ApplicationController
 	# update the courseware from the linked git repository
 	#
 	def import
-		Course.reload
+		CourseLoader.new.start
 		redirect_to :back, notice: 'The course content was successfully updated.'
 	end
 	
