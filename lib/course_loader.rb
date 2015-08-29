@@ -194,8 +194,6 @@ private
 								end
 							end
 						end
-					else
-						Pset.where(page_id: db_page).update_all(page_id: nil)
 					end
 					
 					if submit_config['dependent_grades']
@@ -204,6 +202,8 @@ private
 							Pset.where(:name => grade).first_or_create
 						end
 					end
+				else
+					Pset.where(page_id: db_page).update_all(page_id: nil)
 				end
 				process_subpages(page, db_page)
 			end
