@@ -67,11 +67,10 @@ private
 		CourseGit.pull
 	end
 	
-	# Loads course settings from the yml file
+	# Loads course settings from the course.yml file
 	#
 	def load_course_info(dir)
-		config = read_config(File.join(dir, 'yml'))
-		if config
+		if config = read_config(File.join(dir, 'course.yml'))
 			if config['course']
 				Settings['long_course_name'] = config['course']['title'] if config['course']['title']
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
@@ -82,18 +81,14 @@ private
 			Settings['display_license'] = config['license'] if config['license']
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 			Settings['psets'] = config['psets'] if config['psets']
-		
-			load_schedules(dir)
 		end
 
-		grading = read_config(File.join(dir, 'grading.yml'))
-		if grading
+		if grading = read_config(File.join(dir, 'grading.yml'))
 			Settings['grading'] = grading
 		end
 	end
 	
 	def load_schedules(dir)
-		# read schedules, if any
 		if schedule = read_config(File.join(dir, 'schedule.yml'))
 			Rails.logger.info "Schedule found"
 			Rails.logger.info schedule
