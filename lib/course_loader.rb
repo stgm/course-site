@@ -24,9 +24,7 @@ class CourseLoader
 		
 		# and all sections, recursively
 		process_sections(COURSE_DIR)
-		
-		puts "HELP #{@touched_subpages}"
-		
+				
 		# remove old stuff
 		prune_untouched
 		prune_empty
@@ -38,6 +36,7 @@ class CourseLoader
 private
 
 	def prune_untouched
+		# remove any subpage that was apparently not in the repo anymore
 		Subpage.where("id not in (?)", @touched_subpages).delete_all
 	end
 	
@@ -93,6 +92,7 @@ private
 			Rails.logger.info "Schedule found"
 			Rails.logger.info schedule
 			new_schedule = Schedule.where(name: 'Standard').first_or_create
+			new_schedule.schedule_spans.delete_all
 			schedule.each do |sch_name, items|
 				span = ScheduleSpan.where(schedule_id: new_schedule.id, name: sch_name).first_or_initialize
 				span.content = items.to_yaml
