@@ -20,6 +20,7 @@ class CourseLoader
 		# add course info pages
 		load_course_info(COURSE_DIR)
 		process_info(COURSE_DIR)
+		load_schedules(COURSE_DIR)
 		
 		# and all sections, recursively
 		process_sections(COURSE_DIR)
