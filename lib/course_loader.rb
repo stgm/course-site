@@ -194,6 +194,8 @@ private
 								end
 							end
 						end
+					else
+						Pset.where(page_id: db_page).update_all(page_id: nil)
 					end
 					
 					if submit_config['dependent_grades']
