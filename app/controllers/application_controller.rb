@@ -30,6 +30,8 @@ class ApplicationController < ActionController::Base
 			# no session, so fake empty user
 			@current_user = User.new
 		end
+		
+		return @current_user
 	end
 	
 	def require_admin
