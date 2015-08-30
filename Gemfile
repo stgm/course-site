@@ -68,3 +68,5 @@ gem 'mathjax-rails'
 gem 'videojs_rails'
 
 gem 'turbolinks'
+
+gem 'helpscout'
