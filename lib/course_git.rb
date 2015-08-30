@@ -2,7 +2,7 @@ module CourseGit
 
 	def self.pull
 		if git = self.local_repo
-			git.pull 'origin', 'hispeed'
+			git.pull # 'origin', 'hispeed' no support for branches...
 		else
 			if Settings.git_repo.present?
 				git = Git.clone(Settings.git_repo, 'public/course', depth:1, log:Rails.logger)
