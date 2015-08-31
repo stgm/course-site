@@ -79,7 +79,7 @@ class PageController < ApplicationController
 		# upload to dropbox
 		if pset.form || pset.pset_files.length > 0
 			dropbox = Dropbox.connection
-			dropbox.submit(current_user.uvanetid, current_user.name,
+			dropbox.submit(session[:cas_user], current_user.name,
 		               Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
 		end
 
