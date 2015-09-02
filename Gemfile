@@ -70,3 +70,5 @@ gem 'videojs_rails'
 gem 'turbolinks'
 
 gem 'helpscout'
+
+gem "bugsnag"
