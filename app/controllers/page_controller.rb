@@ -90,7 +90,11 @@ class PageController < ApplicationController
 		submit.save
 	
 		# success
-		redirect_to(:back)
+		begin
+			redirect_to :back
+		rescue ActionController::RedirectBackError
+			redirect_to :root
+		end
 	end
 	
 	def save_answers
