@@ -57,6 +57,7 @@
 				</ul>
 			</li>
 			<% else %>
+            # TODO MAKE LOGIN_URL GENERATE HTTPS
 			<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
 			<% end %>
 		</ul>

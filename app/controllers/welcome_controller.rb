@@ -8,7 +8,7 @@ class WelcomeController < ApplicationController
 			unless Settings['admins'] && Settings['admins'].size > 0
 				Settings['admins'] = [ session[:cas_user] ]
 			end
-			# redirect_to config_url and return
+			# redirect_to config_path and return
 		end
 	end
 

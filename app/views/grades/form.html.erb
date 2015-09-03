@@ -1,6 +1,6 @@
 <h1><%= @pset.name %> <small> by <%= @user.name %> / <%= @user.uvanetid %></small></small></h1>
 <% if current_user.is_admin? and @submit %>
-<%= link_to 'Put into grading list', course_touch_submit_url(submit_id: @submit.id), method: :post %> /
+<%= link_to 'Put into grading list', course_touch_submit_path(submit_id: @submit.id), method: :post %> /
 <% end %>
 Latest submit:
 <% if @submit and @submit.submitted_at %>

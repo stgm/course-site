@@ -1,7 +1,7 @@
 <h1>Git connection</h1>
 
 <p>
-	<%= form_tag(config_git_repo_url, class:'form') do %>
+	<%= form_tag(config_git_repo_path, class:'form') do %>
     <div class="form-group">
 	
 	<%= text_field_tag 'repo_url', Settings['git_repo'], required: true, class: 'form-control' %>

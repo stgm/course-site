@@ -1,16 +1,16 @@
 <ul class="nav nav-pills">
 	<% Group.order(:name).all.each_with_index do |group,i| %>
 	<li <%= 'class="active"'.html_safe if params[:group] == group.name %>>
-		<%= link_to "#{group.name} (#{group.users.count})", course_grades_url(group:group.name) %>
+		<%= link_to "#{group.name} (#{group.users.count})", course_grades_path(group:group.name) %>
 	</li>
 	<% end %>
 	<li <%= 'class="active"'.html_safe if action_name == 'grades_for_other' %>>
-		<%= link_to "Other (#{@groupless_count})", course_grades_other_url %>
+		<%= link_to "Other (#{@groupless_count})", course_grades_other_path %>
 	</li>
 	<li <%= 'class="active"'.html_safe if action_name == 'grades_for_inactive' %>>
-		<%= link_to "Inactive (#{@inactive_count})", course_grades_inactive_url %>
+		<%= link_to "Inactive (#{@inactive_count})", course_grades_inactive_path %>
 	</li>
 	<li <%= 'class="active"'.html_safe if action_name == 'grades_for_admins' %>>
-		<%= link_to "Admins (#{@admin_count})", course_grades_admins_url %>
+		<%= link_to "Admins (#{@admin_count})", course_grades_admins_path %>
 	</li>
 </ul>

@@ -6,6 +6,6 @@
 	
 <% if !@secret.present? %>
 <p>
-	<%= link_to "Generate", config_generate_secret_url, method:'post', remote:true, class:'btn' %>
+	<%= link_to "Generate", config_generate_secret_path, method:'post', remote:true, class:'btn' %>
 </p>
 <% end %>

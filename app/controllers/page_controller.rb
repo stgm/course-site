@@ -9,7 +9,7 @@ class PageController < ApplicationController
 		@page = Page.where(:section_id => nil).first
 		
 		# if not found, course is presumably empty, redirect to onboarding
-		redirect_to welcome_url and return if @page.nil?
+		redirect_to welcome_path and return if @page.nil?
 		
 		@has_form = @page.pset && @page.pset.form
     

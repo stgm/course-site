@@ -6,7 +6,7 @@
 		
 	<% else %>
 	There is no Dropbox connection.
-	<%= form_tag(dropbox_connect_url) do %>
+	<%= form_tag(dropbox_connect_path) do %>
 	<%= submit_tag 'Connect', class:'btn' %>
 	<% end %>
 
