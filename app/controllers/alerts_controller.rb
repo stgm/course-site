@@ -49,7 +49,7 @@ class AlertsController < ApplicationController
 	# DELETE /alerts/1
 	def destroy
 		@alert.destroy
-		redirect_to alerts_url, notice: 'Alert was successfully destroyed.'
+		redirect_to alerts_path, notice: 'Alert was successfully destroyed.'
 	end
 
 	private
