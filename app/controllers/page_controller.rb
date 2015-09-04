@@ -31,10 +31,6 @@ class PageController < ApplicationController
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
-		if @page.pset && !current_user.can_submit? && !current_user.is_admin?
-			flash[:error] = "You are not in a group for this course. Please contact your instructor."
-		end
-		
 		render :index
 	end
 	
