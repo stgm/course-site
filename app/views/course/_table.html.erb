@@ -3,10 +3,6 @@
 	<tr>
 		<th>Name</th>
 		<th>ID</th>
-		<% if schedules.any? %>
-		<th>Schedule</th>
-		<th>Progress</th>
-		<% end %>
 		<% psets.each do |pset| %>
 		<th class="rotate"><div><%= pset.name %></div></th>
 		<% end %>
@@ -42,15 +38,6 @@
 			<%= user.logins.first.login %>
 			<% end %>
 		</td>
-
-		<% if schedules.any? %>
-		<td>
-			<%= best_in_place user, :schedule_id, as: :select, url: user_path(id: user.id), collection: schedules.select("distinct name, id").map { |i| [i.id, i.name] } + ['', ''] %>
-		</td>
-		<td>
-			<%= x = user.schedule_span and x.name %>
-		</td>
-		<% end %>
 
 		<% subs = user.submits.group_by(&:pset_id) %>
 		<% psets.each do |pset| %>

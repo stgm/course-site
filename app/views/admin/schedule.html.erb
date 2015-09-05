@@ -1,0 +1,23 @@
+<h1>Current schedule</h1>
+
+<p>Select the current position in the schedule.</p>
+
+<% @schedules.each do |schedule| %>
+<p>
+	<%= radio_button_tag("public", '1', schedule.id == @schedule_position.id, id: schedule.id, class: 'toggle-public') %> <%= label_tag "#{schedule.id}", schedule.name %>
+</p>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.toggle-public').bind('change', function(a) {
+    var z = a;
+	$.ajax({
+		url: "<%= admin_set_schedule_path %>?id=" + a.currentTarget.id,
+		headers: {
+			Accept : "text/javascript; charset=utf-8",
+			"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+		},
+		type: 'POST'
+	});
+});
+</script>

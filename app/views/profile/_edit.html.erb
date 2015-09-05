@@ -20,22 +20,6 @@
 					<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 				</div>
 			</div>
-			
-			<% if Schedule.any? %>
-			<div class="form-group">
-				<label class="col-sm-4 control-label" for="user_mail">Your schedule</label>
-				<div class="col-sm-8">
-					<% Schedule.all.each do |schedule| %>
-					<div class="radio">
-						<label>
-							<input type="radio" name="user[schedule_id]" id="optionsRadios1" value="<%= schedule.id %>">
-							<%= schedule.description || schedule.name %>
-						</label>
-					</div>
-					<% end %>
-				</div>
-			</div>
-			<% end %>
 		</div>
 		<div class="modal-footer">
 			<%= link_to 'Logout', '/profile/logout', class: 'btn btn-default' %>

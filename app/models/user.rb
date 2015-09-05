@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 	
 	attr_accessible :avatar, :mail, :name, :uvanetid
-	attr_accessible :term, :status, :schedule_id, :schedule_span_id, :active
+	attr_accessible :term, :status, :active
 	
 	belongs_to :group
 
@@ -32,9 +32,6 @@ class User < ActiveRecord::Base
 	scope :from_term, -> term  { where("term" => term) if not (term.nil? or term.empty?) }
 	scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
 	
-	belongs_to :schedule
-	belongs_to :schedule_span
-
 	# ensure that if a schedule is selected, a valid schedule_span is also present
 	before_save do |r|
 		if r.schedule.present?

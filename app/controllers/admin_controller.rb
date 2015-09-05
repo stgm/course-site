@@ -19,6 +19,17 @@ class AdminController < ApplicationController
 		@all_sections = Section.includes(pages: :pset)
 	end
 	
+	def schedule
+		@schedules = ScheduleSpan.all
+		@schedule_position = Settings.schedule_position && ScheduleSpan.find(Settings.schedule_position) || ScheduleSpan.new
+		logger.info @schedule_position.id
+	end
+	
+	def set_schedule
+		Settings.schedule_position = params[:id]
+		render json:nil
+	end
+	
 	def stats
 		# needs tracksssss
 		@gestart = User.joins(:submits).uniq.count

@@ -46,22 +46,6 @@ class PageController < ApplicationController
 		end
 	end
 	
-	def prev_in_schedule
-		if current_user.schedule_span.present?
-			current_user.schedule_span = current_user.schedule_span.previous if current_user.schedule_span.previous.present?
-		else
-			current_user.schedule_span = current_user.schedule.schedule_spans.first
-		end
-		current_user.save
-		redirect_to :back
-	end
-
-	def next_in_schedule
-		current_user.schedule_span = current_user.schedule_span.next if current_user.schedule_span.next.present?
-		current_user.save
-		redirect_to :back
-	end
-	
 	def submit
 		page = Page.find(params[:page_id])
 		pset = page.pset

@@ -20,21 +20,6 @@
 				</div>
 			</div>
 			
-			<% if Schedule.any? %>
-			<div class="form-group">
-				<label class="col-sm-4 control-label" for="user_mail">Your schedule</label>
-				<div class="col-sm-8">
-					<% Schedule.all.each do |schedule| %>
-					<div class="radio">
-						<label>
-							<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-							<%= schedule.description || schedule.name %>
-						</label>
-					</div>
-					<% end %>
-				</div>
-			</div>
-			<% end %>
 		</div>
 		<div class="modal-footer">
 			<!-- <button type="button" class="btn btn-default">Cancel / Logout</button> -->
