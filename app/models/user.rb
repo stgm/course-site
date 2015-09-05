@@ -31,6 +31,14 @@ class User < ActiveRecord::Base
 	
 	scope :from_term, -> term  { where("term" => term) if not (term.nil? or term.empty?) }
 	scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
+	
+	def self.find_by_login login
+		return Login.find_by_login(login).user
+	end	
+	
+	def login_id
+		return self.logins.first.login
+	end
 
 	def valid_profile?
 		return !self.name.blank?

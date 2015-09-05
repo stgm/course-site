@@ -27,6 +27,7 @@ module Course
 		#Track.delete_all
 
 		puts "Deleting any user settings..."
+		# TODO uvanetid
 		User.where("uvanetid not in (?)", Settings['admins']).delete_all
 		Group.delete_all
 		Answer.delete_all
