@@ -33,7 +33,9 @@ class User < ActiveRecord::Base
 	scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
 	
 	def self.find_by_login(login)
-		return Login.find_by_login(login).user
+		if login
+			return Login.find_by_login(login).user
+		end
 	end	
 	
 	def login_id
