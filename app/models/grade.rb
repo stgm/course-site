@@ -28,6 +28,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def grader_name
+		Rails.logger.info self.grader.inspect
 		if g = User.find_by_login(self.grader)
 			return g.name
 		else
