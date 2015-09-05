@@ -116,13 +116,19 @@ private
 		# read schedules, if any
 		if schedule = Course.read_config(File.join(dir, 'schedule.yml'))
 			Rails.logger.info "Schedule found"
-			Rails.logger.info schedule
+			backup_position = ScheduleSpan.find(Settings.schedule_position).name
+			Rails.logger.info "Backed up: #{backup_position}"
 			new_schedule = Schedule.where(name: 'Standard').first_or_create
 			new_schedule.schedule_spans.delete_all
 			schedule.each do |sch_name, items|
 				span = ScheduleSpan.where(schedule_id: new_schedule.id, name: sch_name).first_or_initialize
 				span.content = items.to_yaml
 				span.save
+			end
+			
+			# restore current week
+			if pos = ScheduleSpan.find_by_name(backup_position).first
+				Settings.schedule_position = pos.id
 			end
 		else
 			Rails.logger.info "No schedule found"
