@@ -28,7 +28,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def grader_name
-		if g = User.find_by_login(self.grader).first
+		if g = User.find_by_login(self.grader)
 			return g.name
 		else
 			return ""
