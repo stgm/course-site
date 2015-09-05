@@ -31,25 +31,7 @@ class User < ActiveRecord::Base
 	
 	scope :from_term, -> term  { where("term" => term) if not (term.nil? or term.empty?) }
 	scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
-	
-	# ensure that if a schedule is selected, a valid schedule_span is also present
-	before_save do |r|
-		if r.schedule.present?
-			logger.debug "SCHED PRES"
-			if r.schedule_span.present?
-				logger.debug "SPAN PRES"
-				r.schedule_span = r.schedule.schedule_spans.first if not r.schedule.schedule_spans.include?(r.schedule_span)
-			else
-				logger.debug "SPAN NOT PRES"
-				r.schedule_span = r.schedule.schedule_spans.first
-			end
-		else
-			logger.debug "nuttin PRES"
-			
-			r.schedule_span = nil
-		end
-	end
-	
+
 	def valid_profile?
 		return !self.name.blank?
 	end
