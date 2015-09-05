@@ -47,7 +47,7 @@
 				<td><%= link_to submit.user.name, grade_form_path(user_id: submit.user_id, pset_id: submit.pset_id) %></td>
 				<td><%= submit.user.uvanetid %></td>
 				<td><% if submit.submitted_at %><%= submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(submit.submitted_at) %> ago)<% end %></td>
-				<td><%= submit.grade.grade if submit.grade %></td>
+				<td <%= "class=info" if submit.grade %>><%= submit.grade.grade if submit.grade %></td>
 			</tr>
 			<% end %>
 		</table>
