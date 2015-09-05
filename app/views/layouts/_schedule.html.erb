@@ -3,7 +3,7 @@
 <% schedule.content.each do |item, link|  %>
 <% next if item == 'description' %>
 <% if link.nil? %>
-    <li><%= item.sub('[', '<span class="badge pull-right">').sub(']', '</span>').html_safe %></li>
+    <li class="disables"><%= link_to item.sub('[', '<span class="badge pull-right">').sub(']', '</span>').html_safe, '#' %></li>
 <% else %>
 	<li><%= link_to item.sub('[', '<span class="badge pull-right">').sub(']', '</span>').html_safe, link %></li>
 <% end %>
