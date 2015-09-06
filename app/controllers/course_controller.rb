@@ -14,18 +14,6 @@ class CourseController < ApplicationController
 		redirect_to :back, notice: 'The course content was successfully updated.'
 	end
 	
-	def add_student
-		Track.find(params[:track_id]).users << User.where(uvanetid:params[:student_id]).first_or_create
-		render nothing: true, status: 200
-	end
-	
-	def remove_student
-		Track.find(params[:track_id]).users.delete(User.where(uvanetid:params[:student_id]))
-		logger.debug Track.find(params[:track_id]).users.inspect
-		logger.debug User.where(uvanetid:params[:student_id]).inspect
-		redirect_to :back
-	end
-	
 	def assign_final_grade
 		User.find(params[:id]).assign_final_grade
 	end

@@ -65,16 +65,12 @@ Rails.application.routes.draw do
 	post "course/toggle_grading_allowed"
 	post "course/toggle_send_grade_mails"
 	post "course/import"
-	post "course/add_student"
 	post "course/remove_student"
 	put  "course/change_user_name"
 	put  "course/assign_final_grade"
 
 	# grading overview
 	get  "grading" => "grading#index"
-
-	# check off homework
-	get  "check/:pset" => "check#index"
 
 	# individual grades
 	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'

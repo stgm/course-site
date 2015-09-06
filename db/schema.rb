@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906123451) do
+ActiveRecord::Schema.define(version: 20150906130942) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -120,28 +120,6 @@ ActiveRecord::Schema.define(version: 20150906123451) do
 
   add_index "psets", ["page_id"], name: "index_psets_on_page_id"
 
-  create_table "psets_tracks", force: :cascade do |t|
-    t.integer "pset_id"
-    t.integer "track_id"
-  end
-
-  add_index "psets_tracks", ["track_id", "pset_id"], name: "index_psets_tracks_on_track_id_and_pset_id"
-  add_index "psets_tracks", ["track_id"], name: "index_psets_tracks_on_track_id"
-
-  create_table "registrations", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "track_id"
-    t.string   "term",             limit: 255
-    t.string   "status",           limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "schedule_id"
-    t.integer  "schedule_span_id"
-  end
-
-  add_index "registrations", ["track_id"], name: "index_registrations_on_track_id"
-  add_index "registrations", ["user_id"], name: "index_registrations_on_user_id"
-
   create_table "schedule_spans", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.integer  "schedule_id"
@@ -209,31 +187,17 @@ ActiveRecord::Schema.define(version: 20150906123451) do
 
   add_index "subpages", ["slug"], name: "index_subpages_on_slug", unique: true
 
-  create_table "tracks", force: :cascade do |t|
-    t.integer  "final_grade_id"
-    t.string   "name",           limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", force: :cascade do |t|
-    t.string   "name",             limit: 255
-    t.string   "uvanetid",         limit: 255
-    t.string   "mail",             limit: 255
-    t.string   "avatar",           limit: 255
+    t.string   "name",       limit: 255
+    t.string   "mail",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.boolean  "done",                         default: false
-    t.boolean  "active",                       default: true
-    t.string   "term",             limit: 255
-    t.string   "status",           limit: 255
-    t.integer  "schedule_id"
-    t.integer  "schedule_span_id"
-    t.string   "token",            limit: 255
+    t.boolean  "done",                   default: false
+    t.boolean  "active",                 default: true
+    t.string   "term",       limit: 255
+    t.string   "status",     limit: 255
+    t.string   "token",      limit: 255
   end
-
-  add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"
-  add_index "users", ["schedule_span_id"], name: "index_users_on_schedule_span_id"
 
 end
