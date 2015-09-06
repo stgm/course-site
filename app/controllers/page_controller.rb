@@ -66,6 +66,7 @@ class PageController < ApplicationController
 		# create submit record
 		submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 		submit.submitted_at = Time.now
+		submit.used_login = session[:cas_user]
 		submit.url = params[:url]
 		submit.save
 	
