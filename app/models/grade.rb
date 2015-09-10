@@ -4,7 +4,7 @@ class Grade < ActiveRecord::Base
 	has_one :user, through: :submit
 	has_one :pset, through: :submit
 
-	attr_accessible :comments, :correctness, :design, :grade, :grader, :scope, :style
+	attr_accessible :comments, :correctness, :design, :grade, :grader, :scope, :style, :done
 	
 	def grade
 		g = read_attribute(:grade)

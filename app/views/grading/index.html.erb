@@ -1,4 +1,12 @@
-<h1>Grading list</h1>
+<h1>
+    Grading list
+    <% if params[:group] %>
+        <%= button_to 'Mark all I have graded as done', grades_mark_all_done_path, class: 'btn', remote:true, data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
+    <% end %>
+    <% if current_user.is_admin? %>
+        <%= button_to 'Mark all done grades as public', grades_mark_all_public_path, class: 'btn', remote:true, data: { confirm:'Are you sure?' } %>
+    <% end %>
+</h1>
 	
 <div class="row">
 	
@@ -42,12 +50,12 @@
 			</tr>
 		
 			<% @submits.each do |submit| %>
-			<tr>
+			<tr class="<%= grade_color(submit.grade) %>">
 				<td><%= submit.pset.name %></td>
 				<td><%= link_to submit.user.name, grade_form_path(user_id: submit.user_id, pset_id: submit.pset_id) %></td>
 				<td><%= submit.used_login %></td>
 				<td><% if submit.submitted_at %><%= submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(submit.submitted_at) %> ago)<% end %></td>
-				<td <%= "class=info" if submit.grade %>><%= submit.grade.grade if submit.grade %></td>
+				<td><%= submit.grade.grade if submit.grade %></td>
 			</tr>
 			<% end %>
 		</table>

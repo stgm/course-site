@@ -76,6 +76,8 @@ Rails.application.routes.draw do
 	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
 	post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
 	delete "grade" => "grades#destroy"
+	post "grades/mark_all_done"
+	post "grades/mark_all_public"
 	
 	# onboarding
 	get  "welcome" => "welcome#index"

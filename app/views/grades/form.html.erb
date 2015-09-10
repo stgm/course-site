@@ -100,11 +100,22 @@ grader: <%= @grade.grader_name %>
 
 		<div class="row">
 			<div class="col-xs-12">
+				<div>
+					<%= f.check_box :done %> <label for="grade_done">I'm done grading this one.</label>
+                    <% if @grade.public %>(grade has already been marked public)<% end %>
+				</div>
+			</div>
+		</div>
+
+        <% if current_user.is_admin? || !@grade.done %>
+		<div class="row">
+			<div class="col-xs-12">
 				<div class="actions">
 					<%= f.submit class: 'btn btn-primary form-control' %>
 				</div>
 			</div>
 		</div>
+        <% end %>
 	</div>
 	
 		
@@ -131,5 +142,5 @@ grader: <%= @grade.grader_name %>
 
 <% if current_user.is_admin? %>
 <hr>
-<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade.", class: 'btn btn-danger' if @submit %>
+<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-danger' if @submit %>
 <% end %>

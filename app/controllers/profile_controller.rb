@@ -16,9 +16,7 @@ class ProfileController < ApplicationController
 	end
 	
 	def grades
-		if Settings.public_grades
-			@grades = Grade.includes(:submit).where("submits.user_id = ? and grades.grade is not null", current_user.id).references(:submits)
-		end
+		@grades = Grade.includes(:submit).where(public:true).where(done:true).where("submits.user_id = ? and grades.grade is not null", current_user.id).references(:submits)
 	end
 	
 	def save # POST

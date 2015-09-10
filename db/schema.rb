@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906130942) do
+ActiveRecord::Schema.define(version: 20150910100557) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 20150906130942) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "mailed_at",               default: '-4712-01-01 00:00:00', null: false
+    t.boolean  "done",                    default: false
+    t.boolean  "public",                  default: false
   end
 
   add_index "grades", ["submit_id"], name: "index_grades_on_submit_id"

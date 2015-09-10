@@ -1,6 +1,6 @@
 <h1>Grades</h1>
 
-<% if Settings.public_grades %>
+<% if @grades.present? %>
 
 <% @grades.each do |grade| %>
 
@@ -35,7 +35,7 @@
 
 <% else %>
 
-Grades are currently hidden.
+You have no grades yet <code>:(</code>
 
 <% end %>
 
