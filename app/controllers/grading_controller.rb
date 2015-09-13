@@ -7,7 +7,11 @@ class GradingController < ApplicationController
 	# List of problems to be graded by assistants
 	#
 	def index
-		@submits = Submit.includes(:user, :pset, :grade).where("submits.submitted_at > grades.updated_at or grades.updated_at is null or (grades.public = 'f' and grades.updated_at > ?)", 1.days.ago)
+		if current_user.is_admin?
+			@submits = Submit.includes(:user, :pset, :grade)
+		else
+			@submits = Submit.includes(:user, :pset, :grade).where("submits.submitted_at > grades.updated_at or grades.updated_at is null or (grades.public = 'f' and grades.updated_at > ?)", 1.days.ago)
+		end
 		@submits = @submits.where(pset_id:params[:pset]) if not params[:pset].blank?
 		@submits = @submits.where("users.group_id" => params[:group]) if not params[:group].blank?
 		@submits = @submits.order('psets.name')
