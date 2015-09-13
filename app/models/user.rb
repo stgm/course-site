@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 	has_many :submits
 	has_many :grades, through: :submits
 	has_many :psets, through: :submits
+	has_many :attendance_records
 	
 	has_one :ping
 

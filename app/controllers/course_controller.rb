@@ -5,6 +5,25 @@ class CourseController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin
+	
+	before_action :load_attendance, only: [:grades_for_group, :grades_for_inactive, :grades_for_other, :grades_for_admins]
+
+
+	def load_attendance
+		if !Settings['attendance_last_calced'] || Settings['attendance_last_calced'] < 1.day.ago
+			Settings['attendance_last_calced'] = Time.now
+			User.all.each do |u|
+				user_attendance = []
+				for i in 0..6
+					d_start = Date.today + 1 - 1 - i # start of tomorrow
+					d_end = Date.today + 1 - i # start of today
+					hours = u.attendance_records.where("cutoff >= ? and cutoff < ?", d_start, d_end).count
+					user_attendance.insert 0, hours
+				end
+				u.update_attribute(:attendance, user_attendance.join(","))
+			end
+		end
+	end
 
 	#
 	# update the courseware from the linked git repository

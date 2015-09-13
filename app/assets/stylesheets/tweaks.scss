@@ -21,6 +21,10 @@ a.list-group-item
     text-decoration:underline;
 }
 
+.jqstooltip{
+    box-sizing: content-box;
+}
+
 .navbar .list-group .list-group-item:last-child {
 	border-bottom: none;
 }

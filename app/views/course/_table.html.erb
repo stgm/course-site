@@ -3,6 +3,7 @@
 	<tr>
 		<th>Name</th>
 		<th>ID</th>
+        <th>Attend</th>
 		<% psets.each do |pset| %>
 		<th class="rotate"><div><%= pset.name %></div></th>
 		<% end %>
@@ -38,6 +39,8 @@
 			<%= user.logins.first.login %>
 			<% end %>
 		</td>
+        
+        <td><span class="bar"><%= user.attendance %></span></td>
 
 		<% subs = user.submits.group_by(&:pset_id) %>
 		<% psets.each do |pset| %>
@@ -54,3 +57,8 @@
 	<% end %>
 
 </table>
+
+
+<script type="text/javascript">
+    $(".bar").sparkline('html', { type: 'bar', barWidth: 8 });
+</script>
