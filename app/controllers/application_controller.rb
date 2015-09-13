@@ -14,7 +14,10 @@ class ApplicationController < ActionController::Base
 		if current_user.persisted? and not current_user.is_admin?
 			real_time = DateTime.now
 			cutoff_time = DateTime.new(real_time.year, real_time.month, real_time.mday, real_time.hour)
-			location = Resolv.getname(request.remote_ip)
+			begin
+				location = Resolv.getname(request.remote_ip)
+			rescue Resolv::ResolvError
+			end
 			if location =~ /^wcw.*uva.nl$/
 				AttendanceRecord.where(user_id:current_user.id, cutoff:cutoff_time).first_or_create
 			end
