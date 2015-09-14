@@ -19,6 +19,10 @@ class ProfileController < ApplicationController
 		@grades = Grade.includes(:submit).where(public:true).where(done:true).where("submits.user_id = ?", current_user.id).references(:submits)
 	end
 	
+	def ping
+		render nothing:true
+	end
+	
 	def save # POST
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
 			render :text => 'Will not work! Enter a valid name.'

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 	get  "profile/pair"
 	get  "profile/logout"
 	post "profile/ask"
+	get  "profile/ping"
 
 	# administrative
 	get  "admin" => "admin#index"

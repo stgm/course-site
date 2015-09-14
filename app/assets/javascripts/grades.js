@@ -11,6 +11,16 @@ function activate_button(button) {
 	button.addClass('active');
 }
 
+function keepalive() {
+	$.ajax({
+	   type: "GET",
+	   url: "/profile/ping"
+	 }); 
+	setTimeout(function(){
+		keepalive();
+	}, 1800000);
+}
+
 $(document).ready(function() {
 	$('button#pass-btn').click(function(e) {
 		$('#grade_grade').val(GRADE_PASS);
@@ -27,4 +37,8 @@ $(document).ready(function() {
 	$('#grade_grade').change(function(e) {
 		deactivate_buttons();
 	});
+	
+	setTimeout(function(){
+		keepalive();
+	}, 1800000);
 });

@@ -11,12 +11,13 @@ class ApplicationController < ActionController::Base
 	helper_method :current_user, :logged_in?
 	
 	def register_attendance
-		if current_user.persisted? and not current_user.is_admin?
+		if current_user.persisted?# and not current_user.is_admin?
 			real_time = DateTime.now
 			cutoff_time = DateTime.new(real_time.year, real_time.month, real_time.mday, real_time.hour)
 			begin
 				location = Resolv.getname(request.remote_ip)
 			rescue Resolv::ResolvError
+				location = "untraceable"
 			end
 			if location =~ /^wcw.*uva.nl$/
 				AttendanceRecord.where(user_id:current_user.id, cutoff:cutoff_time).first_or_create
