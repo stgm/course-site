@@ -29,8 +29,11 @@ class CourseController < ApplicationController
 	# update the courseware from the linked git repository
 	#
 	def import
-		CourseLoader.new.start
-		redirect_to :back, notice: 'The course content was successfully updated.'
+		if CourseLoader.new.start
+			redirect_to :back, notice: 'The course content was successfully updated.'
+		else
+			redirect_to :back, error: 'The local git repository could not be updated. Please try again later.'
+		end
 	end
 	
 	def assign_final_grade

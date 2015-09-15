@@ -15,7 +15,7 @@ class CourseLoader
 	# Re-read the course contents from the git repository.
 	def start
 		# get update from from git remote (pull)
-		update_repo(COURSE_DIR)
+		result = update_repo(COURSE_DIR)
 
 		# add course info pages
 		load_course_info(COURSE_DIR)
@@ -31,6 +31,8 @@ class CourseLoader
 		
 		# put psets in order
 		CourseTools.clean_psets
+		
+		return result
 	end
 
 private
@@ -63,7 +65,7 @@ private
 	# overridden in an initializer in order to function well!
 	#
 	def update_repo(dir)
-		CourseGit.pull
+		return CourseGit.pull
 	end
 	
 	# Loads course settings from the course.yml file
