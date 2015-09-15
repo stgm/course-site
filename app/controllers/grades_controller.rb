@@ -38,11 +38,13 @@ class GradesController < ApplicationController
 	def mark_all_done
 		@grades = Grade.where(grader:current_user.login_id).where(done:false)
 		@grades.update_all(done:true)
+		render nothing:true
 	end
 	
 	def mark_all_public
 		@grades = Grade.where(done:true).where(public:false)
 		@grades.update_all(public:true)
+		render nothing:true
 	end
 
 end
