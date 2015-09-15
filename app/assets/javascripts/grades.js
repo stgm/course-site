@@ -22,6 +22,12 @@ function keepalive() {
 }
 
 $(document).ready(function() {
+	setTimeout(function(){
+		keepalive();
+	}, 1800000);
+});
+
+$(document).on('page:change', function () {
 	$('button#pass-btn').click(function(e) {
 		$('#grade_grade').val(GRADE_PASS);
 		activate_button($(this));
@@ -37,8 +43,4 @@ $(document).ready(function() {
 	$('#grade_grade').change(function(e) {
 		deactivate_buttons();
 	});
-	
-	setTimeout(function(){
-		keepalive();
-	}, 1800000);
 });
