@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150913173327) do
+ActiveRecord::Schema.define(version: 20150915085323) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -141,13 +141,10 @@ ActiveRecord::Schema.define(version: 20150913173327) do
 
   create_table "schedules", force: :cascade do |t|
     t.string   "name",        limit: 255
-    t.integer  "track_id"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "schedules", ["track_id"], name: "index_schedules_on_track_id"
 
   create_table "sections", force: :cascade do |t|
     t.string   "title",      limit: 255
