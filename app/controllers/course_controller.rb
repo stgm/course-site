@@ -10,7 +10,7 @@ class CourseController < ApplicationController
 
 
 	def load_attendance
-		if !Settings['attendance_last_calced'] || Settings['attendance_last_calced'] < 1.day.ago
+		if !Settings['attendance_last_calced'] || Settings['attendance_last_calced'] < 3.hours.ago
 			Settings['attendance_last_calced'] = Time.now
 			User.all.each do |u|
 				user_attendance = []
