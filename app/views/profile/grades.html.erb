@@ -7,26 +7,36 @@
 <h2><%= grade.submit.pset.name %></h2>
 
 <table class="table table-bordered" style="width:auto">
+    <% if grade.scope %>
 	<tr>
 		<td>Scope</td>
 		<td><%= grade.scope %></td>
 	</tr>
+    <% end %>
+    <% if grade.correctness %>
 	<tr>
 		<td>Correctness</td>
 		<td><%= grade.correctness %></td>
 	</tr>
+    <% end %>
+    <% if grade.design %>
 	<tr>
 		<td>Design</td>
 		<td><%= grade.design %></td>
 	</tr>
+    <% end %>
+    <% if grade.style %>
 	<tr>
 		<td>Style</td>
 		<td><%= grade.style %></td>
 	</tr>
+    <% end %>
+    <% if grade.grade %>
 	<tr>
 		<td>Final</td>
 		<td><%= translate_grade(grade.grade) %></td>
 	</tr>
+    <% end %>
 </table>
 
 <%= simple_markdown(grade.comments) %>
