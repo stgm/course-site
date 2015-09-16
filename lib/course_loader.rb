@@ -9,13 +9,14 @@ class CourseLoader
 	COURSE_DIR = "public/course"
 	
 	def initialize
+		@errors = []
 		@touched_subpages = []
 	end
 	
 	# Re-read the course contents from the git repository.
-	def start
+	def run
 		# get update from from git remote (pull)
-		result = update_repo(COURSE_DIR)
+		update_repo(COURSE_DIR)
 
 		# add course info pages
 		load_course_info(COURSE_DIR)
@@ -32,7 +33,7 @@ class CourseLoader
 		# put psets in order
 		CourseTools.clean_psets
 		
-		return result
+		return @errors
 	end
 
 private
@@ -65,7 +66,9 @@ private
 	# overridden in an initializer in order to function well!
 	#
 	def update_repo(dir)
-		return CourseGit.pull
+		if !CourseGit.pull
+			@errors << "Repo could not be updated from remote. You can simply try again."
+		end
 	end
 	
 	# Loads course settings from the course.yml file
@@ -82,6 +85,8 @@ private
 			Settings['display_license'] = config['license'] if config['license']
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 			Settings['psets'] = config['psets'] if config['psets']
+		else
+			@errors << "You do not have a course.yml!"
 		end
 
 		if grading = read_config(File.join(dir, 'grading.yml'))
@@ -91,9 +96,7 @@ private
 	
 	def load_schedules(dir)
 		if schedule = read_config(File.join(dir, 'schedule.yml'))
-			Rails.logger.info "Schedule found"
 			backup_position = ScheduleSpan.find(Settings.schedule_position).name if Settings.schedule_position
-			Rails.logger.info "Backed up: #{backup_position}"
 			new_schedule = Schedule.where(name: 'Standard').first_or_create
 			new_schedule.schedule_spans.delete_all
 			schedule.each do |sch_name, items|
@@ -105,8 +108,6 @@ private
 			if backup_position && pos = ScheduleSpan.find_by_name(backup_position)
 				Settings.schedule_position = pos.id
 			end
-		else
-			Rails.logger.info "No schedule found"
 		end
 	end
 
@@ -288,7 +289,12 @@ private
 	#
 	def read_config(filename)
 		if File.exists?(filename)
-			return YAML.load_file(filename)
+			begin
+				return YAML.load_file(filename)
+			rescue
+				@errors << "A yml was in an unreadable format. Did you confuse tabs and spaces?"
+				return false
+			end
 		else
 			return false
 		end

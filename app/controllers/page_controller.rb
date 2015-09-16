@@ -51,7 +51,7 @@ class PageController < ApplicationController
 		pset = page.pset
 
 		if (pset.form || pset.pset_files.length > 0) && !Dropbox.connected?
-			redirect_to(:back, flash: { error: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
+			redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
 		end
 		
 		form_text = render_form_text(params[:a])

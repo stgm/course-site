@@ -29,10 +29,13 @@ class CourseController < ApplicationController
 	# update the courseware from the linked git repository
 	#
 	def import
-		if CourseLoader.new.start
-			redirect_to :back, notice: 'The course content was successfully updated.'
+		errors = CourseLoader.new.run
+		logger.info errors.join('<br>').inspect
+		if errors.size > 0
+			logger.info "yes error"
+			redirect_to :back, alert: errors.join('<br>')
 		else
-			redirect_to :back, error: 'The local git repository could not be updated. Please try again later.'
+			redirect_to :back, notice: 'The course content was successfully updated.'
 		end
 	end
 	

@@ -13,7 +13,7 @@ class DropboxController < ApplicationController
 	# endpoint after dropbox confirmation, checks connection and saves
 	def oauth
 		if params[:not_approved] == 'true'
-			redirect_to config_dropbox_path, flash: { error: 'You just cancelled, didn\'t you?' }
+			redirect_to config_dropbox_path, flash: { alert: 'You just cancelled, didn\'t you?' }
 		else
 			Dropbox.process_authorization
 			redirect_to :root
