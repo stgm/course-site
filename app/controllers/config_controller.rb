@@ -1,4 +1,3 @@
-require 'course'
 require 'dropbox'
 
 class ConfigController < ApplicationController
