@@ -1,4 +1,3 @@
-require 'course'
 require 'course_loader'
 
 class CourseController < ApplicationController
