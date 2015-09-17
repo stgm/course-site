@@ -31,7 +31,7 @@ class ConfigController < ApplicationController
 	
 	def git_repo_save
 		Settings.git_repo = params[:repo_url]
-		CourseLoader.new.start
+		CourseLoader.new.run
 		redirect_to :back, notice: 'The course content was successfully cloned.'
 	end
 	
