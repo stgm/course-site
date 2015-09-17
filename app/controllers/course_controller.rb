@@ -99,21 +99,6 @@ class CourseController < ApplicationController
 		render 'grades', layout: 'full-width'
 	end
 	
-	def toggle_public_grades
-		Settings.public_grades = !Settings.public_grades
-		redirect_to :back
-	end
-	
-	def toggle_grading_allowed
-		Settings.allow_grading = !Settings.allow_grading
-		redirect_to :back
-	end
-	
-	def toggle_send_grade_mails
-		Settings.send_grade_mails = !Settings.send_grade_mails
-		redirect_to :back
-	end
-	
 	#
 	# update submit date for single submit, in order to get it into the queue again
 	#

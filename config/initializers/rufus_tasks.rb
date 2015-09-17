@@ -6,7 +6,7 @@ scheduler = Rufus::Scheduler.new
 # for corrections within that timeframe.
 
 scheduler.every '15m' do
-	if Settings.send_grade_mails
+	if Settings['mail_address']
 		Grade.where("grades.updated_at < ? and grades.mailed_at < grades.updated_at and grades.public is ?", 2.hours.ago, true).joins([:submit]).find_each do |g|
 			GradeMailer.new_mail(g).deliver
 			g.touch(:mailed_at)

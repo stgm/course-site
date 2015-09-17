@@ -62,9 +62,6 @@ Rails.application.routes.draw do
 	get  "course/grades/inactive", to: "course#grades_for_inactive"
 	get  "course/grades(/:group)", to: "course#grades_for_group", as: 'course_grades'
 	post "course/touch_submit"
-	post "course/toggle_public_grades"
-	post "course/toggle_grading_allowed"
-	post "course/toggle_send_grade_mails"
 	post "course/import"
 	post "course/remove_student"
 	put  "course/change_user_name"

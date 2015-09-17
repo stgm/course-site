@@ -1,8 +1,14 @@
-require './lib/cas.rb'
+base_url = ENV['CAS_BASE_URL']
+fake_user = ENV['CAS_FAKE_USER']
+validate_url = "#{base_url}serviceValidate"
 
-CASClient::Frameworks::Rails::Filter.configure(
-	cas_base_url: Cas.base_url,
-	validate_url: Cas.validate_url
-) if Cas.available?
+if base_url.present?
+	CASClient::Frameworks::Rails::Filter.configure(
+		cas_base_url: base_url,
+		validate_url: validate_url
+	)
+end
 
-CASClient::Frameworks::Rails::Filter.fake(Cas.fake_username) if Cas.will_fake?
+if fake_user.present?
+	CASClient::Frameworks::Rails::Filter.fake(fake_user)
+end

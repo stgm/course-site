@@ -13,29 +13,12 @@
 	<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, course_grades_path %></li>
 	<li><%= link_to '<i class="glyphicon glyphicon-stats"></i> Administration'.html_safe, admin_path %></li>
 	<li class="divider"></li>
-	<% if Settings.public_grades %>
-	<li><%= link_to '<i class="glyphicon glyphicon-ok"></i> Show grades to students'.html_safe, course_toggle_public_grades_path, method: :post %></li>
-	<% else %>
-	<li><%= link_to '<i class="glyphicon empty"></i> Show grades to students'.html_safe, course_toggle_public_grades_path, method: :post %></li>
-	<% end %>
-	<% if Settings.allow_grading %>
-	<li><%= link_to '<i class="glyphicon glyphicon-ok"></i> Allow grading'.html_safe, course_toggle_grading_allowed_path, method: :post %></li>
-	<% else %>
-	<li><%= link_to '<i class="glyphicon empty"></i> Allow grading'.html_safe, course_toggle_grading_allowed_path, method: :post %></li>
-	<% end %>
-	<% if Settings.send_grade_mails %>
-	<li><%= link_to '<i class="glyphicon glyphicon-ok"></i> Send grade emails'.html_safe, course_toggle_send_grade_mails_path, method: :post %></li>
-	<% else %>
-	<li><%= link_to '<i class="glyphicon empty"></i> Send grade emails'.html_safe, course_toggle_send_grade_mails_path, method: :post %></li>
-	<% end %>
-	<li class="divider"></li>
 	<% end %>
 	<% if current_user.is_assistant? or current_user.is_admin? %>
 	<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, grading_path %></li>
 	<% end %>
 	<li><%= link_to '<i class="glyphicon glyphicon-list"></i> View grades'.html_safe, profile_grades_path %></li>
 	<li class="divider"></li>
-	<li><%= link_to '<i class="glyphicon glyphicon-phone"></i> Pair with phone'.html_safe, profile_pair_path %></li>
 	<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, profile_logout_path %></li>
 
 <% else %>
@@ -45,4 +28,3 @@
 	</li>
 
 <% end %>
-					

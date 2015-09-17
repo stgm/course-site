@@ -1,7 +1,7 @@
 class GradingController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin_or_assistant, :grading_allowed
+	before_filter :require_admin_or_assistant
 
 	# 
 	# List of problems to be graded by assistants
@@ -21,8 +21,4 @@ class GradingController < ApplicationController
 	
 	private
 	
-	def grading_allowed
-		render text: "Grading is currently closed." unless Settings.allow_grading
-	end
-
 end
