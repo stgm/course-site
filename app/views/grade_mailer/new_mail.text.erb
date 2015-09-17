@@ -6,7 +6,9 @@ Hey! New feedback has been entered for <%= @course_name %>, item "<%= @grade_nam
 
 ---------------------------------------------------------------------
 
+<% if @grade %>
 The grade entered is: <%= translate_grade(@grade) %>
+<% end %>
 
 If you have any questions, feel free to discuss with an assistant or just
 send us an email. If the feedback indicates that you forgot to do something,
