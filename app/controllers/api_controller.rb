@@ -1,4 +1,3 @@
-require 'course'
 require 'api_provider'
 
 class ApiController < ApplicationController
