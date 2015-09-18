@@ -48,8 +48,7 @@ class PageController < ApplicationController
 	
 	def submit
 		if !session[:cas_user]
-			Rails.logger.info "cancelling"
-			redirect_to(:back, alert: 'Please login again before submitting.')
+			redirect_to(:back, alert: 'Please login again before submitting.') and return
 		end
 		
 		page = Page.find(params[:page_id])
