@@ -47,6 +47,8 @@ class PageController < ApplicationController
 	end
 	
 	def submit
+		redirect_to(:back, alert: 'Please login again before submitting.') if !session[:cas_user]
+		
 		page = Page.find(params[:page_id])
 		pset = page.pset
 
