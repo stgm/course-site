@@ -63,8 +63,12 @@ class PageController < ApplicationController
 		# upload to dropbox
 		if pset.form || pset.pset_files.length > 0
 			dropbox = Dropbox.connection
-			dropbox.submit(session[:cas_user], current_user.name,
-		               Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
+			begin
+				dropbox.submit(session[:cas_user], current_user.name,
+					Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
+			rescue
+				redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Please try again.".html_safe }) and return
+			end
 		end
 
 		# create submit record

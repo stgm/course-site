@@ -26,8 +26,11 @@ class DropboxConnection
 		# upload all posted files
 		if files
 			files.each do |filename, file|
-				Rails.logger.debug "#{@dropbox_client.inspect}"
-				@dropbox_client.put_file(File.join(dropbox_root, course, user, item_folder, file.original_filename), file.read)
+				begin
+					@dropbox_client.put_file(File.join(dropbox_root, course, user, item_folder, file.original_filename), file.read)
+				rescue DropboxError
+					raise "Error uploading to Dropbox"
+				end
 			end
 		end
 
