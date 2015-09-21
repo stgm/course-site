@@ -19,7 +19,7 @@ class GradesController < ApplicationController
 			if current_user.is_admin? || !@submit.grade.done
 				@submit.grade.update_attributes(params[:grade])
 			else
-				render status: 403
+				render nothing: true, status: 403
 			end
 		else
 			@submit.create_grade
