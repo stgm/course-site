@@ -42,7 +42,21 @@ class GradesController < ApplicationController
 	end
 	
 	def mark_all_public
-		@grades = Grade.where(done:true).where(public:false)
+		# Submit.where(pset_id: params[:pset])
+		# Group.find(params[:group]).users
+		
+		@grades = Grade.joins(:submit => :user).where(done:true).where(public:false)
+		
+		if params[:pset]
+			@grades = @grades.where('submits.pset_id = ?', params[:pset])
+		end
+		
+		if params[:group]
+			@grades = @grades.where('users.group_id = ?', params[:group])
+		end
+		
+		# @grades = Grade.where(done:true).where(public:false)
+		# @grades = @grades.includes([:submit, :user => :group])
 		@grades.update_all(public:true)
 		render nothing:true
 	end

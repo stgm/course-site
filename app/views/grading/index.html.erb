@@ -4,7 +4,7 @@
         <%= button_to 'Mark all I have graded as done', grades_mark_all_done_path, class: 'btn', remote:true, data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
     <% end %>
     <% if current_user.is_admin? %>
-        <%= button_to 'Mark all done grades as public', grades_mark_all_public_path, class: 'btn', remote:true, data: { confirm:'Are you sure?' } %>
+        <%= button_to 'Mark all done grades as public', grades_mark_all_public_path(pset: params[:pset], group: params[:group]), class: 'btn', remote:true, data: { confirm:'Are you sure?' } %>
     <% end %>
 </h1>
 	
