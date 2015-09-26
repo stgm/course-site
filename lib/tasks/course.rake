@@ -1,4 +1,4 @@
-require 'course'
+#require 'course'
 
 namespace :course do
 
