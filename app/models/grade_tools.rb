@@ -60,9 +60,13 @@ class GradeTools
 			#
 		else
 			droppable_grade = nil
+
 			if allow_drop = @grading[subtype]['drop'] == 'correctness' ? 1 : 0
-				# droppable_grade = User.first.grades.joins(:pset).where('psets.name in (?) and grades.correctness >= 2', Settings['grading']['psets']['grades'].keys).order('grade asc').first
 				droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc, calculated_grade asc').first
+			end
+
+			if allow_drop = @grading[subtype]['drop'] == 'scope' ? 1 : 0
+				droppable_grade = Grade.joins(:pset).where('grades.scope = 5').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc, calculated_grade asc').first
 			end
 			
 			@grading[subtype]['grades'].each do |grade, weight|
