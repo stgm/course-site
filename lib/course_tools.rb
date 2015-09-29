@@ -28,6 +28,7 @@ class CourseTools
 		end
 		
 		if Settings['grading']
+			counter = 1
 			Settings['grading'].each do |type, definition|
 				if type == 'calculation' || type == 'formulas'
 					# ignore
