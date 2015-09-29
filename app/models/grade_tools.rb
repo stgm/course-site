@@ -37,6 +37,7 @@ class GradeTools
 	end
 	
 	def calc_final_grade_subtype(subs, subtype)
+		Rails.logger.info subtype.inspect
 		return 0 if !@grading[subtype]['grades']
 
 		total = 0
