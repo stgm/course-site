@@ -29,8 +29,8 @@ class CourseTools
 		
 		if Settings['grading']
 			Settings['grading'].each do |type, definition|
-				if type == 'calculation'
-					#
+				if type == 'calculation' || type == 'formulas'
+					# ignore
 				else
 					definition['grades'].each do |grade,weigth|
 						p = Pset.where(name: grade).first_or_create

@@ -1,5 +1,17 @@
 module GradesHelper
 	
+	def calculate_grade(grade)
+		f = Settings['grading']['formulas']
+		logger.info f.inspect
+		return nil if f.nil?
+		pset_name = grade.pset.name
+		logger.info pset_name.inspect
+		return nil if f[pset_name].nil?
+		cg = grade.instance_eval(f[pset_name])
+		logger.info cg.inspect
+		return cg
+	end
+	
 	def translate_grade(grade)
 		return "error" if grade.nil? or grade < -1
 		return "pass" if grade == -1
@@ -11,7 +23,11 @@ module GradesHelper
 		if subs[pset.id]
 			submitted = subs[pset.id][0]
 			if submitted.graded?
-				grade_button_html(user.id, pset.id, format_grade(submitted.grade.grade, pset.grade_type))
+				if not submitted.grade.grade.blank?
+					grade_button_html(user.id, pset.id, format_grade(submitted.grade.grade, pset.grade_type))
+				else
+					grade_button_html(user.id, pset.id, format_grade(submitted.grade.calculated_grade, pset.grade_type))
+				end
 			else
 				grade_button_html(user.id, pset.id, 'S')
 			end

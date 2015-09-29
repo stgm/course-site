@@ -8,7 +8,7 @@ class Submit < ActiveRecord::Base
 	attr_accessible :submitted_at, :url, :used_login
 
 	def graded?
-		return (self.grade && !self.grade.grade.blank?)
+		return (self.grade && (!self.grade.grade.blank? || !self.grade.calculated_grade.blank?))
 	end
 
 end
