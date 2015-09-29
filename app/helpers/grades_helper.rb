@@ -2,13 +2,14 @@ module GradesHelper
 	
 	def calculate_grade(grade)
 		f = Settings['grading']['formulas']
-		logger.info f.inspect
 		return nil if f.nil?
 		pset_name = grade.pset.name
-		logger.info pset_name.inspect
 		return nil if f[pset_name].nil?
-		cg = grade.instance_eval(f[pset_name])
-		logger.info cg.inspect
+		begin
+			cg = grade.instance_eval(f[pset_name])
+		rescue
+			cg = nil
+		end
 		return cg
 	end
 	
