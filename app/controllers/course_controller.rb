@@ -39,7 +39,7 @@ class CourseController < ApplicationController
 	end
 	
 	def assign_final_grade
-		User.find(params[:id]).assign_final_grade
+		User.find(params[:id]).assign_final_grade(@current_user.login_id)
 		render nothing:true
 	end
 	

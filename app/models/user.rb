@@ -64,22 +64,18 @@ class User < ActiveRecord::Base
 		'N/A'
 	end
 	
-	def assign_final_grade
+	def assign_final_grade(grader)
 		# generate hash of psewt_name => submit_object
 		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
 		
 		# calc grade from hash
 		grade = GradeTools.new.calc_final_grade(subs)
-		logger.info grade.inspect
-		grade = 3
 		
 		# save
 		if grade > 0
 			final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
 			final.create_grade if !final.grade
-			logger.info "grade created: #{final.grade.inspect}"
-			final.grade.update_attributes(grade: grade)
-			logger.info "ok: #{final.grade.inspect}"
+			final.grade.update_attributes(grade: grade, grader: grader)
 		end
 	end
 	
