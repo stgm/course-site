@@ -40,6 +40,7 @@ class CourseController < ApplicationController
 	
 	def assign_final_grade
 		User.find(params[:id]).assign_final_grade
+		render nothing:true
 	end
 	
 	def change_user_name
