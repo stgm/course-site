@@ -23,6 +23,8 @@ class GradesController < ApplicationController
 				logger.info @submit.grade.inspect
 				if calculated_grade = calculate_grade(@submit.grade)
 					@submit.grade.update_attribute(:calculated_grade, calculated_grade*10)
+				else
+					@submit.grade.update_attribute(:calculated_grade, nil)
 				end
 			else
 				render nothing: true, status: 403
@@ -32,6 +34,8 @@ class GradesController < ApplicationController
 			@submit.grade.update_attributes(params[:grade].merge(grader: current_user.login_id))
 			if calculated_grade = calculate_grade(@submit.grade)
 				@submit.grade.update_attribute(:calculated_grade, calculated_grade*10)
+			else
+				@submit.grade.update_attribute(:calculated_grade, nil)
 			end
 		end
 		redirect_to params[:referer]
