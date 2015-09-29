@@ -75,6 +75,7 @@ class User < ActiveRecord::Base
 		if grade > 0
 			final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
 			final.create_grade if !final.grade
+			logger.info grade.inspect
 			final.grade.update_attribute(:grade, grade)
 		end
 	end
