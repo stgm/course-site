@@ -14,7 +14,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def calculated_grade
-		g = read_attribute(:grade)
+		g = read_attribute(:calculated_grade)
 		return nil if !g
 		g = (g/10.0).round(1)
 		return g
