@@ -35,5 +35,28 @@ class Grade < ActiveRecord::Base
 			return ""
 		end
 	end
+		
+	def set_calculated_grade
+		if calculated_grade = calculate_grade(self)
+			self.update_attribute(:calculated_grade, calculated_grade*10)
+		else
+			self.update_attribute(:calculated_grade, nil)
+		end
+	end
+
+	private
+	
+	def calculate_grade(grade)
+		f = Settings['grading']['formulas']
+		return nil if f.nil?
+		pset_name = grade.pset.name
+		return nil if f[pset_name].nil?
+		begin
+			cg = grade.instance_eval(f[pset_name])
+		rescue
+			cg = nil
+		end
+		return cg
+	end
 
 end
