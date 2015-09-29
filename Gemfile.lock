@@ -167,8 +167,6 @@ GEM
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
-    turbolinks (2.5.3)
-      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)
@@ -183,6 +181,7 @@ DEPENDENCIES
   best_in_place (~> 3.0.1)
   bootstrap-sass (~> 3.3.0)
   bugsnag
+  coffee-rails
   dropbox-sdk
   friendly_id (~> 5.0.0)
   git
@@ -202,6 +201,5 @@ DEPENDENCIES
   sqlite3
   sucker_punch
   thin
-  turbolinks
   uglifier (>= 1.3.0)
   videojs_rails
