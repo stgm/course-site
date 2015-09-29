@@ -13,6 +13,13 @@ class Grade < ActiveRecord::Base
 		return g
 	end
 	
+	def calculated_grade
+		g = read_attribute(:grade)
+		return nil if !g
+		g = (g/10.0).round(1)
+		return g
+	end
+
 	def grade=(new_grade)
 		if new_grade.blank? # erases the grade
 			return super(nil)
