@@ -35,6 +35,13 @@ class Grade < ActiveRecord::Base
 			else # integer, pass
 				super(10.0 * new_grade.to_i)
 			end
+		else
+			case self.pset.grade_type
+			when 'float'
+				super(10.0 * new_grade.to_f)
+			else # integer, pass
+				super(10.0 * new_grade.to_i)
+			end
 		end
 	end
 	

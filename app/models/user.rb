@@ -70,13 +70,16 @@ class User < ActiveRecord::Base
 		
 		# calc grade from hash
 		grade = GradeTools.new.calc_final_grade(subs)
+		logger.info grade.inspect
+		grade = 3
 		
 		# save
 		if grade > 0
 			final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
 			final.create_grade if !final.grade
-			logger.info grade.inspect
-			final.grade.update_attribute(:grade, grade)
+			logger.info "grade created: #{final.grade.inspect}"
+			final.grade.update_attributes(grade: grade)
+			logger.info "ok: #{final.grade.inspect}"
 		end
 	end
 	
