@@ -47,11 +47,11 @@ class GradeTools
 			allow_drop = @grading[subtype]['drop'] == 'any' ? 1 : 0
 			@grading[subtype]['grades'].each do |grade, weight|
 				return 0 if subs[grade].nil?
-				return 0 if @grading[subtype]['required'] == true && subs[grade].grade == 0
-				if subs[grade].grade == 0 && allow_drop >= 1
+				return 0 if @grading[subtype]['required'] == true && subs[grade].any_final_grade == 0
+				if subs[grade].any_final_grade == 0 && allow_drop >= 1
 					allow_drop -= 1
 				else
-					total += weight if subs[grade].grade < 0
+					total += weight if subs[grade].any_final_grade < 0
 					total_weight += weight
 				end
 			end
@@ -66,9 +66,9 @@ class GradeTools
 			end
 			
 			@grading[subtype]['grades'].each do |grade, weight|
-				return 0 if subs[grade].nil? or subs[grade].grade == 0
+				return 0 if subs[grade].nil? or subs[grade].any_final_grade == 0
 				if subs[grade] != droppable_grade
-					total += subs[grade].grade * weight
+					total += subs[grade].any_final_grade * weight
 					total_weight += weight
 				end
 			end

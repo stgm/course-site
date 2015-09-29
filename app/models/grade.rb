@@ -19,6 +19,10 @@ class Grade < ActiveRecord::Base
 		g = (g/10.0).round(1)
 		return g
 	end
+	
+	def any_final_grade
+		self.grade or self.calculated_grade
+	end
 
 	def grade=(new_grade)
 		if new_grade.blank? # erases the grade
