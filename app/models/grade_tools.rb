@@ -76,7 +76,7 @@ class GradeTools
 		end
 	end
 	
-	def calc_subtype_with_potential_drop(subs, subtype, droppable)
+	def calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
 		total = 0
 		total_weight = 0
 		@grading[subtype]['grades'].each do |grade, weight|
