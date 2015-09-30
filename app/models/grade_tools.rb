@@ -69,15 +69,24 @@ class GradeTools
 				droppable_grade = Grade.joins(:pset).where('grades.scope = 5').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc, calculated_grade asc').first
 			end
 			
-			@grading[subtype]['grades'].each do |grade, weight|
-				return 0 if subs[grade].nil? or subs[grade].any_final_grade == 0
-				if subs[grade] != droppable_grade
-					total += subs[grade].any_final_grade * weight
-					total_weight += weight
-				end
-			end
-			return (1.0 * total / total_weight).round(1)
+			grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
+			grade_without_drop = calc_subtype_with_potential_drop(subs, subtype, nil)
+
+			return [grade_with_drop, grade_without_drop].max
 		end
+	end
+	
+	def calc_subtype_with_potential_drop(subs, subtype, droppable)
+		total = 0
+		total_weight = 0
+		@grading[subtype]['grades'].each do |grade, weight|
+			return 0 if subs[grade].nil? or subs[grade].any_final_grade == 0
+			if subs[grade] != droppable_grade
+				total += subs[grade].any_final_grade * weight
+				total_weight += weight
+			end
+		end
+		return (1.0 * total / total_weight).round(1)
 	end
 	
 end
