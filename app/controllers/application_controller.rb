@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
 	helper_method :current_user, :logged_in?
 	
 	def gen_monitoring_url
-		if logged_in? && current_user.monitoring_consent
+		if logged_in? && current_user.monitoring_consent && ENV['MONITORING_SECRET']
 			user = current_user.login_id
 			timestamp = Time.now.to_i
 			course = "http://studiegids.uva.nl/5082IMOP6Y"
-			secret = "X4UIALA%I3gi54!s@KPw5zJx!y8wL8xRGrPQYKWr"
+			secret = ENV['MONITORING_SECRET']
 			hash_string = [user, timestamp, course, secret].join(",")
 			hash = Digest::SHA256.hexdigest hash_string
 			course_url = ERB::Util.url_encode(course)
