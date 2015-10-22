@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 	
-	attr_accessible :avatar, :mail, :name, :uvanetid
+	attr_accessible :avatar, :mail, :name, :uvanetid, :monitoring_consent
 	attr_accessible :term, :status, :active
 	
 	belongs_to :group

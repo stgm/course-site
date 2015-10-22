@@ -7,8 +7,23 @@ class ApplicationController < ActionController::Base
 	before_action :load_navigation
 	before_action :load_schedule
 	before_action :register_attendance
+	before_action :gen_monitoring_url
 
 	helper_method :current_user, :logged_in?
+	
+	def gen_monitoring_url
+		if logged_in? && current_user.monitoring_consent
+			user = current_user.login_id
+			timestamp = Time.now.to_i
+			course = "http://studiegids.uva.nl/5082IMOP6Y"
+			secret = "X4UIALA%I3gi54!s@KPw5zJx!y8wL8xRGrPQYKWr"
+			hash_string = [user, timestamp, course, secret].join(",")
+			hash = Digest::SHA256.hexdigest hash_string
+			course_url = ERB::Util.url_encode(course)
+			base_url = "https://coach2.innovatievooronderwijs.nl/embed/bootstrap"
+			@monitoring_url = "#{base_url}?user=#{user}&timestamp=#{timestamp}&course=#{course_url}&hash=#{hash}".html_safe
+		end
+	end
 	
 	def register_attendance
 		if current_user.persisted?# and not current_user.is_admin?

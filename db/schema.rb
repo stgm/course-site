@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929134541) do
+ActiveRecord::Schema.define(version: 20151022071823) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -195,17 +195,18 @@ ActiveRecord::Schema.define(version: 20150929134541) do
   add_index "subpages", ["slug"], name: "index_subpages_on_slug", unique: true
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "mail",       limit: 255
+    t.string   "name",               limit: 255
+    t.string   "mail",               limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.boolean  "done",                   default: false
-    t.boolean  "active",                 default: true
-    t.string   "term",       limit: 255
-    t.string   "status",     limit: 255
-    t.string   "token",      limit: 255
+    t.boolean  "done",                           default: false
+    t.boolean  "active",                         default: true
+    t.string   "term",               limit: 255
+    t.string   "status",             limit: 255
+    t.string   "token",              limit: 255
     t.string   "attendance"
+    t.boolean  "monitoring_consent",             default: false
   end
 
 end

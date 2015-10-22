@@ -19,7 +19,18 @@
 					<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 				</div>
 			</div>
-			
+			<div class="form-group">
+                <div class="col-sm-4"></div>
+				<div class="col-sm-8">
+                    <div class="checkbox">
+    				<label class="" for="user_monitoring_consent">
+                        <%= hidden_field_tag 'user[monitoring_consent]', false %>
+                        <%= check_box_tag('user[monitoring_consent]', "1", current_user && current_user.monitoring_consent) %>
+                        Sta toe gegevens te verzamelen én op basis hiervan feedback te geven over je voortgang.
+                    </label>
+                    </div>
+				</div>
+			</div>
 		</div>
 		<div class="modal-footer">
 			<!-- <button type="button" class="btn btn-default">Cancel / Logout</button> -->
