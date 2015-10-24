@@ -42,7 +42,7 @@ class ProfileController < ApplicationController
 		# 		u.update_attributes(params[:user])
 		# 	end
 		# end
-		redirect_to '/'
+		redirect_to '/', notice: 'De registratie is gelukt. Je doet ' + (params[:user][:monitoring_consent] ? 'WEL' : 'NIET') + ' mee aan het onderzoek. Neem contact op met de docent om dit te wijzigen.'
 	end
 	
 	def ask
