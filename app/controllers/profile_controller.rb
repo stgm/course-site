@@ -33,6 +33,8 @@ class ProfileController < ApplicationController
 			return
 		end
 
+		params[:user][:monitoring_consent] = (params[:user][:monitoring_consent] == "Ja")
+
 		# if current_user.persisted?
 			current_user.update_attributes(params[:user])
 		# else
@@ -40,7 +42,7 @@ class ProfileController < ApplicationController
 		# 		u.update_attributes(params[:user])
 		# 	end
 		# end
-		redirect_to :back
+		redirect_to '/'
 	end
 	
 	def ask

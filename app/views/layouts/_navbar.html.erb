@@ -12,6 +12,7 @@
         </div>
         
         <div class="collapse navbar-collapse" id="collapsed-navbar">
+<% if current_user.valid_profile? %>
             <ul class="nav navbar-nav">
                 <% if logged_in? && @schedule %>
                 <li class="dropdown dropdown-accordion">
@@ -63,6 +64,7 @@
                 <% end %>
             </ul>
         </div>
+<% end %>
     </nav>
 
     <% if flash[:alert] %>

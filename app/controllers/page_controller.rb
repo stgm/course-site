@@ -2,7 +2,8 @@ require 'dropbox'
 
 class PageController < ApplicationController
 	
-	prepend_before_filter CASClient::Frameworks::Rails::GatewayFilter
+	prepend_before_filter CASClient::Frameworks::Rails::Filter
+	before_filter :monitoring_bumper
 	
 	def homepage
 		# the homepage is the page without a parent section
@@ -120,6 +121,12 @@ class PageController < ApplicationController
 			end
 		end
 		return form_text
+	end
+	
+	def monitoring_bumper
+		if not current_user.valid_profile?
+			redirect_to "/profile"
+		end
 	end
 	
 end
