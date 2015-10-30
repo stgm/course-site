@@ -61,7 +61,7 @@ class AdminController < ApplicationController
 				if user_id[0] == user_id[1]
 					login = Login.where(login: user_id[0]).first_or_create
 					user = login.user or (user = login.create_user and login.save)
-					user.update_columns(name: user_name, mail: user_mail)
+					user.update_columns(name: user_name, mail: user_mail) if user.name.empty?
 					if group_name != ""
 						group = Group.where(:name => group_name).first_or_create
 						user.group = group
@@ -78,7 +78,7 @@ class AdminController < ApplicationController
 						user = login.user or (user = login.create_user and login.save)
 						login2 = Login.where(login: user_id[1]).first_or_create
 						login2.user = login.user and login2.save
-						user.update_columns(name: user_name, mail: user_mail)
+						user.update_columns(name: user_name, mail: user_mail) if user.name.empty?
 						if group_name != ""
 							group = Group.where(:name => group_name).first_or_create
 							user.group = group
