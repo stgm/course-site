@@ -54,14 +54,14 @@ class AdminController < ApplicationController
 
 				user_id = line[0..1]
 				group_name = line[7] && line[7].strip
-				user_name = line[3] + " " + line[2]
+				user_name = line[3] + " " + line[2].split(",").reverse.join(" ")
 				user_mail = line[4]
 				next if !group_name || group_name == "Group"
 
 				if user_id[0] == user_id[1]
 					login = Login.where(login: user_id[0]).first_or_create
 					user = login.user or (user = login.create_user and login.save)
-					user.update_columns(name: user_name, mail: user_mail) if user.name.empty?
+					user.update_columns(name: user_name, mail: user_mail) if user.name.empty? or user.name =~ /,/
 					if group_name != ""
 						group = Group.where(:name => group_name).first_or_create
 						user.group = group
@@ -78,7 +78,7 @@ class AdminController < ApplicationController
 						user = login.user or (user = login.create_user and login.save)
 						login2 = Login.where(login: user_id[1]).first_or_create
 						login2.user = login.user and login2.save
-						user.update_columns(name: user_name, mail: user_mail) if user.name.empty?
+						user.update_columns(name: user_name, mail: user_mail) if user.name.empty? or user.name =~ /,/
 						if group_name != ""
 							group = Group.where(:name => group_name).first_or_create
 							user.group = group
