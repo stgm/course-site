@@ -179,6 +179,8 @@ private
 				# add pset to database
 				if submit_config
 					
+					db_pset = nil
+					
 					if submit_config['name']
 						# checks if pset already exists under name
 						db_pset = Pset.where(:name => submit_config['name']).first_or_initialize
