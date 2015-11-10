@@ -207,7 +207,8 @@ private
 					if submit_config['dependent_grades']
 						Rails.logger.info "dependent grades"
 						submit_config['dependent_grades'].each do |grade|
-							Pset.where(:name => grade).first_or_create
+							pset = Pset.where(:name => grade).first_or_create
+							pset.update_attribute(:page_id, db_pset.id) if db_pset
 						end
 					end
 				else
