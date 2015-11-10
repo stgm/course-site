@@ -213,7 +213,7 @@ private
 							pset = Pset.where(:name => grade).first_or_create
 							Rails.logger.info pset
 							pset.update_attribute(:page_id, db_pset.id) if db_pset
-							Rails.logger.info pset
+							Rails.logger.info pset.page
 						end
 					end
 				else
