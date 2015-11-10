@@ -206,6 +206,8 @@ private
 						end
 					end
 					
+					Rails.logger.info db_pset
+					
 					if submit_config['dependent_grades']
 						Rails.logger.info "dependent grades"
 						submit_config['dependent_grades'].each do |grade|
