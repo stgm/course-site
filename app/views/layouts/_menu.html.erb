@@ -10,6 +10,7 @@
     <% Settings['links'].each do |title, url| %>
     <li><%= link_to title, url %></li>
     <% end %>
+    <% end %>
 	<% if current_user.is_admin? %>
 	<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
 	<li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
