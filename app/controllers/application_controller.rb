@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_navigation
-		@sections = Section.includes(pages: :pset)
+		@sections = Section.includes(pages: :pset).order("pages.position")
 		@sections = @sections.where("pages.public" => true) unless current_user.is_admin? or current_user.is_assistant?
 	end
 	
