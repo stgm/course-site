@@ -6,12 +6,6 @@
 	</li>
 	<li class="divider"></li>
 	<% end %>
-    <% if Settings['links'] %>
-    <% Settings['links'].each do |title, url| %>
-    <li><%= link_to title.html_safe, url %></li>
-    <% end %>
-	<li class="divider"></li>
-    <% end %>
 	<% if current_user.is_admin? %>
 	<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
 	<li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
@@ -25,6 +19,12 @@
 	<% end %>
 	<li><%= link_to '<i class="glyphicon glyphicon-list"></i> View grades'.html_safe, profile_grades_path %></li>
 	<li class="divider"></li>
+    <% if Settings['links'] %>
+    <% Settings['links'].each do |title, url| %>
+    <li><%= link_to title.html_safe, url %></li>
+    <% end %>
+	<li class="divider"></li>
+    <% end %>
 	<li><%= link_to '<i class="glyphicon glyphicon-ban-circle"></i> Logout'.html_safe, profile_logout_path %></li>
 
 <% else %>
