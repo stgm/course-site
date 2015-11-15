@@ -1,0 +1,7 @@
+<ul class="nav nav-pills">
+	<% Group.order(:name).all.each_with_index do |group,i| %>
+	<li <%= 'class="active"'.html_safe if params[:group] == group.name %>>
+		<%= link_to "#{group.name} (#{group.users.count})", grading_checklist_path(group:group.name) %>
+	</li>
+	<% end %>
+</ul>

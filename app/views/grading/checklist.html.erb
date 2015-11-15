@@ -1,0 +1,9 @@
+<h1>Checklist</h1>
+<%= render partial: 'tabs' %>
+
+<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
+
+
+<script type="text/javascript" charset="utf-8">
+$('.best_in_place').best_in_place()
+</script>

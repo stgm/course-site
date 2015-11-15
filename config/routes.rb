@@ -69,6 +69,7 @@ Rails.application.routes.draw do
 
 	# grading overview
 	get  "grading" => "grading#index"
+	get  "grading/checklist" => "grading#checklist"
 
 	# individual grades
 	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
