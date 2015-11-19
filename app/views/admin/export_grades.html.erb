@@ -23,8 +23,8 @@
 		<td>
 			<% if subs[pset.id] %>
 				<% submitted = subs[pset.id][0] %>
-				<% if submitted.grade and not submitted.grade.grade.blank? %>
-				<%= "#{submitted.grade.grade}" %>
+				<% if submitted.grade and not (submitted.grade.calculated_grade.blank? && submitted.grade.grade.blank?) %>
+				<%= "#{submitted.grade.calculated_grade || submitted.grade.grade}" %>
 				<% else %>
 				sub
 				<% end %>
