@@ -73,3 +73,5 @@ gem 'coffee-rails'
 gem 'helpscout'
 
 gem "bugsnag"
+
+gem 'asciidoctor'

@@ -246,6 +246,26 @@ private
 				@touched_subpages << new_subpage.id
 			end
 		end
+
+		asciidoc_files_in(dir) do |subpage|
+
+			subpage_path = File.basename(subpage)
+			subpage_info = split_info(subpage_path)
+			
+			# if parsable file name
+			if subpage_info
+				file = IO.read(File.join(dir, subpage_path))
+				
+				document = Asciidoctor.load file, header_footer: false, safe: :safe
+				html = document.convert
+				
+				new_subpage = parent_page.subpages.find_by_title(subpage_info[2]) || parent_page.subpages.new(title: subpage_info[2])
+				new_subpage.position = subpage_info[1]
+				new_subpage.content = html
+				new_subpage.save
+				@touched_subpages << new_subpage.id
+			end
+		end
 	end
 
 	# Returns a subdir glob pattern.
@@ -274,6 +294,12 @@ private
 	
 	def markdown_files_in(*name)
 		files_in(name, "*.md") do |file|
+			yield file
+		end
+	end
+
+	def asciidoc_files_in(*name)
+		files_in(name, "*.adoc") do |file|
 			yield file
 		end
 	end

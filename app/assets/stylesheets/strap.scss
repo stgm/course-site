@@ -64,7 +64,7 @@ body
 
 .container.limit-width
 {
-	max-width:55em;
+	max-width:60em;
 }
 
 #content section, header
@@ -215,11 +215,33 @@ section kbd
     font-size:90%;
 }
 
+section p code
+{
+    color:black;
+}
+
 section pre
 {
 	padding:1em 2em;
-	color:#dd2c22;
+	scolor:#dd2c22;
 	margin:1.5em 0;
+}
+
+section pre code
+{
+    white-space:pre;
+    word-wrap:normal;
+    overflow:auto;    
+}
+
+.red
+{
+    color: red;
+}
+
+.green
+{
+    color: green;
 }
 
 section pre .comment
