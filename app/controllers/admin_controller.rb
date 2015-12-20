@@ -55,7 +55,7 @@ class AdminController < ApplicationController
 				user_id = line[0..1]
 				group_name = line[7] && line[7].strip
 				user_name = line[3] + " " + line[2].split(",").reverse.join(" ")
-				user_mail = line[4]
+				user_mail = line[4] && line[4].strip
 				next if !group_name || group_name == "Group"
 
 				if user_id[0] == user_id[1]
