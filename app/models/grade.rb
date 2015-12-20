@@ -6,6 +6,7 @@ class Grade < ActiveRecord::Base
 
 	attr_accessible :comments, :correctness, :design, :grade, :grader, :scope, :style, :done
 	
+	before_create :set_mailed_at
 	before_save :unpublicize_if_undone
 	
 	def grade
@@ -77,6 +78,10 @@ class Grade < ActiveRecord::Base
 			cg = nil
 		end
 		return cg
+	end
+	
+	def set_mailed_at
+		self.mailed_at = self.updated_at
 	end
 	
 	def unpublicize_if_undone
