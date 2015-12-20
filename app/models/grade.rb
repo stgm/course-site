@@ -6,6 +6,8 @@ class Grade < ActiveRecord::Base
 
 	attr_accessible :comments, :correctness, :design, :grade, :grader, :scope, :style, :done
 	
+	before_save :unpublicize_if_undone
+	
 	def grade
 		g = read_attribute(:grade)
 		return nil if !g
@@ -75,6 +77,11 @@ class Grade < ActiveRecord::Base
 			cg = nil
 		end
 		return cg
+	end
+	
+	def unpublicize_if_undone
+		self.public = false if not self.done
+		true
 	end
 
 end
