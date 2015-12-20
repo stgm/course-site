@@ -1,7 +1,4 @@
 <h1><%= @pset.name %> <small> by <%= @user.name %> / <%= @submit.used_login if @submit %></small></small></h1>
-<% if current_user.is_admin? and @submit %>
-<%= link_to 'Put into grading list', course_touch_submit_path(submit_id: @submit.id), method: :post %> /
-<% end %>
 Latest submit:
 <% if @submit and @submit.submitted_at %>
 <%= @submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@submit.submitted_at) %> ago)
@@ -140,7 +137,8 @@ grader: <%= @grade.grader_name %>
 <% end %>
 
 
-<% if current_user.is_admin? %>
+<% if current_user.is_admin? and @submit %>
 <hr>
 <%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-danger' if @submit %>
+<%= link_to 'Put into grading list', course_touch_submit_path(submit_id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'btn btn-danger' %>
 <% end %>

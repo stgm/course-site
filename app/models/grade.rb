@@ -4,8 +4,6 @@ class Grade < ActiveRecord::Base
 	has_one :user, through: :submit
 	has_one :pset, through: :submit
 
-	attr_accessible :comments, :correctness, :design, :grade, :grader, :scope, :style, :done
-	
 	before_create :set_mailed_at
 	before_save :unpublicize_if_undone
 	

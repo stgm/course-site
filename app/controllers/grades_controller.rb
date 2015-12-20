@@ -19,7 +19,7 @@ class GradesController < ApplicationController
 		@submit = Submit.where(pset_id: params[:pset_id], user_id: params[:user_id]).first_or_create
 		if @submit.grade
 			if current_user.is_admin? || !@submit.grade.done
-				@submit.grade.update_attributes(params[:grade])
+				@submit.grade.update!(params.require(:grade).permit(:comments, :correctness, :design, :grade, :grader, :scope, :style, :done))
 				logger.info @submit.grade.inspect
 				if calculated_grade = calculate_grade(@submit.grade)
 					@submit.grade.update_attribute(:calculated_grade, calculated_grade*10)
@@ -31,7 +31,7 @@ class GradesController < ApplicationController
 			end
 		else
 			@submit.create_grade
-			@submit.grade.update_attributes(params[:grade].merge(grader: current_user.login_id))
+			@submit.grade.update!(params[:grade].merge(grader: current_user.login_id))
 			if calculated_grade = calculate_grade(@submit.grade)
 				@submit.grade.update_attribute(:calculated_grade, calculated_grade*10)
 			else

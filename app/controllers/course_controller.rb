@@ -103,7 +103,9 @@ class CourseController < ApplicationController
 	# update submit date for single submit, in order to get it into the queue again
 	#
 	def touch_submit
-		Submit.find(params[:submit_id]).update_attribute(:submitted_at, Time.now)
+		s = Submit.find(params[:submit_id])
+		s.update!(submitted_at: Time.now)
+		g = s.grade.update!(done: false)
 		redirect_to :back
 	end
 	

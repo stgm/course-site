@@ -23,9 +23,6 @@ end
 # faster local server
 gem 'thin'
 
-# markdown renderers
-gem 'kramdown'
-
 # slug generator
 gem "friendly_id", "~> 5.0.0"
 
@@ -39,15 +36,10 @@ gem 'git'
 gem 'dropbox-sdk'
 
 # manages settings in database
-gem "rails-settings-cached", "0.4.1"
+gem 'rails-settings-cached', '0.4.1'
 
 # in-place editing for grade table
 gem 'best_in_place', '~> 3.0.1'
-
-# remove this after removing all attr_ stuff
-gem 'protected_attributes'
-
-# If you are not using Protected Attributes, you can remove any options related to this gem such as whitelist_attributes or mass_assignment_sanitizer options.
 
 # scheduled email sending for grades
 gem 'rufus-scheduler'
@@ -64,6 +56,9 @@ gem 'quiet_assets', group: :development
 # for delayed mailers
 gem 'sucker_punch'
 
+# content
+gem 'kramdown'
+gem 'asciidoctor'
 gem 'mathjax-rails'
 gem 'videojs_rails'
 
@@ -72,6 +67,4 @@ gem 'coffee-rails'
 
 gem 'helpscout'
 
-gem "bugsnag"
-
-gem 'asciidoctor'
+gem 'bugsnag'

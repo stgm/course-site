@@ -1,8 +1,5 @@
 class User < ActiveRecord::Base
 	
-	attr_accessible :avatar, :mail, :name, :uvanetid
-	attr_accessible :term, :status, :active
-	
 	belongs_to :group
 
 	has_many :logins

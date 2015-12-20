@@ -7,8 +7,6 @@ class Pset < ActiveRecord::Base
 	
 	enum grade_type: [:integer, :float, :pass, :percentage]
 
-	attr_accessible :description, :name, :form, :message, :weight, :order
-	
 	def submit_from(user)
 		Submit.where(:user_id => user.id, :pset_id => id).first
 	end

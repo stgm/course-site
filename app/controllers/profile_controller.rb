@@ -34,7 +34,7 @@ class ProfileController < ApplicationController
 		end
 
 		# if current_user.persisted?
-			current_user.update_attributes(params[:user])
+			current_user.update!(params.require(:user).permit(:name, :mail))
 		# else
 		# 	User.where(:uvanetid => session[:cas_user]).first_or_create do |u|
 		# 		u.update_attributes(params[:user])
