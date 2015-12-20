@@ -6,7 +6,7 @@
 				<h4 class="modal-title" id="myModalLabel"><%= @alert.title %></h4>
 				<div class="modal-title" id="modal-date"><%= time_ago_in_words(@alert.created_at) %> ago</div>
 			</div>
-			<div class="modal-body"><%= @alert.body %></div>
+			<div class="modal-body"><%= simple_markdown(@alert.body) %></div>
 		</div>
 	</div>
 </div>

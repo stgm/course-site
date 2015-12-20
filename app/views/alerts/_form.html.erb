@@ -13,11 +13,11 @@
 
 <div class="form-group">
 	<%= f.label :title %><br>
-	<%= f.text_field :title, class: 'form-control', autofocus:true %>
+	<%= f.text_field :title, class: 'form-control', autofocus:true, required:true %>
 </div>
 <div class="form-group">
 	<%= f.label :body %><br>
-	<%= f.text_area :body, class: 'form-control', rows: 10 %>
+	<%= f.text_area :body, class: 'form-control', rows: 10, required:true %>
 </div>
 <div class="checkbox">
 	<label><%= f.check_box :published %> Published</label>
