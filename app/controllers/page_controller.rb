@@ -27,7 +27,6 @@ class PageController < ApplicationController
 		
 		if @page.pset && current_user.can_submit?
 			@has_form = @page.pset.form
-			load_form_answers() if @has_form
 			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 		end
 		
@@ -74,21 +73,6 @@ class PageController < ApplicationController
 		end
 	end
 	
-	def save_answers
-		pset = Page.find(params[:page_id]).pset
-		
-		@answer = Answer.new(:user_id => current_user.id, :pset_id => pset.id)
-		@answer.answer_data = params[:a].to_json
-
-		respond_to do |format|
-			if @answer.save
-				format.json { render :json => @answer, :status => :created }
-			else
-				format.json { render :json => @answer.errors, :status => :unprocessable_entity }
-			end
-		end
-	end
-	
 	private
 	
 	# writes hash with form contents to a plain text string
@@ -103,17 +87,5 @@ class PageController < ApplicationController
 		end
 		return form_text
 	end
-	
-	def load_form_answers
-		# get cached form answers for this page / TODO FUGLY
-		answer = Answer.where(:user_id => current_user.id, :pset_id => @page.pset.id).order('created_at').last
-		if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
-			answer = JSON.parse(answer.answer_data)
-			@answer_data = {}
-			answer.each do |field, value|
-				@answer_data["a[#{field}]"] = value
-			end
-		end
-	end
-	
+
 end

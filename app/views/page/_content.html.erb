@@ -4,9 +4,8 @@
 </div>
 <% end %>
 
-<%= form_tag_if(logged_in? && @page.pset, page_submit_path, { :multipart => true, :id => "page_form" }) do %>
+<%= form_tag_if(logged_in? && @page.pset, page_submit_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
 <%= hidden_field_tag :page_id, @page.id %>
-
 	<% @page.subpages.each_with_index do |subpage, index| %>
 	<section class="markdown" id="<%= subpage.slug %>-content">
 		<%= markdown(subpage.content, @page) %>
@@ -18,6 +17,4 @@
 		<%= render 'submit_tab' %>
 	</section>
 	<% end %>
-
-
 <% end %>

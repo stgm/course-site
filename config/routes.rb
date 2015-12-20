@@ -85,7 +85,6 @@ Rails.application.routes.draw do
 	get  "welcome/claim"
 
 	# filled-in form caching for users
-	post "page/save_answers"
 	post "page/submit"
 	
 	# api

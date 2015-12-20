@@ -9,12 +9,6 @@ gem 'sqlite3'
 # sass
 gem 'sass-rails', '~> 5.0.0'
 
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -26,14 +20,16 @@ gem 'thin'
 # slug generator
 gem "friendly_id", "~> 5.0.0"
 
-# cas
-gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
-
 # git integration
 gem 'git'
 
-# dropbox integration
+##
+# APIs
+#
 gem 'dropbox-sdk'
+gem 'helpscout'
+gem 'bugsnag'
+gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
 
 # manages settings in database
 gem 'rails-settings-cached', '0.4.1'
@@ -44,9 +40,6 @@ gem 'best_in_place', '~> 3.0.1'
 # scheduled email sending for grades
 gem 'rufus-scheduler'
 
-# this simply is bootstrap
-gem 'bootstrap-sass', '~> 3.3.0'
-
 # generate hash tokens for mobile app
 gem 'hashids'
 
@@ -56,15 +49,20 @@ gem 'quiet_assets', group: :development
 # for delayed mailers
 gem 'sucker_punch'
 
-# content
+##
+# Content
+#
 gem 'kramdown'
 gem 'asciidoctor'
 gem 'mathjax-rails'
 gem 'videojs_rails'
 
-#gem 'turbolinks'
+##
+# Front-end
+#
+gem 'jquery-rails'
+gem 'uglifier', '>= 1.3.0'
+gem 'bootstrap-sass', '~> 3.3.0'
 gem 'coffee-rails'
-
-gem 'helpscout'
-
-gem 'bugsnag'
+gem 'garlicjs-rails'
+# gem 'turbolinks'

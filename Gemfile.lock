@@ -75,6 +75,8 @@ GEM
     execjs (2.6.0)
     friendly_id (5.0.5)
       activerecord (>= 4.0.0)
+    garlicjs-rails (1.2.2)
+      railties (>= 3.1)
     git (1.2.9.1)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -186,6 +188,7 @@ DEPENDENCIES
   coffee-rails
   dropbox-sdk
   friendly_id (~> 5.0.0)
+  garlicjs-rails
   git
   hashids
   helpscout
