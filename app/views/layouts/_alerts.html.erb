@@ -1,5 +1,7 @@
-<div class="list-group">
-	<% for alert in @alerts %>
-	<%= link_to "#{alert.title} <span class='badge'> #{time_ago_in_words(alert.created_at)} ago</span>".html_safe, "javascript:$('#popup').load('#{url_for(alert)}', function() {$('#alert-popup').modal()})", class:'list-group-item' %>
-	<% end %>
-</div>
+<% for alert in @alerts %>
+<li><%= link_to "#{alert.title} <span class='badge'> #{time_ago_in_words(alert.created_at)} ago</span>".html_safe, "javascript:$('#popup').load('#{url_for(alert)}', function() {$('#alert-popup').modal()})" %></li>
+<% end %>
+<% if @current_user.is_admin? %>
+<li class="divider"></li>
+<li><%= link_to "Send new message...", new_alert_path %></li>
+<% end %>

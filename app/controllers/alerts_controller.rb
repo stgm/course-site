@@ -29,9 +29,15 @@ class AlertsController < ApplicationController
 	# POST /alerts
 	def create
 		@alert = Alert.new(alert_params)
-
+		
 		if @alert.save
-			redirect_to @alert, notice: 'Alert was successfully created.'
+			if params[:send_mail]
+				User.active.each do |user|
+					AlertMailer.alert_message(user, @alert).deliver_later
+				end
+			end
+
+			redirect_to :back, notice: 'Alert was successfully created.'
 		else
 			render :new
 		end

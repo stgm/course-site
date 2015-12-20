@@ -1,29 +1,31 @@
 <%= form_for(@alert) do |f| %>
-  <% if @alert.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
+<% if @alert.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
 
-      <ul>
-      <% @alert.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+	<ul>
+		<% @alert.errors.full_messages.each do |message| %>
+		<li><%= message %></li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
 
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
-  </div>
-  <div class="field">
-    <%= f.label :published %><br>
-    <%= f.check_box :published %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<div class="form-group">
+	<%= f.label :title %><br>
+	<%= f.text_field :title, class: 'form-control', autofocus:true %>
+</div>
+<div class="form-group">
+	<%= f.label :body %><br>
+	<%= f.text_area :body, class: 'form-control', rows: 10 %>
+</div>
+<div class="checkbox">
+	<label><%= f.check_box :published %> Published</label>
+</div>
+<div class="checkbox">
+	<label><%= check_box_tag :send_mail %> Send an e-mail</label>
+</div>
+<div class="actions">
+	<%= f.submit class: 'btn' %>
+</div>
 <% end %>
