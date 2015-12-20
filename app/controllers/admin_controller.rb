@@ -19,6 +19,12 @@ class AdminController < ApplicationController
 		@all_sections = Section.includes(pages: :pset)
 	end
 	
+	def page_update
+		p = Page.find(params[:id])
+		p.update!(params.require(:page).permit(:public))
+		render json: p
+	end
+	
 	def schedule
 		@schedules = ScheduleSpan.all
 		@schedule_position = Settings.schedule_position && ScheduleSpan.find(Settings.schedule_position) || ScheduleSpan.new
@@ -27,7 +33,7 @@ class AdminController < ApplicationController
 	
 	def set_schedule
 		Settings.schedule_position = params[:id]
-		render json:nil
+		render json: nil
 	end
 	
 	def stats

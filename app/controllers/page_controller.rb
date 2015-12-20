@@ -34,18 +34,6 @@ class PageController < ApplicationController
 		render :index
 	end
 	
-	def load_form_answers
-		# get cached form answers for this page / TODO FUGLY
-		answer = Answer.where(:user_id => current_user.id, :pset_id => @page.pset.id).order('created_at').last
-		if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
-			answer = JSON.parse(answer.answer_data)
-			@answer_data = {}
-			answer.each do |field, value|
-				@answer_data["a[#{field}]"] = value
-			end
-		end
-	end
-	
 	def submit
 		if !session[:cas_user]
 			redirect_to(:back, alert: 'Please login again before submitting.') and return
@@ -101,12 +89,6 @@ class PageController < ApplicationController
 		end
 	end
 	
-	def update
-		p = Page.find(params[:id])
-		p.update_attributes!(params[:page])
-		render json: p
-	end
-	
 	private
 	
 	# writes hash with form contents to a plain text string
@@ -120,6 +102,18 @@ class PageController < ApplicationController
 			end
 		end
 		return form_text
+	end
+	
+	def load_form_answers
+		# get cached form answers for this page / TODO FUGLY
+		answer = Answer.where(:user_id => current_user.id, :pset_id => @page.pset.id).order('created_at').last
+		if answer && answer.answer_data != "null" # strange behavior from JSON when given "null"
+			answer = JSON.parse(answer.answer_data)
+			@answer_data = {}
+			answer.each do |field, value|
+				@answer_data["a[#{field}]"] = value
+			end
+		end
 	end
 	
 end

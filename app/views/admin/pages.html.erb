@@ -14,7 +14,7 @@
 <script type="text/javascript" charset="utf-8">
 $('.toggle-public').bind('change', function(a) {
 	$.ajax({
-		url: "<%= page_path %>?id=" + a.currentTarget.id,
+		url: "<%= admin_page_update_path %>?id=" + a.currentTarget.id,
 		headers: {
 			Accept : "text/javascript; charset=utf-8",
 			"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'

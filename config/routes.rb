@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 	post "admin/import_groups"
 	get  "admin/export_grades"
 	get  "admin/pages"
+	put  "admin/page_update"
 	get  "admin/schedule"
 	post "admin/set_schedule"
 	
@@ -86,7 +87,6 @@ Rails.application.routes.draw do
 	# filled-in form caching for users
 	post "page/save_answers"
 	post "page/submit"
-	put  "page" => "page#update"
 	
 	# api
 	post "api/reload"
