@@ -1,5 +1,3 @@
-<div id="content">
-
 <table id="grade-table" class="table table-condensed">
 
 	<tr>
@@ -8,6 +6,7 @@
 		<% @psets.each do |pset| %>
 		<th><%= pset.name %></th>
 		<% end %>
+		<th>group</th>
 	</tr>
 
 	<% @users.each do |user| %>
@@ -33,10 +32,9 @@
 			<% end %>
 		</td>
 		<% end %>
+		<td><%= user.group.name if user.group %></td>
 		
 	</tr>
 	<% end %>
 
 </table>
-
-</div>
