@@ -8,3 +8,7 @@ Problem: <%= @grade_name %>
 <% if @grade %>
 The grade entered is: <%= translate_grade(@grade) %>
 <% end %>
+<% if @grade.submit %>
+------------------------------------------------------------------------------
+
+<%= @grade.submit.used_login %><% end %>
