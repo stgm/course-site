@@ -38,6 +38,8 @@ class GradeTools
 	
 	def calc_final_grade_subtype(subs, subtype)
 		return 0 if !@grading[subtype]['grades']
+		Rails.logger.info subs.inspect
+		Rails.logger.info subtype.inspect
 
 		total = 0
 		total_weight = 0
@@ -55,23 +57,25 @@ class GradeTools
 					total_weight += weight
 				end
 			end
+			Rails.logger.info (1.0 + 9.0 * total / total_weight).round(1)
 			return (1.0 + 9.0 * total / total_weight).round(1)
 		when 'percentage'
 			#
 		else
 			droppable_grade = nil
 
-			if allow_drop = @grading[subtype]['drop'] == 'correctness' ? 1 : 0
+			if (@grading[subtype]['drop'] == 'correctness')
 				droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc, calculated_grade asc').first
 			end
 
-			if allow_drop = @grading[subtype]['drop'] == 'scope' ? 1 : 0
+			if (@grading[subtype]['drop'] == 'scope')
 				droppable_grade = Grade.joins(:pset).where('grades.scope = 5').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc, calculated_grade asc').first
 			end
 			
 			grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
 			grade_without_drop = calc_subtype_with_potential_drop(subs, subtype, nil)
 
+			Rails.logger.info [grade_with_drop, grade_without_drop].max
 			return [grade_with_drop, grade_without_drop].max
 		end
 	end
@@ -86,7 +90,7 @@ class GradeTools
 				total_weight += weight
 			end
 		end
-		return (1.0 * total / total_weight).round(1)
+		return (1.0 * total / total_weight)
 	end
 	
 end

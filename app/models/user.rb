@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def assign_final_grade(grader)
-		# generate hash of psewt_name => submit_object
+		# generate hash of  pset_name: submit_object
 		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
 		
 		# calc grade from hash
