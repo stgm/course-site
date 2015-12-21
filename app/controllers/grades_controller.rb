@@ -31,7 +31,7 @@ class GradesController < ApplicationController
 			end
 		else
 			@submit.create_grade
-			@submit.grade.update!(params[:grade].merge(grader: current_user.login_id))
+			@submit.grade.update!(params.merge(grader: current_user.login_id).require(:grade).permit(:comments, :correctness, :design, :grade, :grader, :scope, :style, :done))
 			if calculated_grade = calculate_grade(@submit.grade)
 				@submit.grade.update_attribute(:calculated_grade, calculated_grade*10)
 			else
