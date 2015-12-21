@@ -79,7 +79,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def set_mailed_at
-		self.mailed_at = self.updated_at
+		self.mailed_at = self.updated_at - 1
 	end
 	
 	def unpublicize_if_undone
