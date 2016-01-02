@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151220205440) do
+ActiveRecord::Schema.define(version: 20160102202207) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -57,6 +57,16 @@ ActiveRecord::Schema.define(version: 20151220205440) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",       limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "hands", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "location"
+    t.text     "help_question"
+    t.boolean  "done",          default: false
+    t.integer  "assist_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

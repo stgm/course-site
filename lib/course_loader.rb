@@ -80,6 +80,7 @@ private
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
 				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
 				Settings['mail_address'] = config['course']['mail'] if config['course']['mail']
+				Settings['allow_hands'] = config['course']['allow_hands'] if config['course']['allow_hands']
 			end
 			Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
 			Settings['display_license'] = config['license'] if config['license']

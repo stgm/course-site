@@ -1,0 +1,43 @@
+<h1>Hands</h1>
+
+<% if @my_hands.any? %>
+
+<div class="row">
+	<div class="col-sm-12">
+		<%= form_tag({controller: 'hands', action: 'done'}, method: :post) do %>
+		<table class="table">
+			<% @my_hands.each do |hand| %>
+			<tr>
+				<td><%= hand.user.name %></td>
+				<td><%= hand.help_question %></td>
+				<td><%= hand.user.attendance_records.order('cutoff desc').first %></td>
+				<td><%= time_ago_in_words(hand.created_at) %> ago</td>
+				<td><button type="submit" class="btn btn-error" name="which" value="<%= hand.id %>">Done!</button></td>
+			</tr>
+			<% end %>
+		</table>
+		<% end %>
+	</div>
+</div>
+
+<% end %>
+
+<h2>All hands</h2>
+
+<div class="row">
+	<div class="col-sm-12">
+		<%= form_tag({controller: 'hands', action: 'dib'}, method: :post) do %>
+		<table class="table">
+			<% @hands.each do |hand| %>
+			<tr>
+				<td><%= hand.user.name %></td>
+				<td><%= hand.help_question %></td>
+				<td><%= hand.user.attendance_records.order('cutoff desc').first %></td>
+				<td><%= time_ago_in_words(hand.created_at) %> ago</td>
+				<td><button type="submit" class="btn" name="which" value="<%= hand.id %>">Dibs!</button></td>
+			</tr>
+			<% end %>
+		</table>
+		<% end %>
+	</div>
+</div>
