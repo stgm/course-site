@@ -27,7 +27,7 @@ class AdminController < ApplicationController
 	
 	def schedule
 		@schedules = ScheduleSpan.all
-		@schedule_position = Settings.schedule_position && ScheduleSpan.find(Settings.schedule_position) || ScheduleSpan.new
+		@schedule_position = Settings.schedule_position && ScheduleSpan.find_by_id(Settings.schedule_position) || ScheduleSpan.new
 		logger.info @schedule_position.id
 	end
 	
