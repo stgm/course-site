@@ -98,7 +98,10 @@ private
 	
 	def load_schedules(dir)
 		if schedule = read_config(File.join(dir, 'schedule.yml'))
-			backup_position = ScheduleSpan.find_by_id(Settings.schedule_position).name if Settings.schedule_position
+			if Settings.schedule_position
+				old_pos = ScheduleSpan.find_by_id(Settings.schedule_position)
+				backup_position = old_pos.name if old_pos
+			end
 			new_schedule = Schedule.where(name: 'Standard').first_or_create
 			new_schedule.schedule_spans.delete_all
 			schedule.each do |sch_name, items|
