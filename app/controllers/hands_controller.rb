@@ -9,12 +9,18 @@ class HandsController < ApplicationController
 	end
 	
 	def dib
-		Hand.where(id: params[:which], assist: nil).first.update_attribute(:assist, current_user)
+		# try to dib
+		if hand = Hand.where(id: params[:which], assist: nil).first
+			hand.update_attribute(:assist, current_user)
+		end
+		
+		# check dib and report
 		if Hand.find(params[:which]).assist == current_user
 			flash[:notice] = "Taken!"
 		else
 			flash[:notice] = "Someone was ahead of you!"
 		end
+		
 		redirect_to :back
 	end
 
