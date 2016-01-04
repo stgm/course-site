@@ -30,6 +30,7 @@ gem 'dropbox-sdk'
 gem 'helpscout'
 gem 'bugsnag'
 gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
+gem 'slack-notifier'
 
 # manages settings in database
 gem 'rails-settings-cached', '0.4.1'
