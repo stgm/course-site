@@ -44,7 +44,7 @@ class CourseController < ApplicationController
 	end
 	
 	def change_user_name
-		User.find(params[:id]).update_attributes(params[:user])
+		User.find(params[:id]).update!(params.require(:user).permit(:name))
 		render json:true
 	end
 
