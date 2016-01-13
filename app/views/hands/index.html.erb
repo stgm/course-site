@@ -6,11 +6,18 @@
 	<div class="col-sm-12">
 		<%= form_tag({controller: 'hands', action: 'done'}, method: :post) do %>
 		<table class="table">
+			<tr>
+				<th>name</th><th></th>
+				<th>location</th>
+				<th>last seen</th><th>asked</th>
+				<th></th>
+			</tr>
 			<% @my_hands.each do |hand| %>
 			<tr>
 				<td><%= hand.user.name %></td>
 				<td><%= hand.help_question %></td>
-				<td><%= hand.user.attendance_records.order('cutoff desc').first %></td>
+				<td><%= hand.location %></td>
+				<td><%= time_ago_in_words(hand.user_last_seen) %></td>
 				<td><%= time_ago_in_words(hand.created_at) %> ago</td>
 				<td><button type="submit" class="btn btn-error" name="which" value="<%= hand.id %>">Done!</button></td>
 			</tr>
@@ -28,10 +35,17 @@
 	<div class="col-sm-12">
 		<%= form_tag({controller: 'hands', action: 'dib'}, method: :post) do %>
 		<table class="table">
+			<tr>
+				<th>name</th><th></th>
+				<th>location</th>
+				<th>last seen</th><th>asked</th>
+				<th></th>
+			</tr>
 			<% @hands.each do |hand| %>
 			<tr>
 				<td><%= hand.user.name %></td>
 				<td><%= hand.help_question %></td>
+				<td><%= hand.location %></td>
 				<td><%= hand.user.attendance_records.order('cutoff desc').first %></td>
 				<td><%= time_ago_in_words(hand.created_at) %> ago</td>
 				<td><button type="submit" class="btn" name="which" value="<%= hand.id %>">Dibs!</button></td>

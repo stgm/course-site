@@ -72,7 +72,7 @@ class ProfileController < ApplicationController
 				# AskMailer.ask_me_anything(current_user, params['question'], request.remote_ip).deliver_later
 				flash[:notice] = "Your question has been received! Expect an answer sometime soon."
 			elsif params[:how] = 'hands'
-				Hand.create(user:current_user, help_question:params[:question])
+				Hand.create(user:current_user, help_question:params[:question], location:params[:location])
 				flash[:notice] = "Your question has been received! Expect someone to arrive soon."
 			end
 		end
