@@ -18,7 +18,7 @@
 				<td><%= hand.help_question %></td>
 				<td><%= hand.location %></td>
 				<td><%= time_ago_in_words(hand.user_last_seen) %></td>
-				<td><%= time_ago_in_words(hand.created_at) %> ago</td>
+				<td><%= time_ago_in_words(hand.created_at) %></td>
 				<td><button type="submit" class="btn btn-error" name="which" value="<%= hand.id %>">Done!</button></td>
 			</tr>
 			<% end %>
@@ -46,8 +46,8 @@
 				<td><%= hand.user.name %></td>
 				<td><%= hand.help_question %></td>
 				<td><%= hand.location %></td>
-				<td><%= hand.user.attendance_records.order('cutoff desc').first %></td>
-				<td><%= time_ago_in_words(hand.created_at) %> ago</td>
+				<td><%= time_ago_in_words(hand.user_last_seen) %></td>
+				<td><%= time_ago_in_words(hand.created_at) %></td>
 				<td><button type="submit" class="btn" name="which" value="<%= hand.id %>">Dibs!</button></td>
 			</tr>
 			<% end %>
