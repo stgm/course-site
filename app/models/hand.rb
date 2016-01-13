@@ -10,7 +10,7 @@ class Hand < ActiveRecord::Base
 	
 	def user_last_seen
 		if attend = self.user.attendance_records.order('cutoff desc').first
-			attend.created_at
+			attend.cutoff
 		else
 			nil
 		end
