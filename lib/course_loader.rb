@@ -260,7 +260,7 @@ private
 			if subpage_info
 				file = IO.read(File.join(dir, subpage_path))
 				
-				document = Asciidoctor.load file, header_footer: false, safe: :safe
+				document = Asciidoctor.load file, safe: :safe, attributes: 'showtitle'
 				html = document.convert
 				
 				new_subpage = parent_page.subpages.find_by_title(subpage_info[2]) || parent_page.subpages.new(title: subpage_info[2])
