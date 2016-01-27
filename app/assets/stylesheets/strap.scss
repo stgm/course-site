@@ -13,6 +13,12 @@ body
  *
  */
 
+.navbar {
+	background-image:url(/images/navbar.svg);
+	background-size:cover;
+	sbackground-attachment:fixed;
+}
+
 .navbar .navbar-right
 {
 	margin-right:0 ! important;
