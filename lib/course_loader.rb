@@ -16,7 +16,7 @@ class CourseLoader
 	# Re-read the course contents from the git repository.
 	def run
 		# get update from from git remote (pull)
-		update_repo(COURSE_DIR)
+		#update_repo(COURSE_DIR)
 
 		# add course info pages
 		load_course_info(COURSE_DIR)
@@ -260,7 +260,9 @@ private
 			if subpage_info
 				file = IO.read(File.join(dir, subpage_path))
 				
-				document = Asciidoctor.load file, safe: :safe, attributes: 'showtitle'
+				Rails.logger.info "HAAAI #{parent_page.public_url}"
+				
+				document = Asciidoctor.load file, safe: :safe, attributes: { 'showtitle' => true, 'imagesdir' => parent_page.public_url }
 				html = document.convert
 				
 				new_subpage = parent_page.subpages.find_by_title(subpage_info[2]) || parent_page.subpages.new(title: subpage_info[2])
