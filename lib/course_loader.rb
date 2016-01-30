@@ -16,7 +16,7 @@ class CourseLoader
 	# Re-read the course contents from the git repository.
 	def run
 		# get update from from git remote (pull)
-		#update_repo(COURSE_DIR)
+		update_repo(COURSE_DIR)
 
 		# add course info pages
 		load_course_info(COURSE_DIR)
