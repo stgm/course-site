@@ -80,8 +80,8 @@ private
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
 				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
 				Settings['mail_address'] = config['course']['mail'] if config['course']['mail']
-				Settings['hands_allow'] = config['ask']['hands'] if config['ask']['hands']
-				Settings['hands_slack_channel'] = config['ask']['slack'] if config['ask']['slack']
+				Settings['hands_allow'] = config['ask']['hands'] if config['ask']
+				Settings['hands_slack_channel'] = config['ask']['slack'] if config['ask']
 			end
 			Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
 			Settings['display_license'] = config['license'] if config['license']
