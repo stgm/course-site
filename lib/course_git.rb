@@ -4,9 +4,6 @@
 module CourseGit
 
 	def self.pull
-		# allow configuration of remote branch, with default
-		remote_branch = Settings.git_branch || 'master'
-
 		if git = self.existing_local_repo
 			begin
 				git.pull 'origin', git.current_branch
@@ -15,7 +12,7 @@ module CourseGit
 			end
 		else
 			if Settings.git_repo.present?
-				git = Git.clone(Settings.git_repo, 'public/course', branch:remote_branch, depth:1, log:Rails.logger)
+				git = Git.clone(Settings.git_repo, 'public/course', branch:self.get_remote_branch, depth:1, log:Rails.logger)
 			end
 		end
 		
@@ -26,6 +23,12 @@ module CourseGit
 		return Git.open('public/course', log:Rails.logger)
 	rescue
 		return nil
+	end
+	
+	def self.get_remote_branch
+		remote_branch = Settings.git_branch
+		remote_branch = 'master' if remote_branch.blank?
+		return remote_branch
 	end
 
 end
