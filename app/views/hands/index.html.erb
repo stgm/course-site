@@ -46,7 +46,7 @@
 				<td><%= hand.user.name %></td>
 				<td><%= hand.help_question %></td>
 				<td><%= hand.location %></td>
-				<td><%= time_ago_in_words(hand.user_last_seen) %></td>
+				<td><%= time_ago_in_words(hand.user_last_seen) unless hand.user_last_seen.blank? %></td>
 				<td><%= time_ago_in_words(hand.created_at) %></td>
 				<td><button type="submit" class="btn" name="which" value="<%= hand.id %>">Dibs!</button></td>
 			</tr>
