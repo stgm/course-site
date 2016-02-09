@@ -72,7 +72,10 @@ class ProfileController < ApplicationController
 				# AskMailer.ask_me_anything(current_user, params['question'], request.remote_ip).deliver_later
 				flash[:notice] = "Your question has been received! Expect an answer sometime soon."
 			elsif params[:how] = 'hands'
-				Hand.create(user:current_user, help_question:params[:question], location:params[:location])
+				hand = Hand.create(user:current_user, help_question:params[:question], location:params[:location])
+				notifier = Slack::Notifier.new ENV['SLACK_WEBHOOK'], channel: Settings.hands_slack_channel
+				notifier.ping "*#{hand.user.name}* needs help at *#{hand.location}* <#{hands_url}|dibs!>\n#{hand.help_question}"
+				
 				flash[:notice] = "Your question has been received! Expect someone to arrive soon."
 			end
 		end
