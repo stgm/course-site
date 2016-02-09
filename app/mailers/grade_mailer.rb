@@ -8,7 +8,7 @@ class GradeMailer < ActionMailer::Base
 		@course_name = Settings.short_course_name
 		@grade_name = grade.pset.name
 		@feedback = grade.comments
-		@grade = grade.any_final_grade
+		@grade = grade.grade
 		@login = grade.submit.used_login if grade.submit
 		@header = File.read("#{Rails.root}/public/course/mail/grade.txt") if File.exists?("#{Rails.root}/public/course/mail/grade.txt")
 		Rails.logger.info ENV["MAILER_ADDRESS"]
