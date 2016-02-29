@@ -53,10 +53,10 @@ class CourseController < ApplicationController
 	#
 	def grades_for_group
 		if params[:group].present?
-			@users = Group.find_by_name(params[:group]).users.includes(:logins, :submits => [:pset, :grade]).order(:name)
+			@users = Group.find_by_name(params[:group]).users.active.includes(:logins, :submits => [:pset, :grade]).order(:name)
 		else
 			if Group.count > 0
-				@users = Group.order(:name).first.users.includes(:logins, :submits => [:pset, :grade]).order(:name)
+				@users = Group.order(:name).first.users.active.includes(:logins, :submits => [:pset, :grade]).order(:name)
 			else
 				@users = User.active.no_group.not_admin.includes(:logins, :submits => [:pset, :grade]).order(:name)
 			end
