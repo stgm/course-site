@@ -1,5 +1,9 @@
 class GradeTools
 
+	def self.available?
+		!!Settings['grading'] && !!Settings['grading']['calculation']
+	end
+
 	def initialize
 		@grading = Settings['grading']
 	end
