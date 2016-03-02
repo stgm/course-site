@@ -7,6 +7,7 @@
 		<% psets.each do |pset| %>
 		<th class="rotate"><div><%= pset.name %></div></th>
 		<% end %>
+		<% if false %>
 		<th>
 			<form method="get" accept-charset="utf-8">
 				<%= select_tag :term, 
@@ -23,7 +24,10 @@
 				onchange: 'this.form.submit();' %>
 			</form>
 		</th>
+		<% end %>
+		<% if Settings['grading']['calculation'] %>
 		<th class="rotate">Active?</th>
+		<% end %>
 	</tr>
 
 	<% users.each do |user| %>
@@ -49,10 +53,14 @@
 		</td>
 		<% end %>
 
+		<% if false %>
 		<td><%= best_in_place user, :term  , as: :input, url: user_path(id: user.id) %></td>
 		<td><%= best_in_place user, :status, as: :input, url: user_path(id: user.id) %></td>
+		<% end %>
 		<td><%= best_in_place user, :active, as: :checkbox, url: user_path(id: user.id) %></td>
+		<% if Settings['grading']['calculation'] %>
 		<td><%= button_to 'calc', course_assign_final_grade_path(id:user.id), method: :put, remote: true, class: 'btn btn-xs' %></td>
+		<% end %>
 	</tr>
 	<% end %>
 
