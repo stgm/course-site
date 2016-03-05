@@ -15,23 +15,27 @@ class CourseLoader
 	
 	# Re-read the course contents from the git repository.
 	def run
-		# get update from from git remote (pull)
-		update_repo(COURSE_DIR)
+		begin
+			# get update from from git remote (pull)
+			update_repo(COURSE_DIR)
 
-		# add course info pages
-		load_course_info(COURSE_DIR)
-		process_info(COURSE_DIR)
-		load_schedules(COURSE_DIR)
+			# add course info pages
+			load_course_info(COURSE_DIR)
+			process_info(COURSE_DIR)
+			load_schedules(COURSE_DIR)
 		
-		# and all sections, recursively
-		process_sections(COURSE_DIR)
+			# and all sections, recursively
+			process_sections(COURSE_DIR)
 				
-		# remove old stuff
-		prune_untouched
-		prune_empty
+			# remove old stuff
+			prune_untouched
+			prune_empty
 		
-		# put psets in order
-		CourseTools.clean_psets
+			# put psets in order
+			CourseTools.clean_psets
+		rescue SQLite3::BusyException
+			@errors << "A timeout occurred while loading the new course content. Just try again!"
+		end
 		
 		return @errors
 	end
