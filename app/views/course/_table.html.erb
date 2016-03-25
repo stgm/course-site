@@ -42,7 +42,7 @@
 			<% end %>
 		</td>
         
-        <td><span class="bar"><%= user.attendance.take(user.attendance.length-1) %></span> <%= user.attendance.last %></td>
+        <td><span class="bar"><%= user.attendance %></span></td>
 
 		<% subs = user.submits.group_by(&:pset_id) %>
 		<% psets.each do |pset| %>
