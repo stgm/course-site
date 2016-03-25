@@ -19,6 +19,7 @@ class CourseController < ApplicationController
 					hours = u.attendance_records.where("cutoff >= ? and cutoff < ?", d_start, d_end).count
 					user_attendance.insert 0, hours
 				end
+				user_attendance.append u.attendance_records.count
 				u.update_attribute(:attendance, user_attendance.join(","))
 			end
 		end
