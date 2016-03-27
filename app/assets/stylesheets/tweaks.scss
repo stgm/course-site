@@ -15,6 +15,20 @@ textarea#notes
 	border-right: none;
 }
 
+@media all and (max-width: 767px)
+{
+    .navbar-nav .open .dropdown-menu
+    {
+        background-color: #fff;
+        margin-right: -15px ! important;
+    }
+    
+    .navbar-nav
+    {
+        margin: 0px -15px ! important;
+    }
+}
+
 a.list-group-item
 {
     color:black;
