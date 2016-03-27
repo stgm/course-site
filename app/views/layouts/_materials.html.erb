@@ -1,20 +1,16 @@
-<div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true" style="margin:0">
-	<% for section in @sections %>
-	<div class="panel panel-default" style="border:0; border-radius:0">
-		<div class="panel-heading" role="tab" id="heading<%= section.title.gsub(/\s+/, "") %>"  style="border-radius:0">
-			<h4 class="panel-title">
-				<a role="button" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= section.title.gsub(/\s+/, "") %>" aria-expanded="true" aria-controls="collapse<%= section.title.gsub(/\s+/, "") %>">
-					<%= section.title %>
-				</a>
-			</h4>
-		</div>
-		<div id="collapse<%= section.title.gsub(/\s+/, "").gsub(/\s+/, "") %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= section.title.gsub(/\s+/, "") %>">
-			<div class="list-group">
-				<% for page in section.pages %>
-				<%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class:'list-group-item' %>
-				<% end %>
-			</div>
-		</div>
-	</div>
-	<% end %>
-</div>
+<% first_done = false %>
+
+<% for section in @sections %>
+<% if first_done %>
+<li role="separator" class="divider"></li>
+<% else
+      first_done = true
+   end
+%>
+
+<li class="dropdown-header"><%= section.title %></li>
+<% for page in section.pages %>
+	<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: (page.public ? '' : 'bg-warning') %></li>
+<% end %>
+<% end %>
+
