@@ -22,6 +22,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def any_final_grade
+    # this function prefers hard-coded grades but can also provide the calculated grade
 		self.grade or self.calculated_grade
 	end
 
@@ -57,6 +58,13 @@ class Grade < ActiveRecord::Base
 		
 	def set_calculated_grade
 		if calculated_grade = calculate_grade(self)
+			case self.pset.grade_type
+			when 'float'
+				puts "float"
+				# calculated_grade = calculated_grade
+			else # integer, pass
+				puts self.pset.grade_type
+				calculated_grade = calculated_grade.round
 			self.update_attribute(:calculated_grade, calculated_grade*10)
 		else
 			self.update_attribute(:calculated_grade, nil)
