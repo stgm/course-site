@@ -65,6 +65,7 @@ class Grade < ActiveRecord::Base
 			else # integer, pass
 				puts self.pset.grade_type
 				calculated_grade = calculated_grade.round
+			end
 			self.update_attribute(:calculated_grade, calculated_grade*10)
 		else
 			self.update_attribute(:calculated_grade, nil)
