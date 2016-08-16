@@ -17,6 +17,12 @@ class HandsController < ApplicationController
 		@user = User.where(id: params[:id]).first
 	end
 	
+	def welcomed
+		@user = User.where(id: params[:id]).first
+		Hand.create(user_id: params[:id], evaluation: params[:evaluation], note: params[:note], done: true, assist: current_user)
+		redirect_to action: 'index', only_path: true
+	end
+	
 	def dib
 		# try to dib
 		if hand = Hand.where(id: params[:which], assist: nil).first
@@ -25,7 +31,7 @@ class HandsController < ApplicationController
 		
 		# check dib and report
 		if Hand.find(params[:which]).assist == current_user
-			flash[:notice] = "Taken!"
+			flash[:notice] = "Taken, it's yours!"
 		else
 			flash[:notice] = "Someone was ahead of you!"
 		end
@@ -34,8 +40,8 @@ class HandsController < ApplicationController
 	end
 
 	def done
-		Hand.find(params[:which]).update_attribute(:done, true)
-		redirect_to :back
+		Hand.find(params[:id]).update_attributes(done: true, evaluation: params[:evaluation], note: params[:note])
+		redirect_to action: 'index', only_path: true
 	end
 
 end

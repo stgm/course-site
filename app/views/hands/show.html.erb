@@ -1,45 +1,46 @@
-<p>
-<strong><%= @hand.user.name %></strong> <span class="badge pull-right">done</span><br>
-<%= @hand.location %><br>
-<small><%= time_ago_in_words(@hand.created_at) %> ago</small>
-</p>
+<h4>
+<%= @hand.user.name %>
+<% if @hand.done %>
+<span class="badge pull-right">done</span>
+<% end %><br>
+<small><%= @hand.location or "no location" %>, <%= time_ago_in_words(@hand.created_at) %> ago</small>
+</h4>
 
-<p><%= @hand.help_question %></p>
+<p><%= @hand.help_question or "No question was entered, even if this would be impossible." %></p>
 
-<div class="row">
-	<div class="col-sm-12">
+<% if @hand.assist.blank? %>
 		<div class="list-group">
 			<%= link_to({controller: 'hands', action: 'dib', which: @hand.id}, method: :post, class: 'list-group-item list-group-item-success') do %>
 				I'll take this one
 			<% end %>
 
-			<%= link_to({controller: 'hands', action: 'done', which: @hand.id}, method: :post, class: 'list-group-item', data: { confirm: 'Are you sure?' } ) do %>
-				Can't find this person
-			<% end %>
-
-			<%= link_to({controller: 'hands', action: 'done', which: @hand.id}, method: :post, class: 'list-group-item', data: { confirm: 'Are you sure?' } ) do %>
-				Hand off this one
+			<%= link_to({controller: 'hands', action: 'index'}, class: 'list-group-item' ) do %>
+				Back to list
 			<% end %>
 		</div>
 
+<% else %>
 
-		<p><textarea class="form-control" rows="8"></textarea></p>
+<%= form_tag(controller: :hands, action: :done, id: @hand.id) do %>
+
+<p><textarea class="form-control" rows="8" placeholder="Anything to report about this student?" name="note"></textarea></p>
 		
-		<p>
-		<div class="btn-group btn-group-justified" data-toggle="buttons">
-		  <label class="btn btn-primary">
-		    <input type="radio" name="options" id="option1" autocomplete="off"> 😄
-		  </label>
-		  <label class="btn btn-primary active">
-		    <input type="radio" name="options" id="option2" autocomplete="off" checked> 😏
-		  </label>
-		  <label class="btn btn-primary">
-		    <input type="radio" name="options" id="option3" autocomplete="off"> 😔
-		  </label>
-		</div>
-		</p>
-		
-	    <p><button type="submit" class="btn btn-primary btn-block">I'm done with this one</button></p>
-		
+<p>
+	<div class="btn-group btn-group-justified" data-toggle="buttons">
+		<label class="btn btn-primary">
+			<input type="radio" name="evaluation" value="😄" id="option1" autocomplete="off"> 😄
+		</label>
+		<label class="btn btn-primary active">
+			<input type="radio" name="evaluation" value="😏" id="option2" autocomplete="off" checked> 😏
+		</label>
+		<label class="btn btn-primary">
+			<input type="radio" name="evaluation" value="😔" id="option3" autocomplete="off"> 😔
+		</label>
 	</div>
-</div>
+</p>
+
+<p><button type="submit" class="btn btn-primary btn-block">I'm done with this one</button></p>
+
+<% end %>
+
+<% end %>

@@ -16,7 +16,7 @@
 			<% @my_hands.each do |hand| %>
 			<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item list-group-item-info') do %>
 			<span class="badge"><%= hand.location %></span>
-			<strong><%= hand.user.name %></strong><br><small><%= time_ago_in_words(hand.created_at) %> ago</small>
+			<%= hand.user.name %><br><small><%= time_ago_in_words(hand.created_at) %> ago</small>
 			<% end %>
 			<% end %>
 			<% end %>
@@ -25,7 +25,7 @@
 			<% @hands.each do |hand| %>
 			<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item') do %>
 			<span class="badge"><%= hand.location %></span>
-			<strong><%= hand.user.name %></strong><br><small><%= time_ago_in_words(hand.created_at) %> ago</small>
+			<%= hand.user.name %><br><small><%= time_ago_in_words(hand.created_at) %> ago</small>
 			<% end %>
 			<% end %>
 
@@ -34,7 +34,7 @@
 
 			<% @long_time_users.each do |user| %>
 			<%= link_to({controller: 'hands', action: 'student', id: user.id}, class: 'list-group-item') do %>
-			<strong><%= user.name %></strong><br><small>
+			<%= user.name %><br><small>
 				<% if user.last_spoken_at.blank? %>A new student: give them a warm welcome!<% else %><%= time_ago_in_words(user.last_spoken_at) unless user.last_spoken_at.blank? %> ago<% end %></small>
 			</a>
 			<% end %>
