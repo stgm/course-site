@@ -19,8 +19,10 @@ class ApplicationController < ActionController::Base
 			rescue Resolv::ResolvError
 				location = "untraceable"
 			end
-			if location =~ /^wcw.*uva.nl$/
+			logger.info location
+			if location =~ /^(wcw|1x).*uva.nl$/ or location == 'localhost'
 				AttendanceRecord.where(user_id:current_user.id, cutoff:cutoff_time).first_or_create
+				current_user.update_attributes(last_seen_at: DateTime.now)
 			end
 		end
 	end

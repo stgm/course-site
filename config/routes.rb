@@ -74,6 +74,7 @@ Rails.application.routes.draw do
 	get  "grading/checklist" => "grading#checklist"
 	
 	get  "hands" => "hands#index"
+	get  "hands/:id" => "hands#show"
 	post "hands/dib"
 	post "hands/done"
 

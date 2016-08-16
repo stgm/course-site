@@ -1,90 +1,91 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="scontainer-fluid">
+	<div class="scontainer-fluid">
 
-        <div class="navbar-header">
-            <a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Settings.short_course_name %></a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapsed-navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
+		<div class="navbar-header">
+			<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Settings.short_course_name %></a>
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapsed-navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
         
-        <div class="collapse navbar-collapse" id="collapsed-navbar">
-            <ul class="nav navbar-nav">
-                <% if logged_in? && @schedule %>
-                <li class="dropdown dropdown-accordion">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-time"></span> <%= @schedule.name %></a>
-                    <ul class="dropdown-menu">
-                        <%= render 'layouts/schedule' %>
-                    </ul>
-                </li>
-                <% end %>
+		<div class="collapse navbar-collapse" id="collapsed-navbar">
+			<ul class="nav navbar-nav">
+				<% if logged_in? && @schedule %>
+				<li class="dropdown dropdown-accordion">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-time"></span> <%= @schedule.name %></a>
+					<ul class="dropdown-menu">
+						<%= render 'layouts/schedule' %>
+					</ul>
+				</li>
+				<% end %>
 
-                <% if @sections.length > 0 %>
-                <li class="dropdown dropdown-accordion">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-search"></span> Archive</a>
-                    <ul class="dropdown-menu">
-                        <%= render 'layouts/materials' %>
-                    </ul>
-                </li>
-                <% end %>
+				<% if @sections.length > 0 %>
+				<li class="dropdown dropdown-accordion">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-search"></span> Archive</a>
+					<ul class="dropdown-menu">
+						<%= render 'layouts/materials' %>
+					</ul>
+				</li>
+				<% end %>
 
-                <% if !Settings.mail_address.blank? and logged_in? and (@alerts.count > 0 or @current_user.is_admin?) %>
-                <li class="dropdown dropdown-accordion">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span><span class=""><%= @alerts.count %></span></a>
-                    <ul class="dropdown-menu">
-                        <%= render 'layouts/alerts' %>
-                    </ul>
-                </li>
-                <% end %>
-            </ul>
+				<% if !Settings.mail_address.blank? and logged_in? and (@alerts.count > 0 or @current_user.is_admin?) %>
+				<li class="dropdown dropdown-accordion">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span><span class=""><%= @alerts.count %></span></a>
+					<ul class="dropdown-menu">
+						<%= render 'layouts/alerts' %>
+					</ul>
+				</li>
+				<% end %>
+			</ul>
 
-            <ul class="nav navbar-nav navbar-right">
-                <% if (Settings.mail_address || Settings.hands_allow) && current_user.valid_profile? %>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-question-sign"></span> Ask</a>
-                    <ul class="dropdown-menu" style="min-width:300px;">
-                        <%= render 'layouts/ama' %>
-                    </ul>
-                </li>
-                <% end %>
-                <% if logged_in? %>
-                <li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
-                    <ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
-                        <%= render 'layouts/menu' %>
-                    </ul>
-                </li>
-                <% else %>
-                <li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
-                <% end %>
-            </ul>
-        </div>
-    </nav>
+			<ul class="nav navbar-nav navbar-right">
+				<% if (Settings.mail_address || Settings.hands_allow) && current_user.valid_profile? %>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-question-sign"></span> Ask</a>
+					<ul class="dropdown-menu" style="min-width:300px;">
+						<%= render 'layouts/ama' %>
+					</ul>
+				</li>
+				<% end %>
+				<% if logged_in? %>
+				<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
+					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
+						<%= render 'layouts/menu' %>
+					</ul>
+				</li>
+				<% else %>
+				<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+</nav>
 
-    <% if flash[:alert] %>
-    <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <%= flash[:alert] %>
-    </div>
-    <% end %>
+<% if flash[:alert] %>
+<div class="alert alert-danger alert-dismissible">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= flash[:alert] %>
+</div>
+<% end %>
 
-    <% if flash[:notice] %>
-    <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <%= flash[:notice] %>
-    </div>
-    <% end %>
+<% if flash[:notice] %>
+<div class="alert alert-success alert-dismissible">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= flash[:notice] %>
+</div>
+<% end %>
 
-    <script>
-    // Prevent dropdown to be closed when we click on an accordion link
-    $('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        $($(this).data('parent')).find('.panel-collapse.in').collapse('hide');
-        $($(this).attr('href')).collapse('show');
-    })
-    </script>
+<script>
+// Prevent dropdown to be closed when we click on an accordion link
+$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+	$($(this).data('parent')).find('.panel-collapse.in').collapse('hide');
+	$($(this).attr('href')).collapse('show');
+})
+</script>

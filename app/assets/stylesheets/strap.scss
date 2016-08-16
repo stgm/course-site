@@ -56,6 +56,12 @@ body
  *
  */
 
+.container
+{
+	padding-left:0;
+	padding-right:0;
+}
+
 .container-fluid
 {
 	background-color:white;
@@ -63,22 +69,31 @@ body
 	margin-left: auto;
 }
 
-/****************************************************************************
- *  main content wrapper
- *
- */
-
 .container.limit-width
 {
 	max-width:60em;
 }
 
-#content section, header
+/****************************************************************************
+ *  main content wrapper
+ *
+ */
+
+#content section, #content header
 {
 	padding:2em 2em;
 	background-color:white;
 	margin-bottom:1.5em;
 }
+
+@media (max-width: 480px)
+{
+	#content section, #content header
+	{
+		padding: 1em 1em;
+	}
+}
+
 
 #content:nth-child(2)
 {
