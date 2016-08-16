@@ -1,21 +1,28 @@
+<div class="col-md-12">
+
 <h4>
 	<%= @user.name %><br>
-	<small>was seen on this site <%= time_ago_in_words(@user.last_seen_at) %> ago</small>
+	<small>was seen on this site <%= @user.last_seen_at ? time_ago_in_words(@user.last_seen_at) : 'never??' %> ago</small>
 </h4>
 
 <p>Please say some nice words to this new student and ask if they have everything they need to get started. Also show them the "ask" functionality on the website.</p>
 
 <%= form_tag(controller: :hands, action: :welcomed, id: @user.id) do %>
 
-<p><textarea class="form-control" rows="8" placeholder="Anything to report about this student?" name="note"></textarea></p>
+<p><textarea class="form-control" rows="4" placeholder="Anything to report about this student?" name="note"></textarea></p>
+
+<p>Moodmeter:</p>
 		
 <p>
 	<div class="btn-group btn-group-justified" data-toggle="buttons">
 		<label class="btn btn-primary">
 			<input type="radio" name="evaluation" value="😄" id="option1" autocomplete="off"> 😄
 		</label>
-		<label class="btn btn-primary active">
-			<input type="radio" name="evaluation" value="😏" id="option2" autocomplete="off" checked> 😏
+		<label class="btn btn-primary">
+			<input type="radio" name="evaluation" value="🙂" id="option2" autocomplete="off"> 🙂
+		</label>
+		<label class="btn btn-primary">
+			<input type="radio" name="evaluation" value="😏" id="option2" autocomplete="off"> 😏
 		</label>
 		<label class="btn btn-primary">
 			<input type="radio" name="evaluation" value="😔" id="option3" autocomplete="off"> 😔
@@ -26,3 +33,5 @@
 <p><button type="submit" class="btn btn-primary btn-block">I've said "hi" to this student</button></p>
 
 <% end %>
+
+</div>

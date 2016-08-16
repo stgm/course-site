@@ -1,3 +1,4 @@
+<div class="col-md-12">
 <h4>
 <%= @hand.user.name %>
 <% if @hand.done %>
@@ -23,15 +24,20 @@
 
 <%= form_tag(controller: :hands, action: :done, id: @hand.id) do %>
 
-<p><textarea class="form-control" rows="8" placeholder="Anything to report about this student?" name="note"></textarea></p>
+<p><textarea class="form-control" rows="4" placeholder="Anything to report about this student?" name="note"></textarea></p>
+
+<p>Moodmeter:</p>
 		
 <p>
 	<div class="btn-group btn-group-justified" data-toggle="buttons">
 		<label class="btn btn-primary">
 			<input type="radio" name="evaluation" value="😄" id="option1" autocomplete="off"> 😄
 		</label>
-		<label class="btn btn-primary active">
-			<input type="radio" name="evaluation" value="😏" id="option2" autocomplete="off" checked> 😏
+		<label class="btn btn-primary">
+			<input type="radio" name="evaluation" value="🙂" id="option2" autocomplete="off"> 🙂
+		</label>
+		<label class="btn btn-primary">
+			<input type="radio" name="evaluation" value="😏" id="option2" autocomplete="off"> 😏
 		</label>
 		<label class="btn btn-primary">
 			<input type="radio" name="evaluation" value="😔" id="option3" autocomplete="off"> 😔
@@ -44,3 +50,4 @@
 <% end %>
 
 <% end %>
+</div>

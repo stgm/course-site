@@ -73,12 +73,13 @@ Rails.application.routes.draw do
 	get  "grading" => "grading#index"
 	get  "grading/checklist" => "grading#checklist"
 	
-	get  "hands" => "hands#index"
-	get  "hands/:id" => "hands#show"
-	get  "hands/student/:id" => "hands#student"
+	get  "hands"              => "hands#index"
+	get  "hands/search"       => "hands#search"
+	get  "hands/student/:id"  => "hands#student"
 	post "hands/welcomed/:id" => "hands#welcomed"
 	post "hands/dib"
 	post "hands/done"
+	get  "hands/:id"          => "hands#show"
 
 	# individual grades
 	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
@@ -94,6 +95,7 @@ Rails.application.routes.draw do
 
 	# filled-in form caching for users
 	post "page/submit"
+	get  "page/mobile_home"
 	
 	# api
 	post "api/reload"

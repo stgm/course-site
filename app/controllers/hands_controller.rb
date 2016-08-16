@@ -23,6 +23,10 @@ class HandsController < ApplicationController
 		redirect_to action: 'index', only_path: true
 	end
 	
+	def search
+		@users = User.where("name like ?", "%#{params[:term]}%").not_admin
+	end
+	
 	def dib
 		# try to dib
 		if hand = Hand.where(id: params[:which], assist: nil).first
