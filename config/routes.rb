@@ -75,6 +75,7 @@ Rails.application.routes.draw do
 	
 	get  "hands" => "hands#index"
 	get  "hands/:id" => "hands#show"
+	get  "hands/student/:id" => "hands#student"
 	post "hands/dib"
 	post "hands/done"
 

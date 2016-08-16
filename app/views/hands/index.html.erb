@@ -33,7 +33,7 @@
 			<% if @long_time_users.any? %>
 
 			<% @long_time_users.each do |user| %>
-			<%= link_to({controller: 'hands', action: 'show', id: user.id}, class: 'list-group-item') do %>
+			<%= link_to({controller: 'hands', action: 'student', id: user.id}, class: 'list-group-item') do %>
 			<strong><%= user.name %></strong><br><small>
 				<% if user.last_spoken_at.blank? %>A new student: give them a warm welcome!<% else %><%= time_ago_in_words(user.last_spoken_at) unless user.last_spoken_at.blank? %> ago<% end %></small>
 			</a>

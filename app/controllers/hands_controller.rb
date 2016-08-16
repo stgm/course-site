@@ -13,6 +13,10 @@ class HandsController < ApplicationController
 		@hand = Hand.where(id: params[:id]).first
 	end
 	
+	def student
+		@user = User.where(id: params[:id]).first
+	end
+	
 	def dib
 		# try to dib
 		if hand = Hand.where(id: params[:which], assist: nil).first

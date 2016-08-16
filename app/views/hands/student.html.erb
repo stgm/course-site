@@ -1,0 +1,27 @@
+<p>
+<strong><%= @user.name %></strong><br>
+<small><%= time_ago_in_words(@user.last_seen_at) %> ago</small>
+</p>
+
+<div class="row">
+	<div class="col-sm-12">
+		<p><textarea class="form-control" rows="8"></textarea></p>
+		
+		<p>
+		<div class="btn-group btn-group-justified" data-toggle="buttons">
+		  <label class="btn btn-primary">
+		    <input type="radio" name="options" id="option1" autocomplete="off"> 😄
+		  </label>
+		  <label class="btn btn-primary active">
+		    <input type="radio" name="options" id="option2" autocomplete="off" checked> 😏
+		  </label>
+		  <label class="btn btn-primary">
+		    <input type="radio" name="options" id="option3" autocomplete="off"> 😔
+		  </label>
+		</div>
+		</p>
+		
+	    <p><button type="submit" class="btn btn-primary btn-block">I've said "hi" to this student</button></p>
+		
+	</div>
+</div>
