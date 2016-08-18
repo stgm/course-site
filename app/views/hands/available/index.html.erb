@@ -1,0 +1,13 @@
+<p>You are currently <%= @available_string %> available for this course<%= " until #{@user.available.hour}" if @available%>.</p>
+
+<p>
+<%= button_to("Set availability until #{@option1.hour}h", { action: 'set', until: @option1 }, class: 'btn') %>
+</p>
+
+<p>
+<%= button_to("Set availability until #{@option2.hour}h", { action: 'set', until: @option2 }, class: 'btn') %>
+</p>
+
+<p>
+<%= button_to("Set unavailable", { action: 'set', until: @optionU }, class: 'btn') %>
+</p>

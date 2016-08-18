@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816122805) do
+ActiveRecord::Schema.define(version: 20160818072614) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160816122805) do
   add_index "attendance_records", ["user_id"], name: "index_attendance_records_on_user_id"
 
   create_table "categories", force: :cascade do |t|
-    t.string   "title",      limit: 255
+    t.string   "title"
     t.integer  "position"
     t.integer  "subpage_id"
     t.datetime "created_at"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160816122805) do
 
   create_table "grades", force: :cascade do |t|
     t.integer  "submit_id"
-    t.string   "grader",           limit: 255
+    t.string   "grader"
     t.integer  "scope"
     t.integer  "correctness"
     t.integer  "design"
@@ -47,16 +47,16 @@ ActiveRecord::Schema.define(version: 20160816122805) do
     t.integer  "grade"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "mailed_at",                                    null: false
-    t.boolean  "done",                         default: false
-    t.boolean  "public",                       default: false
+    t.datetime "mailed_at",                        null: false
+    t.boolean  "done",             default: false
+    t.boolean  "public",           default: false
     t.integer  "calculated_grade"
   end
 
   add_index "grades", ["submit_id"], name: "index_grades_on_submit_id"
 
   create_table "groups", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,14 +81,14 @@ ActiveRecord::Schema.define(version: 20160816122805) do
   add_index "logins", ["user_id"], name: "index_logins_on_user_id"
 
   create_table "pages", force: :cascade do |t|
-    t.string   "title",      limit: 255
+    t.string   "title"
     t.integer  "position"
     t.integer  "section_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug",       limit: 255
-    t.string   "path",       limit: 255
-    t.boolean  "public",                 default: false
+    t.string   "slug"
+    t.string   "path"
+    t.boolean  "public",     default: false
   end
 
   add_index "pages", ["slug", "section_id"], name: "index_pages_on_slug_and_section_id", unique: true
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20160816122805) do
   add_index "pings", ["user_id"], name: "index_pings_on_user_id"
 
   create_table "pset_files", force: :cascade do |t|
-    t.string   "filename",   limit: 255
+    t.string   "filename"
     t.boolean  "required"
     t.integer  "pset_id"
     t.datetime "created_at"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 20160816122805) do
   add_index "pset_files", ["pset_id"], name: "index_pset_files_on_pset_id"
 
   create_table "psets", force: :cascade do |t|
-    t.string   "name",        limit: 255
+    t.string   "name"
     t.text     "description"
     t.integer  "page_id"
     t.datetime "created_at"
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20160816122805) do
   add_index "psets", ["page_id"], name: "index_psets_on_page_id"
 
   create_table "schedule_spans", force: :cascade do |t|
-    t.string   "name",        limit: 255
+    t.string   "name"
     t.integer  "schedule_id"
     t.text     "content"
     t.datetime "created_at"
@@ -143,25 +143,25 @@ ActiveRecord::Schema.define(version: 20160816122805) do
   add_index "schedule_spans", ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
 
   create_table "schedules", force: :cascade do |t|
-    t.string   "name",        limit: 255
+    t.string   "name"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "sections", force: :cascade do |t|
-    t.string   "title",      limit: 255
+    t.string   "title"
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug",       limit: 255
-    t.string   "path",       limit: 255
+    t.string   "slug"
+    t.string   "path"
   end
 
   add_index "sections", ["slug"], name: "index_sections_on_slug", unique: true
 
   create_table "settings", force: :cascade do |t|
-    t.string   "var",        limit: 255, null: false
+    t.string   "var",                   null: false
     t.text     "value"
     t.integer  "thing_id"
     t.string   "thing_type", limit: 30
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 20160816122805) do
     t.datetime "submitted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",          limit: 255
+    t.string   "url"
     t.string   "used_login"
   end
 
@@ -185,32 +185,32 @@ ActiveRecord::Schema.define(version: 20160816122805) do
   add_index "submits", ["user_id"], name: "index_submits_on_user_id"
 
   create_table "subpages", force: :cascade do |t|
-    t.string   "title",      limit: 255
+    t.string   "title"
     t.text     "content"
     t.integer  "position"
     t.integer  "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug",       limit: 255
+    t.string   "slug"
   end
 
   add_index "subpages", ["slug"], name: "index_subpages_on_slug", unique: true
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",               limit: 255
-    t.string   "mail",               limit: 255
+    t.string   "name"
+    t.string   "mail"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.boolean  "done",                           default: false
-    t.boolean  "active",                         default: true
-    t.string   "term",               limit: 255
-    t.string   "status",             limit: 255
-    t.string   "token",              limit: 255
+    t.boolean  "done",           default: false
+    t.boolean  "active",         default: true
+    t.string   "term"
+    t.string   "status"
+    t.string   "token"
     t.string   "attendance"
-    t.boolean  "monitoring_consent",             default: false
     t.datetime "last_seen_at"
     t.datetime "last_spoken_at"
+    t.datetime "available"
   end
 
 end

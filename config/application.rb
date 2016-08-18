@@ -20,6 +20,9 @@ module CourseSite
 		# config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
 		# config.i18n.default_locale = :de
        
-		config.action_mailer.smtp_settings = { address: ENV["MAILER_ADDRESS"], domain: ENV["MAILER_DOMAIN"] }		
+		config.action_mailer.smtp_settings = { address: ENV["MAILER_ADDRESS"], domain: ENV["MAILER_DOMAIN"] }
+		
+		# We want the libs in /lib automatically available
+		config.autoload_paths += %W(#{config.root}/lib)
 	end
 end

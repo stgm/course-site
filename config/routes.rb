@@ -73,6 +73,11 @@ Rails.application.routes.draw do
 	get  "grading" => "grading#index"
 	get  "grading/checklist" => "grading#checklist"
 	
+	namespace :hands do
+		get "available" => "available#index"
+		post "available/set" => "available#set"
+	end
+
 	get  "hands"              => "hands#index"
 	get  "hands/search"       => "hands#search"
 	get  "hands/student/:id"  => "hands#student"
@@ -80,7 +85,7 @@ Rails.application.routes.draw do
 	post "hands/dib"
 	post "hands/done"
 	get  "hands/:id"          => "hands#show"
-
+	
 	# individual grades
 	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
 	post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
