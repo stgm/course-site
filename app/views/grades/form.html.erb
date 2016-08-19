@@ -1,7 +1,7 @@
 <%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
 <%= hidden_field_tag :referer, request.referer %>
 
-<div class="row">
+<div class="row" style="display:flex">
 	<div class="col-xs-12 col-sm-8" style="background-color:white">
 
 		<h1><%= @pset.name %><br> <small> by <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %></small></small></h1>
