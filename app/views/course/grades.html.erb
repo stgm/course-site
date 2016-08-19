@@ -1,7 +1,10 @@
 <h1>Students</h1>
 <%= render partial: 'tabs' %>
-
 <%= render partial: 'table', locals: { users: @users, psets: @psets } %>
+
+<% if current_user.is_admin? %>
+    <%= button_to 'Mark all done grades as public', course_mark_all_public_path(pset: params[:pset], group: params[:group]), class: 'btn', remote:true, data: { confirm:'Are you sure?' } %>
+<% end %>
 
 
 <script type="text/javascript" charset="utf-8">

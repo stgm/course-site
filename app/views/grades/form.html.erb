@@ -1,90 +1,101 @@
-<h1><%= @pset.name %> <small> by <%= @user.name %> / <%= @submit.used_login if @submit %></small></small></h1>
-Latest submit:
-<% if @submit and @submit.submitted_at %>
-<%= @submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@submit.submitted_at) %> ago)
-<% else %>
-never
-<% end %>
-/ 
-Graded:
-<% if @grade.created_at %>
-<%= @grade.created_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@grade.created_at) %> ago)
-<% else %>
-never
-<% end %>
-/
-grader: <%= @grade.grader_name %>
-
 <%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
-	
 <%= hidden_field_tag :referer, request.referer %>
-	
-<% if @grade.errors.any? %>
-<div id="error_explanation">
-	<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
-
-	<ul>
-		<% @grade.errors.full_messages.each do |msg| %>
-		<li><%= msg %></li>
-		<% end %>
-	</ul>
-</div>
-<% end %>
 
 <div class="row">
+	<div class="col-xs-12 col-sm-8" style="background-color:white">
 
-	<div class="col-xs-8">
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="field">
-					<% if @submit and not @submit.url.blank? %>
-					<p><div class="alert alert-warning" role="alert"><%= link_to @submit.url, @submit.url %></div></p>
-					<% end %>
+		<h1><%= @pset.name %><br> <small> by <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %></small></small></h1>
 
-					<p>
-						<%= f.text_area :comments, class: 'form-control' %>
+		<% if @grade.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
+
+			<ul>
+				<% @grade.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+		<% end %>
+
+
+		<div class="form-horizontal">
+
+			<div class="form-group">
+				<label for="" class="col-sm-3 control-label">Latest submit</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+						<% if @submit and @submit.submitted_at %>
+						<%= @submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@submit.submitted_at) %> ago)
+						<% else %>
+						never
+						<% end %>
 					</p>
 				</div>
 			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-xs-2">
-				<div class="form-group">
-					<div class="input-group">
-						<div class="input-group-addon"><%= f.label :scope, 'sc' %></div>
-						<%= f.text_field :scope, class: 'form-control' %>
+			<div class="form-group">
+				<label for="" class="col-sm-3 control-label">First graded</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+						<% if @grade.persisted? %>
+						<%= @grade.created_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@grade.created_at) %> ago)
+						by <%= @grade.grader_name %>
+						<br>
+						Last changed: <%= time_ago_in_words(@grade.updated_at) %> ago
+						<% else %>
+						never
+						<% end %>
+					</p>
+				</div>
+			</div>
+
+			<% if @submit and not @submit.url.blank? %>
+			<div class="form-group">
+				<label for="" class="col-sm-3 control-label">Link</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+						<%= link_to @submit.url, @submit.url %>
+					</p>
+				</div>
+			</div>
+			<% end %>
+
+			<div class="form-group">
+				<label for="" class="col-md-3 control-label">Focus points</label>
+				<div class="col-md-9">
+					<%= f.text_area :comments, class: 'form-control', rows: 5 %>
+					<span id="helpBlock" class="help-block">Use bullets <code>*</code> to separate points. Use <code>`</code>backticks<code>`</code> to insert code.</span>
+				</div>
+			</div>
+
+			<% if @grading_definition %>
+			<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
+			<% if subgrade_type == 'integer' %>
+			<div class="form-group">
+				<label for="input_<%= subgrade_name %>" class="col-sm-3 control-label"><%= subgrade_name.capitalize %></label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="input_<%= subgrade_name %>" name="grade[subgrades[<%= subgrade_name %>]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
+				</div>
+			</div>
+			<% elsif subgrade_type == 'boolean' %>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<div class="checkbox">
+						<label>
+							<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", true, @grade.subgrades && @grade.subgrades[subgrade_name] %> <%= subgrade_name.capitalize %>
+						</label>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-2">
-				<div class="form-group">
+			<% end %>
+			<% end %>
+			<% end %>
+			
+			<div class="form-group">
+				<label for="inputPassword3" class="col-sm-3 control-label">Grade</label>
+				<div class="col-sm-9">
 					<div class="input-group">
-						<div class="input-group-addon"><%= f.label :correctness, 'cr' %></div>
-						<%= f.text_field :correctness, class: 'form-control' %>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-2">
-				<div class="form-group">
-					<div class="input-group">
-						<div class="input-group-addon"><%= f.label :design, 'ds' %></div>
-						<%= f.text_field :design, class: 'form-control' %>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-2">
-				<div class="form-group">
-					<div class="input-group">
-						<div class="input-group-addon"><%= f.label :style, 'st' %></div>
-						<%= f.text_field :style, class: 'form-control' %>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class="form-group">
-					<div class="input-group">
-						<div class="input-group-addon"><%= f.label :correctness, '==' %></div>
 						<%= f.text_field :grade, class: 'form-control', value: @grade.grade %>
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="button" id="pass-btn">P</button>
@@ -93,36 +104,50 @@ grader: <%= @grade.grader_name %>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-xs-12">
-				<div>
-					<%= f.check_box :done %> <label for="grade_done">I'm done grading this one.</label>
-                    <% if @grade.public %>(grade has already been marked public)<% end %>
+			<div class="form-group">
+				<label for="inputPassword3" class="col-sm-3 control-label">Calculated grade</label>
+				<div class="col-sm-9">
+					<div class="input-group">
+						<p class="form-control-static"><%= @grade.calculated_grade %></p>
+					</div>
 				</div>
 			</div>
-		</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<div class="checkbox">
+						<label>
+							<%= f.check_box :done %> Mark grade as done
+							<% if @grade.public %>(grade has already been marked public)<% end %>
+						</label>
+					</div>
+				</div>
+			</div>
+			
+			<hr>
 
-        <% if current_user.is_admin? || !@grade.done %>
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="actions">
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<% if current_user.is_admin? || !@grade.done %>
 					<%= f.submit class: 'btn btn-primary form-control' %>
+					<% end %>
 				</div>
 			</div>
+
 		</div>
-        <% end %>
 	</div>
-	
-		
-	<div class="col-xs-4">
+
+	<div class="col-xs-12 col-sm-4">
 		<% @grades.each do |grade| %>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<%= grade.submit.pset.name %>
 				<div class="pull-right">
-					S: <%= grade.scope %> / C: <%= grade.correctness %> / D: <%= grade.design %> / S: <%= grade.style %> / <strong><%= translate_grade(grade.grade) %></strong>
+					<% grade.subgrades.each_pair do |k,v| %>
+					<%= v %> /
+					<% end %>
+					<strong><%= translate_grade(grade.grade) %></strong>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -131,11 +156,10 @@ grader: <%= @grade.grader_name %>
 		</div>
 		<% end %>
 	</div>
-	
+
 </div>
 	
 <% end %>
-
 
 <% if current_user.is_admin? and @submit %>
 <hr>

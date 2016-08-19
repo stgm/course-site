@@ -68,6 +68,7 @@ Rails.application.routes.draw do
 	post "course/remove_student"
 	put  "course/change_user_name"
 	put  "course/assign_final_grade"
+	post "course/mark_all_public"
 
 	# grading overview
 	get  "grading" => "grading#index"
@@ -91,7 +92,6 @@ Rails.application.routes.draw do
 	post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
 	delete "grade" => "grades#destroy"
 	post "grades/mark_all_done"
-	post "grades/mark_all_public"
 	
 	# onboarding
 	get  "welcome" => "welcome#index"

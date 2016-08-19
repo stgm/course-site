@@ -3,7 +3,7 @@
     sfont-family:Georgia, palatino, serif;
 	line-height:1.6;
 	font-weight:normal;
-	font-size:15px;
+	sfont-size:15px;
 }
 
 .page-header h1
@@ -11,10 +11,10 @@
 	font-size:30px;
 }
 
-section h1
+#content h1
 {
 	padding-bottom:9px;
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid #cacaca;
 }
 
 #content table

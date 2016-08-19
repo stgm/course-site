@@ -1,5 +1,3 @@
-require 'course_loader'
-
 class CourseController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
@@ -110,4 +108,19 @@ class CourseController < ApplicationController
 		redirect_to :back
 	end
 	
+	def mark_all_public
+		@grades = Grade.joins(:submit => :user).where(done:true).where(public:false)
+		
+		if params[:pset]
+			@grades = @grades.where('submits.pset_id = ?', params[:pset])
+		end
+		
+		if params[:group]
+			@grades = @grades.where('users.group_id = ?', params[:group])
+		end
+		
+		@grades.update_all(public:true)
+		render nothing:true
+	end
+
 end
