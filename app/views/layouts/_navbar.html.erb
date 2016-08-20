@@ -31,7 +31,7 @@
 				</li>
 				<% end %>
 
-				<% if !Settings.mail_address.blank? and logged_in? and (@alerts.count > 0 or @current_user.is_admin?) %>
+				<% if !Settings.mail_address.blank? && logged_in? && (@alerts.count > 0 || @current_user.is_admin?) %>
 				<li class="dropdown dropdown-accordion">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span><span class=""><%= @alerts.count %></span></a>
 					<ul class="dropdown-menu">
@@ -50,12 +50,21 @@
 					</ul>
 				</li>
 				<% end %>
+				
 				<% if logged_in? %>
 				<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
 					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
 						<%= render 'layouts/menu' %>
+					</ul>
+				</li>
+				<% elsif authenticated? %>
+				<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
+					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
+						<%= render 'profile/edit' %>
 					</ul>
 				</li>
 				<% else %>

@@ -17,7 +17,7 @@ class CourseController < ApplicationController
 					hours = u.attendance_records.where("cutoff >= ? and cutoff < ?", d_start, d_end).count
 					user_attendance.insert 0, hours
 				end
-				user_attendance.append u.attendance_records.count
+				# user_attendance.append u.attendance_records.count
 				u.update_attribute(:attendance, user_attendance.join(","))
 			end
 		end
@@ -38,8 +38,10 @@ class CourseController < ApplicationController
 	end
 	
 	def assign_final_grade
-		User.find(params[:id]).assign_final_grade(@current_user.login_id)
-		render nothing:true
+		User.all.each do |u|
+			u.assign_final_grade(@current_user.login_id)
+		end
+		redirect_to :back
 	end
 	
 	def change_user_name
@@ -111,16 +113,16 @@ class CourseController < ApplicationController
 	def mark_all_public
 		@grades = Grade.joins(:submit => :user).where(done:true).where(public:false)
 		
-		if params[:pset]
-			@grades = @grades.where('submits.pset_id = ?', params[:pset])
-		end
-		
-		if params[:group]
-			@grades = @grades.where('users.group_id = ?', params[:group])
-		end
+		# if params[:pset]
+		# 	@grades = @grades.where('submits.pset_id = ?', params[:pset])
+		# end
+		#
+		# if params[:group]
+		# 	@grades = @grades.where('users.group_id = ?', params[:group])
+		# end
 		
 		@grades.update_all(public:true)
-		render nothing:true
+		redirect_to :back
 	end
 
 end

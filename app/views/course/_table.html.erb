@@ -56,9 +56,6 @@
 		<td><%= best_in_place user, :status, as: :input, url: user_path(id: user.id) %></td>
 		<% end %>
 		<td><%= best_in_place user, :active, as: :checkbox, url: user_path(id: user.id) %></td>
-		<% if GradeTools.available? %>
-		<td><%= button_to 'calc', course_assign_final_grade_path(id:user.id), method: :put, remote: true, class: 'btn btn-xs' %></td>
-		<% end %>
 	</tr>
 	<% end %>
 

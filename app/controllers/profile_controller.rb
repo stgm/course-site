@@ -33,13 +33,11 @@ class ProfileController < ApplicationController
 			return
 		end
 
-		# if current_user.persisted?
-			current_user.update!(params.require(:user).permit(:name, :mail))
-		# else
-		# 	User.where(:uvanetid => session[:cas_user]).first_or_create do |u|
-		# 		u.update_attributes(params[:user])
-		# 	end
-		# end
+		login = Login.where(login: session[:cas_user]).first_or_create
+		login.create_user and login.save if login.user.nil?
+		@current_user = login.user
+		current_user.update!(params.require(:user).permit(:name, :mail))
+
 		redirect_to :back
 	end
 	

@@ -97,8 +97,8 @@ class Grade < ActiveRecord::Base
 		return nil if f[pset_name].nil? or f[pset_name]['calculation'].nil?
 		begin
 			cg = grade.subgrades.instance_eval(f[pset_name]['calculation'])
-		# rescue
-		# 	cg = nil
+		rescue
+			cg = nil
 		end
 		return cg
 	end

@@ -1,4 +1,4 @@
-<ul class="nav nav-pills">
+<ul class="nav nav-tabs" style="margin-top:1em; margin-bottom:1em;">
 	<% Group.order(:name).all.each_with_index do |group,i| %>
 	<li <%= 'class="active"'.html_safe if params[:group] == group.name %>>
 		<%= link_to "#{group.name} (#{group.users.count})", course_grades_path(group:group.name) %>
