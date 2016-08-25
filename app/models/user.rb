@@ -33,7 +33,11 @@ class User < ActiveRecord::Base
 		if login
 			return Login.find_by_login(login).user
 		end
-	end	
+	end
+	
+	# def name
+	# 	self['name'] || "(no name)"
+	# end
 	
 	def login_id
 		return self.logins.first.login
@@ -69,10 +73,17 @@ class User < ActiveRecord::Base
 		grade = GradeTools.new.calc_final_grade(subs)
 		
 		# save
-		if grade > 0
+		final = self.submits.where(pset:Pset.where(name:'final').first).count > 0
+		if final || grade > 0
 			final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
 			final.create_grade if !final.grade
-			final.grade.update_attributes(grade: grade, grader: grader)
+			final.grade.grade = grade
+			final.grade.grader = grader
+			if final.grade.changed?
+				final.grade.done = false
+				final.grade.public = false
+				final.grade.save
+			end
 		end
 	end
 	

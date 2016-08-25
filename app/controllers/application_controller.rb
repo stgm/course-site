@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 	before_action :load_schedule
 	before_action :register_attendance
 
-	helper_method :current_user, :logged_in?
+	helper_method :current_user, :logged_in?, :authenticated?
 	
 	def register_attendance
 		if current_user.persisted?# and not current_user.is_admin?
@@ -38,24 +38,31 @@ class ApplicationController < ActionController::Base
 		@alerts = Alert.order("created_at desc")
 	end
 	
-	def logged_in?
+	def authenticated?
 		return !!session[:cas_user]
 	end
 	
+	def logged_in?
+		return authenticated? && @current_user.persisted?
+	end
+	
 	def current_user
-		if logged_in?
+		if @current_user
+			return @current_user
+		elsif login = Login.where(login: session[:cas_user]).first
 			# there is session information to be had containing login info
-			login = Login.where(login: session[:cas_user]).first_or_create
+			# login = Login.where(login: session[:cas_user]).first_or_create
 
 			# create new user for this login
-			login.create_user and login.save if login.user.nil?
-
+			# @current_login.create_user and @current_login.save if @current_login.user.nil?
 			@current_user = login.user
 		else
 			# no session, so fake empty user
 			@current_user = User.new
 		end
 		
+		logger.info logged_in?.inspect
+		logger.info @current_user.inspect
 		return @current_user
 	end
 	

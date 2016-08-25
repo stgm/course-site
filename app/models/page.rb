@@ -12,11 +12,18 @@ class Page < ActiveRecord::Base
 	default_scope { order(:position) }
 	
 	def public_url
-		if section
-			return File.join('/course', section.path, path)
-		else
-			return File.join('/course', path)
-		end
+		puts 'HUH'
+		the_path = ["/course"]
+		the_path << Settings.submodule if Settings.submodule
+		the_path << section.path if section
+		the_path << path
+		
+		return File.join(the_path)
+		# if section
+		# 	return File.join('/course', section.path, path)
+		# else
+		# 	return File.join('/course', path)
+		# end
 	end
 	
 end

@@ -5,7 +5,21 @@ class Grade < ActiveRecord::Base
 	has_one :pset, through: :submit
 
 	before_create :set_mailed_at
-	before_save :unpublicize_if_undone
+	before_save :unpublicize_if_undone, :set_calculated_grade
+	
+	serialize :subgrades, OpenStruct
+
+	def subgrades=(val)
+		# we would like this to be stored as an OpenStruct
+		return super if val.is_a? OpenStruct
+		
+		# take this opportunity to convert any stringified ints from the params to ints
+		val.each do |k,v|
+			val[k] = v.to_i if v.to_i.to_s == v
+		end if val
+		
+		super OpenStruct.new val.to_h if val
+	end
 	
 	def grade
 		g = read_attribute(:grade)
@@ -66,21 +80,23 @@ class Grade < ActiveRecord::Base
 				puts self.pset.grade_type
 				calculated_grade = calculated_grade.round
 			end
-			self.update_attribute(:calculated_grade, calculated_grade*10)
+			# self.update_attribute(:calculated_grade, calculated_grade*10)
+			self.calculated_grade = calculated_grade * 10
 		else
-			self.update_attribute(:calculated_grade, nil)
+			# self.update_attribute(:calculated_grade, nil)
+			self.calculated_grade = nil
 		end
 	end
 
 	private
 	
 	def calculate_grade(grade)
-		f = Settings['grading']['formulas']
+		f = Settings['grading']['grades']
 		return nil if f.nil?
 		pset_name = grade.pset.name
-		return nil if f[pset_name].nil?
+		return nil if f[pset_name].nil? or f[pset_name]['calculation'].nil?
 		begin
-			cg = grade.instance_eval(f[pset_name])
+			cg = grade.subgrades.instance_eval(f[pset_name]['calculation'])
 		rescue
 			cg = nil
 		end

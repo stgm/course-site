@@ -25,7 +25,11 @@ class CourseLoader
 			load_schedules(COURSE_DIR)
 		
 			# and all sections, recursively
-			process_sections(COURSE_DIR)
+			if Settings.submodule
+				process_sections("#{COURSE_DIR}/#{Settings.submodule}")
+			else
+				process_sections(COURSE_DIR)
+			end
 				
 			# remove old stuff
 			prune_untouched
@@ -92,6 +96,7 @@ private
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 			Settings['psets'] = config['psets'] if config['psets']
 			Settings['links'] = config['links'] if config['links']
+			Settings['submodule'] = config['submodule'] if config['submodule']
 		else
 			@errors << "You do not have a course.yml!"
 		end

@@ -10,7 +10,9 @@ class GradeTools
 	
 	def calc_final_grade(subs)
 		@grading['calculation'].each do |name, formula|
+			puts name
 			grade = calc_final_grade_formula(subs, formula)
+			puts grade
 			if grade > 0
 				return grade
 			end
@@ -25,7 +27,9 @@ class GradeTools
 		total_weight = 0
 		
 		formula.each do |subtype, weight|
+			puts subtype
 			grade = calc_final_grade_subtype(subs, subtype)
+			puts grade
 			return 0 if grade == 0
 			total += grade * weight
 			total_weight += weight
@@ -41,7 +45,7 @@ class GradeTools
 	end
 	
 	def calc_final_grade_subtype(subs, subtype)
-		return 0 if !@grading[subtype]['grades']
+		return 0 if !@grading[subtype]['submits']
 		Rails.logger.info subs.inspect
 		Rails.logger.info subtype.inspect
 
@@ -51,7 +55,7 @@ class GradeTools
 		case @grading[subtype]['type']
 		when 'pass'
 			allow_drop = @grading[subtype]['drop'] == 'any' ? 1 : 0
-			@grading[subtype]['grades'].each do |grade, weight|
+			@grading[subtype]['submits'].each do |grade, weight|
 				return 0 if subs[grade].nil?
 				return 0 if @grading[subtype]['required'] == true && subs[grade].any_final_grade == 0
 				if subs[grade].any_final_grade == 0 && allow_drop >= 1
@@ -69,11 +73,11 @@ class GradeTools
 			droppable_grade = nil
 
 			if (@grading[subtype]['drop'] == 'correctness')
-				droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc, calculated_grade asc').first
+				droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
 			end
 
 			if (@grading[subtype]['drop'] == 'scope')
-				droppable_grade = Grade.joins(:pset).where('grades.scope = 5').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['grades'].keys).order('grade asc, calculated_grade asc').first
+				droppable_grade = Grade.joins(:pset).where('grades.scope = 5').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
 			end
 			
 			grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
@@ -87,7 +91,7 @@ class GradeTools
 	def calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
 		total = 0
 		total_weight = 0
-		@grading[subtype]['grades'].each do |grade, weight|
+		@grading[subtype]['submits'].each do |grade, weight|
 			return 0 if subs[grade].nil? or subs[grade].any_final_grade == 0
 			if subs[grade] != droppable_grade
 				total += subs[grade].any_final_grade * weight

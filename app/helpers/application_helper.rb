@@ -9,8 +9,6 @@ module ApplicationHelper
 	end
 
 	def markdown(text, page_context)
-		# pass public parl URL to the image converter
-		# :image_prefix is defined in config/application.rb
 		Kramdown::Document.new(text,
 		                       :auto_ids => false,
 		                       :asset_prefix => page_context.public_url,
@@ -23,9 +21,6 @@ module ApplicationHelper
 	end
 	
 	def simple_markdown(text)
-		# pass public parl URL to the image converter
-		# :image_prefix is defined in config/application.rb
-		
 		return text && Kramdown::Document.new(text,
 		                       :auto_ids => false,
 							   :parse_block_html => true,

@@ -1,12 +1,25 @@
 #
 #  Get remote git data, either by pulling existing, or cloning anew.
 #
+
+class Git::Lib
+	
+	def update_submodules
+		command 'submodule update --remote'
+	end
+	
+end
+
 module CourseGit
 
 	def self.pull
 		if git = self.existing_local_repo
 			begin
 				git.pull 'origin', git.current_branch
+				# this sucks; git submodule update seems to ignore the working dir spec'd in command-line arguments
+				Dir.chdir('public/course') do
+					git.lib.update_submodules
+				end
 			rescue Git::GitExecuteError
 				return false
 			end
