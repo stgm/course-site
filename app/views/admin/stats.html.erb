@@ -1,13 +1,3 @@
+<p>Geregistreerd: <%= @geregistreerd %></p>
 <p>Gestart: <%= @gestart %></p>
 <p>Gehaald: <%= @gehaald %></p>
-
-<% @terms.each do |term| %>
-	<h4><%= term.term %></h4>
-		<% statuses = User.select("distinct status").where(term:term.term) %>
-		<% users = User.from_term(term.term) %>
-		<ul>
-			<% statuses.each do |status| %>
-			<li><%= status.status %>: <%= users.having_status(status.status).count %></li>
-			<% end %>
-		</ul>
-<% end %>

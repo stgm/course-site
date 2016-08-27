@@ -33,10 +33,10 @@ class AdminController < ApplicationController
 	end
 	
 	def stats
+		@geregistreerd = User.count
 		@gestart = User.joins(:submits).uniq.count
 		final = Pset.find_by_name('final')
 		@gehaald = User.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
-		@terms = User.select("distinct term")
 		render layout: false
 	end
 		
