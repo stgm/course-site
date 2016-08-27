@@ -3,7 +3,7 @@
 	<li <%= 'class="active"'.html_safe if params[:group] == group.slug %>>
 		<%= link_to "#{group.name} (#{@group_counts[group.id]})", students_path(group:group.slug) %>
 	</li>
-	<% end %>
+	<% end if @groups %>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_other' %>>
 		<%= link_to "Other (#{@groupless_count})", students_other_path %>
 	</li>
