@@ -73,7 +73,7 @@ Rails.application.routes.draw do
 	get  "students(/:group)", to: "students#list", as: 'students'
 
 	# grading overview for assistants
-	get  "grading" => "grading#index"
+	# get  "grading" => "grading#index"
 	
 	namespace :hands do
 		get "available" => "available#index"
@@ -89,10 +89,16 @@ Rails.application.routes.draw do
 	get  "hands/:id"          => "hands#show"
 	
 	# individual grades
-	get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
-	post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
-	delete "grade" => "grades#destroy"
-	post "grades/mark_all_done"
+	# get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
+	# post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
+	# delete "grade" => "grades#destroy"
+	# post "grades/mark_all_done"
+	
+	resources :submits, only: [ :index, :create, :destroy ] do
+		resource :grade, only: [ :show, :update ] do
+			post "mark_all_done"
+		end
+	end
 	
 	# onboarding
 	get  "welcome" => "welcome#index"
@@ -108,6 +114,7 @@ Rails.application.routes.draw do
 	
 	resources :user do
 		post "assign/:group_id", action: "assign_group", as: 'assign_group'
+		post "calculate_final_grade"
 	end
 	
 	mathjax 'mathjax'

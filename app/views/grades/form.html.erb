@@ -1,4 +1,4 @@
-<%= form_for(@grade, url: grade_save_path(user_id: @user.id, pset_id: @pset.id), method: :post) do |f| %>
+<%= form_for([ @submit, @grade ], method: :put) do |f| %>
 <%= hidden_field_tag :referer, request.referer %>
 
 <div class="row" style="display:flex">
@@ -163,6 +163,8 @@
 
 <% if current_user.is_admin? and @submit %>
 <hr>
-<%= link_to "Destroy submit completely", { action: :destroy, submit_id: @submit.id, referer: request.referer }, method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-danger' if @submit %>
+<p>
+<%= link_to "Destroy submit completely", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-danger' if @submit %>
 <%= link_to_if @submit.grade, 'Put into grading list', course_touch_submit_path(submit_id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'btn btn-danger' %>
+</p>
 <% end %>

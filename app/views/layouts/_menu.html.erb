@@ -4,7 +4,7 @@
 <li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
 <li class="divider"></li>
 <li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, grading_path %></li>
+<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path %></li>
 <li class="divider"></li>
 <li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
@@ -20,10 +20,12 @@
 
 
 <% elsif current_user.is_assistant? %>
+<% if true #### EJ QLJW QLKWJ QKLWJ QKLWJ Q TODO %>
 <li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
 <li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, grading_path %></li>
+<% end %>
+<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path %></li>
 <% if Settings['links'] %>
 <li class="divider"></li>
 <% Settings['links'].each do |title, url| %>

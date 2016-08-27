@@ -88,7 +88,7 @@ class GradeTools
 		total = 0
 		total_weight = 0
 		@grading[subtype]['submits'].each do |grade, weight|
-			return 0 if subs[grade].nil? or subs[grade].any_final_grade == 0
+			return 0 if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
 			if subs[grade] != droppable_grade
 				total += subs[grade].any_final_grade * weight
 				total_weight += weight

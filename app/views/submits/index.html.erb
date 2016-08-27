@@ -49,7 +49,7 @@
 			<% @submits.each do |submit| %>
 			<tr class="<%= grade_color(submit.grade) %>">
 				<td><%= submit.pset.name %></td>
-				<td><%= link_to submit.user.name, grade_form_path(user_id: submit.user_id, pset_id: submit.pset_id) %></td>
+				<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
 				<td><%= submit.used_login %></td>
 				<td><% if submit.submitted_at %><%= submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(submit.submitted_at) %> ago)<% end %></td>
 				<td><%= submit.grade.grade if submit.grade %></td>

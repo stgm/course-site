@@ -1,11 +1,12 @@
-class GradingController < ApplicationController
+class SubmitsController < ApplicationController
+
+	#
+	# This controller mainly controls the list of submits to be graded by assistants
+	#
 
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_admin_or_assistant
 
-	#
-	# List of problems to be graded by assistants
-	#
 	def index
 		if current_user.is_admin?
 			@submits = Submit.includes(:user, :pset, :grade)
@@ -18,5 +19,16 @@ class GradingController < ApplicationController
 		@groups = Group.all
 		@psets = Pset.all
 	end
+	
+	def create
+		submit = Submit.create(params.require(:submit).permit(:pset_id, :user_id))
+		redirect_to submit_grade_path(submit_id: submit.id)
+	end
+
+	def destroy
+		@submit = Submit.find(params[:id])
+		@submit.destroy
+		redirect_to params[:referer]
+	end	
 	
 end

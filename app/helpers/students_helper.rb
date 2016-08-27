@@ -27,15 +27,16 @@ module StudentsHelper
 			if submitted.graded?
 				is_public = submitted.grade['public']
 				if not submitted.grade.grade.blank?
-					grade_button_html(user.id, pset.id, format_grade(submitted.grade.grade, pset.grade_type), is_public)
+					grade_button_html(submitted, format_grade(submitted.grade.grade, pset.grade_type), is_public)
 				else
-					grade_button_html(user.id, pset.id, format_grade(submitted.grade.calculated_grade, pset.grade_type), is_public)
+					grade_button_html(submitted, format_grade(submitted.grade.calculated_grade, pset.grade_type), is_public)
 				end
 			else
-				grade_button_html(user.id, pset.id, 'S', false)
+				grade_button_html(submitted, 'S', false)
 			end
 		else
-			grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
+			# grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
+			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-xs btn-block auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
 		end
 	end
 	
@@ -64,11 +65,11 @@ module StudentsHelper
 		end
 	end
 	
-	def grade_button_html(user_id, pset_id, grade, is_public, confirmation=nil)
+	def grade_button_html(submit_id, grade, is_public, confirmation=nil)
 		if confirmation
-			link_to grade, grade_form_path(user_id: user_id, pset_id: pset_id), class: "btn btn-xs btn-block auto-hide #{ grade_button_type(grade, is_public) }", data: { confirm:confirmation }
+			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-xs btn-block auto-hide #{ grade_button_type(grade, is_public) }", data: { confirm:confirmation }
 		else
-			link_to grade, grade_form_path(user_id: user_id, pset_id: pset_id), class: "btn btn-xs btn-block #{ grade_button_type(grade, is_public) }"
+			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-xs btn-block #{ grade_button_type(grade, is_public) }"
 		end
 	end
 	
