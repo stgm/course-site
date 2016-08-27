@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818160120) do
+ActiveRecord::Schema.define(version: 20160827153950) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -60,7 +60,10 @@ ActiveRecord::Schema.define(version: 20160818160120) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
+
+  add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true
 
   create_table "hands", force: :cascade do |t|
     t.integer  "user_id"

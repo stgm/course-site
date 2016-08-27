@@ -1,11 +1,13 @@
 <% if current_user.is_admin? %>
 <li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path %></li>
+<li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
 <li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, course_grades_path %></li>
+<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, grading_path %></li>
 <li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
+<li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
+<li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
 <li class="divider"></li>
 <% if Settings['links'] %>
 <% Settings['links'].each do |title, url| %>
@@ -15,7 +17,12 @@
 <% end %>
 <li><%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path %></li>
 
+
+
 <% elsif current_user.is_assistant? %>
+<li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
+<li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
+<li class="divider"></li>
 <li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, grading_path %></li>
 <% if Settings['links'] %>
 <li class="divider"></li>
@@ -25,6 +32,8 @@
 <li class="divider"></li>
 <% end %>
 <li><%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path %></li>
+
+
 
 <% else %>
 <li><%= link_to '<i class="glyphicon glyphicon-list"></i> View grades'.html_safe, profile_grades_path %></li>
@@ -36,4 +45,7 @@
 <li class="divider"></li>
 <% end %>
 <li><%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path %></li>
+
+
+
 <% end%>

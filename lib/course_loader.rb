@@ -181,12 +181,10 @@ private
 				# create the page
 				# db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path)
 				
-				puts "PATH #{page_path} #{parent_section.pages.inspect}"
 				db_page = parent_section.pages.find_by_path(page_path) || parent_section.pages.new(path: page_path)
 				db_page.title = page_info[2]
 				db_page.position = page_info[1]
 				db_page.save
-				puts "DONE"
 
 				# load submit.yml config file which contains items to submit
 				submit_config = read_config(files(page, "submit.yml"))
@@ -222,13 +220,13 @@ private
 					end
 										
 					if submit_config['dependent_grades']
-						Rails.logger.info "dependent grades"
+						Rails.logger.debug "dependent grades"
 						submit_config['dependent_grades'].each do |grade|
-							Rails.logger.info grade
+							Rails.logger.debug grade
 							pset = Pset.where(:name => grade).first_or_create
-							Rails.logger.info pset
+							Rails.logger.debug pset
 							pset.update_attribute(:page_id, db_page.id)
-							Rails.logger.info pset.page
+							Rails.logger.debug pset.page
 						end
 					end
 				else

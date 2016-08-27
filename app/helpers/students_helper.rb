@@ -1,4 +1,4 @@
-module GradesHelper
+module StudentsHelper
 	
 	# def calculate_grade(grade)
 	# 	return nil if Settings['grading'].nil?

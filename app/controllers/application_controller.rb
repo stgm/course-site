@@ -19,7 +19,6 @@ class ApplicationController < ActionController::Base
 			rescue Resolv::ResolvError
 				location = "untraceable"
 			end
-			logger.info location
 			if location =~ /^(wcw|1x).*uva.nl$/ or location == 'localhost'
 				AttendanceRecord.where(user_id:current_user.id, cutoff:cutoff_time).first_or_create
 				current_user.update_attributes(last_seen_at: DateTime.now)
@@ -48,21 +47,15 @@ class ApplicationController < ActionController::Base
 	
 	def current_user
 		if @current_user
+			# cached (per request)
 			return @current_user
 		elsif login = Login.where(login: session[:cas_user]).first
-			# there is session information to be had containing login info
-			# login = Login.where(login: session[:cas_user]).first_or_create
-
-			# create new user for this login
-			# @current_login.create_user and @current_login.save if @current_login.user.nil?
 			@current_user = login.user
 		else
 			# no session, so fake empty user
 			@current_user = User.new
 		end
 		
-		logger.info logged_in?.inspect
-		logger.info @current_user.inspect
 		return @current_user
 	end
 	
@@ -75,7 +68,8 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def default_url_options(options={})
-		{ :protocol => 'https' }
+		# { :protocol => 'https' }
+		options
 	end 
 	
 end

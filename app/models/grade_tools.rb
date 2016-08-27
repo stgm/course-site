@@ -10,9 +10,7 @@ class GradeTools
 	
 	def calc_final_grade(subs)
 		@grading['calculation'].each do |name, formula|
-			puts name
 			grade = calc_final_grade_formula(subs, formula)
-			puts grade
 			if grade > 0
 				return grade
 			end
@@ -27,9 +25,7 @@ class GradeTools
 		total_weight = 0
 		
 		formula.each do |subtype, weight|
-			puts subtype
 			grade = calc_final_grade_subtype(subs, subtype)
-			puts grade
 			return 0 if grade == 0
 			total += grade * weight
 			total_weight += weight
@@ -46,8 +42,8 @@ class GradeTools
 	
 	def calc_final_grade_subtype(subs, subtype)
 		return 0 if !@grading[subtype]['submits']
-		Rails.logger.info subs.inspect
-		Rails.logger.info subtype.inspect
+		Rails.logger.debug subs.inspect
+		Rails.logger.debug subtype.inspect
 
 		total = 0
 		total_weight = 0
@@ -65,7 +61,7 @@ class GradeTools
 					total_weight += weight
 				end
 			end
-			Rails.logger.info (1.0 + 9.0 * total / total_weight).round(1)
+			Rails.logger.debug (1.0 + 9.0 * total / total_weight).round(1)
 			return (1.0 + 9.0 * total / total_weight).round(1)
 		when 'percentage'
 			#
@@ -83,7 +79,7 @@ class GradeTools
 			grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
 			grade_without_drop = calc_subtype_with_potential_drop(subs, subtype, nil)
 
-			Rails.logger.info [grade_with_drop, grade_without_drop].max
+			Rails.logger.debug [grade_with_drop, grade_without_drop].max
 			return [grade_with_drop, grade_without_drop].max
 		end
 	end

@@ -62,7 +62,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def grader_name
-		Rails.logger.info self.grader.inspect
+		Rails.logger.debug self.grader.inspect
 		if g = User.find_by_login(self.grader)
 			return g.name
 		else
@@ -74,10 +74,8 @@ class Grade < ActiveRecord::Base
 		if calculated_grade = calculate_grade(self)
 			case self.pset.grade_type
 			when 'float'
-				puts "float"
 				# calculated_grade = calculated_grade
 			else # integer, pass
-				puts self.pset.grade_type
 				calculated_grade = calculated_grade.round
 			end
 			# self.update_attribute(:calculated_grade, calculated_grade*10)

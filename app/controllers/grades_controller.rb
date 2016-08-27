@@ -24,7 +24,7 @@ class GradesController < ApplicationController
 		@submit = Submit.where(pset_id: params[:pset_id], user_id: params[:user_id]).first_or_create
 		if @submit.grade
 			if current_user.is_admin? || !@submit.grade.done
-				logger.info grade_params
+				logger.debug grade_params
 				@submit.grade.update!(grade_params)
 			else
 				render nothing: true, status: 403

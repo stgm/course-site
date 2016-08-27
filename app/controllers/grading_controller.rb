@@ -19,24 +19,4 @@ class GradingController < ApplicationController
 		@psets = Pset.all
 	end
 	
-	#
-	# List of checkables for assistants
-	#
-	def checklist
-		if params[:group].present?
-			@users = Group.find_by_name(params[:group]).users.includes(:logins, :submits => [:pset, :grade]).order(:name)
-		else
-			if Group.count > 0
-				@users = Group.order(:name).first.users.includes(:logins, :submits => [:pset, :grade]).order(:name)
-			else
-				@users = User.active.no_group.not_admin.includes(:logins, :submits => [:pset, :grade]).order(:name)
-			end
-		end
-		@psets = Pset.where(grade_type: Pset.grade_types[:pass]).order(:order)
-		@title = 'List users'
-		render 'checklist', layout: 'full-width'
-	end
-	
-	private
-	
 end

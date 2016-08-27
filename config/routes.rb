@@ -59,20 +59,21 @@ Rails.application.routes.draw do
 	end
 
 	# course management
-	get  "course/grades/admins"  , to: "course#grades_for_admins"
-	get  "course/grades/other"   , to: "course#grades_for_other"
-	get  "course/grades/inactive", to: "course#grades_for_inactive"
-	get  "course/grades(/:group)", to: "course#grades_for_group", as: 'course_grades'
 	post "course/touch_submit"
 	post "course/import"
 	post "course/remove_student"
 	put  "course/change_user_name"
 	put  "course/assign_final_grade"
 	post "course/mark_all_public"
+	
+	# student tables for managers
+	get  "students/admins"  , to: "students#list_admins"
+	get  "students/other"   , to: "students#list_other"
+	get  "students/inactive", to: "students#list_inactive"
+	get  "students(/:group)", to: "students#list", as: 'students'
 
-	# grading overview
+	# grading overview for assistants
 	get  "grading" => "grading#index"
-	get  "grading/checklist" => "grading#checklist"
 	
 	namespace :hands do
 		get "available" => "available#index"
@@ -105,7 +106,9 @@ Rails.application.routes.draw do
 	# api
 	post "api/reload"
 	
-	resource :user
+	resources :user do
+		post "assign/:group_id", action: "assign_group", as: 'assign_group'
+	end
 	
 	mathjax 'mathjax'
 

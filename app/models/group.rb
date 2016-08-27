@@ -1,7 +1,10 @@
 class Group < ActiveRecord::Base
 
-	has_many :users
+	extend FriendlyId
+	friendly_id :name, :use => :slugged
 
+	has_many :users
+	
 	def self.import(source)
 		User.update_all(group_id: nil)
 		Group.delete_all

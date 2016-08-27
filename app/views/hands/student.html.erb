@@ -5,7 +5,7 @@
 	<small>was seen on this site <%= @user.last_seen_at ? time_ago_in_words(@user.last_seen_at) : 'never??' %> ago</small>
 </h4>
 
-<p>Please say some nice words to this new student and ask if they have everything they need to get started. Also show them the "ask" functionality on the website.</p>
+<p>Please say some nice words to this new student and ask if they have everything they need to get started. Also show them the "ask" functionality on the website.<br> If they have questions, make sure that they send an e-mail, but also summarize below.</p>
 
 <%= form_tag(controller: :hands, action: :welcomed, id: @user.id) do %>
 

@@ -12,7 +12,6 @@ class Page < ActiveRecord::Base
 	default_scope { order(:position) }
 	
 	def public_url
-		puts 'HUH'
 		the_path = ["/course"]
 		the_path << Settings.submodule if Settings.submodule
 		the_path << section.path if section
