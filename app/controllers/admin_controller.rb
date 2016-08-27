@@ -4,10 +4,13 @@ class AdminController < ApplicationController
 	before_filter :require_admin
 	
 	def export_grades
-		@users = User.where(active: true).order('name')
+		@users = User.not_admin.joins(:submits).uniq.order('name')
 		@psets = Pset.order(:id)
 		@title = "Export grades"
-		render layout: false
+		respond_to do |format|
+		    response.headers['Content-Disposition'] = 'attachment; filename="Grades ' + Settings.short_course_name + '.xls"'
+			format.xls
+		end
 	end
 	
 	def dump_grades
@@ -33,10 +36,10 @@ class AdminController < ApplicationController
 	end
 	
 	def stats
-		@geregistreerd = User.count
-		@gestart = User.joins(:submits).uniq.count
+		@geregistreerd = User.not_admin.count
+		@gestart = User.not_admin.joins(:submits).uniq.count
 		final = Pset.find_by_name('final')
-		@gehaald = User.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
+		@gehaald = User.not_admin.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
 		render layout: false
 	end
 		

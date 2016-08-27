@@ -14,6 +14,15 @@ module GradesHelper
 	# 	return cg
 	# end
 	
+	def grade_for(submit)
+		if submit
+			submitted = submit[0]
+			if submitted.grade and not (submitted.grade.calculated_grade.blank? && submitted.grade.grade.blank?)
+				return submitted.grade.calculated_grade || submitted.grade.grade
+			end
+		end
+	end
+	
 	def translate_grade(grade)
 		return "error" if grade.nil? or grade < -1
 		return "pass" if grade == -1
