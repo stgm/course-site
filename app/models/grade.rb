@@ -89,7 +89,7 @@ class Grade < ActiveRecord::Base
 	private
 	
 	def calculate_grade(grade)
-		f = Settings['grading']['grades']
+		f = Settings['grading']['grades'] if Settings['grading']
 		return nil if f.nil?
 		pset_name = grade.pset.name
 		return nil if f[pset_name].nil? or f[pset_name]['calculation'].nil?
