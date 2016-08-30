@@ -22,7 +22,7 @@ class GradesController < ApplicationController
 		@pset = @submit.pset
 		@grade = @submit.grade || @submit.create_grade({ grader: current_user.login_id })
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('grades.created_at desc')
-		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading']['grades']
+		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 		render 'form', layout: 'full-width'
 	end
 	
