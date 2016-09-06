@@ -14,6 +14,8 @@
 			<%= link_to({controller: 'hands', action: 'dib', which: @hand.id}, method: :post, class: 'list-group-item list-group-item-success') do %>
 				I'll take this one
 			<% end %>
+			
+			<%= link_to('Student not found, remove.', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'list-group-item list-group-item-warning', data: { confirm: 'Sure to delete?' })%>
 
 			<%= link_to({controller: 'hands', action: 'index'}, class: 'list-group-item' ) do %>
 				Back to list
@@ -22,7 +24,7 @@
 
 <% else %>
 
-<%= form_tag(controller: :hands, action: :done, id: @hand.id) do %>
+<%= form_tag(controller: :hands, action: :done, success: true, id: @hand.id) do %>
 
 <p><textarea class="form-control" rows="4" placeholder="Anything to report about this student?" name="note"></textarea></p>
 
@@ -46,6 +48,9 @@
 </p>
 
 <p><button type="submit" class="btn btn-primary btn-block">I'm done with this one</button></p>
+
+<p><%= link_to('Student not found, remove.', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'btn btn-warning btn-block', data: { confirm: 'Sure to delete?' })%></p>
+
 
 <% end %>
 

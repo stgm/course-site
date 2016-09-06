@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160827153950) do
+ActiveRecord::Schema.define(version: 20160906111104) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20160827153950) do
     t.datetime "updated_at"
     t.text     "note"
     t.string   "evaluation"
+    t.boolean  "success"
   end
 
   create_table "logins", force: :cascade do |t|

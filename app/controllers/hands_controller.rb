@@ -44,7 +44,7 @@ class HandsController < ApplicationController
 	end
 
 	def done
-		Hand.find(params[:id]).update_attributes(done: true, evaluation: params[:evaluation], note: params[:note])
+		Hand.find(params[:id]).update_attributes(done: true, success:params[:success], evaluation: params[:evaluation], note: params[:note])
 		redirect_to action: 'index', only_path: true
 	end
 
