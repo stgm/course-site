@@ -6,7 +6,7 @@ class HandsController < ApplicationController
 	def index
 		@my_hands = Hand.where(done:false, assist:current_user).order('created_at desc')
 		@hands = Hand.where(done:false, assist:nil).order('created_at desc')
-		@long_time_users = User.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 2.days.ago).order('updated_at desc')
+		@long_time_users = User.not_admin.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 2.days.ago).order('updated_at desc')
 	end
 	
 	def show
