@@ -87,7 +87,7 @@ private
 				Settings['long_course_name'] = config['course']['title'] if config['course']['title']
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
 				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
-				Settings['mail_address'] = config['course']['mail'] if config['course']['mail']
+				Settings['mail_address'] = config['course']['mail']
 				Settings['hands_allow'] = config['ask']['hands'] if config['ask']
 				Settings['hands_slack_channel'] = config['ask']['slack'] if config['ask']
 			end
