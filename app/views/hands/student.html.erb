@@ -1,7 +1,7 @@
 <div class="col-md-12">
 
 <h4>
-	<%= @user.name %><br>
+	<%= @user.name %><% if @user.group %> <%= @user.group.name %><% end %><br>
 	<small>was seen on this site <%= @user.last_seen_at ? time_ago_in_words(@user.last_seen_at) : 'never??' %> ago</small>
 </h4>
 

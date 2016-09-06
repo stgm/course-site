@@ -1,6 +1,6 @@
 <div class="col-md-12">
 <h4>
-<%= @hand.user.name %>
+<%= @hand.user.name %><% if hand.user.group %> (<%= hand.user.group.name %>)<% end %>
 <% if @hand.done %>
 <span class="badge pull-right">done</span>
 <% end %><br>
