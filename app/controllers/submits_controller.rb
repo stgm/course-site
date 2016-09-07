@@ -14,7 +14,8 @@ class SubmitsController < ApplicationController
 			@submits = Submit.includes(:user, :pset, :grade).where("submits.submitted_at > grades.updated_at or grades.updated_at is null or grades.public = ?", false)
 		end
 		@submits = @submits.where(pset_id:params[:pset]) if not params[:pset].blank?
-		@submits = @submits.where("users.group_id" => params[:group]) if not params[:group].blank?
+		group = !params[:group].blank? && Group.find(params[:group])
+		@submits = @submits.where("users.group_id" => group.id) if group
 		@submits = @submits.order('psets.name')
 		@groups = Group.all
 		@psets = Pset.all
