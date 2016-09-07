@@ -6,7 +6,7 @@ class PageController < ApplicationController
 	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?
 	
 	def request_from_local_network?
-		request.remote_ip =~ /^.*uva.nl$/
+		request.remote_ip =~ /^145\.18\..*$/
 	end
 	
 	def homepage
