@@ -12,9 +12,15 @@
 		<td><%= entry.done ? "v" : "" %>
 		<td><%= entry.assist.name if entry.assist %></td>
 		<td><%= entry.user.name %></td>
-		<td><%= entry.created_at.strftime("%H:%M") %></td>
-		<td><%= entry.updated_at.strftime("%H:%M") %></td>
+		<td><button type="button" class="btn btn-xs" data-placement="bottom" data-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%H:%M") %></button></td>
+		<td><button type="button" class="btn btn-xs" data-placement="bottom" data-toggle="tooltip" title="<%= entry.note %>"><%= entry.updated_at.strftime("%H:%M") %></button></td>
 		<td><%= entry.evaluation %></td>
 	</tr>
 	<% end %>
 </table>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
