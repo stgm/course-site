@@ -1,9 +1,10 @@
 require 'dropbox'
 
 class PageController < ApplicationController
-	
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?
-	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?
+
+	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage ]	
+	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?, except: [ :homepage ]
+	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?, except: [ :homepage ]
 	
 	def request_from_local_network?
 		request.remote_ip =~ /^145\.18\..*$/
