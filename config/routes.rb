@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 	get  "admin/schedule"
 	post "admin/set_schedule"
 	
+	get  "stats/hands"
+	
 	# configuration
 	get  "config" => "config#index"
 	get  "config/admins"
