@@ -42,13 +42,18 @@ class AdminController < ApplicationController
 		@gehaald = User.not_admin.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
 		render layout: false
 	end
-		
+
 	#
 	# divide users into groups from a csv
 	#
+	def import
+		@paste = Settings.cached_user_paste
+	end
+	
 	def import_groups
 		# this is very dependent on datanose export format: ids in col 0 and 1, group name in 7
 		if source = params[:paste]
+			Settings.cached_user_paste = source
 			Group.import(source)
 		end
 		redirect_to :back, notice: 'Student groups were successfully imported.'

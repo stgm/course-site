@@ -220,13 +220,9 @@ private
 					end
 										
 					if submit_config['dependent_grades']
-						Rails.logger.debug "dependent grades"
 						submit_config['dependent_grades'].each do |grade|
-							Rails.logger.debug grade
 							pset = Pset.where(:name => grade).first_or_create
-							Rails.logger.debug pset
 							pset.update_attribute(:page_id, db_page.id)
-							Rails.logger.debug pset.page
 						end
 					end
 				else

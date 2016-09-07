@@ -5,7 +5,7 @@ class PageController < ApplicationController
 	prepend_before_filter CASClient::Frameworks::Rails::GatewayFilter
 	
 	def homepage
-		redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.is_admin?
+		redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.is_admin_or_assistant?
 		
 		# the homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first

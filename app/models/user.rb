@@ -61,6 +61,10 @@ class User < ActiveRecord::Base
 		return assistants && (assistants & self.logins.pluck(:login)).size > 0
 	end
 	
+	def is_admin_or_assistant?
+		is_admin? or is_assistant?
+	end
+	
 	def final_grade
 		'N/A'
 	end
