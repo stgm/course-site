@@ -14,16 +14,24 @@ class ApplicationController < ActionController::Base
 		if current_user.persisted?# and not current_user.is_admin?
 			real_time = DateTime.now
 			cutoff_time = DateTime.new(real_time.year, real_time.month, real_time.mday, real_time.hour)
-			begin
-				location = Resolv.getname(request.remote_ip)
-			rescue Resolv::ResolvError
-				location = "untraceable"
-			end
-			if location =~ /^(wcw|1x).*uva.nl$/ or location == 'localhost'
+			if request_from_local_network?
 				AttendanceRecord.where(user_id:current_user.id, cutoff:cutoff_time).first_or_create
 				current_user.update_attributes(last_seen_at: DateTime.now)
 			end
 		end
+	end
+	
+	def request_from_local_network?
+		@request_from_local_network ||= is_local_ip?
+	end
+	
+	def is_local_ip?
+		begin
+			location = Resolv.getname(request.remote_ip)
+		rescue Resolv::ResolvError
+			location = "untraceable"
+		end
+		return location =~ /^(wcw|1x).*uva.nl$/ || location == 'localhost'
 	end
 	
 	def load_navigation
