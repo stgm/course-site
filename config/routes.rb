@@ -94,11 +94,11 @@ Rails.application.routes.draw do
 	# get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
 	# post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
 	# delete "grade" => "grades#destroy"
-	# post "grades/mark_all_done"
+	post "grades/mark_all_done"
 	
 	resources :submits, only: [ :index, :create, :destroy ] do
 		resource :grade, only: [ :show, :update ] do
-			post "mark_all_done"
+			# post "mark_all_done"
 		end
 	end
 	
