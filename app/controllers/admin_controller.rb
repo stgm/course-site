@@ -56,7 +56,7 @@ class AdminController < ApplicationController
 			Settings.cached_user_paste = source
 			Group.import(source)
 		end
-		redirect_to :back, notice: 'Student groups were successfully imported.'
+		redirect_to students_path, notice: 'Student groups were successfully imported.'
 	end
 
 end
