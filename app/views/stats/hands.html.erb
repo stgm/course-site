@@ -10,7 +10,7 @@
 	<% @today.each do |entry| %>
 	<tr>
 		<td><%= entry.done ? "v" : "" %>
-		<td><%= entry.assist.name %></td>
+		<td><%= entry.assist.name if entry.assist %></td>
 		<td><%= entry.user.name %></td>
 		<td><%= entry.created_at.strftime("%H:%M") %></td>
 		<td><%= entry.updated_at.strftime("%H:%M") %></td>
