@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
 		if login = Login.where(login: user_id).first
 			if user = login.user
 				user.update_columns(name: user_name, mail: user_mail) if user.name.blank? or user.name =~ /,/
-				if group_name != ""
+				if !group_name.blank? and group_name != "No group"
 					group = Group.where(:name => group_name).first_or_create
 					user.group = group
 					user.save
