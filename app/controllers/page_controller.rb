@@ -6,10 +6,6 @@ class PageController < ApplicationController
 	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?, except: [ :homepage ]
 	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?, except: [ :homepage ]
 	
-	def request_from_local_network?
-		request.remote_ip =~ /^145\.18\..*$/ or request.remote_ip =~ /^145\.109\..*$/ or request.remote_ip =~ /^195\.169\..*$/
-	end
-	
 	def homepage
 		redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.is_admin_or_assistant?
 		
@@ -20,8 +16,8 @@ class PageController < ApplicationController
 		redirect_to welcome_path and return if @page.nil?
 		
 		@has_form = @page.pset && @page.pset.form
-    
-    render :index
+
+		render :index
 	end
 	
 	def mobile_home

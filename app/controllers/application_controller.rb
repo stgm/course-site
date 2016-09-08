@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 	helper_method :current_user, :logged_in?, :authenticated?
 	
 	def register_attendance
-		if current_user.persisted? and request_from_local_network?
+		if current_user.persisted? && request_from_local_network?
 			AttendanceRecord.create_for_user(current_user)
 		end
 	end
@@ -21,12 +21,15 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def is_local_ip?
-		begin
-			location = Resolv.getname(request.remote_ip)
-		rescue Resolv::ResolvError
-			location = "untraceable"
-		end
-		return location =~ /^(wcw|1x).*uva.nl$/ || location == 'localhost'
+		# begin
+		# 	location = Resolv.getname(request.remote_ip)
+		# rescue Resolv::ResolvError
+		# 	location = "untraceable"
+		# end
+		# puts "loc" + location
+		# return location =~ /^(wcw|1x).*uva.nl$/ || location == 'localhost'
+		# puts request.remote_ip
+		return !!(request.remote_ip =~ /^145\.18\..*$/) || !!(request.remote_ip =~ /^145\.109\..*$/) || !!(request.remote_ip =~ /^195\.169\..*$/) || request.remote_ip == '::1' || request.remote_ip == '127.0.0.1'
 	end
 	
 	def load_navigation
