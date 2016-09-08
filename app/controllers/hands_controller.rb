@@ -36,11 +36,12 @@ class HandsController < ApplicationController
 		# check dib and report
 		if Hand.find(params[:which]).assist == current_user
 			flash[:notice] = "Taken, it's yours!"
+			redirect_to :back
 		else
-			flash[:notice] = "Someone was ahead of you!"
+			flash[:alert] = "Someone was ahead of you!"
+			redirect_to { action: :index }
 		end
 		
-		redirect_to :back
 	end
 
 	def done
