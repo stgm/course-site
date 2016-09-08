@@ -11,13 +11,8 @@ class ApplicationController < ActionController::Base
 	helper_method :current_user, :logged_in?, :authenticated?
 	
 	def register_attendance
-		if current_user.persisted?# and not current_user.is_admin?
-			real_time = DateTime.now
-			cutoff_time = DateTime.new(real_time.year, real_time.month, real_time.mday, real_time.hour)
-			if request_from_local_network?
-				AttendanceRecord.where(user_id:current_user.id, cutoff:cutoff_time).first_or_create
-				current_user.update_attributes(last_seen_at: DateTime.now)
-			end
+		if current_user.persisted? and request_from_local_network?
+			AttendanceRecord.create_for_user(current_user)
 		end
 	end
 	
