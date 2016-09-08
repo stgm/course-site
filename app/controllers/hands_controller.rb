@@ -39,7 +39,7 @@ class HandsController < ApplicationController
 			redirect_to :back
 		else
 			flash[:alert] = "Someone was ahead of you!"
-			redirect_to { action: :index }
+			redirect_to ({ action: :index })
 		end
 		
 	end
