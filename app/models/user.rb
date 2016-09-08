@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 	belongs_to :group
 
 	has_many :logins
+	has_many :hands
 	has_many :submits
 	has_many :grades, through: :submits
 	has_many :psets, through: :submits

@@ -5,12 +5,12 @@
 	</li>
 	<% end if @groups %>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_other' %>>
-		<%= link_to "Other (#{@groupless_count})", students_other_path %>
+		<%= link_to "Other (#{@groupless_count})", students_in_other_path %>
 	</li>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_inactive' %>>
-		<%= link_to "Inactive (#{@inactive_count})", students_inactive_path %>
+		<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path %>
 	</li>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_admins' %>>
-		<%= link_to "Admins (#{@admin_count})", students_admins_path %>
+		<%= link_to "Admins (#{@admin_count})", students_in_admins_path %>
 	</li>
 </ul>

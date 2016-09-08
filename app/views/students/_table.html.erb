@@ -5,6 +5,7 @@
 		<tr>
 			<th>Name</th>
 			<th>ID</th>
+			<th></th>
 			<th>Attend</th>
 			<% psets.each do |pset| %>
 			<th class="rotate"><div><%= pset.name %></div></th>
@@ -33,14 +34,15 @@
 		<% users.each do |user| %>
 		<tr>
 			<td>
-				<%= best_in_place user, :name, as: :input, url: course_change_user_name_path(id: user.id) %>
+				<%#= best_in_place user, :name, as: :input, url: course_change_user_name_path(id: user.id) %>
+				<%= link_to user.name, student_path(user) %>
 			</td>
+
+			<td><%= user.logins.first.login %></td>
 
 			<td>
 				<% if user.mail %>
-				<%= link_to user.logins.first.login, 'mailto:' + user.mail %>
-				<% else %>
-				<%= user.logins.first.login %>
+				<%= link_to '📧', 'mailto:' + user.mail %>
 				<% end %>
 			</td>
         

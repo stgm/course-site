@@ -1,0 +1,54 @@
+<h4><%= @student.name %></h4>
+
+<p><span class="bar"><%= @student.attendance %></span></p>
+
+<h5>Hands</h5>
+
+<table class="table">
+	<tr>
+		<th>done</th>
+		<th>assistant</th>
+		<th>created</th>
+		<th>updated</th>
+		<th>mood</th>
+	</tr>
+	<% @student.hands.order("created_at desc").each do |hand| %>
+	<tr>
+		<td><%= hand.done ? "v" : "" %>
+		<td><%= hand.assist.name if hand.assist %></td>
+		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= hand.help_question %>"><%= time_ago_in_words(hand.created_at) %></button></td>
+		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= hand.note %>"><%= hand.updated_at.strftime("%H:%M") %></button></td>
+		<td><%= hand.evaluation %></td>
+	</tr>
+	<% end %>
+</table>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
+<h5>Grades</h5>
+
+<% @grades.each do |grade| %>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<%= grade.submit.pset.name %>
+		<div class="pull-right">
+			<% grade.subgrades.each_pair do |k,v| %>
+			<%= v %> /
+			<% end %>
+			<strong><%= translate_grade(grade.grade) %></strong>
+		</div>
+	</div>
+	<div class="panel-body">
+		<%= simple_markdown(grade.comments) %>
+	</div>
+</div>
+<% end %>
+
+
+<script type="text/javascript">
+$(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });
+</script>

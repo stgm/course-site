@@ -69,10 +69,11 @@ Rails.application.routes.draw do
 	post "course/mark_all_public"
 	
 	# student tables for managers
-	get  "students/admins"  , to: "students#list_admins"
-	get  "students/other"   , to: "students#list_other"
-	get  "students/inactive", to: "students#list_inactive"
-	get  "students(/:group)", to: "students#list", as: 'students'
+	get  "students/in/admins"  , to: "students#list_admins"
+	get  "students/in/other"   , to: "students#list_other"
+	get  "students/in/inactive", to: "students#list_inactive"
+	get  "students(/in/:group)", to: "students#list", as: 'students'
+	resources :students, only: [ :show ]
 
 	# grading overview for assistants
 	# get  "grading" => "grading#index"

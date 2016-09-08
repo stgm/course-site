@@ -33,6 +33,12 @@ class StudentsController < ApplicationController
 		@users = User.admin.order(:name)
 		render 'grades'
 	end
+	
+	def show
+		@student = User.includes(:hands).find(params[:id])
+		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @student.id).order('grades.created_at desc')
+		render layout: 'application'
+	end
 
 	private
 	
