@@ -27,7 +27,7 @@ class GradesController < ApplicationController
 	end
 	
 	def update
-		@submit = Submit.where(id: params[:submit_id]).first
+		@submit = Submit.find(params[:submit_id])
 		if !@submit.grade.done # don't allow done grades to be edited
 			@submit.grade.update!(grade_params)
 		else
