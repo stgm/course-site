@@ -69,7 +69,7 @@
 				</div>
 			</div>
 
-			<% if @grading_definition %>
+			<% if @grading_definition && @grading_definition['subgrades'] %>
 			<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
 			<% if subgrade_type == 'integer' %>
 			<div class="form-group">
