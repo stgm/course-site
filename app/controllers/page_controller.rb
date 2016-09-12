@@ -55,7 +55,7 @@ class PageController < ApplicationController
 		form_text = render_form_text(params[:a])
 
 		# upload to dropbox
-		if pset.form || pset.files > 0
+		if pset.form || pset.files
 			dropbox = Dropbox.connection
 			begin
 				dropbox.submit(session[:cas_user], current_user.name,
