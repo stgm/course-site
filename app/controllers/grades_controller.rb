@@ -20,7 +20,7 @@ class GradesController < ApplicationController
 	def form
 		@user = @submit.user
 		@pset = @submit.pset
-		@grade = @submit.grade || @submit.create_grade({ grader: current_user.login_id })
+		@grade = @submit.grade || @submit.build_grade({ grader: current_user.login_id })
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('grades.created_at desc')
 		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 		render 'form', layout: 'full-width'
@@ -28,7 +28,11 @@ class GradesController < ApplicationController
 	
 	def update
 		@submit = Submit.find(params[:submit_id])
-		if !@submit.grade.done # don't allow done grades to be edited
+		# don't allow done grades to be edited unless admin-ish
+		if !@submit.grade
+			@submit.build_grade
+			@submit.grade.update_attributes(grade_params)
+		elsif current_user.is_admin_or_assistant? || !@submit.grade.done
 			@submit.grade.update!(grade_params)
 		else
 			@submit.grade.update!(params.require(:grade).permit(:done))

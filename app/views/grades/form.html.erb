@@ -1,4 +1,4 @@
-<%= form_for([ @submit, @grade ], method: :put) do |f| %>
+<%= form_for([ @submit, @grade ], url: submit_grade_path, method: :put) do |f| %>
 <%= hidden_field_tag :referer, request.referer %>
 
 <div class="row" style="display:flex">
