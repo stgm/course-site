@@ -4,7 +4,7 @@
 <p>When you are ready to submit, make sure you have answered all questions, use
 the form below to select all required files and press the Submit
 button. If you do not select all required files, you cannot submit.</p>
-<% elsif @page.pset.pset_files.length > 0 %>
+<% elsif @page.pset.files %>
 <p>When you are ready to submit, please use the form below to select all
 required files and press the Submit button. If you do not select
 all required files, you cannot submit.</p>
@@ -14,7 +14,7 @@ all required files, you cannot submit.</p>
 <p><strong><%= @page.pset.message %></strong></p>
 <% end %>
 
-<% if @page.pset.form || @page.pset.pset_files.length > 0 %>
+<% if @page.pset.form || @page.pset.files %>
 <table class="table table-hover">
 
 	<% if @page.pset.form %>
@@ -25,12 +25,16 @@ all required files, you cannot submit.</p>
 	</tr>
 	<% end %>
 
-	<% @page.pset.pset_files.each do |s| %>
+	<% @page.pset.files.each do |header, files| %>
 	<tr>
-		<td><%= s.filename %></td>
-		<td><%= file_field_tag "f[#{s.filename}]", :accept => File.extname(s.filename), :required => s.required %></td>
-		<td><%= 'required' if s.required %></td>
+		<th colspan="2"><%= header %></th>
 	</tr>
+	<% files.each do |file| %>
+	<tr>
+		<td><%= file %></td>
+		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file) %></td>
+	</tr>
+	<% end %>
 	<% end %>
 
 </table>

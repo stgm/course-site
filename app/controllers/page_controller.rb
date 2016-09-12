@@ -48,14 +48,14 @@ class PageController < ApplicationController
 		page = Page.find(params[:page_id])
 		pset = page.pset
 
-		if (pset.form || pset.pset_files.length > 0) && !Dropbox.connected?
+		if (pset.form || pset.files) && !Dropbox.connected?
 			redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
 		end
 		
 		form_text = render_form_text(params[:a])
 
 		# upload to dropbox
-		if pset.form || pset.pset_files.length > 0
+		if pset.form || pset.files > 0
 			dropbox = Dropbox.connection
 			begin
 				dropbox.submit(session[:cas_user], current_user.name,

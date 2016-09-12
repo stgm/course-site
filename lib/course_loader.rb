@@ -61,9 +61,10 @@ private
 		Section.where("id in (?)", to_delete).delete_all
 		
 		# remove psetfiles for psets that have no parent page
-		orphan_psets = Pset.includes(:page).where(:pages => { :id => nil }).each do |p|
-			p.pset_files.delete_all
-		end
+		orphan_psets = Pset.includes(:page).where(:pages => { :id => nil })
+		#.each do |p|
+			# p.pset_files.delete_all
+		# end
 		
 		# remove psets that have no submits and no parent page
 		to_remove = Pset.where("psets.id in (?)", orphan_psets.map(&:id)).includes(:submits).where(:submits => { :id => nil }).pluck(:id)
@@ -202,21 +203,26 @@ private
 						db_pset.form = !!submit_config['form']
 						db_pset.url = !!submit_config['url']
 						db_pset.page = db_page  # restore link to owning page!
+						if submit_config['files']
+							db_pset.files = submit_config['files']
+						else
+							db_pset.files = nil
+						end
 						db_pset.save
 						
 						Pset.where("id != ?", db_pset).where(page_id: db_page).update_all(page_id: nil)
 
 						# remove previous files
-						db_pset.pset_files.delete_all
+						# db_pset.pset_files.delete_all
 
 						# always recreate so it's possible to remove files from submit
-						['required', 'optional'].each do |modus|
-							if submit_config[modus]
-								submit_config[modus].each do |file|
-									db_pset.pset_files.create(:filename => file, :required => modus == 'required')
-								end
-							end
-						end
+						# ['required', 'optional'].each do |modus|
+						# 	if submit_config[modus]
+						# 		submit_config[modus].each do |file|
+						# 			db_pset.pset_files.create(:filename => file, :required => modus == 'required')
+						# 		end
+						# 	end
+						# end
 					end
 										
 					if submit_config['dependent_grades']
