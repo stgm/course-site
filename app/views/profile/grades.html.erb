@@ -7,30 +7,16 @@
 <h2><%= grade.submit.pset.name %></h2>
 
 <table class="table table-bordered" style="width:auto">
-    <% if grade.scope %>
+	<% if Settings.grading && Settings.grading['grades'] && Settings.grading['grades'][grade.submit.pset.name] %>
+	<% Settings.grading['grades'][grade.submit.pset.name]['subgrades'].each do |subname, subvalue| %>
+	<% if grade.subgrades[subname].present? %>
 	<tr>
-		<td>Scope</td>
-		<td><%= grade.scope %></td>
+		<td><%= subname.capitalize %></td>
+		<td><%= grade.subgrades[subname] %></td>
 	</tr>
+	<% end %>
     <% end %>
-    <% if grade.correctness %>
-	<tr>
-		<td>Correctness</td>
-		<td><%= grade.correctness %></td>
-	</tr>
-    <% end %>
-    <% if grade.design %>
-	<tr>
-		<td>Design</td>
-		<td><%= grade.design %></td>
-	</tr>
-    <% end %>
-    <% if grade.style %>
-	<tr>
-		<td>Style</td>
-		<td><%= grade.style %></td>
-	</tr>
-    <% end %>
+	<% end %>
     <% if grade.grade %>
 	<tr>
 		<td>Final</td>

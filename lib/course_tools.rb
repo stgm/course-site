@@ -16,7 +16,7 @@ class CourseTools
 				end
 			end
 
-			# a Hash contains pset names, order and weight!
+		# a Hash contains pset names, order and weight!
 		elsif Settings['psets'].class == Hash
 			counter = 1
 			Settings['psets'].each do |pset, weight|
