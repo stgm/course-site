@@ -41,7 +41,6 @@ class HandsController < ApplicationController
 			flash[:alert] = "Someone was ahead of you!"
 			redirect_to ({ action: :index })
 		end
-		
 	end
 
 	def done

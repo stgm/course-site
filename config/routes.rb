@@ -91,10 +91,6 @@ Rails.application.routes.draw do
 	post "hands/done"
 	get  "hands/:id"          => "hands#show"
 	
-	# individual grades
-	# get  "grade/:user_id/:pset_id"      => "grades#form", as: 'grade_form'
-	# post "grade/:user_id/:pset_id/save" => "grades#save", as: 'grade_save'
-	# delete "grade" => "grades#destroy"
 	post "grades/mark_all_done"
 	
 	resources :submits, only: [ :index, :create, :destroy ] do

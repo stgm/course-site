@@ -10,17 +10,12 @@
 <p><%= @hand.help_question or "No question was entered, even if this would be impossible." %></p>
 
 <% if @hand.assist.blank? %>
-		<div class="list-group">
-			<%= link_to({controller: 'hands', action: 'dib', which: @hand.id}, method: :post, class: 'list-group-item list-group-item-success') do %>
-				I'll take this one
-			<% end %>
-			
-			<%= link_to('Student not found, remove.', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'list-group-item list-group-item-warning', data: { confirm: 'Sure to delete?' })%>
 
-			<%= link_to({controller: 'hands', action: 'index'}, class: 'list-group-item' ) do %>
-				Back to list
-			<% end %>
-		</div>
+<p><%= button_to("I'll take this one", {controller: 'hands', action: 'dib', which: @hand.id}, method: :post, class: 'btn btn-primary btn-block') %></p>
+			
+<p><%= button_to('Student not found, remove.', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'btn btn-default btn-block', data: { confirm: 'Sure to delete?' })%></p>
+
+<p><%= link_to("Back to list", {controller: 'hands', action: 'index'}, class: 'btn btn-default btn-block' ) %></p>
 
 <% else %>
 
