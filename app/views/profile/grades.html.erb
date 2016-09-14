@@ -7,7 +7,7 @@
 <h2><%= grade.submit.pset.name %></h2>
 
 <table class="table table-bordered" style="width:auto">
-	<% if Settings.grading && Settings.grading['grades'] && Settings.grading['grades'][grade.submit.pset.name] %>
+	<% if Settings.grading && Settings.grading['grades'] && Settings.grading['grades'][grade.submit.pset.name] && Settings.grading['grades'][grade.submit.pset.name]['subgrades'] %>
 	<% Settings.grading['grades'][grade.submit.pset.name]['subgrades'].each do |subname, subvalue| %>
 	<% if grade.subgrades[subname].present? %>
 	<tr>
