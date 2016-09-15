@@ -9,7 +9,7 @@ class StudentsController < ApplicationController
 	layout 'full-width'
 
 	def index
-		@users = User.active.includes({ :submits => :grade }, :hands, :logins).order(:name)
+		@users = User.active.includes({ :submits => :grade }, :hands, :logins, :group).order(:name)
 	end
 
 	def list
