@@ -1,6 +1,12 @@
-<h4><%= best_in_place @student, :name, as: :input, url: course_change_user_name_path(id: @student.id) %></h4>
+<h4><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h4>
 
 <p><span class="bar"><%= @student.attendance %></span></p>
+
+<p>Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %></p>
+
+<% if @student.avatar.present? %>
+<img src="<%= @student.avatar %>" style="max-width:70px">
+<% end %>
 
 <h5>Hands</h5>
 

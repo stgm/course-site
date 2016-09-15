@@ -64,7 +64,6 @@ Rails.application.routes.draw do
 	post "course/touch_submit"
 	post "course/import"
 	post "course/remove_student"
-	put  "course/change_user_name"
 	put  "course/assign_final_grade"
 	post "course/mark_all_public"
 	

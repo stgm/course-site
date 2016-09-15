@@ -24,11 +24,6 @@ class CourseController < ApplicationController
 		redirect_to :back
 	end
 	
-	def change_user_name
-		User.find(params[:id]).update!(params.require(:user).permit(:name))
-		render json:true
-	end
-
 	#
 	# update submit date for single submit, in order to get it into the queue again
 	#
