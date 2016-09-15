@@ -72,8 +72,8 @@ Rails.application.routes.draw do
 	get  "students/in/admins"  , to: "students#list_admins"
 	get  "students/in/other"   , to: "students#list_other"
 	get  "students/in/inactive", to: "students#list_inactive"
-	get  "students(/in/:group)", to: "students#list", as: 'students'
-	resources :students, only: [ :show ]
+	get  "students/in/:group"  , to: "students#list"
+	resources :students, only: [ :index, :show ]
 
 	# grading overview for assistants
 	# get  "grading" => "grading#index"

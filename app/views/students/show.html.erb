@@ -1,4 +1,4 @@
-<h4><%= @student.name %></h4>
+<h4><%= best_in_place @student, :name, as: :input, url: course_change_user_name_path(id: @student.id) %></h4>
 
 <p><span class="bar"><%= @student.attendance %></span></p>
 
@@ -51,4 +51,8 @@ $(function () {
 
 <script type="text/javascript">
 $(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });
+</script>
+
+<script type="text/javascript" charset="utf-8">
+$('.best_in_place').best_in_place()
 </script>

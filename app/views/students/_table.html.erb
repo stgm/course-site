@@ -7,6 +7,8 @@
 			<th>ID</th>
 			<th></th>
 			<th>Attend</th>
+			<th>Spoken</th>
+			<th>Status</th>
 			<% psets.each do |pset| %>
 			<th class="rotate"><div><%= pset.name %></div></th>
 			<% end %>
@@ -34,7 +36,6 @@
 		<% users.each do |user| %>
 		<tr>
 			<td>
-				<%#= best_in_place user, :name, as: :input, url: course_change_user_name_path(id: user.id) %>
 				<%= link_to user.name, student_path(user) %>
 			</td>
 
@@ -47,6 +48,10 @@
 			</td>
         
 			<td><span class="bar"><%= user.attendance %></span></td>
+			
+			<td><%= user.hands.count %></td>
+			
+			<td><%= best_in_place(user, :status, as: :select, collection: { '😄' => '😄', '🙂' => '🙂', '😓' => '😓', '😔' => '😔' }) %></td>
 
 			<% subs = user.submits.group_by(&:pset_id) %>
 			<% psets.each do |pset| %>

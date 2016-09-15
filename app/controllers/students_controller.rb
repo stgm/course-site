@@ -8,6 +8,10 @@ class StudentsController < ApplicationController
 
 	layout 'full-width'
 
+	def index
+		@users = User.active.includes(:submits).order(:name)
+	end
+
 	def list
 		if params[:group].present?
 			@users = Group.friendly.find(params[:group]).users.active.includes(:logins, :submits => [:pset, :grade]).order(:name)
