@@ -61,9 +61,9 @@ module GradesHelper
 	def grade_button_type(grade, is_public)
 		return 'btn-default' if not is_public
 		case grade
-		when -1, 5.5..10.0
+		when -1, 6.5..10.0
 			'btn-success'
-		when 0
+		when 0..5.4
 			'btn-danger'
 		when "P"
 			'btn-success'
