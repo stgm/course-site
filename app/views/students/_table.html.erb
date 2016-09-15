@@ -52,7 +52,7 @@
 			
 			<td><%= user.hands.count %></td>
 			
-			<td><%= best_in_place(user, :status, as: :select, collection: { '' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
+			<td><%= best_in_place(user, :status, as: :select, collection: { '0' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
 
 			<% subs = user.submits.group_by(&:pset_id) %>
 			<% psets.each do |pset| %>
