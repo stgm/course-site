@@ -9,7 +9,7 @@ class SubmitsController < ApplicationController
 
 	def index
 		if current_user.group
-			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.group_id" => current_user.group.id).order('psets.name')
+			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.group_id" => current_user.group.id).order('psets.name')
 			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.group_id" => current_user.group.id).order('psets.name')
 		end
 		@groups = Group.all
