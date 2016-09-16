@@ -3,6 +3,7 @@ class Grade < ActiveRecord::Base
 	belongs_to :submit
 	has_one :user, through: :submit
 	has_one :pset, through: :submit
+	belongs_to :grader, class_name: "User"
 
 	before_create :set_mailed_at
 	before_save :unpublicize_if_undone, :set_calculated_grade
@@ -63,15 +64,6 @@ class Grade < ActiveRecord::Base
 		end
 	end
 	
-	def grader_name
-		Rails.logger.debug self.grader.inspect
-		if g = User.find_by_login(self.grader)
-			return g.name
-		else
-			return ""
-		end
-	end
-		
 	def set_calculated_grade
 		if calculated_grade = calculate_grade(self)
 			case self.pset.grade_type

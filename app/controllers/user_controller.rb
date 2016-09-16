@@ -25,7 +25,7 @@ class UserController < ApplicationController
 	
 	def calculate_final_grade
 		u = User.find(params[:user_id])
-		u.assign_final_grade(current_user.login_id)
+		u.assign_final_grade(current_user)
 		redirect_to :back
 	end
 	

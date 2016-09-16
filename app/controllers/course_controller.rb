@@ -19,7 +19,7 @@ class CourseController < ApplicationController
 	
 	def assign_final_grade
 		User.all.each do |u|
-			u.assign_final_grade(@current_user.login_id)
+			u.assign_final_grade(@current_user)
 		end
 		redirect_to :back
 	end

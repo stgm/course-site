@@ -40,7 +40,7 @@
 					<p class="form-control-static">
 						<% if @grade.persisted? %>
 						<%= @grade.created_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@grade.created_at) %> ago)
-						by <%= @grade.grader_name %>
+						by <%= @grade.grader.name if @grade.grader %>
 						<br>
 						Last changed: <%= time_ago_in_words(@grade.updated_at) %> ago
 						<% else %>

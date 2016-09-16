@@ -13,14 +13,14 @@ class GradesController < ApplicationController
 	end
 	
 	def grade_params
-		# params.require(:grade).permit(:comments, :correctness, :design, :grade, :grader, :scope, :style, :done, :subgrades => [])
+		# params.require(:grade).permit(:comments, :correctness, :design, :grade, :scope, :style, :done, :subgrades => [])
 		params.require(:grade).permit!
 	end
 	
 	def form
 		@user = @submit.user
 		@pset = @submit.pset
-		@grade = @submit.grade || @submit.build_grade({ grader: current_user.login_id })
+		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('grades.created_at desc')
 		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 		render 'form', layout: 'full-width'
@@ -30,7 +30,8 @@ class GradesController < ApplicationController
 		@submit = Submit.find(params[:submit_id])
 		# don't allow done grades to be edited unless admin-ish
 		if !@submit.grade
-			@submit.build_grade
+			puts "DOIN THIS"
+			@submit.build_grade(grader: current_user)
 			@submit.grade.update_attributes(grade_params)
 		elsif current_user.is_admin_or_assistant? || !@submit.grade.done
 			@submit.grade.update!(grade_params)
@@ -42,9 +43,9 @@ class GradesController < ApplicationController
 	end
 	
 	def mark_all_done
-		@grades = Grade.open.where(grader:current_user.login_id)
+		@grades = Grade.open.where(grader: current_user)
 		@grades.update_all(status: Grade.statuses[:finished])
-		render nothing:true
+		redirect_to :back
 	end
 	
 end

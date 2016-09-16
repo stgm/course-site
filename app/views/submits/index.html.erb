@@ -1,26 +1,6 @@
 <h1>Grading list</h1>	
 
-<h2>To be discussed</h2>
-
-<table class="table">
-	<tr>
-		<th>pset</th>
-		<th>name</th>
-		<th>submitted</th>
-		<th>discussed</th>
-	</tr>
-		
-	<% @to_discuss.each do |submit| %>
-	<tr class="<%= submit.grade %>">
-		<td><%= submit.pset.name %></td>
-		<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
-		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
-		<td><%= '' if submit.grade %></td>
-	</tr>
-	<% end %>
-</table>
-
-<%= button_to 'Mark all I have graded as done', grades_mark_all_done_path, class: 'pull-right btn', remote:true, data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
+<%= button_to 'Mark all I have graded as done', grades_mark_all_done_path, class: 'pull-right btn', data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
 <h2>To be graded</h2>
 
 <table class="table">
@@ -39,6 +19,26 @@
 		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
 		<td><%= !!submit.grade ? "✔︎" : "" %>
 		<td><%= submit.grade.finished? ? "✔︎" : "" if submit.grade %></td>
+	</tr>
+	<% end %>
+</table>
+
+<h2>To be discussed</h2>
+
+<table class="table">
+	<tr>
+		<th>pset</th>
+		<th>name</th>
+		<th>submitted</th>
+		<th>discussed</th>
+	</tr>
+		
+	<% @to_discuss.each do |submit| %>
+	<tr class="<%= submit.grade %>">
+		<td><%= submit.pset.name %></td>
+		<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
+		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
+		<td><%= '' if submit.grade %></td>
 	</tr>
 	<% end %>
 </table>
