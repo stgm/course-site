@@ -35,17 +35,8 @@ class CourseController < ApplicationController
 	end
 	
 	def mark_all_public
-		@grades = Grade.joins(:submit => :user).where(done:true).where(public:false)
-		
-		# if params[:pset]
-		# 	@grades = @grades.where('submits.pset_id = ?', params[:pset])
-		# end
-		#
-		# if params[:group]
-		# 	@grades = @grades.where('users.group_id = ?', params[:group])
-		# end
-		
-		@grades.update_all(public:true)
+		@grades = Grade.finished
+		@grades.update_all(status: Grade.statuses[:published])
 		redirect_to :back
 	end
 

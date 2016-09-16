@@ -8,6 +8,8 @@ class Grade < ActiveRecord::Base
 	before_save :unpublicize_if_undone, :set_calculated_grade
 	
 	serialize :subgrades, OpenStruct
+	
+	enum status: [:open, :finished, :published, :discussed]
 
 	def subgrades=(val)
 		# we would like this to be stored as an OpenStruct

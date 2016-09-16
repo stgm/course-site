@@ -8,15 +8,10 @@ class SubmitsController < ApplicationController
 	before_filter :require_admin_or_assistant
 
 	def index
-		if current_user.is_admin?
-			@submits = Submit.includes(:user, :pset, :grade)
-		else
-			@submits = Submit.includes(:user, :pset, :grade).where("submits.submitted_at > grades.updated_at or grades.updated_at is null or grades.public = ?", false)
+		if current_user.group
+			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.group_id" => current_user.group.id).order('psets.name')
+			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.group_id" => current_user.group.id).order('psets.name')
 		end
-		@submits = @submits.where(pset_id:params[:pset]) if not params[:pset].blank?
-		group = !params[:group].blank? && Group.friendly.find(params[:group])
-		@submits = @submits.where("users.group_id" => group.id) if group
-		@submits = @submits.order('psets.name')
 		@groups = Group.all
 		@psets = Pset.all
 	end

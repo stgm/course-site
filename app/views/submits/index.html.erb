@@ -1,62 +1,44 @@
-<h1>
-    Grading list
-    <% if params[:group] %>
-        <%= button_to 'Mark all I have graded as done', grades_mark_all_done_path, class: 'btn', remote:true, data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
-    <% end %>
-</h1>
-	
-<div class="row">
-	
-	<div class="col-sm-2">
+<h1>Grading list</h1>	
 
-		<% if @groups.any? %>
-		<p>
-			Group:<br>
-			<div class="btn-group-vertical">
-				<%= link_to 'All', params.merge(group: nil), class: "btn btn-default #{'btn-primary' if params[:group].blank?}" %>
-				<% @groups.each do |g| %>
-				<%= link_to g.name, params.merge(group: g), class: "btn btn-default #{'btn-primary' if params[:group].to_i == g.id}" %>
-				<% end %>
-			</div>
-		</p>
-		<% end %>
+<h2>To be discussed</h2>
 
-		<% if @psets.any? %>
-		<p>
-			Problem set:<br>
-			<div class="btn-group-vertical">
-				<%= link_to 'all', params.merge(pset: nil), class: "btn btn-default #{'btn-primary' if params[:pset].blank?}" %>
-				<% @psets.each do |p| %>
-				<%= link_to p.name, params.merge(pset: p), class: "btn btn-default #{'btn-primary' if params[:pset].to_i == p.id}" %>
-				<% end %>
-			</div>
-		</p>
-		<% end %>
-	
-	</div>
-	
-	<div class="col-sm-10">
-
-		<table class="table table-bordered">
-			<tr>
-				<th>pset</th>
-				<th>name</th>
-				<th>id</th>
-				<th>submitted</th>
-				<th>grade</th>
-			</tr>
+<table class="table">
+	<tr>
+		<th>pset</th>
+		<th>name</th>
+		<th>submitted</th>
+		<th>discussed</th>
+	</tr>
 		
-			<% @submits.each do |submit| %>
-			<tr class="<%= grade_color(submit.grade) %>">
-				<td><%= submit.pset.name %></td>
-				<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
-				<td><%= submit.used_login %></td>
-				<td><% if submit.submitted_at %><%= submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(submit.submitted_at) %> ago)<% end %></td>
-				<td><%= submit.grade.grade if submit.grade %></td>
-			</tr>
-			<% end %>
-		</table>
-	
-	</div>
-	
-</div>
+	<% @to_discuss.each do |submit| %>
+	<tr class="<%= submit.grade %>">
+		<td><%= submit.pset.name %></td>
+		<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
+		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
+		<td><%= '' if submit.grade %></td>
+	</tr>
+	<% end %>
+</table>
+
+<%= button_to 'Mark all I have graded as done', grades_mark_all_done_path, class: 'pull-right btn', remote:true, data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
+<h2>To be graded</h2>
+
+<table class="table">
+	<tr>
+		<th>pset</th>
+		<th>name</th>
+		<th>submitted</th>
+		<th>started grading</th>
+		<th>done</th>
+	</tr>
+
+	<% @to_grade.each do |submit| %>
+	<tr class="<%= submit.grade %>">
+		<td><%= submit.pset.name %></td>
+		<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
+		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
+		<td><%= !!submit.grade ? "✔︎" : "" %>
+		<td><%= submit.grade.finished? ? "✔︎" : "" if submit.grade %></td>
+	</tr>
+	<% end %>
+</table>

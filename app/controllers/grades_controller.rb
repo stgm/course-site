@@ -42,8 +42,8 @@ class GradesController < ApplicationController
 	end
 	
 	def mark_all_done
-		@grades = Grade.where(grader:current_user.login_id).where(done:false)
-		@grades.update_all(done:true)
+		@grades = Grade.open.where(grader:current_user.login_id)
+		@grades.update_all(status: Grade.statuses[:finished])
 		render nothing:true
 	end
 	

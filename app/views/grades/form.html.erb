@@ -105,6 +105,7 @@
 				</div>
 			</div>
 
+			<% if current_user.is_admin? %>
 			<div class="form-group">
 				<label for="inputPassword3" class="col-sm-3 control-label">Calculated grade</label>
 				<div class="col-sm-9">
@@ -113,17 +114,7 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="form-group">
-				<div class="col-sm-offset-3 col-sm-9">
-					<div class="checkbox">
-						<label>
-							<%= f.check_box :done %> Mark grade as done
-							<% if @grade.public %>(grade has already been marked public)<% end %>
-						</label>
-					</div>
-				</div>
-			</div>
+			<% end %>
 			
 			<hr>
 
