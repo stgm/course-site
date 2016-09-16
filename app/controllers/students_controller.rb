@@ -12,24 +12,8 @@ class StudentsController < ApplicationController
 		@users = User.active.not_admin.includes({ :submits => :grade }, :hands, :logins, :group).order(:name)
 	end
 
-	def list
-		if params[:group].present?
-			@users = Group.friendly.find(params[:group]).users.active.includes(:logins, :submits => [:pset, :grade]).order(:name)
-			render 'grades'
-		elsif Group.count > 0
-			redirect_to({ action: 'list', group:Group.order(:name).first.slug })
-		else
-			redirect_to({ action: 'list_other' })
-		end
-	end
-
 	def list_inactive
 		@users = User.inactive.not_admin.order(:name)
-		render 'grades'
-	end
-	
-	def list_other
-		@users = User.active.no_group.not_admin.includes(:logins, :submits => [:pset, :grade]).order(:name)
 		render 'grades'
 	end
 	
@@ -47,14 +31,9 @@ class StudentsController < ApplicationController
 	private
 	
 	def load_stats
-		if Group.count > 0
-			@groups = Group.order(:name)
-			@group_counts = User.where(active: true).group(:group_id).count
-		end
-
-		@groupless_count = User.active.no_group.not_admin.active.count
-		@admin_count = User.admin.order(:name).count
+		@active_count = User.active.not_admin.count
 		@inactive_count = User.inactive.not_admin.count
+		@admin_count = User.admin.count
 
 		@psets = Pset.order(:order)
 		@title = 'List users'
