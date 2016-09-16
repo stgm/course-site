@@ -31,6 +31,8 @@ class StudentsController < ApplicationController
 	private
 	
 	def load_stats
+		@groups = Group.order(:name)
+
 		@active_count = User.active.not_admin.count
 		@inactive_count = User.inactive.not_admin.count
 		@admin_count = User.admin.count
