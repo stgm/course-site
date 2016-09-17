@@ -4,24 +4,20 @@ class StudentsController < ApplicationController
 	before_filter :require_admin
 
 	before_action :load_stats
-
 	layout 'full-width'
 
 	def index
 		@users = User.active.not_admin_or_assistant.includes({ :submits => :grade }, :group).order(:name).load
-		# @users = Rails.cache.fetch("results", expires_in: 1.hour) do
-		# 	User.active.not_admin_or_assistant.includes({ :submits => :grade }, :group).order(:name)
-		# end
 	end
 
 	def list_inactive
 		@users = User.inactive.not_admin_or_assistant.order(:name)
-		render 'grades'
+		render "index"
 	end
 	
 	def list_admins
 		@users = User.admin_or_assistant.order(:name)
-		render 'grades'
+		render "index"
 	end
 	
 	def show
@@ -37,7 +33,6 @@ class StudentsController < ApplicationController
 		@active_count = User.active.not_admin_or_assistant.count
 		@inactive_count = User.inactive.not_admin_or_assistant.count
 		@admin_count = User.admin_or_assistant.count
-
 		@psets = Pset.order(:order)
 		@title = 'List users'
 	end
