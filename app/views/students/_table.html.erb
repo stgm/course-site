@@ -30,7 +30,6 @@
 			</th>
 			<% end %>
 			<th>Group</th>
-			<th class="rotate"></th>
 		</tr>
 
 		<% users.each do |user| %>
@@ -63,30 +62,6 @@
 
 			<td><%= user.group.name if user.group %></td>
 
-			<td>
-				<div class="pull-right">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="glyphicon glyphicon-flash"></span> <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<% @groups.each do |group| %>
-							<li <%= 'class=disabled' if user.group_id == group.id %> ><%= link_to "Move to #{group.name}".html_safe, user_assign_group_path(user_id: user.id, group_id: group.slug), method: :post %></li>
-							<% end if @groups %>
-							<li role="separator" class="divider"></li>
-							<% if user.active? %>
-							<li><%= link_to 'Mark as inactive', user_path(id: user.id, user: { active: false }), method: :put %></li>
-							<% else %>
-							<li><%= link_to 'Mark as active', user_path(id: user.id, user: { active: true }), method: :put %></li>
-							<% end %>
-							<li role="separator" class="divider"></li>
-							<li><%= link_to 'Calculate final grade', user_calculate_final_grade_path(user_id: user.id), method: :post %>
-						</ul>
-					</div>
-				</div>
-
-
-			</td>
 		</tr>
 		<% end %>
 
