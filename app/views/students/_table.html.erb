@@ -93,7 +93,7 @@
 	</table>
 
 	<p>
-		<% if current_user.is_admin? %>
+		<% if current_user.admin? %>
 		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish what\'s done'.html_safe, course_mark_all_public_path(pset: params[:pset], group: params[:group]), method: 'post', class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
 		<% end %>
 		<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Users'.html_safe, admin_import_path, class:'btn btn-default' %>

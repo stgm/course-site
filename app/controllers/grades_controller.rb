@@ -33,7 +33,7 @@ class GradesController < ApplicationController
 			puts "DOIN THIS"
 			@submit.build_grade(grader: current_user)
 			@submit.grade.update_attributes(grade_params)
-		elsif current_user.is_admin_or_assistant? || !@submit.grade.done
+		elsif current_user.admin_or_assistant? || !@submit.grade.done
 			@submit.grade.update!(grade_params)
 		else
 			@submit.grade.update!(params.require(:grade).permit(:done))

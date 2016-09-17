@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
 	
 	def load_navigation
 		@sections = Section.includes(pages: :pset).order("pages.position")
-		@sections = @sections.where("pages.public" => true) unless current_user.is_admin? or current_user.is_assistant?
+		@sections = @sections.where("pages.public" => true) unless current_user.admin_or_assistant?
 		@assist_available = User.where('available > ?', DateTime.now)
 	end
 	
@@ -66,11 +66,11 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def require_admin
-		redirect_to :root unless current_user.is_admin?
+		redirect_to :root unless current_user.admin?
 	end
 	
 	def require_admin_or_assistant
-		redirect_to :root unless current_user.is_admin? or current_user.is_assistant?
+		redirect_to :root unless current_user.admin_or_assistant?
 	end
 	
 	def default_url_options(options={})

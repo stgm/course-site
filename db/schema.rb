@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160917102619) do
+ActiveRecord::Schema.define(version: 20160917113443) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -225,6 +225,7 @@ ActiveRecord::Schema.define(version: 20160917102619) do
     t.string   "avatar"
     t.text     "notes"
     t.integer  "questions_count_cache", default: 0,     null: false
+    t.integer  "role",                  default: 0,     null: false
   end
 
 end

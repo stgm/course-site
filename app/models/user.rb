@@ -11,24 +11,19 @@ class User < ActiveRecord::Base
 	
 	has_one :ping
 
-	def submit(pset)
-		submits.where(:pset_id => pset.id).first
-	end
-	
-	def activate
-		update_attribute :active, true
-	end
-	
-	scope :admin,     -> { joins(:logins).where("logins.login in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
-	scope :not_admin, -> { joins(:logins).where("logins.login not in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
+	# scope :admin,     -> { joins(:logins).where("logins.login in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
+	# scope :not_admin, -> { joins(:logins).where("logins.login not in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
+	scope :not_admin, -> { where.not(role: User.roles[:admin]) }
 	scope :active,    -> { where(active: true) }
 	scope :inactive,  -> { where(active: false) }
 	scope :no_group,  -> { where(group_id: nil) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	scope :with_login, -> login { joins(:logins).where("logins.login = ?", login)}
 	
-	scope :from_term, -> term  { where("term" => term) if not (term.nil? or term.empty?) }
-	scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
+	# scope :from_term, -> term  { where("term" => term) if not (term.nil? or term.empty?) }
+	# scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
+	
+	enum role: [:guest, :student, :assistant, :head, :admin]
 	
 	def self.find_by_login(login)
 		if login
@@ -36,9 +31,13 @@ class User < ActiveRecord::Base
 		end
 	end
 	
-	# def name
-	# 	self['name'] || "(no name)"
-	# end
+	def submit(pset)
+		submits.where(:pset_id => pset.id).first
+	end
+	
+	def activate
+		update_attribute :active, true
+	end
 	
 	def login_id
 		return self.logins.first.login
@@ -53,19 +52,26 @@ class User < ActiveRecord::Base
 	end
 	
 	def is_admin?
-		admins = Settings['admins']
-		return admins && (admins & self.logins.pluck(:login)).size > 0
+		admin?
+		# admins = Settings['admins']
+		# return admins && (admins & self.logins.pluck(:login)).size > 0
 	end
 	
 	def is_assistant?
-		assistants = Settings['assistants']
-		return assistants && (assistants & self.logins.pluck(:login)).size > 0
+		assistant?
+		# assistants = Settings['assistants']
+		# return assistants && (assistants & self.logins.pluck(:login)).size > 0
 	end
 	
 	def is_admin_or_assistant?
-		is_admin? or is_assistant?
+		admin_or_assistant?
 	end
 	
+	def admin_or_assistant?
+		# is_admin? or is_assistant?
+		admin? or assistant?
+	end
+
 	def final_grade
 		'N/A'
 	end

@@ -61,7 +61,7 @@ class Tracking::TokenizedController < ActionController::Base
 	end
 	
 	def admin_rights?
-		current_user.is_admin? || current_user.is_assistant?
+		current_user.admin? || current_user.assistant?
 	end
 	
 	def require_user

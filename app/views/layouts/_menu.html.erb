@@ -1,4 +1,4 @@
-<% if current_user.is_admin? %>
+<% if current_user.admin? %>
 <li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
@@ -19,7 +19,7 @@
 
 
 
-<% elsif current_user.is_assistant? %>
+<% elsif current_user.assistant? %>
 <% if true #### EJ QLJW QLKWJ QKLWJ QKLWJ Q TODO %>
 <li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
