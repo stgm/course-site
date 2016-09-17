@@ -11,24 +11,6 @@
 			<% psets.each do |pset| %>
 			<th class="rotate"><div><%= pset.name %></div></th>
 			<% end %>
-			<% if false %>
-			<th>
-				<form method="get" accept-charset="utf-8">
-					<%= select_tag :term, 
-					options_from_collection_for_select(User.select("distinct term"), :term, :term, selected:params[:term]),
-					onchange: 'this.form.submit();' %>
-					<%= hidden_field_tag "status", params[:status] %>
-				</form>
-			</th>
-			<th>
-				<form method="get" accept-charset="utf-8">
-					<%= hidden_field_tag "term", params[:term] %>
-					<%= select_tag :status, 
-					options_from_collection_for_select(User.select("distinct status"), :status, :status, selected:params[:status]),
-					onchange: 'this.form.submit();' %>
-				</form>
-			</th>
-			<% end %>
 			<th>Group</th>
 		</tr>
 
@@ -53,7 +35,7 @@
 			
 			<td><%= best_in_place(user, :status, as: :select, collection: { '0' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
 
-			<% subs = user.submits.group_by(&:pset_id) %>
+			<% subs = @submits[user.id] ? @submits[user.id].group_by(&:pset_id) : [] %>
 			<% psets.each do |pset| %>
 			<td>
 				<%= grade_button(user, pset, subs)%>

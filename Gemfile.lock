@@ -45,7 +45,7 @@ GEM
       tzinfo (~> 1.1)
     arel (6.0.3)
     asciidoctor (1.5.4)
-    autoprefixer-rails (6.3.7)
+    autoprefixer-rails (6.4.1.1)
       execjs
     best_in_place (3.0.3)
       actionpack (>= 3.2)

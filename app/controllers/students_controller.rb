@@ -7,7 +7,8 @@ class StudentsController < ApplicationController
 	layout 'full-width'
 
 	def index
-		@users = User.active.not_admin_or_assistant.includes({ :submits => :grade }, :group).order(:name).load
+		@users = User.active.not_admin_or_assistant.includes(:group).order(:name)
+		@submits = Submit.includes(:grade).group_by(&:user_id)
 	end
 
 	def list_inactive
