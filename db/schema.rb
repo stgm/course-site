@@ -204,7 +204,23 @@ ActiveRecord::Schema.define(version: 20160917092943) do
 
   add_index "subpages", ["slug"], name: "index_subpages_on_slug", unique: true
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "mail"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "group_id"
+    t.boolean  "done",           default: false
+    t.boolean  "active",         default: true
+    t.string   "term"
+    t.string   "status"
+    t.string   "token"
+    t.string   "attendance"
+    t.datetime "last_seen_at"
+    t.datetime "last_spoken_at"
+    t.datetime "available"
+    t.string   "avatar"
+    t.text     "notes"
+  end
 
 end
