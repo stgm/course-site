@@ -38,6 +38,9 @@
 		<tr>
 			<td>
 				<%= link_to user.name, student_path(user) %>
+				<% if user.notes.present? %>
+				<span class="glyphicon glyphicon-pencil"></span>
+				<% end %>
 			</td>
 
 			<td><%= user.logins.first.login %></td>

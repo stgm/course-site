@@ -2,6 +2,11 @@
 
 <p><span class="bar"><%= @student.attendance %></span></p>
 
+<%= form_for @student do |f| %>
+<%= f.text_area :notes, size: "x8", class: "form-control" %>
+<%= f.submit "Save", class: "form-control" %>
+<% end %>
+
 <p>Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %></p>
 
 <% if @student.avatar.present? %>
