@@ -2,7 +2,7 @@
 <li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;"><%= @assist_available.length %> staff are currently available.</li>
 <li role="presentation" style="margin-top:2px; background-color:#F8F8F8; display:flex;">
 <% @assist_available.each do |assist| %>
-<img src="<%= assist.avatar %>" style="max-width:70px;" data-toggle="tooltip" data-placement="bottom" title="<%= assist.name.split[0] %>">
+<img src="<%= assist.avatar %>" style="width:70px; height:70px;" data-toggle="tooltip" data-placement="bottom" title="<%= assist.name.split[0] %>">
 <% end %>
 </li>
 <% else %>
