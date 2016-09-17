@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 
 	# scope :admin,     -> { joins(:logins).where("logins.login in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
 	# scope :not_admin, -> { joins(:logins).where("logins.login not in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
-	scope :not_admin, -> { where.not(role: User.roles[:admin]) }
+	scope :not_admin, -> { where.not(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
 	scope :active,    -> { where(active: true) }
 	scope :inactive,  -> { where(active: false) }
 	scope :no_group,  -> { where(group_id: nil) }
