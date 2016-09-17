@@ -8,16 +8,16 @@ class StudentsController < ApplicationController
 	layout 'full-width'
 
 	def index
-		@users = User.active.not_admin.includes({ :submits => :grade }, :group).order(:name)
+		@users = User.active.not_admin_or_assistant.includes({ :submits => :grade }, :group).order(:name)
 	end
 
 	def list_inactive
-		@users = User.inactive.not_admin.order(:name)
+		@users = User.inactive.not_admin_or_assistant.order(:name)
 		render 'grades'
 	end
 	
 	def list_admins
-		@users = User.admin.order(:name)
+		@users = User.admin_or_assistant.order(:name)
 		render 'grades'
 	end
 	
@@ -32,9 +32,9 @@ class StudentsController < ApplicationController
 	def load_stats
 		@groups = Group.order(:name)
 
-		@active_count = User.active.not_admin.count
-		@inactive_count = User.inactive.not_admin.count
-		@admin_count = User.admin.count
+		@active_count = User.active.not_admin_or_assistant.count
+		@inactive_count = User.inactive.not_admin_or_assistant.count
+		@admin_count = User.admin_or_assistant.count
 
 		@psets = Pset.order(:order)
 		@title = 'List users'
