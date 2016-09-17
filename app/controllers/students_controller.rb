@@ -13,11 +13,13 @@ class StudentsController < ApplicationController
 
 	def list_inactive
 		@users = User.inactive.not_admin_or_assistant.order(:name)
+		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"
 	end
 	
 	def list_admins
 		@users = User.admin_or_assistant.order(:name)
+		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"
 	end
 	
