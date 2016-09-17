@@ -50,7 +50,7 @@
         
 			<td><span class="bar"><%= user.attendance %></span></td>
 			
-			<td><%= user.hands.count %></td>
+			<td><%= user.questions_count_cache %></td>
 			
 			<td><%= best_in_place(user, :status, as: :select, collection: { '0' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
 

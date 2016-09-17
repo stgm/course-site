@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160917094928) do
+ActiveRecord::Schema.define(version: 20160917102619) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -213,8 +213,8 @@ ActiveRecord::Schema.define(version: 20160917094928) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.boolean  "done",           default: false
-    t.boolean  "active",         default: true
+    t.boolean  "done",                  default: false
+    t.boolean  "active",                default: true
     t.string   "term"
     t.string   "status"
     t.string   "token"
@@ -224,6 +224,7 @@ ActiveRecord::Schema.define(version: 20160917094928) do
     t.datetime "available"
     t.string   "avatar"
     t.text     "notes"
+    t.integer  "questions_count_cache", default: 0,     null: false
   end
 
 end
