@@ -4,7 +4,6 @@
 
 		<tr>
 			<th>Name</th>
-			<th>ID</th>
 			<th></th>
 			<th>Attend</th>
 			<th class="rotate">Spoken</th>
@@ -42,9 +41,7 @@
 				<span class="glyphicon glyphicon-pencil"></span>
 				<% end %>
 			</td>
-
-			<td><%= user.logins.first.login %></td>
-
+			
 			<td>
 				<% if user.mail %>
 				<%= link_to '📧', 'mailto:' + user.mail %>
