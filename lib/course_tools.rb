@@ -32,6 +32,7 @@ class CourseTools
 			Settings['grading']['grades'].each do |name, definition|
 				p = Pset.where(name: name).first_or_create
 				p.update_attribute(:order, counter)
+				p.update_attribute(:grade_type, definition['type'] || :float)
 				counter += 1
 			end
 			p = Pset.where(name: 'final').first_or_create
