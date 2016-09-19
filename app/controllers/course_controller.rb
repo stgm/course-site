@@ -35,7 +35,7 @@ class CourseController < ApplicationController
 	end
 	
 	def mark_all_public
-		@grades = Grade.finished
+		@grades = Grade.joins(:user).finished.where(users: { active: true })
 		@grades.update_all(status: Grade.statuses[:published])
 		redirect_to :back
 	end
