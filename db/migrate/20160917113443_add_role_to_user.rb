@@ -1,5 +1,5 @@
 class AddRoleToUser < ActiveRecord::Migration
-	def change
+	def up
 		add_column :users, :role, :integer, null: false, default: 0
 		User.all.each do |u|
 			admins = Settings['admins']
@@ -12,5 +12,9 @@ class AddRoleToUser < ActiveRecord::Migration
 				u.student!
 			end
 		end
+	end
+	
+	def down
+		remove_column :users, :role
 	end
 end
