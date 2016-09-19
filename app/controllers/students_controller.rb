@@ -7,18 +7,18 @@ class StudentsController < ApplicationController
 	layout 'full-width'
 
 	def index
-		@users = User.active.not_admin_or_assistant.includes(:group).order(:name)
+		@users = User.active.not_admin_or_assistant.includes(:group).order("groups.name").order(:name).group_by(&:group)
 		@submits = Submit.includes(:grade).group_by(&:user_id)
 	end
 
 	def list_inactive
-		@users = User.inactive.not_admin_or_assistant.order(:name)
+		@users = User.inactive.not_admin_or_assistant.order(:name).group_by(&:group)
 		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"
 	end
 	
 	def list_admins
-		@users = User.admin_or_assistant.order(:name)
+		@users = User.admin_or_assistant.order(:name).group_by(&:group)
 		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"
 	end
