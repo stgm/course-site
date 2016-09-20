@@ -4,6 +4,8 @@ class Group < ActiveRecord::Base
 	friendly_id :name, :use => :slugged
 
 	has_many :users
+	has_many :submits, through: :users
+	has_many :grades, through: :submits
 	
 	def self.import_user(user_id, group_name, user_name, user_mail)
 		if login = Login.where(login: user_id).first

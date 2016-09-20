@@ -29,6 +29,11 @@ class StudentsController < ApplicationController
 		@groups = Group.order(:name)
 		render layout: 'application'
 	end
+	
+	def mark_group_open
+		@group = Group.find(params[:group])
+		@group.submits.finished.update_all(:status => :open)
+	end
 
 	private
 	
