@@ -72,13 +72,14 @@ Rails.application.routes.draw do
 	get  "students/in/other"   , to: "students#list_other"
 	get  "students/in/inactive", to: "students#list_inactive"
 	get  "students/in/:group"  , to: "students#list"
-	put  "students/mark_group_open"
 	resources :students, only: [ :index, :show ]
 
 	# grading overview for assistants
 	# get  "grading" => "grading#index"
 	
-	resource :audit, only: [ :show ]
+	resource :audit, only: [ :show ] do
+	end
+	post "mark_group_open/(:group_id)/(:pset_id)", to: "audits#mark_group_open", as: "audit_mark_group_open"
 	
 	namespace :hands do
 		get "available" => "available#index"

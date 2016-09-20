@@ -16,8 +16,9 @@ class AuditsController < ApplicationController
 	end
 	
 	def mark_group_open
-		@group = Group.find(params[:group])
-		@group.submits.finished.update_all(:status => :open)
+		@group = Group.find(params[:group_id])
+		@group.grades.where(:submits => { :pset_id => params[:pset_id] }).update_all(:status => Grade.statuses[:open])
+		redirect_to :back
 	end
 
 end

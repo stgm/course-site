@@ -24,6 +24,7 @@
 			<td><%= group.grades.where(:submits => { :pset_id => @pset.id }).finished.count %></td>
 			<td><%= group.grades.where(:submits => { :pset_id => @pset.id }).published.count %></td>
 			<td><%= group.grades.where(:submits => { :pset_id => @pset.id }).discussed.count %></td>
+			<td><%= button_to 'Re-open grading for this group', audit_mark_group_open_path(group_id: group.id, pset_id: @pset.id), class: 'btn', data: { confirm: 'This is dangerous stuff' } %></td>
 		</tr>
 		<% end %>
 			
