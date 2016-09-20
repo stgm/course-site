@@ -30,11 +30,28 @@ class StudentsController < ApplicationController
 		render layout: 'application'
 	end
 	
-	def mark_group_open
-		@group = Group.find(params[:group])
-		@group.submits.finished.update_all(:status => :open)
+	def mark_all_public
+		@grades = Grade.joins(:user).finished.where(users: { active: true })
+		@grades.update_all(status: Grade.statuses[:published])
+		redirect_to :back
 	end
 
+	#
+	# put submit into grading queue
+	#
+	def touch_submit
+		s = Submit.find(params[:submit_id])
+		s.grade.open! if s.grade
+		redirect_to :back
+	end
+
+	def assign_final_grade
+		User.all.each do |u|
+			u.assign_final_grade(@current_user)
+		end
+		redirect_to :back
+	end
+	
 	private
 	
 	def load_stats

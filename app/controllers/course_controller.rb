@@ -17,26 +17,4 @@ class CourseController < ApplicationController
 		end
 	end
 	
-	def assign_final_grade
-		User.all.each do |u|
-			u.assign_final_grade(@current_user)
-		end
-		redirect_to :back
-	end
-	
-	#
-	# put submit into grading queue
-	#
-	def touch_submit
-		s = Submit.find(params[:submit_id])
-		s.grade.open! if s.grade
-		redirect_to :back
-	end
-	
-	def mark_all_public
-		@grades = Grade.joins(:user).finished.where(users: { active: true })
-		@grades.update_all(status: Grade.statuses[:published])
-		redirect_to :back
-	end
-
 end

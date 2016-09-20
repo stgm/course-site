@@ -61,13 +61,12 @@ Rails.application.routes.draw do
 	end
 
 	# course management
-	post "course/touch_submit"
 	post "course/import"
-	post "course/remove_student"
-	put  "course/assign_final_grade"
-	post "course/mark_all_public"
 	
 	# student tables for managers
+	put  "students/assign_final_grade"
+	post "students/touch_submit"
+	post "students/mark_all_public"
 	get  "students/in/admins"  , to: "students#list_admins"
 	get  "students/in/other"   , to: "students#list_other"
 	get  "students/in/inactive", to: "students#list_inactive"

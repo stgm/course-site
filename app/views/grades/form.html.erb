@@ -156,6 +156,6 @@
 <hr>
 <p>
 <%= link_to "Destroy submit completely", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-danger' if @submit %>
-<%= link_to_if @submit.grade, 'Put into grading list', course_touch_submit_path(submit_id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'btn btn-danger' %>
+<%= link_to_if @submit.grade, 'Put into grading list', students_touch_submit_path(submit_id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'btn btn-danger' %>
 </p>
 <% end %>
