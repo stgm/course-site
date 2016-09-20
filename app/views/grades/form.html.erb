@@ -4,7 +4,7 @@
 <div class="row" style="display:flex">
 	<div class="col-xs-12 col-sm-8" style="background-color:white">
 
-		<h1><%= @pset.name %><br> <small> by <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %></small></small></h1>
+		<h1><%= @pset.name %><br><small> by <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %> <span class="label label-primary"><%= @grade.status %></span></small></h1>
 
 		<% if @grade.errors.any? %>
 		<div id="error_explanation">
