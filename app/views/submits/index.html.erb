@@ -2,7 +2,7 @@
 
 <% if current_user.group %>
 
-<%= button_to 'Mark all I have graded as done', grades_mark_all_done_path, class: 'pull-right btn', data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
+<%= button_to 'Mark all I have graded as done', submits_mark_all_done_path, class: 'pull-right btn', data: { confirm:'Are you sure? You will not be able to edit anymore.' } %>
 <h2>To be graded</h2>
 
 <table class="table">

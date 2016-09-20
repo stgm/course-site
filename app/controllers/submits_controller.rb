@@ -27,4 +27,10 @@ class SubmitsController < ApplicationController
 		redirect_to params[:referer]
 	end	
 	
+	def mark_all_done
+		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).open.where(users: { active: true }).where(grader: current_user)
+		@grades.update_all(status: Grade.statuses[:finished])
+		redirect_to :back
+	end
+	
 end

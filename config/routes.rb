@@ -94,8 +94,7 @@ Rails.application.routes.draw do
 	post "hands/done"
 	get  "hands/:id"          => "hands#show"
 	
-	post "grades/mark_all_done"
-	
+	post "submits/mark_all_done"
 	resources :submits, only: [ :index, :create, :destroy ] do
 		resource :grade, only: [ :show, :update ] do
 			# post "mark_all_done"

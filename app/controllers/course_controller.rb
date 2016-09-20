@@ -25,12 +25,11 @@ class CourseController < ApplicationController
 	end
 	
 	#
-	# update submit date for single submit, in order to get it into the queue again
+	# put submit into grading queue
 	#
 	def touch_submit
 		s = Submit.find(params[:submit_id])
-		s.update!(submitted_at: Time.now)
-		g = s.grade.update!(done: false)
+		s.grade.open! if s.grade
 		redirect_to :back
 	end
 	
