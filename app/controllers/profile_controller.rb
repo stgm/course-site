@@ -24,6 +24,11 @@ class ProfileController < ApplicationController
 	end
 	
 	def save # POST
+		# remove leading and trailing space to give the user some slack
+		params[:user][:name].strip!
+		params[:user][:mail].strip!
+		
+		# be explicit, but not so nice
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
 			render :text => 'Will not work! Enter a valid name.'
 			return
@@ -33,6 +38,7 @@ class ProfileController < ApplicationController
 			return
 		end
 
+		# create user if possible
 		login = Login.where(login: session[:cas_user]).first_or_create
 		login.create_user and login.save if login.user.nil?
 		@current_user = login.user
