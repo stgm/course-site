@@ -15,7 +15,7 @@
 		</tr>
 
 		<% users.each do |group, user_list|%>
-		<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %><%= button_to 'Re-open grading for this group', students_mark_group_open_path %></td></tr>
+		<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td></tr>
 
 		<% user_list.each do |user| %>
 		<tr>
