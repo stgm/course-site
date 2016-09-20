@@ -24,7 +24,7 @@ class HandsController < ApplicationController
 	end
 	
 	def search
-		@users = User.where("name like ?", "%#{params[:term]}%").not_admin
+		@users = User.where("name like ?", "%#{params[:term]}%").not_admin_or_assistant
 	end
 	
 	def dib
