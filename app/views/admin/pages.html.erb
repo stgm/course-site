@@ -8,6 +8,7 @@
 	<%= radio_button_tag("public", '1', schedule.id == @schedule_position.id, id: schedule.id, class: 'toggle-public') %> <%= label_tag "#{schedule.id}", schedule.name %>
 </p>
 <% end %>
+<p><%= radio_button_tag("public", '1', !@schedule_position.persisted?, id: nil, class: 'toggle-public') %> <%= label_tag "(hide schedule)", "(hide schedule)" %></p>
 
 <script type="text/javascript" charset="utf-8">
 $('.toggle-public').bind('change', function(a) {
