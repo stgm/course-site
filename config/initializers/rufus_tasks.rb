@@ -7,9 +7,9 @@ scheduler = Rufus::Scheduler.new
 
 scheduler.every '15m' do
 	if Settings['mail_address']
-		Grade.where("grades.mailed_at is not null").where(status: :published).joins([:submit]).find_each do |g|
-			g.touch(:mailed_at)
+		Grade.where("grades.mailed_at is null").where(status: Grade.statuses["published"]).joins([:submit]).find_each do |g|
 			GradeMailer.new_mail(g).deliver
+			g.touch(:mailed_at)
 		end
 	end
 end
