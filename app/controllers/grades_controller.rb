@@ -30,7 +30,6 @@ class GradesController < ApplicationController
 		@submit = Submit.find(params[:submit_id])
 		# don't allow done grades to be edited unless admin-ish
 		if !@submit.grade
-			puts "DOIN THIS"
 			@submit.build_grade(grader: current_user)
 			@submit.grade.update_attributes(grade_params)
 		elsif current_user.admin_or_assistant? || !@submit.grade.done
@@ -39,7 +38,7 @@ class GradesController < ApplicationController
 			@submit.grade.update!(params.require(:grade).permit(:done))
 			# render nothing: true, status: 403 and return
 		end
-		redirect_to params[:referer]
+		redirect_to params[:referer] || :back
 	end
 	
 end
