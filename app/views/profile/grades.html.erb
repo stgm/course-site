@@ -1,34 +1,33 @@
 <h1>Grades</h1>
 
 <% if @grades.present? %>
-
+<ul>
 <% @grades.each do |grade| %>
-
+<li>
 <h2><%= grade.submit.pset.name %></h2>
-
-<table class="table table-bordered" style="width:auto">
-	<% if Settings.grading && Settings.grading['grades'] && Settings.grading['grades'][grade.submit.pset.name] && Settings.grading['grades'][grade.submit.pset.name]['subgrades'] %>
-	<% Settings.grading['grades'][grade.submit.pset.name]['subgrades'].each do |subname, subvalue| %>
-	<% if grade.subgrades[subname].present? %>
-	<tr>
-		<td><%= subname.capitalize %></td>
-		<td><%= grade.subgrades[subname] %></td>
-	</tr>
-	<% end %>
-    <% end %>
-	<% end %>
-    <% if grade.grade %>
-	<tr>
-		<td>Final</td>
-		<td><%= translate_grade(grade.grade) %></td>
-	</tr>
-    <% end %>
-</table>
-
-<%= simple_markdown(grade.comments) %>
-
+<h3>
+<% if Settings.grading && Settings.grading['grades'] && Settings.grading['grades'][grade.submit.pset.name] && Settings.grading['grades'][grade.submit.pset.name]['subgrades'] %>
+<% Settings.grading['grades'][grade.submit.pset.name]['subgrades'].each do |subname, subvalue| %>
+<% if grade.subgrades[subname].present? %>
+<span class="label label-default"><%= subname.capitalize %><span class="badge"><%= grade.subgrades[subname] %></span></span>
 <% end %>
-
+<% end %>
+<% end %>
+<% if grade.grade %>
+<span class="label label-default">Grade<span class="badge"><%= translate_grade(grade.grade) %></span></span>
+<% end %>
+</h3>
+<%= simple_markdown(grade.comments) %>
+<p>
+	Graded by <%= grade.grader.name.split[0] %>
+	<% if grade.grader.avatar %>
+	<br>
+	<img src="<%= grade.grader.avatar %>" style="width:70px; height:70px;" title="Picture of <%= grade.grader.name.split[0] %>">
+	<% end %>
+</p>
+</li>
+<% end %>
+</ul>
 <% else %>
 
 You have no grades yet <code>:(</code>
