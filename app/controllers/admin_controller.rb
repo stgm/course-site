@@ -36,10 +36,10 @@ class AdminController < ApplicationController
 	end
 	
 	def stats
-		@geregistreerd = User.not_admin.count
-		@gestart = User.not_admin.joins(:submits).uniq.count
+		@geregistreerd = User.not_admin_or_assistant.count
+		@gestart = User.not_admin_or_assistant.joins(:submits).uniq.count
 		final = Pset.find_by_name('final')
-		@gehaald = User.not_admin.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
+		@gehaald = User.not_admin_or_assistant.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
 		render layout: false
 	end
 
