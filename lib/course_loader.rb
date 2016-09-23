@@ -34,6 +34,7 @@ class CourseLoader
 			# remove old stuff
 			prune_untouched
 			prune_empty
+			recreate_all_slugs
 		
 			# put psets in order
 			CourseTools.clean_psets
@@ -69,6 +70,15 @@ private
 		# remove psets that have no submits and no parent page
 		to_remove = Pset.where("psets.id in (?)", orphan_psets.map(&:id)).includes(:submits).where(:submits => { :id => nil }).pluck(:id)
 		Pset.where("psets.id in (?)", to_remove).delete_all
+	end
+	
+	def recreate_all_slugs
+		Section.all.each do |p|
+			p.update(slug: nil)
+		end
+		Page.all.each do |p|
+			p.update(slug: nil)
+		end
 	end
 	
 	# Performs a git pull on the course repo. `Git.pull` has been
