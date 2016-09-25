@@ -4,7 +4,7 @@ class HandsController < ApplicationController
 	before_filter :require_admin_or_assistant
 
 	def index
-		redirect_to hands_available_path and return unless current_user.available && current_user.available > DateTime.now
+		redirect_to hands_available_path and return unless current_user.admin? || (current_user.available && current_user.available > DateTime.now)
 		@my_hands = Hand.where(done:false, assist:current_user).order('created_at asc')
 		@hands = Hand.where(done:false, assist:nil).order('created_at asc')
 		@long_time_users = User.not_admin_or_assistant.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 2.days.ago).order('updated_at desc')
