@@ -35,7 +35,6 @@ class ApplicationController < ActionController::Base
 	def load_navigation
 		@sections = Section.includes(pages: :pset).order("pages.position")
 		@sections = @sections.where("pages.public" => true) unless current_user.admin_or_assistant?
-		@assist_available = User.where('available > ?', DateTime.now)
 	end
 	
 	def load_schedule

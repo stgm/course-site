@@ -85,6 +85,9 @@ Rails.application.routes.draw do
 		post "available/set" => "available#set"
 	end
 
+	get  "ask" => "ask#index"
+	post "ask/do"
+	
 	get  "hands"              => "hands#index"
 	get  "hands/search"       => "hands#search"
 	get  "hands/student/:id"  => "hands#student"

@@ -1,0 +1,6 @@
+$('#ama').html("<%= j(render 'waiting') %>");
+localStorage['waiting-gif'] = localStorage['waiting-gif'] || "https://fotos.mprog.nl/waiting-gifs/wait<%= Random.new.rand(0..9) %>.gif";
+$('#waiting-gif').attr("src", localStorage['waiting-gif']);
+setTimeout(function(){
+	$.ajax('<%= ask_path %>');
+}, 10000 );
