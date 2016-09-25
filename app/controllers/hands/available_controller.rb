@@ -5,8 +5,7 @@ class Hands::AvailableController < ApplicationController
 		real_time = DateTime.now
 		cutoff_time = real_time.beginning_of_hour
 		cutoff_time -= 1.hours if cutoff_time.hour % 2 == 0
-		@option1 = cutoff_time + 2.hours
-		@option2 = cutoff_time + 4.hours
+		@option1 = cutoff_time + 1.hours
 		@optionU = 1.hour.ago
 		@available = ((@user.available or DateTime.now) > DateTime.now)
 		@available_string = @available ? "" : "not"
@@ -14,7 +13,7 @@ class Hands::AvailableController < ApplicationController
 	
 	def set
 		current_user.update_attribute(:available, params[:until])
-		redirect_to :back
+		redirect_to hands_path
 	end
 
 end
