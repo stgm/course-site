@@ -2,7 +2,7 @@
 
 <% (0..3).each do |n| %>
 <p>
-<%= button_to("Set availability until #{(@option1 + n.hours).hour}h", { action: 'set', until: @option1 }, class: 'btn') %>
+<%= button_to("Set availability until #{(@option1 + n.hours).hour}h", { action: 'set', until: @option1 + n.hours }, class: 'btn') %>
 </p>
 <% end %>
 
