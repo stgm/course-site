@@ -64,7 +64,7 @@ class AskController < ApplicationController
 	end
 	
 	def waiting
-		@number = Hand.where(done:false, assist:nil).count
+		@number = Hand.where(done:false, assist:nil).where("created_at < (?)", @question.created_at).count + 1
 		
 		respond_to do |format|
 			format.js { render 'waiting' }
