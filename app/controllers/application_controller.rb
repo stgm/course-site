@@ -51,10 +51,10 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def current_user
-		if @current_user
-			# cached (per request)
-			return @current_user
-		elsif login = Login.where(login: session[:cas_user]).first
+		# if @current_user
+		# 	# cached (per request)
+		# 	return @current_user
+		if login = Login.where(login: session[:cas_user]).first
 			@current_user = login.user
 		else
 			# no session, so fake empty user
