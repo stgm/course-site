@@ -19,7 +19,7 @@
 </h3>
 <%= simple_markdown(grade.comments) %>
 <p>
-	Graded by <%= grade.grader.name.split[0] %>
+	Graded by <%= grade.grader ? grade.grader.name.split[0] : "unknown?" %>
 	<% if grade.grader.avatar %>
 	<br>
 	<img src="<%= grade.grader.avatar %>" style="width:70px; height:70px;" title="Picture of <%= grade.grader.name.split[0] %>">
