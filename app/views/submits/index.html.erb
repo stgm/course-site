@@ -9,6 +9,7 @@
 	<tr>
 		<th>pset</th>
 		<th>name</th>
+		<th>id</th>
 		<th>submitted</th>
 		<th>started grading</th>
 		<th>done</th>
@@ -18,6 +19,7 @@
 	<tr class="<%= submit.grade %>">
 		<td><%= submit.pset.name %></td>
 		<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
+		<td><%= submit.user.login_id %></td>
 		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
 		<td><%= !!submit.grade ? "✔︎" : "" %>
 		<td><%= submit.grade.finished? ? "✔︎" : "" if submit.grade %></td>
