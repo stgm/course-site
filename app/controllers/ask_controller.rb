@@ -63,6 +63,11 @@ class AskController < ApplicationController
 		end
 	end
 	
+	def cancel
+		Hand.where(user: current_user, done: false).delete_all
+		index
+	end
+	
 	def waiting
 		@number = Hand.where(done:false, assist:nil).where("created_at < (?)", @question.created_at).count + 1
 		

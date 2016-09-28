@@ -87,6 +87,7 @@ Rails.application.routes.draw do
 
 	get  "ask" => "ask#index"
 	post "ask/do"
+	post "ask/cancel"
 	
 	get  "hands"              => "hands#index"
 	get  "hands/search"       => "hands#search"
