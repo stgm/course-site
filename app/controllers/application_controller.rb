@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
 	before_action :load_navigation
 	before_action :load_schedule
-	before_action :register_attendance
 
 	helper_method :current_user, :logged_in?, :authenticated?
 	

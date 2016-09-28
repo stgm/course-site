@@ -5,6 +5,8 @@ class PageController < ApplicationController
 	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage ]	
 	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?, except: [ :homepage ]
 	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?, except: [ :homepage ]
+
+	before_action :register_attendance
 	
 	def homepage
 		redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.admin_or_assistant?
