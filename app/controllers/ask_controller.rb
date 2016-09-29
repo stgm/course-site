@@ -64,7 +64,7 @@ class AskController < ApplicationController
 	end
 	
 	def cancel
-		Hand.where(user: current_user, done: false).delete_all
+		Hand.where(user: current_user, done: false).update_all(done: true)
 		index
 	end
 	
