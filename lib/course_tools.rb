@@ -27,7 +27,7 @@ class CourseTools
 			end
 		end
 		
-		if Settings['grading']
+		if Settings['grading'] && Settings['grading']['grades']
 			counter = 1
 			Settings['grading']['grades'].each do |name, definition|
 				p = Pset.where(name: name).first_or_create
