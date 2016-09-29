@@ -32,8 +32,9 @@ class AlertsController < ApplicationController
 		
 		if @alert.save
 			if params[:send_mail]
+				from = Settings.mail_address
 				User.active.each do |user|
-					AlertMailer.alert_message(user, @alert).deliver_later
+					AlertMailer.alert_message(user, @alert, from).deliver_later
 				end
 			end
 
