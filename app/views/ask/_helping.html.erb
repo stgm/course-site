@@ -1,4 +1,5 @@
 <div style="text-align: center; padding:1em; padding-bottom:1.5em;">
+	<div style="position:absolute; left:2px; top:0;"><%= link_to '<span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="Cancel your help request!"></span>'.html_safe, ask_cancel_path, method: :post, remote: true %></div>
 	<h3 style="margin-bottom:0.75em;">The wait is over!</h3>
 	<img src="<%= @assist.avatar %>" style="width: 100px; height: 100px;">
 	<p style="margin-top:1em;"><%= @assist.name.split[0] %> is looking to assist you right now.</p>
