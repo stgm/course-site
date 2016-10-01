@@ -4,6 +4,7 @@ class Pset < ActiveRecord::Base
 
 	has_many :pset_files
 	has_many :submits
+	has_many :grades, through: :submits
 	
 	enum grade_type: [:integer, :float, :pass, :percentage]
 	
