@@ -100,7 +100,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def unpublicize_if_undone
-		self.status = Grade.statuses[:open] unless self.any_final_grade.present? and self.any_final_grade > 0.0
+		self.status = Grade.statuses[:open] unless self.any_final_grade.present?
 		true
 	end
 
