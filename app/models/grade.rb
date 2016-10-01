@@ -5,7 +5,6 @@ class Grade < ActiveRecord::Base
 	has_one :pset, through: :submit
 	belongs_to :grader, class_name: "User"
 
-	before_create :set_mailed_at
 	before_save :set_calculated_grade, :unpublicize_if_undone
 	
 	serialize :subgrades, OpenStruct
@@ -93,10 +92,6 @@ class Grade < ActiveRecord::Base
 			cg = nil
 		end
 		return cg
-	end
-	
-	def set_mailed_at
-		self.mailed_at = self.updated_at - 1
 	end
 	
 	def unpublicize_if_undone

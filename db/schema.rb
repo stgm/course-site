@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160917113443) do
+ActiveRecord::Schema.define(version: 20161001183129) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20160917113443) do
     t.integer  "grade"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "mailed_at",                        null: false
+    t.datetime "mailed_at"
     t.boolean  "done",             default: false
     t.boolean  "public",           default: false
     t.integer  "calculated_grade"
