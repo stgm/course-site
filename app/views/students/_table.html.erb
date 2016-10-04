@@ -22,7 +22,7 @@
 			<td>
 				<%= link_to user.name, student_path(user) %>
 				<% if user.notes.present? %>
-				<span class="glyphicon glyphicon-pencil"></span>
+				<span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="<%= user.notes %>"></span>
 				<% end %>
 			</td>
 			
@@ -71,4 +71,10 @@
 
 <script type="text/javascript">
 $(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });
+</script>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
