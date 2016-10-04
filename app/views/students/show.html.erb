@@ -14,6 +14,9 @@
 			<li><%= link_to 'Mark as active', user_path(id: @student.id, user: { active: true }), method: :put %></li>
 			<% end %>
 			<li role="separator" class="divider"></li>
+			<li><%= link_to 'Make assistant', user_path(id: @student.id, user: { role: :assistant }), method: :put %></li>
+			<li><%= link_to 'Make admin', user_path(id: @student.id, user: { role: :admin }), method: :put %></li>
+			<li role="separator" class="divider"></li>
 			<li><%= link_to 'Calculate final grade', user_calculate_final_grade_path(user_id: @student.id), method: :post %>
 			</ul>
 		</div>
