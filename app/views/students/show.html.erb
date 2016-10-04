@@ -20,6 +20,7 @@
 	</div>
 
 <h4><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h4>
+<p><%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %></p>
 
 <p><span class="bar"><%= @student.attendance %></span></p>
 
