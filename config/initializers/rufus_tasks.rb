@@ -15,7 +15,7 @@ unless self.private_methods.include? 'irb_binding'
 		end
 	end
 
-	scheduler.every '3h' do
+	scheduler.every '1h' do
 		User.all.each do |u|
 			user_attendance = []
 			for i in 0..6
