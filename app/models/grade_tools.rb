@@ -69,11 +69,14 @@ class GradeTools
 			droppable_grade = nil
 
 			if (@grading[subtype]['drop'] == 'correctness')
+				raise "BUG"
 				droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
 			end
 
 			if (@grading[subtype]['drop'] == 'scope')
-				droppable_grade = Grade.joins(:pset).where('grades.scope = 5').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
+				potential_drops = Grade.joins(:pset).where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).to_a
+				potential_drops.keep_if { |a| a.subgrades[:scope] == 5 }
+				droppable_grade = potential_drops.min { |a,b| a.any_final_grade <=> b.any_final_grade }
 			end
 			
 			grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
