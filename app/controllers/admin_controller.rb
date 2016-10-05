@@ -4,7 +4,7 @@ class AdminController < ApplicationController
 	before_filter :require_admin
 	
 	def export_grades
-		@users = User.not_admin.joins(:submits).uniq.order('name')
+		@users = User.not_admin_or_assistant.joins(:submits).uniq.order('name')
 		@psets = Pset.order(:id)
 		@title = "Export grades"
 		respond_to do |format|
