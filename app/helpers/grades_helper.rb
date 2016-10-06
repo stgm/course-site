@@ -1,19 +1,5 @@
 module GradesHelper
-	
-	# def calculate_grade(grade)
-	# 	return nil if Settings['grading'].nil?
-	# 	f = Settings['grading']['formulas']
-	# 	return nil if f.nil?
-	# 	pset_name = grade.pset.name
-	# 	return nil if f[pset_name].nil?
-	# 	begin
-	# 		cg = grade.instance_eval(f[pset_name])
-	# 	rescue
-	# 		cg = nil
-	# 	end
-	# 	return cg
-	# end
-	
+
 	def grade_for(submit)
 		if submit
 			submitted = submit[0]
@@ -21,6 +7,8 @@ module GradesHelper
 				return submitted.grade.calculated_grade || submitted.grade.grade
 			end
 		end
+		
+		return ""
 	end
 	
 	def translate_grade(grade)

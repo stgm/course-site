@@ -20,7 +20,15 @@
         <Cell><Data ss:Type="String"><%= user.name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= user.login_id %></Data></Cell>
 		<% @psets.each do |pset| %>
+		<% if (g = grade_for(subs[pset.id])) == "" %>
+        <Cell><Data ss:Type="String"></Data></Cell>
+		<% elsif g == -1 %>
+        <Cell><Data ss:Type="String">pass</Data></Cell>
+		<% elsif g == 0 %>
+        <Cell><Data ss:Type="String">fail</Data></Cell>
+		<% else %>
         <Cell><Data ss:Type="Number"><%= grade_for(subs[pset.id]) %></Data></Cell>
+		<% end %>
 		<% end %>
         <Cell><Data ss:Type="String"><%= user.group.name if user.group %></Data></Cell>
       </Row>
