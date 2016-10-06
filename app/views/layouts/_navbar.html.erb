@@ -42,7 +42,7 @@
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
-				<% if (Settings.mail_address || Settings.hands_allow) && current_user.valid_profile? %>
+				<% if Settings.hands_allow && current_user.valid_profile? %>
 				<li class="dropdown" id="ama-nav">
 					<a href="#" id="ama-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-question-sign"></span> Ask</a>
 					<ul class="dropdown-menu" style="min-width:300px;">
