@@ -39,10 +39,12 @@ class ProfileController < ApplicationController
 		end
 
 		# create user if possible
-		login = Login.where(login: session[:cas_user]).first_or_create
-		login.create_user and login.save if login.user.nil?
-		@current_user = login.user
-		current_user.update!(params.require(:user).permit(:name, :mail))
+		ActiveRecord::Base.transaction do
+			login = Login.where(login: session[:cas_user]).first_or_create
+			login.create_user and login.save if login.user.nil?
+			@current_user = login.user
+			current_user.update!(params.require(:user).permit(:name, :mail))
+		end
 
 		redirect_to :back
 	end
