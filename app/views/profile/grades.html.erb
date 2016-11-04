@@ -13,8 +13,12 @@
 <% end %>
 <% end %>
 <% end %>
+<% if Settings.grading && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated'] %>
+<span class="label label-default">Grade<span class="badge"><%= translate_grade(grade.any_final_grade) %></span></span>
+<% else %>
 <% if grade.grade %>
 <span class="label label-default">Grade<span class="badge"><%= translate_grade(grade.grade) %></span></span>
+<% end %>
 <% end %>
 </h3>
 <%= simple_markdown(grade.comments) %>
