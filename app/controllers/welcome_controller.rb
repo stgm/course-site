@@ -4,7 +4,7 @@ class WelcomeController < ApplicationController
 
 	# welcome#index allows claiming of website
 	def index
-		if authenticated?
+		if logged_in?
 			unless User.where(role: User.roles['admin']).count > 0
 				current_user.admin!
 			end
