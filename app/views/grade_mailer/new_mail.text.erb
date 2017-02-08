@@ -2,12 +2,12 @@
 
 Course: <%= @course_name %>
 Problem: <%= @grade_name %>
-
-<%= @feedback %>
-
 <% if @grade %>
 The grade entered is: <%= translate_grade(@grade) %>
 <% end %>
+
+<%= @feedback %>
+
 <% if @login %>
 ------------------------------------------------------------------------------
 
