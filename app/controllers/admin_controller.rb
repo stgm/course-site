@@ -12,6 +12,16 @@ class AdminController < ApplicationController
 			format.xls
 		end
 	end
+
+	def export_subgrades
+		@users = User.not_admin_or_assistant.joins(:submits).uniq.order('name')
+		@psets = Pset.order(:id)
+		@title = "Export grades"
+		respond_to do |format|
+		    response.headers['Content-Disposition'] = 'attachment; filename="Grades ' + Settings.short_course_name + '.xls"'
+			format.xls
+		end
+	end
 	
 	def dump_grades
 		@students = User.order(:name)

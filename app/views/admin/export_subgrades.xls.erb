@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Name</Data></Cell>
+        <Cell><Data ss:Type="String">ID</Data></Cell>
+		<% @psets.each do |pset| %>
+        <Cell><Data ss:Type="String"><%= pset.name %></Data></Cell>
+		<% end %>
+        <Cell><Data ss:Type="String">Group</Data></Cell>
+      </Row>
+	<% @users.each do |user| %>
+	<% subs = user.submits.group_by(&:pset_id); submitted = false %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= user.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.login_id %></Data></Cell>
+		<% @psets.each do |pset| %>
+		<% if (g = grade_for(subs[pset.id])) == "" %>
+        <Cell><Data ss:Type="String"></Data></Cell>
+		<% elsif g == -1 %>
+        <Cell><Data ss:Type="String">pass</Data></Cell>
+		<% elsif g == 0 %>
+        <Cell><Data ss:Type="String">fail</Data></Cell>
+		<% else %>
+        <Cell><Data ss:Type="Number"><%= grade_for(subs[pset.id]) %></Data></Cell>
+		<% end %>
+		<% end %>
+        <Cell><Data ss:Type="String"><%= user.group.name if user.group %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
