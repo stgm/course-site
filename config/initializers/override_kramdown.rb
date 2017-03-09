@@ -49,9 +49,6 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# convert 'bold' text to kbd tag, which will display it as keyboard 
 	# entry text
 	#
-	def convert_strong(el, indent)
-		format_as_span_html('kbd', el.attr, inner(el, indent))
-	end
 	
 	def convert_blockquote(el, opts)
 		el.attr['class'] = 'protip'
