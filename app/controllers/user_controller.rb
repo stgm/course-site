@@ -24,6 +24,9 @@ class UserController < ApplicationController
 	end
 	
 	def calculate_final_grade
+		# feature has to be enabled in grading.yml - otherwise play stupid
+		raise ActionController::RoutingError.new('Not Found') if not GradeTools.available?
+
 		u = User.find(params[:user_id])
 		u.assign_final_grade(current_user)
 		redirect_to :back
