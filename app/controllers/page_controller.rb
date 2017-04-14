@@ -63,7 +63,7 @@ class PageController < ApplicationController
 				dropbox.submit(session[:cas_user], current_user.name,
 					Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
 			rescue
-				redirect_to(:back, flash: { alert: "<b>There was a problem with submitting! Please try again.</b> If the problem persists, contact your instructor.".html_safe }) and return
+				redirect_to(:back, flash: { alert: "<b>There was a problem uploading your submission! Please try again.</b> If the problem persists, contact your instructor.".html_safe }) and return
 			end
 		end
 
