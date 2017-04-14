@@ -34,7 +34,7 @@ all required files, you cannot submit.</p>
 		<td><%= file %></td>
 		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file) %></td>
 	</tr>
-	<% end %>
+	<% end   if files %>
 	<% end %>
 
 </table>
