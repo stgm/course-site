@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 	protect_from_forgery with: :exception
 	
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
-		flash[:alert] = "<strong>Warning:</ActionController::Base> you were logged out since you last loaded this page. If you just submitted, please login and try again."
+		flash[:alert] = "<strong>Warning:</ActionController::Base> you were logged out since you last loaded this page. If you just submitted, please login and try again.".html_safe
 		redirect_to :back
 	end
 	
