@@ -125,6 +125,16 @@ body
 	height:325px;
 }
 
+h1
+{
+    margin-top:3em;
+}
+
+h1:first-child
+{
+    margin-top:1em;
+}
+
 h2
 {
     margin-top:3em;
