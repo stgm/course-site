@@ -1,14 +1,15 @@
-<h2><i class="glyphicon glyphicon-gift"></i> Dropbox</h2>
+<h2 style="margin-bottom:1.5em">
+	<%= octicon "package", height: 32, style: 'margin-right:0.25em;', class: 'dropcap'  %>
+	Dropbox
+	<br>
+	<small>Any student uploads will be placed in this Dropbox account.</small>
+</h2>
 
 <p>
 	<% if @dropbox_linked %>
-	Dropbox is currently connected.
+	Dropbox is connected.
 		
 	<% else %>
-	There is no Dropbox connection.
-	<%= form_tag(dropbox_connect_path) do %>
-	<%= submit_tag 'Connect', class:'btn' %>
-	<% end %>
-
+	<%= link_to 'Link to your account', dropbox_connect_path, method: :post, class:'btn btn-primary' %>
 	<% end %>
 </p>

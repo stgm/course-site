@@ -1,4 +1,9 @@
-<h2><i class="glyphicon glyphicon-random"></i> Git connection</h2>
+<h2 style="margin-bottom:1.5em">
+	<%= octicon "mark-github", height: 32, style: 'margin-right:0.25em;', class: 'dropcap'  %>
+	Git
+	<br>
+	<small>Course materials will be downloaded from this git repository.</small>
+</h2>
 
 <% if Settings.git_repo.present? %>
 <p><%= Settings.git_repo %> @ <%= Settings.git_branch %></p>
@@ -6,16 +11,13 @@
 <p>
 	<%= form_tag(config_git_repo_path, class:'form') do %>
         <div class="form-group">
-            <label for="repo_url">Repository clone URL</label>
+            <label for="repo_url">Repo URL</label>
             <%= text_field_tag 'repo_url', Settings['git_repo'], required: true, class: 'form-control' %>
     	</div>
         <div class="form-group">
             <label for="repo_branch">Branch</label>
             <%= text_field_tag 'repo_branch', Settings['git_branch'], class: 'form-control' %>
     	</div>
-        <p>
-        	Warning: you can actually only clone a repository once. Changing this value after cloning has no effect.
-        </p>
     	<%= submit_tag 'Clone', class:'btn btn-primary' %>
 	<% end %>
 </p>
