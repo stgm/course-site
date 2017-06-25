@@ -1,46 +1,46 @@
-require 'dropbox_sdk'
-
 module Dropbox
 	
 	@@dropbox_key = ENV['DROPBOX_KEY']
 	@@dropbox_secret = ENV['DROPBOX_SECRET']
 	@@dropbox_access_type = ENV['DROPBOX_ACCESS_TYPE']
 
-	@@session = nil
-	@@connection = nil
+	@@client = nil
+	@@return_url = nil
 
+	# check basic requirements for this API to function
 	def self.available?
 		return @@dropbox_key.present? && @@dropbox_secret.present? && @@dropbox_access_type.present?
 	end
 	
+	# see if we're already connected (dropbox connections do not expire)
 	def self.connected?
-		@@session ||= DropboxSession.deserialize(Settings["dropbox.session"]) if Settings['dropbox.session']
-		return !!@@session && @@session.authorized?
+		return !!Settings['dropbox.session']
 	end
 
-	def self.connection
-		return @@connection ||= DropboxConnection.new(@@session, @@dropbox_access_type) if self.connected?
+	# get a reference to a client object
+	def self.client
+		return @@client ||= DropboxApi::Client.new(Settings["dropbox.session"]) if Settings['dropbox.session']
 	end
 	
-	def self.get_dropbox_auth_url(return_url)
-		# create a new session for this application
-		dropbox_session = DropboxSession.new(@@dropbox_key, @@dropbox_secret)
+	# start oauth authentication process, returning the url at Dropbox to redirect to
+	def self.get_auth_url(return_url)
+		@@return_url = return_url
+		url = authenticator.authorize_url redirect_uri: @@return_url
+		return url
+	end
+	
+	# process data returned from Dropbox, assumming success, and store the access token
+	def self.process_authorization(code)
+		auth_bearer = authenticator.get_token(code, :redirect_uri => @@return_url)
+		token = auth_bearer.token # This line is step 5 in the diagram.
+		Settings['dropbox.session'] = token
+	end
+	
+	private
 
-		# store the session for when the user has returned to our app
-		Settings["dropbox.session"] = dropbox_session.serialize
+	# return authenticator instance, using the right globals
+	def self.authenticator
+		DropboxApi::Authenticator.new(@@dropbox_key, @@dropbox_secret)
+	end
 
-		return dropbox_session.get_authorize_url return_url
-	end
-	
-	def self.process_authorization
-		# we've been authorized, so now request an access_token
-		
-		# restore session, will automatically connect to dropbox
-		dropbox_session = DropboxSession.deserialize(Settings["dropbox.session"])
-		dropbox_session.get_access_token
-		
-		# save it for later connections
-		Settings["dropbox.session"] = dropbox_session.serialize
-	end
-	
 end

@@ -58,9 +58,8 @@ class PageController < ApplicationController
 
 		# upload to dropbox
 		if pset.form || pset.files
-			dropbox = Dropbox.connection
 			begin
-				dropbox.submit(session[:cas_user], current_user.name,
+				upload_to_dropbox(session[:cas_user], current_user.name,
 					Settings.submit_directory, pset.name, params[:notes], form_text, params[:f])
 			rescue
 				redirect_to(:back, flash: { alert: "<b>There was a problem uploading your submission! Please try again.</b> If the problem persists, contact your instructor.".html_safe }) and return
@@ -96,5 +95,35 @@ class PageController < ApplicationController
 		end
 		return form_text
 	end
+
+	def upload_to_dropbox(user, name, course, item, notes, form, files)
+		
+		dropbox_client = Dropbox.client
+		dropbox_root = ENV['DROPBOX_ROOT']
+		
+		# cache timestamp for folder name
+		item_folder = item + "__" + Time.now.to_i.to_s
+
+		# compose info.txt file contents
+		info = "student_login_id = " + user
+		info += ("\nname = " + name) if name
+		info += "\n\n"
+		info += notes if notes
+
+		# upload the notes
+		dropbox_client.upload(File.join("/", dropbox_root, course, user, item_folder, 'info.txt'), info) if notes
+		
+		# upload the form
+		dropbox_client.upload(File.join("/", dropbox_root, course, user, item_folder, 'form.md'), form) if form
+		
+		# upload all posted files
+		if files
+			files.each do |filename, file|
+				dropbox_client.upload(File.join("/", dropbox_root, course, user, item_folder, file.original_filename), file.read, autorename: true)
+			end
+		end
+
+	end
+	
 
 end
