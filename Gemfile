@@ -26,10 +26,11 @@ gem 'git'
 ##
 # APIs
 #
-gem 'dropbox-sdk'
+# gem 'dropbox-sdk'
+gem 'dropbox_api'
 gem 'helpscout'
 gem 'bugsnag'
-gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
+gem 'rubycas-client', :git => 'https://github.com/rubycas/rubycas-client.git'
 gem 'slack-notifier'
 
 # manages settings in database
