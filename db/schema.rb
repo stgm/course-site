@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001183129) do
+ActiveRecord::Schema.define(version: 20170625170009) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 20161001183129) do
     t.datetime "updated_at"
     t.string   "slug"
     t.string   "path"
+    t.boolean  "display",    default: false
   end
 
   add_index "sections", ["slug"], name: "index_sections_on_slug", unique: true

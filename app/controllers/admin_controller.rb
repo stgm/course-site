@@ -40,6 +40,12 @@ class AdminController < ApplicationController
 		render json: p
 	end
 	
+	def section_update
+		p = Section.find(params[:id])
+		p.update!(params.require(:page).permit(:display))
+		render json: p
+	end
+
 	def set_schedule
 		Settings.schedule_position = params[:id]
 		render json: nil

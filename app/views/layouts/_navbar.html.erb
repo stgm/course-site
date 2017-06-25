@@ -21,16 +21,22 @@
 					</ul>
 				</li>
 				<% end %>
+				
+				<% if @sections_in_navbar.length > 0 %>
+				<%= render 'layouts/sections' %>
+				<% end %>
 
 				<% if @sections.length > 0 %>
 				<li class="dropdown dropdown-accordion">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-search"></span> Archive</a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Other</a>
 					<ul class="dropdown-menu">
 						<%= render 'layouts/materials' %>
 					</ul>
 				</li>
 				<% end %>
+			</ul>
 
+			<ul class="nav navbar-nav navbar-right">
 				<% if !Settings.mail_address.blank? && logged_in? && (@alerts.count > 0 || @current_user.admin?) %>
 				<li class="dropdown dropdown-accordion">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span><span class=""><%= @alerts.count %></span></a>
@@ -39,9 +45,7 @@
 					</ul>
 				</li>
 				<% end %>
-			</ul>
 
-			<ul class="nav navbar-nav navbar-right">
 				<% if Settings.hands_allow && current_user.valid_profile? %>
 				<li class="dropdown" id="ama-nav">
 					<a href="#" id="ama-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-question-sign"></span> Ask</a>

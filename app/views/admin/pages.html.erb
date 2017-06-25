@@ -29,7 +29,7 @@ $('.toggle-public').bind('change', function(a) {
 <p>Check the pages that should be visible to all users.</p>
 
 <% @all_sections.each do |section| %>
-<h2><%= section.title %></h2>
+<h2><%= check_box_tag('display', '1', section.display, id: section.id, class: 'toggle-display') %> <%= section.title %></h2>
 <% section.pages.each do |page| %>
 <p>
 	<%= check_box_tag('public', '1', page.public, id: page.id, class: 'toggle-public') %> <%= page.title %>
@@ -48,6 +48,20 @@ $('.toggle-public').bind('change', function(a) {
 		type: 'PUT',
 		data: {
 			page: { 'public': $(a.currentTarget).prop('checked') }
+		}
+	});
+});
+
+$('.toggle-display').bind('change', function(a) {
+	$.ajax({
+		url: "<%= admin_section_update_path %>?id=" + a.currentTarget.id,
+		headers: {
+			Accept : "text/javascript; charset=utf-8",
+			"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+		},
+		type: 'PUT',
+		data: {
+			page: { 'display': $(a.currentTarget).prop('checked') }
 		}
 	});
 });

@@ -1,0 +1,14 @@
+<% for section in @sections_in_navbar %>
+
+<li class="dropdown dropdown-accordion">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		<%= section.title %>
+	</a>
+	<ul class="dropdown-menu">
+		<% for page in section.pages %>
+		<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: (page.public ? '' : 'bg-warning') %></li>
+		<% end %>
+	</ul>
+</li>
+
+<% end %>

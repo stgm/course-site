@@ -63,12 +63,6 @@ textarea#notes
     }
 }
 
-/*a.list-group-item
-{
-    color:black;
-    text-decoration:underline;
-}
-*/
 .jqstooltip{
     box-sizing: content-box;
 }
@@ -83,7 +77,7 @@ textarea#notes
 	border-radius:0;
 	opacity:0.98;
 	padding-top:0.25em;
-	max-height:400px;
+	smax-height:400px;
 	overflow-y:scroll;
 }
 
@@ -107,7 +101,6 @@ textarea#notes
         }
     }
 }
-
 
 #submit-content
 {

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 	get  "admin/export_grades"
 	get  "admin/pages"
 	put  "admin/page_update"
+	put  "admin/section_update"
 	get  "admin/schedule"
 	post "admin/set_schedule"
 	
