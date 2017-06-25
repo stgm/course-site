@@ -24,12 +24,12 @@ $('.toggle-public').bind('change', function(a) {
 });
 </script>
 
-<h1>Published pages</h1>
+<h2>Published pages</h2>
 
 <p>Check the pages that should be visible to all users.</p>
 
 <% @all_sections.each do |section| %>
-<h2><%= check_box_tag('display', '1', section.display, id: section.id, class: 'toggle-display') %> <%= section.title %></h2>
+<p><%= check_box_tag('display', '1', section.display, id: section.id, class: 'toggle-display') %> <strong><%= section.title %></strong></p>
 <% section.pages.each do |page| %>
 <p>
 	<%= check_box_tag('public', '1', page.public, id: page.id, class: 'toggle-public') %> <%= page.title %>
