@@ -11,13 +11,19 @@
  *= require_self
  */
 
-$link-color: #52B15A;
+$color1: #595959;
+$color2: #262626;
+$color3: #F2D8CE;
+$color4: #F2785C;
+$color5: #F25D50;
+
+$link-color: darken($color5, 30%);
 
 $navbar-default-bg: #FCFCFC;
 $navbar-default-color: #918291;
-$navbar-default-link-color: #714c6f;
-$navbar-default-link-active-color: #faeefe;
-$navbar-default-link-active-bg: #714c6f;
+$navbar-default-link-color: #262626;
+$navbar-default-link-active-color: white;
+$navbar-default-link-active-bg: #262626;
 $navbar-default-border: transparent;
 
 $component-active-bg: #52B15A;
@@ -29,10 +35,14 @@ $font-size-h2: 22px;
 $font-size-h3: 19px;
 $font-size-h4: 16px;
 
+// this is the max width for medium and large screens (not too large)
+$container-lg: 970px;
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "strap";
 @import "tweaks";
 @import "fonts";
+@import "print";
 
 @import "videojs-sublime-skin";

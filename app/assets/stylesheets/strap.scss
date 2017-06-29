@@ -18,6 +18,7 @@ body
 //    background-size:cover;
 //    sbackground-attachment:fixed;
     border-bottom:1px solid #dddddd;
+    opacity:0.97;
 }
 
 .navbar .navbar-right
@@ -50,7 +51,24 @@ body
 .alert
 {
 	margin-bottom:0;
+    background-color: $color3;
+    color: $color1;
+    border:0;
+    margin-left: calc(-50vw + 50%);
+    padding-left: calc(50vw - 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-right: calc(50vw - 50%);
 }
+
+
+body > .alert
+{
+	border-radius:0;
+	border-top:none;
+	border-left:none;
+	border-right:none;
+}
+
 
 /****************************************************************************
  *  layout
@@ -79,16 +97,29 @@ body
  *
  */
 
-#content
-{
-    bacskground-color:white;
-}
-
 #content section, #content header
 {
-	padding:2em 2em;
+	spadding:2em 2em;
 	sbackground-color:white;
 	margin-bottom:1.5em;
+}
+
+#content section:first-child
+{
+    padding-top: 0;
+}
+
+#content h1
+{
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background-color: #F25D50;
+    color: white;
+    margin-top: 0;
+    margin-left: calc(-50vw + 50%);
+    padding-left: calc(50vw - 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-right: calc(50vw - 50%);
 }
 
 @media (max-width: 480px)
@@ -381,83 +412,22 @@ ssform .btn
 
 footer
 {
-	padding-bottom:1em;
+	padding:1.5em;
 	text-align:center;
+    background-color: #F2D8CE;
+}
+
+footer a
+{
+    color:#262626;
 }
 
 footer img
 {
 	vertical-align:-4px;
+    margin-right:1em;
 }
 
-/****************************************************************************
- *  print styles
- *
- */
-
-@media print
-{
-	body
-	{
-		padding-top:0;
-		background-color:transparent ! important;
-	}
-	
-	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe, #schedule-column, #comments-column, .embed
-	{
-		display:none;
-	}
-
-	.tab-content > #submit /* except submit tab */
-	{
-		display:none;
-	}
-
-	#content
-	{
-		width:auto;
-		max-width:auto;
-	}
-
-	#content, section
-	{
-		border:none;
-		display:block;
-	}
-
-    section textarea
-    {
-        resize:none;
-    }
-	
-	#content blockquote
-	{
-		margin-left:0;
-		margin-right:0;
-		padding:1em 0;
-		border-top:1px solid black;
-		border-bottom:1px solid black;
-	}
-
-	[class*="span"], .uneditable-input[class*="span"]
-	{
-		float: none;
-		display: block;
-		width: 100%;
-		margin-left: 0;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-	}
-
-	@page
-	{
-	    size: auto;   /* auto is the initial value */
-
-	    /* this affects the margin in the printer settings */
-	    margin: 20mm 40mm 20mm 0mm;
-	}
-}
 
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
 {
@@ -495,13 +465,6 @@ form .btn
 	margins-top:0;
 }
 
-body > .alert
-{
-	border-radius:0;
-	border-top:none;
-	border-left:none;
-	border-right:none;
-}
 
 .dropdown-menu .modal-dialog
 {

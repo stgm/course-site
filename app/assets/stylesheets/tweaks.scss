@@ -54,12 +54,12 @@ textarea#notes
     .navbar-nav .open .dropdown-menu
     {
         background-color: #fff;
-        margin-right: -15px ! important;
+        smargin-right: -15px ! important;
     }
     
     .navbar-nav
     {
-        margin: 0px -15px ! important;
+        smargin: 0px -15px ! important;
     }
 }
 
@@ -75,7 +75,7 @@ textarea#notes
 {
 	border:none;
 	border-radius:0;
-    box-shadow: 0 10px 10px #999;
+    box-shadow: 10px 10px black;
     
 	opacity:0.98;
 	padding-top:0.25em;
@@ -110,3 +110,10 @@ textarea#notes
     
 }
 
+
+
+.alert-dismissable .close,
+.alert-dismissible .close {
+  top: 0;
+  right: 0;
+}

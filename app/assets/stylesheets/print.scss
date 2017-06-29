@@ -1,0 +1,70 @@
+/****************************************************************************
+ *  print styles
+ *
+ */
+
+@media print
+{
+	body
+	{
+		padding-top:0;
+		background-color:transparent ! important;
+	}
+	
+	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe,
+    #schedule-column, #comments-column, .embed,
+    section#submit-content
+	{
+		display:none;
+	}
+
+	#content
+	{
+		width:auto;
+		max-width:auto;
+	}
+    
+    #content h1
+    {
+        margin:0; padding:0;
+    }
+
+	#content, section
+	{
+		border:none;
+		display:block;
+	}
+
+    section textarea
+    {
+        resize:none;
+    }
+	
+	#content blockquote
+	{
+		margin-left:0;
+		margin-right:0;
+		padding:1em 0;
+		border-top:1px solid black;
+		border-bottom:1px solid black;
+	}
+
+	[class*="span"], .uneditable-input[class*="span"]
+	{
+		float: none;
+		display: block;
+		width: 100%;
+		margin-left: 0;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	@page
+	{
+	    size: auto;   /* auto is the initial value */
+
+	    /* this affects the margin in the printer settings */
+	    margin: 20mm 40mm 20mm 0mm;
+	}
+}
