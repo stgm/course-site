@@ -1,0 +1,91 @@
+.navbar
+{
+	margin-bottom:0;
+	border-bottom:0;
+}
+
+#main-nav
+{
+    z-index:1;
+}
+
+.sidebar-toggle
+{
+	float:left;
+	position:relative;
+	border-color: #ddd;
+	padding: 9px 1em;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	background-color: transparent;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.sidebar-toggle .icon-bar
+{
+	background-color: #888;
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+}
+
+.sidebar-toggle .icon-bar + .icon-bar
+{
+	margin-top: 4px;
+}
+
+.navbar-default .navbar-text
+{
+	line-height:20px;
+	color:#555;
+}
+
+@media (min-width: 480px)
+{
+	.sidebar-toggle
+	{
+		padding-left:0;
+	}
+}
+
+@media (max-width: 768px)
+{
+	/* line 141, /Users/martijn/dev/course-site/app/assets/stylesheets/strap.scss */
+	#content section, #content header, .alert
+	{
+		padding: 0 1em 1em 1em;
+	}
+
+	#content section + section, #content header + header, .alert
+	{
+		padding-top: 1em;
+	}
+	
+	#secondary-nav .navbar-nav
+	{
+		float: left;
+		overflow-y:scroll;
+		white-space:nowrap;
+		max-width:100%;
+		margin:0;
+	}
+	
+	#secondary-nav .container
+	{
+		padding:0;
+	}
+	
+	#secondary-nav .navbar-nav > li
+	{
+		display:inline-block;
+	}
+
+	#secondary-nav .navbar-nav > li > a
+	{
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+}

@@ -11,10 +11,20 @@ class SubmitsController < ApplicationController
 		if Group.any?
 			if current_user.group
 				@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
-				@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
 			end
 		else
 			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where(users: { active: true }).order('psets.name')
+		end
+		@groups = Group.all
+		@psets = Pset.all
+	end
+	
+	def discuss
+		if Group.any?
+			if current_user.group
+				@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
+			end
+		else
 			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where(users: { active: true }).order('psets.name')
 		end
 		@groups = Group.all

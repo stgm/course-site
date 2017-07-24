@@ -8,7 +8,7 @@
    end
 %>
 
-<li class="dropdown-header"><%= section.title %></li>
+<li class="dropdown-header"><span><%= section.title %></span></li>
 <% for page in section.pages %>
 	<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: (page.public ? '' : 'bg-warning') %></li>
 <% end %>

@@ -13,7 +13,7 @@
 	<% end %>
 
 	<% if current_user.can_submit? and @page.pset %>
-	<section id="submit-content">
+	<section id="submit-content" class="visible-md-inline-block visible-lg-inline-block">
 		<%= render 'submit_tab' %>
 	</section>
 	<% end %>

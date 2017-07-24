@@ -99,6 +99,7 @@ Rails.application.routes.draw do
 	get  "hands/:id"          => "hands#show"
 	
 	post "submits/mark_all_done"
+	get  "submits/discuss"
 	resources :submits, only: [ :index, :create, :destroy ] do
 		resource :grade, only: [ :show, :update ] do
 			# post "mark_all_done"

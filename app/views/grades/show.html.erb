@@ -1,0 +1,17 @@
+<h1>Grade</h1>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<%= @grade.submit.pset.name %>
+		<div class="pull-right">
+			<% @grade.subgrades.each_pair do |k,v| %>
+			<%= v %> /
+			<% end %>
+		</div>
+	</div>
+	<div class="panel-body">
+		<%= simple_markdown(@grade.comments) %>
+	</div>
+</div>
+
+<%= button_to "Mark as Discussed", submit_grade_path(submit_id: @submit.id, grade: { status: :discussed }, referer: submits_discuss_path), method: :put, data: { confirm: "Sure?" }, class: 'btn' %>

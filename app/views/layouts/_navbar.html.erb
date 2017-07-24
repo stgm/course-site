@@ -1,44 +1,30 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav id="sidebar" class="collapse">
+	<button type="button" class="close" data-toggle="collapse" data-target="#sidebar" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<ul class="sidebar-menu">
+		<li class="dropdown-header"><span><strong><%= current_user.name %></strong></span></li>
+		<li><%= link_to '<span class="glyphicon glyphicon-file" aria-hidden="true"></span>Feedback'.html_safe, profile_grades_path %></li>
+		<%= render 'layouts/materials' %>
+	</ul>
+</nav>
+		
+<nav id="main-nav" class="navbar navbar-default ">
 	<div class="container">
-
-		<div class="navbar-header">
-			<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> <%= Settings.short_course_name %></a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapsed-navbar">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-		</div>
-        
-		<div class="collapse navbar-collapse" id="collapsed-navbar">
-			<ul class="nav navbar-nav">
-				<% if logged_in? && @schedule %>
-				<li class="dropdown dropdown-accordion">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-time"></span> <%= @schedule.name %></a>
-					<ul class="dropdown-menu">
-						<%= render 'layouts/schedule' %>
-					</ul>
-				</li>
-				<% end %>
-				
-				<% if @sections_in_navbar.length > 0 %>
-				<%= render 'layouts/sections' %>
-				<% end %>
-
-				<% if @sections.length > 0 %>
-				<li class="dropdown dropdown-accordion">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Other</a>
-					<ul class="dropdown-menu">
-						<%= render 'layouts/materials' %>
-					</ul>
-				</li>
-				<% end %>
-			</ul>
-
+		<!--div class="collapse navbar-collapse" id="collapsed-navbar"-->
+			
+			<div class="navbar-header">
+				<button type="button" class="sidebar-toggle collapsed visible-xs-inline-block" data-toggle="collapse" data-target="#sidebar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="/" class="navbar-brand"><span class="glyphicon glyphicon-home hidden-xs"></span> <%= Settings.short_course_name %></a>
+			</div>
+			
+			<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<% if !Settings.mail_address.blank? && logged_in? && (@alerts.count > 0 || @current_user.admin?) %>
-				<li class="dropdown dropdown-accordion">
+				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span><span class=""><%= @alerts.count %></span></a>
 					<ul class="dropdown-menu">
 						<%= render 'layouts/alerts' %>
@@ -54,37 +40,54 @@
 					</ul>
 				</li>
 				<% end %>
+
+				<% if current_user.valid_profile? %>
+				<li class="dropdown">
+					<a href="/profile/grades" data-toggle="tooltip" data-placement="bottom" title="Feedback"><span class="glyphicon glyphicon-ok"></span></a>
+					<ul class="dropdown-menu" style="min-width:300px;">
+						<%= render 'layouts/ama' %>
+					</ul>
+				</li>
+				<% end %>
+
+				<p class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></p>
+			</ul>
+
+			<ul class="nav navbar-nav">
 				
-				<% if logged_in? %>
-				<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
-					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
-						<%= render 'layouts/menu' %>
+				<% if logged_in? && @schedule %>
+				<li class="dropdown hidden-xs">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Current <span class='caret'></span></a>
+					<ul class="dropdown-menu">
+						<%= render 'layouts/schedule' %>
 					</ul>
 				</li>
-				<% elsif authenticated? %>
-				<li><p class="navbar-text" id="loading" style="display:none;"><i class="glyphicon glyphicon-fire"></i> Saving</p></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= current_user && current_user.name || session[:cas_user] %></a>
-					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
-						<%= render 'profile/edit' %>
+				<% end %>
+				
+				<% if @sections_in_navbar.length > 0 %>
+				<%= render 'layouts/sections' %>
+				<% end %>
+
+				<% if @sections.length > 0 %>
+				<li class="dropdown hidden-xs">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= (@sections_in_navbar.length > 0) ? "Other" : "Archive" %> <span class='caret'></span></a>
+					<ul class="dropdown-menu">
+						<%= render 'layouts/materials' %>
 					</ul>
 				</li>
-				<% else %>
-				<li><%= link_to("<span class='glyphicon glyphicon-user'></span> Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
 				<% end %>
 			</ul>
-		</div>
+			</div>
+
 	</div>
 </nav>
 
-<script>
-// Prevent dropdown to be closed when we click on an accordion link
-$('.dropdown-accordion').on('click', 'a[data-toggle="collapse"]', function (event) {
-	event.preventDefault();
-	event.stopPropagation();
-	$($(this).data('parent')).find('.panel-collapse.in').collapse('hide');
-	$($(this).attr('href')).collapse('show');
-})
-</script>
+<nav id="secondary-nav" class="navbar navbar-default visible-xs-block">
+	<div class="container">
+		<ul class="nav navbar-nav">
+			<% if logged_in? && @schedule %>
+			<%= render 'layouts/schedule' %>
+			<% end %>
+		</ul>
+	</div>
+</nav>

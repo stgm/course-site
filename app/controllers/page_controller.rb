@@ -9,7 +9,7 @@ class PageController < ApplicationController
 	before_action :register_attendance
 	
 	def homepage
-		redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.admin_or_assistant?
+		# redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.admin_or_assistant?
 		
 		# the homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first

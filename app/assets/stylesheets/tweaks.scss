@@ -49,20 +49,6 @@ textarea#notes
 	border-right: none;
 }
 
-@media all and (max-width: 767px)
-{
-    .navbar-nav .open .dropdown-menu
-    {
-        background-color: #fff;
-        smargin-right: -15px ! important;
-    }
-    
-    .navbar-nav
-    {
-        smargin: 0px -15px ! important;
-    }
-}
-
 .jqstooltip{
     box-sizing: content-box;
 }
