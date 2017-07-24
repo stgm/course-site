@@ -46,7 +46,7 @@ class ProfileController < ApplicationController
 			current_user.update!(params.require(:user).permit(:name, :mail))
 		end
 
-		redirect_to :back
+		redirect_to :root
 	end
 	
 	def ask

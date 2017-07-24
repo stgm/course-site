@@ -16,13 +16,7 @@ class PageController < ApplicationController
 		
 		# if not found, course is presumably empty, redirect to onboarding
 		if @page.nil?
-			if not authenticated?
-				redirect_to welcome_path and return
-			elsif not logged_in?
-				redirect_to profile_path and return
-			else
-				redirect_to admin_path and return
-			end
+			redirect_to welcome_path and return
 		end
 		
 		@has_form = @page.pset && @page.pset.form
