@@ -17,7 +17,7 @@ class WelcomeController < ApplicationController
 				end
 			end
 			if current_user.admin?
-				redirect_to admin_path and return
+				redirect_to config_path and return
 			end
 		end
 	end
