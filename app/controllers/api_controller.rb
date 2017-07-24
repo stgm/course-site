@@ -2,6 +2,7 @@ require 'api_provider'
 
 class ApiController < ApplicationController
 
+    skip_before_filter :verify_authenticity_token
 	before_action :restrict_access
 	
 	def reload
