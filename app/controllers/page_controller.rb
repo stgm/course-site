@@ -15,7 +15,15 @@ class PageController < ApplicationController
 		@page = Page.where(:section_id => nil).first
 		
 		# if not found, course is presumably empty, redirect to onboarding
-		redirect_to welcome_path and return if @page.nil?
+		if @page.nil?
+			if not current_user.authenticated?
+				redirect_to welcome_path and return
+			elsif not current_user.logged_in?
+				redirect_to profile_path and return
+			else
+				redirect_to admin_path and return
+			end
+		end
 		
 		@has_form = @page.pset && @page.pset.form
 
