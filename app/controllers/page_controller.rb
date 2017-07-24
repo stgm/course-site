@@ -16,9 +16,9 @@ class PageController < ApplicationController
 		
 		# if not found, course is presumably empty, redirect to onboarding
 		if @page.nil?
-			if not current_user.authenticated?
+			if not authenticated?
 				redirect_to welcome_path and return
-			elsif not current_user.logged_in?
+			elsif not logged_in?
 				redirect_to profile_path and return
 			else
 				redirect_to admin_path and return
