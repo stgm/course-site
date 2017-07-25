@@ -6,7 +6,7 @@ class DropboxController < ApplicationController
 	# redirects to dropbox to allow oauth confirmation
 	def connect
 		if Dropbox.available?
-			redirect_to Dropbox.get_auth_url(url_for action: 'oauth')
+			redirect_to Dropbox.get_auth_url(url_for action: 'oauth', protocol: 'https')
 		else
 			redirect_to :back, alert: "Dropbox has not been configured server-side."
 		end
