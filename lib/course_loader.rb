@@ -166,7 +166,7 @@ private
 			if section_info
 				# db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section_path)
 				db_sec = Section.find_by_path(section_path) || Section.new(path: section_path)
-				db_sec.title = section_info[2]
+				db_sec.title = section_info[2].titleize
 				db_sec.position = section_info[1]
 				db_sec.save
 				
@@ -193,7 +193,7 @@ private
 				# db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path)
 				
 				db_page = parent_section.pages.find_by_path(page_path) || parent_section.pages.new(path: page_path)
-				db_page.title = page_info[2]
+				db_page.title = page_info[2].titleize
 				db_page.position = page_info[1]
 				db_page.save
 
@@ -282,7 +282,7 @@ private
 				
 				Rails.logger.info "HAAAI #{parent_page.public_url}"
 				
-				document = Asciidoctor.load file, safe: :safe, attributes: { 'showtitle' => true, 'imagesdir' => parent_page.public_url }
+				document = Asciidoctor.load file, safe: :safe, attributes: { 'showtitle' => true, 'imagesdir' => parent_page.public_url, 'skip-front-matter' => true }
 				html = document.convert
 				
 				new_subpage = parent_page.subpages.find_by_title(subpage_info[2]) || parent_page.subpages.new(title: subpage_info[2])
@@ -341,7 +341,7 @@ private
 	# followed by white space.
 	#	
 	def split_info(object)
-		return object.match('(\d+)\s+(.*).md$') || object.match('(\d+)\s+(.*)$')
+		return object.match('(\d+)\s+(.*).md$') || object.match('(\d+)\s+(.*)$') || [object, 0, object]
 	end
 	
 	# Reads the config file and returns the contents.
