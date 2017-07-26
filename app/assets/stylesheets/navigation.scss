@@ -2,11 +2,14 @@
 {
 	margin-bottom:0;
 	border-bottom:0;
+    border:0;
 }
 
 #main-nav
 {
     z-index:1;
+    border-bottom: 1px solid white;
+    border-radius: 0;
 }
 
 .sidebar-toggle
@@ -25,7 +28,7 @@
 
 .sidebar-toggle .icon-bar
 {
-	background-color: #888;
+	background-color: white;
 	display: block;
 	width: 22px;
 	height: 2px;
