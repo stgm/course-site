@@ -24,7 +24,7 @@ class ConfigController < ApplicationController
 	def generate_secret
 		secret = SecureRandom.hex(20)
 		Settings.webhook_secret = secret
-		render js:"$('#secret').html('#{secret}');"
+		redirect_to :back
 	end
 
 end
