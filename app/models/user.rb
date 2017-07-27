@@ -82,21 +82,28 @@ class User < ActiveRecord::Base
 		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
 		
 		# calc grade from hash
-		grade = GradeTools.new.calc_final_grade(subs)
-		
-		# save
-		final = self.submits.where(pset:Pset.where(name:'final').first).count > 0
-		if final || grade > 0
-			final = self.submits.where(pset:Pset.where(name:'final').first).first_or_create
-			final.create_grade if !final.grade
-			final.grade.grade = grade
-			final.grade.grader = grader
-			if final.grade.changed?
-				final.grade.done = false
-				final.grade.public = false
-				final.grade.save
+		Settings['grading']['calculation'].each do |name, formula|
+			puts name.inspect
+			grade = GradeTools.new.calc_final_grade_formula(subs, formula)
+			puts grade
+			if grade > 0
+				final = self.submits.where(pset:Pset.where(name: name).first).count > 0
+				if final || grade > 0
+					final = self.submits.where(pset:Pset.where(name: name).first).first_or_create
+					final.create_grade if !final.grade
+					final.grade.grade = grade
+					final.grade.grader = grader
+					if final.grade.changed?
+						final.grade.done = false
+						final.grade.public = false
+						final.grade.save
+					end
+				end
+
 			end
 		end
+		
+		# save
 	end
 	
 	def generate_token!
