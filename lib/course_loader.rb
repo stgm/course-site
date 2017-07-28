@@ -118,24 +118,23 @@ private
 	end
 	
 	def load_schedules(dir)
-		if schedule = read_config(File.join(dir, 'schedule.yml'))
-			if Settings.schedule_position
-				old_pos = ScheduleSpan.find_by_id(Settings.schedule_position)
-				backup_position = old_pos.name if old_pos
-			end
-			new_schedule = Schedule.where(name: 'Standard').first_or_create
-			new_schedule.schedule_spans.delete_all
-			schedule.each do |sch_name, items|
-				span = ScheduleSpan.where(schedule_id: new_schedule.id, name: sch_name).first_or_initialize
-				span.content = items.to_yaml
-				span.save
-			end
-			# restore current week
-			if backup_position && pos = ScheduleSpan.find_by_name(backup_position)
-				Settings.schedule_position = pos.id
+		
+		# load the default schedule in the root of the course folder (if available)
+		if contents = read_config(File.join(dir, 'schedule.yml'))
+			schedule = Schedule.where(name: 'Standard').first_or_create
+			schedule.load(contents)
+		end
+		
+		# load all schedules in the "schedules" folder (if available)
+		yaml_files_in(File.join(dir, "schedules")) do |schedule_file|
+			schedule_name = File.basename(schedule_file, ".*")
+			schedule = Schedule.where(name: schedule_name).first_or_create
+			if contents = read_config(schedule_file)
+				schedule.load(contents)
 			end
 		end
 	end
+	
 
 	# Reads the `info` directory in the course repo. It creates a
 	# page for it and fills it with the subpages. This special page

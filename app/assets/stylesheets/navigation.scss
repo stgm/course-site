@@ -46,6 +46,13 @@
 	color:#555;
 }
 
+.navbar .label
+{
+	background-color: transparent;
+	color: $color1;
+	border: 1px solid $color1;
+}
+
 @media (min-width: 480px)
 {
 	.sidebar-toggle

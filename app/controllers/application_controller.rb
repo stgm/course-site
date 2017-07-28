@@ -47,7 +47,8 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_schedule
-		@schedule = Settings.schedule_position && ScheduleSpan.find_by_id(Settings.schedule_position)
+		# @schedule = Settings.schedule_position && ScheduleSpan.find_by_id(Settings.schedule_position)
+		@schedule = current_user.schedule.current
 		@alerts = Alert.order("created_at desc")
 	end
 	

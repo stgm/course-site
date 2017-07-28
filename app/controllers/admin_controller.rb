@@ -30,8 +30,9 @@ class AdminController < ApplicationController
 	
 	def pages
 		@all_sections = Section.includes(pages: :pset)
-		@schedules = ScheduleSpan.all
-		@schedule_position = Settings.schedule_position && ScheduleSpan.find_by_id(Settings.schedule_position) || ScheduleSpan.new
+		@schedules = Schedule.all.includes(:schedule_spans)
+		# @schedules = ScheduleSpan.all
+		# @schedule_position = Settings.schedule_position && ScheduleSpan.find_by_id(Settings.schedule_position) || ScheduleSpan.new
 	end
 	
 	def page_update
@@ -47,7 +48,11 @@ class AdminController < ApplicationController
 	end
 
 	def set_schedule
-		Settings.schedule_position = params[:id]
+		if params[:item] == "0"
+			Schedule.find(params[:schedule]).update_attribute(:current, nil)
+		else
+			Schedule.find(params[:schedule]).update_attribute(:current, ScheduleSpan.find(params[:item]))
+		end
 		render json: nil
 	end
 	

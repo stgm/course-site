@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170625170009) do
+ActiveRecord::Schema.define(version: 20170728143826) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(version: 20170625170009) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "current_schedule_span_id"
   end
 
   create_table "sections", force: :cascade do |t|
@@ -227,6 +228,9 @@ ActiveRecord::Schema.define(version: 20170625170009) do
     t.text     "notes"
     t.integer  "questions_count_cache", default: 0,     null: false
     t.integer  "role",                  default: 0,     null: false
+    t.integer  "schedule_id"
   end
+
+  add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"
 
 end

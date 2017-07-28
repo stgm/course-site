@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	
 	belongs_to :group
+	belongs_to :schedule
 
 	has_many :logins
 	has_many :hands

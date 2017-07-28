@@ -4,17 +4,21 @@
 <p>Select the current position in the schedule.</p>
 
 <% @schedules.each do |schedule| %>
+<h2><%= schedule.name %></h2>
+
+<% schedule.schedule_spans.each do |item| %>
 <p>
-	<%= radio_button_tag("public", '1', schedule.id == @schedule_position.id, id: schedule.id, class: 'toggle-public') %> <%= label_tag "#{schedule.id}", schedule.name %>
+	<%= radio_button_tag( schedule.id, item.id, item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %>
 </p>
 <% end %>
-<p><%= radio_button_tag("public", '1', !@schedule_position.persisted?, id: nil, class: 'toggle-public') %> <%= label_tag "(hide schedule)", "(hide schedule)" %></p>
+<p><%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %></p>
+<% end %>
 
 <script type="text/javascript" charset="utf-8">
-$('.toggle-public').bind('change', function(a) {
+$('.set-schedule').bind('change', function(a) {
     var z = a;
 	$.ajax({
-		url: "<%= admin_set_schedule_path %>?id=" + a.currentTarget.id,
+		url: "<%= admin_set_schedule_path %>?schedule=" + a.currentTarget.name + "&item=" + a.currentTarget.value,
 		headers: {
 			Accept : "text/javascript; charset=utf-8",
 			"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
