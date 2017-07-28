@@ -18,14 +18,15 @@ class GradeTools
 		return 0
 	end
 	
-	private
+	# private
 
 	def calc_final_grade_formula(subs, formula)
 		total = 0
 		total_weight = 0
-		
 		formula.each do |subtype, weight|
+			puts subtype
 			grade = calc_final_grade_subtype(subs, subtype)
+			puts "HERE#{grade}"
 			return 0 if grade == 0
 			total += grade * weight
 			total_weight += weight
@@ -33,6 +34,8 @@ class GradeTools
 		
 		return uva_round(total.to_f / total_weight.to_f)
 	end
+	
+	private
 	
 	def uva_round(grade)
 		return 5 if grade >= 4.75 && grade < 5.5
@@ -42,8 +45,8 @@ class GradeTools
 	
 	def calc_final_grade_subtype(subs, subtype)
 		return 0 if !@grading[subtype]['submits']
-		Rails.logger.debug subs.inspect
-		Rails.logger.debug subtype.inspect
+		# Rails.logger.debug subs.inspect
+		# Rails.logger.debug subtype.inspect
 
 		total = 0
 		total_weight = 0
@@ -61,7 +64,7 @@ class GradeTools
 					total_weight += weight
 				end
 			end
-			Rails.logger.debug (1.0 + 9.0 * total / total_weight).round(1)
+			# Rails.logger.debug (1.0 + 9.0 * total / total_weight).round(1)
 			return (1.0 + 9.0 * total / total_weight).round(1)
 		when 'percentage'
 			#
@@ -78,20 +81,25 @@ class GradeTools
 				potential_drops.keep_if { |a| a.subgrades[:scope] == 5 }
 				droppable_grade = potential_drops.min { |a,b| a.any_final_grade <=> b.any_final_grade }
 			end
-			
+
 			grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
 			grade_without_drop = calc_subtype_with_potential_drop(subs, subtype, nil)
 
-			Rails.logger.debug [grade_with_drop, grade_without_drop].max
+			# Rails.logger.debug [grade_with_drop, grade_without_drop].max
 			return [grade_with_drop, grade_without_drop].max
 		end
 	end
 	
 	def calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
+		# puts subtype
 		total = 0
 		total_weight = 0
 		@grading[subtype]['submits'].each do |grade, weight|
+			puts "HEREEEEE"
+			puts grade
+			puts subs[grade]
 			return 0 if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
+			puts "UNHEREEEE"
 			if subs[grade] != droppable_grade
 				total += subs[grade].any_final_grade * weight
 				total_weight += weight
