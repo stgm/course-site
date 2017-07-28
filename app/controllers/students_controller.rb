@@ -7,17 +7,23 @@ class StudentsController < ApplicationController
 	layout 'full-width'
 
 	def index
-		@users = User.active.not_admin_or_assistant.includes(:group).order("groups.name").order(:name).group_by(&:group)
+		@schedules = Schedule.all
+		@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || Schedule.first
+		@users = User.not_admin_or_assistant.where({ schedule: @current_schedule }).includes(:group).order("groups.name").order(:name)
+		#todo if no schedule, do inactive/active
 		@submits = Submit.includes(:grade).group_by(&:user_id)
+		@users = @users.group_by(&:group)
 	end
-
+	
 	def list_inactive
-		@users = User.inactive.not_admin_or_assistant.order(:name).group_by(&:group)
+		@schedules = Schedule.all
+		@users = User.where('schedule_id' => nil).not_admin_or_assistant.order(:name).group_by(&:group)
 		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"
 	end
 	
 	def list_admins
+		@schedules = Schedule.all
 		@users = User.admin_or_assistant.order(:name).group_by(&:group)
 		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"

@@ -127,7 +127,7 @@ private
 		
 		# load all schedules in the "schedules" folder (if available)
 		yaml_files_in(File.join(dir, "schedules")) do |schedule_file|
-			schedule_name = File.basename(schedule_file, ".*")
+			schedule_name = File.basename(schedule_file, ".*").capitalize
 			schedule = Schedule.where(name: schedule_name).first_or_create
 			if contents = read_config(schedule_file)
 				schedule.load(contents)

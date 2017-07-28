@@ -1,7 +1,15 @@
 <ul class="nav nav-tabs" style="margin-top:1em;">
+	<% if @schedules %>
+	<% @schedules.each do |schedule| %>
+	<li <%= 'class="active"'.html_safe if params[:group] == schedule.name || schedule == @current_schedule %>>
+		<%= link_to "#{schedule.name} (#{@active_count})", students_in_group_path(group: schedule.name) %> 
+	</li>
+	<% end %>
+	<% else %>
 	<li <%= 'class="active"'.html_safe if action_name == 'index' %>>
 		<%= link_to "Active (#{@active_count})", students_path %>
 	</li>
+	<% end %>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_inactive' %>>
 		<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path %>
 	</li>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728143826) do
+ActiveRecord::Schema.define(version: 20170728170048) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(version: 20170728143826) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "current_schedule_span_id_id"
     t.integer  "current_schedule_span_id"
   end
 
