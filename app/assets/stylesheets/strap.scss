@@ -224,9 +224,9 @@ section ul, section ol
 	margin: 0 0 10px 25px;
 }
 
-section > ul, section > ol /* only top-level lists get this wide a margin */
+section > ul, section > ol /* only top-level lists get this margin */
 {
-	margin:1em 3em;
+	margin:1em 0;
 }
 
 section > dl
