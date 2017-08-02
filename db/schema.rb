@@ -158,7 +158,6 @@ ActiveRecord::Schema.define(version: 20170728170048) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "current_schedule_span_id_id"
     t.integer  "current_schedule_span_id"
   end
 
