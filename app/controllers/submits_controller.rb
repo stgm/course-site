@@ -5,28 +5,46 @@ class SubmitsController < ApplicationController
 	#
 
 	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin_or_assistant
+	before_filter :require_staff
 
 	def index
-		if Group.any?
-			if current_user.group
-				@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
-			end
-		else
+		if current_user.admin?
+			# admins get everything to be graded (in all schedules and groups)
+			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).order('psets.name')
+		elsif Schedule.any? and current_user.head?
+			# heads get stuff from one schedule, but from all groups
+			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.schedule_id" => current_user.schedule.id).order('psets.name')
+		elsif Group.any? and current_user.group
+			# other assistants get stuff only from their assigned group
+			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
+		elsif !Group.any? and !Schedule.any?
+			# assistants get everything if there are no groups or schedules
 			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where(users: { active: true }).order('psets.name')
 		end
+		
+		redirect_back_with("You do not have permission to grade.") if not @to_grade
+		
 		@groups = Group.all
 		@psets = Pset.all
 	end
 	
 	def discuss
-		if Group.any?
-			if current_user.group
-				@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
-			end
-		else
+		if current_user.admin?
+			# admins get everything to be discussed (in all schedules and groups)
+			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).order('psets.name')
+		elsif Schedule.any? and current_user.head?
+			# heads get stuff from one schedule, but from all groups
+			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.schedule_id" => current_user.schedule.id).order('psets.name')
+		elsif Group.any? and current_user.group
+			# other assistants get stuff only from their assigned group
+			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
+		elsif !Group.any? and !Schedule.any?
+			# assistants get everything if there are no groups or schedules
 			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where(users: { active: true }).order('psets.name')
 		end
+		
+		redirect_back_with("You do not have permission to grade.") if not @to_discuss
+		
 		@groups = Group.all
 		@psets = Pset.all
 	end

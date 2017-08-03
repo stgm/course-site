@@ -12,10 +12,7 @@ class User < ActiveRecord::Base
 	
 	has_one :ping
 
-	# scope :admin,     -> { joins(:logins).where("logins.login in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
-	# scope :not_admin, -> { joins(:logins).where("logins.login not in (?)", (Settings['admins'] or []) + (Settings['assistants'] or [])) }
-	scope :admin_or_assistant, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
-	scope :not_admin_or_assistant, -> { where.not(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
+	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
 	scope :active,    -> { where(active: true) }
 	scope :inactive,  -> { where(active: false) }
 	scope :no_group,  -> { where(group_id: nil) }
@@ -53,24 +50,7 @@ class User < ActiveRecord::Base
 		return self.valid_profile?
 	end
 	
-	def is_admin?
-		admin?
-		# admins = Settings['admins']
-		# return admins && (admins & self.logins.pluck(:login)).size > 0
-	end
-	
-	def is_assistant?
-		assistant?
-		# assistants = Settings['assistants']
-		# return assistants && (assistants & self.logins.pluck(:login)).size > 0
-	end
-	
-	def is_admin_or_assistant?
-		admin_or_assistant?
-	end
-	
-	def admin_or_assistant?
-		# is_admin? or is_assistant?
+	def staff?
 		admin? or assistant?
 	end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728170048) do
+ActiveRecord::Schema.define(version: 20170802190557) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -158,7 +158,9 @@ ActiveRecord::Schema.define(version: 20170728170048) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "current_schedule_span_id_id"
     t.integer  "current_schedule_span_id"
+    t.boolean  "self_register",               default: false, null: false
   end
 
   create_table "sections", force: :cascade do |t|

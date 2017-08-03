@@ -1,8 +1,16 @@
 class UserController < ApplicationController
 	
 	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin
+	before_filter :require_senior
 
+	def show
+		@schedules = Schedule.all
+		@student = User.includes(:hands).find(params[:id])
+		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @student.id).order('grades.created_at desc')
+		@groups = Group.order(:name)
+		render layout: 'application'
+	end
+	
 	def update
 		p = User.find(params[:id])
 		p.update_attributes!(params.require(:user).permit(:name, :active, :status, :mail, :avatar, :notes, :role, :schedule_id))
@@ -13,11 +21,32 @@ class UserController < ApplicationController
 		end
 	end
 	
+	#
+	# put submit into grading queue
+	#
+	def touch_submit
+		s = Submit.find(params[:submit_id])
+		s.grade.open! if s.grade
+		redirect_to :back
+	end
+
+	
 	def assign_group
 		p = User.find(params[:user_id])
 		g = Group.friendly.find(params[:group_id])
 		
 		p.group = g
+		p.save
+		
+		redirect_to :back
+	end
+	
+	def assign_schedule
+		p = User.find(params[:user_id])
+		g = Schedule.find(params[:schedule_id])
+		
+		p.schedule = g
+		p.group = nil
 		p.save
 		
 		redirect_to :back

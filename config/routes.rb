@@ -18,12 +18,15 @@ Rails.application.routes.draw do
 	get  "admin" => "admin#index"
 	get  "admin/dump_grades"
 	get  "admin/stats"
-	get  "admin/import(/:schedule_id)", to: "admin#import", as: "admin_import"
-	post "admin/import_groups(/:schedule_id)", to: "admin#import_groups", as: "admin_import_groups"
+	get  "admin/import"
+	post "admin/import_groups"
+	get  "admin/generate_groups(/:schedule_id)", to: "admin#generate_groups", as: "admin_generate_groups"
+	post "admin/generate_groups_do(/:schedule_id)", to: "admin#generate_groups_do", as: "admin_generate_groups_do"
 	get  "admin/export_grades"
 	get  "admin/pages"
 	put  "admin/page_update"
 	put  "admin/section_update"
+	put  "admin/schedule_set_self_register"
 	get  "admin/schedule"
 	post "admin/set_schedule"
 	
@@ -66,13 +69,21 @@ Rails.application.routes.draw do
 	
 	# student tables for managers
 	put  "students/assign_final_grade"
-	post "students/touch_submit"
 	post "students/mark_all_public"
 	get  "students/in/admins"  , to: "students#list_admins"
 	get  "students/in/other"   , to: "students#list_other"
 	get  "students/in/inactive", to: "students#list_inactive"
 	get  "students/in/:group"  , to: "students#index", as: :students_in_group
-	resources :students, only: [ :index, :show ]
+	get  "students", to: "students#index"
+
+	resources :user, only: [ :show, :update ] do
+		# member do
+			put "touch_submit"
+			post "assign/:group_id", action: "assign_group", as: 'assign_group'
+			post "schedule/:schedule_id", action: "assign_schedule", as: 'assign_schedule'
+			post "calculate_final_grade"
+		# end
+	end
 
 	# grading overview for assistants
 	# get  "grading" => "grading#index"
@@ -117,11 +128,6 @@ Rails.application.routes.draw do
 	
 	# api
 	post "api/reload"
-	
-	resources :user do
-		post "assign/:group_id", action: "assign_group", as: 'assign_group'
-		post "calculate_final_grade"
-	end
 	
 	mathjax 'mathjax'
 

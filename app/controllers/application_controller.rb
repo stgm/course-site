@@ -38,10 +38,10 @@ class ApplicationController < ActionController::Base
 	
 	def load_navigation
 		@sections = Section.where("sections.display" => false).includes(pages: :pset).order("pages.position")
-		@sections = @sections.where("pages.public" => true) unless current_user.admin_or_assistant?
+		@sections = @sections.where("pages.public" => true) unless current_user.staff?
 		# 
 		@sections_in_navbar = Section.where("sections.display" => true).includes(pages: :pset).order("pages.position")
-		@sections_in_navbar = @sections_in_navbar.where("pages.public" => true) unless current_user.admin_or_assistant?
+		@sections_in_navbar = @sections_in_navbar.where("pages.public" => true) unless current_user.staff?
 		# 
 		
 	end
@@ -77,12 +77,29 @@ class ApplicationController < ActionController::Base
 		return @current_user
 	end
 	
+	def redirect_back_with(warning)
+		destination = request.referer || path_to(:root)
+		redirect_to destination, alert: warning
+	end
+	
+	#
+	# role based permissions
+	#
+	# staff = admin + head + assistant
+	# student = student
+	# guest = guest
+	#
+	
 	def require_admin
 		redirect_to :root unless current_user.admin?
 	end
 	
-	def require_admin_or_assistant
-		redirect_to :root unless current_user.admin_or_assistant?
+	def require_senior
+		redirect_to :root unless current_user.head? or current_user.admin?
+	end
+	
+	def require_staff
+		redirect_to :root unless current_user.admin? or current_user.assistant? or current_user.head?
 	end
 	
 	def default_url_options(options={})

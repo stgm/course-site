@@ -1,7 +1,5 @@
 <h1>To be discussed</h1>	
 
-<% if !Group.any? || current_user.group %>
-
 <table class="table">
 	<tr>
 		<th>pset</th>
@@ -19,12 +17,3 @@
 	</tr>
 	<% end %>
 </table>
-
-<% else %>
-
-<div class="jumbotron">
-  <h1>You</h1>
-  <p>Are not in a group.</p>
-</div>
-
-<% end %>

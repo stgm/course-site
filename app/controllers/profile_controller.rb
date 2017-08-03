@@ -43,7 +43,8 @@ class ProfileController < ApplicationController
 			login = Login.where(login: session[:cas_user]).first_or_create
 			login.create_user and login.save if login.user.nil?
 			@current_user = login.user
-			current_user.update!(params.require(:user).permit(:name, :mail))
+			current_user.update!(params.require(:user).permit(:name, :mail, :schedule_id))
+			current_user.student!
 		end
 
 		redirect_to :root

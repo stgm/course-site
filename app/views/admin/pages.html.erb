@@ -4,7 +4,10 @@
 <p>Select the current position in the schedule.</p>
 
 <% @schedules.each do |schedule| %>
-<h2><%= schedule.name %></h2>
+<h2>
+	<%= check_box_tag('self_register', '1', schedule.self_register, id: schedule.id, class: 'toggle-self-register') %>
+	<%= schedule.name %>
+</h2>
 
 <% schedule.schedule_spans.each do |item| %>
 <p>
@@ -13,6 +16,23 @@
 <% end %>
 <p><%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %></p>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.toggle-self-register').bind('change', function(a) {
+    var z = a;
+	$.ajax({
+		url: "<%= admin_schedule_set_self_register_path %>?id=" + a.currentTarget.id,
+		headers: {
+			Accept : "text/javascript; charset=utf-8",
+			"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+		},
+		type: 'PUT',
+		data: {
+			schedule: { 'self_register': $(a.currentTarget).prop('checked') }
+		}
+	});
+});
+</script>
 
 <script type="text/javascript" charset="utf-8">
 $('.set-schedule').bind('change', function(a) {

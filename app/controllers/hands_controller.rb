@@ -1,13 +1,13 @@
 class HandsController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin_or_assistant
+	before_filter :require_staff
 
 	def index
 		redirect_to hands_available_path and return unless current_user.admin? || (current_user.available && current_user.available > DateTime.now)
 		@my_hands = Hand.where(done:false, assist:current_user).order('created_at asc')
 		@hands = Hand.where(done:false, assist:nil).order('created_at asc')
-		@long_time_users = User.not_admin_or_assistant.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 2.days.ago).order('updated_at desc')
+		@long_time_users = User.student.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 2.days.ago).order('updated_at desc')
 	end
 	
 	def show
@@ -25,7 +25,7 @@ class HandsController < ApplicationController
 	end
 	
 	def search
-		@users = User.where("name like ?", "%#{params[:term]}%").not_admin_or_assistant
+		@users = User.where("name like ?", "%#{params[:term]}%").student
 	end
 	
 	def dib

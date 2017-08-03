@@ -1,8 +1,9 @@
+<% if current_user.admin? %>
 <ul class="nav nav-tabs" style="margin-top:1em;">
 	<% if @schedules %>
 	<% @schedules.each do |schedule| %>
 	<li <%= 'class="active"'.html_safe if params[:group] == schedule.name || schedule == @current_schedule %>>
-		<%= link_to "#{schedule.name} (#{@active_count})", students_in_group_path(group: schedule.name) %> 
+		<%= link_to "#{schedule.name} (#{@schedule_count[schedule.id]})", students_in_group_path(group: schedule.name) %> 
 	</li>
 	<% end %>
 	<% else %>
@@ -17,3 +18,4 @@
 		<%= link_to "Admins (#{@admin_count})", students_in_admins_path %>
 	</li>
 </ul>
+<% end %>

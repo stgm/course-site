@@ -1,7 +1,7 @@
 class GradesController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin_or_assistant
+	before_filter :require_staff
 
 	def show
 		@submit = Submit.find(params[:submit_id])

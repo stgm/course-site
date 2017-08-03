@@ -19,7 +19,7 @@
 		<% user_list.each do |user| %>
 		<tr>
 			<td>
-				<%= link_to user.name, student_path(user) %>
+				<%= link_to user.name, user_path(user) %>
 				<% if user.notes.present? %>
 				<span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="<%= user.notes %>"></span>
 				<% end %>
@@ -37,7 +37,7 @@
 			
 			<td><%= best_in_place(user, :status, as: :select, collection: { '0' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
 
-			<% subs = @submits[user.id] ? @submits[user.id].group_by(&:pset_id) : [] %>
+			<% subs = user.submits.group_by(&:pset_id)  %>
 			<% psets.each do |pset| %>
 			<td>
 				<%= grade_button(user, pset, subs)%>
@@ -55,7 +55,8 @@
 		<% if current_user.admin? %>
 		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish what\'s done'.html_safe, students_mark_all_public_path(pset: params[:pset], group: params[:group]), method: 'post', class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
 		<% end %>
-		<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Users'.html_safe, admin_import_path(schedule_id: @current_schedule && @current_schedule.id), class:'btn btn-default' %>
+		<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Groups'.html_safe, admin_import_path, class:'btn btn-default' %>
+		<%= link_to '<i class="glyphicon glyphicon-user"></i> Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id), class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xls'), class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:'btn btn-default' %>
@@ -67,7 +68,9 @@
 </div>
 
 <script type="text/javascript">
-$(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });
+$(function() {
+	$(".bar").sparkline('html', { type: 'bar', chartRangeMax: 8, barWidth: 8 });
+})
 </script>
 
 <script>
