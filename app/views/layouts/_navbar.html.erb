@@ -24,7 +24,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<% if !Settings.mail_address.blank? && logged_in? && (@alerts.count > 0 || @current_user.admin?) %>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "bell-o" %><span class=""><%= @alerts.count %></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "bell-o" %></a>
 					<ul class="dropdown-menu">
 						<%= render 'layouts/alerts' %>
 					</ul>
