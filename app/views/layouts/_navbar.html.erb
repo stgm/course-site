@@ -2,7 +2,7 @@
 	<button type="button" class="close" data-toggle="collapse" data-target="#sidebar" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<ul class="sidebar-menu">
 		<li class="dropdown-header"><span><strong><%= current_user.name %></strong></span></li>
-		<li><%= link_to '<%= fa_icon "bullhorn" %> Feedback'.html_safe, profile_grades_path %></li>
+		<li><%= link_to "#{fa_icon 'bullhorn'} Feedback".html_safe, profile_grades_path %></li>
 		<%= render 'layouts/materials' %>
 	</ul>
 </nav>
