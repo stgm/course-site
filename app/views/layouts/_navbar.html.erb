@@ -40,7 +40,7 @@
 				</li>
 				<% end %>
 
-				<% if current_user.valid_profile? %>
+				<% if current_user.submits.any? %>
 				<li class="dropdown">
 					<a href="/profile/grades" data-toggle="tooltip" data-placement="bottom" title="Feedback"><span class="glyphicon glyphicon-ok"></span></a>
 					<ul class="dropdown-menu" style="min-width:300px;">
