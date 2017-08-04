@@ -40,13 +40,16 @@ $container-sm: auto;
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "strap";
-@import "tweaks";
-@import "fonts";
-@import "print";
-@import "font-awesome";
 
 @import "navigation";
 @import "sidebar";
+@import "content";
 
+@import "strap";
+@import "tweaks";
+
+@import "fonts";
+@import "print";
+
+@import "font-awesome";
 @import "videojs-sublime-skin";
