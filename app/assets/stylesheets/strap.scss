@@ -143,16 +143,6 @@ body > .alert
     }
 }
 	
-@media (max-width: 768px)
-{
-	section > .videoblock + div > h2
-	{
-		margin-top:1.5em;
-	}
-}
-
-
-
 #content h1
 {
     margin-left: calc(-50vw + 50%);
@@ -211,6 +201,17 @@ h2
     margin-top:2em;
     margin-bottom:1em;
 }
+
+@media (max-width: 768px)
+{
+	section > .videoblock + div > h2, h2
+	{
+		margin-top:1em;
+	}
+}
+
+
+
 
 /****************************************************************************
  *  content sections
