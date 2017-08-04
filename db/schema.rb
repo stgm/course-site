@@ -11,15 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802190557) do
+ActiveRecord::Schema.define(version: 20170804112445) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
     t.boolean  "published"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "schedule_id"
   end
+
+  add_index "alerts", ["schedule_id"], name: "index_alerts_on_schedule_id"
 
   create_table "attendance_records", force: :cascade do |t|
     t.integer  "user_id"

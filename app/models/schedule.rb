@@ -2,6 +2,7 @@ class Schedule < ActiveRecord::Base
 
 	has_many :schedule_spans, dependent: :destroy
 	belongs_to :current, class_name: "ScheduleSpan", foreign_key: "current_schedule_span_id"
+	has_many :users
 
 	#
 	# this method accepts the yaml contents of a schedule file

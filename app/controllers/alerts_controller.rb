@@ -33,7 +33,12 @@ class AlertsController < ApplicationController
 		if @alert.save
 			if params[:send_mail]
 				from = Settings.mail_address
-				User.active.each do |user|
+				if not alert_params[:schedule_id].blank?
+					recipients = Schedule.find(alert_params[:schedule_id]).users
+				else
+					recipients = User.active
+				end
+				recipients.each do |user|
 					AlertMailer.alert_message(user, @alert, from).deliver_later
 				end
 			end
@@ -67,7 +72,7 @@ class AlertsController < ApplicationController
 
 	# Only allow a trusted parameter "white list" through.
 	def alert_params
-		params.require(:alert).permit(:title, :body, :published)
+		params.require(:alert).permit(:title, :body, :published, :schedule_id)
 	end
 
 end

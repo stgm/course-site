@@ -39,20 +39,21 @@ class ApplicationController < ActionController::Base
 	def load_navigation
 		@sections = Section.where("sections.display" => false).includes(pages: :pset).order("pages.position")
 		@sections = @sections.where("pages.public" => true) unless current_user.staff?
-		# 
 		@sections_in_navbar = Section.where("sections.display" => true).includes(pages: :pset).order("pages.position")
 		@sections_in_navbar = @sections_in_navbar.where("pages.public" => true) unless current_user.staff?
-		# 
-		
 	end
 	
 	def load_schedule
-		# @schedule = Settings.schedule_position && ScheduleSpan.find_by_id(Settings.schedule_position)
+		# load schedule
 		if s = current_user.schedule
 			@schedule = s.current
 			@schedule_name = s.name
 		end
-		@alerts = Alert.order("created_at desc")
+		
+		# load alerts
+		alert_sources = [nil]
+		alert_sources.append s.id if s
+		@alerts = Alert.where(schedule_id: alert_sources).order("created_at desc")
 	end
 	
 	def authenticated?
@@ -64,9 +65,10 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def current_user
-		# if @current_user
-		# 	# cached (per request)
-		# 	return @current_user
+		return @current_user || load_current_user
+	end
+	
+	def load_current_user
 		if login = Login.where(login: session[:cas_user]).first
 			@current_user = login.user
 		else

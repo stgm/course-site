@@ -6,7 +6,7 @@ class AlertMailer < ActionMailer::Base
 			from: from_address,
 			body: alert.body,
 			content_type: "text/plain",
-			subject: alert.title
+			subject: "#{Settings.short_course_name}: #{alert.title}"
 		)
 	end
 

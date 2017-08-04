@@ -1,4 +1,5 @@
 <%= form_for(@alert) do |f| %>
+
 <% if @alert.errors.any? %>
 <div id="error_explanation">
 	<h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
@@ -25,7 +26,23 @@
 <div class="checkbox">
 	<label><%= check_box_tag :send_mail %> Send an e-mail</label>
 </div>
+
+<div class="radio">
+	<label>
+		<input type="radio" name="alert[schedule_id]" selected required id="optionsRadios1" value="<%= nil %>" style="margin-top:0;"> (for everyone)
+	</label>
+</div>
+
+<% Schedule.all.each do |schedule| %>
+<div class="radio">
+	<label>
+		<input type="radio" name="alert[schedule_id]" required id="optionsRadios1" value="<%= schedule.id %>" style="margin-top:0;"> <%= schedule.description || schedule.name %>
+	</label>
+</div>
+<% end %>
+
 <div class="actions">
 	<%= f.submit class: 'btn' %>
 </div>
+
 <% end %>
