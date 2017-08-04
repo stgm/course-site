@@ -70,22 +70,24 @@ body > .alert
  *
  */
 
-.constainer
+.container
 {
-	padding-left:0;
-	padding-right:0;
+	padding-left:30px;
+	padding-right:30px;
 }
 
 .container-fluid
 {
-	margin-right: auto;
-	margin-left: auto;
+	margin-right:auto;
+	margin-left:auto;
 }
 
 .container.limit-width
 {
 	max-width:60em;
 }
+
+.markdown
 
 /****************************************************************************
  *  main content wrapper
@@ -94,8 +96,6 @@ body > .alert
 
 #content section, #content header
 {
-	spadding:2em 2em;
-	sbackground-color:white;
 	margin-bottom:1.5em;
 }
 
@@ -106,25 +106,13 @@ body > .alert
 
 #content h1, #content .videoblock
 {
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
     background-color: #F25D50;
     color:white;
 //    color: #F25D50;
 //    padding-left:1em;
     margin-top: 1em;
-}
-
-#content h1, #content .videoblock
-{
-    margin-left: calc(-50vw + 50%);
-    padding-left: calc(50vw - 50%);
-    margin-right: calc(-50vw + 50%);
-    padding-right: calc(50vw - 50%);
-//    margin-left:-15px;
-//    padding-left:15px;
-//    margin-right:-15px;
-//    padding-right:15px;
 }
 
 #content .videoblock
@@ -135,11 +123,50 @@ body > .alert
     background-color:black;
 }
 
+#content .videoblock
+{
+    margin-left: calc(-50vw + 50%);
+//    padding-left: calc(50vw - 50%);
+    margin-right: calc(-50vw + 50%);
+//    padding-right: calc(50vw - 50%);
+//    margin-left:-15px;
+//    padding-left:15px;
+//    margin-right:-15px;
+//    padding-right:15px;
+}
+
+@media (max-width: 768px) {
+    #content .videoblock
+    {
+        margin-left:-2em;
+        margin-right:-2em;
+    }
+}
+	
+@media (max-width: 768px)
+{
+	section > .videoblock + div > h2
+	{
+		margin-top:1.5em;
+	}
+}
+
+
+
+#content h1
+{
+    margin-left: calc(-50vw + 50%);
+    padding-left: calc(50vw - 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-right: calc(50vw - 50%);
+	
+}
+
 @media (max-width: 480px)
 {
 	#content section, #content header
 	{
-		padding: 1em 1em;
+		spadding: 1em 1em;
 	}
 }
 
@@ -181,7 +208,7 @@ h1:first-child
 
 h2
 {
-    margin-top:3em;
+    margin-top:2em;
     margin-bottom:1em;
 }
 
@@ -220,13 +247,14 @@ section dd
 
 section ul, section ol
 {
-	padding: 0;
-	margin: 0 0 10px 25px;
+//	padding: 0;
+//	margin: 0 0 10px 25px;
+	padding-left:18px;
 }
 
 section > ul, section > ol /* only top-level lists get this margin */
 {
-	margin:1em 0;
+//	margin:1em 0;
 }
 
 section > dl

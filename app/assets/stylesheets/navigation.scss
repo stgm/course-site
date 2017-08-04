@@ -8,14 +8,22 @@
 #main-nav
 {
     z-index:1;
-    border-bottom: 1px solid white;
+//    border-bottom: 1px solid white;
+	border-bottom:0;
     border-radius: 0;
 }
 
 i.fa
 {
-    font-size: large;
+    font-size: 15px;
 }
+
+.navbar-right > .navbar-text:last-child
+{
+	margin-right:0;
+}
+
+
 
 .sidebar-toggle
 {
@@ -60,10 +68,10 @@ i.fa
 
 @media (min-width: 480px)
 {
-	.sidebar-toggle
-	{
-		padding-left:0;
-	}
+//	.sidebar-toggle
+//	{
+//		padding-left:0;
+//	}
 }
 
 @media (max-width: 768px)
@@ -71,7 +79,7 @@ i.fa
 	/* line 141, /Users/martijn/dev/course-site/app/assets/stylesheets/strap.scss */
 	#content section, #content header, .alert
 	{
-		padding: 0 1em 1em 1em;
+//		padding: 0 1em 1em 1em;
 	}
 
 	#content section + section, #content header + header, .alert

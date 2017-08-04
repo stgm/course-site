@@ -36,7 +36,7 @@ $font-size-h3: 19px;
 $font-size-h4: 16px;
 
 // this is the max width for medium and large screens (not too large)
-$container-lg: 970px;
+$container-sm: auto;
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
