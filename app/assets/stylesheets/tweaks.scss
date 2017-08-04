@@ -39,56 +39,10 @@ textarea#notes
 	-moz-box-sizing: border-box;
 }
 
-.navbar .list-group {
-	margin-bottom: 0;
-}
-
-.navbar .list-group .list-group-item {
-	border-radius: 0;
-	border-left: none;
-	border-right: none;
-}
-
 .jqstooltip{
     box-sizing: content-box;
 }
 
-.navbar .list-group .list-group-item:last-child {
-	border-bottom: none;
-}
-
-.dropdown-menu
-{
-	border:none;
-	border-radius:0;
-    box-shadow: 10px 10px black;
-    
-	opacity:0.98;
-	padding-top:0.25em;
-	max-height:600px;
-	overflow-y:scroll;
-}
-
-.navbar .dropdown-menu
-{
-	min-width:300px;
-}
-
-.videoblock
-{
-    @extend .embed;
-    
-    .content
-    {
-        @extend .embed-responsive;
-        @extend .embed-responsive-16by9;
-        
-        iframe
-        {
-            @extend .embed-responsive-item;
-        }
-    }
-}
 
 #submit-content
 {

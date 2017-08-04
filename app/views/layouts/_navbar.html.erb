@@ -62,7 +62,7 @@
 				<% if Settings.hands_allow && current_user.valid_profile? %>
 				<li class="dropdown" id="ama-nav">
 					<a href="#" id="ama-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
-					<ul class="dropdown-menu" style="min-width:300px;">
+					<ul class="dropdown-menu">
 						<%= render 'layouts/ama' %>
 					</ul>
 				</li>
@@ -71,16 +71,13 @@
 				<% if current_user.submits.any? %>
 				<li class="dropdown">
 					<a href="/profile/grades" data-toggle="tooltip" data-placement="bottom" title="Feedback"><%= fa_icon "bullhorn", class: "fa-fw" %></a>
-					<ul class="dropdown-menu" style="min-width:300px;">
-						<%= render 'layouts/ama' %>
-					</ul>
 				</li>
 				<% end %>
 
 				<% if logged_in? and current_user.assistant? or current_user.head? or current_user.admin? %>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= fa_icon "tasks", class: "fa-fw" %></a>
-					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
+					<ul class="dropdown-menu" id="user-menu">
 						<%= render 'layouts/menu' %>
 					</ul>
 				</li>
@@ -90,7 +87,7 @@
 				<% elsif authenticated? %>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user && current_user.name || session[:cas_user] %></a>
-					<ul class="dropdown-menu" id="user-menu" style="min-width:200px;">
+					<ul class="dropdown-menu" id="user-menu">
 						<%= render 'profile/edit' %>
 					</ul>
 				</li>
