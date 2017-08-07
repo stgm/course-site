@@ -1,8 +1,11 @@
 <nav id="sidebar" class="collapse">
 	<button type="button" class="close" data-toggle="collapse" data-target="#sidebar" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<ul class="sidebar-menu">
+		<!--
 		<li class="dropdown-header"><span><strong><%= current_user.name %></strong></span></li>
-		<li><%= link_to "#{fa_icon 'bullhorn'} Feedback".html_safe, profile_grades_path %></li>
+		<li><%= link_to "#{fa_icon 'bullhorn', class: 'fa-fw'} Feedback".html_safe, profile_grades_path %></li>
+		<li><%= link_to "#{fa_icon 'sign-out', class: 'fa-fw'} Logout".html_safe, profile_logout_path %></li>
+		-->
 		<%= render 'layouts/materials' %>
 	</ul>
 </nav>
@@ -17,10 +20,10 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a href="/" class="navbar-brand"><%= fa_icon "home" %> <%= Settings.short_course_name %> <span class="label label-default"><%= @schedule_name %></span></a>
+			<a href="/" class="navbar-brand"><%= fa_icon "home" %> <span class="hidden-xs hidden-sm"><%= Settings.short_course_name %></span> <span class="label label-default hidden-xs hidden-sm"><%= @schedule_name %></span></span></a>
 		</div>
 			
-		<div class="collapse navbar-collapse">
+		<div class="collapse navbar-collapse" style="float:left;">
 
 
 			<ul class="nav navbar-nav">
@@ -47,8 +50,11 @@
 				</li>
 				<% end %>
 			</ul>
-
-
+		</div>
+		
+		
+		
+		
 			<ul class="nav navbar-nav navbar-right">
 				<% if !Settings.mail_address.blank? && logged_in? && (@alerts.count > 0 || @current_user.admin?) %>
 				<li class="dropdown">
@@ -81,6 +87,8 @@
 						<%= render 'layouts/menu' %>
 					</ul>
 				</li>
+				<li><%= link_to "#{fa_icon 'sign-out', class: 'fa-fw'}".html_safe, profile_logout_path %></li>
+				
 				<p class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></p>
 				<% elsif logged_in? %>
 				<p class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></p>
@@ -96,7 +104,10 @@
 				<% end %>
 			</ul>
 
-		</div>
+
+
+
+
 
 	</div>
 </nav>

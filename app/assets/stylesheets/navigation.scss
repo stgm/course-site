@@ -20,6 +20,63 @@
 	padding-bottom:0.4em;
 }
 
+.navbar-nav > li > a
+{
+    padding: 15px 10px;
+}
+
+.navbar-header
+{
+    float: left;
+}
+
+.navbar-nav.navbar-right
+{
+    float: right !important;
+    margin: 0;
+//    margin-right: -15px;
+}
+
+@media (max-width: 736px)
+{
+
+.navbar-nav > li
+{
+    position: initial;
+}
+
+.navbar-nav .open .dropdown-menu
+{
+    display: block;
+    position: absolute;
+    top: 100%;
+    background-color:#FCFCFC;
+    opacity:1;
+    right: 0;
+    left: 0;
+    border: none;
+    border-radius: 0;
+    border-bottom:1px solid #aaa;
+//    box-shadow: 10px 10px black;
+    padding-top: 0.25em;
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+
+
+.navbar-nav > li {
+    float: left;
+}
+
+
+}
+
+.navbar-collapse:after
+{
+    clear:none;
+}
+
 .navbar-right > .navbar-text:last-child
 {
 	margin-right:0;
