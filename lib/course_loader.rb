@@ -165,7 +165,7 @@ private
 			if section_info
 				# db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section_path)
 				db_sec = Section.find_by_path(section_path) || Section.new(path: section_path)
-				db_sec.title = section_info[2].sub(/\S/, &:upcase)
+				db_sec.title = upcase_first_if_all_downcase(section_info[2])
 				db_sec.position = section_info[1]
 				db_sec.save
 				
@@ -173,6 +173,10 @@ private
 			end
 		end
 
+	end
+	
+	def upcase_first_if_all_downcase(s)
+		s == s.downcase && s.sub(/\S/, &:upcase) || s
 	end
 	
 	# Reads the second-level pages from the course repo. Creates a page
@@ -192,7 +196,7 @@ private
 				# db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path)
 				
 				db_page = parent_section.pages.find_by_path(page_path) || parent_section.pages.new(path: page_path)
-				db_page.title = page_info[2].sub(/\S/, &:upcase)
+				db_page.title = upcase_first_if_all_downcase(page_info[2])
 				db_page.position = page_info[1]
 				db_page.save
 
