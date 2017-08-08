@@ -32,7 +32,6 @@
     margin: 0 0.7em;
     margin-top:3em;
     font-size:smaller;
-    /*		margin-top: 0em;*/
     border-top: 1px solid #D2D4D4;
     position:relative;
 }
@@ -84,15 +83,4 @@
 nav > button.close
 {
     padding:1em;
-}
-	
-#submit-content td, #submit-content input[type=file]
-{
-    smax-width:10px;
-}
-	
-#submit-content
-{
-    table-layout:fixed;
-    width:100%;
 }

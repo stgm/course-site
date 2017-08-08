@@ -124,11 +124,6 @@ body
     padding-right: calc(50vw - 50%);
 }
 
-//#content:nth-child(2)
-//{
-//	border-left:1px solid #E9E9E9;
-//}
-
 #content header
 {
 	margin-top:0;
@@ -138,6 +133,20 @@ body
 {
 	border-radius:0;
 }
+
+	
+#submit-content
+{
+    table-layout:fixed;
+	background-color: #eee;
+	margin-bottom:0 !important;
+	padding-bottom:2em;
+    margin-left: calc(-50vw + 50%);
+    padding-left: calc(50vw - 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-right: calc(50vw - 50%);
+}
+
 
 /****************************************************************************
  *  footer
