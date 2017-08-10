@@ -10,7 +10,7 @@
 	</ul>
 </nav>
 		
-<nav id="main-nav" class="navbar navbar-default">
+<nav id="main-nav" class="navbar navbar-inverse">
 	<div class="container">
 			
 		<div class="navbar-header">
@@ -55,7 +55,7 @@
 		
 		
 		
-			<ul class="nav navbar-nav navbar-right">
+			<ul id="icon-nav" class="nav navbar-nav navbar-right">
 				<% if !Settings.mail_address.blank? && logged_in? && (@alerts.count > 0 || @current_user.admin?) %>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "bell-o", class: "fa-fw" %></a>

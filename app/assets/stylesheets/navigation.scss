@@ -7,6 +7,18 @@
     border:0;
 	margin-bottom:0;
     opacity:0.99;
+    background-color: transparent;
+    //font-weight: 300;
+}
+
+.navbar .container
+{
+	background-color: darkslategray;
+}
+
+.navbar a
+{
+	color:white;
 }
 
 .navbar .empty
@@ -20,7 +32,7 @@
 	padding-bottom:0.4em;
 }
 
-.navbar-nav > li > a
+.navbar-nav > #icon-nav > li > a
 {
     padding: 15px 10px;
 }

@@ -9,12 +9,14 @@
 .page-header h1
 {
 	font-size:30px;
+	font-weight:200;
 }
 
 #content h1
 {
     margin-bottom:1em;
     margin-top:1.5em;
+    font-weight:400;
 }
 
 #content h1:first-child
@@ -25,11 +27,15 @@
 #content h1 .small, #content h1 small
 {
     color: white;
+    font-weight:300;
 }
 
-#content p
+@media (min-width: $screen-sm-min)
 {
-    max-width:50em;
+	#content p
+	{
+	    max-width:75%;
+	}
 }
 
 #content table
