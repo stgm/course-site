@@ -8,12 +8,35 @@
 	margin-bottom:0;
     opacity:0.99;
     background-color: transparent;
-    //font-weight: 300;
 }
 
-.navbar .container
+.menu-nav
 {
-	background-color: darkslategray;
+	float:left;
+	margin:0;
+}
+
+.navbar-brand small
+{
+	font-size:12px;
+}
+
+#icon-nav
+{
+	margin-right:-15px;
+}
+
+@media (min-width: 768px)
+{
+	#icon-nav
+	{
+		margin-right:0;
+	}
+}
+
+.navbar > .container
+{
+	background-color: #223839;
 }
 
 .navbar a
@@ -32,14 +55,14 @@
 	padding-bottom:0.4em;
 }
 
-.navbar-nav > #icon-nav > li > a
+#icon-nav > li > a
 {
     padding: 15px 10px;
 }
 
 .navbar-header
 {
-    float: left;
+//    float: left;
 }
 
 .navbar-nav.navbar-right
@@ -69,7 +92,6 @@
 		border: none;
 		border-radius: 0;
 		border-bottom:1px solid #aaa;
-		//    box-shadow: 10px 10px black;
 		padding-top: 0.25em;
 		max-height: 600px;
 		overflow-y: scroll;
@@ -93,14 +115,14 @@
 .navbar .navbar-text
 {
 	line-height:20px;
-	color:#555;
 }
 
 .navbar .label // schedule label next to site name
 {
 	background-color: transparent;
-	color: $color1;
+	color: #9d9d9d;
 	border: 1px solid $color1;
+	margin-top:-2px;
 }
 
 //
@@ -121,7 +143,7 @@
 	border-bottom: none;
 }
 
-.dropdown-menu
+.navbar .dropdown-menu
 {
 	border:none;
 	border-radius:0;
@@ -131,6 +153,11 @@
 	padding-top:0.25em;
 	max-height:600px;
 	overflow-y:scroll;
+}
+
+#menu-nav .dropdown-menu
+{
+	min-width:200px;
 }
 
 .navbar #ama-nav .dropdown-menu
@@ -168,7 +195,7 @@ i.fa
 
 .sidebar-toggle
 {
-	float:left;
+	float:right;
 	position:relative;
 	border-color: #ddd;
 	padding: 9px 1em;
