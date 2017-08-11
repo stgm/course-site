@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def staff?
-		admin? or assistant?
+		admin? or assistant? or head?
 	end
 
 	def final_grade
