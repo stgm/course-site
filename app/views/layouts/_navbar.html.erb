@@ -72,7 +72,7 @@
 			</li>
 			<% end %>
 
-			<% if logged_in? and current_user.assistant? or current_user.head? or current_user.admin? %>
+			<% if logged_in? and (current_user.assistant? or current_user.head? or current_user.admin?) %>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= fa_icon "tasks", class: "fa-fw" %></a>
 				<ul class="dropdown-menu" id="user-menu">
@@ -83,6 +83,7 @@
 				
 			<p class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></p>
 			<% elsif logged_in? %>
+			<li><%= link_to "#{fa_icon 'sign-out', class: 'fa-fw'}".html_safe, profile_logout_path %></li>
 			<p class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></p>
 			<% elsif authenticated? %>
 			<li class="dropdown">
