@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def logged_in?
-		return authenticated? && @current_user.persisted?
+		return authenticated? && current_user.persisted?
 	end
 	
 	def current_user
