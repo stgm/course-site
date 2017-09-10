@@ -1,0 +1,5 @@
+<% @updates.each do |update| %>
+<h4><%= link_to update.user.name, update.user %> <span class="label label-default"><%= update.user.schedule.name %></span> <small><%= time_ago_in_words(update.updated_at) %> ago by <%= update.assist.name %></small></h4>
+<p><%= update.note %></p>
+<hr>
+<% end %>

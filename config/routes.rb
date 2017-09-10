@@ -75,6 +75,8 @@ Rails.application.routes.draw do
 	get  "students/in/inactive", to: "students#list_inactive"
 	get  "students/in/:group"  , to: "students#index", as: :students_in_group
 	get  "students", to: "students#index"
+	
+	get "status" => "status#index"
 
 	resources :user, only: [ :show, :update ] do
 		# member do
