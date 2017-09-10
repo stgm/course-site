@@ -2,6 +2,8 @@
 
 <p>How many groups need to be generated for schedule <%= @schedule_param.name %>?</p>
 
+<p><strong>Do not use if groups have been generated before and TAs are/have been grading!!</strong></p>
+
 <%= form_tag admin_generate_groups_do_path(params[:schedule_id]), :method => :post do %>
 <p><input type="number" name="number" min="1" required></p>
 <p><input type="submit" class="btn"></p>
