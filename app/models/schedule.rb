@@ -23,7 +23,7 @@ class Schedule < ActiveRecord::Base
 		end
 		
 		# restore 'current' item
-		update_attribute(:current, backup_position && ScheduleSpan.find_by_name(backup_position).id)
+		update_attribute(:current, backup_position && ScheduleSpan.find_by_name(backup_position))
 		
 	end
 
