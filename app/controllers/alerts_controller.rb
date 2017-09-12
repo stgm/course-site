@@ -1,7 +1,7 @@
 class AlertsController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin, except: :show
+	before_filter :require_senior, except: :show
 
 	before_action :set_alert, only: [:show, :edit, :update, :destroy]
 

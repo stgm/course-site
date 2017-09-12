@@ -1,7 +1,7 @@
 <% for alert in @alerts %>
 <li><%= link_to "#{alert.title} <span class='badge'> #{time_ago_in_words(alert.created_at)} ago</span>".html_safe, "#", onclick: "javascript:$('#popup').load('#{url_for(alert)}', function() {$('#alert-popup').modal()})" %></li>
 <% end %>
-<% if @current_user.admin? %>
+<% if @current_user.senior? %>
 <li class="divider"></li>
 <li><%= link_to "Send new message...", new_alert_path %></li>
 <% end %>

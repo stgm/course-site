@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
 	def staff?
 		admin? or assistant? or head?
 	end
+	
+	def senior?
+		admin? or head?
+	end
 
 	def final_grade
 		'N/A'

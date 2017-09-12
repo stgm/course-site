@@ -1,8 +1,8 @@
 class StudentsController < ApplicationController
 
 	before_action CASClient::Frameworks::Rails::Filter
-	before_action :require_admin, except: [ :index, :show ]
-	before_action :require_senior, only: [ :index, :show ]
+	before_action :require_admin, except: [ :index, :show, :mark_all_public ]
+	before_action :require_senior, only: [ :index, :show, :mark_all_public ]
 	before_action :load_stats, except: :index
 
 	layout 'full-width'
@@ -41,7 +41,11 @@ class StudentsController < ApplicationController
 	end
 	
 	def mark_all_public
-		@grades = Grade.joins(:user).finished.where(users: { active: true })
+		if current_user.head?
+			@grades = current_user.schedule.grades.joins(:user).finished.where(users: { active: true })
+		elsif current_user.admin?
+			@grades = Grade.joins(:user).finished.where(users: { active: true })
+		end
 		@grades.update_all(status: Grade.statuses[:published])
 		redirect_to :back
 	end

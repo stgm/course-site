@@ -4,6 +4,7 @@ class Schedule < ActiveRecord::Base
 	belongs_to :current, class_name: "ScheduleSpan", foreign_key: "current_schedule_span_id"
 	has_many :users
 	has_many :hands, through: :users
+	has_many :grades, through: :users
 
 	#
 	# this method accepts the yaml contents of a schedule file
