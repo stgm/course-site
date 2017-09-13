@@ -6,7 +6,7 @@ class GradesController < ApplicationController
 	def show
 		@submit = Submit.find(params[:submit_id])
 		if @submit
-			if @submit.grade && (@submit.grade.published? || @submit.grade.discussed?)
+			if @submit.grade && (@submit.grade.finished? || @submit.grade.published? || @submit.grade.discussed?)
 				@grade = @submit.grade
 			else
 				form
