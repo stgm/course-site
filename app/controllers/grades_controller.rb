@@ -35,7 +35,7 @@ class GradesController < ApplicationController
 			# grades can be created (for a given submit) by anyone
 			@submit.build_grade(grader: current_user)
 			@submit.grade.update_attributes(grade_params)
-		elsif current_user.admin? || @submit.grade.open?
+		elsif current_user.senior? || @submit.grade.open?
 			# grades can only be edited if "open" or if user is admin
 			@submit.grade.update!(grade_params)
 		end
