@@ -5,6 +5,7 @@
 		<tr>
 			<th>Name</th>
 			<th></th>
+			<th></th>
 			<th>Attend</th>
 			<th class="rotate">Spoken</th>
 			<th class="rotate">Status</th>
@@ -23,6 +24,10 @@
 				<% if user.notes.present? %>
 				<span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="<%= user.notes %>"></span>
 				<% end %>
+			</td>
+			
+			<td>
+				<%= "#{user.login_id}" %>
 			</td>
 			
 			<td>
