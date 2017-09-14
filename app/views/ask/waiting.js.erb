@@ -3,4 +3,4 @@ localStorage['waiting-gif'] = localStorage['waiting-gif'] || "https://fotos.mpro
 $('#waiting-gif').attr("src", localStorage['waiting-gif']);
 setTimeout(function(){
 	$.ajax('<%= ask_path %>');
-}, 10000 );
+}, 60000 );

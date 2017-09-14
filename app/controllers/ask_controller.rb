@@ -3,16 +3,17 @@ class AskController < ApplicationController
 	before_filter CASClient::Frameworks::Rails::Filter
 
 	def do
-		if params[:how]
-			if params[:how] = 'hands'
-				hand = Hand.create(user:current_user, help_question:params[:question], location:params[:location])
-				if Features.slack_integration?
-					notifier = Slack::Notifier.new ENV['SLACK_WEBHOOK'], channel: Settings.hands_slack_channel
-					notifier.ping "*#{hand.user.name}* needs help at *#{hand.location}* <#{hands_url}|dibs!>\n#{hand.help_question}"
-				end
-			end
-		end
+		hand = Hand.create(user:current_user, help_question:params[:question], location:params[:location])
+		current_user.update!(last_known_location: params[:location])
 
+		index
+	end
+	
+	def set_location
+		if !params[:location].blank?
+			current_user.update!(last_known_location: params[:location])
+		end
+		
 		index
 	end
 	
@@ -25,8 +26,35 @@ class AskController < ApplicationController
 			else
 				helping
 			end
+		elsif is_local_ip? && current_user.student? && current_user.last_known_location.blank?
+			location
 		else
 			form
+		end
+	end
+	
+	def location
+	    # https://stackoverflow.com/questions/29997836/how-to-show-a-greeting-message-through-out-the-day
+		
+		current_time = Time.now.to_i
+	    midnight = Time.now.beginning_of_day.to_i
+	    noon = Time.now.middle_of_day.to_i
+	    five_pm = Time.now.change(:hour => 17 ).to_i
+	    eight_pm = Time.now.change(:hour => 20 ).to_i
+		
+		@greeting = case 
+					when midnight.upto(noon).include?(current_time)
+						"Good morning"
+					when noon.upto(five_pm).include?(current_time)
+						"Good afternoon"
+					when five_pm.upto(eight_pm).include?(current_time)
+						"Good evening"
+					when eight_pm.upto(midnight + 1.day).include?(current_time)
+						"Good night"
+					end
+		
+		respond_to do |format|
+			format.js { render 'location' }
 		end
 	end
 	

@@ -28,6 +28,7 @@
 
 	<% @long_time_users.each do |user| %>
 	<%= link_to({controller: 'hands', action: 'student', id: user.id}, class: 'list-group-item') do %>
+	<span class="badge"><%= user.last_known_location if not user.last_known_location.blank? %></span>
 	<%= user.name %><% if user.group %>  (<%= user.group.name %>)
 	<% end %>
 	<span class="label label-default"><%= user.schedule && user.schedule.name %></span>

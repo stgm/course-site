@@ -60,7 +60,7 @@
 			<% if Settings.hands_allow && current_user.valid_profile? %>
 			<li class="dropdown" id="ama-nav">
 				<a href="#" id="ama-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
-				<ul class="dropdown-menu">
+				<ul class="dropdown-menu" id="ama-menu">
 					<%= render 'layouts/ama' %>
 				</ul>
 			</li>

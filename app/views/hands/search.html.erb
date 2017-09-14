@@ -4,6 +4,7 @@
 
 	<% @users.each do |user| %>
 	<%= link_to({controller: 'hands', action: 'student', id: user.id}, class: 'list-group-item') do %>
+	<span class="badge"><%= user.last_known_location if not user.last_known_location.blank? %></span>
 	<%= user.name %><% if user.group %>  (<%= user.group.name %>)<% end %><br><small>
 		<% if user.last_spoken_at.blank? %>A new student: give them a warm welcome!<% else %><%= time_ago_in_words(user.last_spoken_at) unless user.last_spoken_at.blank? %> ago<% end %></small>
 	</a>
