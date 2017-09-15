@@ -38,6 +38,8 @@ class GradesController < ApplicationController
 		elsif current_user.senior? || @submit.grade.open?
 			# grades can only be edited if "open" or if user is admin
 			@submit.grade.update!(grade_params)
+		elsif current_user.assistant? && @submit.grade.published? && params["grade"]["status"] == "discussed"
+			@submit.grade.update!(grade_params)
 		end
 		redirect_to params[:referer] || :back
 	end
