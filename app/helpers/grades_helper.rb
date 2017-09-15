@@ -22,7 +22,7 @@ module GradesHelper
 		if subs[pset.id]
 			submitted = subs[pset.id][0]
 			if submitted.graded?
-				is_public = submitted.grade.published?
+				is_public = submitted.grade.published? || submitted.grade.discussed?
 				if not submitted.grade.grade.blank?
 					grade_button_html(submitted, format_grade(submitted.grade.grade, pset.grade_type), is_public)
 				else
