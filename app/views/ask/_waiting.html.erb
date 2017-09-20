@@ -1,5 +1,5 @@
 <div style="text-align: center; padding:1em; padding-bottom:1.5em;">
-	<div style="position:absolute; left:2px; top:0; color:black;"><%= link_to '<span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="Cancel your help request!"></span>'.html_safe, ask_cancel_path, method: :post, remote: true %></div>
+	<div style="position:absolute; left:2px; top:0;"><%= link_to '<span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="Cancel your help request" style="color:black !important;"></span>'.html_safe, ask_cancel_path, method: :post, remote: true %></div>
 	<h3 style="margin-bottom:0.75em;">You are number <%= @number %> in line.</h3>
 	<img id="waiting-gif" src="" style="max-width: 250px; max-height: 180px;">
 	<p style="margin-top:1em;"><%= @assist_available.length %> staff are currently available.</p>
