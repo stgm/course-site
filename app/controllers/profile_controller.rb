@@ -16,7 +16,7 @@ class ProfileController < ApplicationController
 	end
 	
 	def grades
-		@grades = Grade.includes(:submit).where(status: Grade.statuses[:published]).where("submits.user_id = ?", current_user.id).references(:submits)
+		@grades = Grade.includes(:submit).where(status: [Grade.statuses[:published], Grade.statuses[:discussed]]).where("submits.user_id = ?", current_user.id).references(:submits)
 	end
 	
 	def ping
