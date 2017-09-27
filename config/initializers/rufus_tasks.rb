@@ -34,4 +34,8 @@ unless self.private_methods.include? 'irb_binding'
 			u.update_attribute(:questions_count_cache, u.hands.count)
 		end
 	end
+	
+	scheduler.cron '00 05 * * *' do
+		User.update_all(last_known_location: nil)
+	end
 end
