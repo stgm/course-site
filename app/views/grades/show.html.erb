@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<strong><%= @grade.submit.pset.name %></strong> <%= "/ #{@submit.used_login}" if @submit %> / <strong><%= @grade.status %></strong>
+		<strong><%= @submit.user.name %></strong> / <strong><%= @grade.submit.pset.name %></strong> <%= "/ #{@submit.used_login}" if @submit %> / <strong><%= @grade.status %></strong> / Graded by: <%= @grade.grader.name %>
 		<div class="pull-right">
 			<% @grade.subgrades.each_pair do |k,v| %>
 			<%= v %> /
