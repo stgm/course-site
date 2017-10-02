@@ -62,14 +62,14 @@ private
 		Section.where("id in (?)", to_delete).delete_all
 		
 		# remove psetfiles for psets that have no parent page
-		orphan_psets = Pset.includes(:page).where(:pages => { :id => nil })
+		# orphan_psets = Pset.includes(:page).where(:pages => { :id => nil })
 		#.each do |p|
 			# p.pset_files.delete_all
 		# end
 		
 		# remove psets that have no submits and no parent page
-		to_remove = Pset.where("psets.id in (?)", orphan_psets.map(&:id)).includes(:submits).where(:submits => { :id => nil }).pluck(:id)
-		Pset.where("psets.id in (?)", to_remove).delete_all
+		# to_remove = Pset.where("psets.id in (?)", orphan_psets.map(&:id)).includes(:submits).where(:submits => { :id => nil }).pluck(:id)
+		# Pset.where("psets.id in (?)", to_remove).delete_all
 	end
 	
 	def recreate_all_slugs
