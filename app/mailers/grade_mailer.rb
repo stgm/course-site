@@ -8,7 +8,7 @@ class GradeMailer < ActionMailer::Base
 		@course_name = Settings.short_course_name
 		@grade_name = grade.pset.name
 		@feedback = grade.comments
-		if Settings.grading && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated']
+		if Settings.grading && Settings.grading['grades'][grade.submit.pset.name] && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated']
 			@grade = grade.any_final_grade
 		else
 			@grade = grade.grade
