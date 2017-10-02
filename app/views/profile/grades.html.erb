@@ -13,7 +13,7 @@
 <% end %>
 <% end %>
 <% end %>
-<% if Settings.grading && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated'] %>
+<% if Settings.grading && Settings.grading['grades'][grade.submit.pset.name] && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated'] %>
 <span class="label label-default">Grade<span class="badge"><%= translate_grade(grade.any_final_grade) %></span></span>
 <% else %>
 <% if grade.grade %>
@@ -37,4 +37,3 @@
 You have no grades yet <code>:(</code>
 
 <% end %>
-
