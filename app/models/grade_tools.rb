@@ -24,9 +24,9 @@ class GradeTools
 		total = 0
 		total_weight = 0
 		formula.each do |subtype, weight|
-			puts subtype
+			# puts subtype
 			grade = calc_final_grade_subtype(subs, subtype)
-			puts "HERE#{grade}"
+			# puts "HERE#{grade}"
 			return 0 if grade == 0
 			total += grade * weight
 			total_weight += weight
@@ -75,18 +75,29 @@ class GradeTools
 				raise "BUG"
 				droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
 			end
-
+			
+			grades = []
+			
 			if (@grading[subtype]['drop'] == 'scope')
 				potential_drops = Grade.joins(:pset).where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).to_a
+				# puts "DROPS"
+				# potential_drops.each do |x| puts x.pset.name end
 				potential_drops.keep_if { |a| a.subgrades[:scope] == 5 }
-				droppable_grade = potential_drops.min { |a,b| a.any_final_grade <=> b.any_final_grade }
+				# potential_drops.each do |x| puts x.pset.name end
+				# droppable_grade = potential_drops.min { |a,b| a.any_final_grade <=> b.any_final_grade }
+				grades = potential_drops.map { |d| calc_subtype_with_potential_drop(subs, subtype, d) }
 			end
-
-			grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
-			grade_without_drop = calc_subtype_with_potential_drop(subs, subtype, nil)
+			
+			grades << calc_subtype_with_potential_drop(subs, subtype, nil)
+			
+			# Rails.logger.debug "GRADES=#{grades}"
+			
+			# grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
+			# grade_without_drop = calc_subtype_with_potential_drop(subs, subtype, nil)
 
 			# Rails.logger.debug [grade_with_drop, grade_without_drop].max
-			return [grade_with_drop, grade_without_drop].max
+			# return [grade_with_drop, grade_without_drop].max
+			return grades.max
 		end
 	end
 	
@@ -95,14 +106,15 @@ class GradeTools
 		total = 0
 		total_weight = 0
 		@grading[subtype]['submits'].each do |grade, weight|
-			puts "HEREEEEE"
-			puts grade
-			puts subs[grade]
+			# puts "HEREEEEE"
+			# puts grade
+			# puts "#{subs[grade].id if subs[grade]} drop #{droppable_grade.id if droppable_grade} #{subs[grade] == droppable_grade}"
 			return 0 if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
-			puts "UNHEREEEE"
+			# puts "UNHEREEEE"
 			if subs[grade] != droppable_grade
 				total += subs[grade].any_final_grade * weight
 				total_weight += weight
+				# puts "including #{subs[grade].any_final_grade * weight}"
 			end
 		end
 		return (1.0 * total / total_weight)
