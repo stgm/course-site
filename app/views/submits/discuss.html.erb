@@ -4,16 +4,16 @@
 	<tr>
 		<th>pset</th>
 		<th>name</th>
+		<th></th>
 		<th>submitted</th>
-		<th>discussed</th>
 	</tr>
 		
 	<% @to_discuss.each do |submit| %>
 	<tr class="<%= submit.grade %>">
 		<td><%= submit.pset.name %></td>
 		<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
+		<th><%= "<span class='label label-info'>Yours</span>".html_safe if current_user == submit.grade.grader %></th>
 		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
-		<td><%= '' if submit.grade %></td>
 	</tr>
 	<% end %>
 </table>

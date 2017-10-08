@@ -37,7 +37,7 @@ class SubmitsController < ApplicationController
 			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.schedule_id" => current_user.schedule.id).order('psets.name')
 		elsif Group.any? and current_user.group
 			# other assistants get stuff only from their assigned group
-			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.group_id" => current_user.group.id).where(users: { active: true }).order('psets.name')
+			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where("users.schedule_id" => current_user.schedule.id).order('psets.name')
 		elsif !Group.any? and !Schedule.any?
 			# assistants get everything if there are no groups or schedules
 			@to_discuss = Submit.includes(:user, :pset, :grade).where(grades: { status: Grade.statuses[:published] }).where(users: { active: true }).order('psets.name')
