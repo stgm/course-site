@@ -16,6 +16,7 @@ class ProfileController < ApplicationController
 	end
 	
 	def grades
+		@submits = current_user.submits.order('updated_at desc')
 		@grades = Grade.includes(:submit).where(status: [Grade.statuses[:published], Grade.statuses[:discussed]]).where("submits.user_id = ?", current_user.id).references(:submits)
 	end
 	

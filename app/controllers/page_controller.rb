@@ -73,11 +73,12 @@ class PageController < ApplicationController
 		submit.submitted_at = Time.now
 		submit.used_login = session[:cas_user]
 		submit.url = params[:url]
+		submit.submitted_files = params[:f].map { |file,info| info.original_filename } if params[:f]
 		submit.save
 	
 		# success
 		begin
-			redirect_to :back
+			redirect_to profile_grades_path
 		rescue ActionController::RedirectBackError
 			redirect_to :root
 		end

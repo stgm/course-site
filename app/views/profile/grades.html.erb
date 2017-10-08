@@ -1,39 +1,93 @@
 <h1>Grades</h1>
 
-<% if @grades.present? %>
-<ul>
-<% @grades.each do |grade| %>
-<li>
-<h2><%= grade.submit.pset.name %></h2>
-<h3>
-<% if Settings.grading && Settings.grading['grades'] && Settings.grading['grades'][grade.submit.pset.name] && Settings.grading['grades'][grade.submit.pset.name]['subgrades'] %>
-<% Settings.grading['grades'][grade.submit.pset.name]['subgrades'].each do |subname, subvalue| %>
-<% if grade.subgrades[subname].present? %>
-<span class="label label-default"><%= subname.capitalize %><span class="badge"><%= grade.subgrades[subname] %></span></span>
-<% end %>
-<% end %>
-<% end %>
-<% if Settings.grading && Settings.grading['grades'][grade.submit.pset.name] && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated'] %>
-<span class="label label-default">Grade<span class="badge"><%= translate_grade(grade.any_final_grade) %></span></span>
-<% else %>
-<% if grade.grade %>
-<span class="label label-default">Grade<span class="badge"><%= translate_grade(grade.grade) %></span></span>
-<% end %>
-<% end %>
-</h3>
-<%= simple_markdown(grade.comments) %>
-<p>
-	Graded by <%= grade.grader ? grade.grader.name.split[0] : "unknown?" %>
-	<% if grade.grader && grade.grader.avatar %>
-	<br>
-	<img src="<%= grade.grader.avatar %>" style="width:70px; height:70px;" title="Picture of <%= grade.grader.name.split[0] %>">
+<% if @submits.present? %>
+
+	<% @submits.each do |submit| %>
+		<h2>
+			<%= if submit.pset.page
+				link_to submit.pset.name, "/#{submit.pset.page.section.slug}/#{submit.pset.page.slug}"
+			else
+				submit.pset.name
+			end %>
+			
+			<% if submit.grade && submit.grade.public? %>
+			<small>
+			<% if Settings.grading && Settings.grading['grades'] && Settings.grading['grades'][submit.pset.name] && Settings.grading['grades'][submit.pset.name]['subgrades'] %>
+				<% Settings.grading['grades'][submit.grade.submit.pset.name]['subgrades'].each do |subname, subvalue| %>
+					<% if submit.grade.subgrades[subname].present? %>
+						<span class="label label-default"><%= subname.capitalize %>: <span class="badge"><%= submit.grade.subgrades[subname] %></span></span>
+					<% end %>
+				<% end %>
+			<% end %>
+
+			<% if Settings.grading && Settings.grading['grades'][submit.pset.name] && !Settings.grading['grades'][submit.pset.name]['hide_calculated'] %>
+				<span class="label label-default">Grade:<span class="badge"><%= translate_grade(submit.grade.any_final_grade) %></span></span>
+			<% else %>
+				<% if submit.grade.grade %>
+					<span class="label label-default">Grade:<span class="badge"><%= translate_grade(submit.grade.grade) %></span></span>
+				<% end %>
+			<% end %>
+			</small>
+			<% end %>
+			
+		</h2>
+
+		<% if submit.submitted_at %>
+			<table class="table table-bordered" style="width:auto;">
+				
+				<% if submit.submitted_files && submit.submitted_files.map { |f| !submit.pset.all_filenames.include?(f) }.any? %>
+				<p class="text-danger">Warning: some submitted files have unexpected filenames. Consider renaming and submitting again.</p>
+				<% end %>
+
+				<tr>
+					<td>Submit date:</td>
+					<td><%= submit.submitted_at.to_formatted_s :short %></td>
+				</tr>
+
+				<% if submit.submitted_files %>
+				<tr>
+					<td>Files submitted:</td>
+					<td>
+						<ul>
+							<% submit.submitted_files.each do |name| %>
+								<li><kbd class="<%= color_for_filename(name, submit.pset.all_filenames) %>"><%= name %></kbd></li>
+							<% end %>
+						</ul>
+					</td>
+				</tr>
+				<% end %>
+
+				<% if submit.url %>
+				<tr>
+					<td>URL:</td>
+					<td>
+						<kbd><%= link_to submit.url, submit.url %></kbd>
+					</td>
+				</tr>
+				<% end %>
+
+			</table>
+		<% end %>
+
+		<% if submit.grade && submit.grade.public? %>
+
+			<%= simple_markdown(submit.grade.comments) %>
+
+			<% if submit.submitted_at %>
+			<p>
+				Graded by <%= submit.grade.grader ? submit.grade.grader.name.split[0] : "unknown?" %>
+				<% if submit.grade.grader && submit.grade.grader.avatar %>
+					<br>
+					<img src="<%= submit.grade.grader.avatar %>" style="width:70px; height:70px;" title="Picture of <%= submit.grade.grader.name.split[0] %>">
+				<% end %>
+			</p>
+			<% end %>
+		<% end %>
+
 	<% end %>
-</p>
-</li>
-<% end %>
-</ul>
+
 <% else %>
 
-You have no grades yet <code>:(</code>
+	You have no grades yet <code>:(</code>
 
 <% end %>

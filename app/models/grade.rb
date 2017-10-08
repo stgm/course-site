@@ -10,6 +10,10 @@ class Grade < ActiveRecord::Base
 	serialize :subgrades, OpenStruct
 	
 	enum status: [:open, :finished, :published, :discussed]
+	
+	def public?
+		published? or discussed?
+	end
 
 	def subgrades=(val)
 		# we would like this to be stored as an OpenStruct

@@ -5,6 +5,8 @@ class Submit < ActiveRecord::Base
 
 	has_one :grade, dependent: :destroy
 
+	serialize :submitted_files
+
 	def graded?
 		return (self.grade && (!self.grade.grade.blank? || !self.grade.calculated_grade.blank?))
 	end

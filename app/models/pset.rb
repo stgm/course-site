@@ -16,6 +16,10 @@ class Pset < ActiveRecord::Base
 	#
 	# 	super OpenStruct.new val.to_h if val
 	# end
+	
+	def all_filenames
+		files.map { |h,f| f }.flatten.uniq
+	end
 
 	def submit_from(user)
 		Submit.where(:user_id => user.id, :pset_id => id).first
