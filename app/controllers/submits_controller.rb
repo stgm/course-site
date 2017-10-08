@@ -31,7 +31,7 @@ class SubmitsController < ApplicationController
 	def discuss
 		if current_user.admin?
 			# admins get everything to be discussed (in all schedules and groups)
-			@to_discuss = Submit.includes(:user, :pset, :grade).where('submits.submitted_at is not null').where(grades: { status: Grade.statuses[:published] }).order('psets.name')
+			@to_discuss = Submit.includes(:user, :pset, :grade).where('submits.submitted_at is not null').where(grades: { status: Grade.statuses[:published] }).order('psets.name, grades.grader_id')
 		elsif Schedule.any? and current_user.head?
 			# heads get stuff from one schedule, but from all groups
 			@to_discuss = Submit.includes(:user, :pset, :grade).where('submits.submitted_at is not null').where(grades: { status: Grade.statuses[:published] }).where("users.schedule_id" => current_user.schedule.id).order('psets.name')

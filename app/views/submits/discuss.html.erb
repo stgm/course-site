@@ -12,7 +12,7 @@
 	<tr class="<%= submit.grade %>">
 		<td><%= submit.pset.name %></td>
 		<td><%= link_to submit.user.name, submit_grade_path(submit_id: submit.id) %></td>
-		<th><%= "<span class='label label-info'>Yours</span>".html_safe if current_user == submit.grade.grader %></th>
+		<th><%= current_user == submit.grade.grader && "<span class='label label-info'>Yours</span>".html_safe || submit.grade.grader.name %></th>
 		<td><% if submit.submitted_at %><%= submit.submitted_at.strftime("%a %d %b %H:%M") %><% end %></td>
 	</tr>
 	<% end %>
