@@ -1,7 +1,7 @@
 		<h1><%= @pset.name %><br><small> by <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %> <span class="label label-primary"><%= @grade.status %></span></small></h1>
 
 <%= form_for([ @submit, @grade ], url: submit_grade_path, method: :put) do |f| %>
-<%= hidden_field_tag :referer, request.referer %>
+<%= hidden_field_tag :referer, params[:referer] || request.referer %>
 
 <div class="row" style="display:flex">
 	<div class="col-xs-12 col-sm-8" style="background-color:white">
