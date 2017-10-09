@@ -160,6 +160,6 @@
 <% if current_user.admin? %>
 <%= link_to "Destroy submit completely", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-danger' if @submit %>
 <% end %>
-<%= link_to_if @submit.grade, "Publish this grade now", submit_grade_path(submit_id: @submit.id, grade: { status: :published }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-default' %>
+<%= link_to_if @submit.grade && @submit.grade.persisted?, "Publish this grade now", submit_grade_path(submit_id: @submit.id, grade: { status: :published }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-default' do "" end %>
 </p>
 <% end %>
