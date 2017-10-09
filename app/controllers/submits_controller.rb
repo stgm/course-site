@@ -51,7 +51,7 @@ class SubmitsController < ApplicationController
 	
 	def create
 		submit = Submit.create(params.require(:submit).permit(:pset_id, :user_id))
-		redirect_to submit_grade_path(submit_id: submit.id)
+		redirect_to submit_grade_path(submit_id: submit.id, referer: request.referer)
 	end
 
 	def destroy
