@@ -26,6 +26,19 @@
 <body>
 	<%= render 'layouts/navbar' %>
 	<div id="content" class="container limit-width">
+<% if flash[:alert] %>
+<div class="alert alert-danger alert-dismissible">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= flash[:alert] %>
+</div>
+<% end %>
+
+<% if flash[:notice] %>
+<div class="alert alert-success alert-dismissible">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= flash[:notice] %>
+</div>
+<% end %>
 		<%= form_tag({ controller: 'hands', action: 'search' }, method: 'get') do %>
 		<div class="col-md-12">
 			<p>
