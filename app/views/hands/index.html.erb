@@ -4,6 +4,7 @@
 	<% @my_hands.each do |hand| %>
 	<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item active') do %>
 	<span class="badge"><%= hand.location %></span>
+	<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 	<%= hand.user.name %><% if hand.user.group %>  (<%= hand.user.group.name %>)<% end %>
 	<span class="label label-default"><%= hand.user.schedule && hand.user.schedule.name %></span>
 	<br>
@@ -16,6 +17,7 @@
 	<% @hands.each do |hand| %>
 	<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item') do %>
 	<span class="badge"><%= hand.location %></span>
+	<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 	<%= hand.user.name %><% if hand.user.group %>  (<%= hand.user.group.name %>)<% end %>
 	<span class="label label-default"><%= hand.user.schedule && hand.user.schedule.name %></span>
 	<br>

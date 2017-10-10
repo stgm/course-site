@@ -110,6 +110,7 @@ Rails.application.routes.draw do
 	post "hands/welcomed/:id" => "hands#welcomed"
 	post "hands/dib"
 	post "hands/done"
+	post "hands/helpline"
 	get  "hands/:id"          => "hands#show"
 	
 	post "submits/mark_all_done"

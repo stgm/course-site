@@ -53,4 +53,11 @@ class HandsController < ApplicationController
 		redirect_to action: 'index', only_path: true
 	end
 
+	def helpline
+		h = Hand.find(params[:id])
+		h.update_attributes(helpline: true, assist: nil)
+		AttendanceRecord.create_for_user(h.user)
+		redirect_to action: 'index', only_path: true
+	end
+
 end
