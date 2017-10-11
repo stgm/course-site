@@ -53,6 +53,8 @@ class AskController < ApplicationController
 						"Good night"
 					end
 		
+		@assist_available = User.where('available > ?', DateTime.now)
+		
 		respond_to do |format|
 			format.js { render 'location' }
 		end
