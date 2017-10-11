@@ -1,5 +1,8 @@
 class Hands::AvailableController < ApplicationController
 
+	before_filter CASClient::Frameworks::Rails::Filter
+	before_filter :require_staff
+
 	def index
 		@user = current_user
 		real_time = DateTime.now
