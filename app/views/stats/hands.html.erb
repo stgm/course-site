@@ -1,6 +1,7 @@
 <table class="table">
 	<tr>
 		<th>done</th>
+		<th>hulplijn</th>
 		<th>assistent</th>
 		<th>student</th>
 		<th>created</th>
@@ -9,7 +10,8 @@
 	</tr>
 	<% @today.each do |entry| %>
 	<tr>
-		<td><%= entry.done ? "v" : "" %>
+		<td><%= entry.done ? "v" : "" %></td>
+		<td><% if entry.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %></td>
 		<td><%= entry.assist.name if entry.assist %></td>
 		<td><%= entry.user.name %></td>
 		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%H:%M") %></button></td>
