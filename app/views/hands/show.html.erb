@@ -43,12 +43,16 @@
 	</div>
 </p>
 
-<p><button type="submit" class="btn btn-primary btn-block">I'm done with this one</button></p>
+<button type="submit" class="btn btn-primary btn-block">I'm done with this one</button>
 
 <hr>
 
-<p><%= link_to('Student not found, remove', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'btn btn-warning btn-block', data: { confirm: 'Sure to delete?' })%><%= link_to('Put back in list', { controller: 'hands', action: 'helpline', id: @hand.id }, method: :post, class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure that someone is available for extra help?' })%></p>
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+<%= link_to('Student not found, remove', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'btn btn-sm btn-warning', data: { confirm: 'Sure to delete?' })%>
+<%= link_to('Put back in list', { controller: 'hands', action: 'helpline', id: @hand.id }, method: :post, class: 'btn btn-sm btn-danger', data: { confirm: 'Are you sure that someone is available for extra help?' })%>
+</div>
 
+<p></p>
 
 <% end %>
 
