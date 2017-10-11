@@ -1,4 +1,3 @@
-<div class="col-md-12">
 <h4>
 <% if @hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 <%= @hand.user.name %><% if @hand.user.group %> (<%= @hand.user.group.name %>)<% end %>
@@ -25,33 +24,32 @@
 
 <p><textarea class="form-control" rows="4" placeholder="Anything to report about this student?" name="note"></textarea></p>
 
-<p>Moodmeter:</p>
+<p>Progress:</p>
 		
 <p>
 	<div class="btn-group btn-group-justified" data-toggle="buttons">
-		<label class="btn btn-primary">
-			<input type="radio" name="evaluation" value="😄" id="option1" autocomplete="off"> 😄
+		<label class="btn btn-default">
+			<input type="radio" name="evaluation" value="🎉" id="option1" autocomplete="off"> 🎉 done
 		</label>
-		<label class="btn btn-primary">
-			<input type="radio" name="evaluation" value="🙂" id="option2" autocomplete="off"> 🙂
+		<label class="btn btn-default">
+			<input type="radio" name="evaluation" value="👍" id="option2" autocomplete="off"> 👍 strong
 		</label>
-		<label class="btn btn-primary">
-			<input type="radio" name="evaluation" value="😓" id="option2" autocomplete="off"> 😓
+		<label class="btn btn-default">
+			<input type="radio" name="evaluation" value="🚂" id="option2" autocomplete="off"> 🚂 steady
 		</label>
-		<label class="btn btn-primary">
-			<input type="radio" name="evaluation" value="😔" id="option3" autocomplete="off"> 😔
+		<label class="btn btn-default">
+			<input type="radio" name="evaluation" value="😱" id="option3" autocomplete="off"> 😱 slow
 		</label>
 	</div>
 </p>
 
 <p><button type="submit" class="btn btn-primary btn-block">I'm done with this one</button></p>
 
-<p><%= link_to('Student not found, remove.', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'btn btn-warning btn-block', data: { confirm: 'Sure to delete?' })%></p>
+<hr>
 
-<p><%= link_to('I can\'t answer the question immediately, student needs helpline.', { controller: 'hands', action: 'helpline', id: @hand.id }, method: :post, class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure that someone is available for extra help?' })%></p>
+<p><%= link_to('Student not found, remove', {controller: 'hands', action: 'done', id: @hand.id, success: false}, method: :post, class: 'btn btn-warning btn-block', data: { confirm: 'Sure to delete?' })%><%= link_to('Put back in list', { controller: 'hands', action: 'helpline', id: @hand.id }, method: :post, class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure that someone is available for extra help?' })%></p>
 
-
-<% end %>
 
 <% end %>
-</div>
+
+<% end %>
