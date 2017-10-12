@@ -11,17 +11,15 @@ class HandsController < ApplicationController
 	end
 	
 	def show
-		@hand = Hand.where(id: params[:id]).first
 		if current_user.assistant? and @hand.assist.blank? and !@hand.helpline
-			if hand = Hand.where(id: params[:id], assist: nil).first
-				hand.update_attribute(:assist, current_user)
-			end
+			Hand.where(id: params[:id], assist: nil).update_all(assist_id: current_user.id)
 		end
 		
+		@hand = Hand.where(id: params[:id]).first
+
 		# check dib and report
-		if Hand.find(params[:id]).assist == current_user
+		if @hand.assist == current_user
 			flash[:notice] = "Taken, it's yours!"
-			# redirect_to ({controller: 'hands', action: 'show', id: @hand.id})
 		else
 			flash[:alert] = "Someone was ahead of you!"
 			redirect_to ({ action: :index })
