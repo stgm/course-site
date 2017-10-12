@@ -16,15 +16,15 @@ class HandsController < ApplicationController
 			if hand = Hand.where(id: params[:id], assist: nil).first
 				hand.update_attribute(:assist, current_user)
 			end
+		end
 		
-			# check dib and report
-			if Hand.find(params[:id]).assist == current_user
-				flash[:notice] = "Taken, it's yours!"
-				redirect_to ({controller: 'hands', action: 'show', id: hand.id})
-			else
-				flash[:alert] = "Someone was ahead of you!"
-				redirect_to ({ action: :index })
-			end
+		# check dib and report
+		if Hand.find(params[:id]).assist == current_user
+			flash[:notice] = "Taken, it's yours!"
+			redirect_to ({controller: 'hands', action: 'show', id: hand.id})
+		else
+			flash[:alert] = "Someone was ahead of you!"
+			redirect_to ({ action: :index })
 		end
 	end
 	
