@@ -11,7 +11,9 @@ class HandsController < ApplicationController
 	end
 	
 	def show
-		if current_user.assistant? and @hand.assist.blank? and !@hand.helpline
+		hand = Hand.where(id: params[:id]).first
+
+		if current_user.assistant? and hand.assist.blank? and !hand.helpline
 			Hand.where(id: params[:id], assist: nil).update_all(assist_id: current_user.id)
 
 			@hand = Hand.where(id: params[:id]).first
