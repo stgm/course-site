@@ -21,7 +21,7 @@ class HandsController < ApplicationController
 		# check dib and report
 		if Hand.find(params[:id]).assist == current_user
 			flash[:notice] = "Taken, it's yours!"
-			redirect_to ({controller: 'hands', action: 'show', id: @hand.id})
+			# redirect_to ({controller: 'hands', action: 'show', id: @hand.id})
 		else
 			flash[:alert] = "Someone was ahead of you!"
 			redirect_to ({ action: :index })
