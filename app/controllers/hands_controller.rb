@@ -13,17 +13,21 @@ class HandsController < ApplicationController
 	def show
 		if current_user.assistant? and @hand.assist.blank? and !@hand.helpline
 			Hand.where(id: params[:id], assist: nil).update_all(assist_id: current_user.id)
+
+			@hand = Hand.where(id: params[:id]).first
+
+			# check dib and report
+			if @hand.assist == current_user
+				flash[:notice] = "Taken, it's yours!"
+			else
+				flash[:alert] = "Someone was ahead of you!"
+				redirect_to ({ action: :index })
+			end
+		else
+			@hand = Hand.where(id: params[:id]).first
+			
 		end
 		
-		@hand = Hand.where(id: params[:id]).first
-
-		# check dib and report
-		if @hand.assist == current_user
-			flash[:notice] = "Taken, it's yours!"
-		else
-			flash[:alert] = "Someone was ahead of you!"
-			redirect_to ({ action: :index })
-		end
 	end
 	
 	def student
