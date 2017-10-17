@@ -38,7 +38,7 @@
 	<small>
 		<% if user.last_spoken_at.blank? %>A new student: give them a warm welcome!
 		<% else %>
-		Last spoken at <%= time_ago_in_words(user.last_spoken_at) unless user.last_spoken_at.blank? %> ago
+		Last spoken <%= time_ago_in_words(user.last_spoken_at) unless user.last_spoken_at.blank? %> ago
 		<% end %>
 	</small>
 	</a>
