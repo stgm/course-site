@@ -8,7 +8,7 @@
 	<%= hand.user.name %><% if hand.user.group %>  (<%= hand.user.group.name %>)<% end %>
 	<span class="label label-default"><%= hand.user.schedule && hand.user.schedule.name %></span>
 	<br>
-	<small><%= time_ago_in_words(hand.created_at) %> ago</small>
+	<small>Asked a question <%= time_ago_in_words(hand.created_at) %> ago</small>
 	<% end %>
 	<% end %>
 	<% end %>
@@ -21,7 +21,7 @@
 	<%= hand.user.name %><% if hand.user.group %>  (<%= hand.user.group.name %>)<% end %>
 	<span class="label label-default"><%= hand.user.schedule && hand.user.schedule.name %></span>
 	<br>
-	<small><%= time_ago_in_words(hand.created_at) %> ago</small>
+	<small class="text-danger">Asked a question <%= time_ago_in_words(hand.created_at) %> ago</small>
 	<% end %>
 	<% end %>
 
@@ -35,7 +35,7 @@
 	<% end %>
 	<span class="label label-default"><%= user.schedule && user.schedule.name %></span>
 	<br>
-	<small>
+	<small class="text-warning">
 		<% if user.last_spoken_at.blank? %>A new student: give them a warm welcome!
 		<% else %>
 		Last spoken <%= time_ago_in_words(user.last_spoken_at) unless user.last_spoken_at.blank? %> ago
