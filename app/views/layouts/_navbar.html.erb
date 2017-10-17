@@ -100,7 +100,7 @@
 	</div>
 </nav>
 
-<% if logged_in? && @schedule %>
+<% if logged_in? && current_user.student? && @schedule %>
 <nav id="secondary-nav" class="navbar navbar-default visible-xs-block">
 	<div class="container">
 		<ul class="nav navbar-nav">
