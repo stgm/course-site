@@ -16,7 +16,7 @@
 
 	<% @hands.each do |hand| %>
 	<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item') do %>
-	<span class="label"><%= hand.location %></span>
+	<span class="badge"><%= hand.location %></span>
 	<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 	<%= hand.user.name %><% if hand.user.group %>  (<%= hand.user.group.name %>)<% end %>
 	<span class="label label-default"><%= hand.user.schedule && hand.user.schedule.name %></span>
@@ -30,7 +30,7 @@
 
 	<% @long_time_users.each do |user| %>
 	<%= link_to({controller: 'hands', action: 'student', id: user.id}, class: 'list-group-item') do %>
-	<span class="label"><%= user.last_known_location if not user.last_known_location.blank? %></span>
+	<span class="badge"><%= user.last_known_location if not user.last_known_location.blank? %></span>
 	<%= user.name %><% if user.group %>  (<%= user.group.name %>)
 	<% end %>
 	<span class="label label-default"><%= user.schedule && user.schedule.name %></span>
