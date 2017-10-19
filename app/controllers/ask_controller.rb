@@ -3,8 +3,10 @@ class AskController < ApplicationController
 	before_filter CASClient::Frameworks::Rails::Filter
 
 	def do
-		hand = Hand.create(user:current_user, help_question:params[:question], location:params[:location])
-		current_user.update!(last_known_location: params[:location])
+		if Hand.where(user: current_user, done: false).count == 0
+			hand = Hand.create(user:current_user, help_question:params[:question], location:params[:location])
+			current_user.update!(last_known_location: params[:location])
+		end
 
 		index
 	end
