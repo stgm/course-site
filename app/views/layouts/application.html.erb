@@ -25,7 +25,7 @@
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<%= Settings.debug_alert.html_safe %>
 </div>
-<% Settings.debug_alert = nil %>
+<% Settings.destroy :debug_alert %>
 <% end %>
 
 <% if flash[:alert] %>
