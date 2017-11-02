@@ -65,12 +65,15 @@ class User < ActiveRecord::Base
 	def assign_final_grade(grader)
 		# generate hash of  pset_name: submit_object
 		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
+		tools = GradeTools.new
+		
+		tools.log "Calculating\n"
 		
 		# calc grade from hash
 		Settings['grading']['calculation'].each do |name, formula|
-			puts name.inspect
+			tools.log "- #{name}"
 			grade = GradeTools.new.calc_final_grade_formula(subs, formula)
-			puts grade
+			tools.log "    - result: #{grade}"
 			if grade > 0
 				final = self.submits.where(pset:Pset.where(name: name).first).count > 0
 				if final || grade > 0
@@ -79,14 +82,15 @@ class User < ActiveRecord::Base
 					final.grade.grade = grade
 					final.grade.grader = grader
 					if final.grade.changed?
-						final.grade.done = false
-						final.grade.public = false
+						final.grade.status = Grade.statuses['finished']
 						final.grade.save
 					end
 				end
 
 			end
 		end
+		
+		return tools.get_log
 		
 		# save
 	end

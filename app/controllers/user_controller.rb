@@ -1,5 +1,7 @@
 class UserController < ApplicationController
 	
+	include ApplicationHelper
+	
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_senior
 
@@ -57,7 +59,8 @@ class UserController < ApplicationController
 		raise ActionController::RoutingError.new('Not Found') if not GradeTools.available?
 
 		u = User.find(params[:user_id])
-		u.assign_final_grade(current_user)
+		result = u.assign_final_grade(current_user)
+		Settings.debug_alert = simple_markdown("#{result}\n".html_safe)
 		redirect_to :back
 	end
 	

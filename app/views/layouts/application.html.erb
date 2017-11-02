@@ -20,6 +20,14 @@
 	<%= render 'layouts/navbar' %>
 	<div id="content" class="container">
 
+<% if Settings.debug_alert %>
+<div class="alert alert-danger alert-dismissible">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= Settings.debug_alert.html_safe %>
+</div>
+<% Settings.debug_alert = nil %>
+<% end %>
+
 <% if flash[:alert] %>
 <div class="alert alert-danger alert-dismissible">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>

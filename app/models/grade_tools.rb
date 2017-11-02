@@ -1,4 +1,6 @@
 class GradeTools
+	
+	@@log = ""
 
 	def self.available?
 		!!Settings['grading'] && !!Settings['grading']['calculation']
@@ -8,15 +10,25 @@ class GradeTools
 		@grading = Settings['grading']
 	end
 	
-	def calc_final_grade(subs)
-		@grading['calculation'].each do |name, formula|
-			grade = calc_final_grade_formula(subs, formula)
-			if grade > 0
-				return grade
-			end
-		end
-		return 0
+	def log(something)
+		@@log << something + "\n"
 	end
+	
+	def get_log
+		@@log
+	end
+	
+	# def calc_final_grade(subs)
+	# 	logger.info "Trying to calculate final grade"
+	#
+	# 	@grading['calculation'].each do |name, formula|
+	# 		grade = calc_final_grade_formula(subs, formula)
+	# 		if grade > 0
+	# 			return grade
+	# 		end
+	# 	end
+	# 	return 0
+	# end
 	
 	# private
 
@@ -25,6 +37,7 @@ class GradeTools
 		total_weight = 0
 		formula.each do |subtype, weight|
 			# puts subtype
+			log("    - #{subtype}")
 			grade = calc_final_grade_subtype(subs, subtype)
 			# puts "HERE#{grade}"
 			return 0 if grade == 0
@@ -55,6 +68,7 @@ class GradeTools
 		when 'pass'
 			allow_drop = @grading[subtype]['drop'] == 'any' ? 1 : 0
 			@grading[subtype]['submits'].each do |grade, weight|
+				log("        - grade")
 				return 0 if subs[grade].nil?
 				return 0 if @grading[subtype]['required'] == true && subs[grade].any_final_grade == 0
 				if subs[grade].any_final_grade == 0 && allow_drop >= 1
@@ -97,15 +111,18 @@ class GradeTools
 
 			# Rails.logger.debug [grade_with_drop, grade_without_drop].max
 			# return [grade_with_drop, grade_without_drop].max
+			log("        - final result: #{grades.max}")
+			
 			return grades.max
 		end
 	end
 	
 	def calc_subtype_with_potential_drop(subs, subtype, needs_minimum, droppable_grade)
-		# puts subtype
+		log("        - subtype: #{subtype} trying to drop #{droppable_grade.pset.name if droppable_grade}")
 		total = 0
 		total_weight = 0
 		@grading[subtype]['submits'].each do |grade, weight|
+			log("            - #{grade}")
 			# puts "HEREEEEE"
 			# puts grade
 			# puts "#{subs[grade].id if subs[grade]} drop #{droppable_grade.id if droppable_grade} #{subs[grade] == droppable_grade}"
@@ -118,6 +135,7 @@ class GradeTools
 			end
 		end
 		final = (1.0 * total / total_weight)
+		log("            - result: #{final}")
 		if !needs_minimum.present? or final >= needs_minimum
 			return (1.0 * total / total_weight)
 		else
