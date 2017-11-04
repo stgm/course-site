@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 	has_one :ping
 
 	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
+	scope :not_staff, -> { where.not(id: staff) }
 	scope :active,    -> { where(active: true) }
 	scope :inactive,  -> { where(active: false) }
 	scope :no_group,  -> { where(group_id: nil) }

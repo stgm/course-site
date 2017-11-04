@@ -57,6 +57,26 @@ class StudentsController < ApplicationController
 		redirect_to :back
 	end
 	
+	def late_form
+		@schedules = Schedule.all
+		@psets = Pset.all
+		render layout: "application"
+	end
+	
+	def close_and_mail_late
+		@schedule = Schedule.find(params[:schedule_id])
+		@pset = Pset.find(params[:pset_id])
+		
+		@schedule.users.not_staff.each do |u|
+			if !@pset.submit_from(u)
+				s = Submit.create user: u, pset: @pset
+				s.create_grade grader: current_user, comments: params[:text]
+				s.grade.update(grade: 0, status: Grade.statuses[:finished])
+			end
+		end
+		redirect_to action: "index"
+	end
+	
 	private
 	
 	def load_stats
