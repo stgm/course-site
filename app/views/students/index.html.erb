@@ -1,5 +1,29 @@
 <%= render partial: 'tabs' %>
-<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
+
+<div style="background-color:white; padding:1em; border-left:1px solid #dddddd; border-bottom:1px solid #dddddd; border-right:1px solid #dddddd;">
+
+	<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
+
+	<p>
+		<% if current_user.senior? %>
+		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish what\'s done'.html_safe, students_mark_all_public_path(pset: params[:pset], group: params[:group]), method: 'post', class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
+		<% end %>
+		<% if current_user.admin? %>
+		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish my grades'.html_safe, students_mark_my_public_path(pset: params[:pset], group: params[:group]), method: 'post', class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
+		<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Groups'.html_safe, admin_import_path, class:'btn btn-default' %>
+		<%= link_to '<i class="glyphicon glyphicon-user"></i> Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id), class:'btn btn-default' %>
+		<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xls'), class:'btn btn-default' %>
+		<%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:'btn btn-default' %>
+		<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:'btn btn-default' %>
+		<% end %>
+		<% if current_user.admin? %>
+		<% if GradeTools.available? %>
+		<%= link_to '<i class="glyphicon glyphicon-modal-window"></i> Calculate final grades'.html_safe, students_assign_final_grade_path, method: :put, class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
+		<% end %>
+		<% end %>
+	</p>
+
+</div>
 
 <script type="text/javascript" charset="utf-8">
 $('.best_in_place').best_in_place()

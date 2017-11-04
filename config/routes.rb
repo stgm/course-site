@@ -70,6 +70,7 @@ Rails.application.routes.draw do
 	# student tables for managers
 	put  "students/assign_final_grade"
 	post "students/mark_all_public"
+	post "students/mark_my_public"
 	get  "students/late_form"
 	post "students/close_and_mail_late"
 	get  "students/in/admins"  , to: "students#list_admins"

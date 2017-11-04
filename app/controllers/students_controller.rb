@@ -49,6 +49,12 @@ class StudentsController < ApplicationController
 		@grades.update_all(status: Grade.statuses[:published])
 		redirect_to :back
 	end
+	
+	def mark_my_public
+		@grades = Grade.where(grader: current_user)
+		@grades.update_all(status: Grade.statuses[:published])
+		redirect_to :back
+	end
 
 	def assign_final_grade
 		User.all.each do |u|
