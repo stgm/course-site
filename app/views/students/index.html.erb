@@ -10,7 +10,7 @@
 		<% end %>
 		<% if current_user.admin? %>
 		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish my grades'.html_safe, students_mark_my_public_path, method: 'post', class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
-		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish everything'.html_safe, students_mark_everything_public_path(schedule: @current_schedule.id), method: 'post', class: 'btn btn-default', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } %>
+		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish everything'.html_safe, students_mark_everything_public_path(schedule: @current_schedule.id), method: 'post', class: 'btn btn-default', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } if @current_schedule %>
 		<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Groups'.html_safe, admin_import_path, class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-user"></i> Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id), class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xls'), class:'btn btn-default' %>
