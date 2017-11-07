@@ -71,6 +71,7 @@ Rails.application.routes.draw do
 	put  "students/assign_final_grade"
 	post "students/mark_all_public"
 	post "students/mark_my_public"
+	post "students/mark_everything_public"
 	get  "students/late_form"
 	post "students/close_and_mail_late"
 	get  "students/in/admins"  , to: "students#list_admins"

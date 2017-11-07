@@ -56,6 +56,12 @@ class StudentsController < ApplicationController
 		redirect_to :back
 	end
 
+	def mark_everything_public
+		schedule = Schedule.find(params[:schedule])
+		schedule.grades.update_all(status: Grade.statuses[:published])
+		redirect_to :back
+	end
+
 	def assign_final_grade
 		User.all.each do |u|
 			u.assign_final_grade(@current_user)
