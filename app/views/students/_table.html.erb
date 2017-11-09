@@ -19,7 +19,7 @@
 		<% user_list.each do |user| %>
 		<tr>
 			<td>
-				<%= link_to user.name, user_path(user) %>
+				<%= link_to user.name, user_path(user) %><%= "@" if user.ping and user.ping.active %>
 				<% if user.notes.present? %>
 				<span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="<%= user.notes %>"></span>
 				<% end %>
