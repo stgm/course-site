@@ -73,7 +73,7 @@
 
 			<%= simple_markdown(submit.grade.comments) %>
 
-			<% if submit.submitted_at %>
+			<% if submit.grade.comments.present? %>
 			<p>
 				Graded by <%= submit.grade.grader ? submit.grade.grader.name.split[0] : "unknown?" %>
 				<% if submit.grade.grader && submit.grade.grader.avatar %>
