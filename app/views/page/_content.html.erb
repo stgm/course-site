@@ -13,8 +13,12 @@
 	<% end %>
 
 	<% if current_user.can_submit? and @page.pset %>
-	<section id="submit-content" class="visible-md-block visible-lg-block">
+	<section id="submit-content" class="visible-sm-block visible-md-block visible-lg-block">
 		<%= render 'submit_tab' %>
+	</section>
+	<section id="submit-content">
+		<h1>Submit</h1>
+		<p>You can't submit on mobile, sorry. If you're on desktop, increase your browser width to submit!</p>
 	</section>
 	<% end %>
 <% end %>
