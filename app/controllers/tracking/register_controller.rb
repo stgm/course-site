@@ -10,7 +10,7 @@ class Tracking::RegisterController < ActionController::Base
 		
 		if current_user.valid_profile?
 			current_user.generate_token!
-			render json: { token: current_user.token, beacon_id: ENV['BEACON_UUID'] }
+			render json: { token: current_user.token, beacon_id: ENV['BEACON_UUID'], icon: Settings['icon'] }
 		else
 			render json: { error: "Not registered yet." }
 		end

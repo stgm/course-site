@@ -99,6 +99,7 @@ private
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
 				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
 				Settings['mail_address'] = config['course']['mail']
+				Settings['icon'] = config['course']['icon']
 				Settings['hands_allow'] = config['ask']['hands'] if config['ask']
 				Settings['hands_slack_channel'] = config['ask']['slack'] if config['ask']
 			end
