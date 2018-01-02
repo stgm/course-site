@@ -32,7 +32,7 @@
 
 @media (min-width: $screen-sm-min)
 {
-	#content section > p, #content section > ul, #content section > ol
+	#content section > p, #content section > ul, #content section > ol, #content section > *
 	{
 	    max-width:75%;
 	}
