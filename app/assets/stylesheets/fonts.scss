@@ -32,7 +32,9 @@
 
 @media (min-width: $screen-sm-min)
 {
-	#content section > p, #content section > ul, #content section > ol, #content section > blockquote, #content section > .footnotes
+	#content section > p, #content section > ul, #content section > ol,
+    #content section > blockquote, #content section > .footnotes,
+    #content section > .embed
 	{
 	    max-width:75%;
 	}
