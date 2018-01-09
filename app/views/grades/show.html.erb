@@ -11,6 +11,20 @@
 			<strong><%= translate_grade(@grade.any_final_grade) %></strong>
 			<% end %>
 		</div>
+		<br>
+		Last submitted: 
+		<% if @submit and @submit.submitted_at %>
+		<%= @submit.submitted_at.to_formatted_s(:short) %> (<%= time_ago_in_words(@submit.submitted_at) %> ago)
+		<% else %>
+		never
+		<% end %> / 
+		First graded:
+		<% if @grade.persisted? %>
+		<%= time_ago_in_words(@grade.updated_at) %> ago
+		<% else %>
+		never
+		<% end %>
+		
 	</div>
 	<div class="panel-body">
 		<%= simple_markdown(@grade.comments) %>
