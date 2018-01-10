@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
 		if s = current_user.schedule
 			@schedule = s.current
 			@schedule_name = s.name
+			@group_name = current_user.group.name if current_user.group
 		end
 		
 		# load alerts
