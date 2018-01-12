@@ -8,21 +8,10 @@ class AdminController < ApplicationController
 		@psets = Pset.order(:id)
 		@title = "Export grades"
 		respond_to do |format|
-		    response.headers['Content-Disposition'] = 'attachment; filename="Grades ' + Settings.short_course_name + '.xls"'
-			format.xls
+			format.xlsx
 		end
 	end
 
-	def export_subgrades
-		@users = User.student.joins(:submits).uniq.order('name')
-		@psets = Pset.order(:id)
-		@title = "Export grades"
-		respond_to do |format|
-		    response.headers['Content-Disposition'] = 'attachment; filename="Grades ' + Settings.short_course_name + '.xls"'
-			format.xls
-		end
-	end
-	
 	def dump_grades
 		@students = User.order(:name)
 		render layout: false

@@ -1,0 +1,32 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Grades") do |sheet|
+	labels = ["ID", "Name"]
+	@psets.each do |pset|
+		labels << pset.name
+	end
+	labels << "schedule"
+	labels << "group"
+	sheet.add_row labels
+
+	@users.each do |user|
+		subs = user.submits.group_by(&:pset_id)
+		# submitted = false
+		data = []
+		data << user.login_id
+		data << user.name
+		@psets.each do |pset|
+			if (g = grade_for(subs[pset.id])) == ""
+				data << ""
+			elsif g == -1
+				data << "pass"
+			elsif g == 0
+				data << "fail"
+			else
+				data << grade_for(subs[pset.id])
+			end
+		end
+		data << user.schedule.name if user.schedule
+		data << user.group.name if user.group
+		sheet.add_row data
+	end
+end

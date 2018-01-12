@@ -13,7 +13,7 @@
 		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish everything'.html_safe, students_mark_everything_public_path(schedule: @current_schedule.id), method: 'post', class: 'btn btn-default', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } if @current_schedule %>
 		<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Groups'.html_safe, admin_import_path, class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-user"></i> Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id), class:'btn btn-default' %>
-		<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xls'), class:'btn btn-default' %>
+		<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xlsx'), class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:'btn btn-default' %>
 		<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:'btn btn-default' %>
 		<% end %>

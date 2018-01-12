@@ -59,6 +59,11 @@ gem 'asciidoctor'
 gem 'mathjax-rails'
 gem 'videojs_rails'
 
+# XLSX generation
+gem 'rubyzip', '~> 1.1.0'
+gem 'axlsx', '2.1.0.pre'
+gem 'axlsx_rails'
+
 ##
 # Front-end
 #
