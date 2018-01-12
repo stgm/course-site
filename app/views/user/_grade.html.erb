@@ -1,0 +1,9 @@
+<h4>
+	<span style="color:gray"><%= grade.grader.name %></span> graded <%= grade.pset.name %>:
+	<% grade.subgrades.each_pair do |k,v| %>
+	<%= v %> /
+	<% end %>
+	<strong><%= translate_grade(grade.grade) %></strong>
+</h4>
+
+<%= simple_markdown(grade.comments) %>

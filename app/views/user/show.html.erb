@@ -35,64 +35,26 @@
 
 <p><%= best_in_place @student, :schedule_id, as: :select, url: user_path(id: @student.id), collection: Schedule.pluck(:id, :name).prepend([nil, '(Inactive)']), place_holder: '(Inactive)' %></p>
 
+<p>Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %></p>
+
+
+
+<% @items.each do |item| %>
+	<hr>
+	<div class="pull-right small"><%= item.created_at.strftime("%A %d %b %Y %R") %></div>
+	<%= render partial: item.class.to_s.downcase, object: item %>
+<% end %>
+
+<hr>
 
 <%= form_for @student do |f| %>
 <%= f.text_area :notes, size: "x8", class: "form-control" %>
 <%= f.submit "Save", class: "form-control" %>
 <% end %>
 
-<p>Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %></p>
-
 <% if @student.avatar.present? %>
 <img src="<%= @student.avatar %>" style="max-width:70px">
 <% end %>
-
-<h5>Hands</h5>
-
-<table class="table">
-	<tr>
-		<th>done</th>
-		<th>assistant</th>
-		<th>created</th>
-		<th>updated</th>
-		<th>mood</th>
-	</tr>
-	<% @student.hands.order("created_at desc").each do |hand| %>
-	<tr>
-		<td><%= hand.done ? "v" : "" %>
-		<td><%= hand.assist.name if hand.assist %></td>
-		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= hand.help_question %>"><%= time_ago_in_words(hand.created_at) %></button></td>
-		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= hand.note %>"><%= hand.updated_at.strftime("%H:%M") %></button></td>
-		<td><%= hand.evaluation %></td>
-	</tr>
-	<% end %>
-</table>
-
-<script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-</script>
-
-<h5>Grades</h5>
-
-<% @grades.each do |grade| %>
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<%= grade.submit.pset.name %>
-		<div class="pull-right">
-			<% grade.subgrades.each_pair do |k,v| %>
-			<%= v %> /
-			<% end %>
-			<strong><%= translate_grade(grade.grade) %></strong>
-		</div>
-	</div>
-	<div class="panel-body">
-		<%= simple_markdown(grade.comments) %>
-	</div>
-</div>
-<% end %>
-
 
 <script type="text/javascript">
 $(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });

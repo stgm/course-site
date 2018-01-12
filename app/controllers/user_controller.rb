@@ -10,6 +10,13 @@ class UserController < ApplicationController
 		@student = User.includes(:hands).find(params[:id])
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @student.id).order('grades.created_at desc')
 		@groups = Group.order(:name)
+		
+		@items = []
+		@items += @student.submits.to_a
+		@items += @grades.to_a
+		@items += @student.hands.to_a
+		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
+		
 		render layout: 'application'
 	end
 	
