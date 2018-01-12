@@ -3,9 +3,9 @@
 </h4>
 <p>
 	<% grade.subgrades.each_pair do |k,v| %>
-	<span class="label label-default"><%= k.capitalize %>: <span class="badge"><%= v %></span></span>
+	<button class="btn btn-sm btn-info"><%= k.capitalize %> <span class="badge"><%= v %></span></button>
 	<% end %>
-	<span class="label label-default"> total: <span class="badge"><%= translate_grade(grade.grade) %></span></span>
+	<button class="btn btn-sm btn-primary"> Total <span class="badge"><%= translate_grade(grade.any_final_grade) %></span></button>
 </p>
 
 <%= simple_markdown(grade.comments) %>
