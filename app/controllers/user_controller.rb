@@ -12,7 +12,7 @@ class UserController < ApplicationController
 		@groups = Group.order(:name)
 		
 		@items = []
-		@items += @student.submits.to_a
+		@items += @student.submits.where("submitted_at not null").to_a
 		@items += @grades.to_a
 		@items += @student.hands.to_a
 		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
