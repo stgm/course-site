@@ -34,7 +34,8 @@
 {
 	#content section > p, #content section > ul, #content section > ol,
     #content section > blockquote, #content section > .footnotes,
-    #content section > .embed
+    #content section > .embed,
+    #content section > .MathJax_Display
 	{
 	    max-width:75%;
 	}
