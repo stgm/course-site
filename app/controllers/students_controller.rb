@@ -88,7 +88,27 @@ class StudentsController < ApplicationController
 				s.grade.update(grade: 0, status: Grade.statuses[:finished])
 			end
 		end
-		redirect_to action: "index"
+		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
+	end
+	
+	def notify_non_submits
+		@schedules = Schedule.all
+		@psets = Pset.all
+		render layout: "application"
+	end
+	
+	def notify_non_submits_do
+		@schedule = Schedule.find(params[:schedule_id])
+		@pset = Pset.find(params[:pset_id])
+		
+		@schedule.users.not_staff.each do |u|
+			if !@pset.submit_from(u)
+				s = Submit.create user: u, pset: @pset
+				s.create_grade grader: current_user, comments: params[:text]
+				s.grade.update(grade: 0, status: Grade.statuses[:finished])
+			end
+		end
+		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
 	end
 	
 	private

@@ -1,29 +1,66 @@
+
 <%= render partial: 'tabs' %>
 
 <div style="background-color:white; padding:1em; border-left:1px solid #dddddd; border-bottom:1px solid #dddddd; border-right:1px solid #dddddd;">
 
-	<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
+<div class="pull-right">
+	<div class="btn-group">
 
-	<p>
-		<% if current_user.senior? %>
-		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish what\'s done'.html_safe, students_mark_all_public_path(schedule: @current_schedule.id), method: 'post', class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
+		<% if @current_schedule %>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="glyphicon glyphicon-ok"></span> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<% if current_user.senior? %>
+				<li><%= link_to 'Publish what\'s done'.html_safe, students_mark_all_public_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
+				<% end %>
+				<% if current_user.admin? %>
+				<li><%= link_to 'Publish my grades, even if not done'.html_safe, students_mark_my_public_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
+				<li><%= link_to 'Publish everything that\'s a valid grade'.html_safe, students_mark_everything_public_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } if @current_schedule %></li>
+				<li role="separator" class="divider"></li>
+				<li><%= link_to 'Notify students who did not submit yet'.html_safe, students_notify_non_submits_path %></li>
+				<li><%= link_to 'Fail students who missed some deadline'.html_safe, students_late_form_path %></li>
+				<li role="separator" class="divider"></li>
+				<% end %>
+				<% if current_user.admin? && GradeTools.available? %>
+				<li><%= link_to 'Calculate final grades'.html_safe, students_assign_final_grade_path, method: :put, data: { confirm:'Are you sure?' } %></li>
+				<% end %>
+			</ul>
+		</div>
 		<% end %>
+
+		<% if @current_schedule && current_user.admin? %>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="glyphicon glyphicon-user"></span> <span class="caret"></span>
+			</button>
+
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li><%= link_to 'Import Groups'.html_safe, admin_import_path %></li>
+				<li><%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id) %></li>
+			</ul>
+		</div>
+		<% end %>
+
 		<% if current_user.admin? %>
-		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish my grades'.html_safe, students_mark_my_public_path(schedule: @current_schedule.id), method: 'post', class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
-		<%= link_to '<i class="glyphicon glyphicon-ok"></i> Publish everything'.html_safe, students_mark_everything_public_path(schedule: @current_schedule.id), method: 'post', class: 'btn btn-default', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } if @current_schedule %>
-		<%= link_to '<i class="glyphicon glyphicon-user"></i> Import Groups'.html_safe, admin_import_path, class:'btn btn-default' %>
-		<%= link_to '<i class="glyphicon glyphicon-user"></i> Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id), class:'btn btn-default' %>
-		<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xlsx'), class:'btn btn-default' %>
-		<%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:'btn btn-default' %>
-		<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:'btn btn-default' %>
-		<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Close submit for pset'.html_safe, students_late_form_path, class:'btn btn-default' %>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="glyphicon glyphicon-asterisk"></span> <span class="caret"></span>
+			</button>
+
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li><%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path %></li>
+				<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xlsx') %></li>
+				<li><%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path %></li>
+			</ul>
+		</div>
 		<% end %>
-		<% if current_user.admin? %>
-		<% if GradeTools.available? %>
-		<%= link_to '<i class="glyphicon glyphicon-modal-window"></i> Calculate final grades'.html_safe, students_assign_final_grade_path, method: :put, class: 'btn btn-default', data: { confirm:'Are you sure?' } %>
-		<% end %>
-		<% end %>
-	</p>
+
+	</div>
+</div>
+
+	<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
 
 </div>
 

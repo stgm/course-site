@@ -74,6 +74,8 @@ Rails.application.routes.draw do
 	post "students/mark_everything_public"
 	get  "students/late_form"
 	post "students/close_and_mail_late"
+	get  "students/notify_non_submits"
+	post "students/notify_non_submits_do"
 	get  "students/in/admins"  , to: "students#list_admins"
 	get  "students/in/other"   , to: "students#list_other"
 	get  "students/in/inactive", to: "students#list_inactive"
