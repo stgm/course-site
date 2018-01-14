@@ -103,9 +103,7 @@ class StudentsController < ApplicationController
 		
 		@schedule.users.not_staff.each do |u|
 			if !@pset.submit_from(u)
-				s = Submit.create user: u, pset: @pset
-				s.create_grade grader: current_user, comments: params[:text]
-				s.grade.update(grade: 0, status: Grade.statuses[:finished])
+				NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver
 			end
 		end
 		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
