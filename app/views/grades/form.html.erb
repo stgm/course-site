@@ -92,7 +92,7 @@
 			<% end %>
 			<% end %>
 			
-			<% if not(current_user.assistant?) && not(@grading_definition && @grading_definition['subgrades'] && @grading_definition['calculation']) %>
+			<% if current_user.admin? || not(@grading_definition && @grading_definition['subgrades'] && @grading_definition['calculation']) %>
 			<div class="form-group">
 				<label for="inputPassword3" class="col-sm-3 control-label">Grade</label>
 				<div class="col-sm-9">
