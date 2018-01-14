@@ -44,14 +44,16 @@ class StudentsController < ApplicationController
 		if current_user.head?
 			@grades = current_user.schedule.grades.joins(:user).finished.where(users: { active: true })
 		elsif current_user.admin?
-			@grades = Grade.joins(:user).finished.where(users: { active: true })
+			schedule = Schedule.find(params[:schedule])
+			@grades = schedule.grades.joins(:user).finished.where(users: { active: true })
 		end
 		@grades.update_all(status: Grade.statuses[:published])
 		redirect_to :back
 	end
 	
 	def mark_my_public
-		@grades = Grade.where(grader: current_user)
+		schedule = Schedule.find(params[:schedule])
+		@grades = schedule.grades.where(grader: current_user)
 		@grades.update_all(status: Grade.statuses[:published])
 		redirect_to :back
 	end
