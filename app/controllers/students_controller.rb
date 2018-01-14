@@ -47,20 +47,20 @@ class StudentsController < ApplicationController
 			schedule = Schedule.find(params[:schedule])
 			@grades = schedule.grades.joins(:user).finished.where(users: { active: true })
 		end
-		@grades.update_all(status: Grade.statuses[:published])
+		@grades.update(status: Grade.statuses[:published])
 		redirect_to :back
 	end
 	
 	def mark_my_public
 		schedule = Schedule.find(params[:schedule])
 		@grades = schedule.grades.where(grader: current_user)
-		@grades.update_all(status: Grade.statuses[:published])
+		@grades.update(status: Grade.statuses[:published])
 		redirect_to :back
 	end
 
 	def mark_everything_public
 		schedule = Schedule.find(params[:schedule])
-		schedule.grades.update_all(status: Grade.statuses[:published])
+		schedule.grades.update(status: Grade.statuses[:published])
 		redirect_to :back
 	end
 
