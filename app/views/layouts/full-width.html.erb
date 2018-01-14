@@ -19,6 +19,20 @@
 <body>
 	<%= render 'layouts/navbar' %>
 	<div id="content" class="container-fluid">
+		<% if flash[:alert] %>
+		<div class="alert alert-danger alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<%= flash[:alert] %>
+		</div>
+		<% end %>
+
+		<% if flash[:notice] %>
+		<div class="alert alert-success alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<%= flash[:notice] %>
+		</div>
+		<% end %>
+
 		<%= yield %>
 	</div>
 	<%= render 'layouts/footer' %>
