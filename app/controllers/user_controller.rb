@@ -7,14 +7,16 @@ class UserController < ApplicationController
 
 	def show
 		@schedules = Schedule.all
-		@student = User.includes(:hands).find(params[:id])
+		@student = User.includes(:hands, :notes).find(params[:id])
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @student.id).order('grades.created_at desc')
 		@groups = Group.order(:name)
+		@note = Note.new(student_id: @student.id)
 		
 		@items = []
 		@items += @student.submits.where("submitted_at not null").to_a
 		@items += @grades.to_a
 		@items += @student.hands.to_a
+		@items += @student.notes.to_a
 		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
 		
 		render layout: 'application'

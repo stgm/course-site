@@ -127,6 +127,8 @@ Rails.application.routes.draw do
 		end
 	end
 	
+	resources :notes
+	
 	# onboarding
 	get  "welcome" => "welcome#index"
 	get  "welcome/clone"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010074017) do
+ActiveRecord::Schema.define(version: 20180115122810) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -93,6 +93,17 @@ ActiveRecord::Schema.define(version: 20171010074017) do
   end
 
   add_index "logins", ["user_id"], name: "index_logins_on_user_id"
+
+  create_table "notes", force: :cascade do |t|
+    t.text     "text"
+    t.integer  "student_id"
+    t.integer  "author_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notes", ["author_id"], name: "index_notes_on_author_id"
+  add_index "notes", ["student_id"], name: "index_notes_on_student_id"
 
   create_table "pages", force: :cascade do |t|
     t.string   "title"

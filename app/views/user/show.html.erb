@@ -37,23 +37,23 @@
 
 <p>Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %></p>
 
+<% if @student.avatar.present? %>
+<img src="<%= @student.avatar %>" style="max-width:70px">
+<% end %>
 
+
+
+<%= form_for(@note) do |f| %>
+<%= f.hidden_field :student_id %>
+<hr>
+<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
+<p class="text-right"><%= f.submit "Add note", class: "btn btn-primary" %></p>
+<% end %>
 
 <% @items.each do |item| %>
 	<hr>
 	<div class="pull-right small"><%= item.created_at.strftime("%A %d %b %Y %R") %></div>
 	<%= render partial: item.class.to_s.downcase, object: item %>
-<% end %>
-
-<hr>
-
-<%= form_for @student do |f| %>
-<%= f.text_area :notes, size: "x8", class: "form-control" %>
-<%= f.submit "Save", class: "form-control" %>
-<% end %>
-
-<% if @student.avatar.present? %>
-<img src="<%= @student.avatar %>" style="max-width:70px">
 <% end %>
 
 <script type="text/javascript">
