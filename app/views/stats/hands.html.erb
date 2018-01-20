@@ -1,6 +1,7 @@
 <table class="table">
 	<tr>
 		<th>done</th>
+		<th>found/success</th>
 		<th>hulplijn</th>
 		<th>assistent</th>
 		<th>student</th>
@@ -11,6 +12,7 @@
 	<% @today.each do |entry| %>
 	<tr>
 		<td><%= entry.done ? "v" : "" %></td>
+		<td><%= entry.success ? "v" : "x" %></td>
 		<td><% if entry.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %></td>
 		<td><%= entry.assist.name if entry.assist %></td>
 		<td><%= entry.user.name %></td>
