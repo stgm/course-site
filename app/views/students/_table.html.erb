@@ -39,7 +39,7 @@
 				<% end %>
 			</td>
         
-			<td><span class="bar"><%= user.attendance %></span></td>
+			<td><span class="bar"><%= user.attendance.split(',').last(7).join(',') %></span></td>
 			
 			<td><%= user.questions_count_cache %></td>
 			

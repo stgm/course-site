@@ -23,6 +23,8 @@ gem "friendly_id", "~> 5.0.0"
 # git integration
 gem 'git'
 
+gem 'groupdate'
+
 ##
 # APIs
 #

@@ -15,17 +15,10 @@ unless self.private_methods.include? 'irb_binding'
 		end
 	end
 
+	# //attendance_records.group_by_day(:cutoff, default_value: 0).count
 	scheduler.every '1h' do
 		User.all.each do |u|
-			user_attendance = []
-			for i in 0..6
-				d_start = Date.today + 1 - 1 - i # start of tomorrow
-				d_end = Date.today + 1 - i # start of today
-				hours = u.attendance_records.where("cutoff >= ? and cutoff < ?", d_start, d_end).count
-				user_attendance.insert 0, hours
-			end
-			# user_attendance.append u.attendance_records.count
-			u.update_attribute(:attendance, user_attendance.join(","))
+			u.take_attendance
 		end
 	end
 

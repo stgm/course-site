@@ -98,6 +98,11 @@ class User < ActiveRecord::Base
 		# save
 	end
 	
+	def take_attendance
+		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0).count.values
+		self.update_attribute(:attendance, user_attendance.join(","))
+	end
+	
 	def generate_token!
 		self.token = SecureRandom.hex(16)
 		self.save

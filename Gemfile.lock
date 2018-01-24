@@ -91,6 +91,8 @@ GEM
     git (1.3.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    groupdate (3.2.0)
+      activesupport (>= 3)
     hashids (1.0.4)
     helpscout (0.0.5)
       httparty
@@ -228,6 +230,7 @@ DEPENDENCIES
   friendly_id (~> 5.0.0)
   garlicjs-rails
   git
+  groupdate
   hashids
   helpscout
   jquery-rails
