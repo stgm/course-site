@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def take_attendance
-		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0).count.values
+		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0, range: 2.months.ago..Time.now).count.values
 		self.update_attribute(:attendance, user_attendance.join(","))
 	end
 	
