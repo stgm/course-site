@@ -66,7 +66,7 @@ class HandsController < ApplicationController
 		h = Hand.find(params[:id])
 		h.update_attributes(done: true, success:params[:success], evaluation: params[:evaluation], note: params[:note])
 		if params[:success]
-			AttendanceRecord.create_for_user(h.user)
+			AttendanceRecord.create_for_user(h.user, true)
 		end
 		redirect_to action: 'index', only_path: true
 	end
@@ -74,7 +74,7 @@ class HandsController < ApplicationController
 	def helpline
 		h = Hand.find(params[:id])
 		h.update_attributes(helpline: true, assist: nil)
-		AttendanceRecord.create_for_user(h.user)
+		AttendanceRecord.create_for_user(h.user, true)
 		redirect_to action: 'index', only_path: true
 	end
 
