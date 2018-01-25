@@ -15,8 +15,8 @@ class ApplicationController < ActionController::Base
 	helper_method :current_user, :logged_in?, :authenticated?
 	
 	def register_attendance
-		if current_user.persisted? && request_from_local_network?
-			AttendanceRecord.create_for_user(current_user)
+		if current_user.persisted? #&& request_from_local_network?
+			AttendanceRecord.create_for_user(current_user, request_from_local_network?)
 		end
 	end
 	

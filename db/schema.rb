@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180115122810) do
+ActiveRecord::Schema.define(version: 20180125100104) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20180115122810) do
   create_table "attendance_records", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "cutoff"
+    t.boolean  "local"
   end
 
   add_index "attendance_records", ["user_id"], name: "index_attendance_records_on_user_id"

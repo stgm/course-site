@@ -31,7 +31,16 @@
 <h4><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h4>
 <p><%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %></p>
 
-<%= column_chart @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count, height: "150px" %>
+<%= column_chart [
+	{
+		name: "remote",
+		data: @student.attendance_records.where(local: [nil, false]).group_by_day(:cutoff, format: "%a %d-%m").count
+	},
+	{
+		name: "local",
+		data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
+	}
+], height: "150px", stacked: true %>
 
 
 <p><%= best_in_place @student, :schedule_id, as: :select, url: user_path(id: @student.id), collection: Schedule.pluck(:id, :name).prepend([nil, '(Inactive)']), place_holder: '(Inactive)' %></p>
