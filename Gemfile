@@ -24,6 +24,7 @@ gem "friendly_id", "~> 5.0.0"
 gem 'git'
 
 gem 'groupdate'
+gem 'chartkick'
 
 ##
 # APIs

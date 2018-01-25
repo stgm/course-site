@@ -31,7 +31,8 @@
 <h4><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h4>
 <p><%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %></p>
 
-<p><span class="bar"><%= @student.attendance %></span></p>
+<%= column_chart @student.attendance_records.group_by_day(:cutoff).count, format: "%a", height: "150px" %>
+
 
 <p><%= best_in_place @student, :schedule_id, as: :select, url: user_path(id: @student.id), collection: Schedule.pluck(:id, :name).prepend([nil, '(Inactive)']), place_holder: '(Inactive)' %></p>
 

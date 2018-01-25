@@ -17,4 +17,6 @@
 //= require video
 //= require best_in_place
 //= require garlic
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .
