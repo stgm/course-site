@@ -11,6 +11,9 @@ class HandsController < ApplicationController
 	end
 	
 	def show
+		# catch erroneous GET requests for /hands/done
+		raise ActionController::RoutingError.new("Huh?") if params[:id] == "done"
+		
 		hand = Hand.where(id: params[:id]).first
 
 		if current_user.assistant? and hand.assist.blank? and !hand.helpline
@@ -27,7 +30,6 @@ class HandsController < ApplicationController
 			end
 		else
 			@hand = Hand.where(id: params[:id]).first
-			
 		end
 		
 	end
