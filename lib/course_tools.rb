@@ -38,11 +38,13 @@ class CourseTools
 			# p = Pset.where(name: 'final').first_or_create
 			# p.update_attribute(:order, counter)
 			# p.update_attribute(:grade_type, :float)
-			Settings['grading']['calculation'].each do |name, formula|
-				p = Pset.where(name: name).first_or_create
-				p.update_attribute(:order, counter)
-				p.update_attribute(:grade_type, :float)
-			end			
+			if Settings['grading']['calculation']
+				Settings['grading']['calculation'].each do |name, formula|
+					p = Pset.where(name: name).first_or_create
+					p.update_attribute(:order, counter)
+					p.update_attribute(:grade_type, :float)
+				end			
+			end
 		end
 
 	end
