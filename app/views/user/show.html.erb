@@ -21,7 +21,7 @@
 			<li><%= link_to 'Make assistant', user_path(id: @student.id, user: { role: :assistant }), method: :put %></li>
 			<li><%= link_to 'Make head', user_path(id: @student.id, user: { role: :head }), method: :put %></li>
 			<li><%= link_to 'Make admin', user_path(id: @student.id, user: { role: :admin }), method: :put %></li>
-			<li><%= link_to 'Undo admin', user_path(id: @student.id, user: { role: :student }), method: :put %></li>
+			<li><%= link_to 'Undo admin', user_path(id: @student.id, user: { role: :student, active: false }), method: :put %></li>
 			<% end %>
 			<li role="separator" class="divider"></li>
 			<li><%= link_to_if GradeTools.available?, 'Calculate final grade', user_calculate_final_grade_path(user_id: @student.id), method: :post %></li>
