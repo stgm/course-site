@@ -24,7 +24,7 @@ class UserController < ApplicationController
 	
 	def update
 		p = User.find(params[:id])
-		p.update_attributes!(params.require(:user).permit(:name, :active, :status, :mail, :avatar, :notes, :role, :schedule_id))
+		p.update_attributes!(params.require(:user).permit(:name, :active, :status, :mail, :avatar, :notes, :role, :schedule_id, :alarm))
 
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
@@ -41,6 +41,14 @@ class UserController < ApplicationController
 		redirect_to :back
 	end
 
+	def set_alarm
+		p = User.find(params[:user_id])
+		a = params[:alarm]
+		puts params[:alarm].inspect
+		p.notes.create(text: "#{a == "false" ? 'Removed' : 'Added'} alarm", author_id: current_user.id)
+		p.update_attribute(:alarm, a)
+		redirect_to :back
+	end
 	
 	def assign_group
 		p = User.find(params[:user_id])

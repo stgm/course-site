@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180129163256) do
+ActiveRecord::Schema.define(version: 20180206083947) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20180129163256) do
     t.string   "evaluation"
     t.boolean  "success"
     t.boolean  "helpline"
+    t.string   "progress"
   end
 
   add_index "hands", ["assist_id"], name: "index_hands_on_assist_id"
@@ -248,6 +249,7 @@ ActiveRecord::Schema.define(version: 20180129163256) do
     t.integer  "role",                  default: 0,     null: false
     t.integer  "schedule_id"
     t.string   "last_known_location"
+    t.boolean  "alarm",                 default: false, null: false
   end
 
   add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"

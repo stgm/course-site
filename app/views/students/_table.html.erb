@@ -21,7 +21,10 @@
 			<td>
 				<%= link_to user.name, user_path(user) %><%= "@" if user.ping and user.ping.active %>
 				<% if user.notes.present? %>
-				<span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="<%= user.notes %>"></span>
+				<span class="glyphicon glyphicon-pencil"></span>
+				<% end %>
+				<% if user.alarm %>
+				<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 				<% end %>
 			</td>
 			

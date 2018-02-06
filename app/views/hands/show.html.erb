@@ -23,22 +23,28 @@
 <%= form_tag(controller: :hands, action: :done, success: true, id: @hand.id) do %>
 
 <p><textarea class="form-control" rows="4" placeholder="Anything to report about this student?" name="note"></textarea></p>
-
-<p>Progress:</p>
 		
 <p>
 	<div class="btn-group btn-group-justified" data-toggle="buttons">
 		<label class="btn btn-default">
-			<input required type="radio" name="evaluation" value="🎉" id="option1" autocomplete="off"> 🎉 done
+			<input required type="radio" name="progress" value="✈️" id="option1" autocomplete="off"> ✈️ ahead
 		</label>
 		<label class="btn btn-default">
-			<input type="radio" name="evaluation" value="👍" id="option2" autocomplete="off"> 👍 strong
+			<input type="radio" name="progress" value="🚂" id="option2" autocomplete="off"> 🚂 on track
 		</label>
 		<label class="btn btn-default">
-			<input type="radio" name="evaluation" value="🚂" id="option2" autocomplete="off"> 🚂 steady
+			<input type="radio" name="progress" value="👟" id="option3" autocomplete="off"> 👟 behind
+		</label>
+	</div>
+</p>
+		
+<p>
+	<div class="btn-group btn-group-justified" data-toggle="buttons">
+		<label class="btn btn-default">
+			<input required type="radio" name="evaluation" value="👍" id="option1" autocomplete="off"> 🙂 talks well
 		</label>
 		<label class="btn btn-default">
-			<input type="radio" name="evaluation" value="😱" id="option3" autocomplete="off"> 😱 slow
+			<input type="radio" name="evaluation" value="😕" id="option3" autocomplete="off"> 😕 tough sell
 		</label>
 	</div>
 </p>

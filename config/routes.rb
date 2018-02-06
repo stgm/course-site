@@ -89,6 +89,7 @@ Rails.application.routes.draw do
 			put "touch_submit"
 			post "assign/:group_id", action: "assign_group", as: 'assign_group'
 			post "schedule/:schedule_id", action: "assign_schedule", as: 'assign_schedule'
+			post "set_alarm/:alarm", action: "set_alarm", as: 'set_alarm'
 			post "calculate_final_grade"
 		# end
 	end
