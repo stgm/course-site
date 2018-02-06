@@ -12,26 +12,7 @@
 
 <%= form_tag(controller: :hands, action: :welcomed, id: @user.id) do %>
 
-<p><textarea class="form-control" rows="4" placeholder="Anything to report about this student?" name="note"></textarea></p>
-
-<p>Moodmeter:</p>
-		
-<p>
-	<div class="btn-group btn-group-justified" data-toggle="buttons">
-		<label class="btn btn-default">
-			<input required type="radio" name="evaluation" value="🎉" id="option1" autocomplete="off"> 🎉 done
-		</label>
-		<label class="btn btn-default">
-			<input type="radio" name="evaluation" value="👍" id="option2" autocomplete="off"> 👍 strong
-		</label>
-		<label class="btn btn-default">
-			<input type="radio" name="evaluation" value="🚂" id="option2" autocomplete="off"> 🚂 steady
-		</label>
-		<label class="btn btn-default">
-			<input type="radio" name="evaluation" value="😱" id="option3" autocomplete="off"> 😱 slow
-		</label>
-	</div>
-</p>
+<%= render partial: 'form' %>
 		
 <p><button type="submit" class="btn btn-primary btn-block">I've said "hi" to this student</button></p>
 
