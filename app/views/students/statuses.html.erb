@@ -20,9 +20,11 @@
 			
 		<td><%= user.questions_count_cache %></td>
 
+		<td>
 		<% user.hands.each do |hand| %>
-		<td data-toggle="tooltip" data-placement="bottom" title="<%= hand.assist.name.split[0] if hand.assist %>"><%= hand.evaluation %><br><%= hand.progress %></td>
+		<span data-toggle="tooltip" data-placement="bottom" title="<%= hand.assist.name.split[0] if hand.assist %>"><%= hand.evaluation %><br><%= hand.progress %></span>
 		<% end %>
+		</td>
 
 	</tr>
 
