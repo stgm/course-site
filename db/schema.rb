@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180206083947) do
+ActiveRecord::Schema.define(version: 20180208194502) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -70,6 +70,14 @@ ActiveRecord::Schema.define(version: 20180206083947) do
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true
+
+  create_table "groups_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "group_id"
+  end
+
+  add_index "groups_users", ["group_id"], name: "index_groups_users_on_group_id"
+  add_index "groups_users", ["user_id"], name: "index_groups_users_on_user_id"
 
   create_table "hands", force: :cascade do |t|
     t.integer  "user_id"
@@ -178,6 +186,14 @@ ActiveRecord::Schema.define(version: 20180206083947) do
     t.integer  "current_schedule_span_id"
     t.boolean  "self_register",            default: false, null: false
   end
+
+  create_table "schedules_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "schedule_id"
+  end
+
+  add_index "schedules_users", ["schedule_id"], name: "index_schedules_users_on_schedule_id"
+  add_index "schedules_users", ["user_id"], name: "index_schedules_users_on_user_id"
 
   create_table "sections", force: :cascade do |t|
     t.string   "title"

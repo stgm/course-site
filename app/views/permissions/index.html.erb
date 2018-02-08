@@ -1,0 +1,46 @@
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<th>Role</th>
+		<th>Schedules</th>
+		<th>Groups</th>
+	</tr>
+
+<% @users.each do |user| %>
+	<tr>
+		<td><%= user.name %></td>
+		<td><%= user.role %></td>
+		<td>
+			<% user.schedules.each do |schedule| %>
+			<%= link_to schedule.name, user_remove_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch %>,
+			<% end %>			
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-plus"></span></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<% @schedules.each do |schedule| %>
+					<li><%= link_to schedule.name, user_set_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch %></li>
+					<% end %>
+				</ul>
+			</div>
+		</td>
+		<td>
+			<% user.groups.each do |group| %>
+			<%= group.name %>,
+			<% end %>
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-plus"></span></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<% @groups.each do |group| %>
+					<li><%= link_to group.name, user_set_permissions_path(user_id: user.id, group_id: group.id), method: :patch %></li>
+					<% end %>
+				</ul>
+			</div>
+		</td>
+	</tr>
+<% end %>
+
+</table>

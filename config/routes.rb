@@ -87,6 +87,8 @@ Rails.application.routes.draw do
 
 	resources :user, only: [ :show, :update ] do
 		# member do
+			patch "set_permissions"
+			patch "remove_permissions"
 			put "touch_submit"
 			post "assign/:group_id", action: "assign_group", as: 'assign_group'
 			post "schedule/:schedule_id", action: "assign_schedule", as: 'assign_schedule'
@@ -128,6 +130,8 @@ Rails.application.routes.draw do
 			# post "mark_all_done"
 		end
 	end
+	
+	resources :permissions
 	
 	resources :notes
 	

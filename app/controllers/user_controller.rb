@@ -4,6 +4,7 @@ class UserController < ApplicationController
 	
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_senior
+	before_filter :require_admin, only: :set_permissions
 
 	def show
 		@schedules = Schedule.all
@@ -30,6 +31,40 @@ class UserController < ApplicationController
 			format.json { respond_with_bip(p) }
 			format.html { redirect_to :back }
 		end
+	end
+	
+	def set_permissions
+		user = User.find(params[:user_id])
+		
+		if params[:schedule_id]
+			schedule = Schedule.find(params[:schedule_id])
+			user.schedules << schedule
+		end
+
+		if params[:group_id]
+			group = Group.find(params[:group_id])
+			user.groups << group
+		end
+
+		respond_to do |format|
+			format.html { redirect_to :back }
+		end
+	end
+	
+	def remove_permissions
+		user = User.find(params[:user_id])
+		
+		if params[:schedule_id]
+			schedule = Schedule.find(params[:schedule_id])
+			user.schedules.delete(schedule)
+		end
+
+		if params[:group_id]
+			group = Group.find(params[:group_id])
+			user.groups.delete(group)
+		end
+
+		redirect_to :back
 	end
 	
 	#

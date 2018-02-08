@@ -2,8 +2,10 @@ class Group < ActiveRecord::Base
 
 	extend FriendlyId
 	friendly_id :name, :use => :slugged
+	
+	has_and_belongs_to_many :users
 
-	has_many :users
+	# has_many :users
 	has_many :submits, through: :users
 	has_many :grades, through: :submits
 	

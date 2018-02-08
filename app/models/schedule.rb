@@ -2,7 +2,10 @@ class Schedule < ActiveRecord::Base
 
 	has_many :schedule_spans, dependent: :destroy
 	belongs_to :current, class_name: "ScheduleSpan", foreign_key: "current_schedule_span_id"
-	has_many :users
+	# has_many :users
+	
+	has_and_belongs_to_many :users
+	
 	has_many :hands, through: :users
 	has_many :grades, through: :users
 

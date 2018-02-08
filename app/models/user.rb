@@ -1,7 +1,12 @@
 class User < ActiveRecord::Base
 	
+	# normal users
 	belongs_to :group
 	belongs_to :schedule
+	
+	# permissions for heads/tas
+	has_and_belongs_to_many :groups
+	has_and_belongs_to_many :schedules
 
 	has_many :logins
 	has_many :hands
@@ -21,9 +26,6 @@ class User < ActiveRecord::Base
 	scope :no_group,  -> { where(group_id: nil) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	scope :with_login, -> login { joins(:logins).where("logins.login = ?", login)}
-	
-	# scope :from_term, -> term  { where("term" => term) if not (term.nil? or term.empty?) }
-	# scope :having_status, -> status  { where("status" => status) if not (status.nil? or status.empty?) }
 	
 	enum role: [:guest, :student, :assistant, :head, :admin]
 	
