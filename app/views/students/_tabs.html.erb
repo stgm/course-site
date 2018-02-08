@@ -1,4 +1,3 @@
-<% if current_user.admin? %>
 <ul class="nav nav-tabs" style="margin-top:1em;">
 	<% if @schedules %>
 	<% @schedules.each do |schedule| %>
@@ -11,11 +10,12 @@
 		<%= link_to "Active (#{@active_count})", students_path %>
 	</li>
 	<% end %>
+	<% if current_user.admin? %>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_inactive' %>>
 		<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path %>
 	</li>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_admins' %>>
 		<%= link_to "Admins (#{@admin_count})", students_in_admins_path %>
 	</li>
+	<% end %>
 </ul>
-<% end %>

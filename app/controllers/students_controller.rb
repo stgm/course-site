@@ -9,18 +9,18 @@ class StudentsController < ApplicationController
 
 	def index
 		if current_user.head?
-			@current_schedule = current_user.schedule
+			@schedules = current_user.schedules
+			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || @schedules.first
+			render text: "Uhhh" if not @schedules.include?(@current_schedule)
+			load_stats
 		elsif current_user.admin?
+			@schedules = Schedule.all
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || Schedule.first
 			load_stats
 		end
-		# redirect_to :back, notice: "You don't have a schedule, please ask an admin to assign you." if not @current_schedule
 		
 		@psets = Pset.order(:order)
-		@schedules = Schedule.all
 		@users = User.student.where({ schedule: @current_schedule }).includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
-		#todo if no schedule, do inactive/active
-		# @submits = Submit.where("user_id in (?)", @users).includes(:grade).group_by(&:user_id)
 		@users = @users.group_by(&:group)
 	end
 	
