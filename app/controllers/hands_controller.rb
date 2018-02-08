@@ -40,7 +40,7 @@ class HandsController < ApplicationController
 	
 	def welcomed
 		@user = User.where(id: params[:id]).first
-		Hand.create(user_id: params[:id], evaluation: params[:evaluation], note: params[:note], done: true, assist: current_user)
+		Hand.create(user_id: params[:id], evaluation: params[:evaluation], note: params[:note], done: true, assist: current_user, progress: params[:progress])
 		redirect_to action: 'index', only_path: true
 	end
 	

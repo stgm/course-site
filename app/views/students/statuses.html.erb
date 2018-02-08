@@ -1,0 +1,37 @@
+	<table id="grade-table" class="table table-condensed">
+
+		<tr>
+			<th>Name</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th>Attend</th>
+			<th class="rotate">Spoken</th>
+			<th class="rotate">Status</th>
+		</tr>
+
+		<% @users.each do |user|%>
+		<tr>
+			<td>
+				<%= link_to user.name, user_path(user) %><%= "@" if user.ping and user.ping.active %>
+				<% if user.notes.present? %>
+				<span class="glyphicon glyphicon-pencil"></span>
+				<% end %>
+				<% if user.alarm %>
+				<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+				<% end %>
+			</td>
+			
+			
+			<td><%= user.questions_count_cache %></td>
+
+			<% user.hands.each do |hand| %>
+			<td><%= hand.evaluation %><br><%= hand.progress %></td>
+			<% end %>
+
+		</tr>
+
+		<% end %>
+
+	</table>
+

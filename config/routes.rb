@@ -80,6 +80,7 @@ Rails.application.routes.draw do
 	get  "students/in/other"   , to: "students#list_other"
 	get  "students/in/inactive", to: "students#list_inactive"
 	get  "students/in/:group"  , to: "students#index", as: :students_in_group
+	get  "students/statuses"
 	get  "students", to: "students#index"
 	
 	get "status" => "status#index"

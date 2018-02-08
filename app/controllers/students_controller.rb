@@ -24,6 +24,12 @@ class StudentsController < ApplicationController
 		@users = @users.group_by(&:group)
 	end
 	
+	def statuses
+		@current_schedule = params[:group] && Schedule.find_by_name(params[:group])
+		@users = User.student.where({ schedule: @current_schedule }).includes(:hands).order(:name)
+		
+	end
+	
 	def list_inactive
 		@psets = Pset.order(:order)
 		@schedules = Schedule.all

@@ -39,6 +39,9 @@
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li><%= link_to 'Import Groups'.html_safe, admin_import_path %></li>
 				<li><%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id) %></li>
+				<li><%= link_to "Statuses", students_statuses_path(group: @current_schedule.name) %></li>
+
+				
 			</ul>
 		</div>
 		<% end %>
