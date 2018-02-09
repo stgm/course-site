@@ -29,7 +29,7 @@
 		</td>
 		<td>
 			<% user.groups.each do |group| %>
-			<%= group.name %>,
+			<%= link_to group.name, user_remove_permissions_path(user_id: user.id, group_id: group.id), method: :patch %>,
 			<% end %>
 			<div class="btn-group">
 				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
