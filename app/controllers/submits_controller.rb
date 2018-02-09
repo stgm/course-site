@@ -16,7 +16,7 @@ class SubmitsController < ApplicationController
 			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.schedule_id" => current_user.schedules).order('psets.name')
 		elsif current_user.assistant? and (current_user.groups.any? or current_user.schedules.any?)
 			# other assistants get stuff only from their assigned group
-			@to_grade = Submit.includes(:user, :pset, :grade).where(["users.group_id in (?) or users.schedule_id in (?)", current_user.groups, current_user.schedules]).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).order('psets.name')
+			@to_grade = Submit.includes(:user, :pset, :grade).where(["users.group_id in (?) or users.schedule_id in (?)", current_user.groups.pluck(:id), current_user.schedules.pluck(:id)]).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).order('psets.name')
 		elsif current_user.assist?
 			# assistants get everything if there are no groups or schedules
 			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where(users: { active: true }).order('psets.name')
