@@ -89,6 +89,7 @@ Rails.application.routes.draw do
 		# member do
 			patch "set_permissions"
 			patch "remove_permissions"
+			put "admin"
 			put "touch_submit"
 			post "assign/:group_id", action: "assign_group", as: 'assign_group'
 			post "schedule/:schedule_id", action: "assign_schedule", as: 'assign_schedule'

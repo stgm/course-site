@@ -9,7 +9,9 @@
 <% @users.each do |user| %>
 	<tr>
 		<td><%= user.name %></td>
-		<td><%= user.role %></td>
+		<td>
+			<%= best_in_place user, :role, as: :select, url: user_admin_path(user_id: user.id), collection: User.roles.keys.map {|w| [w,w]} %>
+		</td>
 		<td>
 			<% user.schedules.each do |schedule| %>
 			<%= link_to schedule.name, user_remove_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch %>,
@@ -44,3 +46,7 @@
 <% end %>
 
 </table>
+
+<script type="text/javascript" charset="utf-8">
+$('.best_in_place').best_in_place()
+</script>

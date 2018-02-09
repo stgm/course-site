@@ -25,7 +25,17 @@ class UserController < ApplicationController
 	
 	def update
 		p = User.find(params[:id])
-		p.update_attributes!(params.require(:user).permit(:name, :active, :status, :mail, :avatar, :notes, :role, :schedule_id, :alarm))
+		p.update_attributes!(params.require(:user).permit(:name, :active, :status, :mail, :avatar, :notes, :schedule_id, :alarm))
+
+		respond_to do |format|
+			format.json { respond_with_bip(p) }
+			format.html { redirect_to :back }
+		end
+	end
+	
+	def admin
+		p = User.find(params[:user_id])
+		p.update_attributes!(params.require(:user).permit(:role))
 
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
@@ -66,7 +76,7 @@ class UserController < ApplicationController
 
 		redirect_to :back
 	end
-	
+
 	#
 	# put submit into grading queue
 	#
