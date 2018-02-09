@@ -17,7 +17,7 @@ class SubmitsController < ApplicationController
 		elsif current_user.assistant? and (current_user.groups.any? or current_user.schedules.any?)
 			# other assistants get stuff only from their assigned group
 			@to_grade = Submit.includes(:user, :pset, :grade).where(["users.group_id in (?) or users.schedule_id in (?)", current_user.groups.pluck(:id), current_user.schedules.pluck(:id)]).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).order('psets.name')
-		elsif current_user.assist?
+		elsif current_user.assistant?
 			# assistants get everything if there are no groups or schedules
 			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where(users: { active: true }).order('psets.name')
 		end
@@ -35,9 +35,9 @@ class SubmitsController < ApplicationController
 		elsif current_user.head? and current_user.schedules.any?
 			# heads get stuff from one schedule, but from all groups
 			@to_discuss = Submit.includes(:user, :pset, :grade).where('submits.submitted_at is not null').where(grades: { status: Grade.statuses[:published] }).where("users.schedule_id" => current_user.schedule.id).order('psets.name, grades.grader_id')
-		elsif current_user.assist? and current_user.groups.any?
+		elsif current_user.assistant? and (current_user.groups.any? or current_user.schedules.any?)
 			# other assistants get stuff only from their assigned group
-			@to_discuss = Submit.includes(:user, :pset, :grade).where('submits.submitted_at is not null').where(grades: { status: Grade.statuses[:published] }).where("users.schedule_id" => current_user.schedule.id).order('psets.name, grades.grader_id')
+			@to_discuss = Submit.includes(:user, :pset, :grade).where('submits.submitted_at is not null').where(grades: { status: Grade.statuses[:published] }).where(["users.group_id in (?) or users.schedule_id in (?)", current_user.groups.pluck(:id), current_user.schedules.pluck(:id)]).order('psets.name, grades.grader_id')
 		elsif current_user.assist?
 			# assistants get everything if there are no groups or schedules
 			@to_discuss = Submit.includes(:user, :pset, :grade).where('submits.submitted_at is not null').where(grades: { status: Grade.statuses[:published] }).where(users: { active: true }).order('psets.name')
