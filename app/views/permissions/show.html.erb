@@ -1,0 +1,28 @@
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<th>Role</th>
+		<th>Schedules</th>
+		<th>Groups</th>
+	</tr>
+
+<% @users.each do |user| %>
+	<tr>
+		<td><%= user.name %></td>
+		<td>
+			<%= user.role %>
+		</td>
+		<td>
+			<% user.schedules.each do |schedule| %>
+			<%= schedule.name %>,
+			<% end %>			
+		</td>
+		<td>
+			<% user.groups.each do |group| %>
+			<%= group.name %>,
+			<% end %>
+		</td>
+	</tr>
+<% end %>
+
+</table>
