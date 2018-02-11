@@ -4,7 +4,7 @@ class PermissionsController < ApplicationController
 	before_filter :require_senior
 	
 	def index
-		@users = User.staff.order(:name)
+		@users = User.staff.order(:role, :name)
 		@schedules = Schedule.all
 		@groups = Group.all
 
