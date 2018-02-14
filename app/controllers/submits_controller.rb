@@ -6,6 +6,7 @@ class SubmitsController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_staff
+	before_filter :require_senior, only: [ :form_for_late, :close_and_mail_late, :form_for_missing, :notify_missing ]
 
 	def index
 		if current_user.admin?
@@ -60,10 +61,42 @@ class SubmitsController < ApplicationController
 		redirect_to params[:referer]
 	end	
 	
-	def mark_all_done
-		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).open.where(users: { active: true }).where(grader: current_user)
-		@grades.update_all(status: Grade.statuses[:finished])
-		redirect_to :back
+	def form_for_late
+		@schedules = Schedule.all
+		@psets = Pset.all
+		render layout: "application"
+	end
+	
+	def close_and_mail_late
+		@schedule = Schedule.find(params[:schedule_id])
+		@pset = Pset.find(params[:pset_id])
+		
+		@schedule.users.not_staff.each do |u|
+			if !@pset.submit_from(u)
+				s = Submit.create user: u, pset: @pset
+				s.create_grade grader: current_user, comments: params[:text]
+				s.grade.update(grade: 0, status: Grade.statuses[:finished])
+			end
+		end
+		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
+	end
+	
+	def form_for_missing
+		@schedules = Schedule.all
+		@psets = Pset.all
+		render layout: "application"
+	end
+	
+	def notify_missing
+		@schedule = Schedule.find(params[:schedule_id])
+		@pset = Pset.find(params[:pset_id])
+		
+		@schedule.users.not_staff.each do |u|
+			if !@pset.submit_from(u)
+				NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver
+			end
+		end
+		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
 	end
 	
 end

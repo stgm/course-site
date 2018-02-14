@@ -13,18 +13,18 @@
 			</button>
 			<ul class="dropdown-menu dropdown-menu-right">
 				<% if current_user.senior? %>
-				<li><%= link_to 'Publish what\'s done'.html_safe, students_mark_all_public_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
+				<li><%= link_to 'Publish what\'s done'.html_safe, publish_finished_grades_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
 				<% end %>
 				<% if current_user.admin? %>
-				<li><%= link_to 'Publish my grades, even if not done'.html_safe, students_mark_my_public_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
-				<li><%= link_to 'Publish everything that\'s a valid grade'.html_safe, students_mark_everything_public_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } if @current_schedule %></li>
+				<li><%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
+				<li><%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } if @current_schedule %></li>
 				<li role="separator" class="divider"></li>
-				<li><%= link_to 'Notify students who did not submit yet'.html_safe, students_notify_non_submits_path %></li>
-				<li><%= link_to 'Fail students who missed some deadline'.html_safe, students_late_form_path %></li>
+				<li><%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path %></li>
+				<li><%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path %></li>
 				<li role="separator" class="divider"></li>
 				<% end %>
 				<% if current_user.admin? && GradeTools.available? %>
-				<li><%= link_to 'Calculate final grades'.html_safe, students_assign_final_grade_path, method: :put, data: { confirm:'Are you sure?' } %></li>
+				<li><%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path, method: :put, data: { confirm:'Are you sure?' } %></li>
 				<% end %>
 			</ul>
 		</div>

@@ -68,14 +68,6 @@ Rails.application.routes.draw do
 	post "course/import"
 	
 	# student tables for managers
-	put  "students/assign_final_grade"
-	post "students/mark_all_public"
-	post "students/mark_my_public"
-	post "students/mark_everything_public"
-	get  "students/late_form"
-	post "students/close_and_mail_late"
-	get  "students/notify_non_submits"
-	post "students/notify_non_submits_do"
 	get  "students/in/admins"  , to: "students#list_admins"
 	get  "students/in/other"   , to: "students#list_other"
 	get  "students/in/inactive", to: "students#list_inactive"
@@ -124,16 +116,32 @@ Rails.application.routes.draw do
 	post "hands/helpline"
 	get  "hands/:id"          => "hands#show"
 	
-	post "submits/mark_all_done"
-	get  "submits/discuss"
 	resources :submits, only: [ :index, :create, :destroy ] do
-		resource :grade, only: [ :show, :update ] do
-			# post "mark_all_done"
+		# the grade that belongs to a specific submit
+		resource :grade, only: [ :show, :update ]
+		
+		collection do
+			get  "discuss"
+			get  "form_for_late"
+			post "close_and_mail_late"
+			get  "form_for_missing"
+			post "notify_missing"
+		end
+	end
+	
+	resources :grades do
+		collection do 
+			post "finish_done"
+
+			post "publish_finished"
+			post "publish_mine"
+			post "publish_all"
+
+			put  "assign_all_final"
 		end
 	end
 	
 	resources :permissions
-	
 	resources :notes
 	
 	# onboarding

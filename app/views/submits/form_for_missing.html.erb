@@ -1,6 +1,6 @@
 <h1>Notify non-submitters</h1>
 
-<%= form_tag students_notify_non_submits_do_path(params[:schedule_id]), :method => :post do %>
+<%= form_tag notify_missing_submits_path(params[:schedule_id]), :method => :post do %>
 
 <div class="form-group">
 	<label for="exampleInputEmail1">Notify those who did not submit this pset yet:</label>

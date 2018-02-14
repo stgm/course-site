@@ -2,6 +2,8 @@ class GradesController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_staff
+	before_action :require_senior, only: [ :publish_finished ]
+	before_action :require_admin, only: [ :publish_mine, :publish_all, :assign_all_final ]
 
 	def show
 		@submit = Submit.find(params[:submit_id])
@@ -14,19 +16,6 @@ class GradesController < ApplicationController
 		else
 			form
 		end
-	end
-	
-	def grade_params
-		params.require(:grade).permit!
-	end
-	
-	def form
-		@user = @submit.user
-		@pset = @submit.pset
-		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
-		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
-		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
-		render 'form', layout: 'full-width'
 	end
 	
 	def update
@@ -42,6 +31,62 @@ class GradesController < ApplicationController
 			@submit.grade.update!(grade_params)
 		end
 		redirect_to params[:referer] || :back
+	end
+	
+	# mark grades public that have been marked as "finished" by the grader
+	def publish_finished
+		schedule = Schedule.find(params[:schedule])
+
+		if current_user.head?
+			render status: :forbidden and return if not current_user.schedules.include?(schedule)
+		end
+
+		grades = schedule.grades.finished
+		grades.each &:published!
+		redirect_to :back
+	end
+	
+	# mark only my own grades public, and even when not marked as finished
+	def publish_mine
+		schedule = Schedule.find(params[:schedule])
+		grades = schedule.grades.where(grader: current_user)
+		grades.each &:published!
+		redirect_to :back
+	end
+
+	# try to make all grades public, but only valid grades
+	def publish_all
+		schedule = Schedule.find(params[:schedule])
+		schedule.grades.each &:published!
+		redirect_to :back
+	end
+
+	def assign_all_final
+		User.all.each do |u|
+			u.assign_final_grade(@current_user)
+		end
+		redirect_to :back
+	end
+	
+	def finish_done
+		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).open.where(users: { active: true }).where(grader: current_user)
+		@grades.update_all(status: Grade.statuses[:finished])
+		redirect_to :back
+	end
+	
+	private
+	
+	def grade_params
+		params.require(:grade).permit!
+	end
+	
+	def form
+		@user = @submit.user
+		@pset = @submit.pset
+		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
+		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
+		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
+		render 'form', layout: 'full-width'
 	end
 	
 end

@@ -1,8 +1,8 @@
 class StudentsController < ApplicationController
 
 	before_action CASClient::Frameworks::Rails::Filter
-	before_action :require_admin, except: [ :index, :show, :mark_all_public ]
-	before_action :require_senior, only: [ :index, :show, :mark_all_public ]
+	before_action :require_admin, except: [ :index ]
+	before_action :require_senior, only: [ :index ]
 	before_action :load_stats, except: :index
 
 	layout 'full-width'
@@ -46,81 +46,11 @@ class StudentsController < ApplicationController
 		render "index"
 	end
 	
-	def mark_all_public
-		if current_user.head?
-			@grades = current_user.schedule.grades.joins(:user).finished.where(users: { active: true })
-		elsif current_user.admin?
-			schedule = Schedule.find(params[:schedule])
-			@grades = schedule.grades.joins(:user).finished.where(users: { active: true })
-		end
-		@grades.each &:published!
-		redirect_to :back
-	end
-	
-	def mark_my_public
-		schedule = Schedule.find(params[:schedule])
-		@grades = schedule.grades.where(grader: current_user)
-		@grades.each &:published!
-		redirect_to :back
-	end
-
-	def mark_everything_public
-		schedule = Schedule.find(params[:schedule])
-		schedule.grades.each &:published!
-		redirect_to :back
-	end
-
-	def assign_final_grade
-		User.all.each do |u|
-			u.assign_final_grade(@current_user)
-		end
-		redirect_to :back
-	end
-	
-	def late_form
-		@schedules = Schedule.all
-		@psets = Pset.all
-		render layout: "application"
-	end
-	
-	def close_and_mail_late
-		@schedule = Schedule.find(params[:schedule_id])
-		@pset = Pset.find(params[:pset_id])
-		
-		@schedule.users.not_staff.each do |u|
-			if !@pset.submit_from(u)
-				s = Submit.create user: u, pset: @pset
-				s.create_grade grader: current_user, comments: params[:text]
-				s.grade.update(grade: 0, status: Grade.statuses[:finished])
-			end
-		end
-		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
-	end
-	
-	def notify_non_submits
-		@schedules = Schedule.all
-		@psets = Pset.all
-		render layout: "application"
-	end
-	
-	def notify_non_submits_do
-		@schedule = Schedule.find(params[:schedule_id])
-		@pset = Pset.find(params[:pset_id])
-		
-		@schedule.users.not_staff.each do |u|
-			if !@pset.submit_from(u)
-				NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver
-			end
-		end
-		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
-	end
-	
 	private
 	
 	def load_stats
 		@active_count = User.active.student.count
 		@inactive_count = User.student.where(schedule_id: nil).count
-		   #User.inactive.student.count
 		@admin_count = User.staff.count
 		@schedule_count = User.student.group(:schedule_id).count
 		@title = 'List users'
