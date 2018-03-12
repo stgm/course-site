@@ -51,7 +51,7 @@ class HandsController < ApplicationController
 	def dib
 		# try to dib
 		if hand = Hand.where(id: params[:which], assist: nil).first
-			hand.update_attribute(:assist, current_user)
+			hand.update_attributes(assist: current_user, claimed_at: DateTime.now)
 		end
 		
 		# check dib and report
@@ -66,7 +66,7 @@ class HandsController < ApplicationController
 
 	def done
 		h = Hand.find(params[:id])
-		h.update_attributes(done: true, success:params[:success], evaluation: params[:evaluation], note: params[:note], progress: params[:progress])
+		h.update_attributes(done: true, success:params[:success], evaluation: params[:evaluation], note: params[:note], progress: params[:progress], closed_at: DateTime.now)
 		if params[:success]
 			AttendanceRecord.create_for_user(h.user, true)
 		end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180208194502) do
+ActiveRecord::Schema.define(version: 20180312123057) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(version: 20180208194502) do
     t.boolean  "success"
     t.boolean  "helpline"
     t.string   "progress"
+    t.datetime "claimed_at"
+    t.datetime "closed_at"
   end
 
   add_index "hands", ["assist_id"], name: "index_hands_on_assist_id"

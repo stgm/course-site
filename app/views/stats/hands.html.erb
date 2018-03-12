@@ -1,23 +1,25 @@
 <table class="table">
 	<tr>
+		<th>created</th>
 		<th>done</th>
 		<th>found/success</th>
 		<th>hulplijn</th>
 		<th>assistent</th>
 		<th>student</th>
-		<th>created</th>
-		<th>updated</th>
+		<th>waiting</th>
+		<th>helping</th>
 		<th>mood</th>
 	</tr>
 	<% @today.each do |entry| %>
 	<tr>
+		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%H:%M") %></span></td>
 		<td><%= entry.done ? "v" : "" %></td>
 		<td><%= entry.success ? "v" : "x" %></td>
 		<td><% if entry.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %></td>
 		<td><%= entry.assist.name if entry.assist %></td>
 		<td><%= entry.user.name %></td>
-		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%H:%M") %></button></td>
-		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.note %>"><%= entry.updated_at.strftime("%H:%M") %></button></td>
+		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.note %>"><%= distance_of_time_in_words(entry.claimed_at - entry.created_at) %></span></td>
+		<td><%= distance_of_time_in_words(entry.closed_at - entry.claimed_at) %></button></td>
 		<td><%= entry.evaluation %></td>
 	</tr>
 	<% end %>
