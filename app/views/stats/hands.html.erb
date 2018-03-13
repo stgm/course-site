@@ -24,15 +24,17 @@
 		<td>
 			<% if entry.claimed_at %>
 			<span data-placement="bottom" data-toggle="tooltip" title="<%= entry.note %>"><%= distance_of_time_in_words(entry.claimed_at - entry.created_at) %></span>
+			<% if entry.closed_at %>
+			<%= distance_of_time_in_words(entry.closed_at, entry.created_at) %></button>
 			<% else %>
-			<%= distance_of_time_in_words(DateTime.now, entry.created_at) %>
+			<%= distance_of_time_in_words(DateTime.now, entry.created_at) %>...
 			<% end %>
 		</td>
 		<td>
 			<% if entry.claimed_at && entry.closed_at %>
 			<%= distance_of_time_in_words(entry.closed_at, entry.claimed_at) %></button>
-			<% if entry.closed_at %>
-			<%= distance_of_time_in_words(entry.closed_at, entry.created_at) %></button>
+			<% if entry.claimed_at %>
+			<%= distance_of_time_in_words(DateTime.now, entry.claimed_at) %></button>...
 			<% end %>
 		</td>
 		<td><%= entry.evaluation %></td>
