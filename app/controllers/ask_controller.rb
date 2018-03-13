@@ -69,7 +69,7 @@ class AskController < ApplicationController
 	end
 	
 	def cancel
-		Hand.where(user: current_user, done: false).update_all(done: true)
+		Hand.where(user: current_user, done: false).update_all(done: true, closed_at: DateTime.now)
 		index
 	end
 	
