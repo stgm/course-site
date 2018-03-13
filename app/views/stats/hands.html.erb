@@ -31,6 +31,8 @@
 		<td>
 			<% if entry.claimed_at && entry.closed_at %>
 			<%= distance_of_time_in_words(entry.closed_at, entry.claimed_at) %></button>
+			<% if entry.closed_at %>
+			<%= distance_of_time_in_words(entry.closed_at, entry.created_at) %></button>
 			<% end %>
 		</td>
 		<td><%= entry.evaluation %></td>
