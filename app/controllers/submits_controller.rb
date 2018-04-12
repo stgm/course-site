@@ -9,7 +9,7 @@ class SubmitsController < ApplicationController
 	before_filter :require_senior, only: [ :form_for_late, :close_and_mail_late, :form_for_missing, :notify_missing ]
 
 	def index
-		if current_user.admin?
+		if current_user.admin? or !Schedules.exists?
 			# admins get everything to be graded (in all schedules and groups)
 			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).order('psets.name')
 		elsif current_user.head? and current_user.schedules.any?
