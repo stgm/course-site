@@ -53,7 +53,7 @@
 <li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
 <% end %>
-<% if current_user.groups.any? or current_user.schedules.any? %>
+<% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
 <li class="divider"></li>
 <li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path %></li>
 <li><%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Discussion list'.html_safe, discuss_submits_path %></li>
