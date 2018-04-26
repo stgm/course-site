@@ -20,9 +20,9 @@
 				<li role="separator" class="divider"></li>
 				<li><%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path %></li>
 				<li><%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path %></li>
-				<li role="separator" class="divider"></li>
 				<% end %>
 				<% if current_user.admin? && GradeTools.available? %>
+				<li role="separator" class="divider"></li>
 				<li><%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path, method: :put, data: { confirm:'Are you sure?' } %></li>
 				<% end %>
 			</ul>
