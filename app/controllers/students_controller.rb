@@ -11,11 +11,16 @@ class StudentsController < ApplicationController
 		if current_user.head?
 			@schedules = current_user.schedules
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || @schedules.first
+			@current_schedule_id = @current_schedule && @current_schedule.id
 			render text: "Uhhh" if not @schedules.include?(@current_schedule)
 			load_stats
 		elsif current_user.admin?
 			@schedules = Schedule.all
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || Schedule.first
+			@current_schedule_id = @current_schedule && @current_schedule.id
+			logger.debug "IDIDIDIDIDID"
+			logger.debug @current_schedule
+			logger.debug @current_schedule_id
 			load_stats
 		end
 		

@@ -6,18 +6,17 @@
 <div class="pull-right">
 	<div class="btn-group">
 
-		<% if @current_schedule %>
 		<div class="btn-group" role="group">
 			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="glyphicon glyphicon-ok"></span> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu dropdown-menu-right">
 				<% if current_user.senior? %>
-				<li><%= link_to 'Publish what\'s done'.html_safe, publish_finished_grades_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
+				<li><%= link_to 'Publish what\'s done'.html_safe, publish_finished_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' } %></li>
 				<% end %>
 				<% if current_user.admin? %>
-				<li><%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'Are you sure?' } %></li>
-				<li><%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule.id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } if @current_schedule %></li>
+				<li><%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' } %></li>
+				<li><%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } %></li>
 				<li role="separator" class="divider"></li>
 				<li><%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path %></li>
 				<li><%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path %></li>
@@ -28,7 +27,6 @@
 				<% end %>
 			</ul>
 		</div>
-		<% end %>
 
 		<% if @current_schedule && current_user.admin? %>
 		<div class="btn-group" role="group">
@@ -38,7 +36,7 @@
 
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li><%= link_to 'Import Groups'.html_safe, admin_import_path %></li>
-				<li><%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule && @current_schedule.id) %></li>
+				<li><%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule.id) %></li>
 				<li><%= link_to "Statuses", students_statuses_path(group: @current_schedule.name) %></li>
 
 				
