@@ -2,7 +2,7 @@
 	<% if @schedules %>
 	<% @schedules.each do |schedule| %>
 	<li <%= 'class="active"'.html_safe if params[:group] == schedule.name || schedule == @current_schedule %>>
-		<%= link_to "#{schedule.name} (#{@schedule_count[schedule.id]})", students_in_group_path(group: schedule.name) %> 
+		<%= link_to "#{schedule.name} (#{@schedule_count[schedule.id]||0})", students_in_group_path(group: schedule.name) %> 
 	</li>
 	<% end %>
 	<% else %>
@@ -11,9 +11,16 @@
 	</li>
 	<% end %>
 	<% if current_user.admin? %>
-	<li <%= 'class="active"'.html_safe if action_name == 'list_inactive' %>>
-		<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path %>
-	</li>
+	<% if @inactive_count > 0 %>
+		<li <%= 'class="active"'.html_safe if action_name == 'list_inactive' %>>
+			<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path %>
+		</li>
+	<% end %>
+	<% if @other_count > 0 %>
+		<li <%= 'class="active"'.html_safe if action_name == 'list_other' %>>
+			<%= link_to "Other (#{@other_count})", students_in_other_path %>
+		</li>
+	<% end %>
 	<li <%= 'class="active"'.html_safe if action_name == 'list_admins' %>>
 		<%= link_to "Admins (#{@admin_count})", students_in_admins_path %>
 	</li>
