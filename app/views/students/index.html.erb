@@ -25,7 +25,7 @@
 				<% end %>
 				<% if current_user.admin? && GradeTools.available? %>
 				<li role="separator" class="divider"></li>
-				<li><%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path, method: :put, data: { confirm:'Are you sure?' } %></li>
+				<li><%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path(schedule: @current_schedule_id), method: :put, data: { confirm:'Are you sure?' } %></li>
 				<% end %>
 			</ul>
 		</div>

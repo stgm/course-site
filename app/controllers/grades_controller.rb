@@ -63,7 +63,10 @@ class GradesController < ApplicationController
 	end
 
 	def assign_all_final
-		User.all.each do |u|
+		schedule = params[:schedule] && Schedule.find(params[:schedule])
+		users = schedule && schedule.users
+
+		users.each do |u|
 			u.assign_final_grade(@current_user)
 		end
 		redirect_to :back
