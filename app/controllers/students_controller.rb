@@ -10,7 +10,7 @@ class StudentsController < ApplicationController
 	def index
 		if current_user.head?
 			@schedules = current_user.schedules
-			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || @schedules.first
+			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || current_user.schedules.first
 			@current_schedule_id = @current_schedule && @current_schedule.id
 			render text: "Uhhh" if not @schedules.include?(@current_schedule)
 			load_stats
