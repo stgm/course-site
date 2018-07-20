@@ -13,7 +13,7 @@
 			background-color:white;
 		}
 		
-		table.grades tr td:nth-child(-n+4)
+		table.grades tr td:nth-child(-n+3)
 		{
 			white-space:nowrap;
 		}
@@ -24,10 +24,10 @@
 	<div class="container">
 
 	<% @students.each do |s| %>
+		<h3><%= s.name %> (<%= s.login_id %>)</h3>
 		<% if s.submits.any? %>
 		<table class="table table-condensed grades">
 			<tr>
-				<th><%= s.name %> (<%= s.login_id %>)</th>
 				<th>pset</th>
 				<th>grade</th>
 				<th>subgrades</th>
@@ -35,11 +35,12 @@
 			</tr>
 			<% s.submits.each do |sub| %>
 			<tr>
-				<td></td>
-				<td><%= sub.pset.name if sub.pset.present? %><br><small><%= sub.created_at %></small></td>
+				<td><strong><%= sub.pset.name if sub.pset.present? %></strong><br><small><%= sub.created_at.strftime("%d-%m-%Y %H:%M") %></small></td>
 				<% if sub.grade.present? %>
-				<td><%= sub.grade.grade %><br><small><%= sub.grade.updated_at %> (<%= sub.grade.grader %>)</small></td>
-				<td><%= sub.grade.scope %> / <%= sub.grade.correctness %> / <%= sub.grade.design %> / <%= sub.grade.style %></td>
+				<td><%= sub.grade.any_final_grade %><br><small><%= sub.grade.updated_at.strftime("%d-%m-%Y %H:%M") %> (<%= sub.grade.grader.name %>)</small></td>
+				<td>
+					<%= sub.grade.subgrades.to_h.values.join(" / ") %>
+				</td>
 				<td><%= simple_markdown(sub.grade.comments) %></td>
 				<% else %>
 				<td colspan="3">not graded</td>
@@ -47,6 +48,8 @@
 			</tr>
 			<% end %>
 		</table>
+		<% else %>
+		No submits.
 		<% end %>
 	<% end %>
 	
