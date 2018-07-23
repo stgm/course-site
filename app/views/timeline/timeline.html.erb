@@ -33,6 +33,11 @@
 	{
 		margin-bottom:0;
 	}
+	
+	#grade_buttons
+	{
+		line-height:52px;
+	}
 </style>
 
 <div class="row" style="margin-bottom:2em">
@@ -65,7 +70,7 @@
 			</div>
 		</div>
 		<% @items.each do |item| %>
-		<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 4.months.ago %>">
+		<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
 			<div class="panel-body">
 				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
 			</div>
