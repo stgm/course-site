@@ -11,12 +11,35 @@ class PageController < ApplicationController
 	def homepage
 		# redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.staff?
 		
-		# the homepage is the page without a parent section
+		# the normal homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first
+	
+		if logged_in?
+			# if not found, course is presumably empty, redirect to onboarding
+			if @page.nil?
+				redirect_to welcome_path and return
+			end
+
+			@schedules = Schedule.all
+			@student = User.includes(:hands, :notes).find(current_user)
+			@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.created_at desc')
+			@groups = Group.order(:name)
+			@note = Note.new(student_id: @student.id)
 		
-		# if not found, course is presumably empty, redirect to onboarding
-		if @page.nil?
-			redirect_to welcome_path and return
+			@items = []
+			@items += @student.submits.where("submitted_at not null").to_a
+			@items += @grades.to_a
+			@items += @alerts.to_a
+			@items += @student.hands.to_a
+			# @items += @student.notes.to_a
+			@items = @items.sort { |a,b| b.created_at <=> a.created_at }
+		
+			render :timeline and return
+		else
+			# if not found, course is presumably empty, redirect to onboarding
+			if @page.nil?
+				render text: "Not configured." and return
+			end
 		end
 		
 		@has_form = @page.pset && @page.pset.form
