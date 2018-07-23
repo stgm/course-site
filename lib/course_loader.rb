@@ -286,7 +286,7 @@ private
 				
 				Rails.logger.info "HAAAI #{parent_page.public_url}"
 				
-				document = Asciidoctor.load file, safe: :safe, attributes: { 'showtitle' => true, 'imagesdir' => parent_page.public_url, 'skip-front-matter' => true }
+				document = Asciidoctor.load file, safe: :safe, attributes: { 'showtitle' => true, 'imagesdir' => parent_page.public_url, 'skip-front-matter' => true, 'stem' => true }
 				html = document.convert
 				
 				new_subpage = parent_page.subpages.find_by_title(subpage_info[2]) || parent_page.subpages.new(title: subpage_info[2])
