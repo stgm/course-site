@@ -34,7 +34,7 @@ class PageController < ApplicationController
 			# @items += @student.notes.to_a
 			@items = @items.sort { |a,b| b.created_at <=> a.created_at }
 		
-			render :timeline and return
+			render "timeline/timeline" and return
 		else
 			# if not found, course is presumably empty, redirect to onboarding
 			if @page.nil?
