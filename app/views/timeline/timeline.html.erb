@@ -1,20 +1,42 @@
-<h1><%= Settings['long_course_name'] %></h1>
+<h1 style="background-color: transparent; font-family: Palatino; color: #111; font-size: 30pt"><%= Settings['long_course_name'] %></h1>
+
+<style>
+	.panel-default
+	{
+		-webkit-box-shadow: 0px 0px 35px 0px rgba(0,0,0,0.1);
+		-moz-box-shadow: 0px 0px 35px 0px rgba(0,0,0,0.1);
+		box-shadow: 0px 0px 35px 0px rgba(0,0,0,0.1);
+		border:0;
+	}
+</style>
 
 <div class="row" style="margin-bottom:2em">
 	<div class="col-xs-6">
 		<% @alerts.each do |item| %>
-		<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
 		<% end %>
 	</div>
 
 	<div class="col-xs-3">
 		<% @items.each do |item| %>
-		<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
 		<% end %>
 	</div>
 
 	<div class="col-xs-3">
-		<h4>Upcoming</h4>
-		Studiewijzer
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h4>Upcoming</h4>
+				Studiewijzer
+			</div>
+		</div>
 	</div>
 </div>
