@@ -1,5 +1,15 @@
-<% @items.each do |item| %>
-	<hr>
-	<div class="pull-right small"><%= item.created_at.strftime("%A %d %b %Y %R") %></div>
-	<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
-<% end %>
+<div class="row" style="background-color: #eee">
+	<div class="col-xs-2"></div>
+	<div class="col-xs-8">
+
+		<% @items.each do |item| %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="pull-right small"><span title="<%= item.created_at.strftime("%A %d %b %Y %R") %>"><%= time_ago_in_words(item.created_at) %></span></div>
+				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
+		<% end %>
+
+	</div>
+</div>
