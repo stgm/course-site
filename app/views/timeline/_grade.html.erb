@@ -1,5 +1,6 @@
 <h4>
-	<span style="color:gray"><%= grade.grader.name %></span> graded <%= grade.pset.name %>
+	<%= grade.pset.name %> was graded<br>
+	<small><span title="<%= grade.created_at.strftime("%A %d %b %Y %R") %>"><%= time_ago_in_words(grade.created_at) %></span> by <%= grade.grader.name %></small>
 </h4>
 <p>
 	<% grade.subgrades.each_pair do |k,v| %>

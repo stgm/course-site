@@ -1,5 +1,5 @@
 <h4>
-	<span style="color:gray"><%= alert.title %></span>
+	<span><%= alert.title %><br><small><span title="<%= alert.created_at.strftime("%A %d %b %Y %R") %>"><%= time_ago_in_words(alert.created_at) %></span></small></span>
 </h4>
 <p>
 <%= simple_markdown(alert.body) %>

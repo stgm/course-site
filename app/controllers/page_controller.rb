@@ -29,7 +29,7 @@ class PageController < ApplicationController
 			@items = []
 			@items += @student.submits.where("submitted_at not null").to_a
 			@items += @grades.to_a
-			@items += @alerts.to_a
+			# @items += @alerts.to_a
 			# @items += @student.hands.to_a
 			# @items += @student.notes.to_a
 			@items = @items.sort { |a,b| b.created_at <=> a.created_at }
