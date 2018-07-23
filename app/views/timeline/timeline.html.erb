@@ -1,6 +1,11 @@
 <h1 style="background-color:transparent; font-weight:500; color:#111; font-size: 30pt"><%= Settings['long_course_name'] %></h1>
 
 <style>
+	.panel
+	{
+		margin-bottom:30px;
+	}
+	
 	.panel-default
 	{
 		-webkit-box-shadow: 0px 0px 20px rgba(140, 152, 164, 0.125);
@@ -9,9 +14,9 @@
 		border:0;
 	}
 	
-	.panel-highlight:first-child
+	.panel-highlight
 	{
-		background-color:#FCEAEB;
+		background-color:#FFE0A2;
 	}
 	
 	.panel-body p, .panel-body h4
@@ -53,14 +58,14 @@
 			</div>
 			<div class="col-sm-4">
 				<div class="panel panel-default">
-					<div class="panel-body" style="text-align:center">
-						Studie-wijzer
+					<div class="panel-body">
+						<h4>Studie-wijzer</h4>
 					</div>
 				</div>
 			</div>
 		</div>
 		<% @items.each do |item| %>
-		<div class="panel panel-default panel-highlight">
+		<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 4.months.ago %>">
 			<div class="panel-body">
 				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
 			</div>
