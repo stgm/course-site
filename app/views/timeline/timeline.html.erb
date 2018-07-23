@@ -1,0 +1,5 @@
+<% @items.each do |item| %>
+	<hr>
+	<div class="pull-right small"><%= item.created_at.strftime("%A %d %b %Y %R") %></div>
+	<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
+<% end %>

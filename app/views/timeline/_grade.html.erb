@@ -1,0 +1,11 @@
+<h4>
+	<span style="color:gray"><%= grade.grader.name %></span> graded <%= grade.pset.name %>
+</h4>
+<p>
+	<% grade.subgrades.each_pair do |k,v| %>
+	<button class="btn btn-sm btn-info"><%= k.capitalize %> <span class="badge"><%= v %></span></button>
+	<% end %>
+	<button class="btn btn-sm btn-primary"> Grade <span class="badge"><%= translate_grade(grade.any_final_grade) %></span></button>
+</p>
+
+<%= simple_markdown(grade.comments) %>

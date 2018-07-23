@@ -1,0 +1,7 @@
+<h4>asked a question in class</h4>
+<p>
+	<span class="bubble">❓<%= hand.help_question %></span>
+</p>
+<% if hand.assist %>
+	<p><small>Answered by <%= hand.assist.name %></small></p>
+<% end %>
