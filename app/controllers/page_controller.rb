@@ -12,13 +12,14 @@ class PageController < ApplicationController
 		# redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.staff?
 		
 		# the normal homepage is the page without a parent section
-		@page = Page.where(:section_id => nil).first
+		# @page = Page.where(:section_id => nil).first
 	
 		if logged_in?
 			# if not found, course is presumably empty, redirect to onboarding
-			if @page.nil?
-				redirect_to welcome_path and return
-			end
+			# TODO make if no course connected
+			# if Settings['homepage'].nil?
+			# 	redirect_to welcome_path and return
+			# end
 
 			@schedules = Schedule.all
 			@student = User.includes(:hands, :notes).find(current_user)
@@ -37,12 +38,12 @@ class PageController < ApplicationController
 			render "timeline/timeline" and return
 		else
 			# if not found, course is presumably empty, redirect to onboarding
-			if @page.nil?
-				render text: "Not configured." and return
+			if Settings['homepage']
+				redirect_to Settings['homepage'] and return
 			end
 		end
 		
-		@has_form = @page.pset && @page.pset.form
+		# @has_form = @page.pset && @page.pset.form
 
 		render :index
 	end

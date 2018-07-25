@@ -1,6 +1,22 @@
 <h1 style="background-color:transparent; font-weight:500; color:#111; font-size: 30pt"><%= Settings['long_course_name'] %></h1>
 
 <style>
+	#timeline ul
+	{
+		padding-left:20px;
+	}
+
+	#timeline ul#links
+	{
+		padding-left:0;
+	}
+	
+	#timeline ul#links li
+	{
+		list-style-type:none;
+	}
+	
+	
 	.panel
 	{
 		margin-bottom:30px;
@@ -40,8 +56,9 @@
 	}
 </style>
 
-<div class="row" style="margin-bottom:2em">
+<div id="timeline" class="row" style="margin-bottom:2em">
 	<div class="col-sm-7">
+		<h3 style="margin-left:.5em; margin-bottom:1em">Announcements</h3>
 		<% @alerts.each do |item| %>
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -53,22 +70,32 @@
 
 	<div class="col-sm-5">
 		<div class="row">
+			<% if @schedule %>
 			<div class="col-sm-8">
 				<div class="panel panel-default" style="background-color:#FFCBCC">
 					<div class="panel-body">
-							<p><small><span style="color:#9a3335; text-transform: uppercase; font-size:smaller">20 september</span></small></p>
-							<h4>Upcoming: Music</h4>
+							<h4 style="margin-bottom:1em"><%= @schedule.name %></h4>
+							<ul>
+							<%= render partial: 'layouts/schedule' %>
+							</ul>
 					</div>
 				</div>
 			</div>
+			<% end %>
+			<% if Settings['links'] %>
 			<div class="col-sm-4">
 				<div class="panel panel-default" style="background-color:#CCD9EF">
 					<div class="panel-body">
-						<h4>Studie-wijzer</h4>
+						<h4>Links</h4>
+						<ul id="links">
+						<%= render partial: 'timeline/links' %>
+						</ul>
 					</div>
 				</div>
 			</div>
+			<% end %>
 		</div>
+		<h3 style="margin-left:.5em; margin-bottom:1em">Submissions</h3>
 		<% @items.each do |item| %>
 		<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
 			<div class="panel-body">
