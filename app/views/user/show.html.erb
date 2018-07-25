@@ -35,47 +35,83 @@
 	</div>
 </div>
 
+<% if @student.avatar.present? %>
+<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
+<% end %>
+
+
 <h4><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h4>
-<p><%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %></p>
+<p><%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %><br>
+Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %></p>
 
 <%= column_chart [
-	{
-		name: "remote",
-		data: @student.attendance_records.where(local: [nil, false]).group_by_day(:cutoff, format: "%a %d-%m").count
-	},
-	{
-		name: "local",
-		data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
-	}
+{
+	name: "remote",
+	data: @student.attendance_records.where(local: [nil, false]).group_by_day(:cutoff, format: "%a %d-%m").count
+},
+{
+	name: "local",
+	data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
+}
 ], height: "150px", stacked: true %>
 
 
-<p><%= best_in_place @student, :schedule_id, as: :select, url: user_path(id: @student.id), collection: Schedule.pluck(:id, :name).prepend([nil, '(Inactive)']), place_holder: '(Inactive)' %></p>
 
-<p>Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %></p>
 
-<% if @student.avatar.present? %>
-<img src="<%= @student.avatar %>" style="max-width:70px">
-<% end %>
 
-<% if @student.alarm %>
-<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
-<% else %>
-<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
-<% end %>
+<div id="timeline" class="row">
+	<div class="col-sm-4">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= form_for(@note) do |f| %>
+				<%= f.hidden_field :student_id %>
+				<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
+				<p>
+					<span class="pull-right">
+					<%= f.submit "Add note", class: "btn btn-primary" %>
+					</span>
+					<% if @student.alarm %>
+					<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
+					<% else %>
+					<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
+					<% end %>
+				</p>
+				<% end %>
+			</div>
+		</div>
+		<% @notes.each do |item| %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= render partial: "user/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
+		<% end %>
+	</div>
 
-<%= form_for(@note) do |f| %>
-<%= f.hidden_field :student_id %>
-<hr>
-<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
-<p class="text-right"><%= f.submit "Add note", class: "btn btn-primary" %></p>
-<% end %>
+	<div class="col-sm-4">
+		<% @hands.each do |item| %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= render partial: "user/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
+		<% end %>
+	</div>
+	
+	<div class="col-sm-4">
+	<% @items.each do |item| %>
+	<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
+		<div class="panel-body">
+			<%= render partial: "#{item.class.to_s.downcase}", object: item %>
+		</div>
+	</div>
+	<% end %>
+	</div>
+</div>
 
-<% @items.each do |item| %>
-	<hr>
-	<div class="pull-right small"><%= item.created_at.strftime("%A %d %b %Y %R") %></div>
-	<%= render partial: item.class.to_s.downcase, object: item %>
-<% end %>
+
+
+
 
 <script type="text/javascript">
 $(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });

@@ -7,6 +7,10 @@ module ApplicationHelper
 			""
 		end
 	end
+	
+	def date_span_with_title(date)
+		"<span title=\"#{date.strftime("%A %d %b %Y %R")}\">#{time_ago_in_words(date)} ago</span>".html_safe
+	end
 
 	def markdown(text, page_context)
 		Kramdown::Document.new(text,

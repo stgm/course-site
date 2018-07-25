@@ -6,10 +6,9 @@
     color:#3f3f3f;
 }
 
-.page-header h1
+h1
 {
-	font-size:30px;
-	font-weight:200;
+    font-weight:500; color:#111; font-size:40px;
 }
 
 #content h1
@@ -21,7 +20,7 @@
 
 #content h1:first-child
 {
-    margin-top:0;
+    margin-top:30px;
 }
 
 #content h1 .small, #content h1 small

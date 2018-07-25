@@ -1,4 +1,4 @@
-<h4>asked a question in class</h4>
+<p><small><%= date_span_with_title(hand.created_at)%></small></p>
 <p>
 	<span class="bubble">❓<%= hand.help_question %></span>
 	<% if hand.assist %>
@@ -10,5 +10,5 @@
 	<% end %>
 </p>
 <% if hand.assist %>
-	<p><small>Answered by <%= hand.assist.name %></small></p>
+	<small class="author">Answered by <%= hand.assist.name %></small>
 <% end %>

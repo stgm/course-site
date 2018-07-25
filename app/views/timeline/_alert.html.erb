@@ -1,4 +1,4 @@
-<p><small><span style="color:#339879; text-transform: uppercase; font-size:smaller" title="<%= alert.created_at.strftime("%A %d %b %Y %R") %>"><%= time_ago_in_words(alert.created_at) %> ago</span></small></p>
+<small><%= date_span_with_title(alert.created_at)%></small>
 <h4>
 	<span><%= alert.title %><br></span>
 </h4>

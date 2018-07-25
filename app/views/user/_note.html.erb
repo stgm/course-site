@@ -1,3 +1,3 @@
-<h4><span style="color:gray"><%= note.author.name %></span> added a note</h4>
-
+<small><%= date_span_with_title(note.created_at)%></small>
 <%= simple_markdown(note.text) %>
+<small class="author"><%= note.author.name %></small>

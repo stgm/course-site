@@ -1,6 +1,5 @@
-<h4>
-	<span style="color:gray"><%= grade.grader.name %></span> graded <%= grade.pset.name %>
-</h4>
+<small><%= date_span_with_title(grade.created_at)%></small>
+<p><%= grade.pset.name %></p>
 <p>
 	<% grade.subgrades.each_pair do |k,v| %>
 	<button class="btn btn-sm btn-info"><%= k.capitalize %> <span class="badge"><%= v %></span></button>
@@ -9,3 +8,4 @@
 </p>
 
 <%= simple_markdown(grade.comments) %>
+<small class="author">Graded by <%= grade.grader.name %></small>

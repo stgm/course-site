@@ -1,0 +1,5 @@
+<% links = Settings['links'] %>
+
+<% links.each do |title, url|  %>
+<li><%= link_to title.html_safe, url %></li>
+<% end %>
