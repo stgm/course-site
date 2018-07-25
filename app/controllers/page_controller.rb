@@ -40,6 +40,8 @@ class PageController < ApplicationController
 			# if not found, course is presumably empty, redirect to onboarding
 			if Settings['homepage']
 				redirect_to Settings['homepage'] and return
+			else
+				render text: "Website is empty." and return
 			end
 		end
 		
