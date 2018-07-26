@@ -27,7 +27,7 @@
 <body>
 	
 	<%= render 'layouts/navbar' %>
-	
+
 	<div class="container">
 		<% if flash[:alert] %>
 		<div class="alert alert-danger alert-dismissible">
@@ -45,10 +45,11 @@
 	</div>
 
 	<div id="content" class="container">
-
-
 		<%= yield %>
 	</div>
+	
+	</div>
+</div>
 	
 	<%= render 'layouts/footer' %>
 	

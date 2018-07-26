@@ -13,11 +13,11 @@
 	</div>
 
 	<div class="col-sm-5">
-		<div class="row">
+		<!-- <div class="row">
 			<% if @schedule %>
 			<div class="col-sm-8">
-				<div class="panel panel-default" style="background-color:#F76C6C">
-					<div class="panel-body">
+				<div class="card" style="background-color:#F76C6C">
+					<div class="card-body">
 							<h4 style="margin-bottom:1em"><%= @schedule.name %></h4>
 							<ul>
 							<%= render partial: 'layouts/schedule' %>
@@ -38,11 +38,11 @@
 				</div>
 			</div>
 			<% end %>
-		</div>
+		</div> -->
 		<h3>Submissions</h3>
 		<% @items.each do |item| %>
-		<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
-			<div class="panel-body">
+		<div class="card <%= "card-highlight" if item.updated_at > 1.week.ago %>">
+			<div class="card-body">
 				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
 			</div>
 		</div>

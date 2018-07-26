@@ -18,20 +18,25 @@
 	list-style-type:none;
 }
 
+#timeline h3
+{
+    margin-top:1.5em;
+    margin-left:.5em; margin-bottom:1em
+}
 
-#timeline .panel
+#timeline .card
 {
 	margin-bottom:30px;
 }
 
-#timeline .panel-highlight
+#timeline .card-highlight
 {
-	background-color:#FFE0A2;
+	background-color:$light;
 }
 
-#timeline h3
+#timeline .card p
 {
-    margin-left:.5em; margin-bottom:1em
+    margin-bottom:0;
 }
 
 #grade_buttons

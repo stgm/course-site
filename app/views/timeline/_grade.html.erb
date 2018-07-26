@@ -1,12 +1,12 @@
-<small><%= date_span_with_title(grade.created_at)%></small>
+<small><%= date_span_with_title(grade.created_at)%> by <%= grade.grader.name if grade.grader %></small>
 <h4>
 	<%= grade.pset.name %> was graded<br>
 </h4>
 <p id="grade_buttons">
 	<% grade.subgrades.each_pair do |k,v| %>
-	<button class="btn btn-sm btn-info"><%= k.capitalize %> <span class="badge"><%= v %></span></button>
+	<span class="btn btn-sm btn-outline-secondary"><%= k.capitalize %> <span class="badge"><%= v %></span></span>
 	<% end %>
-	<button class="btn btn-sm btn-primary"> Grade <span class="badge"><%= translate_grade(grade.any_final_grade) %></span></button>
+	<span class="btn btn-sm btn-outline-primary"> Grade <span class="badge"><%= translate_grade(grade.any_final_grade) %></span></span>
 </p>
 
 <%= simple_markdown(grade.comments) %>

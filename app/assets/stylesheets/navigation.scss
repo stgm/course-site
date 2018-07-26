@@ -2,93 +2,36 @@
 // PRIMARY AND SECONDARY NAVBAR STYLES
 //
 
-.navbar
+#main-nav
 {
-    background-color: $teal;
     height:120%;
-//    border:0;
-//    margin-bottom:0;
-//    opacity:0.99;
-//    background-color: transparent;
+    
+    // https://uigradients.com/#OrangeCoral
+    background: #ff9966; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ff9966, #ff5e62); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ff9966, #ff5e62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-//.menu-nav
-//{
-//    float:left;
-//    margin:0;
-//}
+.navbar-nav li + li, * + .navbar-nav // give menus in navbar more horz space
+{
+    margin-left:1em;
+}
 
-.navbar-brand small
+* + .navbar-text // give menus and text in navbar more horz space
+{
+    margin-left:2em;
+}
+
+.navbar-brand small // subtext for schedule
 {
 	font-size:12px;
 }
 
-//#icon-nav
-//{
-//    margin-right:-15px;
-//}
-
-@media (min-width: 768px)
-{
-	#icon-nav
-	{
-		margin-right:0;
-	}
-}
-
-//.navbar > .container
-//{
-//    background-color: #223839;
-//}
-
-//.navbar-header a, .navbar-default .navbar-nav > li > a
-//{
-//    color:white !important;
-//}
-
-//.navbar-default .navbar-nav > li > a {
-//
-//}
-
-.navbar .empty
-{
-	width:12px;
-}
-
-//.navbar .dropdown-menu > li > a
-//{
-//    padding-top:0.4em;
-//    padding-bottom:0.4em;
-//}
-
-.navbar-expand-lg .navbar-nav .nav-link, .navbar-expand-lg .navbar-nav .navbar-text
-{
-    padding-left:1rem;
-    padding-right:1rem;
-}
-
-.navbar .dropdown-item
+.navbar .dropdown-item // taller menu items
 {
     padding-top:0.4em;
     padding-bottom:0.4em;
 }
-
-//#icon-nav > li > a
-//{
-//    padding: 15px 10px;
-//}
-
-//.navbar-header
-//{
-//    float: left;
-//}
-
-//.navbar-nav.navbar-right
-//{
-//    float: right !important;
-//    margin: 0;
-//    margin-right: -15px;
-//}
 
 @media (max-width: 767px)
 {
@@ -119,21 +62,6 @@
 		float: left;
 	}
 }
-
-//.navbar-collapse:after
-//{
-//    clear:none;
-//}
-
-//.navbar-right > .navbar-text:last-child
-//{
-//    margin-right:0;
-//}
-
-//.navbar .navbar-text
-//{
-//    line-height:20px;
-//}
 
 .navbar .label // schedule label next to site name
 {
@@ -166,11 +94,14 @@
     border:none;
     border-radius:0;
     box-shadow: 10px 10px black;
-//
-//    opacity:0.98;
-//    padding-top:0.25em;
+
     max-height:600px;
     overflow-y:scroll;
+}
+
+.menu-hidden
+{
+    background-color: #ff9966;
 }
 
 #menu-nav .dropdown-menu
@@ -193,50 +124,13 @@
 	margin-right:0.3em;
 }
 
-i.fa
-{
-    font-size: 15px;
-}
-
 //
 // PRIMARY NAVBAR STYLES
 //
 
-//#main-nav
-//{
-//    z-index:10;
-//}
-
-//
-// SIDEBAR TOGGLE
-//
-
-.sidebar-toggle
+#main-nav
 {
-	float:right;
-	position:relative;
-	border-color: #ddd;
-	padding: 9px 1em;
-	margin-top: 8px;
-	margin-bottom: 8px;
-	background-color: transparent;
-	background-image: none;
-	border: 1px solid transparent;
-	border-radius: 4px;
-}
-
-.sidebar-toggle .icon-bar
-{
-	background-color: $color5;
-	display: block;
-	width: 22px;
-	height: 2px;
-	border-radius: 1px;
-}
-
-.sidebar-toggle .icon-bar + .icon-bar
-{
-	margin-top: 4px;
+    z-index:2000;
 }
 
 //

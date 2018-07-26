@@ -6,7 +6,7 @@
 	</a>
 	<div class="dropdown-menu">
 		<% for page in section.pages %>
-		<%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: 'dropdown-item ' + (page.public ? '' : 'bg-warning') %>
+		<%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: 'dropdown-item ' + (page.public ? '' : 'menu-hidden') %>
 		<% end %>
 	</div>
 </li>
