@@ -1,8 +1,4 @@
 <small><%= date_span_with_title(alert.created_at)%></small>
-<h4>
-	<span><%= alert.title %><br></span>
-</h4>
-<p>
+<h5 class="card-title"><%= alert.title %></h5>
 <%= simple_markdown(alert.body) %>
-</p>
 

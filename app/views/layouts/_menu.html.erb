@@ -1,84 +1,84 @@
 <% if current_user.admin? %>
-<li><%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-eye-open"></i> Permissions'.html_safe, permissions_path %></li>
-<li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Discussion list'.html_safe, discuss_submits_path %></li>
+<%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-eye-open"></i> Permissions'.html_safe, permissions_path, class: 'dropdown-item' %>
+<div class="dropdown-divider"></div>
+<%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Discussion list'.html_safe, discuss_submits_path, class: 'dropdown-item' %>
 <% if Settings.hands_allow %>
-<li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
+<div class="dropdown-divider"></div>
+<%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path, class: 'dropdown-item' %>
 <% end %>
 <% if Settings['links'] %>
-<li class="divider"></li>
+<div class="dropdown-divider"></div>
 <% Settings['links'].each do |title, url| %>
-<li><%= link_to title.html_safe, url %></li>
+<%= link_to title.html_safe, url, class: 'dropdown-item' %>
 <% end %>
 <% end %>
-<li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path %></li>
+<div class="dropdown-divider"></div>
+<%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path, class: 'dropdown-item' %>
 
 
 
 <% elsif current_user.head? %>
-<li><%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-eye-open"></i> View permissions'.html_safe, permissions_path %></li>
+<%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-eye-open"></i> View permissions'.html_safe, permissions_path, class: 'dropdown-item' %>
 <% if current_user.groups.any? or current_user.schedules.any? %>
-<li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Discussion list'.html_safe, discuss_submits_path %></li>
+<div class="dropdown-divider"></div>
+<%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Discussion list'.html_safe, discuss_submits_path, class: 'dropdown-item' %>
 <% end %>
 <% if Settings.hands_allow %>
-<li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
+<div class="dropdown-divider"></div>
+<%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path, class: 'dropdown-item' %>
 <% end %>
 <% if Settings['links'] %>
-<li class="divider"></li>
+<div class="dropdown-divider"></div>
 <% Settings['links'].each do |title, url| %>
-<li><%= link_to title.html_safe, url %></li>
+<%= link_to title.html_safe, url, class: 'dropdown-item' %>
 <% end %>
 <% end %>
-<li class="divider"></li>
-<li><%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path %></li>
+<div class="dropdown-divider"></div>
+<%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path, class: 'dropdown-item' %>
 
 
 
 <% elsif current_user.assistant? %>
 <% if Settings.hands_allow %>
-<li><%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path %></li>
-<li class="divider"></li>
+<%= link_to '<i class="glyphicon glyphicon-time"></i> Set availability'.html_safe, hands_available_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands list'.html_safe, hands_path, class: 'dropdown-item' %>
+<div class="dropdown-divider"></div>
 <% end %>
 <% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-<li><%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path %></li>
-<li><%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Discussion list'.html_safe, discuss_submits_path %></li>
-<li class="divider"></li>
+<%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path, class: 'dropdown-item' %>
+<%= link_to '<i class="glyphicon glyphicon-bullhorn"></i> Discussion list'.html_safe, discuss_submits_path, class: 'dropdown-item' %>
+<div class="dropdown-divider"></div>
 <% end %>
 <% if Settings['links'] %>
 <% Settings['links'].each do |title, url| %>
-<li><%= link_to title.html_safe, url %></li>
+<%= link_to title.html_safe, url, class: 'dropdown-item' %>
 <% end %>
-<li class="divider"></li>
+<div class="dropdown-divider"></div>
 <% end %>
-<li><%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path %></li>
+<%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path, class: 'dropdown-item' %>
 
 
 
 <% else %>
-<li><%= link_to '<i class="glyphicon glyphicon-list"></i> View grades'.html_safe, profile_grades_path %></li>
+<%= link_to '<i class="glyphicon glyphicon-list"></i> View grades'.html_safe, profile_grades_path, class: 'dropdown-item' %>
 <% if Settings['links'] %>
-<li class="divider"></li>
+<div class="dropdown-divider"></div>
 <% Settings['links'].each do |title, url| %>
-<li><%= link_to title.html_safe, url %></li>
+<%= link_to title.html_safe, url, class: 'dropdown-item' %>
 <% end %>
-<li class="divider"></li>
+<div class="dropdown-divider"></div>
 <% end %>
-<li><%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path %></li>
+<%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path, class: 'dropdown-item' %>
 
 
 

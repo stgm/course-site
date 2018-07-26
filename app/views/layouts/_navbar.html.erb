@@ -5,30 +5,35 @@
 	</ul>
 </nav>
 		
-<nav id="main-nav" class="navbar navbar-default">
-	<div class="container">
+<nav id="masin-nav" class="navbar navbar-expand-lg navbar-light">
+	<!-- <div class="container"> -->
 			
-		<div class="navbar-header">
+		<a href="/" class="navbar-brand"><%= fa_icon "home" %>
+			<span class=""><%= Settings.short_course_name %></span>
+			<span class="hidden-xs hidden-sm"><small><%= @group_name || @schedule_name %></small></span>
+		</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu-nav" aria-controls="menu-nav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+			  
+		<!-- <div class="navbar-header">
 			<button type="button" class="sidebar-toggle collapsed visible-xs-inline-block" data-toggle="collapse" data-target="#sidebar">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
-			</button>
-			<a href="/" class="navbar-brand"><%= fa_icon "home" %>
-				<span class=""><%= Settings.short_course_name %></span>
-				<span class="hidden-xs hidden-sm"><small><%= @group_name || @schedule_name %></small></span>
-			</a>
-		</div>
+			</button> -->
+		<!-- </div> -->
 			
 		<div id="menu-nav" class="collapse navbar-collapse">
-			<ul class="nav navbar-nav">
+			<ul class="navbar-nav">
 				<% if logged_in? && @schedule %>
-				<li class="dropdown hidden-xs">
+				<li class="nav-item dropdown hidden-xs">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Current <span class='caret'></span></a>
-					<ul class="dropdown-menu">
+					<div class="dropdown-menu">
 						<%= render 'layouts/schedule' %>
-					</ul>
+					</div>
 				</li>
 				<% end %>
 				
@@ -37,55 +42,55 @@
 				<% end %>
 
 				<% if @sections.length > 0 %>
-				<li class="dropdown hidden-xs">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= (@sections_in_navbar.length > 0) ? "Other" : "Archive" %> <span class='caret'></span></a>
-					<ul class="dropdown-menu">
+				<li class="nav-item dropdown hidden-xs">
+					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= (@sections_in_navbar.length > 0) ? "Other" : "Archive" %> <span class='caret'></span></a>
+					<div class="dropdown-menu">
 						<%= render 'layouts/materials' %>
-					</ul>
+					</div>
 				</li>
 				<% end %>
 			</ul>
 		</div>
 
-		<ul id="icon-nav" class="nav navbar-nav navbar-right">
+		<ul id="icon-nav" class="navbar-nav navbar-right">
 			<% if !Settings.mail_address.blank? && logged_in? && (@alerts.count > 0 || @current_user.admin?) %>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "bell-o", class: "fa-fw" %></a>
-				<ul class="dropdown-menu">
+			<li class="nav-item dropdown">
+				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "bell-o", class: "fa-fw" %></a>
+				<div class="dropdown-menu dropdown-menu-right">
 					<%= render 'layouts/alerts' %>
-				</ul>
+				</div>
 			</li>
 			<% end %>
 
 			<% if Settings.hands_allow && current_user.valid_profile? %>
-			<li class="dropdown" id="ama-nav">
-				<a href="#" id="ama-dd" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
-				<ul class="dropdown-menu" id="ama-menu">
+			<li class="nav-item dropdown" id="ama-nav">
+				<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
+				<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
 					<%= render 'layouts/ama' %>
-				</ul>
+				</div>
 			</li>
 			<% end %>
 
 			<% if current_user.submits.any? %>
-			<li class="dropdown">
+			<li class="nav-item dropdown">
 				<a href="/profile/grades" data-toggle="tooltip" data-placement="bottom" title="Feedback"><%= fa_icon "bullhorn", class: "fa-fw" %></a>
 			</li>
 			<% end %>
 
 			<% if logged_in? and (current_user.assistant? or current_user.head? or current_user.admin?) %>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= fa_icon "tasks", class: "fa-fw" %></a>
-				<ul class="dropdown-menu" id="user-menu">
+			<li class="nav-item dropdown">
+				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= fa_icon "tasks", class: "fa-fw" %></a>
+				<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
 					<%= render 'layouts/menu' %>
 				</ul>
 			</li>
 				
-			<p class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></p>
+			<span class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></span>
 			<% elsif logged_in? %>
 			<p class="navbar-text hidden-xs"><%= current_user && current_user.name || session[:cas_user] %></p>
 			<% elsif authenticated? %>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user && current_user.name || session[:cas_user] %></a>
+			<li class="nav-item dropdown">
+				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= current_user && current_user.name || session[:cas_user] %></a>
 				<ul class="dropdown-menu" id="user-menu">
 					<%= render 'profile/edit' %>
 				</ul>
@@ -95,7 +100,7 @@
 			<% end %>
 		</ul>
 
-	</div>
+	<!-- </div> -->
 </nav>
 
 <% if logged_in? && current_user.student? && @schedule %>

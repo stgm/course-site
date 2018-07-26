@@ -29,7 +29,7 @@ h1
     font-weight:300;
 }
 
-@media (min-width: $screen-sm-min)
+@include media-breakpoint-up(sm)
 {
 	#content section > p, #content section > ul, #content section > ol,
     #content section > blockquote, #content section > .footnotes,

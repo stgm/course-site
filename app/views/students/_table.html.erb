@@ -1,66 +1,66 @@
-	<table id="grade-table" class="table table-condensed table-striped">
+<table id="grade-table" class="table table-sm table-striped table-responsive">
 
-		<tr>
-			<th>Name</th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th>Attend</th>
-			<th class="rotate">Spoken</th>
-			<th class="rotate">Status</th>
-			<% psets.each do |pset| %>
-			<th class="rotate"><div><%= pset.name %></div></th>
+	<tr>
+		<th>Name</th>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th>Attend</th>
+		<th class="rotate">Spoken</th>
+		<th class="rotate">Status</th>
+		<% psets.each do |pset| %>
+		<th class="rotate"><div><%= pset.name %></div></th>
+		<% end %>
+	</tr>
+
+	<% users.each do |group, user_list|%>
+	<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td></tr>
+
+	<% user_list.each do |user| %>
+	<tr>
+		<td>
+			<%= link_to user.name, user_path(user) %><%= "@" if user.ping and user.ping.active %>
+			<% if user.notes.present? %>
+			<span class="glyphicon glyphicon-pencil"></span>
 			<% end %>
-		</tr>
-
-		<% users.each do |group, user_list|%>
-		<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td></tr>
-
-		<% user_list.each do |user| %>
-		<tr>
-			<td>
-				<%= link_to user.name, user_path(user) %><%= "@" if user.ping and user.ping.active %>
-				<% if user.notes.present? %>
-				<span class="glyphicon glyphicon-pencil"></span>
-				<% end %>
-				<% if user.alarm %>
-				<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
-				<% end %>
-			</td>
-			
-			<td>
-				<%= user.last_known_location %>
-			</td>
-			
-			<td>
-				<%= "#{user.login_id}" %>
-			</td>
-			
-			<td>
-				<% if user.mail %>
-				<%= link_to '📧', 'mailto:' + user.mail %>
-				<% end %>
-			</td>
-        
-			<td><span class="bar"><%= user.attendance.split(',').last(7).join(',') %></span></td>
-			
-			<td><%= user.questions_count_cache %></td>
-			
-			<td><%= best_in_place(user, :status, as: :select, collection: { '0' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
-
-			<% subs = user.submits.group_by(&:pset_id)  %>
-			<% psets.each do |pset| %>
-			<td>
-				<%= grade_button(user, pset, subs)%>
-			</td>
+			<% if user.alarm %>
+			<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 			<% end %>
+		</td>
+		
+		<td>
+			<%= user.last_known_location %>
+		</td>
+		
+		<td>
+			<%= "#{user.login_id}" %>
+		</td>
+		
+		<td>
+			<% if user.mail %>
+			<%= link_to '📧', 'mailto:' + user.mail %>
+			<% end %>
+		</td>
+    
+		<td><span class="bar"><%= user.attendance.split(',').last(7).join(',') %></span></td>
+		
+		<td><%= user.questions_count_cache %></td>
+		
+		<td><%= best_in_place(user, :status, as: :select, collection: { '0' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
 
-		</tr>
+		<% subs = user.submits.group_by(&:pset_id)  %>
+		<% psets.each do |pset| %>
+		<td>
+			<%= grade_button(user, pset, subs)%>
+		</td>
 		<% end %>
 
-		<% end %>
+	</tr>
+	<% end %>
 
-	</table>
+	<% end %>
+
+</table>
 
 <script type="text/javascript">
 $(function() {

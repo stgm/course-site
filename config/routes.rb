@@ -148,6 +148,7 @@ Rails.application.routes.draw do
 	get  "welcome" => "welcome#index"
 	get  "welcome/clone"
 	get  "welcome/claim"
+	get  "welcome/register"
 
 	# filled-in form caching for users
 	post "page/submit"

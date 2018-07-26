@@ -4,58 +4,56 @@
 <div style="background-color:white; padding:1em; border-left:1px solid #dddddd; border-bottom:1px solid #dddddd; border-right:1px solid #dddddd;">
 
 <div class="pull-right">
-	<div class="btn-group">
+	<div class="btn-group" role="group">
 
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="glyphicon glyphicon-ok"></span> <span class="caret"></span>
+			<button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="fa fa-check"></span> <span class="caret"></span>
 			</button>
-			<ul class="dropdown-menu dropdown-menu-right">
+			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
 				<% if current_user.senior? %>
-				<li><%= link_to 'Publish what\'s done'.html_safe, publish_finished_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' } %></li>
+				<%= link_to 'Publish what\'s done'.html_safe, publish_finished_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item" %>
 				<% end %>
 				<% if current_user.admin? %>
-				<li><%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' } %></li>
-				<li><%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' } %></li>
+				<%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
+				<%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' }, class:"dropdown-item"  %>
 				<% if Schedule.any? %>
-				<li role="separator" class="divider"></li>
-				<li><%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path %></li>
-				<li><%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path %></li>
+				<div class="dropdown-divider"></div>
+				<%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path, class:"dropdown-item"  %>
+				<%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path, class:"dropdown-item"  %>
 				<% end %>
 				<% end %>
 				<% if current_user.admin? && GradeTools.available? %>
-				<li role="separator" class="divider"></li>
-				<li><%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path(schedule: @current_schedule_id), method: :put, data: { confirm:'Are you sure?' } %></li>
+				<div class="dropdown-divider"></div>
+				<%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path(schedule: @current_schedule_id), method: :put, data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
 				<% end %>
-			</ul>
+			</div>
 		</div>
 
 		<% if @current_schedule && current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="glyphicon glyphicon-user"></span> <span class="caret"></span>
+			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="fa fa-user"></span> <span class="caret"></span>
 			</button>
 
 			<ul class="dropdown-menu dropdown-menu-right">
-				<li><%= link_to 'Import Groups'.html_safe, admin_import_path %></li>
-				<li><%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule.id) %></li>
-				<li><%= link_to "Statuses", students_statuses_path(group: @current_schedule.name) %></li>
-
-				
+				<%= link_to 'Import Groups'.html_safe, admin_import_path, class:"dropdown-item" %>
+				<%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule.id), class:"dropdown-item" %>
+				<%= link_to "Statuses", students_statuses_path(group: @current_schedule.name), class:"dropdown-item" %>
 			</ul>
 		</div>
 		<% end %>
 
 		<% if current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="glyphicon glyphicon-asterisk"></span> <span class="caret"></span>
+			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="fa fa-asterisk"></span> <span class="caret"></span>
 			</button>
 
 			<ul class="dropdown-menu dropdown-menu-right">
-				<li><%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path %></li>
-				<li><%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xlsx') %></li>
-				<li><%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path %></li>
+				<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:"dropdown-item" %>
+				<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xlsx'), class:"dropdown-item" %>
+				<%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:"dropdown-item" %>
 			</ul>
 		</div>
 		<% end %>

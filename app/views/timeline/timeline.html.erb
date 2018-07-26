@@ -4,8 +4,8 @@
 	<div class="col-sm-7">
 		<h3>Announcements</h3>
 		<% @alerts.each do |item| %>
-		<div class="panel panel-default">
-			<div class="panel-body">
+		<div class="card">
+			<div class="card-body">
 				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
 			</div>
 		</div>
@@ -28,9 +28,9 @@
 			<% end %>
 			<% if Settings['links'] %>
 			<div class="col-sm-4">
-				<div class="panel panel-default" style="background-color:#A8D0E6">
-					<div class="panel-body">
-						<h4>Links</h4>
+				<div class="card" style="background-color:#A8D0E6">
+					<div class="card-body">
+						<h5 class="card-title">Links</h5>
 						<ul id="links">
 						<%= render partial: 'timeline/links' %>
 						</ul>

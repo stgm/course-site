@@ -1,4 +1,4 @@
-.panel-default
+.card
 {
 	-webkit-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
 	-moz-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
@@ -6,12 +6,12 @@
 	border:0;
 }
 
-.panel-default small
+.card small
 {
     color:#339879; text-transform: uppercase; font-size:x-small;
 }
 
-.panel-default small.author
+.card small.author
 {
     color:#8b9894;
 }

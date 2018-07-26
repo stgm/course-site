@@ -2,14 +2,14 @@
 
 <% for section in @sections %>
 <% if first_done %>
-<li role="separator" class="divider"></li>
+<div class="dropdown-divider"></div>
 <% else
       first_done = true
    end
 %>
 
-<li class="dropdown-header"><span><%= section.title %></span></li>
+<h6 class="dropdown-header"><span><%= section.title %></span></h6>
 <% for page in section.pages %>
-	<li><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: (page.public ? '' : 'bg-warning') %></li>
+	<%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: 'dropdown-item ' + (page.public ? '' : 'bg-warning') %>
 <% end %>
 <% end %>

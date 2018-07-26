@@ -1,28 +1,28 @@
-<ul class="nav nav-tabs" style="margin-top:1em;">
+<ul class="nav nav-tabs">
 	<% if @schedules %>
 	<% @schedules.each do |schedule| %>
-	<li <%= 'class="active"'.html_safe if params[:group] == schedule.name || schedule == @current_schedule %>>
-		<%= link_to "#{schedule.name} (#{@schedule_count[schedule.id]||0})", students_in_group_path(group: schedule.name) %> 
+	<li class="nav-item">
+		<%= link_to "#{schedule.name} (#{@schedule_count[schedule.id]||0})", students_in_group_path(group: schedule.name), class: "nav-link" + class_if(params[:group] == schedule.name || schedule == @current_schedule, "active") %> 
 	</li>
 	<% end %>
 	<% else %>
-	<li <%= 'class="active"'.html_safe if action_name == 'index' %>>
-		<%= link_to "Active (#{@active_count})", students_path %>
+	<li class="nav-item">
+		<%= link_to "Active (#{@active_count})", students_path, class: "nav-link" + class_if(action_name == 'index', 'active') %>
 	</li>
 	<% end %>
 	<% if current_user.admin? %>
 	<% if @inactive_count > 0 %>
-		<li <%= 'class="active"'.html_safe if action_name == 'list_inactive' %>>
-			<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path %>
+		<li class="nav-item">
+			<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path, class: "nav-link" + class_if(action_name == 'list_inactive', 'active') %>
 		</li>
 	<% end %>
 	<% if @other_count > 0 %>
-		<li <%= 'class="active"'.html_safe if action_name == 'list_other' %>>
-			<%= link_to "Other (#{@other_count})", students_in_other_path %>
+		<li class="nav-item">
+			<%= link_to "Other (#{@other_count})", students_in_other_path, class: "nav-link" + class_if(action_name == 'list_other', 'active') %>
 		</li>
 	<% end %>
-	<li <%= 'class="active"'.html_safe if action_name == 'list_admins' %>>
-		<%= link_to "Admins (#{@admin_count})", students_in_admins_path %>
+	<li class="nav-item">
+		<%= link_to "Admins (#{@admin_count})", students_in_admins_path, class: "nav-link" + class_if(action_name == 'list_admins', 'active') %>
 	</li>
 	<% end %>
 </ul>

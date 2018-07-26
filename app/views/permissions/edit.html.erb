@@ -18,11 +18,11 @@
 			<% end %>			
 			<div class="btn-group">
 				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="glyphicon glyphicon-plus"></span></span>
+					<span class="fa fa-plus"></span></span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @schedules.each do |schedule| %>
-					<li><%= link_to schedule.name, user_set_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch %></li>
+					<%= link_to schedule.name, user_set_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch, class:"dropdown-item" %>
 					<% end %>
 				</ul>
 			</div>
@@ -33,11 +33,11 @@
 			<% end %>
 			<div class="btn-group">
 				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="glyphicon glyphicon-plus"></span></span>
+					<span class="fa fa-plus"></span></span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @groups.each do |group| %>
-					<li><%= link_to group.name, user_set_permissions_path(user_id: user.id, group_id: group.id), method: :patch %></li>
+					<%= link_to group.name, user_set_permissions_path(user_id: user.id, group_id: group.id), method: :patch, class:"dropdown-item" %>
 					<% end %>
 				</ul>
 			</div>

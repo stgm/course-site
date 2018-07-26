@@ -2,7 +2,7 @@ require 'dropbox'
 
 class PageController < ApplicationController
 
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage ]	
+	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage ]
 	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?, except: [ :homepage ]
 	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?, except: [ :homepage ]
 
@@ -13,6 +13,14 @@ class PageController < ApplicationController
 		
 		# the normal homepage is the page without a parent section
 		# @page = Page.where(:section_id => nil).first
+		
+		if not Page.any?
+			if User.admin.any?
+				redirect_to config_path and return
+			else
+				redirect_to welcome_register_path and return
+			end
+		end
 	
 		if logged_in?
 			# if not found, course is presumably empty, redirect to onboarding

@@ -17,29 +17,31 @@ $color3: #F2D8CE;
 $color4: #F2785C;
 $color5: #F25D50;
 
-$link-color: darken($color5, 30%);
+//$link-color: darken($color5, 30%);
 
-$navbar-default-bg: #FCFCFC;
-$navbar-default-color: #918291;
-$navbar-default-link-color: #262626;
-$navbar-default-link-active-color: white;
-$navbar-default-link-active-bg: #262626;
-$navbar-default-border: transparent;
+//$navbar-default-bg: #FCFCFC;
+//$navbar-default-color: #918291;
+//$navbar-default-link-color: #262626;
+//$navbar-default-link-active-color: white;
+//$navbar-default-link-active-bg: #262626;
+//$navbar-default-border: transparent;
 
-$component-active-bg: #52B15A;
+//$component-active-bg: #52B15A;
 
-$font-size-base: 14px;
-
-$font-size-h1: 30px;
-$font-size-h2: 28px;
-$font-size-h3: 19px;
-$font-size-h4: 16px;
+//$font-size-base: 1rem;
+//
+//$font-size-h1: 2rem;
+//$font-size-h2: 2rem;
+//$font-size-h3: 1.5rem;
+//$font-size-h4: 1rem;
 
 // this is the max width for medium and large screens (not too large)
-$container-sm: auto;
-$container-lg: 970px;
+//$container-sm: auto;
+//$container-lg: 970px;
 
-@import "bootstrap-sprockets";
+$enable-gradients: true;
+
+//@import "bootstrap-sprockets";
 @import "bootstrap";
 
 @import "navigation";
