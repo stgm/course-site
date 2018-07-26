@@ -86,7 +86,7 @@ class PageController < ApplicationController
 		page = Page.find(params[:page_id])
 		pset = page.pset
 
-		if (pset.form || pset.files) && !Dropbox.connected?
+		if (pset.form || pset.files.any?) && !Dropbox.connected?
 			redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
 		end
 		
