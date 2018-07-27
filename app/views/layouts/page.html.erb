@@ -25,33 +25,42 @@
 </head>
 
 <body>
-	
-	<%= render 'layouts/navbar' %>
 
-	<div class="container">
-		<% if flash[:alert] %>
-		<div class="alert alert-danger alert-dismissible">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<%= flash[:alert] %>
+	<div class="container-fluid" style="height:100vh">
+		<div class="row" style="height:100vh">
+			<div id="sidebar" class="col-md-3 p-4 fixed bg-dark text-light" style="overflow:scroll;">
+				<%= render 'layouts/sidebar' %>
+				<%= render 'layouts/footer' %>
+				
+			</div>
+			<div class="col-md-9 fixed p-0" style="overflow:scroll">
+	
+				<!-- <%= render 'layouts/navbar' %> -->
+
+				<div class="container">
+					<% if flash[:alert] %>
+					<div class="alert alert-danger alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<%= flash[:alert] %>
+					</div>
+					<% end %>
+
+					<% if flash[:notice] %>
+					<div class="alert alert-success alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<%= flash[:notice] %>
+					</div>
+					<% end %>
+				</div>
+
+				<div id="content" class="container p-5">
+					<%= yield %>
+				</div>
+	
+			</div>
 		</div>
-		<% end %>
-
-		<% if flash[:notice] %>
-		<div class="alert alert-success alert-dismissible">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<%= flash[:notice] %>
-		</div>
-		<% end %>
-	</div>
-
-	<div id="content" class="container">
-		<%= yield %>
 	</div>
 	
-	</div>
-</div>
-	
-	<%= render 'layouts/footer' %>
 	
 	<div id="popup"></div>
 	

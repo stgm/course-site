@@ -1,0 +1,88 @@
+<style>
+
+#sidebar a {
+	color:#CCC;
+}
+
+</style>
+
+
+<ul id="icon-nav" class="nav pull-right">
+	<% if Settings.hands_allow && current_user.valid_profile? %>
+	<li class="nav-item dropdown" id="ama-nav">
+		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
+		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
+			<%= render 'layouts/ama' %>
+		</div>
+	</li>
+	<% end %>
+
+	<% if logged_in? %>
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= fa_icon "tasks" %></a>
+		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
+			<%= render 'layouts/menu' %>
+		</ul>
+	</li>
+	<% elsif authenticated? %>
+	<% else %>
+	<li><%= link_to("Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
+	<% end %>
+</ul>
+
+	
+<a href="/" class="navbar-brand"><%= fa_icon "home", class: "" %>
+	<span class=""><%= Settings.short_course_name %></span>
+	<br>
+	<span class="hidden-xs hidden-sm"><small><%= @group_name || @schedule_name %></small></span>
+	<br>
+	<span><small><%= current_user && current_user.name || session[:cas_user] %></small></span>
+</a>
+
+<ul class="nav flex-column w-100" id="main-side">
+
+	
+	<span class="navbar-text pt-5">Course</span>
+	<li class="nav-item"><a href="/" class="nav-link">Announcements</a></li>
+	<% Settings['links'].each do |title, url|  %>
+	<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
+	<% end %>
+	
+	<% if logged_in? && @schedule %>
+	<span class="navbar-text pt-4">
+		<%= @schedule.name %>
+		<span class="pull-right">
+		<%= fa_icon 'chevron-circle-left', style: 'color:#aaa' %>
+		<%= fa_icon 'chevron-circle-right', style: 'color:#aaa' %>
+		</span>
+	</span>
+	
+	<% schedule = @schedule %>
+	<% schedule.content.each do |item, link|  %>
+	<% next if item == 'description' %>
+	<% if link.nil? %>
+	<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, '#', class:"nav-link disabled" %></li>
+	<% elsif link == '---' %>
+	<!-- <li role="separator" class="divider"></li> -->
+	<% else %>
+	<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, link, class:"nav-link" %></li>
+	<% end %>
+	<% end %>
+	<% end %>
+	
+	<span class="navbar-text pt-4">Other</span>
+	<% if @sections_in_navbar.length > 0 %>
+	<%= render 'layouts/sections' %>
+	<% end %>
+
+	<% if @sections.length > 0 %>
+	<li class="nav-item dropdown hidden-xs">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= (@sections_in_navbar.length > 0) ? "Other" : "Archive" %> <span class='caret'></span></a>
+		<div class="dropdown-menu">
+			<%= render 'layouts/materials' %>
+		</div>
+	</li>
+	<% end %>
+
+
+</ul>

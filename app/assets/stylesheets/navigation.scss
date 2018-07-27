@@ -4,7 +4,7 @@
 
 #main-nav
 {
-    height:120%;
+//    height:120%;
     
     // https://uigradients.com/#OrangeCoral
     background: #ff9966; /* fallback for old browsers */
@@ -12,12 +12,12 @@
     background: linear-gradient(to right, #ff9966, #ff5e62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.navbar-nav li + li, * + .navbar-nav // give menus in navbar more horz space
+.navbar .navbar-nav li + li, .navbar * + .navbar-nav // give menus in navbar more horz space
 {
     margin-left:1em;
 }
 
-* + .navbar-text // give menus and text in navbar more horz space
+.navbar * + .navbar-text // give menus and text in navbar more horz space
 {
     margin-left:2em;
 }
