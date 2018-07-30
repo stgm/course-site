@@ -1,45 +1,15 @@
-<h1><%= Settings['long_course_name'] %></h1>
-
 <div id="timeline" class="row" style="margin-bottom:2em">
 	<div class="col-sm-7">
-		<!-- <h3>Announcements</h3> -->
 		<% @alerts.each do |item| %>
-		<!-- <div class="card">
-			<div class="card-body"> -->
+		<div class="card">
+			<div class="card-body">
 				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
-			<!-- </div> -->
-		<!-- </div> -->
+			</div>
+		</div>
 		<% end %>
 	</div>
 
 	<div class="col-sm-5">
-		<!-- <div class="row">
-			<% if @schedule %>
-			<div class="col-sm-8">
-				<div class="card" style="background-color:#F76C6C">
-					<div class="card-body">
-							<h4 style="margin-bottom:1em"><%= @schedule.name %></h4>
-							<ul>
-							<%= render partial: 'layouts/schedule' %>
-							</ul>
-					</div>
-				</div>
-			</div>
-			<% end %>
-			<% if Settings['links'] %>
-			<div class="col-sm-4">
-				<div class="card" style="background-color:#A8D0E6">
-					<div class="card-body">
-						<h5 class="card-title">Links</h5>
-						<ul id="links">
-						<%= render partial: 'timeline/links' %>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<% end %>
-		</div> -->
-		<!-- <h3>Submissions</h3> -->
 		<% @items.each do |item| %>
 		<div class="card <%= "card-highlight" if item.updated_at > 1.week.ago %>">
 			<div class="card-body">
@@ -48,5 +18,4 @@
 		</div>
 		<% end %>
 	</div>
-
 </div>

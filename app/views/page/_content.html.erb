@@ -1,9 +1,3 @@
-<% if @submitted and date = @page.pset.submit_from(current_user).submitted_at %>
-<div id="submitted_pset" class="alert alert-success">
-	You have submitted this problem set <%= time_ago_in_words(date) %> ago.
-</div>
-<% end %>
-
 <%= form_tag_if(logged_in? && @page.pset, page_submit_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
 <%= hidden_field_tag :page_id, @page.id %>
 	<% @page.subpages.each_with_index do |subpage, index| %>
@@ -13,10 +7,10 @@
 	<% end %>
 
 	<% if current_user.can_submit? and @page.pset %>
-	<section id="submit-content" class="visible-sm-block visible-md-block visible-lg-block">
+	<section id="submit-content" class="d-none d-sm-block">
 		<%= render 'submit_tab' %>
 	</section>
-	<section id="submit-content" class="visible-xs-block">
+	<section id="submit-content" class="d-block d-sm-none">
 		<h1>Submit</h1>
 		<p>You can't submit on mobile, sorry. If you're on desktop, increase your browser width to submit!</p>
 	</section>

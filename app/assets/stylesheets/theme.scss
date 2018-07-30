@@ -1,9 +1,16 @@
 #timeline .card, #timeline .list-group
 {
-	-webkit-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
-	-moz-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
-	box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
+//    -webkit-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
+//    -moz-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
+//    box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
 	border:0;
+}
+
+.card
+{
+    border:0;
+    box-shadow:none;
+    border-radius:0;
 }
 
 .card small
@@ -14,4 +21,15 @@
 .card small.author
 {
     color:#8b9894;
+}
+
+//#content h1
+//{
+//    margin-top:0 !important;
+//}
+
+#sidebar
+{
+    @extend .bg-dark;
+    @extend .text-light;
 }

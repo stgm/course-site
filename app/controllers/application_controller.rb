@@ -46,6 +46,14 @@ class ApplicationController < ActionController::Base
 		@sections = @sections.where("pages.public" => true) unless current_user.staff?
 		@sections_in_navbar = Section.where("sections.display" => true).includes(pages: :pset).order("pages.position")
 		@sections_in_navbar = @sections_in_navbar.where("pages.public" => true) unless current_user.staff?
+
+
+		if current_user.staff?
+			@sections = Section.includes(pages: :pset).order("pages.position")
+		else
+			@sections = Section.where("sections.display" => true).includes(pages: :pset).where("pages.public" => true).order("pages.position")
+		end
+		
 	end
 	
 	def load_schedule

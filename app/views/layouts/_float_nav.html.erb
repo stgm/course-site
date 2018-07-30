@@ -1,0 +1,24 @@
+<ul id="icon-nav" class="nav">
+	<% if Settings.hands_allow && current_user.valid_profile? %>
+	<li class="nav-item dropdown" id="ama-nav">
+		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
+		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
+			<%= render 'layouts/ama' %>
+		</div>
+	</li>
+	<% end %>
+
+	<% if logged_in? %>
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			<%= current_user && current_user.name || session[:cas_user] %>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
+			<%= render 'layouts/menu' %>
+		</ul>
+	</li>
+	<% elsif authenticated? %>
+	<% else %>
+	<li><%= link_to("Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
+	<% end %>
+</ul>

@@ -1,3 +1,87 @@
+.brand
+{
+    display:flex;
+}
+
+@media (min-width: 768px)
+{
+    #sidebar .navbar-toggler
+    {
+        display: none;
+    }
+}
+
+@media (min-width: 768px)
+{
+    #sidebar .sidebar-collapse
+    {
+        display:flex;
+        flex-direction:column;
+    }
+}
+
+.navbar-brand
+{
+    @extend .text-light;
+    line-height:1em;
+}
+
+.navbar-brand .course-name
+{
+    font-weight:bold;
+}
+
+#sidebar {
+    overflow-y:scroll;
+    z-index:100;
+    
+//    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 48px 0 0;;
+}
+
+#row-content
+{
+    overflow:scroll; margin-left:auto;
+}
+
+#sidebar .nav
+{
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    width:100%;
+    flex-direction: column;
+}
+
+#sidebar a {
+	color:#f8f9fa;
+    @extend .px-0;
+}
+
+#sidebar p.nav-text, #sidebar a.dropdown-toggle {
+    @extend .py-2;
+    margin:0;
+    color:#cdcdcd;
+}
+
+#sidebar ul.nav > li > ul.nav
+{
+    margin-left:1rem;
+}
+
+#icon-nav
+{
+    position:-webkit-sticky; top:0; z-index:1000; background-color:white;
+}
+
+#ama-nav .dropdown-menu
+{
+    min-width:300px;
+}
+
+
 //
 // PRIMARY AND SECONDARY NAVBAR STYLES
 //
@@ -10,6 +94,14 @@
     background: #ff9966; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #ff9966, #ff5e62); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #ff9966, #ff5e62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+a.navbar-brand
+{
+    color: #ff9966; /* fallback for old browsers */
+    color: -webkit-linear-gradient(to right, #ff9966, #ff5e62); /* Chrome 10-25, Safari 5.1-6 */
+    color: linear-gradient(to right, #ff9966, #ff5e62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
 }
 
 .navbar .navbar-nav li + li, .navbar * + .navbar-nav // give menus in navbar more horz space

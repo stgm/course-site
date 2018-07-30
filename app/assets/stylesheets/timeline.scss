@@ -27,11 +27,14 @@
 #timeline .card
 {
 	margin-bottom:30px;
+    background-color:$light;
+    border:0;
+    box-shadow:none;
 }
 
 #timeline .card-highlight
 {
-	background-color:$light;
+	background-color:#F3FAFF;
 }
 
 #timeline .card p

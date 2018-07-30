@@ -1,14 +1,14 @@
-<% for section in @sections_in_navbar %>
+<% for section in @sections %>
 
 <li class="nav-item dropdown hidden-xs">
-	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	<a href="#collapse-<%= section.title.parameterize %>" class="nav-link dropdown-toggle" data-toggle="collapse" role="button" aria-haspopup="true" aria-expanded="false">
 		<%= section.title %> <span class='caret'></span>
 	</a>
-	<div class="dropdown-menu">
+	<ul class="nav collapse" id="collapse-<%= section.title.parameterize %>">
 		<% for page in section.pages %>
-		<%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: 'dropdown-item ' + (page.public ? '' : 'menu-hidden') %>
+		<li class="nav-item"><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: 'nav-link ' + (page.public ? '' : 'menu-hidden') %></li>
 		<% end %>
-	</div>
+	</ul>
 </li>
 
 <% end %>
