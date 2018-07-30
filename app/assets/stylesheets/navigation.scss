@@ -60,8 +60,20 @@
     @extend .px-0;
 }
 
+#sidebar h2
+{
+    font-size:.7rem;
+    text-transform: uppercase;
+    color:gray;
+}
+
+#sidebar p.nav-text, #sidebar a
+{
+    padding-top:0.35em;
+    padding-bottom:0.35em;
+}
+
 #sidebar p.nav-text, #sidebar a.dropdown-toggle {
-    @extend .py-2;
     margin:0;
     color:#cdcdcd;
 }

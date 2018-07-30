@@ -11,7 +11,9 @@
 
 <div class="collapse sidebar-collapse" id="navbarTogglerDemo01">
 
-	<ul class="nav pt-5">
+	<!-- <h2 class="mt-5">Quick links</h2> -->
+
+	<ul class="nav mt-5">
 		<li><a href="/" class="nav-link">Announcements</a></li>
 		<% if Settings['links'] %>
 		<% Settings['links'].each do |title, url|  %>
@@ -20,7 +22,7 @@
 		<% end %>
 	</ul>
 
-	<ul class="nav pt-3">
+	<ul class="nav mt-3">
 		<li>
 			<% if logged_in? && @schedule %>
 			<p class="nav-text">
@@ -47,10 +49,17 @@
 			</ul>
 		</li>
 	</ul>
+	
+	<!-- <h2 class="mt-0">Other</h2> -->
 
-	<ul class="nav pt-3">
+	<ul class="nav mt-3">
 		<% if @sections.length > 0 %>
-		<%= render 'layouts/sections' %>
+		<li>
+			<p class="nav-text">Other</p>
+			<ul class="nav">
+				<%= render 'layouts/sections' %>
+			</ul>
+		</li>
 		<% end %>
 	</ul>
 

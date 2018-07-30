@@ -1,8 +1,8 @@
 <% for section in @sections %>
 
 <li class="nav-item dropdown hidden-xs">
-	<a href="#collapse-<%= section.title.parameterize %>" class="nav-link dropdown-toggle" data-toggle="collapse" role="button" aria-haspopup="true" aria-expanded="false">
-		<%= section.title %> <span class='caret'></span>
+	<a href="#collapse-<%= section.title.parameterize %>" class="nav-link dropdoswn-toggle" data-toggle="collapse" role="button" aria-haspopup="true" aria-expanded="false">
+		<%= section.title %>
 	</a>
 	<ul class="nav collapse" id="collapse-<%= section.title.parameterize %>">
 		<% for page in section.pages %>
