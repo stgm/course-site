@@ -61,6 +61,7 @@
 	</div>
 </div>
 
+<% if @not_started.present? %>
 <div class="row py-3">
 	<div class="col">
 		<div class="card bg-light">
@@ -111,6 +112,7 @@
 		</div>
 	</div>
 </div>
+<% end %>
 	
 	<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
 
