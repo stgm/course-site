@@ -1,9 +1,8 @@
-<h2>
+<h2 class="mb-0">
 	<%= octicon "mark-github", height: 32, style: 'margin-right:0.25em;', class: 'dropcap'  %>
 	Git
-	<br>
-	<small>Course materials will be downloaded from this git repository.</small>
 </h2>
+<p>Course materials will be downloaded from this git repository.</p>
 
 <% if Settings.git_repo.present? %>
 <p><%= Settings.git_repo %> @ <%= Settings.git_branch %></p>

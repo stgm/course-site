@@ -5,7 +5,7 @@
 
 @media (min-width: 768px)
 {
-    #sidebar .navbar-toggler
+    .navbar-toggler
     {
         display: none;
     }
@@ -22,7 +22,7 @@
 
 .navbar-brand
 {
-    @extend .text-light;
+//    @extend .text-light;
     line-height:1em;
 }
 

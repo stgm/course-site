@@ -11,32 +11,46 @@
 	<title><%= title %></title>
 
 	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= yield :math %>
 	<%= javascript_include_tag "application" %>
 
     <link rel="icon" type="image/png" href="/images/minor.png" />
 </head>
 
 <body>
-	<%= render 'layouts/navbar' %>
-	<div id="content" class="container-fluid">
+
+	<div class="container-fluid" style="height:100vh; max-width:1366px">
+
 		<% if flash[:alert] %>
-		<div class="alert alert-danger alert-dismissible">
+		<div class="alert alert-danger alert-dismissible fade show">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<%= flash[:alert] %>
 		</div>
 		<% end %>
 
 		<% if flash[:notice] %>
-		<div class="alert alert-success alert-dismissible">
+		<div class="alert alert-success alert-dismissible fade show">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<%= flash[:notice] %>
 		</div>
 		<% end %>
 
-		<%= yield %>
+		<div class="row" style="">
+			
+			<div id="navbar" class="col-md-12 p-4 nav bg-white navbar-light justify-content-between">
+				<%= render 'layouts/brand' %>
+				<div class="p-0 align-middle">
+					<%= render 'layouts/float_nav' %>
+				</div>
+			</div>
+
+			<div id="content" class="p-0 col-md-12 p-md-4">
+				<%= yield %>
+			</div>
+			
+		</div>
 	</div>
-	<%= render 'layouts/footer' %>
-	<div id="popup"></div>
+
 </body>
 
 </html>

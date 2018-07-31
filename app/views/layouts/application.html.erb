@@ -11,43 +11,60 @@
 	<title><%= title %></title>
 
 	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= yield :math %>
 	<%= javascript_include_tag "application" %>
 
     <link rel="icon" type="image/png" href="/images/minor.png" />
 </head>
 
 <body>
-	<%= render 'layouts/navbar' %>
-	<div id="content" class="container">
 
-<% if Settings.debug_alert %>
-<div class="alert alert-danger alert-dismissible">
-	<button type="button" class="close" data-dismiss="alert">&times;</button>
-	<%= Settings.debug_alert.html_safe %>
-</div>
-<% Settings.destroy :debug_alert %>
-<% end %>
+	<div class="container-fluid" style="height:100vh; max-width:1366px">
+		<div class="row" style="height:100vh">
+			
+			<div id="sidebar" class="col-md-3 p-3 p-md-4 d-flex flex-column navbar-dark">
+				<%= render 'layouts/brand'%>
+				<%= render 'layouts/sidebar' %>
+			</div>
+			
+			<div id="row-content" class="col-md-9 p-0">
+	
+				<% if flash[:alert] %>
+				<div class="alert alert-danger alert-dismissible fade show">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<%= flash[:alert] %>
+				</div>
+				<% end %>
 
-<% if flash[:alert] %>
-<div class="alert alert-danger alert-dismissible">
-	<button type="button" class="close" data-dismiss="alert">&times;</button>
-	<%= flash[:alert] %>
-</div>
-<% end %>
+				<% if flash[:notice] %>
+				<div class="alert alert-success alert-dismissible fade show">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<%= flash[:notice] %>
+				</div>
+				<% end %>
+				
+				<% if @page and @submitted and date = @page.pset.submit_from(current_user).submitted_at %>
+				<div id="submitted_pset" class="alert alert-success">
+					You have submitted this problem set <%= time_ago_in_words(date) %> ago.
+				</div>
+				<% end %>
 
-<% if flash[:notice] %>
-<div class="alert alert-success alert-dismissible">
-	<button type="button" class="close" data-dismiss="alert">&times;</button>
-	<%= flash[:notice] %>
-</div>
-<% end %>
+				<div class="pull-right p-4">
+					<%= render 'layouts/float_nav' %>
+				</div>
 
-		<sections>
-		<%= yield %>
-		</sections>
+				<div id="content" class="p-3 p-sm-3 p-lg-5 px-lg-5">
+					<%= yield %>
+				</div>
+
+				<%= yield :footer %>
+			</div>
+			
+		</div>
 	</div>
-	<%= render 'layouts/footer' %>
+
 	<div id="popup"></div>
+	
 </body>
 
 </html>
