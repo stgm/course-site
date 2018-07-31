@@ -61,6 +61,57 @@
 	</div>
 </div>
 
+<div class="row py-3">
+	<div class="col">
+		<div class="card bg-light">
+			<div class="card-body">
+				<h5 class="card-title">Not started yet</h5>
+				<ul>
+					<% @not_started.each do |s| %>
+					<li><%= s.name %></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card bg-light">
+			<div class="card-body">
+				<h5 class="card-title">Stagnated</h5>
+				<ul>
+					<% @stagnated.each do |s| %>
+					<li><%= s.name %></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card bg-light">
+			<div class="card-body">
+				<h5 class="card-title">Stopped</h5>
+				<ul>
+					<% @inactive.each do |s| %>
+					<li><%= s.name %></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card bg-light">
+			<div class="card-body">
+				<h5 class="card-title">Done</h5>
+				<ul>
+					<% @done.each do |s| %>
+					<li><%= s.name %></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+	
 	<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
 
 </div>

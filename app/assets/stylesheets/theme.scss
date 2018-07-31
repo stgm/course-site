@@ -6,27 +6,22 @@
 	border:0;
 }
 
-.card
+#timeline .card
 {
     border:0;
     box-shadow:none;
     border-radius:0;
 }
 
-.card small
+#timeline .card small
 {
     color:#339879; text-transform: uppercase; font-size:x-small;
 }
 
-.card small.author
+#timeline .card small.author
 {
     color:#8b9894;
 }
-
-//#content h1
-//{
-//    margin-top:0 !important;
-//}
 
 #sidebar
 {

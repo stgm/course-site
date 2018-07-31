@@ -23,9 +23,13 @@ class User < ActiveRecord::Base
 	scope :not_staff, -> { where.not(id: staff) }
 	scope :active,    -> { where(active: true) }
 	scope :inactive,  -> { where(active: false) }
+	scope :done, -> { where(done:true) }
 	scope :no_group,  -> { where(group_id: nil) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	scope :with_login, -> login { joins(:logins).where("logins.login = ?", login)}
+	scope :not_started, -> { where(last_submitted_at: nil) }
+	scope :started, -> { where.not(last_submitted_at: nil) }
+	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
 	
 	enum role: [:guest, :student, :assistant, :head, :admin]
 	

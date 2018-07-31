@@ -27,6 +27,13 @@ class StudentsController < ApplicationController
 		@psets = Pset.order(:order)
 		@users = User.student.active.where({ schedule: @current_schedule }).includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
 		@users = @users.group_by(&:group)
+		
+		@all = User.where({ schedule: @current_schedule })
+		@assist = @all.staff
+		@not_started = @all.student.not_started
+		@stagnated = @all.student.stagnated
+		@inactive = @all.student.inactive
+		@done = @all.student.done
 	end
 	
 	def statuses
