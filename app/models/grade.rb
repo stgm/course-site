@@ -5,7 +5,7 @@ class Grade < ActiveRecord::Base
 	has_one :pset, through: :submit
 	belongs_to :grader, class_name: "User"
 
-	before_save :set_calculated_grade, :unpublicize_if_undone
+	before_save :set_calculated_grade, :update_grades_cache, :unpublicize_if_undone
 	
 	serialize :subgrades, OpenStruct
 	
@@ -102,6 +102,10 @@ class Grade < ActiveRecord::Base
 	def unpublicize_if_undone
 		self.status = Grade.statuses[:open] unless self.any_final_grade.present?
 		true
+	end
+	
+	def update_grades_cache
+		user.update_grades_cache
 	end
 
 end

@@ -24,10 +24,7 @@
 	<% user_list.each do |user| %>
 	<tr <%= 'class=table-warning' if user.stagnated? %>>
 		<td>
-			<%= link_to user.name, user_path(user) %><%= "@" if user.ping and user.ping.active %>
-			<% if user.notes.present? %>
-			<span class="glyphicon glyphicon-pencil"></span>
-			<% end %>
+			<%= link_to user.name, user_path(user) %>
 			<% if user.alarm %>
 			<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 			<% end %>
@@ -35,10 +32,6 @@
 		
 		<td>
 			<%= user.last_known_location %>
-		</td>
-		
-		<td>
-			<%= "#{user.login_id}" %>
 		</td>
 		
 		<td>
@@ -57,7 +50,10 @@
 		
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
-		<% subs = user.submits.group_by(&:pset_id)  %>
+		<% #subs = user.submits.group_by(&:pset_id) 
+		subs = user.grades_cache
+		
+		 %>
 		<% psets.each do |pset| %>
 		<td>
 			<%= grade_button(user, pset, subs)%>

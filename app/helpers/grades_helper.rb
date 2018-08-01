@@ -24,13 +24,24 @@ module GradesHelper
 	
 	def grade_button(user, pset, subs)
 		if subs[pset.id]
-			submitted = subs[pset.id][0]
-			if submitted.graded?
-				is_public = submitted.grade.published? || submitted.grade.discussed?
-				if not submitted.grade.grade.blank?
-					grade_button_html(submitted, format_grade(submitted.grade.grade, pset.grade_type), is_public)
+			# submitted = subs[pset.id][0]
+			# if submitted.graded?
+			# 	is_public = submitted.grade.published? || submitted.grade.discussed?
+			# 	if not submitted.grade.grade.blank?
+			# 		grade_button_html(submitted, format_grade(submitted.grade.grade, pset.grade_type), is_public)
+			# 	else
+			# 		grade_button_html(submitted, format_grade(submitted.grade.calculated_grade, pset.grade_type), is_public)
+			# 	end
+			# else
+			# 	grade_button_html(submitted, 'S', false)
+			# end
+			submitted = subs[pset.id]
+			if submitted['grade'].present? or submitted['calculated_grade'].present?
+				is_public = true #submitted.grade.published? || submitted.grade.discussed?
+				if not submitted['grade'].blank?
+					grade_button_html(submitted['submit_id'], format_grade(submitted['grade'], pset.grade_type), is_public)
 				else
-					grade_button_html(submitted, format_grade(submitted.grade.calculated_grade, pset.grade_type), is_public)
+					grade_button_html(submitted['submit_id'], format_grade(submitted['calculated_grade'], pset.grade_type), is_public)
 				end
 			else
 				grade_button_html(submitted, 'S', false)
