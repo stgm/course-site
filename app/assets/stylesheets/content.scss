@@ -224,3 +224,17 @@ section .kramdown-table td, .kramdown-table th
     margin-top:2em;
     margin-bottom:2em;
 }
+
+
+//
+// OVERRIDES FOR MOBILE + TABLET
+//
+
+@media (max-width: 768px)
+{
+	#content section + section, #content header + header, .alert
+	{
+		padding-top: 1em;
+	}
+}
+

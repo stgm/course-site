@@ -11,12 +11,17 @@
 		background-color:transparent ! important;
 	}
 	
-	.navbar, footer, ul.nav, #content > h1, section .video-js, iframe,
+	#sidebar, footer, ul.nav, #content > h1, section .video-js, iframe,
     #schedule-column, #comments-column, .embed,
     section#submit-content
 	{
-		display:none;
+		display:none !important;
 	}
+    
+    #row-content
+    {
+        margin:0;
+    }
 
 	#content
 	{

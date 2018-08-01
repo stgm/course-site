@@ -1,14 +1,36 @@
+//
+// BRAND
+//
+
 .brand
 {
     display:flex;
 }
 
-@media (min-width: 768px)
+.navbar-brand
 {
-    .navbar-toggler
-    {
-        display: none;
-    }
+    line-height:1em;
+}
+
+.navbar-brand .course-name
+{
+    font-weight:bold;
+}
+
+//
+// SIDEBAR RESPONSIVE + SCROLLING STUFF
+//
+
+#sidebar
+{
+    overflow-y:auto;
+}
+
+#row-content
+{
+    // because the position of the sidebar is fixed, need this
+    // to get the content out of the way
+    margin-left:auto;
 }
 
 @media (min-width: 768px)
@@ -26,38 +48,24 @@
         display:flex;
         flex-direction:column;
     }
-}
 
-.navbar-brand
-{
-    line-height:1em;
-}
-
-.navbar-brand .course-name
-{
-    font-weight:bold;
-}
-
-#sidebar
-{
-    overflow-y:auto;
-}
-
-#row-content
-{
-    margin-left:auto;
+    #sidebar .navbar-toggler
+    {
+        display: none;
+    }
 }
 
 #sidebar .nav
 {
+    // damn flexbox so flexible
     flex-wrap: nowrap;
     flex-shrink: 0;
-    width:100%;
+    width: 100%;
     flex-direction: column;
 }
 
 #sidebar a {
-	color:#f8f9fa;
+	color: #f8f9fa;
     @extend .px-0;
 }
 
@@ -94,183 +102,11 @@
     min-width:300px;
 }
 
-
-//
-// PRIMARY AND SECONDARY NAVBAR STYLES
-//
-
-#main-nav
-{
-//    height:120%;
-    
-    // https://uigradients.com/#OrangeCoral
-    background: #ff9966; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #ff9966, #ff5e62); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #ff9966, #ff5e62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
-a.navbar-brand
-{
-    color: #ff9966; /* fallback for old browsers */
-    color: -webkit-linear-gradient(to right, #ff9966, #ff5e62); /* Chrome 10-25, Safari 5.1-6 */
-    color: linear-gradient(to right, #ff9966, #ff5e62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
-}
-
-.navbar .navbar-nav li + li, .navbar * + .navbar-nav // give menus in navbar more horz space
-{
-    margin-left:1em;
-}
-
-.navbar * + .navbar-text // give menus and text in navbar more horz space
-{
-    margin-left:2em;
-}
-
-.navbar-brand small // subtext for schedule
-{
-	font-size:12px;
-}
-
-.navbar .dropdown-item // taller menu items
-{
-    padding-top:0.4em;
-    padding-bottom:0.4em;
-}
-
-@media (max-width: 767px)
-{
-
-	.navbar-nav > li
-	{
-		position: initial;
-	}
-
-	.navbar-nav .open .dropdown-menu
-	{
-		display: block;
-		position: absolute;
-		top: 100%;
-		background-color:#FCFCFC;
-		opacity:1;
-		right: 0;
-		left: 0;
-		border: none;
-		border-radius: 0;
-		border-bottom:1px solid #aaa;
-		padding-top: 0.25em;
-		max-height: 600px;
-		overflow-y: scroll;
-	}
-
-	.navbar-nav > li {
-		float: left;
-	}
-}
-
-.navbar .label // schedule label next to site name
-{
-	background-color: transparent;
-	color: #9d9d9d;
-	border: 1px solid $color1;
-	margin-top:-2px;
-}
-
 //
 // MENUS
 //
 
-.navbar .list-group {
-	margin-bottom: 0;
-}
-
-.navbar .list-group .list-group-item {
-	border-radius: 0;
-	border-left: none;
-	border-right: none;
-}
-
-.navbar .list-group .list-group-item:last-child {
-	border-bottom: none;
-}
-
-.navbar .dropdown-menu
-{
-    border:none;
-    border-radius:0;
-    box-shadow: 10px 10px black;
-
-    max-height:600px;
-    overflow-y:scroll;
-}
-
 .menu-hidden
 {
     background-color: #ff9966;
-}
-
-#menu-nav .dropdown-menu
-{
-    min-width:200px;
-}
-
-.navbar #ama-nav .dropdown-menu
-{
-	min-width:300px;
-}
-
-//
-// ICONS
-//
-
-.navbar .glyphicon
-{
-	font-size:0.8em;
-	margin-right:0.3em;
-}
-
-//
-// PRIMARY NAVBAR STYLES
-//
-
-#main-nav
-{
-    z-index:2000;
-}
-
-//
-// OVERRIDES FOR MOBILE + TABLET
-//
-
-@media (max-width: 768px)
-{
-	#content section + section, #content header + header, .alert
-	{
-		padding-top: 1em;
-	}
-	
-	#secondary-nav .navbar-nav
-	{
-		float:left;
-		overflow-y:scroll;
-		white-space:nowrap;
-		max-width:100%;
-		margin:0;
-	}
-	
-	#secondary-nav .container
-	{
-		padding:0;
-	}
-	
-	#secondary-nav .navbar-nav > li
-	{
-		display:inline-block;
-	}
-
-	#secondary-nav .navbar-nav > li > a
-	{
-		padding-top: 15px;
-		padding-bottom: 15px;
-	}
 }
