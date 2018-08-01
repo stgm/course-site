@@ -30,7 +30,6 @@
 
 .navbar-brand
 {
-//    @extend .text-light;
     line-height:1em;
 }
 
@@ -39,17 +38,14 @@
     font-weight:bold;
 }
 
-#sidebar {
-
-    overflow-y:scroll;
-    z-index:100;
-    
-    padding: 48px 0 0;;
+#sidebar
+{
+    overflow-y:auto;
 }
 
 #row-content
 {
-    overflow:scroll; margin-left:auto;
+    margin-left:auto;
 }
 
 #sidebar .nav
