@@ -48,7 +48,7 @@ module GradesHelper
 			end
 		else
 			# grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
-			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-xs btn-block auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm btn-block auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
 		end
 	end
 	

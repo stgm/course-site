@@ -159,7 +159,6 @@ footer img
     margin-right:1em;
 }
 
-
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
 {
 	text-align:center;
@@ -179,19 +178,20 @@ footer img
 {
 	vertical-align:middle;
     white-space:nowrap;
-    padding-top:0;
-    padding-bottom:0;
+    padding:2px 2px 0 2px;
 }
 
 #grade-table th
 {
 	border-top:0;
 	vertical-align:bottom;
+    font-size:smaller;
 }
 
 #grade-table .btn-block
 {
 	min-width:30px;
+    padding:2px;
 }
 
 form .btn
