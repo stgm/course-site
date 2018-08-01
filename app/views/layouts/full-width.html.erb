@@ -37,14 +37,15 @@
 
 		<div class="row" style="">
 			
-			<div id="navbar" class="col-md-12 p-4 nav bg-white navbar-light justify-content-between">
+			<div id="navbar" class="col-md-12 p-4 nav bg-white navbar-light justify-content-between align-items-center">
 				<%= render 'layouts/brand' %>
-				<div class="p-0 align-middle">
+				<%= yield :navbar_items %>
+				<div class="ml-auto p-0 align-middle">
 					<%= render 'layouts/float_nav' %>
 				</div>
 			</div>
 
-			<div id="content" class="p-0 col-md-12 p-md-4">
+			<div id="content" class="px-3 py-0 col-md-12">
 				<%= yield %>
 			</div>
 			

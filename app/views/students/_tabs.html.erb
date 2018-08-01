@@ -1,28 +1,100 @@
-<ul class="nav nav-tabs">
-	<% if @schedules %>
-	<% @schedules.each do |schedule| %>
-	<li class="nav-item">
-		<%= link_to "#{schedule.name} (#{@schedule_count[schedule.id]||0})", students_in_group_path(group: schedule.name), class: "nav-link" + class_if(params[:group] == schedule.name || schedule == @current_schedule, "active") %> 
-	</li>
-	<% end %>
-	<% else %>
-	<li class="nav-item">
-		<%= link_to "Active (#{@active_count})", students_path, class: "nav-link" + class_if(action_name == 'index', 'active') %>
-	</li>
-	<% end %>
-	<% if current_user.admin? %>
-	<% if @inactive_count > 0 %>
+<% content_for :navbar_items do%>
+
+<div class="d-flex">
+
+	<div class="dropdown ml-3">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<%= @name %>
+		</button>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<% if @schedules %>
+			<% @schedules.each do |schedule| %>
+			<%= link_to "#{schedule.name} (#{@schedule_count[schedule.id]||0})", students_in_group_path(group: schedule.name), class: "dropdown-item" + class_if(params[:group] == schedule.name || schedule == @current_schedule, "active") %> 
+			<% end %>
+			<% else %>
+			<%= link_to "Active (#{@active_count})", students_path, class: "dropdown-item" + class_if(action_name == 'index', 'active') %>
+			<% end %>
+			<% if current_user.admin? %>
+			<% if @inactive_count > 0 %>
+			<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path, class: "dropdown-item" + class_if(action_name == 'list_inactive', 'active') %>
+			<% end %>
+			<% if @other_count > 0 %>
+			<%= link_to "Other (#{@other_count})", students_in_other_path, class: "dropdown-item" + class_if(action_name == 'list_other', 'active') %>
+			<% end %>
+			<%= link_to "Admins (#{@admin_count})", students_in_admins_path, class: "dropdown-item" + class_if(action_name == 'list_admins', 'active') %>
+			<% end %>
+		</div>
+	</div>
+
+	<ul class="nav nav-pills ml-3 flex-fill">
 		<li class="nav-item">
-			<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path, class: "nav-link" + class_if(action_name == 'list_inactive', 'active') %>
+			<%= link_to 'Active', { status: 'active' }, class: 'nav-link' + class_if(params[:status] == 'active', 'active') %>
 		</li>
-	<% end %>
-	<% if @other_count > 0 %>
 		<li class="nav-item">
-			<%= link_to "Other (#{@other_count})", students_in_other_path, class: "nav-link" + class_if(action_name == 'list_other', 'active') %>
+			<%= link_to 'Registered', { status: 'registered' }, class: 'nav-link' + class_if(params[:status] == 'registered', 'active') %>
 		</li>
-	<% end %>
-	<li class="nav-item">
-		<%= link_to "Admins (#{@admin_count})", students_in_admins_path, class: "nav-link" + class_if(action_name == 'list_admins', 'active') %>
-	</li>
-	<% end %>
-</ul>
+		<li class="nav-item">
+			<%= link_to 'Inactive', { status: 'inactive' }, class: 'nav-link' + class_if(params[:status] == 'inactive', 'active') %>
+		</li>
+		<li class="nav-item">
+			<%= link_to 'Done', { status: 'done' }, class: 'nav-link' + class_if(params[:status] == 'done', 'active') %>
+		</li>
+	</ul>
+
+	<div class="btn-group ml-3" role="group">
+
+		<div class="btn-group" role="group">
+			<button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="fa fa-check"></span> <span class="caret"></span>
+			</button>
+			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+				<% if current_user.senior? %>
+				<%= link_to 'Publish what\'s done'.html_safe, publish_finished_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item" %>
+				<% end %>
+				<% if current_user.admin? %>
+				<%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
+				<%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' }, class:"dropdown-item"  %>
+				<% if Schedule.any? %>
+				<div class="dropdown-divider"></div>
+				<%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path, class:"dropdown-item"  %>
+				<%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path, class:"dropdown-item"  %>
+				<% end %>
+				<% end %>
+				<% if current_user.admin? && GradeTools.available? %>
+				<div class="dropdown-divider"></div>
+				<%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path(schedule: @current_schedule_id), method: :put, data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
+				<% end %>
+			</div>
+		</div>
+
+		<% if @current_schedule && current_user.admin? %>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="fa fa-user"></span> <span class="caret"></span>
+			</button>
+
+			<ul class="dropdown-menu dropdown-menu-right">
+				<%= link_to 'Import Groups'.html_safe, admin_import_path, class:"dropdown-item" %>
+				<%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule.id), class:"dropdown-item" %>
+			</ul>
+		</div>
+		<% end %>
+
+		<% if current_user.admin? %>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="fa fa-asterisk"></span> <span class="caret"></span>
+			</button>
+
+			<ul class="dropdown-menu dropdown-menu-right">
+				<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:"dropdown-item" %>
+				<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xlsx'), class:"dropdown-item" %>
+				<%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:"dropdown-item" %>
+			</ul>
+		</div>
+		<% end %>
+
+	</div>
+</div>
+
+<% end %>

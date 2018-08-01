@@ -49,7 +49,8 @@
         flex-direction:column;
     }
 
-    #sidebar .navbar-toggler
+    // can be in sidebar or in navbar (latter is in full-width layout)
+    .navbar-toggler
     {
         display: none;
     }

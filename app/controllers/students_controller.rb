@@ -8,6 +8,9 @@ class StudentsController < ApplicationController
 	layout 'full-width'
 
 	def index
+		@name = params[:group]
+		@status = params[:status]
+
 		if current_user.head?
 			@schedules = current_user.schedules
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || current_user.schedules.first
@@ -18,32 +21,37 @@ class StudentsController < ApplicationController
 			@schedules = Schedule.all
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || Schedule.first
 			@current_schedule_id = @current_schedule && @current_schedule.id
-			logger.debug "IDIDIDIDIDID"
-			logger.debug @current_schedule
-			logger.debug @current_schedule_id
 			load_stats
 		end
 		
 		@psets = Pset.order(:order)
-		@users = User.student.active.where({ schedule: @current_schedule }).includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
+		# @users = User.student.active.where({ schedule: @current_schedule }).includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
+		@users = @current_schedule.users.not_staff.includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
+		
+		case params[:status]
+		when 'active'
+			@users = @users.active
+		when 'registered'
+			@users = @users.registered
+		when 'inactive'
+			@users = @users.inactive
+		when 'done'
+			@users = @users.done
+		end
+		
 		@users = @users.group_by(&:group)
 		
-		@all = User.where({ schedule: @current_schedule })
-		@assist = @all.staff
-		@not_started = @all.student.not_started
-		@stagnated = @all.student.stagnated
-		@inactive = @all.student.inactive
-		@done = @all.student.done
-	end
-	
-	def statuses
-		@current_schedule = params[:group] && Schedule.find_by_name(params[:group])
-		@users = User.student.where({ schedule: @current_schedule }).includes(:hands).order(:name)
-		
+		# @all = User.where({ schedule: @current_schedule })
+		# @assist = @all.staff
+		# @not_started = @all.student.not_started
+		# @stagnated = @all.student.stagnated
+		# @inactive = @all.student.inactive
+		# @done = @all.student.done
 	end
 	
 	# who is inactive but still registered for some schedule earlier?
 	def list_inactive
+		@name = "Inactive"
 		@psets = Pset.order(:order)
 		@schedules = Schedule.all
 		if @schedules.any?
@@ -57,6 +65,7 @@ class StudentsController < ApplicationController
 	
 	# who didn't even start etc?
 	def list_other
+		@name = "Other"
 		@psets = Pset.order(:order)
 		@schedules = Schedule.all
 		@users = User.where('schedule_id' => nil).student.order(:name).group_by(&:group)
@@ -65,6 +74,7 @@ class StudentsController < ApplicationController
 	end
 	
 	def list_admins
+		@name = "Admins"
 		@psets = Pset.order(:order)
 		@schedules = Schedule.all
 		@users = User.staff.order(:name).group_by(&:group)

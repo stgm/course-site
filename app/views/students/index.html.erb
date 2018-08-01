@@ -1,123 +1,13 @@
-
 <%= render partial: 'tabs' %>
-
-<div style="background-color:white; padding:1em; border-left:1px solid #dddddd; border-bottom:1px solid #dddddd; border-right:1px solid #dddddd;">
-
-<div class="pull-right">
-	<div class="btn-group" role="group">
-
-		<div class="btn-group" role="group">
-			<button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="fa fa-check"></span> <span class="caret"></span>
-			</button>
-			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-				<% if current_user.senior? %>
-				<%= link_to 'Publish what\'s done'.html_safe, publish_finished_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item" %>
-				<% end %>
-				<% if current_user.admin? %>
-				<%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
-				<%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' }, class:"dropdown-item"  %>
-				<% if Schedule.any? %>
-				<div class="dropdown-divider"></div>
-				<%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path, class:"dropdown-item"  %>
-				<%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path, class:"dropdown-item"  %>
-				<% end %>
-				<% end %>
-				<% if current_user.admin? && GradeTools.available? %>
-				<div class="dropdown-divider"></div>
-				<%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path(schedule: @current_schedule_id), method: :put, data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
-				<% end %>
-			</div>
-		</div>
-
-		<% if @current_schedule && current_user.admin? %>
-		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="fa fa-user"></span> <span class="caret"></span>
-			</button>
-
-			<ul class="dropdown-menu dropdown-menu-right">
-				<%= link_to 'Import Groups'.html_safe, admin_import_path, class:"dropdown-item" %>
-				<%= link_to 'Generate Groups'.html_safe, admin_generate_groups_path(schedule_id: @current_schedule.id), class:"dropdown-item" %>
-				<%= link_to "Statuses", students_statuses_path(group: @current_schedule.name), class:"dropdown-item" %>
-			</ul>
-		</div>
-		<% end %>
-
-		<% if current_user.admin? %>
-		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="fa fa-asterisk"></span> <span class="caret"></span>
-			</button>
-
-			<ul class="dropdown-menu dropdown-menu-right">
-				<%= link_to '<i class="glyphicon glyphicon-briefcase"></i> Statistics'.html_safe, admin_stats_path, class:"dropdown-item" %>
-				<%= link_to '<i class="glyphicon glyphicon-th"></i> Export Grades for Excel'.html_safe, admin_export_grades_path(format: 'xlsx'), class:"dropdown-item" %>
-				<%= link_to '<i class="glyphicon glyphicon-print"></i> Dump Grades for archiving'.html_safe, admin_dump_grades_path, class:"dropdown-item" %>
-			</ul>
-		</div>
-		<% end %>
-
-	</div>
-</div>
-
-<% if @not_started.present? %>
-<div class="row py-3">
-	<div class="col">
-		<div class="card bg-light">
-			<div class="card-body">
-				<h5 class="card-title">Not started yet</h5>
-				<ul>
-					<% @not_started.each do |s| %>
-					<li><%= s.name %></li>
-					<% end %>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="col">
-		<div class="card bg-light">
-			<div class="card-body">
-				<h5 class="card-title">Stagnated</h5>
-				<ul>
-					<% @stagnated.each do |s| %>
-					<li><%= s.name %></li>
-					<% end %>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="col">
-		<div class="card bg-light">
-			<div class="card-body">
-				<h5 class="card-title">Stopped</h5>
-				<ul>
-					<% @inactive.each do |s| %>
-					<li><%= s.name %></li>
-					<% end %>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="col">
-		<div class="card bg-light">
-			<div class="card-body">
-				<h5 class="card-title">Done</h5>
-				<ul>
-					<% @done.each do |s| %>
-					<li><%= s.name %></li>
-					<% end %>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-<% end %>
-	
-	<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
-
-</div>
+<%= render partial: 'table', locals: { users: @users, psets: @psets } %>
 
 <script type="text/javascript" charset="utf-8">
-$('.best_in_place').best_in_place()
+
+$(function()
+{
+	$('.best_in_place').best_in_place()
+	$(".bar").sparkline('html', { type: 'bar', chartRangeMax: 8, barWidth: 8 });
+	$('[data-toggle="tooltip"]').tooltip()
+})
+
 </script>

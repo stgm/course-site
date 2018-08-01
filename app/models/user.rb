@@ -21,15 +21,20 @@ class User < ActiveRecord::Base
 
 	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
 	scope :not_staff, -> { where.not(id: staff) }
-	scope :active,    -> { where(active: true) }
+	# scope :active,    -> { where(active: true) }
+	
+	scope :active, -> { where('users.started_at < ? or last_submitted_at is not null', DateTime.now) }
+	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now) }
+	
 	scope :inactive,  -> { where(active: false) }
 	scope :done, -> { where(done:true) }
 	scope :no_group,  -> { where(group_id: nil) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	scope :with_login, -> login { joins(:logins).where("logins.login = ?", login)}
-	scope :not_started, -> { where(last_submitted_at: nil) }
+	scope :not_started, -> { where('started_at > ?', DateTime.now).where(last_submitted_at: nil) }
 	scope :started, -> { where.not(last_submitted_at: nil) }
 	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
+	
 	
 	enum role: [:guest, :student, :assistant, :head, :admin]
 	
@@ -65,6 +70,14 @@ class User < ActiveRecord::Base
 	
 	def senior?
 		admin? or head?
+	end
+	
+	def stagnated?
+		if self.last_submitted_at.blank?
+			self.started_at.present? && self.started_at < 1.month.ago
+		else
+			self.last_submitted_at < 1.month.ago
+		end
 	end
 
 	def final_grade
