@@ -22,3 +22,9 @@
 	<li><%= link_to("Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
 	<% end %>
 </ul>
+
+<script>
+	$('#ama-nav').one('show.bs.dropdown', function(e) {
+		$.ajax('<%= ask_path %>');
+	})
+</script>

@@ -12,7 +12,3 @@ before_change = ->
 
 $(document).on('page:before-change', before_change)
 $(document).on('page:change', change)
-
-
-
-$(document).on('turbolinks:load', MathJax.Hub.Typeset)
