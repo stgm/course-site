@@ -13,6 +13,14 @@
 
 @media (min-width: 768px)
 {
+    #sidebar
+    {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+    }
+    
     #sidebar .sidebar-collapse
     {
         display:flex;
@@ -32,13 +40,10 @@
 }
 
 #sidebar {
+
     overflow-y:scroll;
     z-index:100;
     
-//    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
     padding: 48px 0 0;;
 }
 
