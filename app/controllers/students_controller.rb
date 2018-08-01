@@ -28,6 +28,11 @@ class StudentsController < ApplicationController
 		# @users = User.student.active.where({ schedule: @current_schedule }).includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
 		@users = @current_schedule.users.not_staff.includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
 		
+		@active_count = @users.active.count
+		@registered_count = @users.registered.count
+		@inactive_count = @users.inactive.count
+		@done_count = @users.done.count
+		
 		case params[:status]
 		when 'active'
 			@users = @users.active
@@ -40,13 +45,6 @@ class StudentsController < ApplicationController
 		end
 		
 		@users = @users.group_by(&:group)
-		
-		# @all = User.where({ schedule: @current_schedule })
-		# @assist = @all.staff
-		# @not_started = @all.student.not_started
-		# @stagnated = @all.student.stagnated
-		# @inactive = @all.student.inactive
-		# @done = @all.student.done
 	end
 	
 	# who is inactive but still registered for some schedule earlier?

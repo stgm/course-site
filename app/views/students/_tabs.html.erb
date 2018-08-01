@@ -28,16 +28,16 @@
 
 	<ul class="nav nav-pills ml-3 flex-fill">
 		<li class="nav-item">
-			<%= link_to 'Active', { status: 'active' }, class: 'nav-link' + class_if(params[:status] == 'active', 'active') %>
+			<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'nav-link' + class_if(params[:status] == 'active', 'active') %>
 		</li>
 		<li class="nav-item">
-			<%= link_to 'Registered', { status: 'registered' }, class: 'nav-link' + class_if(params[:status] == 'registered', 'active') %>
+			<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'nav-link' + class_if(params[:status] == 'registered', 'active') %>
 		</li>
 		<li class="nav-item">
-			<%= link_to 'Inactive', { status: 'inactive' }, class: 'nav-link' + class_if(params[:status] == 'inactive', 'active') %>
+			<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'nav-link' + class_if(params[:status] == 'inactive', 'active') %>
 		</li>
 		<li class="nav-item">
-			<%= link_to 'Done', { status: 'done' }, class: 'nav-link' + class_if(params[:status] == 'done', 'active') %>
+			<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'nav-link' + class_if(params[:status] == 'done', 'active') %>
 		</li>
 	</ul>
 

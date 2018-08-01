@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 	scope :not_staff, -> { where.not(id: staff) }
 	# scope :active,    -> { where(active: true) }
 	
-	scope :active, -> { where('users.started_at < ? or last_submitted_at is not null', DateTime.now) }
+	scope :active, -> { where('active != ? and (users.started_at < ? or last_submitted_at is not null)', false, DateTime.now) }
 	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now) }
 	
 	scope :inactive,  -> { where(active: false) }
