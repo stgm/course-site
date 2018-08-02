@@ -73,6 +73,7 @@ Rails.application.routes.draw do
 	get  "students/in/inactive", to: "students#list_inactive"
 	get  "students/in/:group(/are/:status)"  , to: "students#index", as: :students_in_group, defaults: { status: 'active' }
 	get  "students", to: "students#index"
+	get  "students/find"
 	
 	get "status" => "status#index"
 

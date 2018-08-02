@@ -42,6 +42,10 @@ module ApplicationHelper
 		condition ? " " + classes : ""
 	end
 	
+	def class_if_else(condition, classes, else_classes)
+		condition ? " " + classes : " " + else_classes
+	end
+	
 	def form_tag_if(condition, url_for_options = {}, options = {}, &block)
 		if condition
 			form_tag(url_for_options, options, &block)

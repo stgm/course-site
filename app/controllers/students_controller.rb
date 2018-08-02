@@ -48,6 +48,13 @@ class StudentsController < ApplicationController
 		@users = @users.group_by(&:group)
 	end
 	
+	def find
+		@results = User.student.where("name like ?", "%#{params[:text]}%").limit(10)
+		respond_to do |format|
+			format.js { render 'find' }
+		end
+	end
+	
 	# who is inactive but still registered for some schedule earlier?
 	def list_inactive
 		@name = "Inactive"

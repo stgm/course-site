@@ -1,9 +1,9 @@
-<% content_for :navbar_items do%>
+<% content_for :navbar_items do %>
 
-<div class="d-flex">
+<div class="d-flex navbar">
 
-	<div class="dropdown ml-3">
-		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	<div class="dropdown">
+		<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<%= @name %>
 		</button>
 		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -25,26 +25,50 @@
 			<% end %>
 		</div>
 	</div>
+	
+	<div class="btn-group ml-3" role="group" aria-label="Basic example">
+		<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'active', 'btn-secondary', 'btn-outline-secondary') %>
+		<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'registered', 'btn-secondary', 'btn-outline-secondary') %>
+		<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'inactive', 'btn-secondary', 'btn-outline-secondary') %>
+		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-secondary', 'btn-outline-secondary') %>
+	</div>
 
-	<ul class="nav nav-pills ml-3 flex-fill">
-		<li class="nav-item">
-			<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'nav-link' + class_if(params[:status] == 'active', 'active') %>
-		</li>
-		<li class="nav-item">
-			<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'nav-link' + class_if(params[:status] == 'registered', 'active') %>
-		</li>
-		<li class="nav-item">
-			<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'nav-link' + class_if(params[:status] == 'inactive', 'active') %>
-		</li>
-		<li class="nav-item">
-			<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'nav-link' + class_if(params[:status] == 'done', 'active') %>
-		</li>
-	</ul>
+	<form class="form-inline ml-3">
+		<div id="search" class="dropdown">
+			<input id="dropdown-control" type="hidden" data-toggle="dropdown">
+			<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
+			<div id="search-results" class="dropdown-menu"></div></form>
+		</div>
+	</form>
+	
+	<script>
+		$('#student-search').on('change paste input', function(e) {
+			$.ajax('<%= students_find_path %>', { data: { text: $('#student-search').val() } });
+			true;
+		})
+		$('#student-search').on('focus', function(e) {
+			console.log("huh");
+			// e.preventDefault();
+			if(!$("#search-results").hasClass("show")) {
+				$('#dropdown-control').dropdown('toggle');
+			}
+		})
+		$('#student-search').on('blur', function(e) {
+			console.log("blur");
+			// e.preventDefault();
+			setTimeout(100, function() {
+			console.log($("#search").hasClass("show"));
+			if($("#search-results").hasClass("show")) {
+				$('#dropdown-control').dropdown('toggle');
+			}
+			});
+		})
+	</script>
 
 	<div class="btn-group ml-3" role="group">
 
 		<div class="btn-group" role="group">
-			<button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="fa fa-check"></span> <span class="caret"></span>
 			</button>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
@@ -69,7 +93,7 @@
 
 		<% if @current_schedule && current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="fa fa-user"></span> <span class="caret"></span>
 			</button>
 
@@ -82,7 +106,7 @@
 
 		<% if current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="fa fa-asterisk"></span> <span class="caret"></span>
 			</button>
 
