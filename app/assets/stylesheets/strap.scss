@@ -174,11 +174,18 @@ footer img
 	opacity:1;
 }
 
+#grade-table td:first-child
+{
+    max-width:10em;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+
 #grade-table td
 {
 	vertical-align:middle;
     white-space:nowrap;
-    padding:2px 2px 0 2px;
+    padding:3px 2px 3px 2px;
 }
 
 #grade-table th

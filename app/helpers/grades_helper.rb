@@ -48,7 +48,8 @@ module GradesHelper
 			end
 		else
 			# grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
-			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm btn-block auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+			# link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm btn-block auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+			'--'
 		end
 	end
 	
@@ -79,9 +80,11 @@ module GradesHelper
 	
 	def grade_button_html(submit_id, grade, is_public, confirmation=nil)
 		if confirmation
-			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm btn-block auto-hide #{ grade_button_type(grade, is_public) }", data: { confirm:confirmation }
+			# link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm btn-block auto-hide #{ grade_button_type(grade, is_public) }", data: { confirm:confirmation }
+			content_tag(:span, grade, class: "btn btn-sm btn-block auto-hide #{ grade_button_type(grade, is_public) }")
 		else
-			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm btn-block #{ grade_button_type(grade, is_public) }"
+			# link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm btn-block #{ grade_button_type(grade, is_public) }"
+			content_tag(:span, grade, class: "btn btn-sm btn-block #{ grade_button_type(grade, is_public) }")
 		end
 	end
 	

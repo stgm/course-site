@@ -132,8 +132,10 @@ class User < ActiveRecord::Base
 	end
 	
 	def take_attendance
+		symbols = "▁▂▃▄▅▆▇█"
 		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0, range: 7.days.ago...Time.now).count.values
-		self.update_attribute(:attendance, user_attendance.join(","))
+		graph = user_attendance.map { |v| symbols[[v,7].min] }.join("")
+		self.update_attribute(:attendance, graph)
 	end
 	
 	def generate_token!
