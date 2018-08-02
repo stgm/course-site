@@ -26,7 +26,7 @@ class UserController < ApplicationController
 	
 	def update
 		p = User.find(params[:id])
-		p.update_attributes!(params.require(:user).permit(:name, :active, :status, :mail, :avatar, :notes, :schedule_id, :alarm, :role))
+		p.update_attributes!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :alarm, :role))
 
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
