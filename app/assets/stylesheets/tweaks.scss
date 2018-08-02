@@ -16,6 +16,11 @@
     font-family: "Menlo";
 }
 
+.navbar-nav .dropdown-menu
+{
+    position: absolute;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
 
 	#content > .list-group {

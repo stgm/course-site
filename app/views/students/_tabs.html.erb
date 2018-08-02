@@ -2,6 +2,7 @@
 
 <div class="d-flex navbar">
 
+	<% if @schedules.size > 1 %>
 	<div class="dropdown">
 		<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<%= @name %>
@@ -25,12 +26,13 @@
 			<% end %>
 		</div>
 	</div>
+	<% end %>
 	
 	<div class="btn-group ml-3" role="group" aria-label="Basic example">
-		<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'active', 'btn-secondary', 'btn-outline-secondary') %>
-		<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'registered', 'btn-secondary', 'btn-outline-secondary') %>
-		<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'inactive', 'btn-secondary', 'btn-outline-secondary') %>
-		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-secondary', 'btn-outline-secondary') %>
+		<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'active', 'btn-secondary', 'btn-outline-secondary text-light') %>
+		<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'registered', 'btn-secondary', 'btn-outline-secondary text-light') %>
+		<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'inactive', 'btn-secondary', 'btn-outline-secondary text-light') %>
+		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-secondary', 'btn-outline-secondary text-light') %>
 	</div>
 
 	<form class="form-inline ml-3">
@@ -68,7 +70,7 @@
 	<div class="btn-group ml-3" role="group">
 
 		<div class="btn-group" role="group">
-			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-secondary text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="fa fa-check"></span> <span class="caret"></span>
 			</button>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
@@ -93,7 +95,7 @@
 
 		<% if @current_schedule && current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button type="button" class="btn btn-sm btn-outline-secondary text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="fa fa-user"></span> <span class="caret"></span>
 			</button>
 
@@ -106,7 +108,7 @@
 
 		<% if current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button type="button" class="btn btn-sm btn-outline-secondary text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="fa fa-asterisk"></span> <span class="caret"></span>
 			</button>
 

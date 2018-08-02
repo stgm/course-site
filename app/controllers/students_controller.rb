@@ -1,8 +1,8 @@
 class StudentsController < ApplicationController
 
 	before_action CASClient::Frameworks::Rails::Filter
-	before_action :require_admin, except: [ :index ]
-	before_action :require_senior, only: [ :index ]
+	before_action :require_admin, except: [ :index, :find ]
+	before_action :require_senior, only: [ :index, :find ]
 	before_action :load_stats, except: :index
 
 	layout 'full-width'
@@ -11,6 +11,7 @@ class StudentsController < ApplicationController
 		@name = params[:group]
 		@status = params[:status]
 
+		# check which schedules this user is allowed to view
 		if current_user.head?
 			@schedules = current_user.schedules
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || current_user.schedules.first

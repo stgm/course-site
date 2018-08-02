@@ -195,6 +195,11 @@ footer img
     font-size:smaller;
 }
 
+#grade-table tr:first-child
+{
+    background-color:transparent;
+}
+
 #grade-table .btn-block
 {
 	min-width:30px;
