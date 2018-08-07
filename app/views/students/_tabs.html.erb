@@ -16,6 +16,7 @@
 			<%= link_to "Active (#{@active_count})", students_path, class: "dropdown-item" + class_if(action_name == 'index', 'active') %>
 			<% end %>
 			<% if current_user.admin? %>
+			<div class="dropdown-divider"></div>
 			<% if @inactive_count > 0 %>
 			<%= link_to "Inactive (#{@inactive_count})", students_in_inactive_path, class: "dropdown-item" + class_if(action_name == 'list_inactive', 'active') %>
 			<% end %>

@@ -174,26 +174,26 @@ footer img
 	opacity:1;
 }
 
-#grade-table td:first-child
-{
-    max-width:10em;
-    text-overflow: ellipsis;
-    overflow:hidden;
-}
+//#grade-table td:first-child
+//{
+//    max-width:10em;
+//    text-overflow: ellipsis;
+//    overflow:hidden;
+//}
 
-#grade-table td
-{
-	vertical-align:middle;
-    white-space:nowrap;
-    padding:3px 2px 3px 2px;
-}
-
-#grade-table th
-{
-	border-top:0;
-	vertical-align:bottom;
-    font-size:smaller;
-}
+//#grade-table td
+//{
+//    vertical-align:middle;
+//    white-space:nowrap;
+//    padding:3px 2px 3px 2px;
+//}
+//
+//#grade-table th
+//{
+//    border-top:0;
+//    vertical-align:bottom;
+//    font-size:smaller;
+//}
 
 #grade-table tr:first-child
 {
@@ -232,26 +232,26 @@ form .btn
 // GRADES TABLE
 //
 
-th.rotate
-{
-	/* Something you can count on */
-	height: 60px;
-	white-space: nowrap;
-	vertical-align:bottom;
-}
-
-th.rotate > div
-{
-	hyphens:none;
-	-webkit-hyphens:none;
-	-moz-hyphens:none;
-
-	transform: translate(25px, 51px) rotate(315deg);
-	-webkit-transform: translate(10px, -10px) rotate(315deg);
-	-ms-transform: translate(25px, 51px) rotate(315deg);
-
-	width: 30px;
-}
+//th.rotate
+//{
+//    /* Something you can count on */
+//    height: 60px;
+//    white-space: nowrap;
+//    vertical-align:bottom;
+//}
+//
+//th.rotate > div
+//{
+//    hyphens:none;
+//    -webkit-hyphens:none;
+//    -moz-hyphens:none;
+//
+//    transform: translate(25px, 51px) rotate(315deg);
+//    -webkit-transform: translate(10px, -10px) rotate(315deg);
+//    -ms-transform: translate(25px, 51px) rotate(315deg);
+//
+//    width: 30px;
+//}
 
 span.bubble {
   display: inline-block;

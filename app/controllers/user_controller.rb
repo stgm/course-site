@@ -21,7 +21,14 @@ class UserController < ApplicationController
 		@hands = @student.hands.order("created_at desc")
 		@notes = @student.notes.order("created_at desc")
 		
-		render layout: 'application'
+		@psets = Pset.order(:order)
+		
+		respond_to do |format|
+			format.js { render 'user' }
+			format.html { render layout: 'application' }
+		end
+		
+		
 	end
 	
 	def update

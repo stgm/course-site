@@ -1,0 +1,88 @@
+<div class="d-flex">
+<% #subs = user.submits.group_by(&:pset_id)
+subs = @student.grades_cache %>
+
+<% @psets.each do |pset| %>
+<%= grade_button(@student, pset, subs)%>
+<% end %>
+</div>
+
+
+
+
+<%= column_chart [
+{
+	name: "remote",
+	data: @student.attendance_records.where(local: [nil, false]).group_by_day(:cutoff, format: "%a %d-%m").count
+},
+{
+	name: "local",
+	data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
+}
+], height: "150px", stacked: true %>
+
+
+
+
+
+<div id="timeline" class="row">
+	<div class="col-sm-4">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= form_for(@note) do |f| %>
+				<%= f.hidden_field :student_id %>
+				<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
+				<p>
+					<span class="pull-right">
+					<%= f.submit "Add note", class: "btn btn-primary" %>
+					</span>
+					<% if @student.alarm %>
+					<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
+					<% else %>
+					<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
+					<% end %>
+				</p>
+				<% end %>
+			</div>
+		</div>
+		<% @notes.each do |item| %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= render partial: "user/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
+		<% end %>
+	</div>
+
+	<div class="col-sm-4">
+		<% @hands.each do |item| %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= render partial: "user/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
+		<% end %>
+	</div>
+	
+	<div class="col-sm-4">
+	<% @items.each do |item| %>
+	<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
+		<div class="panel-body">
+			<%= render partial: "#{item.class.to_s.downcase}", object: item %>
+		</div>
+	</div>
+	<% end %>
+	</div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+$(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });
+</script>
+
+<script type="text/javascript" charset="utf-8">
+$('.best_in_place').best_in_place()
+</script>

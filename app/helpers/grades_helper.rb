@@ -39,17 +39,17 @@ module GradesHelper
 			if submitted['grade'].present? or submitted['calculated_grade'].present?
 				is_public = true #submitted.grade.published? || submitted.grade.discussed?
 				if not submitted['grade'].blank?
-					grade_button_html(submitted['submit_id'], format_grade(submitted['grade'], pset.grade_type), is_public)
+					grade_button_html(submitted['submit_id'], pset.name, format_grade(submitted['grade'], pset.grade_type), is_public)
 				else
-					grade_button_html(submitted['submit_id'], format_grade(submitted['calculated_grade'], pset.grade_type), is_public)
+					grade_button_html(submitted['submit_id'], pset.name, format_grade(submitted['calculated_grade'], pset.grade_type), is_public)
 				end
 			else
-				grade_button_html(submitted, 'S', false)
+				grade_button_html(submitted, pset.name, 'S', false)
 			end
 		else
-			# grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
+			grade_button_html(user.id, pset.name, '--', 'Would you like to enter a grade for this unsubmitted pset?')
 			# link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm btn-block auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
-			'--'
+			# '--'
 		end
 	end
 	
@@ -78,13 +78,13 @@ module GradesHelper
 		end
 	end
 	
-	def grade_button_html(submit_id, grade, is_public, confirmation=nil)
+	def grade_button_html(submit_id, pset_name, grade, is_public, confirmation=nil)
 		if confirmation
-			# link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm btn-block auto-hide #{ grade_button_type(grade, is_public) }", data: { confirm:confirmation }
-			content_tag(:span, grade, class: "btn btn-sm btn-block auto-hide #{ grade_button_type(grade, is_public) }")
+			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm flex-fill auto-hide #{ grade_button_type(grade, is_public) }", title:pset_name, data: { confirm:confirmation, toggle:"tooltip", placement:"top" }
+			# content_tag(:span, grade, class: "btn btn-sm btn-block auto-hide #{ grade_button_type(grade, is_public) }")
 		else
-			# link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm btn-block #{ grade_button_type(grade, is_public) }"
-			content_tag(:span, grade, class: "btn btn-sm btn-block #{ grade_button_type(grade, is_public) }")
+			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm flex-fill #{ grade_button_type(grade, is_public) }", title:pset_name, data: { toggle:"tooltip", placement:"top" }
+			# content_tag(:span, grade, class: "btn btn-sm btn-block #{ grade_button_type(grade, is_public) }")
 		end
 	end
 	

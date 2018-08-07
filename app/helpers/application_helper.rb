@@ -14,7 +14,7 @@ module ApplicationHelper
 
 	def markdown(text, page_context)
 		Kramdown::Document.new(text,
-		                       :auto_ids => false,
+		                       :auto_ids => true,
 		                       :asset_prefix => page_context.public_url,
 		                       :cdn_prefix => Settings.cdn_prefix,
 							   :parse_block_html => true,
@@ -26,7 +26,7 @@ module ApplicationHelper
 	
 	def simple_markdown(text)
 		return text && Kramdown::Document.new(text,
-		                       :auto_ids => false,
+		                       :auto_ids => true,
 							   :parse_block_html => true,
 		                       :coderay_css => :class,
 		                       :coderay_tab_width => 4,

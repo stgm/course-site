@@ -2,19 +2,16 @@
 
 	<tr>
 		<th>Name</th>
-		<th></th>
-		<th></th>
+		<th><span class="fa fa-exclamation-triangle" aria-hidden="true"></span></th>
+		<th><span class="fa fa-location-arrow" aria-hidden="true"></span></th>
 		<th>Attend</th>
 		<th class="rotate">Spoken</th>
-		<th class="rotate">Status</th>
-		
-		<th class="rotate">Started</th>
-		
-		<th class="rotate">Submitted</th>
-		
-		<% psets.each do |pset| %>
-		<th class="rotate"><div><%= pset.name %></div></th>
+		<% if params[:status] == 'registered' %>
+		<th class="rotate">Start date</th>
 		<% end %>
+		<th class="rotate">Submitted</th>
+		<th>Latest</th>
+		<th>Grade</th>
 	</tr>
 
 	<% users.each do |group, user_list|%>
@@ -23,9 +20,14 @@
 	<% user_list.each do |user| %>
 	<tr <%= 'class=table-warning' if user.stagnated? %>>
 		<td>
-			<%= link_to user.name, user_path(user) %>
+			<!-- <%= link_to user.name, user_path(user) %> -->
+			<a href="#" class="" data-toggle="modal" data-target="#user-modal" data-user="<%= user.id %>"><%= user.name %></a>
+			
+		</td>
+		
+		<td>
 			<% if user.alarm %>
-			<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 			<% end %>
 		</td>
 		
@@ -33,35 +35,55 @@
 			<%= user.last_known_location %>
 		</td>
 		
-		<td>
-			<% if user.mail %>
-			<%= link_to '📧', 'mailto:' + user.mail %>
-			<% end %>
-		</td>
-    
-		<td><span class="bar"><%= user.attendance.split(',').last(7).join(',') %></span></td>
+		<td class="bar"><%= user.attendance %></td>
 		
-		<td><%= user.questions_count_cache %></td>
+		<td><%= user.attendance %><%= user.questions_count_cache %></td>
 		
-		<td><%= best_in_place(user, :status, as: :select, collection: { '0' => '-', '1' => '<span class="text-success">excellent</span>'.html_safe, '2' => '<span class="text-success">okay</span>'.html_safe, '3' => '<span class="text-warning">hard times</span>'.html_safe, '4' => '<span class="text-danger">struggling</span>'.html_safe }) %></td>
-
+		<% if params[:status] == 'registered' %>
 		<td><%= user.started_at.strftime("%e %b") if user.started_at %></td>
+		<% end %>
 		
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
-		<% #subs = user.submits.group_by(&:pset_id) 
-		subs = user.grades_cache
-		
-		 %>
-		<% psets.each do |pset| %>
-		<td>
-			<%= grade_button(user, pset, subs)%>
-		</td>
-		<% end %>
+		<td><%= user.submits.last.pset.name if user.submits.last %></td>
 
+		<td>
+			<% if user.submits.last and user.submits.last.grade %>
+			<%= grade_button_html(0, nil, user.submits.last.grade.any_final_grade, true) %>
+			<% end %>
+		</td>
 	</tr>
 	<% end %>
 
 	<% end %>
 
 </table>
+
+
+<!-- Large modal -->
+
+<div id="user-modal" class="modal bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div id="modal-header" class="modal-header">
+        <h5 class="modal-title"></h5>
+      </div>
+      <div id="modal-body" class="modal-body">
+        <p style="text-align:center; font-size:xx-large"><%= fa_icon 'cog', class:'fa-spin' %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div></div>
+
+<script>
+	$('#user-modal').on('show.bs.modal', function (e) {
+		$('#modal-header').html("");
+		$('#modal-body').html('<p style="text-align:center; font-size:xx-large"><%= fa_icon "cog", class:"fa-spin" %></p>');
+		
+		elt = $(e.relatedTarget);
+		$.ajax('/user/' + elt.data("user"));
+	})
+</script>
