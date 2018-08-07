@@ -1,7 +1,7 @@
 <div class="collapse sidebar-collapse" id="navbarTogglerDemo01">
 
 	<ul class="nav mt-2 mt-md-5">
-		<li><a href="/" class="nav-link">Announcements</a></li>
+		<li><a href="/" class="nav-link"><%= fa_icon 'bullhorn', class: 'mr-2' %> Announcements</a></li>
 		<% if Settings['links'] %>
 		<% Settings['links'].each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>

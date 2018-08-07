@@ -77,6 +77,13 @@
     color:gray;
 }
 
+#sidebar .nav-text
+{
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+
 #sidebar p.nav-text, #sidebar a
 {
     padding-top:0.35em;
@@ -90,7 +97,7 @@
 
 #sidebar ul.nav > li > ul.nav
 {
-    margin-left:1rem;
+    padding-left:.5em;
 }
 
 #icon-nav
