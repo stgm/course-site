@@ -7,9 +7,6 @@ subs = @student.grades_cache %>
 <% end %>
 </div>
 
-
-
-
 <%= column_chart [
 {
 	name: "remote",
@@ -20,10 +17,6 @@ subs = @student.grades_cache %>
 	data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
 }
 ], height: "150px", stacked: true %>
-
-
-
-
 
 <div id="timeline" class="row">
 	<div class="col-sm-4">
@@ -74,14 +67,6 @@ subs = @student.grades_cache %>
 	<% end %>
 	</div>
 </div>
-
-
-
-
-
-<script type="text/javascript">
-$(".bar").sparkline('html', { type: 'bar', chartRangeMax: 4, barWidth: 8 });
-</script>
 
 <script type="text/javascript" charset="utf-8">
 $('.best_in_place').best_in_place()

@@ -2,15 +2,15 @@
 
 	<tr>
 		<th>Name</th>
+		<th><span class="fa fa-sticky-note" aria-hidden="true"></span></th>
 		<th><span class="fa fa-exclamation-triangle" aria-hidden="true"></span></th>
-		<th><span class="fa fa-location-arrow" aria-hidden="true"></span></th>
 		<th>Attend</th>
 		<th class="rotate">Spoken</th>
 		<% if params[:status] == 'registered' %>
 		<th class="rotate">Start date</th>
 		<% end %>
-		<th class="rotate">Submitted</th>
 		<th>Latest</th>
+		<th>Submitted</th>
 		<th>Grade</th>
 	</tr>
 
@@ -22,17 +22,15 @@
 		<td>
 			<!-- <%= link_to user.name, user_path(user) %> -->
 			<a href="#" class="" data-toggle="modal" data-target="#user-modal" data-user="<%= user.id %>"><%= user.name %></a>
-			
+			<span class="fa fa-location-arrow" aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>"></span>
 		</td>
+		
+		<td>N</td>
 		
 		<td>
 			<% if user.alarm %>
 			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 			<% end %>
-		</td>
-		
-		<td>
-			<%= user.last_known_location %>
 		</td>
 		
 		<td class="bar"><%= user.attendance %></td>
@@ -43,9 +41,9 @@
 		<td><%= user.started_at.strftime("%e %b") if user.started_at %></td>
 		<% end %>
 		
-		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
-
 		<td><%= user.submits.last.pset.name if user.submits.last %></td>
+
+		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
 		<td>
 			<% if user.submits.last and user.submits.last.grade %>

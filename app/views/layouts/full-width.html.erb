@@ -17,15 +17,15 @@
     <link rel="icon" type="image/png" href="/images/minor.png" />
 </head>
 
-<body>
+<body style="height:100vh">
 
-	<div id="navbar" class="navbar bg-dark navbar-dark">
-		<%= render 'layouts/brand' %>
-		<%= yield :navbar_items %>
-		<%= render 'layouts/float_nav' %>
-	</div>
+	<div class="d-flex flex-column h-100">
 
-	<div class="container-fluid" style="height:100vh">
+		<div id="navbar" class="navbar bg-dark navbar-dark flex-shrink-0">
+			<%= render 'layouts/brand' %>
+			<%= yield :navbar_items %>
+			<%= render 'layouts/float_nav' %>
+		</div>
 
 		<% if flash[:alert] %>
 		<div class="alert alert-danger alert-dismissible fade show">
@@ -40,14 +40,13 @@
 			<%= flash[:notice] %>
 		</div>
 		<% end %>
-
-		<div class="row" style="">
-			
-			<div id="content" class="px-3 py-0 col-md-12">
+	
+		<div class="container-fluid h-100" style="overflow-y:auto">
+			<div class="row content h-100" style="overflow-y:auto">
 				<%= yield %>
 			</div>
-			
 		</div>
+	
 	</div>
 
 </body>

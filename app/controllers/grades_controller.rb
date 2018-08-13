@@ -7,6 +7,8 @@ class GradesController < ApplicationController
 
 	def show
 		@submit = Submit.find(params[:submit_id])
+		@submits = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where(users: { active: true }).order('psets.name')
+
 		if @submit
 			if @submit.grade && (@submit.grade.finished? || @submit.grade.published? || @submit.grade.discussed?)
 				@grade = @submit.grade

@@ -16,6 +16,7 @@ class SubmitsController < ApplicationController
 			# heads get stuff from one schedule, but from all groups
 			@to_grade = Submit.includes(:user, :pset, :grade).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).where("users.schedule_id" => current_user.schedules).order('psets.name')
 		elsif current_user.assistant? and (current_user.groups.any? or current_user.schedules.any?)
+			# TODO is this correct??? the and/or in the line above
 			# other assistants get stuff only from their assigned group
 			@to_grade = Submit.includes(:user, :pset, :grade).where(["users.group_id in (?) or users.schedule_id in (?)", current_user.groups.pluck(:id), current_user.schedules.pluck(:id)]).where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).order('psets.name')
 		elsif current_user.assistant?

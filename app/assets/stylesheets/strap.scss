@@ -159,6 +159,15 @@ footer img
     margin-right:1em;
 }
 
+//
+// GRADES TABLE
+//
+
+#grade-table td
+{
+    vertical-align:middle;
+}
+
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
 {
 	text-align:center;
@@ -173,27 +182,6 @@ footer img
 {
 	opacity:1;
 }
-
-//#grade-table td:first-child
-//{
-//    max-width:10em;
-//    text-overflow: ellipsis;
-//    overflow:hidden;
-//}
-
-//#grade-table td
-//{
-//    vertical-align:middle;
-//    white-space:nowrap;
-//    padding:3px 2px 3px 2px;
-//}
-//
-//#grade-table th
-//{
-//    border-top:0;
-//    vertical-align:bottom;
-//    font-size:smaller;
-//}
 
 #grade-table tr:first-child
 {
@@ -211,6 +199,24 @@ form .btn
 	margins-top:0;
 }
 
+.grade-form
+{
+    height:100%;
+    
+    label
+    {
+        margin-left:.15em;
+        margin-bottom:0;
+        font-size:small;
+    }
+    
+    #grade-boxes .form-group:not(:first-child)
+    {
+        margin-left:.5rem;
+    }
+}
+
+
 //
 // ALERT VIEW POPUP
 //
@@ -227,10 +233,6 @@ form .btn
 	box-shadow:none;
 	border:none;
 }
-
-//
-// GRADES TABLE
-//
 
 //th.rotate
 //{
