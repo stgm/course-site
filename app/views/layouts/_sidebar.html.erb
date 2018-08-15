@@ -13,27 +13,17 @@
 		<li>
 			<% if logged_in? && @schedule %>
 			<p class="nav-text">
-				<%= @schedule.name %>
+				<span id="schedule_name"><%= @schedule.name %></span>
 				<span class="pull-right">
-					<%= fa_icon 'chevron-circle-left', style: 'color:#aaa' %>
-					<%= fa_icon 'chevron-circle-right', style: 'color:#aaa' %>
+					<%= link_to fa_icon('chevron-circle-left', style: 'color:#aaa').html_safe, profile_prev_path, method: :post, remote: true %>
+					<%= link_to fa_icon('chevron-circle-right', style: 'color:#aaa').html_safe, profile_next_path, method: :post, remote: true %>
 				</span>
 			</p>
 
-			<ul class="nav">
-				<% schedule = @schedule %>
-				<% schedule.content.each do |item, link|  %>
-				<% next if item == 'description' %>
-				<% if link.nil? %>
-				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, '#', class:"nav-link disabled" %></li>
-				<% elsif link == '---' %>
-				<!-- <li role="separator" class="divider"></li> -->
-				<% else %>
-				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, link, class:"nav-link" %></li>
-				<% end %>
-				<% end %>
-				<% end %>
+			<ul id="schedule" class="nav">
+				<%= render partial: "schedule"%>
 			</ul>
+			<% end %>
 		</li>
 	</ul>
 

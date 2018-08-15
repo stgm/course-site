@@ -8,11 +8,14 @@ Rails.application.routes.draw do
 	# logged-in users only
 	get  "profile" => "profile#index"
 	post "profile/save"
-	get  "profile/grades"
 	get  "profile/pair"
 	get  "profile/logout"
 	post "profile/ask"
 	get  "profile/ping"
+
+	# set user schedule
+	post "profile/next"
+	post "profile/prev"
 
 	# administrative
 	get  "admin" => "admin#index"

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 	# normal users
 	belongs_to :group
 	belongs_to :schedule
+	belongs_to :current_module, class_name: "ScheduleSpan"
 	
 	# permissions for heads/tas
 	has_and_belongs_to_many :groups
@@ -37,8 +38,14 @@ class User < ActiveRecord::Base
 	scope :started, -> { where.not(last_submitted_at: nil) }
 	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
 	
-	
 	enum role: [:guest, :student, :assistant, :head, :admin]
+	
+	before_validation do
+		# set user's current module to whatever's first in their newly assigned schedule
+		if self.schedule_id_changed?
+			self.current_module_id = self.schedule.schedule_spans.first.id
+		end
+	end
 	
 	def self.find_by_login(login)
 		if login

@@ -112,7 +112,7 @@ class PageController < ApplicationController
 	
 		# success
 		begin
-			redirect_to profile_grades_path
+			redirect_to :back
 		rescue ActionController::RedirectBackError
 			redirect_to :root
 		end

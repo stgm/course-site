@@ -15,13 +15,28 @@ class ProfileController < ApplicationController
 		render text: "Pairing code is #{"%04d" % current_user.token}"
 	end
 	
-	def grades
-		@submits = current_user.submits.order('updated_at desc')
-		@grades = Grade.includes(:submit).where(status: [Grade.statuses[:published], Grade.statuses[:discussed]]).where("submits.user_id = ?", current_user.id).references(:submits)
-	end
-	
 	def ping
 		render nothing:true
+	end
+	
+	def prev
+		respond_to do |format|
+			format.js do
+				current_user.update(current_module: current_user.current_module.previous)
+				@schedule = current_user.current_module
+				render 'schedule'
+			end
+		end
+	end
+	
+	def next
+		respond_to do |format|
+			format.js do
+				current_user.update(current_module: current_user.current_module.next)
+				@schedule = current_user.current_module
+				render 'schedule'
+			end
+		end
 	end
 	
 	def save # POST

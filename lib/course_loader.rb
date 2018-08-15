@@ -120,18 +120,17 @@ private
 	
 	def load_schedules(dir)
 		
-		# load the default schedule in the root of the course folder (if available)
+		# load the default schedule in schedule.yml, if available
 		if contents = read_config(File.join(dir, 'schedule.yml'))
 			schedule = Schedule.where(name: 'Standard').first_or_create
 			schedule.load(contents)
 		end
-		
-		# load all schedules in the "schedules" folder (if available)
-		yaml_files_in(File.join(dir, "schedules")) do |schedule_file|
-			schedule_name = upcase_first_if_all_downcase(File.basename(schedule_file, ".*"))
-			schedule = Schedule.where(name: schedule_name).first_or_create
-			if contents = read_config(schedule_file)
-				schedule.load(contents)
+
+		# load all schedules in schedules.yml, if available
+		if contents = read_config(File.join(dir, 'schedules.yml'))
+			contents.each do |name, items|
+				schedule = Schedule.where(name: name).first_or_create
+				schedule.load(items)
 			end
 		end
 	end

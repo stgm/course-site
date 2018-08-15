@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180801151245) do
+ActiveRecord::Schema.define(version: 20180815082127) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -272,8 +272,10 @@ ActiveRecord::Schema.define(version: 20180801151245) do
     t.datetime "last_submitted_at"
     t.datetime "started_at"
     t.text     "grades_cache"
+    t.integer  "current_module_id"
   end
 
+  add_index "users", ["current_module_id"], name: "index_users_on_current_module_id"
   add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"
 
 end

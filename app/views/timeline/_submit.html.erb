@@ -1,2 +1,16 @@
 <small><%= date_span_with_title(submit.created_at)%></small>
 <h5 class="card-title">You submitted <%= submit.pset.name %>!</h5>
+
+<% if submit.url %>
+URL: <%= link_to submit.url, submit.url %>
+<% end %>
+<% if submit.submitted_files %>
+<p>
+	Files submitted:
+	<ul>
+		<% submit.submitted_files.each do |name| %>
+		<li><code class="<%= color_for_filename(name, submit.pset.all_filenames) %>"><%= name %></code></li>
+		<% end %>
+	</ul>
+</p>
+<% end %>

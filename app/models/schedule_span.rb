@@ -7,11 +7,11 @@ class ScheduleSpan < ActiveRecord::Base
 	end
 	
 	def previous
-		schedule.schedule_spans.where("id < ?", self.id).last
+		schedule.schedule_spans.where("id < ?", self.id).last || self
 	end
 	
 	def next
-		schedule.schedule_spans.where("id > ?", self.id).first
+		schedule.schedule_spans.where("id > ?", self.id).first || self
 	end
 
 end

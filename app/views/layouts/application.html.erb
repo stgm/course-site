@@ -46,6 +46,7 @@
 				<% if @page and @submitted and date = @page.pset.submit_from(current_user).submitted_at %>
 				<div id="submitted_pset" class="alert alert-success">
 					You have submitted this problem set <%= time_ago_in_words(date) %> ago.
+					<%= link_to "See the homepage for an overview.", root_path %>
 				</div>
 				<% end %>
 
