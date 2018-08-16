@@ -2,10 +2,28 @@
 
 <%= render 'git' %>
 
-<hr>
+<ul>
+	<% if Schedule.any? %>
+	<li>This course has <%= Schedule.count %> schedules.</li>
+	<% end %>
+</ul>
+
+<hr class="my-5">
+
+<%= render 'permissions' %>
+
+<hr class="my-5">
+
+<%= render 'settings' %>
+
+<hr class="my-5">
+
+<%= render 'email' %>
+
+<hr class="my-5">
 
 <%= render 'dropbox' %>
 
-<hr>
+<hr class="my-5">
 
 <%= render 'webhook' %>

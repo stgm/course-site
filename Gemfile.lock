@@ -142,11 +142,6 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    octicons (8.0.0)
-      nokogiri (>= 1.6.3.1)
-    octicons_helper (8.0.0)
-      octicons (= 8.0.0)
-      rails
     popper_js (1.14.3)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
@@ -250,7 +245,6 @@ DEPENDENCIES
   jquery-rails
   kramdown
   mathjax-rails
-  octicons_helper
   quiet_assets
   rails (~> 4.2.0)
   rails-settings-cached (= 0.4.1)

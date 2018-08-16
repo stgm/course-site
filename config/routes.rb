@@ -41,11 +41,13 @@ Rails.application.routes.draw do
 	get  "config/dropbox"
 	get  "config/git"
 	get  "config/webhook"
+	get  "config/permissions"
 
 	post "config/admins"       => "config#admins_save"
 	post "config/assistants"   => "config#assistants_save"
 	post "config/git_repo"     => "config#git_repo_save"
 	post "config/generate_secret"
+	post "config/settings"
 
 	get  "admin/api"
 	post "admin/api_save"
@@ -144,7 +146,6 @@ Rails.application.routes.draw do
 		end
 	end
 	
-	resources :permissions
 	resources :notes
 	
 	# onboarding

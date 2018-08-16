@@ -1,5 +1,5 @@
-<h2 class="mb-0">
-	<%= octicon "package", height: 32, style: 'margin-right:0.25em;', class: 'dropcap'  %>
+<h2 class="mb-2">
+	<%= fa_icon "dropbox", style: 'margin-right:0.25em;', class: 'dropcap'  %>
 	Dropbox
 </h2>
 <p>Any student uploads will be placed in this Dropbox account.</p>
@@ -12,3 +12,11 @@
 	<%= link_to 'Link to your account', dropbox_connect_path, method: :post, class:'btn btn-primary' %>
 	<% end %>
 </p>
+
+<%= form_for(:settings, url: config_settings_path(), remote: true, html: { id: "dropbox_path_form", class: "form-inline" }) do |form| %>
+	Path:
+	Dropbox / Submit /
+	<input name="settings[dropbox_folder_name]" size="10" type="text" class="form-control ml-2" placeholder="Course ID" value="<%= Settings.dropbox_folder_name %>">
+	/ Student ID / Timestamp
+	<input type="submit" class="btn btn-primary ml-3" value="Save">	 
+<% end %>

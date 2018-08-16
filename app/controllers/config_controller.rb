@@ -9,6 +9,28 @@ class ConfigController < ApplicationController
 		@dropbox_linked = Dropbox.connected?
 		@secret = Settings.webhook_secret
 	end
+	
+	# allows setting arbitrary settings in the settings model
+	def settings
+		if setting = params["settings"]
+			setting.each do |k,v|
+				v = v == "1" if v == "1" or v == "0"
+				logger.debug "Setting #{k} to #{v.inspect}"
+				Settings[k] = v
+			end
+		end
+		render nothing: true
+	end
+	
+	def permissions
+		@users = User.staff.order(:role, :name)
+		@schedules = Schedule.all
+		@groups = Group.all
+
+		respond_to do |format|
+			format.js { render 'permissions' }
+		end
+	end
 
 	def git_repo_save
 		if Settings.git_repo.present?

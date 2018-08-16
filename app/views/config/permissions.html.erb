@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-sm">
 	<tr>
 		<th>Name</th>
 		<th>Role</th>
@@ -17,8 +17,8 @@
 			<%= link_to schedule.name, user_remove_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch %>,
 			<% end %>			
 			<div class="btn-group">
-				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="fa fa-plus"></span></span>
+				<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fa fa-plus"></span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @schedules.each do |schedule| %>
@@ -32,8 +32,8 @@
 			<%= link_to group.name, user_remove_permissions_path(user_id: user.id, group_id: group.id), method: :patch %>,
 			<% end %>
 			<div class="btn-group">
-				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="fa fa-plus"></span></span>
+				<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fa fa-plus"></span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @groups.each do |group| %>

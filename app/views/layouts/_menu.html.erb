@@ -4,7 +4,6 @@
 <%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 <%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path, class: 'dropdown-item' %>
-<%= link_to '<i class="glyphicon glyphicon-eye-open"></i> Permissions'.html_safe, permissions_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 <%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path, class: 'dropdown-item' %>
 <%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path, class: 'dropdown-item' %>
@@ -23,7 +22,6 @@
 
 <%= link_to '<i class="glyphicon glyphicon-check"></i> Show pages'.html_safe, admin_pages_path, class: 'dropdown-item' %>
 <%= link_to '<i class="glyphicon glyphicon-th"></i> Manage students'.html_safe, students_path, class: 'dropdown-item' %>
-<%= link_to '<i class="glyphicon glyphicon-eye-open"></i> View permissions'.html_safe, permissions_path, class: 'dropdown-item' %>
 <% if current_user.groups.any? or current_user.schedules.any? %>
 <div class="dropdown-divider"></div>
 <%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading list'.html_safe, submits_path, class: 'dropdown-item' %>
