@@ -17,8 +17,6 @@
 <script>
 	$('#permissions-modal').on('show.bs.modal', function (e) {
 		$('#permissions-modal-body').html('<p style="text-align:center; font-size:xx-large"><%= fa_icon "cog", class:"fa-spin" %></p>');
-		
-		// elt = $(e.relatedTarget);
 		$('#permissions-modal-body').load('/config/permissions');
 	})
 </script>

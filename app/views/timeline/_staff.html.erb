@@ -1,9 +1,34 @@
+<% if !current_user.schedule.self_service %>
 <div class="card">
 	<div class="card-body">
-		<h5 class="card-title">Schedule</h5>
-		<p>Allow setting current schedule / page permissions</p>
+		<h5 class="card-title">Current schedule</h5>
+		<% schedule = current_user.schedule %>
+		<% schedule.schedule_spans.each do |item| %>
+		<p>
+			<%= radio_button_tag( schedule.id, item.id, item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %>
+		</p>
+		<% end %>
+		<p><%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %></p>
+
+
+		<script type="text/javascript" charset="utf-8">
+		$('.set-schedule').bind('change', function(a) {
+		    var z = a;
+			$.ajax({
+				url: "<%= admin_set_schedule_path %>?schedule=" + a.currentTarget.name + "&item=" + a.currentTarget.value,
+				headers: {
+					Accept : "text/javascript; charset=utf-8",
+					"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+				},
+				type: 'POST'
+			});
+		});
+		</script>
+
+		
 	</div>
 </div>
+<% end %>
 
 <div class="card">
 	<div class="card-body">
@@ -19,8 +44,8 @@
 		<li class="list-group-item d-flex align-items-center">
 			<%= group.name %>
 			<span class="badge badge-primary ml-auto"><%= group.submits.includes(:grade).where(grades: { submit_id: nil }).count %> sub</span>
-			<span class="badge badge-primary ml-1"><%= group.grades.open.count %> open</span>
-			<span class="badge badge-secondary ml-1"><%= group.grades.finished.count %> done</span>
+			<span class="badge badge-primary ml-1"><%= group.grades.open.count %> grading</span>
+			<span class="badge badge-secondary ml-1"><%= link_to group.grades.finished.count.to_s + " done", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
 		</li>
 		<% end %>
 	</ul>

@@ -26,10 +26,6 @@ Rails.application.routes.draw do
 	get  "admin/generate_groups(/:schedule_id)", to: "admin#generate_groups", as: "admin_generate_groups"
 	post "admin/generate_groups_do(/:schedule_id)", to: "admin#generate_groups_do", as: "admin_generate_groups_do"
 	get  "admin/export_grades"
-	get  "admin/pages"
-	put  "admin/page_update"
-	put  "admin/section_update"
-	put  "admin/schedule_set_self_register"
 	get  "admin/schedule"
 	post "admin/set_schedule"
 	
@@ -48,6 +44,10 @@ Rails.application.routes.draw do
 	post "config/git_repo"     => "config#git_repo_save"
 	post "config/generate_secret"
 	post "config/settings"
+	put  "config/schedule_registration"
+	patch  "config/schedule_self_service"
+	put  "config/page_update"
+	put  "config/section_update"
 
 	get  "admin/api"
 	post "admin/api_save"
@@ -98,9 +98,6 @@ Rails.application.routes.draw do
 	# grading overview for assistants
 	# get  "grading" => "grading#index"
 	
-	resource :audit, only: [ :show ] do
-	end
-	post "mark_group_open/(:group_id)/(:pset_id)", to: "audits#mark_group_open", as: "audit_mark_group_open"
 	
 	namespace :hands do
 		get "available" => "available#index"
@@ -131,6 +128,7 @@ Rails.application.routes.draw do
 			post "close_and_mail_late"
 			get  "form_for_missing"
 			post "notify_missing"
+			
 		end
 	end
 	
@@ -143,6 +141,8 @@ Rails.application.routes.draw do
 			post "publish_all"
 
 			put  "assign_all_final"
+
+			post "reopen/(:group_id)", to: "grades#reopen", as: "reopen"
 		end
 	end
 	

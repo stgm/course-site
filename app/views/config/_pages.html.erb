@@ -1,0 +1,30 @@
+<h2 class="mb-2">
+	<%= fa_icon "edit", style: 'margin-right:0.25em;', class: 'dropcap'  %>
+	Published pages
+</h2>
+<p>Check all the pages that should be visible to students and guests.</p>
+
+<% @all_sections.each do |section| %>
+<p><strong><%= section.title %></strong></p>
+<p>
+<% section.pages.each do |page| %>
+	<%= check_box_tag('public', '1', page.public, id: page.id, class: 'toggle-public') %> <%= page.title %>
+<% end %>
+</p>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+$('.toggle-public').bind('change', function(a) {
+	$.ajax({
+		url: "<%= config_page_update_path %>?id=" + a.currentTarget.id,
+		headers: {
+			Accept : "text/javascript; charset=utf-8",
+			"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+		},
+		type: 'PUT',
+		data: {
+			page: { 'public': $(a.currentTarget).prop('checked') }
+		}
+	});
+});
+</script>

@@ -2,15 +2,18 @@
 
 <%= render 'git' %>
 
-<ul>
-	<% if Schedule.any? %>
-	<li>This course has <%= Schedule.count %> schedules.</li>
-	<% end %>
-</ul>
+<% if Schedule.any? %>
+<hr class="my-5">
+<%= render 'registration' %>
+<% end %>
 
 <hr class="my-5">
 
 <%= render 'permissions' %>
+
+<hr class="my-5">
+
+<%= render 'pages' %>
 
 <hr class="my-5">
 

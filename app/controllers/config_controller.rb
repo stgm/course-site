@@ -8,6 +8,7 @@ class ConfigController < ApplicationController
 	def index
 		@dropbox_linked = Dropbox.connected?
 		@secret = Settings.webhook_secret
+		@all_sections = Section.includes(pages: :pset)
 	end
 	
 	# allows setting arbitrary settings in the settings model
@@ -19,6 +20,30 @@ class ConfigController < ApplicationController
 				Settings[k] = v
 			end
 		end
+		render nothing: true
+	end
+	
+	def page_update
+		p = Page.find(params[:id])
+		p.update!(params.require(:page).permit(:public))
+		render json: p
+	end
+	
+	def section_update
+		p = Section.find(params[:id])
+		p.update!(params.require(:page).permit(:display))
+		render json: p
+	end
+
+	def schedule_registration
+		p = Schedule.find(params[:id])
+		p.update!(params.require(:schedule).permit(:self_register))
+		render json: p
+	end
+	
+	def schedule_self_service
+		p = Schedule.find(params[:id])
+		p.update!(params.require(:schedule).permit(:self_service))
 		render nothing: true
 	end
 	

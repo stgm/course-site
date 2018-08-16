@@ -17,25 +17,6 @@ class AdminController < ApplicationController
 		render layout: false
 	end
 	
-	def pages
-		@all_sections = Section.includes(pages: :pset)
-		@schedules = Schedule.all.includes(:schedule_spans)
-		# @schedules = ScheduleSpan.all
-		# @schedule_position = Settings.schedule_position && ScheduleSpan.find_by_id(Settings.schedule_position) || ScheduleSpan.new
-	end
-	
-	def page_update
-		p = Page.find(params[:id])
-		p.update!(params.require(:page).permit(:public))
-		render json: p
-	end
-	
-	def section_update
-		p = Section.find(params[:id])
-		p.update!(params.require(:page).permit(:display))
-		render json: p
-	end
-
 	def set_schedule
 		if params[:item] == "0"
 			Schedule.find(params[:schedule]).update_attribute(:current, nil)
@@ -43,12 +24,6 @@ class AdminController < ApplicationController
 			Schedule.find(params[:schedule]).update_attribute(:current, ScheduleSpan.find(params[:item]))
 		end
 		render json: nil
-	end
-	
-	def schedule_set_self_register
-		p = Schedule.find(params[:id])
-		p.update!(params.require(:schedule).permit(:self_register))
-		render json: p
 	end
 	
 	def stats

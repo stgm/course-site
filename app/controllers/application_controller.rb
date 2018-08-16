@@ -52,7 +52,11 @@ class ApplicationController < ActionController::Base
 	def load_schedule
 		# load schedule
 		if s = current_user.schedule
-			@schedule = current_user.current_module || s.current
+			if s.self_service
+				@schedule = current_user.current_module || s.current
+			else
+				@schedule = s.current
+			end
 			@schedule_name = s.name
 			@group_name = current_user.group.name if current_user.group
 		end
