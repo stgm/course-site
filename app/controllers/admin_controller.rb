@@ -83,26 +83,8 @@ class AdminController < ApplicationController
 	def generate_groups_do
 		# the schedule that is currently the selected tab
 		schedule = Schedule.find(params[:schedule_id])
-		
-		# delete old groups for this schedule
-		Group.where("name like ?", "#{schedule.name}%").delete_all
-		
-		# create the requested number of groups
-		for n in 0..params[:number].to_i-1
-			Group.create(name: "#{schedule.name} #{(n+65).chr}")
-		end
-		
-		# randomize students
-		students = User.student.where(schedule: params[:schedule_id]).shuffle
-		
-		# get the new groups
-		groups = Group.where("name like ?", "#{schedule.name}%").to_a
-		
-		# divide students into groups and assign their group each
-		students.in_groups(params[:number].to_i).each do |student_group|
-			User.where("id in (?)", student_group).update_all(group_id: groups.pop.id)
-		end
-		
+		schedule.generate_groups(params[:number].to_i)
+				
 		redirect_to students_in_group_path(group: Schedule.find(params[:schedule_id]).name), notice: 'Groups have been randomly assigned.'
 	end
 

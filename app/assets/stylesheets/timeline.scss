@@ -3,11 +3,6 @@
     margin-bottom:2em
 }
 
-#timeline ul
-{
-	padding-left:20px;
-}
-
 #timeline ul#links
 {
 	padding-left:0;
@@ -50,4 +45,20 @@
 #timeline .btn .badge
 {
     vertical-align:middle;
+}
+
+#timeline h5.card-title:last-child
+{
+    margin-bottom:0;
+}
+
+#timeline .list-group
+{
+    border: 2px solid #f8f9fa;
+}
+
+#timeline .list-group-item
+{
+    border-color: #f8f9fa;
+    border-bottom-width: 2px;
 }

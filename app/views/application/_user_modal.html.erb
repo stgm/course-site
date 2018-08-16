@@ -1,0 +1,27 @@
+<div id="user-modal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div id="user-modal-header" class="modal-header">
+				<h5 class="modal-title"></h5>
+			</div>
+			<div id="user-modal-body" class="modal-body">
+				<p style="text-align:center; font-size:xx-large"><%= fa_icon 'cog', class:'fa-spin' %></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('#user-modal').on('show.bs.modal', function (e) {
+		// clear modal upon load
+		$('#user-modal-header').html("");
+		$('#user-modal-body').html('<p style="text-align:center; font-size:xx-large"><%= fa_icon "cog", class:"fa-spin" %></p>');
+	
+		// load new data
+		elt = $(e.relatedTarget);
+		$.ajax('/user/' + elt.data("user"));
+	})
+</script>

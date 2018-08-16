@@ -1,21 +1,22 @@
 <div id="timeline" class="row" style="margin-bottom:2em">
 	<div class="col-sm-7">
-		<% @alerts.each do |item| %>
+		<%= render partial: "timeline/alerts" %>
+		<% if current_user.staff? %>
 		<div class="card">
 			<div class="card-body">
-				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
+			    <h5 class="card-title">Add announcement</h5>
+				<% @alert = Alert.new() %>
+				<%= render partial: "alerts/form" %>
 			</div>
 		</div>
 		<% end %>
 	</div>
 
 	<div class="col-sm-5">
-		<% @items.each do |item| %>
-		<div class="card <%= "card-highlight" if item.updated_at > 1.week.ago %>">
-			<div class="card-body">
-				<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
-			</div>
-		</div>
+		<% if current_user.staff? %>
+		<%= render partial: "timeline/staff" %>
+		<% elsif current_user.student? %>
+		<%= render partial: "timeline/items" %>
 		<% end %>
 	</div>
 </div>

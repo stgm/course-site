@@ -1,0 +1,45 @@
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Schedule</h5>
+		<p>Allow setting current schedule / page permissions</p>
+	</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Grading</h5>
+		<% if @groups.empty? %>
+		<p class="card-text">
+			No grading groups have been defined yet.
+		</p>
+		<% end %>
+	</div>
+	<ul class="list-group list-group-flush">
+		<% @groups.each do |group| %>
+		<li class="list-group-item d-flex align-items-center">
+			<%= group.name %>
+			<span class="badge badge-primary ml-auto"><%= group.submits.includes(:grade).where(grades: { submit_id: nil }).count %> sub</span>
+			<span class="badge badge-primary ml-1"><%= group.grades.open.count %> open</span>
+			<span class="badge badge-secondary ml-1"><%= group.grades.finished.count %> done</span>
+		</li>
+		<% end %>
+	</ul>
+</div>
+
+<% if @new_students.any? %>
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">New students</h5>
+	</div>
+	<ul class="list-group list-group-flush">
+		<% @new_students.each do |student| %>
+		<li class="list-group-item d-flex align-items-center">
+			<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
+			<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
+		</li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
+
+<%= render partial: "user_modal" %>

@@ -65,7 +65,7 @@
     flex-direction: column;
 }
 
-#sidebar a {
+#sidebar a.nav-link {
 	color: #f8f9fa;
     @extend .px-0;
 }

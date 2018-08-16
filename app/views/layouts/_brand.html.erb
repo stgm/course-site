@@ -4,6 +4,18 @@
 		<span class="course-name"><%= Settings.short_course_name %></span><br>
 		<small><%= @group_name || @schedule_name %></small>
 	</a>
+	<% if current_user.admin? %>
+	<span class="dropdown">
+		<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		</a>
+
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+			<% Schedule.all.each do |s| %>
+			<%= link_to s.name, user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), method: :post, class: "dropdown-item" %>
+			<% end %>
+		</div>
+	</span>
+	<% end %>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>

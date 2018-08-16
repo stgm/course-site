@@ -42,6 +42,17 @@ class PageController < ApplicationController
 			# @items += @student.hands.to_a
 			# @items += @student.notes.to_a
 			@items = @items.sort { |a,b| b.created_at <=> a.created_at }
+			
+			if current_user.senior?
+				# if params[:pset_id]
+					# @pset = Pset.find(params[:pset_id])
+				# else
+					# @pset = Pset.order(:order).first
+				# end
+				# @psets = Pset.order(:order)
+				@groups = current_user.schedule.groups.order(:name)
+				@new_students = current_user.schedule.users.not_staff.registered
+			end
 		
 			render "timeline/timeline" and return
 		else

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180815082127) do
+ActiveRecord::Schema.define(version: 20180816094853) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -67,8 +67,10 @@ ActiveRecord::Schema.define(version: 20180815082127) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
+    t.integer  "schedule_id"
   end
 
+  add_index "groups", ["schedule_id"], name: "index_groups_on_schedule_id"
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true
 
   create_table "groups_users", id: false, force: :cascade do |t|
