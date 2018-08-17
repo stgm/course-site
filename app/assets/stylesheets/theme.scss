@@ -1,16 +1,13 @@
-#timeline .card, #timeline .list-group
-{
-//    -webkit-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
-//    -moz-box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
-//    box-shadow: 0px 0px 15px rgba(140, 152, 164, 0.125);
-//    border:0;
-}
-
 #timeline .card
 {
-//    border:0;
+    border:1px solid #F7EEEC;
     box-shadow:none;
-    border-radius:0;
+}
+
+#timeline .card-body, #timeline .list-group-item
+{
+    padding-left:2rem;
+    padding-right:2rem;
 }
 
 #timeline .card small
