@@ -1,4 +1,18 @@
-<ul id="icon-nav" class="nav navbar-nav">
+<ul id="icon-nav" class="nav navbar-nav ml-auto">
+	<% if current_user.admin? %>
+	<li class="nav-item dropdown" id="switch-nav">
+		<a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<%= fa_icon "eye", class: "fa-fw" %>			
+		</a>
+
+		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+			<% Schedule.all.each do |s| %>
+			<%= link_to s.name, user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), method: :post, class: "dropdown-item" %>
+			<% end %>
+		</div>
+	</li>
+	<% end %>
+
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
 		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>

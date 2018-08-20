@@ -16,9 +16,10 @@ class UserController < ApplicationController
 		@items = []
 		@items += @student.submits.where("submitted_at not null").to_a
 		@items += @grades.to_a
+		@items += @student.hands.to_a
 		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
 		
-		@hands = @student.hands.order("created_at desc")
+		@hands = @student.hands.where("note is not null").order("created_at desc")
 		@notes = @student.notes.order("created_at desc")
 		
 		@psets = Pset.order(:order)

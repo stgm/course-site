@@ -14,7 +14,7 @@
 	<%= yield :math %>
 	<%= javascript_include_tag "application" %>
 
-    <link rel="icon" type="image/png" href="/images/minor.png" />
+	<link rel="icon" type="image/png" href="/images/minor.png" />
 </head>
 
 <body style="height:100vh">
@@ -23,8 +23,14 @@
 
 		<div id="navbar" class="navbar bg-dark navbar-dark navbar-expand-lg flex-shrink-0">
 			<%= render 'layouts/brand' %>
-			<%= yield :navbar_items %>
-			<%= render 'layouts/float_nav' %>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<%= yield :navbar_items %>
+				<%= render 'layouts/float_nav' %>
+			</div>
 		</div>
 
 		<% if flash[:alert] %>
@@ -43,7 +49,7 @@
 	
 		<div class="container-fluid h-100" style="overflow-y:auto">
 			<div class="row content h-100" style="overflow-y:auto">
-				<%= yield %>
+				<%= content_for?(:main) ? yield(:main) : yield %>
 			</div>
 		</div>
 	

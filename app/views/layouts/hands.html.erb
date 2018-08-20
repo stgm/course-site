@@ -1,76 +1,17 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<%= csrf_meta_tags %>
-
-	<title><%= title %></title>
-
-	<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-			showProcessingMessages: true
-		});
-	</script>
-
-	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= mathjax_tag %>
-	<%= javascript_include_tag "application" %>
-
-    <link rel="icon" type="image/png" href="/images/minor.png" />
-</head>
-
-<body>
-
-	<div class="container-fluid" style="height:100vh; max-width:1366px">
-
-		<% if flash[:alert] %>
-		<div class="alert alert-danger alert-dismissible fade show">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<%= flash[:alert] %>
+<% content_for :main do %>
+<div class="col-12">
+	<%= form_tag({ controller: 'hands', action: 'search' }, method: 'get', class: 'form mt-3') do %>
+	<div class="input-group">
+		<div class="input-group-prepend">
+			<a class="btn btn-secondary" href="<%= url_for(controller: 'hands', action: 'index') %>"><%= fa_icon 'chevron-left' %></a>
 		</div>
-		<% end %>
-
-		<% if flash[:notice] %>
-		<div class="alert alert-success alert-dismissible fade show">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<%= flash[:notice] %>
-		</div>
-		<% end %>
-
-		<div class="row"" style="min-height:100vh"">
-			
-			<div id="content" class="p-1 col-md-12">
-				<div class="nav navbar-light justify-content-between">
-					<%= render 'layouts/brand' %>
-					<div class=" align-middle">
-						<%= render 'layouts/float_nav' %>
-					</div>
-				</div>
-
-				<%= form_tag({ controller: 'hands', action: 'search' }, method: 'get') do %>
-				<p>
-					<div class="input-group">
-						<div class="input-group-prepend">
-							<a class="btn btn-secondary" href="<%= url_for(controller: 'hands', action: 'index') %>"><%= fa_icon 'chevron-left' %></a>
-						</div>
-						<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="submit"><%= fa_icon 'search' %></button>
-						</div>
-					</div>
-				</p>
-				<% end %>
-
-				<%= yield %>
-			</div>
-			
+		<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
+		<div class="input-group-append">
+			<button class="btn btn-primary" type="submit"><%= fa_icon 'search' %></button>
 		</div>
 	</div>
-
-</body>
-
-</html>
+	<% end %>
+	<%= yield %>
+</div>
+<% end %>
+<%= render template: "layouts/full-width" %>

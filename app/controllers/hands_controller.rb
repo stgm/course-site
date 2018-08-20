@@ -2,12 +2,12 @@ class HandsController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
 	before_filter :require_staff
-
+	
 	def index
 		redirect_to hands_available_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
 		@my_hands = Hand.where(done:false, assist:current_user).order('created_at asc')
 		@hands = Hand.where(done:false, assist:nil).order('created_at asc')
-		@long_time_users = User.student.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 2.days.ago).order('last_spoken_at asc')
+		@long_time_users = User.student.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 1.day.ago).order('last_spoken_at asc')
 	end
 	
 	def show
@@ -67,16 +67,17 @@ class HandsController < ApplicationController
 	def done
 		h = Hand.find(params[:id])
 		h.update_attributes(done: true, success:params[:success], evaluation: params[:evaluation], note: params[:note], progress: params[:progress], closed_at: DateTime.now)
-		if params[:success]
-			AttendanceRecord.create_for_user(h.user, true)
-		end
+		# moved to hand model
+		# if params[:success]
+		# 	AttendanceRecord.create_for_user(h.user, true)
+		# end
 		redirect_to action: 'index', only_path: true
 	end
 
 	def helpline
 		h = Hand.find(params[:id])
 		h.update_attributes(helpline: true, assist: nil)
-		AttendanceRecord.create_for_user(h.user, true)
+		# AttendanceRecord.create_for_user(h.user, true)
 		redirect_to action: 'index', only_path: true
 	end
 

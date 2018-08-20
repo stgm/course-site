@@ -1,4 +1,8 @@
-<div class="list-group">
+<% if not @my_hands.any? || @hands.any? || @long_time_users.any? %>
+<h5 class="text-center my-5">No requests. Go and find<br> a student to talk to!</h5>
+<% end %>
+
+<div class="list-group my-3">
 
 	<% if @my_hands.any? %>
 	<% @my_hands.each do |hand| %>

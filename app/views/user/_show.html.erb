@@ -19,7 +19,7 @@ subs = @student.grades_cache %>
 ], height: "150px", stacked: true %>
 
 <div id="timeline" class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-5">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<%= form_for(@note) do |f| %>
@@ -46,21 +46,11 @@ subs = @student.grades_cache %>
 		</div>
 		<% end %>
 	</div>
-
-	<div class="col-sm-4">
-		<% @hands.each do |item| %>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<%= render partial: "user/#{item.class.to_s.downcase}", object: item %>
-			</div>
-		</div>
-		<% end %>
-	</div>
 	
-	<div class="col-sm-4">
+	<div class="col-sm-7">
 	<% @items.each do |item| %>
-	<div class="panel panel-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
-		<div class="panel-body">
+	<div class="card card-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
+		<div class="card-body">
 			<%= render partial: "#{item.class.to_s.downcase}", object: item %>
 		</div>
 	</div>
