@@ -1,3 +1,56 @@
+<% if @new_students.any? %>
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">New students</h5>
+	</div>
+	<ul class="list-group list-group-flush">
+		<% @new_students.each do |student| %>
+		<li class="list-group-item d-flex align-items-center">
+			<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
+			<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
+		</li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
+
+
+
+
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Grading</h5>
+		<% if @groups.empty? %>
+		<p class="card-text">
+			No grading groups have been defined yet.
+		</p>
+		<% end %>
+	</div>
+	<ul class="list-group list-group-flush">
+		<% @groups.each do |group| %>
+		<li class="list-group-item d-flex align-items-center">
+			<%= group.name %>
+			<span class="badge badge-primary ml-auto"><%= group.submits.includes(:grade).where(grades: { submit_id: nil }).count %> sub</span>
+			<span class="badge badge-primary ml-1"><%= group.grades.open.count %> grading</span>
+			<span class="badge badge-secondary ml-1"><%= link_to group.grades.finished.count.to_s + " done", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
+		</li>
+		<% end %>
+	</ul>
+	<div class="card-body">
+	To be published:
+	</div>
+	<ul class="list-group list-group-flush">
+		<% @psets.each do |pset_name, count| %>
+		<li class="list-group-item d-flex align-items-center">
+			<%= pset_name %>
+			<span class="badge badge-primary ml-auto">
+				<%= link_to count.to_s + " done", publish_grades_path(pset_name), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %>
+			</span>
+		</li>
+		<% end %>
+	</ul>
+</div>
+
 <% if !current_user.schedule.self_service %>
 <div class="card">
 	<div class="card-body">
@@ -29,42 +82,4 @@
 	</div>
 </div>
 <% end %>
-
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">Grading</h5>
-		<% if @groups.empty? %>
-		<p class="card-text">
-			No grading groups have been defined yet.
-		</p>
-		<% end %>
-	</div>
-	<ul class="list-group list-group-flush">
-		<% @groups.each do |group| %>
-		<li class="list-group-item d-flex align-items-center">
-			<%= group.name %>
-			<span class="badge badge-primary ml-auto"><%= group.submits.includes(:grade).where(grades: { submit_id: nil }).count %> sub</span>
-			<span class="badge badge-primary ml-1"><%= group.grades.open.count %> grading</span>
-			<span class="badge badge-secondary ml-1"><%= link_to group.grades.finished.count.to_s + " done", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
-		</li>
-		<% end %>
-	</ul>
-</div>
-
-<% if @new_students.any? %>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">New students</h5>
-	</div>
-	<ul class="list-group list-group-flush">
-		<% @new_students.each do |student| %>
-		<li class="list-group-item d-flex align-items-center">
-			<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
-			<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
-		</li>
-		<% end %>
-	</ul>
-</div>
-<% end %>
-
 <%= render partial: "user_modal" %>

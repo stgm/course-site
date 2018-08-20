@@ -139,6 +139,7 @@ Rails.application.routes.draw do
 			post "publish_finished"
 			post "publish_mine"
 			post "publish_all"
+			post "publish"
 
 			put  "assign_all_final"
 

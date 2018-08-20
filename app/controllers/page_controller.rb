@@ -38,19 +38,11 @@ class PageController < ApplicationController
 			@items = []
 			@items += @student.submits.where("submitted_at not null").to_a
 			@items += @grades.to_a
-			# @items += @alerts.to_a
-			# @items += @student.hands.to_a
-			# @items += @student.notes.to_a
 			@items = @items.sort { |a,b| b.created_at <=> a.created_at }
 			
 			if current_user.senior?
-				# if params[:pset_id]
-					# @pset = Pset.find(params[:pset_id])
-				# else
-					# @pset = Pset.order(:order).first
-				# end
-				# @psets = Pset.order(:order)
 				@groups = current_user.schedule.groups.order(:name)
+				@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
 				@new_students = current_user.schedule.users.not_staff.registered
 			end
 		
