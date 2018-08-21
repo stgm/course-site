@@ -40,7 +40,7 @@ class PageController < ApplicationController
 			@items += @grades.to_a
 			@items = @items.sort { |a,b| b.created_at <=> a.created_at }
 			
-			if current_user.senior?
+			if current_user.senior? && current_user.schedule
 				@groups = current_user.schedule.groups.order(:name)
 				@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
 				@new_students = current_user.schedule.users.not_staff.registered
