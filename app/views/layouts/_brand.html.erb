@@ -1,7 +1,9 @@
 <div class="brand">
-	<a href="/" class="navbar-brand flex-fill">
+	<a href="/" class="navbar-brand flex-fill d-flex">
 		<%= fa_icon "terminal", class: "pull-left fa-2x text-warning" %>
-		<span class="course-name"><%= Settings.short_course_name %></span><br>
+		<div class="d-flex flex-column justify-content-center">
+		<span class="course-name"><%= Settings.short_course_name %></span>
 		<small><%= @group_name || @schedule_name %></small>
+		</div>
 	</a>
 </div>

@@ -8,25 +8,21 @@
 <% end %>
 
 <hr class="my-5">
-
 <%= render 'permissions' %>
 
+<% if @all_sections.any? %>
 <hr class="my-5">
-
 <%= render 'pages' %>
+<% end %>
 
 <hr class="my-5">
-
 <%= render 'settings' %>
 
 <hr class="my-5">
-
 <%= render 'email' %>
 
 <hr class="my-5">
-
 <%= render 'dropbox' %>
 
 <hr class="my-5">
-
 <%= render 'webhook' %>
