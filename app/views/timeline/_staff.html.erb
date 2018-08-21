@@ -38,6 +38,7 @@
 		</li>
 		<% end %>
 	</ul>
+	<% if @psets.any? %>
 	<div class="card-body">
 	To be published:
 	</div>
@@ -51,6 +52,7 @@
 		</li>
 		<% end %>
 	</ul>
+	<% end %>
 </div>
 
 <% if !current_user.schedule.self_service %>
