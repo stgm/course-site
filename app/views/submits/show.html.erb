@@ -1,0 +1,49 @@
+<% content_for :navbar_items do %>
+<% end %>
+
+<div class="col-2 px-0 py-0" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0 ">
+	<ul class="nav flex-column">
+		<%= button_to 'Mark as finished', finish_submits_path, class: 'btn m-3', data: { confirm:'Are you sure? All items that are correctly filled-in will be marked as "finished". You will not be able to edit those.' } %>
+		<% @to_grade.each do |submit| %>
+		<li class="nav-item">
+			<%= link_to "#{submit.user.name}<br>#{submit.pset.name} <span class='badge badge-secondary pull-right'>#{submit.grade.status if submit.grade}</span>".html_safe, submit_path(id: submit.id), class: 'nav-link' %>
+		</li>
+		<% end %>
+	</ul>
+</div>
+
+<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0 ">
+	
+	<%= render partial: "grades/form" %>
+	
+	<% @grades.each do |grade| %>
+	<hr>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<%= grade.submit.pset.name %>
+			<div class="pull-right">
+				<% grade.subgrades.each_pair do |k,v| %>
+				<%= v %> /
+				<% end %>
+				<% if current_user.admin? %>
+				<strong><%= translate_grade(grade.any_final_grade) %></strong>
+				<% end %>
+			</div>
+		</div>
+		<div class="panel-body">
+			<%= simple_markdown(grade.comments) %>
+		</div>
+	</div>
+	<% end %>
+</div>
+
+<div class="col-7" style="background-color:black; overflow-y:scroll; min-height:0">
+	<% if @submit.url.present? %>
+	<iframe src="<%= @submit.url %>" class="w-100 h-100 m-0"></iframe>
+	<% end %>
+</div>
+
+	
+<script>
+	$('[data-toggle="tooltip"]').tooltip();
+	</script>

@@ -46,8 +46,8 @@
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
 		<td>
-			<% if user.submits.last and user.submits.last.grade %>
-			<%= link_to user.submits.last.grade.any_final_grade, "#", data: { toggle: "modal", target: "#grade-modal", submit:user.submits.last.id }, class: "btn" %>
+			<% if g = user.grades.last %>
+			<%= link_to g.any_final_grade, "#", data: { toggle: "modal", target: "#grade-modal", submit:g.id }, class: "btn" %>
 			<% end %>
 		</td>
 	</tr>

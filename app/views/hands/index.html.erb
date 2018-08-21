@@ -1,5 +1,5 @@
 <% if not @my_hands.any? || @hands.any? || @long_time_users.any? %>
-<h5 class="text-center my-5">No requests. Go and find<br> a student to talk to!</h5>
+<h5 class="text-center my-5">No requests. Go and find<br> a student to talk to! ❤️</h5>
 <% end %>
 
 <div class="list-group my-3">
@@ -7,13 +7,13 @@
 	<% if @my_hands.any? %>
 	<% @my_hands.each do |hand| %>
 	<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item active') do %>
-	<span class="badge"><%= hand.location %></span>
 	<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 	<%= hand.user.name %>
+	<span class="badge badge-light"><%= hand.location %></span>
 	<% if hand.user.group %>
 		(<%= hand.user.group.name %>)
 	<% else %>
-		<span class="label label-default"><%= hand.user.schedule && hand.user.schedule.name %></span>
+		<span class="pull-right badge badge-secondary"><%= hand.user.schedule && hand.user.schedule.name %></span>
 	<% end %>
 	<br>
 	<small>Asked a question <%= time_ago_in_words(hand.created_at) %> ago</small>
@@ -24,13 +24,13 @@
 
 	<% @hands.each do |hand| %>
 	<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item') do %>
-	<span class="badge"><%= hand.location %></span>
 	<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 	<%= hand.user.name %>
+	<span class="badge badge-light"><%= hand.location %></span>
 	<% if hand.user.group %>
 		(<%= hand.user.group.name %>)
 	<% else %>
-		<span class="label label-default"><%= hand.user.schedule && hand.user.schedule.name %></span>
+		<span class="pull-right badge badge-secondary"><%= hand.user.schedule && hand.user.schedule.name %></span>
 	<% end %>
 	<br>
 	<small class="text-danger">Asked a question <%= time_ago_in_words(hand.created_at) %> ago</small>
@@ -42,12 +42,13 @@
 
 	<% @long_time_users.each do |user| %>
 	<%= link_to({controller: 'hands', action: 'student', id: user.id}, class: 'list-group-item') do %>
-	<span class="badge"><%= user.last_known_location if not user.last_known_location.blank? %></span>
+	<span class="badge badge-light"><%= user.last_known_location if not user.last_known_location.blank? %></span>
 	<%= user.name %>
+	<span class="badge badge-light"><%= hand.location %></span>
 	<% if user.group %>
 		(<%= user.group.name %>)
 	<% else %>
-		<span class="label label-default"><%= user.schedule && user.schedule.name %></span>
+		<span class="pull-right badge badge-secondary"><%= user.schedule && user.schedule.name %></span>
 	<% end %>
 	<br>
 	<small class="text-warning">

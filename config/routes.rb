@@ -94,10 +94,6 @@ Rails.application.routes.draw do
 			post "calculate_final_grade"
 		# end
 	end
-
-	# grading overview for assistants
-	# get  "grading" => "grading#index"
-	
 	
 	namespace :hands do
 		get "available" => "available#index"
@@ -117,13 +113,15 @@ Rails.application.routes.draw do
 	post "hands/done"
 	post "hands/helpline"
 	get  "hands/:id"          => "hands#show"
-	
-	resources :submits, only: [ :index, :create, :destroy ] do
+
+	resources :submits, only: [ :index, :show, :create, :destroy ], path: "grading" do
 		# the grade that belongs to a specific submit
-		resource :grade, only: [ :show, :update ]
+		# resource :grade, only: [ :show, :update ]
 		
 		collection do
-			get  "discuss"
+			post "finish"
+			
+			
 			get  "form_for_late"
 			post "close_and_mail_late"
 			get  "form_for_missing"
@@ -134,7 +132,6 @@ Rails.application.routes.draw do
 	
 	resources :grades do
 		collection do 
-			post "finish_done"
 
 			post "publish_finished"
 			post "publish_mine"

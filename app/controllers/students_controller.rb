@@ -3,6 +3,8 @@ class StudentsController < ApplicationController
 	before_action CASClient::Frameworks::Rails::Filter
 	before_action :require_admin, except: [ :index, :find ]
 	before_action :require_senior, only: [ :index, :find ]
+	before_action :require_senior, only: [ :publish_finished ]
+	before_action :require_admin, only: [ :publish_mine, :publish_all, :assign_all_final ]
 	before_action :load_stats, except: :index
 
 	layout 'full-width'
@@ -90,6 +92,55 @@ class StudentsController < ApplicationController
 		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"
 	end
+	
+	
+	# mark grades public that have been marked as "finished" by the grader
+	def publish_finished
+		schedule = params[:schedule] && Schedule.find(params[:schedule])
+
+		if current_user.head?
+			render status: :forbidden and return if not current_user.schedules.include?(schedule)
+		end
+
+		grades = schedule && schedule.grades.finished || Grade.finished
+		grades.each &:published!
+		redirect_to :back
+	end
+	
+	# mark only my own grades public, and even when not marked as finished
+	def publish_mine
+		schedule = params[:schedule] && Schedule.find(params[:schedule])
+		grades = schedule && schedule.grades.where(grader: current_user) || Grade.where(grader: current_user)
+		grades.each &:published!
+		redirect_to :back
+	end
+
+	# try to make all grades public, but only valid grades
+	def publish_all
+		schedule = params[:schedule] && Schedule.find(params[:schedule])
+		grades = schedule && schedule.grades.where.not(status: Grade.statuses[:published]) || Grade.where.not(status: Grade.statuses[:published])
+		grades.each &:published!
+		redirect_to :back
+	end
+
+	def assign_all_final
+		schedule = params[:schedule] && Schedule.find(params[:schedule])
+		users = schedule && schedule.users
+
+		users.each do |u|
+			u.assign_final_grade(@current_user)
+		end
+		redirect_to :back
+	end
+	
+	def reopen
+		@group = Group.find(params[:group_id])
+		@group.grades.finished.update_all(:status => Grade.statuses[:open])
+		redirect_to :back
+	end
+	
+	
+	
 	
 	private
 	
