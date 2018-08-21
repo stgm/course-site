@@ -59,11 +59,9 @@
 		<h5 class="card-title">Current schedule</h5>
 		<% schedule = current_user.schedule %>
 		<% schedule.schedule_spans.each do |item| %>
-		<p>
-			<%= radio_button_tag( schedule.id, item.id, item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %>
-		</p>
+		<%= radio_button_tag( schedule.id, item.id, item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>
 		<% end %>
-		<p><%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %></p>
+		<%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %>
 
 
 		<script type="text/javascript" charset="utf-8">

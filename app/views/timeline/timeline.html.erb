@@ -1,10 +1,13 @@
-<div id="timeline" class="row" style="margin-bottom:2em">
+<div id="timeline" class="row" style="margin-bottom:2em;">
 	<div class="col-sm-7">
 		<%= render partial: "timeline/alerts" %>
 		<% if current_user.staff? %>
-		<div class="card">
-			<div class="card-body">
-			    <h5 class="card-title">Add announcement</h5>
+		<div class="card" id="alertForm">
+			<p class="m-0">
+				<a class="btn btn-primary btn-block collapse show" data-parent="#alertForm" data-toggle="collapse" href="#collapseAlertForm" role="button" aria-expanded="false" aria-controls="collapseAlertForm">Write announcement</a>
+			</p>
+			<div class="card-body collapse" id="collapseAlertForm"  data-parent="#alertForm">
+				<h5 class="card-title">Add announcement</h5>
 				<% @alert = Alert.new() %>
 				<%= render partial: "alerts/form" %>
 			</div>
