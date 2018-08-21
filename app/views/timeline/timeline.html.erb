@@ -3,7 +3,7 @@
 <div id="timeline" class="row" style="margin-bottom:2em;">
 	<div class="col-sm-7">
 		<%= render partial: "timeline/alerts" %>
-		<% if current_user.staff? %>
+		<% if current_user.senior? %>
 		<div class="card" id="alertForm">
 			<p class="m-0">
 				<a class="btn btn-primary btn-block collapse show" data-parent="#alertForm" data-toggle="collapse" href="#collapseAlertForm" role="button" aria-expanded="false" aria-controls="collapseAlertForm">Write announcement</a>
