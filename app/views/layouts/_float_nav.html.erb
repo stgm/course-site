@@ -34,9 +34,9 @@
 	<% elsif authenticated? %>
 	<li class="nav-item dropdown">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= current_user && current_user.name || session[:cas_user] %></a>
-		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
+		<div class="dropdown-menu dropdown-menu-right" id="user-menu">
 			<%= render 'profile/edit' %>
-		</ul>
+		</div>
 	</li>
 	<% else %>
 	<li><%= link_to("Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
