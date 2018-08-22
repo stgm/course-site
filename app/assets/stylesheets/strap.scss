@@ -8,6 +8,11 @@ body
 	background-attachment: fixed;
 }
 
+body.page
+{
+    background-color:#fcfcfc;
+}
+
 /****************************************************************************
  *  alert just below navbar
  *
@@ -71,7 +76,7 @@ body
 
 #content
 {
-	background-color:#f3f3f3;
+//    background-color:#f3f3f3;
     padding-top:30px;
     
 }
