@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
 	# homepage
 	root :to => "page#homepage"
+	get "syllabus", to: "page#syllabus"
+	get "announcements", to: "page#announcements"
 
 	# logged-in users only
 	get  "profile" => "profile#index"
@@ -154,7 +156,6 @@ Rails.application.routes.draw do
 
 	# filled-in form caching for users
 	post "page/submit"
-	get  "page/mobile_home"
 	
 	# api
 	post "api/reload"

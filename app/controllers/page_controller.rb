@@ -9,59 +9,52 @@ class PageController < ApplicationController
 	before_action :register_attendance
 	
 	def homepage
-		# redirect_to page_mobile_home_path and return if request.user_agent =~ /Mobile|webOS/ && current_user.staff?
-		
-		# the normal homepage is the page without a parent section
-		# @page = Page.where(:section_id => nil).first
-		
 		if not Page.any?
-			if User.admin.any?
-				redirect_to config_path and return
-			else
-				redirect_to welcome_register_path and return
-			end
-		end
-	
-		if logged_in?
-			# if not found, course is presumably empty, redirect to onboarding
-			# TODO make if no course connected
-			# if Settings['homepage'].nil?
-			# 	redirect_to welcome_path and return
-			# end
-
-			@schedules = Schedule.all
-			@student = User.includes(:hands, :notes).find(current_user.id)
-			@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.created_at desc')
-			@groups = Group.order(:name)
-			@note = Note.new(student_id: @student.id)
-		
-			@items = []
-			@items += @student.submits.where("submitted_at not null").to_a
-			@items += @grades.to_a
-			@items = @items.sort { |a,b| b.created_at <=> a.created_at }
-			
-			if current_user.senior? && current_user.schedule
-				@groups = current_user.schedule.groups.order(:name)
-				@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
-				@new_students = current_user.schedule.users.not_staff.registered
-			end
-		
-			render "timeline/timeline" and return
+			# no pages at all means probably not configured yet
+			onboard
+		elsif logged_in?
+			announcements
 		else
-			# if not found, course is presumably empty, redirect to onboarding
-			if Settings['homepage']
-				redirect_to Settings['homepage'] and return
-			else
-				render text: "Website is empty." and return
-			end
+			syllabus
 		end
-		
-		# @has_form = @page.pset && @page.pset.form
-
-		render :index
 	end
 	
-	def mobile_home
+	def onboard
+		if User.admin.any?
+			# there's already an admin, go to config, will force login
+			redirect_to config_path
+		else
+			# there's no admin yet, make current user admin
+			redirect_to welcome_register_path
+		end
+	end
+	
+	def announcements
+		@schedules = Schedule.all
+		@student = User.includes(:hands, :notes).find(current_user.id)
+		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.created_at desc')
+		@groups = Group.order(:name)
+		@note = Note.new(student_id: @student.id)
+	
+		@items = []
+		@items += @student.submits.where("submitted_at not null").to_a
+		@items += @grades.to_a
+		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
+		
+		if current_user.senior? && current_user.schedule
+			@groups = current_user.schedule.groups.order(:name)
+			@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
+			@new_students = current_user.schedule.users.not_staff.registered
+		end
+	
+		render "timeline/timeline"
+	end
+	
+	def syllabus
+		# the normal homepage is the page without a parent section
+		@page = Page.where(:section_id => nil).first
+	    raise ActionController::RoutingError.new('Not Found') if !@page
+		render :index
 	end
 	
 	def index
