@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 	
 	before_validation do
 		# set user's current module to whatever's first in their newly assigned schedule
-		if self.schedule_id_changed? || self.schedule_id.present?
+		if self.schedule_id_changed? || (self.schedule_id.present? && self.current_module_id.nil?)
 			if span = self.schedule.schedule_spans.first
 				self.current_module_id = span.id
 			else
