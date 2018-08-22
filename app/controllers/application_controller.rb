@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_navigation
-		if current_user && current_user.staff?
+		if current_user.staff?
 			@sections = Section.includes(pages: :pset).order("pages.position")
 		else
 			@sections = Section.where("sections.display" => true).includes(pages: :pset).where("pages.public" => true).order("pages.position")
