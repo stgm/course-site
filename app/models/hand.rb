@@ -3,6 +3,8 @@ class Hand < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :assist, class_name: "User"
 	
+	scope :waiting, -> { where(assist: nil).where.not(done: true) }
+	
 	after_create do |hand|
 		if hand.done
 			hand.user.update_attribute(:last_spoken_at, DateTime.now)

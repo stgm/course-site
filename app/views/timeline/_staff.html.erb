@@ -1,5 +1,17 @@
 <% if current_user.schedule %>
 
+
+<% if Hand.waiting.any? %>
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Hands queue</h5>
+		<p><%= Hand.waiting.count %> are waiting.</p>
+	</div>
+</div>
+<% end %>
+
+
+
 <% if @new_students.any? %>
 <div class="card">
 	<div class="card-body">
