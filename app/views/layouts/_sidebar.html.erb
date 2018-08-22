@@ -1,5 +1,6 @@
 <div class="collapse sidebar-collapse" id="navbarTogglerDemo01">
 
+	<% if logged_in? %>
 	<ul class="nav mt-2 mt-md-5">
 		<li><a href="/announcements" class="nav-link"><%= fa_icon 'bullhorn', class: 'mr-2' %> Announcements</a></li>
 		<li><a href="/syllabus" class="nav-link"><%= fa_icon 'book', class: 'mr-2' %> Syllabus</a></li>
@@ -9,6 +10,7 @@
 		<% end %>
 		<% end %>
 	</ul>
+	<% end %>
 
 	<ul class="nav mt-3">
 		<li>
