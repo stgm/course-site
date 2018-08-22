@@ -20,24 +20,13 @@ h1
 
 #content h1:first-child
 {
-    margin-top:30px;
+    margin-top:0;
 }
 
 #content h1 .small, #content h1 small
 {
     color: white;
     font-weight:300;
-}
-
-@include media-breakpoint-up(sm)
-{
-	#content section > p, #content section > ul, #content section > ol,
-    #content section > blockquote, #content section > .footnotes,
-    #content section > .embed,
-    #content section > .MathJax_Display
-	{
-	    max-width:75%;
-	}
 }
 
 #content table

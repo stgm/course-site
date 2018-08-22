@@ -8,7 +8,27 @@
 	-webkit-hyphens:auto;
 	-moz-hyphens:none;
     padding-bottom:2em;
-    //line-height:1.2;
+    clear:both;
+}
+
+#content
+{
+}
+
+#content #markdown-toc
+{
+    background-color:white;
+    margin-left:1rem;
+    padding:1rem;
+    float:right;
+    position:sticky;
+    position:-webkit-sticky;
+    top:1em;
+}
+
+#content #markdown-toc
+{
+    list-style-type: none;
 }
 
 section p
@@ -133,10 +153,6 @@ section pre .comment
 section .video-js
 {
 	background-color:black;
-	sheight:480px !important; /* overrides html width + height */
-	swidth:auto !important;
-	smargin-left:-2.5em;
-	smargin-right:-2.5em;
 }
 
 section ul.checkboxes, section ul.radios, section ul.none
