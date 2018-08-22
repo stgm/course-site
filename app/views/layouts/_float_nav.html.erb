@@ -35,9 +35,7 @@
 	<li class="nav-item dropdown">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= current_user && current_user.name || session[:cas_user] %></a>
 		<div class="dropdown-menu dropdown-menu-right" id="user-menu">
-			<div id="ama">
 			<%= render 'profile/edit' %>
-			</div>
 		</div>
 	</li>
 	<% else %>

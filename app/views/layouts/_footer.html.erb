@@ -6,12 +6,13 @@
 <% if !current_user.valid_profile? %>
 	<script type="text/javascript">
 	$(function () {
-		$('#user-menu').dropdown('toggle');
+		// $('#user-menu').dropdown('toggle');
+		// $('#user-menu').dropdown('update');
 		return false;
 	});
 	
 	$('.profile-form').click(function(e) {
-	    e.stopPropagation();
+	    // e.stopPropagation();
 	});
 	
 	</script>
