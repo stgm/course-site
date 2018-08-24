@@ -65,7 +65,7 @@ class StudentsController < ApplicationController
 		@name = "Inactive"
 		@psets = Pset.order(:order)
 		@schedules = Schedule.all
-		if @schedules.any?
+		if @schedules.present?
 			@users = User.inactive.student.where("schedule_id is not null").order(:name).group_by(&:schedule)
 		else
 			@users = User.inactive.student.where("schedule_id is not null").order(:name).group_by(&:group)

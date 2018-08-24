@@ -12,7 +12,7 @@
 
 
 
-<% if @new_students.any? %>
+<% if @new_students.present? %>
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title">New students</h5>
@@ -34,12 +34,13 @@
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title">Grading</h5>
-		<% if @groups.empty? %>
+		<% if @groups.blank? %>
 		<p class="card-text">
 			No grading groups have been defined yet.
 		</p>
 		<% end %>
 	</div>
+	<% if @groups.present? %>
 	<ul class="list-group list-group-flush">
 		<% @groups.each do |group| %>
 		<li class="list-group-item d-flex align-items-center">
@@ -50,7 +51,8 @@
 		</li>
 		<% end %>
 	</ul>
-	<% if @psets.any? %>
+	<% end %>
+	<% if @psets.present? %>
 	<div class="card-body">
 	To be published:
 	</div>

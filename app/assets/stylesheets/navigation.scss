@@ -40,7 +40,6 @@
         position: fixed;
         top: 0;
         bottom: 0;
-        left: 0;
     }
     
     #sidebar .sidebar-collapse
@@ -95,6 +94,11 @@
     color:#a5a5a5;
 }
 
+#sidebar > * > .nav
+{
+    padding-bottom:2rem;
+}
+
 #sidebar ul.nav > li > ul.nav > li > ul.nav
 {
     padding-left:1em;
@@ -110,6 +114,11 @@
 #icon-nav .nav-item
 {
     margin-left:.5rem;
+}
+
+#icon-nav .dropdown-item .fa
+{
+    width:1.5rem;
 }
 
 #ama-nav .dropdown-menu

@@ -13,7 +13,7 @@
 	</li>
 	<% end %>
 
-	<% if Settings.hands_allow && current_user.valid_profile? %>
+	<% if Settings.hands_allow && current_user.valid_profile? && (current_user.admin? || current_user.student?) %>
 	<li class="nav-item dropdown" id="ama-nav">
 		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
 		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">

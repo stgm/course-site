@@ -14,11 +14,12 @@
 
 <% elsif current_user.head? %>
 
-<%= link_to '<i class="glyphicon glyphicon-th"></i> Overview'.html_safe, students_path, class: 'dropdown-item' %>
-<%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading'.html_safe, submits_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("list") + " Overview", students_path, class: 'dropdown-item' %>
+<div class="dropdown-divider"></div>
 <% if Settings.hands_allow %>
-<%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands'.html_safe, hands_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("hand-pointer-o") + " Hands", hands_path, class: 'dropdown-item' %>
 <% end %>
+<%= link_to fa_icon("pencil") + " Grading", submits_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 
 
@@ -26,12 +27,12 @@
 <% elsif current_user.assistant? %>
 
 <% if Settings.hands_allow %>
-<%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands'.html_safe, hands_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("hand-pointer-o") + " Hands", hands_path, class: 'dropdown-item' %>
 <% end %>
 <% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-<%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading'.html_safe, submits_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("pencil") + " Grading", submits_path, class: 'dropdown-item' %>
 <% end %>
-<%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path, class: 'dropdown-item' %>
+<div class="dropdown-divider"></div>
 
 
 
@@ -42,4 +43,4 @@
 <% end%>
 
 
-<%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, profile_logout_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("sign-out") + " Logout", profile_logout_path, class: 'dropdown-item' %>
