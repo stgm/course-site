@@ -1,6 +1,7 @@
 <% if current_user.schedule %>
 
 
+
 <% if Hand.waiting.any? %>
 <div class="card">
 	<div class="card-body">
@@ -12,7 +13,7 @@
 
 
 
-<% if @new_students.present? %>
+<% if current_user.admin? && @new_students.present? %>
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title">New students</h5>
@@ -30,7 +31,7 @@
 
 
 
-
+<% if current_user.admin? %>
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title">Grading</h5>
@@ -68,8 +69,11 @@
 	</ul>
 	<% end %>
 </div>
+<% end %>
 
-<% if !current_user.schedule.self_service %>
+
+
+<% if current_user.admin? && !current_user.schedule.self_service %>
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title">Current schedule</h5>
@@ -93,11 +97,11 @@
 			});
 		});
 		</script>
-
-		
 	</div>
 </div>
-<% end %>
 <%= render partial: "user_modal" %>
+<% end %>
+
+
 
 <% end %>
