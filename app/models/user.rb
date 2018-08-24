@@ -51,6 +51,16 @@ class User < ActiveRecord::Base
 		end
 	end
 	
+	def check_current_module
+		if self.schedule.present? && self.current_module.nil?
+			if span = self.schedule.schedule_spans.first
+				self.update(current_module_id: span.id)
+			else
+				self.update(current_module_id: nil)
+			end
+		end
+	end
+	
 	def self.find_by_login(login)
 		if login
 			return Login.find_by_login(login).user
