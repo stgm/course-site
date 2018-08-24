@@ -21,10 +21,20 @@
 
 #timeline .card
 {
+    border:1px solid #FAFAFA;
 	margin-bottom:30px;
-//    background-color:$light;
-//    border:0;
     box-shadow:none;
+}
+
+#timeline .card-body, #timeline .list-group-item
+{
+    padding-left:2rem;
+    padding-right:2rem;
+}
+
+#timeline .list-group-item
+{
+    border-color:#E5E5E5;
 }
 
 #timeline .card-highlight
