@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 	before_action :set_locale
  
 	def set_locale
-	  I18n.locale = Settings.course["language"] || I18n.default_locale
+	  I18n.locale = Settings.course["language"] if Settings.course || I18n.default_locale
 	end
 
 	helper_method :current_user, :logged_in?, :authenticated?
