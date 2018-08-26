@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
 		if current_user.staff?
 			@sections = Section.includes(pages: :pset).order("pages.position")
 		else
-			@sections = Section.where("sections.display" => true).includes(pages: :pset).where("pages.public" => true).order("pages.position")
+			@sections = Section.includes(pages: :pset).where("pages.public" => true).order("pages.position")
 		end
 	end
 	
