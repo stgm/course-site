@@ -1,13 +1,13 @@
 <div class="collapse sidebar-collapse" id="navbarTogglerDemo01">
 
-	<% if logged_in? %>
 	<ul class="nav mt-2 mt-md-5">
+		<% if logged_in? %>
 		<li><a href="/announcements" class="nav-link"><%= fa_icon 'bullhorn', class: 'mr-2' %> <%= t(:announcements) %></a></li>
+		<% end %>
 		<li><a href="/syllabus" class="nav-link"><%= fa_icon 'book', class: 'mr-2' %> <%= t(:syllabus) %></a></li>
 		<% if Settings['links'] %>
 		<% Settings['links'].each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
-		<% end %>
 		<% end %>
 	</ul>
 	<% end %>
