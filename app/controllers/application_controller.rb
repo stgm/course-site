@@ -11,6 +11,11 @@ class ApplicationController < ActionController::Base
 	
 	before_action :load_navigation
 	before_action :load_schedule
+	before_action :set_locale
+ 
+	def set_locale
+	  I18n.locale = Settings.course["language"] || I18n.default_locale
+	end
 
 	helper_method :current_user, :logged_in?, :authenticated?
 	

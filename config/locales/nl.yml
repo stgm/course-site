@@ -19,9 +19,12 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
-en:
-    syllabus: "Syllabus"
-    announcements: "Announcements"
-    ago: "ago"
-    by: "by"
-    was_graded: "was graded"
+nl:
+    syllabus: "Studiewijzer"
+    announcements: "Mededelingen"
+    datetime:
+        distance_in_words:
+            x_months: "%{count} maanden"
+    ago: "geleden"
+    by: "door"
+    was_graded: "is nagekeken"

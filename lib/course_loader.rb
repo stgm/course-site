@@ -94,6 +94,7 @@ private
 	#
 	def load_course_info(dir)
 		if config = read_config(File.join(dir, 'course.yml'))
+			Settings["course"] = config
 			if config['course']
 				Settings['long_course_name'] = config['course']['title'] if config['course']['title']
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']

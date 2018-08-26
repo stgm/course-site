@@ -47,6 +47,8 @@ class PageController < ApplicationController
 			@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
 			@new_students = current_user.schedule.users.not_staff.registered
 		end
+		
+		@title = "#{Settings.course["short_name"]} #{t(:announcements)}"
 	
 		render "timeline/timeline"
 	end
@@ -54,6 +56,7 @@ class PageController < ApplicationController
 	def syllabus
 		# the normal homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first
+		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
 	    raise ActionController::RoutingError.new('Not Found') if !@page
 		render :index
 	end
