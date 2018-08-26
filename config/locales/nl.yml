@@ -25,6 +25,8 @@ nl:
     ago: "geleden"
     by: "door"
     was_graded: "is nagekeken"
+    materials: "materialen"
+    other: "overig"
     
     activerecord:
       errors:

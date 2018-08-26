@@ -14,7 +14,7 @@
 
 	<ul class="nav mt-3">
 		<li>
-			<% if logged_in? && @schedule %>
+			<% if @schedule %>
 			<p class="nav-text">
 				<span id="schedule_name"><%= @schedule.name %></span>
 				<% if current_user.schedule.self_service %>
@@ -35,7 +35,7 @@
 	<ul class="nav mt-3">
 		<% if @sections.length > 0 %>
 		<li>
-			<p class="nav-text">Other</p>
+			<p class="nav-text"><%= @schedule ? t(:other) : t(:materials) %></p>
 			<ul class="nav">
 				<%= render 'layouts/sections' %>
 			</ul>
