@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html <%= "lang=\"#{Settings.course["language"]}\"".html_safe if Settings.course && Settings.course["language"] %>>
 
 <head>
 	<meta charset="UTF-8">
