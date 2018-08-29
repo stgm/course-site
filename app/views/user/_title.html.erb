@@ -10,6 +10,13 @@
 </div>
 
 <div>
+	<% if @student.alarm %>
+	<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-sm btn-warning", data: { confirm: "Sure?" }, form: { style: 'display:inline;'} %>
+	<% else %>
+	<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-sm btn-warning", data: { confirm: "Sure?" }, form: { style: 'display:inline;'} %>
+	<% end %>
+	
+	
 	<div class="btn-group">
 		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Group <span class="caret"></span>

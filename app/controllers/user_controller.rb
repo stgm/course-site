@@ -10,7 +10,7 @@ class UserController < ApplicationController
 		@schedules = Schedule.all
 		@student = User.includes(:hands, :notes).find(params[:id])
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @student.id).order('grades.created_at desc')
-		@groups = Group.order(:name)
+		@groups = @student.schedule.groups.order(:name)
 		@note = Note.new(student_id: @student.id)
 		
 		@items = []

@@ -52,7 +52,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	
 	def convert_blockquote(el, opts)
 		el.attr['class'] = 'protip'
-        format_as_indented_block_html(el.type, el.attr, '<span class="glyphicon glyphicon-pushpin dropcap"></span>' + inner(el, indent), indent)
+        format_as_indented_block_html(el.type, el.attr, '<i class="fa fa-thumb-tack"></i>' + inner(el, indent), indent)
 	end
 	
 	def convert_p(el, indent)

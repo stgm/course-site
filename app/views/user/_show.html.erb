@@ -1,6 +1,8 @@
 <div class="d-flex">
-<% #subs = user.submits.group_by(&:pset_id)
-subs = @student.grades_cache %>
+<% 
+	subs = @student.submits.group_by(&:pset_id)
+	#subs = @student.grades_cache || [] 
+%>
 
 <% @psets.each do |pset| %>
 <%= grade_button(@student, pset, subs)%>
@@ -29,11 +31,6 @@ subs = @student.grades_cache %>
 					<span class="pull-right">
 					<%= f.submit "Add note", class: "btn btn-primary" %>
 					</span>
-					<% if @student.alarm %>
-					<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
-					<% else %>
-					<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
-					<% end %>
 				</p>
 				<% end %>
 			</div>

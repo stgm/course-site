@@ -23,34 +23,21 @@ module GradesHelper
 	end
 	
 	def grade_button(user, pset, subs)
-		if subs[pset.id]
-			# submitted = subs[pset.id][0]
-			# if submitted.graded?
-			# 	is_public = submitted.grade.published? || submitted.grade.discussed?
-			# 	if not submitted.grade.grade.blank?
-			# 		grade_button_html(submitted, format_grade(submitted.grade.grade, pset.grade_type), is_public)
-			# 	else
-			# 		grade_button_html(submitted, format_grade(submitted.grade.calculated_grade, pset.grade_type), is_public)
-			# 	end
-			# else
-			# 	grade_button_html(submitted, 'S', false)
-			# end
-			submitted = subs[pset.id]
-			if submitted['grade'].present? or submitted['calculated_grade'].present?
-				is_public = true #submitted.grade.published? || submitted.grade.discussed?
-				if not submitted['grade'].blank?
-					grade_button_html(submitted['submit_id'], pset.name, format_grade(submitted['grade'], pset.grade_type), is_public)
-				else
-					grade_button_html(submitted['submit_id'], pset.name, format_grade(submitted['calculated_grade'], pset.grade_type), is_public)
-				end
+		if subs[pset.id] && submit = subs[pset.id][0]
+			if grade = submit.grade # submitted.graded?
+				logger.info grade.any_final_grade.inspect
+				grade_button_html(grade.any_final_grade, grade, grade.public?)
 			else
-				grade_button_html(submitted, pset.name, 'S', false)
+				grade_button_html('S', nil, false)
 			end
 		else
-			grade_button_html(user.id, pset.name, '--', 'Would you like to enter a grade for this unsubmitted pset?')
-			# link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm btn-block auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
-			# '--'
+			# grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
+			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm flex-fill auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
 		end
+	end
+		
+	def grade_button_html(label, grade, is_public)
+		link_to label, grade_path(grade), class: "btn btn-sm flex-fill #{ grade_button_type(label, is_public) }", title:grade.pset.name, data: { toggle:"tooltip", placement:"top" }
 	end
 	
 	def format_grade(grade, type)
@@ -63,6 +50,8 @@ module GradesHelper
 	end
 	
 	def grade_button_type(grade, is_public)
+		logger.info is_public
+		logger.info grade
 		return 'btn-default' if not is_public
 		case grade
 		when -1, 6.5..10.0
@@ -75,16 +64,6 @@ module GradesHelper
 			'btn-grayed'
 		else
 			'btn-warning'
-		end
-	end
-	
-	def grade_button_html(submit_id, pset_name, grade, is_public, confirmation=nil)
-		if confirmation
-			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm flex-fill auto-hide #{ grade_button_type(grade, is_public) }", title:pset_name, data: { confirm:confirmation, toggle:"tooltip", placement:"top" }
-			# content_tag(:span, grade, class: "btn btn-sm btn-block auto-hide #{ grade_button_type(grade, is_public) }")
-		else
-			link_to grade, submit_grade_path(submit_id: submit_id), class: "btn btn-sm flex-fill #{ grade_button_type(grade, is_public) }", title:pset_name, data: { toggle:"tooltip", placement:"top" }
-			# content_tag(:span, grade, class: "btn btn-sm btn-block #{ grade_button_type(grade, is_public) }")
 		end
 	end
 	
