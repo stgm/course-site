@@ -68,7 +68,11 @@ section blockquote
 	padding:1em;
 	margin-top:2em;
 	margin-bottom:2em;
-	margin-right:-2em;
+}
+
+section blockquote .fa-thumb-tack
+{
+    float:left;
 }
 
 section hr
