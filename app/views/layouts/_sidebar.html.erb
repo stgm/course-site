@@ -12,9 +12,9 @@
 	</ul>
 	<% end %>
 
+	<% if @schedule %>
 	<ul class="nav mt-3">
 		<li>
-			<% if @schedule %>
 			<p class="nav-text">
 				<span id="schedule_name"><%= @schedule.name %></span>
 				<% if current_user.schedule.self_service %>
@@ -28,9 +28,9 @@
 			<ul id="schedule" class="nav">
 				<%= render partial: "schedule"%>
 			</ul>
-			<% end %>
 		</li>
 	</ul>
+	<% end %>
 
 	<ul class="nav mt-3">
 		<% if @sections.length > 0 %>
