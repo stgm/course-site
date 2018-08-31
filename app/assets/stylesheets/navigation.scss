@@ -111,9 +111,9 @@
 
 #icon-nav
 {
-    position:-webkit-sticky;
-    top:0;
-    z-index:1000;
+    //    position:-webkit-sticky;
+        top:0;
+        z-index:1000;
 }
 
 #icon-nav .nav-item
@@ -126,9 +126,19 @@
     width:1.5rem;
 }
 
-#ama-nav .dropdown-menu
+#icon-nav .dropdown-menu
 {
     min-width:300px;
+}
+
+#icon-nav .form-check
+{
+    padding-left:.25rem;
+}
+
+#icon-nav .register-menu
+{
+    min-width:400px;
 }
 
 //

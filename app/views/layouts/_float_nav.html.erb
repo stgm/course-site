@@ -1,4 +1,4 @@
-<ul id="icon-nav" class="nav navbar-nav ml-auto">
+<ul id="icon-nav" class="nav navbar navbar-nav ml-auto">
 	<% if current_user.admin? %>
 	<li class="nav-item dropdown" id="switch-nav">
 		<a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -32,9 +32,11 @@
 		</ul>
 	</li>
 	<% elsif authenticated? %>
-	<li class="nav-item dropdown">
-		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= current_user && current_user.name || session[:cas_user] %></a>
-		<div class="dropdown-menu dropdown-menu-right" id="user-menu">
+	<li class="nav-item dropdown ">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			<%= current_user && current_user.name || session[:cas_user] %>
+		</a>
+		<div class="dropdown-menu dropdown-menu-right register-menu" id="user-menu">
 			<%= render 'profile/edit' %>
 		</div>
 	</li>
