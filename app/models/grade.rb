@@ -3,7 +3,9 @@ class Grade < ActiveRecord::Base
 	belongs_to :submit
 	has_one :user, through: :submit
 	has_one :pset, through: :submit
-	belongs_to :grader, class_name: "User"
+
+	belongs_to :author, class_name: "User"
+	delegate :name, to: :author, prefix: true, allow_nil: true
 
 	before_save :set_calculated_grade, :update_grades_cache, :unpublicize_if_undone
 	

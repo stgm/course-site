@@ -1,7 +1,9 @@
 class Hand < ActiveRecord::Base
 
 	belongs_to :user
+
 	belongs_to :assist, class_name: "User"
+	delegate :name, to: :assist, prefix: true, allow_nil: true
 	
 	scope :waiting, -> { where(assist: nil).where.not(done: true) }
 	

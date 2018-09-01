@@ -1,4 +1,41 @@
+<% if current_user.senior? %>
+<%= render partial: "user_modal" %>
+<% end %>
+
 <ul id="icon-nav" class="nav navbar navbar-nav ml-auto">
+	<% if current_user.senior? %>
+		<form class="form-inline ml-3 mr-3">
+			<div id="search" class="dropdown">
+				<input id="dropdown-control" type="hidden" data-toggle="dropdown">
+				<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
+				<div id="search-results" class="dropdown-menu"></div></form>
+			</div>
+		</form>
+		<script>
+			$('#student-search').on('change paste input', function(e) {
+				$.ajax('<%= students_find_path %>', { data: { text: $('#student-search').val() } });
+				true;
+			})
+			$('#student-search').on('focus', function(e) {
+				console.log("huh");
+				// e.preventDefault();
+				if(!$("#search-results").hasClass("show")) {
+					$('#dropdown-control').dropdown('toggle');
+				}
+			})
+			$('#student-search').on('blur', function(e) {
+				console.log("blur");
+				// e.preventDefault();
+				setTimeout(100, function() {
+				console.log($("#search").hasClass("show"));
+				if($("#search-results").hasClass("show")) {
+					$('#dropdown-control').dropdown('toggle');
+				}
+				});
+			})
+		</script>
+	<% end %>
+	
 	<% if current_user.admin? %>
 	<li class="nav-item dropdown" id="switch-nav">
 		<a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

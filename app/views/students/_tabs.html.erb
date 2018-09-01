@@ -36,37 +36,6 @@
 		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-secondary', 'btn-outline-secondary text-light') %>
 	</div>
 
-	<form class="form-inline ml-3">
-		<div id="search" class="dropdown">
-			<input id="dropdown-control" type="hidden" data-toggle="dropdown">
-			<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
-			<div id="search-results" class="dropdown-menu"></div></form>
-		</div>
-	</form>
-	
-	<script>
-		$('#student-search').on('change paste input', function(e) {
-			$.ajax('<%= students_find_path %>', { data: { text: $('#student-search').val() } });
-			true;
-		})
-		$('#student-search').on('focus', function(e) {
-			console.log("huh");
-			// e.preventDefault();
-			if(!$("#search-results").hasClass("show")) {
-				$('#dropdown-control').dropdown('toggle');
-			}
-		})
-		$('#student-search').on('blur', function(e) {
-			console.log("blur");
-			// e.preventDefault();
-			setTimeout(100, function() {
-			console.log($("#search").hasClass("show"));
-			if($("#search-results").hasClass("show")) {
-				$('#dropdown-control').dropdown('toggle');
-			}
-			});
-		})
-	</script>
 
 	<div class="btn-group ml-3" role="group">
 
