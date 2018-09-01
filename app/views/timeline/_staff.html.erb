@@ -1,107 +1,111 @@
 <% if current_user.schedule %>
 
-
-
-<% if Hand.waiting.any? %>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">Hands queue</h5>
-		<p><%= Hand.waiting.count %> are waiting.</p>
+	<% if Hand.waiting.any? %>
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">Hands queue</h5>
+			<p><%= Hand.waiting.count %> are waiting.</p>
+		</div>
 	</div>
-</div>
-<% end %>
-
-
-
-<% if current_user.admin? && @new_students.present? %>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">New students</h5>
-	</div>
-	<ul class="list-group list-group-flush">
-		<% @new_students.each do |student| %>
-		<li class="list-group-item d-flex align-items-center">
-			<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
-			<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
-		</li>
-		<% end %>
-	</ul>
-</div>
-<% end %>
-
-
-
-<% if current_user.admin? %>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">Grading</h5>
-		<% if @groups.blank? %>
-		<p class="card-text">
-			No grading groups have been defined yet.
-		</p>
-		<% end %>
-	</div>
-	<% if @groups.present? %>
-	<ul class="list-group list-group-flush">
-		<% @groups.each do |group| %>
-		<li class="list-group-item d-flex align-items-center">
-			<%= group.name %>
-			<span class="badge badge-primary ml-auto"><%= group.submits.includes(:grade).where(grades: { submit_id: nil }).count %> sub</span>
-			<span class="badge badge-primary ml-1"><%= group.grades.open.count %> grading</span>
-			<span class="badge badge-secondary ml-1"><%= link_to group.grades.finished.count.to_s + " done", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
-		</li>
-		<% end %>
-	</ul>
 	<% end %>
-	<% if @psets.present? %>
-	<div class="card-body">
-	To be published:
-	</div>
-	<ul class="list-group list-group-flush">
-		<% @psets.each do |pset_name, count| %>
-		<li class="list-group-item d-flex align-items-center">
-			<%= pset_name %>
-			<span class="badge badge-primary ml-auto">
-				<%= link_to count.to_s + " done", publish_grades_path(pset_name), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %>
-			</span>
-		</li>
+
+	<% if @groups.blank? %>
+
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Grading</h5>
+				<% if @groups.blank? %>
+				<p class="card-text">
+					<%= @new_students.count %> students have registered.
+					No grading groups have been defined yet.
+				</p>
+				<%= link_to 'Generate grading groups', admin_generate_groups_path(schedule_id: @schedule.schedule.id), class: 'btn btn-primary' %>
+				<% end %>
+			</div>
+		</div>
+		
+	<% else %>
+	
+		<% if current_user.admin? && @new_students.present? %>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">New students</h5>
+				</div>
+				<ul class="list-group list-group-flush">
+					<% @new_students.each do |student| %>
+					<li class="list-group-item d-flex align-items-center">
+						<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
+						<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
+					</li>
+					<% end %>
+				</ul>
+			</div>
 		<% end %>
-	</ul>
+		
+		<% if current_user.admin? %>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Grading</h5>
+				</div>
+				<% if @groups.present? %>
+				<ul class="list-group list-group-flush">
+					<% @groups.each do |group| %>
+					<li class="list-group-item d-flex align-items-center">
+						<%= group.name %>
+						<span class="badge badge-primary ml-auto"><%= group.submits.includes(:grade).where(grades: { submit_id: nil }).count %> sub</span>
+						<span class="badge badge-primary ml-1"><%= group.grades.open.count %> grading</span>
+						<span class="badge badge-secondary ml-1"><%= link_to group.grades.finished.count.to_s + " done", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
+					</li>
+					<% end %>
+				</ul>
+				<% end %>
+				<% if @psets.present? %>
+				<div class="card-body">
+				To be published:
+				</div>
+				<ul class="list-group list-group-flush">
+					<% @psets.each do |pset_name, count| %>
+					<li class="list-group-item d-flex align-items-center">
+						<%= pset_name %>
+						<span class="badge badge-primary ml-auto">
+							<%= link_to count.to_s + " done", publish_grades_path(pset_name), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %>
+						</span>
+					</li>
+					<% end %>
+				</ul>
+				<% end %>
+			</div>
+		<% end %>
+
 	<% end %>
-</div>
-<% end %>
+
+	<% if current_user.admin? && !current_user.schedule.self_service %>
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Current schedule</h5>
+				<% schedule = current_user.schedule %>
+				<% schedule.schedule_spans.each do |item| %>
+				<%= radio_button_tag( schedule.id, item.id, item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>
+				<% end %>
+				<%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %>
 
 
-
-<% if current_user.admin? && !current_user.schedule.self_service %>
-<div class="card">
-	<div class="card-body">
-		<h5 class="card-title">Current schedule</h5>
-		<% schedule = current_user.schedule %>
-		<% schedule.schedule_spans.each do |item| %>
-		<%= radio_button_tag( schedule.id, item.id, item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>
-		<% end %>
-		<%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %>
-
-
-		<script type="text/javascript" charset="utf-8">
-		$('.set-schedule').bind('change', function(a) {
-		    var z = a;
-			$.ajax({
-				url: "<%= admin_set_schedule_path %>?schedule=" + a.currentTarget.name + "&item=" + a.currentTarget.value,
-				headers: {
-					Accept : "text/javascript; charset=utf-8",
-					"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
-				},
-				type: 'POST'
-			});
-		});
-		</script>
-	</div>
-</div>
-<%= render partial: "user_modal" %>
-<% end %>
-
-
+				<script type="text/javascript" charset="utf-8">
+				$('.set-schedule').bind('change', function(a) {
+				    var z = a;
+					$.ajax({
+						url: "<%= admin_set_schedule_path %>?schedule=" + a.currentTarget.name + "&item=" + a.currentTarget.value,
+						headers: {
+							Accept : "text/javascript; charset=utf-8",
+							"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+						},
+						type: 'POST'
+					});
+				});
+				</script>
+			</div>
+		</div>
+		<%= render partial: "user_modal" %>
+	<% end %>
 
 <% end %>
