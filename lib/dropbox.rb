@@ -3,6 +3,8 @@ module Dropbox
 	@@dropbox_key = ENV['DROPBOX_KEY']
 	@@dropbox_secret = ENV['DROPBOX_SECRET']
 	@@dropbox_access_type = ENV['DROPBOX_ACCESS_TYPE']
+	
+	@@root_folder = "/Submit"
 
 	@@client = nil
 	@@return_url = nil
@@ -20,6 +22,16 @@ module Dropbox
 	# get a reference to a client object
 	def self.client
 		return @@client ||= DropboxApi::Client.new(Settings["dropbox.session"]) if Settings['dropbox.session']
+	end
+	
+	# is able to download a (small?) file by path; only returns contents, no metadata
+	def self.download(path)
+		contents = ""
+		# x would be the metadata
+		x = self.client.download(path) do |chunk|
+			contents << chunk
+		end
+		return contents
 	end
 	
 	# start oauth authentication process, returning the url at Dropbox to redirect to
