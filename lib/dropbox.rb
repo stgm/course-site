@@ -24,6 +24,10 @@ module Dropbox
 		return @@client ||= DropboxApi::Client.new(Settings["dropbox.session"]) if Settings['dropbox.session']
 	end
 	
+	def self.root_folder
+		@@root_folder
+	end
+	
 	# is able to download a (small?) file by path; only returns contents, no metadata
 	def self.download(path)
 		contents = ""
