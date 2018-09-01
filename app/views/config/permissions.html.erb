@@ -8,7 +8,7 @@
 
 <% @users.each do |user| %>
 	<tr>
-		<td><%= user.name %></td>
+		<td><%= link_to user.name, "mailto:#{user.mail}" %></td>
 		<td>
 			<%= best_in_place user, :role, as: :select, url: user_admin_path(user_id: user.id), collection: User.roles.keys.map {|w| [w,w]} %>
 		</td>
