@@ -17,16 +17,16 @@ class Submit < ActiveRecord::Base
 			contents = Dropbox.download(path)
 			self.update(check_feedback: contents)
 		rescue
-			# go one
+			# go on, assuming its not there
 		end
 
-		path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'style_feedback.json')
-		begin
-			contents = Dropbox.download(path)
-			self.update(style_feedback: contents)
-		rescue
-			# done anyway
-		end
+		# path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'style_feedback.json')
+		# begin
+		# 	contents = Dropbox.download(path)
+		# 	self.update(style_feedback: contents)
+		# rescue
+		# 	# done anyway, assuming its not there
+		# end
 	end
 
 end
