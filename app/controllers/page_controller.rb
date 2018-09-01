@@ -147,7 +147,7 @@ class PageController < ApplicationController
 		dropbox_root = "Submit"
 		
 		# cache timestamp for folder name
-		item_folder = item + "__" + Time.now.to_i.to_s
+		item_folder = item
 
 		# compose info.txt file contents
 		info = "student_login_id = " + user
