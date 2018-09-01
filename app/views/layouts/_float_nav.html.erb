@@ -36,7 +36,7 @@
 		</script>
 	<% end %>
 	
-	<% if current_user.admin? %>
+	<% if current_user.admin? && Schedule.count > 1 %>
 	<li class="nav-item dropdown" id="switch-nav">
 		<a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<%= fa_icon "eye", class: "fa-fw" %>			

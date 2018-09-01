@@ -11,19 +11,21 @@
 	<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 </div>
 			
-<% if Schedule.any? %>
+<% if Schedule.count > 1 %>
 <div class="form-group">
 	<label>Your schedule</label>
 
 	<% Schedule.where(self_register: true).each do |schedule| %>
 	<div class="form-check">
-		<input type="radio" name="user[schedule_id]" required id="optionsRadios<%= schedule.id %>" value="<%= schedule.id %>">
+		<input type="radio" name="user[schedule_id]" required id="optionsRadios<%= schedule.id %>" value="<%= schedule.id %>" <%= 'checked' if current_user && current_user.schedule && current_user.schedule.id == schedule.id %>>
 		<label for="optionsRadios<%= schedule.id %>">
 			<%= schedule.description || schedule.name %>
 		</label>
 	</div>
 	<% end %>
 </div>
+<% elsif Schedule.count == 1 %>
+<%= f.hidden_field :schedule_id, Schedule.first.id %>
 <% end %>
 
 <p><%= submit_tag 'Create Profile', class:'btn btn-primary btn-lg' %></p>
