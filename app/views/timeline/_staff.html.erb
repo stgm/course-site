@@ -19,7 +19,7 @@
 					<%= @new_students.count %> students have registered.
 					No grading groups have been defined yet.
 				</p>
-				<%= link_to 'Generate grading groups', admin_generate_groups_path(schedule_id: @schedule.schedule.id), class: 'btn btn-primary' %>
+				<%= link_to 'Generate grading groups', admin_generate_groups_path(schedule_id: @schedule.id), class: 'btn btn-primary' %>
 				<% end %>
 			</div>
 		</div>

@@ -1,5 +1,4 @@
-<% schedule = @schedule %>
-<% schedule.content.each do |item, link|  %>
+<% @current_schedule.content.each do |item, link|  %>
 <% next if item == 'description' %>
 <% if link.nil? %>
 <li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, '#', class:"nav-link disabled" %></li>

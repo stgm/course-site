@@ -56,19 +56,19 @@ class ApplicationController < ActionController::Base
 	
 	def load_schedule
 		# load schedule
-		if s = current_user.schedule
-			if s.self_service
-				@schedule = current_user.current_module || s.current
+		if @schedule = current_user.schedule
+			if @schedule.self_service
+				@current_schedule = current_user.current_module || @schedule.current
 			else
-				@schedule = s.current
+				@current_schedule = @schedule.current
 			end
-			@schedule_name = s.name
+			@schedule_name = @schedule.name
 			@group_name = current_user.group.name if current_user.group
 		end
 		
 		# load alerts
 		alert_sources = [nil]
-		alert_sources.append s.id if s
+		alert_sources.append @schedule.id if @schedule
 		@alerts = Alert.where(schedule_id: alert_sources).order("created_at desc")
 	end
 	
