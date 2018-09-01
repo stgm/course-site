@@ -2,24 +2,3 @@
 	<%= Settings.display_license.html_safe if Settings.display_license %>
 	<a data-toggle="tooltip" data-placement="top" title="<%= Settings.display_acknowledgements.join("\n\n").html_safe if Settings.display_acknowledgements %>">Acknowledgements.</a>
 </footer>
-
-<% if !current_user.valid_profile? %>
-	<script type="text/javascript">
-	$(function () {
-		$('#user-menu').dropdown('toggle');
-		// $('#user-menu').dropdown('update');
-		return false;
-	});
-	
-	$('.profile-form').click(function(e) {
-	    e.stopPropagation();
-	});
-	
-	</script>
-<% end %>
-
-<script type="text/javascript">
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-});
-</script>

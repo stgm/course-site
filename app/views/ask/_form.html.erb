@@ -1,4 +1,8 @@
+<% if @assist_available.length > 0 %>
 <li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;"><%= @assist_available.length %> staff are currently available.</li>
+<% else %>
+<li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;">Request assistance in class!</li>
+<% end %>
 <li class="dropdown-header"  style="padding:2px 10px 0 10px;">
 	<%= form_tag(ask_do_path, method: :post, remote: true) do %>
 		<textarea name="question" class="form-control" rows="3" required placeholder="What do you need help with?" style="margin-top:0.5em"></textarea>
