@@ -9,40 +9,41 @@
 	</div>
 	<% end %>
 
-	<% if @groups.blank? %>
-
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Grading</h5>
-				<% if @groups.blank? %>
-				<p class="card-text">
-					<%= @new_students.count %> students have registered.
-					No grading groups have been defined yet.
-				</p>
-				<%= link_to 'Generate grading groups', admin_generate_groups_path(schedule_id: @schedule.id), class: 'btn btn-primary' %>
-				<% end %>
-			</div>
-		</div>
-		
-	<% else %>
+	<% if current_user.admin? %>
 	
-		<% if current_user.admin? && @new_students.present? %>
+		<% if @groups.blank? %>
+
 			<div class="card">
 				<div class="card-body">
-					<h5 class="card-title">New students</h5>
-				</div>
-				<ul class="list-group list-group-flush">
-					<% @new_students.each do |student| %>
-					<li class="list-group-item d-flex align-items-center">
-						<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
-						<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
-					</li>
+					<h5 class="card-title">Grading</h5>
+					<% if @groups.blank? %>
+					<p class="card-text">
+						<%= @new_students.count %> students have registered.
+						No grading groups have been defined yet.
+					</p>
+					<%= link_to 'Generate grading groups', admin_generate_groups_path(schedule_id: @schedule.id), class: 'btn btn-primary' %>
 					<% end %>
-				</ul>
+				</div>
 			</div>
-		<% end %>
 		
-		<% if current_user.admin? %>
+		<% elsif @new_students.present? %>
+	
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">New students</h5>
+					</div>
+					<ul class="list-group list-group-flush">
+						<% @new_students.each do |student| %>
+						<li class="list-group-item d-flex align-items-center">
+							<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
+							<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
+						</li>
+						<% end %>
+					</ul>
+				</div>
+	
+		<% else %>
+
 			<div class="card">
 				<div class="card-body">
 					<h5 class="card-title">Grading</h5>
@@ -75,6 +76,7 @@
 				</ul>
 				<% end %>
 			</div>
+
 		<% end %>
 
 	<% end %>
