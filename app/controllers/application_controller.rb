@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def redirect_back_with(warning)
-		destination = request.referer || path_to(:root)
+		destination = request.referer || :root
 		redirect_to destination, alert: warning
 	end
 	
