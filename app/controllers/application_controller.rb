@@ -55,6 +55,9 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_schedule
+		# if user switched schedules, may lack current_module TODO move to user model on change schedule
+		current_user.check_current_module
+		
 		# load schedule
 		if @schedule = current_user.schedule
 			if @schedule.self_service

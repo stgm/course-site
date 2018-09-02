@@ -7,7 +7,6 @@ class PageController < ApplicationController
 	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?, except: [ :homepage ]
 
 	before_action :register_attendance
-	before_action :check_schedule
 	
 	def homepage
 		if not Page.any?
@@ -131,12 +130,6 @@ class PageController < ApplicationController
 	
 	def text_file?(name)
 		return [".py", ".c", ".txt", ".html", ".css", ".h", ".java"].include?(File.extname(name)) || name == "Makefile"
-	end
-	
-	def check_schedule
-		# if schedule has been updated, may find themselves without schedule
-		logger.info "Checking schedule..."
-		current_user.check_current_module
 	end
 	
 	# writes hash with form contents to a plain text string
