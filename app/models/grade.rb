@@ -3,15 +3,20 @@ class Grade < ActiveRecord::Base
 	belongs_to :submit
 	has_one :user, through: :submit
 	has_one :pset, through: :submit
+	delegate :name, to: :pset, prefix: true, allow_nil: true
 
-	belongs_to :author, class_name: "User"
-	delegate :name, to: :author, prefix: true, allow_nil: true
+	belongs_to :grader, class_name: "User"
+	delegate :name, to: :grader, prefix: true, allow_nil: true
 
 	before_save :set_calculated_grade, :update_grades_cache, :unpublicize_if_undone
 	
 	serialize :subgrades, OpenStruct
 	
 	enum status: [:open, :finished, :published, :discussed]
+	
+	after_initialize do
+		self.subgrades = automatic()   # TODO overwrites, merge?
+	end
 	
 	def public?
 		published? or discussed?
@@ -27,6 +32,24 @@ class Grade < ActiveRecord::Base
 		end if val
 		
 		super OpenStruct.new val.to_h if val
+	end
+	
+	def automatic
+		f = Settings['grading']['grades'] if Settings['grading']
+		return nil if f.nil?
+
+		pset_name = self.pset.name
+		return nil if f[pset_name].nil? or f[pset_name]['automatic'].nil?
+
+		begin
+			results = f[pset_name]['automatic'].transform_values do |rule|
+				self.instance_eval(rule)
+			end
+		rescue
+			return nil
+		end
+
+		return results
 	end
 	
 	def grade
@@ -108,6 +131,10 @@ class Grade < ActiveRecord::Base
 	
 	def update_grades_cache
 		user.update_grades_cache
+	end
+	
+	def check_score
+		self.submit.check_score
 	end
 
 end

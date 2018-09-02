@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 	get  "profile/logout"
 	post "profile/ask"
 	get  "profile/ping"
+	get  "profile/feedback/:submit_id", to: "profile#feedback", as: "profile_feedback"
 
 	# set user schedule
 	post "profile/next"

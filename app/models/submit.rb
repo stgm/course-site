@@ -1,15 +1,30 @@
 class Submit < ActiveRecord::Base
 
 	belongs_to :user
+	delegate :name, to: :user, prefix: true, allow_nil: true
+
 	belongs_to :pset
+	delegate :name, to: :pset, prefix: true, allow_nil: true
 
 	has_one :grade, dependent: :destroy
+	delegate :status, to: :grade, prefix: true, allow_nil: true
 
 	serialize :submitted_files
 	serialize :check_feedback
+	serialize :file_contents
 
 	def graded?
 		return (self.grade && (!self.grade.grade.blank? || !self.grade.calculated_grade.blank?))
+	end
+	
+	def check_score
+		self.check_feedback.count { |x| x["status"].present? } / self.check_feedback.size.to_f
+	end
+	
+	def check_feedback_problems?
+		return false if self.check_feedback.blank?
+		
+		self.check_feedback.index { |x| x["status"].blank? }.present?
 	end
 	
 	def retrieve_feedback

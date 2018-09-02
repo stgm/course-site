@@ -87,7 +87,7 @@ class PageController < ApplicationController
 		pset = page.pset
 
 		if (pset.form || pset.files.any?) && (!Dropbox.connected? || Settings.dropbox_folder_name.blank?)
-			redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
+			# redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
 		end
 		
 		form_text = render_form_text(params[:a])
@@ -99,7 +99,7 @@ class PageController < ApplicationController
 				upload_to_dropbox(session[:cas_user], current_user.name,
 					Settings.dropbox_folder_name, folder_name, params[:notes], form_text, params[:f])
 			rescue
-				redirect_to(:back, flash: { alert: "<b>There was a problem uploading your submission! Please try again.</b> If the problem persists, contact your instructor.".html_safe }) and return
+				# redirect_to(:back, flash: { alert: "<b>There was a problem uploading your submission! Please try again.</b> If the problem persists, contact your instructor.".html_safe }) and return
 			end
 		end
 
@@ -110,6 +110,13 @@ class PageController < ApplicationController
 		submit.url = params[:url]
 		submit.folder_name = folder_name
 		submit.submitted_files = params[:f].map { |file,info| info.original_filename } if params[:f]
+		if files = params[:f] and file_contents = {}
+			files.each do |filename, file|
+				name = file.original_filename
+				file.rewind and file_contents[name] = file.read if text_file?(name)
+			end
+		end
+		submit.file_contents = file_contents
 		submit.save
 	
 		# success
@@ -121,6 +128,10 @@ class PageController < ApplicationController
 	end
 	
 	private
+	
+	def text_file?(name)
+		return [".py", ".c", ".txt", ".html", ".css", ".h", ".java"].include?(File.extname(name)) || name == "Makefile"
+	end
 	
 	def check_schedule
 		# if schedule has been updated, may find themselves without schedule

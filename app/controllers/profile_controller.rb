@@ -10,6 +10,16 @@ class ProfileController < ApplicationController
 		@title = "Profile"
 	end
 	
+	def feedback
+		submit = Submit.find(params[:submit_id])
+		@formatted_feedback = submit.check_feedback_formatted
+		respond_to do |format|
+			format.js do
+				render 'feedback'
+			end
+		end
+	end
+	
 	def pair
 		current_user.generate_pairing_code!
 		render text: "Pairing code is #{"%04d" % current_user.token}"

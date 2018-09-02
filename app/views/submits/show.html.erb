@@ -1,18 +1,18 @@
 <% content_for :navbar_items do %>
 <% end %>
 
-<div class="col-2 px-0 py-0" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0 ">
+<div class="col-2 px-0 py-0" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0;">
 	<ul class="nav flex-column">
 		<%= button_to 'Mark as finished', finish_submits_path, class: 'btn m-3', data: { confirm:'Are you sure? All items that are correctly filled-in will be marked as "finished". You will not be able to edit those.' } %>
 		<% @to_grade.each do |submit| %>
 		<li class="nav-item">
-			<%= link_to "#{submit.user.name}<br>#{submit.pset.name} <span class='badge badge-secondary pull-right'>#{submit.grade.status if submit.grade}</span>".html_safe, submit_path(id: submit.id), class: 'nav-link' %>
+			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status}</span>".html_safe, submit_path(id: submit.id), class: 'nav-link' %>
 		</li>
 		<% end %>
 	</ul>
 </div>
 
-<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0 ">
+<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; box-shadow:gray 2px 0px 5px inset ">
 	
 	<%= render partial: "grades/form" %>
 	
@@ -37,13 +37,30 @@
 	<% end %>
 </div>
 
-<div class="col-7" style="background-color:black; overflow-y:scroll; min-height:0">
+<div class="col-7" style="overflow-y:scroll; min-height:0; box-shadow:gray 2px 0px 5px inset">
 	<% if @submit.url.present? %>
 	<iframe src="<%= @submit.url %>" class="w-100 h-100 m-0"></iframe>
+	<% end %>
+	
+	<% if @submit.file_contents.present? %>
+	<ul class="nav nav-tabs" id="files" role="tablist">
+		<% first = true %>
+		<% @submit.file_contents.each_key do |filename| %>
+		<li class="nav-item">
+			<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-<%= File.basename(filename, ".*") %>" role="tab" aria-controls="home" aria-selected="true"><%= filename %></a>
+		</li>
+		<% end %>
+	</ul>
+	<div class="tab-content" id="myTabContent">
+		<% first = true %>
+		<% @submit.file_contents.each do |filename, contents| %>
+		<div class="tab-pane fade show  <%= (first = false) || 'active' if first %>" id="file-<%= File.basename(filename, ".*") %>" role="tabpanel" aria-labelledby="home-tab"><pre><%=h contents %></pre></div>
+		<% end %>
+	</div>
 	<% end %>
 </div>
 
 	
 <script>
 	$('[data-toggle="tooltip"]').tooltip();
-	</script>
+</script>
