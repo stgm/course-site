@@ -25,7 +25,7 @@
 	<% end %>
 </div>
 <% elsif Schedule.count == 1 %>
-<%= f.hidden_field :schedule_id, Schedule.first.id %>
+<%= hidden_field_tag :schedule_id, Schedule.first.id %>
 <% end %>
 
 <p><%= submit_tag 'Create Profile', class:'btn btn-primary btn-lg' %></p>
