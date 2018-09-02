@@ -54,7 +54,7 @@
 	<div class="tab-content" id="myTabContent">
 		<% first = true %>
 		<% @submit.file_contents.each do |filename, contents| %>
-		<div class="tab-pane fade show  <%= (first = false) || 'active' if first %>" id="file-<%= File.basename(filename, ".*") %>" role="tabpanel" aria-labelledby="home-tab"><pre><%=h contents %></pre></div>
+		<div class="tab-pane fade show  <%= (first = false) || 'active' if first %>" id="file-<%= File.basename(filename, ".*") %>" role="tabpanel" aria-labelledby="home-tab"><%= CodeRay.scan(contents, File.extname(filename)[1..-1].to_sym).div.html_safe %></code></pre></div>
 		<% end %>
 	</div>
 	<% end %>

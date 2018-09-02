@@ -71,6 +71,7 @@ GEM
       concurrent-ruby (~> 1.0)
     builder (3.2.3)
     chartkick (2.3.5)
+    coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -233,6 +234,7 @@ DEPENDENCIES
   bootstrap (~> 4.1.3)
   bugsnag
   chartkick
+  coderay
   coffee-rails
   dropbox_api
   font-awesome-rails
@@ -261,4 +263,4 @@ DEPENDENCIES
   videojs_rails
 
 BUNDLED WITH
-   1.14.6
+   1.16.1
