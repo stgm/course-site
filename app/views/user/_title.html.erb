@@ -36,11 +36,6 @@
 			<% @schedules.each do |schedule| %>
 			<%= link_to "Assign to #{schedule.name}".html_safe, user_assign_schedule_path(user_id: @student.id, schedule_id: schedule.id), method: :post, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') %>
 			<% end %>
-			<% if @schedules.any? %>
-			<div class="dropdown-divider"></div>
-			
-			<%= link_to 'Remove from all schedules', user_path(id: @student.id, user: { schedule_id: nil }), method: :put, class: 'dropdown-item' %>
-			<% end %>
 		</ul>
 	</div>
 
