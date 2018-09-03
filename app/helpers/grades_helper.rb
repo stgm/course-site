@@ -24,22 +24,17 @@ module GradesHelper
 	
 	def grade_button(user, pset, subs)
 		if subs[pset.id] && submit = subs[pset.id][0]
-			if grade = submit.grade # submitted.graded?
-				logger.info grade.any_final_grade.inspect
-				grade_button_html(grade.any_final_grade, grade, grade.public?)
+			if grade = submit.grade
+				type = grade_button_type(grade.any_final_grade || "S", grade.public?)
+				link_to (grade.any_final_grade || "S"), submit_path(id: submit.id), class: "btn btn-sm flex-fill auto-hide #{type}", title: submit.pset_name, data: { toggle:"tooltip", placement:"top" }
 			else
-				grade_button_html('S', nil, false)
+				link_to 'S', submit_path(id: submit.id), class: "btn btn-sm flex-fill btn-light auto-hide", title:submit.pset_name, data: { toggle:"tooltip", placement:"top" }
 			end
 		else
-			# grade_button_html(user.id, pset.id, '--', 'Would you like to enter a grade for this unsubmitted pset?')
-			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm flex-fill auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
 		end
 	end
 		
-	def grade_button_html(label, grade, is_public)
-		link_to label, grade_path(grade), class: "btn btn-sm flex-fill #{ grade_button_type(label, is_public) }", title:grade.pset.name, data: { toggle:"tooltip", placement:"top" }
-	end
-	
 	def format_grade(grade, type)
 		case type
 		when 'float'
@@ -50,9 +45,7 @@ module GradesHelper
 	end
 	
 	def grade_button_type(grade, is_public)
-		logger.info is_public
-		logger.info grade
-		return 'btn-default' if not is_public
+		return 'btn-light' if not is_public
 		case grade
 		when -1, 6.5..10.0
 			'btn-success'
@@ -61,7 +54,7 @@ module GradesHelper
 		when "P"
 			'btn-success'
 		when "--", "S"
-			'btn-grayed'
+			'btn-light'
 		else
 			'btn-warning'
 		end
