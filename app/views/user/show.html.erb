@@ -76,9 +76,9 @@ Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @
 					<%= f.submit "Add note", class: "btn btn-primary" %>
 					</span>
 					<% if @student.alarm %>
-					<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
+					<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-sm btn-warning", data: { confirm: "Sure?" } %>
 					<% else %>
-					<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-xs btn-warning", data: { confirm: "Sure?" } %>
+					<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-sm btn-warning", data: { confirm: "Sure?" } %>
 					<% end %>
 				</p>
 				<% end %>
