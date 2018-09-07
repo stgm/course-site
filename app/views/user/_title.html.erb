@@ -3,7 +3,7 @@
 	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 	<% end %>
 	<div>
-	<h5><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h5>
+	<h5><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %> <%= @student.login_id %></h5>
 	<%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %><br>
 	Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %>
 	</div>
