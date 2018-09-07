@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 	
 	scope :inactive,  -> { where(active: false) }
 	scope :done, -> { where(done:true) }
-	scope :no_group,  -> { where(group_id: nil) }
+	scope :groupless,  -> { where(group_id: nil) }
 	scope :but_not,   -> users { where("users.id not in (?)", users) }
 	scope :with_login, -> login { joins(:logins).where("logins.login = ?", login)}
 	scope :not_started, -> { where('started_at > ?', DateTime.now).where(last_submitted_at: nil) }
