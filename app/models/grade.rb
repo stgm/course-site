@@ -36,17 +36,17 @@ class Grade < ActiveRecord::Base
 		super || {}
 	end
 
-	# def subgrades=(val)
-	# 	# we would like this to be stored as an OpenStruct
-	# 	return super if val.is_a? OpenStruct
-	#
-	# 	# take this opportunity to convert any stringified ints from the params to ints
-	# 	val.each do |k,v|
-	# 		val[k] = v.to_i if v.to_i.to_s == v
-	# 	end if val
-	#
-	# 	super OpenStruct.new val.to_h if val
-	# end
+	def subgrades=(val)
+		# we would like this to be stored as an OpenStruct
+		return super if val.is_a? OpenStruct
+
+		# take this opportunity to convert any stringified ints from the params to ints
+		val.each do |k,v|
+			val[k] = v.to_i if v.to_i.to_s == v
+		end if val
+
+		super OpenStruct.new val.to_h if val
+	end
 	
 	def automatic
 		f = Settings['grading']['grades'] if Settings['grading']
