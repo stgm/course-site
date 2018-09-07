@@ -62,7 +62,7 @@ class Schedule < ActiveRecord::Base
 	
 	def import_groups(source)
 		# delete all groups that are not in use by assistants
-		Schedule.groups.where.not(id: Group.joins(:users).where("users.id": User.staff)).delete_all
+		self.groups.where.not(id: Group.joins(:users).where("users.id": User.staff)).delete_all
 	
 		source.each_line do |line|
 			next if line.strip == ""
