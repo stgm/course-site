@@ -69,7 +69,7 @@ class Schedule < ActiveRecord::Base
 			line = line.split("\t")
 
 			user_id = line[0..1]
-			group_name = line[8] && line[8].strip
+			group_name = line[9] && line[9].strip
 			user_name = line[3] + " " + line[2].split(",").reverse.join(" ")
 			user_mail = line[4] && line[4].strip
 			next if !group_name || group_name == "Group"
