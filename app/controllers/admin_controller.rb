@@ -46,9 +46,10 @@ class AdminController < ApplicationController
 		# this is very dependent on datanose export format: ids in col 0 and 1, group name in 7
 		if source = params[:paste]
 			Settings.cached_user_paste = source
-			Group.import(source)
+			@schedule = Schedule.find(params[:schedule_id])
+			@schedule.import_groups(source)
 		end
-		redirect_to students_path, notice: 'Student groups were successfully imported.'
+		redirect_to students_in_group_path(group: @schedule.name), notice: 'Student groups were successfully imported.'
 	end
 	
 	def generate_groups

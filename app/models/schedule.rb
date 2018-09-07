@@ -59,5 +59,44 @@ class Schedule < ActiveRecord::Base
 			User.where("id in (?)", student_group).update_all(group_id: groups.pop.id)
 		end
 	end
+	
+	def import_groups(source)
+		# delete all groups that are not in use by assistants
+		Schedule.groups.where.not(id: Group.joins(:users).where("users.id": User.staff)).delete_all
+	
+		source.each_line do |line|
+			next if line.strip == ""
+			line = line.split("\t")
+
+			user_id = line[0..1]
+			group_name = line[8] && line[8].strip
+			user_name = line[3] + " " + line[2].split(",").reverse.join(" ")
+			user_mail = line[4] && line[4].strip
+			next if !group_name || group_name == "Group"
+
+			if !group_name.blank? and group_name != "No group"
+				group = Group.where(:name => group_name).first_or_create
+			else
+				group = nil
+			end
+
+			if user_id[0] == user_id[1]
+				import_user(user_id[0], group, user_name, user_mail)
+			else
+				import_user(user_id[0], group, user_name, user_mail)
+				import_user(user_id[1], group, user_name, user_mail)
+			end
+		end
+	end
+
+	def import_user(user_id, group, user_name, user_mail)
+		if login = Login.where(login: user_id).first
+			if user = login.user
+				user.update_columns(name: user_name, mail: user_mail) if user.name.blank? or user.name =~ /,/
+				user.group = group
+				user.save
+			end
+		end
+	end	
 
 end

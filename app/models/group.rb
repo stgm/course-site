@@ -34,27 +34,5 @@ class Group < ActiveRecord::Base
 		end
 	end
 	
-	def self.import(source)
-		# delete all groups that are not in use by assistants
-		Group.where.not(id: Group.joins(:users).where("users.id": User.staff)).delete_all
-	
-		source.each_line do |line|
-			next if line.strip == ""
-			line = line.split("\t")
-
-			user_id = line[0..1]
-			group_name = line[8] && line[8].strip
-			user_name = line[3] + " " + line[2].split(",").reverse.join(" ")
-			user_mail = line[4] && line[4].strip
-			next if !group_name || group_name == "Group"
-
-			if user_id[0] == user_id[1]
-				self.import_user(user_id[0], group_name, user_name, user_mail)
-			else
-				self.import_user(user_id[0], group_name, user_name, user_mail)
-				self.import_user(user_id[1], group_name, user_name, user_mail)
-			end
-		end
-	end
 
 end
