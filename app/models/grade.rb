@@ -151,5 +151,9 @@ class Grade < ActiveRecord::Base
 	def check_score
 		self.submit.check_score
 	end
+	
+	def style_score
+		self.submit.style_feedback
+	end
 
 end
