@@ -10,12 +10,18 @@ class Grade < ActiveRecord::Base
 
 	before_save :set_calculated_grade, :update_grades_cache, :unpublicize_if_undone
 	
+	serialize :auto_grades
 	serialize :subgrades, OpenStruct
 	
 	enum status: [:open, :finished, :published, :discussed]
 	
 	after_initialize do
-		self.subgrades = automatic()   # TODO overwrites, merge?
+		self.auto_grades = automatic()
+		# add any newly found autogrades to the subgrades as default
+		self.auto_grades.to_h.each do |k,v|
+			self.subgrades[k] = v if not self.subgrades[k]
+		end
+		# self.subgrades.merge!(self.auto_grades) { |k, v1, v2| v1 }
 	end
 	
 	def public?
@@ -36,12 +42,13 @@ class Grade < ActiveRecord::Base
 	
 	def automatic
 		f = Settings['grading']['grades'] if Settings['grading']
-		return nil if f.nil?
+		return {} if f.nil?
 
 		pset_name = self.pset.name
-		return nil if f[pset_name].nil? or f[pset_name]['automatic'].nil?
+		return {} if f[pset_name].nil? or f[pset_name]['automatic'].nil?
 
 		begin
+			# take all automatic rules and use it to create hash of grades
 			results = f[pset_name]['automatic'].transform_values do |rule|
 				self.instance_eval(rule)
 			end
