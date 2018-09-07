@@ -14,6 +14,16 @@ unless self.private_methods.include? 'irb_binding'
 			end
 		end
 	end
+	
+	scheduler.every '10m' do
+		User.all.each &:update_last_submitted_at
+	end
+	
+	scheduler.every '20m' do
+		if Settings.automatic_grading_enabled
+			Submit.where(check_feedback: nil).limit(10).each &:retrieve_feedback
+		end
+	end
 
 	# //attendance_records.group_by_day(:cutoff, default_value: 0).count
 	scheduler.every '1h' do
