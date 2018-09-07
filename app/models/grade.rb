@@ -11,7 +11,7 @@ class Grade < ActiveRecord::Base
 	before_save :set_calculated_grade, :unpublicize_if_undone # :update_grades_cache, 
 	
 	serialize :auto_grades
-	serialize :subgrades
+	serialize :subgrades, OpenStruct
 	
 	enum status: [:open, :finished, :published, :discussed]
 	
