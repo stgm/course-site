@@ -32,6 +32,11 @@ class SubmitsController < ApplicationController
 		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 	end
 	
+	def create
+		s = Submit.create(params[:submit]).permit([:pset_id, :user_id])
+		redirect_to submits_path(submit_id: s.id)
+	end
+	
 	def finish
 		# allow grader to mark as finished so the grades may be published later
 		# TODO some of the constraints can be moved to model

@@ -28,7 +28,7 @@ class Submit < ActiveRecord::Base
 	end
 	
 	def retrieve_feedback
-		path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'check_feedback.json')
+		path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'check_results.json')
 		begin
 			json = Dropbox.download(path)
 			contents = json.present? ? JSON.parse(json) : nil
