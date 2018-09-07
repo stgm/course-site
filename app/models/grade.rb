@@ -153,7 +153,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def style_score
-		self.submit.style_feedback
+		self.submit.style_score
 	end
 
 end

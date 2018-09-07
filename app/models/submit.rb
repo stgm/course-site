@@ -22,6 +22,21 @@ class Submit < ActiveRecord::Base
 		self.check_feedback.count { |x| x["status"].present? } / self.check_feedback.size.to_f
 	end
 	
+	def style_score
+		case self.style_feedback
+		when 0.0..0.2
+			1
+		when 0.2..0.5
+			2
+		when 0.5..0.8
+			3
+		when 0.8..0.9999
+			4
+		when 1.0
+			5
+		end
+	end
+	
 	def check_feedback_problems?
 		return false if self.check_feedback.blank?
 		
