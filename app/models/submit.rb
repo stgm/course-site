@@ -11,6 +11,7 @@ class Submit < ActiveRecord::Base
 
 	serialize :submitted_files
 	serialize :check_feedback
+	serialize :style_feedback
 	serialize :file_contents
 
 	def graded?
@@ -27,7 +28,7 @@ class Submit < ActiveRecord::Base
 		self.check_feedback.index { |x| x["status"].blank? }.present?
 	end
 	
-	def retrieve_feedback
+	def retrieve_check_feedback
 		path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'check_results.json')
 		begin
 			json = Dropbox.download(path)
@@ -36,14 +37,17 @@ class Submit < ActiveRecord::Base
 		rescue
 			# go on, assuming its not there
 		end
-
-		# path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'style_feedback.json')
-		# begin
-		# 	contents = Dropbox.download(path)
-		# 	self.update(style_feedback: contents)
-		# rescue
-		# 	# done anyway, assuming its not there
-		# end
+	end
+	
+	def retrieve_style_feedback
+		path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'style_results.json')
+		begin
+			json = Dropbox.download(path)
+			contents = json.present? ? JSON.parse(json) : nil
+			self.update(style_feedback: contents)
+		rescue
+			# go on, assuming its not there
+		end
 	end
 	
 	def check_feedback_formatted

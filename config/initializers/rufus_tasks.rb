@@ -23,7 +23,8 @@ unless self.private_methods.include? 'irb_binding'
 	
 		scheduler.every '20m' do
 			if Settings.automatic_grading_enabled
-				Submit.where(check_feedback: nil).limit(10).each &:retrieve_feedback
+				Submit.where(check_feedback: nil).limit(10).each &:retrieve_check_feedback
+				Submit.where(check_feedback: nil).limit(10).each &:retrieve_style_feedback
 			end
 		end
 
