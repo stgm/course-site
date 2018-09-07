@@ -27,6 +27,10 @@ class Grade < ActiveRecord::Base
 	def public?
 		published? or discussed?
 	end
+	
+	def auto_grades
+		super || {}
+	end
 
 	def subgrades=(val)
 		# we would like this to be stored as an OpenStruct
