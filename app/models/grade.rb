@@ -11,6 +11,9 @@ class Grade < ActiveRecord::Base
 	before_save :set_calculated_grade, :unpublicize_if_undone # :update_grades_cache, 
 	
 	serialize :auto_grades
+	
+	# this is an OpenStruct to make sure that subgrades can be referenced as a method
+	# for use in the grade calculation formulae in grading.yml
 	serialize :subgrades, OpenStruct
 	
 	enum status: [:open, :finished, :published, :discussed]
@@ -18,7 +21,7 @@ class Grade < ActiveRecord::Base
 	after_initialize do
 		self.auto_grades = automatic()
 		# add any newly found autogrades to the subgrades as default
-		self.subgrades ||= {}
+		# self.subgrades ||= OpenStruct.new
 		self.auto_grades.to_h.each do |k,v|
 			self.subgrades[k] = v if not self.subgrades[k]
 		end
