@@ -91,10 +91,12 @@ class Schedule < ActiveRecord::Base
 
 	def import_user(user_id, group, user_name, user_mail)
 		if login = Login.where(login: user_id).first
-			if user = login.user && user.schedule_id == self.id
-				user.update_columns(name: user_name, mail: user_mail) if user.name.blank? or user.name =~ /,/
-				user.group = group
-				user.save
+			if user = login.user
+				if user.schedule_id == self.id
+					user.update_columns(name: user_name, mail: user_mail) if user.name.blank? or user.name =~ /,/
+					user.group = group
+					user.save
+				end
 			end
 		end
 	end	
