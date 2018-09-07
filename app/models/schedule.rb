@@ -75,7 +75,7 @@ class Schedule < ActiveRecord::Base
 			next if !group_name || group_name == "Group"
 
 			if !group_name.blank? and group_name != "No group"
-				group = Group.where(:name => group_name).first_or_create
+				group = Group.where(:name => group_name, schedule_id: self.id).first_or_create
 			else
 				group = nil
 			end
@@ -91,7 +91,7 @@ class Schedule < ActiveRecord::Base
 
 	def import_user(user_id, group, user_name, user_mail)
 		if login = Login.where(login: user_id).first
-			if user = login.user
+			if user = login.user && user.schedule_id == self.id
 				user.update_columns(name: user_name, mail: user_mail) if user.name.blank? or user.name =~ /,/
 				user.group = group
 				user.save
