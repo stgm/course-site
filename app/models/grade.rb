@@ -8,16 +8,17 @@ class Grade < ActiveRecord::Base
 	belongs_to :grader, class_name: "User"
 	delegate :name, to: :grader, prefix: true, allow_nil: true
 
-	before_save :set_calculated_grade, :update_grades_cache, :unpublicize_if_undone
+	before_save :set_calculated_grade, :unpublicize_if_undone # :update_grades_cache, 
 	
 	serialize :auto_grades
-	serialize :subgrades, OpenStruct
+	serialize :subgrades
 	
 	enum status: [:open, :finished, :published, :discussed]
 	
 	after_initialize do
 		self.auto_grades = automatic()
 		# add any newly found autogrades to the subgrades as default
+		self.subgrades ||= {}
 		self.auto_grades.to_h.each do |k,v|
 			self.subgrades[k] = v if not self.subgrades[k]
 		end
@@ -32,17 +33,17 @@ class Grade < ActiveRecord::Base
 		super || {}
 	end
 
-	def subgrades=(val)
-		# we would like this to be stored as an OpenStruct
-		return super if val.is_a? OpenStruct
-		
-		# take this opportunity to convert any stringified ints from the params to ints
-		val.each do |k,v|
-			val[k] = v.to_i if v.to_i.to_s == v
-		end if val
-		
-		super OpenStruct.new val.to_h if val
-	end
+	# def subgrades=(val)
+	# 	# we would like this to be stored as an OpenStruct
+	# 	return super if val.is_a? OpenStruct
+	#
+	# 	# take this opportunity to convert any stringified ints from the params to ints
+	# 	val.each do |k,v|
+	# 		val[k] = v.to_i if v.to_i.to_s == v
+	# 	end if val
+	#
+	# 	super OpenStruct.new val.to_h if val
+	# end
 	
 	def automatic
 		f = Settings['grading']['grades'] if Settings['grading']
