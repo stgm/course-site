@@ -32,7 +32,7 @@ class AlertsController < ApplicationController
 		
 		if @alert.save
 			if params[:send_mail]
-				from = Settings.mail_address
+				from = Settings.mailer_from
 				if not alert_params[:schedule_id].blank?
 					recipients = Schedule.find(alert_params[:schedule_id]).users
 				else

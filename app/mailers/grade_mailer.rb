@@ -2,7 +2,7 @@ class GradeMailer < ActionMailer::Base
 
 	helper GradesHelper
 
-	default from: Settings['mail_address']
+	default from: Settings.mailer_from
 	
 	def new_mail(grade)
 		@course_name = Settings.short_course_name

@@ -1,6 +1,6 @@
 class NonSubmitMailer < ActionMailer::Base
 
-	default from: Settings['mail_address']
+	default from: Settings.mailer_from
 	
 	def new_mail(user, pset, notice)
 		grade_name = pset.name
