@@ -16,7 +16,7 @@ class StudentsController < ApplicationController
 		# check which schedules this user is allowed to view
 		if current_user.head?
 			# heads need to have schedules assigned to them
-			redirect_to :back, alert: "You haven't been assigned a schedule!" and return if current_user.schedules.empty?
+			redirect_back_with("You haven't been assigned a schedule!") and return if current_user.schedules.empty?
 			@schedules = current_user.schedules
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || current_user.schedules.first
 			@current_schedule_id = @current_schedule && @current_schedule.id
