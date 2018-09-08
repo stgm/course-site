@@ -32,7 +32,7 @@ class PageController < ApplicationController
 	def announcements
 		@schedules = Schedule.all
 		@student = User.includes(:hands, :notes).find(current_user.id)
-		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.created_at desc')
+		@grades = Grade.published.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.created_at desc')
 		# @groups = Group.order(:name)
 		@note = Note.new(student_id: @student.id)
 	

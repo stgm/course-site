@@ -18,6 +18,9 @@ class Grade < ActiveRecord::Base
 	
 	enum status: [:open, :finished, :published, :discussed]
 	
+	scope :published,  -> { where(status: Grade.statuses[:published]) }
+	
+	
 	after_initialize do
 		self.auto_grades = automatic()
 		# add any newly found autogrades to the subgrades as default
