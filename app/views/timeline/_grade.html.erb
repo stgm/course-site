@@ -1,7 +1,7 @@
 <small><%= date_span_with_title(grade.created_at)%> <%= t(:by) %> <%= grade.grader_name %></small>
-<h4>
+<h5 class="card-title">
 	<%= grade.pset.name %> <%= t(:was_graded) %><br>
-</h4>
+</h5>
 <p id="grade_buttons">
 	<% grade.subgrades.each_pair do |k,v| %>
 	<span class="btn btn-sm btn-outline-secondary"><%= k.capitalize %> <span class="badge badge-secondary"><%= v %></span></span>
