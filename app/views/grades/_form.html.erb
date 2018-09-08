@@ -5,7 +5,8 @@
 	<div class="">
 		<span class="navbar-text">
 			<%= @pset.name %> <%= t(:by) %> <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %>
-			<span class="badge badge-dark"><%= @grade.status %></span>
+			<span class="badge badge-dark"><%= @grade.status %></span><br>
+			Grading by <%= @grade.grader_name %>
 		</span>
 		
 	</div>
