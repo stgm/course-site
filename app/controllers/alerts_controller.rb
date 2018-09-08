@@ -31,18 +31,7 @@ class AlertsController < ApplicationController
 		@alert = Alert.new(alert_params)
 		
 		if @alert.save
-			if params[:send_mail]
-				from = Settings.mailer_from
-				if not alert_params[:schedule_id].blank?
-					recipients = Schedule.find(alert_params[:schedule_id]).users
-				else
-					recipients = User.active
-				end
-				recipients.each do |user|
-					AlertMailer.alert_message(user, @alert, from).deliver_later
-				end
-			end
-
+			send_mail if params[:send_mail]
 			redirect_to :back, notice: 'Alert was successfully created.'
 		else
 			render :new
@@ -52,6 +41,7 @@ class AlertsController < ApplicationController
 	# PATCH/PUT /alerts/1
 	def update
 		if @alert.update(alert_params)
+			send_mail if params[:send_mail]
 			redirect_to @alert, notice: 'Alert was successfully updated.'
 		else
 			render :edit
@@ -65,6 +55,7 @@ class AlertsController < ApplicationController
 	end
 
 	private
+	
 	# Use callbacks to share common setup or constraints between actions.
 	def set_alert
 		@alert = Alert.find(params[:id])
@@ -73,6 +64,22 @@ class AlertsController < ApplicationController
 	# Only allow a trusted parameter "white list" through.
 	def alert_params
 		params.require(:alert).permit(:title, :body, :published, :schedule_id)
+	end
+	
+	def send_mail
+		from = Settings.mailer_from
+		if not alert_params[:schedule_id].blank?
+			@alert.title += "ONE"
+			recipients = User.where(id:1)
+			# recipients = Schedule.find(alert_params[:schedule_id]).users
+		else
+			@alert.title += "ALL"
+			recipients = User.where(id:1)
+			# recipients = User.active
+		end
+		recipients.each do |user|
+			AlertMailer.alert_message(user, @alert, from).deliver_later
+		end
 	end
 
 end
