@@ -6,7 +6,7 @@
 		<%= button_to 'Mark as finished', finish_submits_path, class: 'btn m-3', data: { confirm:'Are you sure? All items that are correctly filled-in will be marked as "finished". You will not be able to edit those.' } %>
 		<% @to_grade.each do |submit| %>
 		<li class="nav-item">
-			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status}</span>".html_safe, submit_path(id: submit.id), class: 'nav-link' %>
+			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, submit_path(id: submit.id), class: 'nav-link' %>
 		</li>
 		<% end %>
 	</ul>
