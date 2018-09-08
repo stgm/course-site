@@ -27,22 +27,6 @@
 				</div>
 			</div>
 		
-		<% elsif @new_students.present? %>
-	
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">New students</h5>
-					</div>
-					<ul class="list-group list-group-flush">
-						<% @new_students.each do |student| %>
-						<li class="list-group-item d-flex align-items-center">
-							<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
-							<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
-						</li>
-						<% end %>
-					</ul>
-				</div>
-	
 		<% else %>
 
 			<div class="card">
@@ -77,6 +61,23 @@
 				</ul>
 				<% end %>
 			</div>
+			
+			<% if @new_students.present? %>
+	
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">New students</h5>
+						</div>
+						<ul class="list-group list-group-flush">
+							<% @new_students.each do |student| %>
+							<li class="list-group-item d-flex align-items-center">
+								<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
+								<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
+							</li>
+							<% end %>
+						</ul>
+					</div>
+			<% end %>
 
 		<% end %>
 
