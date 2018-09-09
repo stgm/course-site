@@ -21,14 +21,13 @@ class Grade < ActiveRecord::Base
 	scope :published,  -> { where(status: Grade.statuses[:published]) }
 	
 	
+	# this adds automatic grades to the subgrades quite aggressively
 	after_initialize do
 		self.auto_grades = automatic()
 		# add any newly found autogrades to the subgrades as default
-		# self.subgrades ||= OpenStruct.new
 		self.auto_grades.to_h.each do |k,v|
-			self.subgrades[k] = v if not self.subgrades[k]
+			self.subgrades[k] = v if not self.subgrades[k].present?
 		end
-		# self.subgrades.merge!(self.auto_grades) { |k, v1, v2| v1 }
 	end
 	
 	def public?
