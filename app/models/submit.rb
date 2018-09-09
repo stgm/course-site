@@ -77,6 +77,7 @@ class Submit < ActiveRecord::Base
 		if self.check_feedback.is_a?(Hash) && self.check_feedback["version"] && self.check_feedback["version"].start_with?("3")
 			v3=true
 			items = self.check_feedback["results"]
+			return self.check_feedback["error"] if items.nil?
 		else
 			v3=false
 			items = self.check_feedback
