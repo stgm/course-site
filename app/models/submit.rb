@@ -83,7 +83,7 @@ class Submit < ActiveRecord::Base
 		end
 
 		result = ""
-		self.check_feedback.each do |item|
+		items.each do |item|
 			case v3 && item["passed"] || item["status"]
 			when true
 				result << ":)"
