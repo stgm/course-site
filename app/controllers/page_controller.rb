@@ -71,7 +71,9 @@ class PageController < ApplicationController
 		
 		if @page.pset && current_user.can_submit?
 			@has_form = @page.pset.form
-			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
+			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
+			# @submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
+			@grading = @submitted && @submitted.grade.present?
 		end
 		
 		render :index

@@ -1,4 +1,10 @@
-<h1>Submit</h1>
+<h2>Submit Form</h2>
+
+<% if @grading %>
+
+<p>You can't submit this problem, because a previous submission is currently being graded or has been graded</p>
+
+<% else %>
 
 <% if @page.pset.form %>
 <p>When you are ready to submit, make sure you have answered all questions, use
@@ -51,3 +57,5 @@ $('#page_form').submit(function(){
 	$('input[type=submit]', this).attr('disabled', 'disabled');
 });
 </script>
+
+<% end %>
