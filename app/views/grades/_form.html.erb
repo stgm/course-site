@@ -74,6 +74,12 @@
 		</div>
 	</div>
 	<% end %>
+	
+	<div class="form-group">
+		<% Settings["course"]["feedback_templates"].each do |f, c| %>
+		<%= link_to f.humanize, templatize_grade_path(id: @submit.id, type: f), method: :put, class: "btn btn-light", data: { confirm: "This will insert automatic feedback, sure? \n\n" + c["explanation"] } %>
+		<% end if Settings["course"]["feedback_templates"] %>
+	</div>
 
 	<% if current_user.admin? %>
 	<div class="form-group">

@@ -134,15 +134,16 @@ Rails.application.routes.draw do
 	end
 	
 	resources :grades do
-		collection do 
-
+		member do
+			put  "templatize"
+		end
+				
+		collection do
 			post "publish_finished"
 			post "publish_mine"
 			post "publish_all"
 			post "publish"
-
 			put  "assign_all_final"
-
 			post "reopen/(:group_id)", to: "grades#reopen", as: "reopen"
 		end
 	end

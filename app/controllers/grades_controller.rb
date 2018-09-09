@@ -40,6 +40,17 @@ class GradesController < ApplicationController
 		redirect_to params[:referer] || :back
 	end
 	
+	def templatize
+		auto_feedback = Settings["course"]["feedback_templates"][params[:type]]
+		submit = Submit.find(params[:id])
+		@grade = submit.grade || submit.build_grade(grader: current_user)
+		@grade.comments = auto_feedback["feedback"]
+		@grade.grade = auto_feedback["grade"]
+		@grade.status = Grade.statuses[:finished]
+		@grade.save
+		redirect_to :back
+	end
+	
 	private
 	
 	def grade_params

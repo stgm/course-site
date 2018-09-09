@@ -37,6 +37,12 @@ class SubmitsController < ApplicationController
 		redirect_to submits_path(submit_id: s.id)
 	end
 	
+	def destroy
+		@submit = Submit.find(params[:id])
+		@submit.destroy
+		redirect_to submits_path
+	end
+	
 	def finish
 		# allow grader to mark as finished so the grades may be published later
 		# TODO some of the constraints can be moved to model

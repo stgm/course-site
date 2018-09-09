@@ -14,7 +14,11 @@
 
 <div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; box-shadow:gray 2px 0px 5px inset ">
 	
+	<% if @grade.open? %>
 	<%= render partial: "grades/form" %>
+	<% else %>
+	<%= render "grades/show"%>
+	<% end %>
 	
 	<% @grades.each do |grade| %>
 	<hr>
