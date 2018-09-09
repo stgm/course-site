@@ -19,7 +19,13 @@ class Submit < ActiveRecord::Base
 	end
 	
 	def check_score
-		self.check_feedback.count { |x| x["status"].present? } / self.check_feedback.size.to_f
+		if self.check_feedback.is_a?(Hash) && self.check_feedback["version"] && self.check_feedback["version"].start_with?("3")
+			# check50 v3
+			self.check_feedback["results"].count { |x| x["passed"].present? } / self.check_feedback["results"].size.to_f
+		else
+			# older version of check50 used
+			self.check_feedback.count { |x| x["status"].present? } / self.check_feedback.size.to_f
+		end
 	end
 	
 	def style_score
@@ -68,9 +74,17 @@ class Submit < ActiveRecord::Base
 	def check_feedback_formatted
 		return "" if self.check_feedback.blank?
 
+		if self.check_feedback.is_a?(Hash) && self.check_feedback["version"] && self.check_feedback["version"].start_with?("3")
+			v3=true
+			items = self.check_feedback["results"]
+		else
+			v3=false
+			items = self.check_feedback
+		end
+
 		result = ""
 		self.check_feedback.each do |item|
-			case item["status"]
+			case v3 && item["passed"] || item["status"]
 			when true
 				result << ":)"
 			when false
