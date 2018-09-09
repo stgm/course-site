@@ -1,17 +1,61 @@
-<% content_for :main do %>
-<div class="col-12">
-	<%= form_tag({ controller: 'hands', action: 'search' }, method: 'get', class: 'form mt-3') do %>
-	<div class="input-group">
-		<div class="input-group-prepend">
-			<a class="btn btn-secondary" href="<%= url_for(controller: 'hands', action: 'index') %>"><%= fa_icon 'chevron-left' %></a>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<%= csrf_meta_tags %>
+
+	<title><%= title %></title>
+
+	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= yield :math %>
+	<%= javascript_include_tag "application" %>
+
+	<link rel="icon" type="image/png" href="/images/minor.png" />
+</head>
+
+<body style="height:100vh">
+
+	<div class="d-flex flex-column h-100">
+
+		<div id="navbar" class="navbar bg-dark navbar-dark navbar-expand-lg flex-shrink-0">
+			<%= render 'layouts/brand' %>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<%= yield :navbar_items %>
+				<%= render 'layouts/float_nav' %>
+			</div>
 		</div>
-		<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
-		<div class="input-group-append">
-			<button class="btn btn-primary" type="submit"><%= fa_icon 'search' %></button>
+
+		<%= render "layouts/alerts" %>
+	
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-12">
+					<%= form_tag({ controller: 'hands', action: 'search' }, method: 'get', class: 'form mt-3') do %>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<a class="btn btn-secondary" href="<%= url_for(controller: 'hands', action: 'index') %>"><%= fa_icon 'chevron-left' %></a>
+						</div>
+						<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit"><%= fa_icon 'search' %></button>
+						</div>
+					</div>
+					<% end %>
+					<%= yield %>
+				</div>
+			</div>
 		</div>
+	
 	</div>
-	<% end %>
-	<%= yield %>
-</div>
-<% end %>
-<%= render template: "layouts/full-width" %>
+
+</body>
+
+</html>
