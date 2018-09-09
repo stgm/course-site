@@ -53,7 +53,7 @@
 		<% end if @submit.file_contents.present? %>
 		<% if @submit.check_feedback.present? %>
 		<li class="nav-item">
-			<a class="nav-link" id="home-tab" data-toggle="tab" href="#file-check" role="tab">check</a>
+			<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-check" role="tab">check</a>
 		</li>
 		<% end %>
 	</ul>
