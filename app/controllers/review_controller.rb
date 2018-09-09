@@ -6,7 +6,7 @@ class ReviewController < ApplicationController
 	layout "full-width"
 
 	def index
-		@users = User.includes(submits: [:grade, :pset]).where("grades.status in (?)", [Grade.statuses[:open], Grade.statuses[:finished]]).references(:grades)
+		@users = current_user.schedule.users.includes(submits: [:grade, :pset]).where("grades.status in (?)", [Grade.statuses[:open], Grade.statuses[:finished]]).references(:grades)
 	end
 	
 end
