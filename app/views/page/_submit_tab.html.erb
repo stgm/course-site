@@ -2,7 +2,7 @@
 
 <% if (@grading && !@grading.published?) || (@grading &&  @grading.any_final_grade.present? && @grading.any_final_grade > 0) %>
 
-<p>You can't submit this problem, because a previous submission is currently being graded or has been graded</p>
+<p>You can't submit this problem, because a previous submission is currently being graded or has been graded.</p>
 
 <% else %>
 
