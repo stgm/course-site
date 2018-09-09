@@ -93,8 +93,8 @@ class Submit < ActiveRecord::Base
 				result << ":|"
 			end
 			result << " " + item["description"] + "\n"
-			if item["rationale"].present?
-				result << "    " + item["rationale"] + "\n"
+			if item["cause"].present?
+				result << "    " + item["cause"]["rationale"] + "\n"
 			end
 		end
 		
