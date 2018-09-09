@@ -21,18 +21,6 @@
 
 	<div class="d-flex flex-column h-100">
 
-		<div id="navbar" class="navbar bg-dark navbar-dark navbar-expand-lg flex-shrink-0">
-			<%= render 'layouts/brand' %>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<%= yield :navbar_items %>
-				<%= render 'layouts/float_nav' %>
-			</div>
-		</div>
-
 		<%= render "layouts/alerts" %>
 	
 		<div class="container-fluid">
