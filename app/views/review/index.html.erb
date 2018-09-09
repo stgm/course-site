@@ -1,0 +1,27 @@
+<table id="grade-table" class="table table-sm table-striped table-responsive">
+
+	<tr>
+		<th>Name</th>
+		<th>Grade</th>
+	</tr>
+
+	<% @users.each do |user|%>
+	<tr>
+		<td>
+			<a href="#" class="" data-toggle="modal" data-target="#user-modal" data-user="<%= user.id %>"><%= user.name %></a>
+		</td>
+		
+		<% user.submits.each do |s| %>
+		<td>
+			<%= s.pset_name %><br>
+			<% if s.grade %>
+			<%= link_to s.grade.any_final_grade, "#", data: { toggle: "modal", target: "#grade-modal", submit:s.grade.id }, class: "btn" %>
+			<% end %>
+		</td>
+		<% end %>
+	</tr>
+	<% end %>
+
+</table>
+
+<%= render partial: "grade_modal" %>

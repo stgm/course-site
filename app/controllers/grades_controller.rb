@@ -14,7 +14,7 @@ class GradesController < ApplicationController
 		@submit = @grade.submit
 		# @grade = @submit.grade || @submit.build_grade({ grader: current_user })
 		# @grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
-		# @grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
+		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 
 		if @submit.grade && (@submit.grade.finished? || @submit.grade.published? || @submit.grade.discussed?)
 			
