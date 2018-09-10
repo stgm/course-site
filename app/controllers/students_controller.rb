@@ -135,13 +135,6 @@ class StudentsController < ApplicationController
 		redirect_to :back
 	end
 	
-	def reopen
-		@group = Group.find(params[:group_id])
-		@group.grades.finished.update_all(:status => Grade.statuses[:open])
-		redirect_to :back
-	end
-	
-	
 	
 	
 	private

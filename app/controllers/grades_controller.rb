@@ -40,6 +40,14 @@ class GradesController < ApplicationController
 		redirect_to params[:referer] || :back
 	end
 	
+	def reopen
+		@group = Group.find(params[:group_id])
+		@group.grades.finished.update_all(:status => Grade.statuses[:open])
+		redirect_to :back
+	end
+	
+	
+	
 	def templatize
 		auto_feedback = Settings["course"]["feedback_templates"][params[:type]]
 		submit = Submit.find(params[:id])
