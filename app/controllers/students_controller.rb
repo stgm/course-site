@@ -96,34 +96,7 @@ class StudentsController < ApplicationController
 	end
 	
 	
-	# mark grades public that have been marked as "finished" by the grader
-	def publish_finished
-		schedule = params[:schedule] && Schedule.find(params[:schedule])
 
-		if current_user.head?
-			render status: :forbidden and return if not current_user.schedules.include?(schedule)
-		end
-
-		grades = schedule && schedule.grades.finished || Grade.finished
-		grades.each &:published!
-		redirect_to :back
-	end
-	
-	# mark only my own grades public, and even when not marked as finished
-	def publish_mine
-		schedule = params[:schedule] && Schedule.find(params[:schedule])
-		grades = schedule && schedule.grades.where(grader: current_user) || Grade.where(grader: current_user)
-		grades.each &:published!
-		redirect_to :back
-	end
-
-	# try to make all grades public, but only valid grades
-	def publish_all
-		schedule = params[:schedule] && Schedule.find(params[:schedule])
-		grades = schedule && schedule.grades.where.not(status: Grade.statuses[:published]) || Grade.where.not(status: Grade.statuses[:published])
-		grades.each &:published!
-		redirect_to :back
-	end
 
 	def assign_all_final
 		schedule = params[:schedule] && Schedule.find(params[:schedule])
