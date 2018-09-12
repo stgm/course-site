@@ -56,7 +56,7 @@ class StudentsController < ApplicationController
 	end
 	
 	def find
-		@results = User.student.where("name like ?", "%#{params[:text]}%").limit(10).order(:name)
+		@results = User.joins(:logins).student.where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").limit(10).order(:name)
 		respond_to do |format|
 			format.js { render 'find' }
 		end
