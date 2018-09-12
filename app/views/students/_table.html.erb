@@ -22,7 +22,9 @@
 		<td>
 			<!-- <%= link_to user.name, user_path(user) %> -->
 			<a href="#" class="" data-toggle="modal" data-target="#user-modal" data-user="<%= user.id %>"><%= user.name %></a>
+			<% if user.last_known_location %>
 			<span class="fa fa-location-arrow" aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>"></span>
+			<% end %>
 		</td>
 		
 		<td></td>
