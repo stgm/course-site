@@ -87,3 +87,9 @@
 		$.ajax('<%= ask_path %>');
 	})
 </script>
+
+<% if is_local_ip? && current_user.student? && current_user.last_known_location.blank? %>
+<script>
+	$.ajax('<%= ask_path %>');
+</script>
+<% end %>
