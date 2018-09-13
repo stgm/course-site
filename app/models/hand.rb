@@ -7,7 +7,7 @@ class Hand < ActiveRecord::Base
 	
 	scope :waiting, -> { where(assist: nil).where.not(done: true) }
 	
-	after_create do |hand|
+	after_validation do |hand|
 		if hand.done
 			hand.user.update_attribute(:last_spoken_at, DateTime.now)
 		end

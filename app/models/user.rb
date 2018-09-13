@@ -113,7 +113,7 @@ class User < ActiveRecord::Base
 	def update_last_submitted_at
 		if last = submits.order("submitted_at").last
 			update(last_submitted_at: last.submitted_at)
-		end	
+		end
 	end
 
 	def final_grade
