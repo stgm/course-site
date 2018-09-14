@@ -54,7 +54,7 @@
 					<li class="list-group-item d-flex align-items-center">
 						<%= pset_name %>
 						<span class="badge badge-primary ml-auto">
-							<%= link_to count.to_s + " done", publish_grades_path(pset_name), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %>
+							<%= link_to count.to_s + " done", publish_grades_path(pset:pset_name), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %>
 						</span>
 					</li>
 					<% end %>

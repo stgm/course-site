@@ -57,6 +57,13 @@ class GradesController < ApplicationController
 		redirect_to :back
 	end
 	
+	def publish
+		pset = Pset.find_by_name(params[:pset])
+		schedule = current_user.schedule
+		Grade.joins(submit: :user).where("submits.pset_id = ? and users.schedule_id = ?", pset.id, schedule.id).finished.update_all(status: Grade.statuses[:published])
+		render text: ""
+	end
+	
 	# mark grades public that have been marked as "finished" by the grader
 	def publish_finished
 		schedule = Schedule.find(params[:schedule])
