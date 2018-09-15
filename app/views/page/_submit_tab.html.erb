@@ -38,7 +38,7 @@ all required files, you cannot submit.</p>
 	<% files.each do |file| %>
 	<tr>
 		<td><%= file %></td>
-		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file) %></td>
+		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file), required: header == 'required' %></td>
 	</tr>
 	<% end   if files %>
 	<% end %>
