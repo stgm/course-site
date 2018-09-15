@@ -122,7 +122,10 @@ class PageController < ApplicationController
 		submit.file_contents = file_contents
 		submit.save
 		
-		submit.grade.open! if submit.grade
+		if submit.grade
+			submit.grade.grade = nil
+			submit.grade.open!
+		end
 	
 		# success
 		begin
