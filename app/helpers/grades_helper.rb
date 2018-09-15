@@ -22,17 +22,23 @@ module GradesHelper
 		return grade.to_s
 	end
 	
-	def grade_button(user, pset, subs)
+	def grade_button(user, pset, subs, name=true)
 		if subs[pset.id] && submit = subs[pset.id][0]
 			if grade = submit.grade
-				type = grade_button_type(grade.any_final_grade || "S", grade.public?)
-				link_to (grade.any_final_grade || "S"), submit_path(id: submit.id), class: "btn btn-sm flex-fill auto-hide #{type}", title: submit.pset_name, data: { toggle:"tooltip", placement:"top" }
+				type = grade_button_type(label(submit.pset_name, grade.any_final_grade), grade.public?)
+				link_to label(submit.pset_name, grade.any_final_grade), submit_path(id: submit.id), class: "btn btn-sm flex-fill auto-hide #{type}", title: submit.pset_name, data: { toggle:"tooltip", placement:"top" }
 			else
-				link_to 'S', submit_path(id: submit.id), class: "btn btn-sm flex-fill btn-light auto-hide", title:submit.pset_name, data: { toggle:"tooltip", placement:"top" }
+				link_to label(submit.pset_name, "S"), submit_path(id: submit.id), class: "btn btn-sm flex-fill btn-light auto-hide", title:submit.pset_name, data: { toggle:"tooltip", placement:"top" }
 			end
 		else
-			link_to '--', submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+			link_to label(pset.name, "--"), submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
 		end
+	end
+	
+	def label(name, grade, use_name=true)
+		retlabel = name 
+		retlabel += "<br>" + grade.to_s || 'S'
+		return retlabel.html_safe
 	end
 		
 	def format_grade(grade, type)
