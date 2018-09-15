@@ -14,6 +14,15 @@ class Submit < ActiveRecord::Base
 	serialize :style_feedback
 	serialize :file_contents
 
+	# TODO only hide stuff that's not been autograded if autograding is actually enabled
+	scope :to_grade,  -> do
+		includes(:user, :pset, :grade).
+		where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).
+		where(users: { active: true }).
+		where.not(check_feedback: nil, style_feedback:nil).
+		order('psets.name')
+	end
+	
 	def graded?
 		return (self.grade && (!self.grade.grade.blank? || !self.grade.calculated_grade.blank?))
 	end
