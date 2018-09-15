@@ -4,7 +4,7 @@
 	<% end %>
 	<div>
 	<h5><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %> <%= @student.login_id %></h5>
-	<%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %><br>
+	<%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %> <%= link_to fa_icon("envelope"), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new" %><br>
 	Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %>
 	</div>
 </div>
