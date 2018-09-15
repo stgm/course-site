@@ -29,11 +29,13 @@ class CourseTools
 		
 		if Settings['grading'] && Settings['grading']['grades']
 			counter = 1
+			Pset.update_all(order: nil)
 			Settings['grading']['grades'].each do |name, definition|
 				p = Pset.where(name: name).first_or_create
 				p.update_attribute(:order, counter)
-				p.update_attribute(:grade_type, definition['type'] || :float)
 				counter += 1
+				# TODO put "automatic" attribute into pset record
+				p.update_attribute(:grade_type, definition['type'] || :float)
 			end
 			# p = Pset.where(name: 'final').first_or_create
 			# p.update_attribute(:order, counter)

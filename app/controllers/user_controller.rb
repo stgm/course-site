@@ -22,7 +22,7 @@ class UserController < ApplicationController
 		@hands = @student.hands.where("note is not null").order("created_at desc")
 		@notes = @student.notes.order("created_at desc")
 		
-		@psets = Pset.order(:order)
+		@psets = Pset.order('"psets"."order" is null, "psets"."order"')
 		
 		respond_to do |format|
 			format.js { render 'user' }
