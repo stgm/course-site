@@ -69,7 +69,7 @@ class AlertsController < ApplicationController
 	def send_mail
 		from = Settings.mailer_from
 		if not alert_params[:schedule_id].blank?
-			recipients = Schedule.find(alert_params[:schedule_id]).users
+			recipients = Schedule.find(alert_params[:schedule_id]).users.active
 		else
 			recipients = User.active
 		end
