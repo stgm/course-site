@@ -31,7 +31,7 @@ class Submit < ActiveRecord::Base
 		if self.check_feedback.is_a?(Hash) && self.check_feedback["version"] && self.check_feedback["version"].start_with?("3")
 			# check50 v3
 			self.check_feedback["results"].count { |x| x["passed"].present? } / self.check_feedback["results"].size.to_f
-		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Hash) && x[0]["nTests"].is_a?(Integer)
+		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Hash) && self.check_feedback[0]["nTests"].is_a?(Integer)
 			self.check_feedback.collect { |f| f["nPassed"] }.sum / self.check_feedback.collect { |f| f["nTests"] }.sum.to_f
 		else
 			# older version of check50 used
