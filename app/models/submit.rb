@@ -85,16 +85,20 @@ class Submit < ActiveRecord::Base
 	def check_feedback_formatted
 		return "" if self.check_feedback.blank?
 
+		result = ""
+
 		if self.check_feedback.is_a?(Hash) && self.check_feedback["version"] && self.check_feedback["version"].start_with?("3")
 			v3=true
 			items = self.check_feedback["results"]
 			return self.check_feedback["error"]["value"] if items.nil?
+		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Hash) && self.check_feedback[0]["nTests"].is_a?(Integer)
+			v3=true
+			items = self.check_feedback.collect {|f| f["results"]}.flatten
 		else
 			v3=false
 			items = self.check_feedback
 		end
 
-		result = ""
 		items.each do |item|
 			case v3 && item["passed"] || item["status"]
 			when true
