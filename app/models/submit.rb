@@ -25,6 +25,8 @@ class Submit < ActiveRecord::Base
 	
 	before_save do |s|
 		if s.check_feedback_changed? || s.style_feedback_changed?
+			# TODO this is hardcoded to having keys "correctness" and "style" in the autograder
+			# which shouldn't be neccessary
 			s.auto_graded = s.pset.config["automatic"].collect do |k,v|
 				case k
 				when "correctness"
