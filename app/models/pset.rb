@@ -9,14 +9,8 @@ class Pset < ActiveRecord::Base
 	enum grade_type: [:integer, :float, :pass, :percentage]
 	
 	serialize :files, Hash
+	serialize :config
 
-	# def files=(val)
-	# 	# we would like this to be stored as an OpenStruct
-	# 	return super val if val.is_a? OpenStruct
-	#
-	# 	super OpenStruct.new val.to_h if val
-	# end
-	
 	def all_filenames
 		files.map { |h,f| f }.flatten.uniq
 	end

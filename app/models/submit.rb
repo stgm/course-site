@@ -19,10 +19,24 @@ class Submit < ActiveRecord::Base
 		includes(:user, :pset, :grade).
 		where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).
 		where(users: { active: true }).
-		where.not(check_feedback: nil, style_feedback:nil).
+		where("psets.automatic = ? or submits.auto_graded = ?", false, true).
 		order('psets.name')
 	end
 	
+	before_save do |s|
+		if s.check_feedback_changed? || s.style_feedback_changed?
+			s.auto_graded = s.pset.config["automatic"].collect do |k,v|
+				case k
+				when "correctness"
+					s.check_feedback.present?
+				when "style"
+					s.style_feedback.present?
+				end
+			end.all?
+		end
+		true
+	end
+
 	def graded?
 		return (self.grade && (!self.grade.grade.blank? || !self.grade.calculated_grade.blank?))
 	end

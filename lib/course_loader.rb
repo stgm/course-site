@@ -221,6 +221,8 @@ private
 						else
 							db_pset.files = nil
 						end
+						db_pset.config = Settings["grading"]["grades"][submit_config['name']]
+						db_pset.automatic = !!db_pset.config && db_pset.config["automatic"].present?
 						db_pset.save
 						
 						Pset.where("id != ?", db_pset).where(page_id: db_page).update_all(page_id: nil)

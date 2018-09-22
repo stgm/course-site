@@ -112,6 +112,7 @@ class PageController < ApplicationController
 		submit.folder_name = folder_name
 		submit.check_feedback = nil
 		submit.style_feedback = nil
+		submit.auto_graded = false
 		submit.submitted_files = params[:f].map { |file,info| info.original_filename } if params[:f]
 		if files = params[:f] and file_contents = {}
 			files.each do |filename, file|

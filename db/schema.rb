@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180907181846) do
+ActiveRecord::Schema.define(version: 20180922082709) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -169,6 +169,8 @@ ActiveRecord::Schema.define(version: 20180907181846) do
     t.integer  "weight"
     t.integer  "grade_type"
     t.text     "files"
+    t.boolean  "automatic",   default: false, null: false
+    t.text     "config"
   end
 
   add_index "psets", ["page_id"], name: "index_psets_on_page_id"
@@ -238,6 +240,7 @@ ActiveRecord::Schema.define(version: 20180907181846) do
     t.text     "check_feedback"
     t.text     "style_feedback"
     t.text     "file_contents"
+    t.boolean  "auto_graded",     default: false, null: false
   end
 
   add_index "submits", ["pset_id"], name: "index_submits_on_pset_id"
