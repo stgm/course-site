@@ -43,15 +43,22 @@
 		<td><%= user.started_at.strftime("%e %b") if user.started_at %></td>
 		<% end %>
 		
-		<td><%= user.submits.last.pset.name if user.submits.last %></td>
 
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
-		<td>
-			<% if g = user.grades.last %>
-			<%= link_to g.any_final_grade, "#", data: { toggle: "modal", target: "#grade-modal", submit:g.id }, class: "btn" %>
-			<% end %>
-		</td>
+
+<% 
+	subs = user.submits.group_by(&:pset_id)
+	#subs = @student.grades_cache || [] 
+%>
+
+<% @psets.each do |pset| %>
+<td>
+<%= grade_button(user, pset, subs)%>
+</td>
+<% end %>
+
+
 	</tr>
 	<% end %>
 

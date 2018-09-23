@@ -23,6 +23,7 @@ class SubmitsController < ApplicationController
 	def show
 		# load the submit and any grade that might be attached
 		@submit = Submit.find(params[:id])
+		@automatic_grades = @submit.automatic
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
 
 		# load other useful stuff

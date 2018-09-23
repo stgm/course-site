@@ -23,10 +23,11 @@ class Grade < ActiveRecord::Base
 	
 	# this adds automatic grades to the subgrades quite aggressively
 	after_initialize do
-		self.auto_grades = automatic()
-		# add any newly found autogrades to the subgrades as default
-		self.auto_grades.to_h.each do |k,v|
-			self.subgrades[k] = v if not self.subgrades[k].present?
+		if !self.persisted?
+			# add any newly found autogrades to the subgrades as default
+			self.submit.automatic().to_h.each do |k,v|
+				self.subgrades[k] = v if not self.subgrades[k].present?
+			end
 		end
 	end
 	
@@ -48,25 +49,6 @@ class Grade < ActiveRecord::Base
 		end if val
 
 		super OpenStruct.new val.to_h if val
-	end
-	
-	def automatic
-		f = Settings['grading']['grades'] if Settings['grading']
-		return {} if f.nil?
-
-		pset_name = self.pset.name
-		return {} if f[pset_name].nil? or f[pset_name]['automatic'].nil?
-
-		begin
-			# take all automatic rules and use it to create hash of grades
-			results = f[pset_name]['automatic'].transform_values do |rule|
-				self.instance_eval(rule)
-			end
-		rescue
-			return nil
-		end
-
-		return results
 	end
 	
 	def grade
@@ -148,14 +130,6 @@ class Grade < ActiveRecord::Base
 	
 	def update_grades_cache
 		user.update_grades_cache
-	end
-	
-	def check_score
-		self.submit.check_score
-	end
-	
-	def style_score
-		self.submit.style_score
 	end
 
 end

@@ -1,7 +1,7 @@
 unless self.private_methods.include? 'irb_binding'
 	scheduler = Rufus::Scheduler.new
 
-	unless defined?(Rails::Console) || File.split($0).last == 'rake'
+	unless (defined?(Rails::Console) || File.split($0).last == 'rake')
 
 		# If you want to change the mailing frequency, note that this frequency is
 		# present in two places in this code. One for running the scheduler regularly,

@@ -43,6 +43,23 @@ class Submit < ActiveRecord::Base
 		return (self.grade && (!self.grade.grade.blank? || !self.grade.calculated_grade.blank?))
 	end
 	
+	def automatic
+		f = pset.config
+		return {} if f.nil? || f['automatic'].nil?
+
+		# take all automatic rules and use it to create hash of grades
+		results = f['automatic'].transform_values do |rule|
+			puts rule
+			begin
+				self.instance_eval(rule)
+			rescue
+				nil
+			end
+		end
+
+		return results
+	end
+	
 	def check_score
 		if self.check_feedback.is_a?(Hash) && self.check_feedback["version"] && self.check_feedback["version"].start_with?("3")
 			# check50 v3

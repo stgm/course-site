@@ -46,7 +46,7 @@
 		<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
 		<% if subgrade_type == 'integer' %>
 		<div class="form-group">
-			<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %> (<%= @grade.auto_grades[subgrade_name] %>)</label>
+			<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %> (<%= @automatic_grades[subgrade_name] %>)</label>
 			<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="grade[subgrades[<%= subgrade_name %>]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
 		</div>
 		<% elsif subgrade_type == 'boolean' %>

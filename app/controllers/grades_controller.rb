@@ -12,6 +12,7 @@ class GradesController < ApplicationController
 		@user = @grade.user
 		@pset = @grade.pset
 		@submit = @grade.submit
+		# @automatic_grades = @grade.submit.automatic
 		# @grade = @submit.grade || @submit.build_grade({ grader: current_user })
 		# @grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
 		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']

@@ -32,9 +32,7 @@ class StudentsController < ApplicationController
 		end
 		
 		@psets = Pset.order(:order)
-		# @users = User.student.active.where({ schedule: @current_schedule }).includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
-		@users = @current_schedule.users.not_staff.includes(:group).order("groups.name").order(:name)
-		# @users = @current_schedule.users.not_staff.includes([:group, { :submits => :grade }]).order("groups.name").order(:name)
+		@users = @current_schedule.users.not_staff.includes(:group, { submits: [:pset, :grade] }).order("groups.name").order(:name)
 		
 		@active_count = @users.active.count
 		@registered_count = @users.registered.count
@@ -52,7 +50,11 @@ class StudentsController < ApplicationController
 			@users = @users.done
 		end
 		
+		logger.debug "HHAAAAKLJASLKASLK"
+		
 		@users = @users.group_by(&:group)
+
+		logger.debug "HHAAAAKLJASLKASLK"
 	end
 	
 	def find
