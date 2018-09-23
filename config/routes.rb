@@ -121,6 +121,10 @@ Rails.application.routes.draw do
 		# the grade that belongs to a specific submit
 		# resource :grade, only: [ :show, :update ]
 		
+		member do
+			get  "download"
+		end
+		
 		collection do
 			post "finish"
 			

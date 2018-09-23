@@ -52,6 +52,12 @@ class SubmitsController < ApplicationController
 		redirect_to :back
 	end
 	
+	def download
+		@submit = Submit.find(params[:id])
+		@file = @submit.file_contents[params[:filename]]
+		send_data @file, type: "text/plain", filename: params[:filename]
+	end
+	
 	private
 	
 	def load_grading_list
