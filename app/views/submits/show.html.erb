@@ -60,8 +60,7 @@
 	<div class="tab-content">
 		<% first = true %>
 		<% @submit.file_contents.each do |filename, contents| %>
-		<%= link_to 'd', { action: :download, submit_id: @submit.id, filename: filename }, class: 'pull-right' %>
-		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab"><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %></div>
+		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">		<%= link_to 'd', { action: :download, submit_id: @submit.id, filename: filename }, class: 'pull-right' %><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %></div>
 		<% end if @submit.file_contents.present? %>
 		<% if @submit.check_feedback.present? %>
 		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab"><code><pre><%= @submit.check_feedback_formatted %></code></pre></div>
