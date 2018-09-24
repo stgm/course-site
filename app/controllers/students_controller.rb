@@ -124,9 +124,10 @@ class StudentsController < ApplicationController
 				puts "That's submit #{s.id}"
 				if g = s.grade
 					g.subgrades.points = points.to_i
+					g.grader = current_user
 					g.save
 				else
-					s.create_grade(subgrades: { points: points.to_i })
+					s.create_grade(subgrades: { points: points.to_i }, grader: current_user)
 				end
 			end
 		end
