@@ -1,0 +1,23 @@
+<div class="col-12">
+
+<% @psets.each do |p| %>
+<%= link_to p.name, { pset_id: p.id } %> 
+<% end %>
+
+<%= form_tag students_quiz_submit_path do |f| %>
+<%= hidden_field_tag :pset_id, @pset.id %>
+<% @students.each do |s| %>
+  <div class="form-row">
+    <div class="col-2">
+      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="<%= s.name %>">
+    </div>
+    <div class="col-8">
+		<% bla = s.submits.where(pset_id: @pset.id).first%>
+      <input type="text" name="grades[<%= s.id %>]" class="form-control" placeholder="" value="<%= bla.grade.subgrades.points if bla %>">
+    </div>
+  </div>
+<% end %>
+<input type="submit">
+<% end %>
+
+</div>

@@ -110,6 +110,31 @@ class StudentsController < ApplicationController
 		redirect_to :back
 	end
 	
+	def quiz
+		@pset = Pset.find(params[:pset_id])
+		@psets = Pset.all
+		@students = current_user.schedule.users.order(:name)
+	end
+	
+	def quiz_submit
+		params[:grades].each do |user_id, points|
+			if points.present?
+				logger.debug "#{user_id}  #{points}"
+				s = Submit.where(user_id: user_id, pset_id: params[:pset_id]).first_or_create
+				puts "That's submit #{s.id}"
+				if g = s.grade
+					g.subgrades.points = points.to_i
+					g.save
+				else
+					s.create_grade(subgrades: { points: points.to_i })
+				end
+			end
+		end
+		
+		render text: "Done"
+	end
+	
+	
 	
 	
 	private

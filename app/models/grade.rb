@@ -92,6 +92,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def set_calculated_grade
+		logger.info "Setting calc grade"
 		if calculated_grade = calculate_grade(self)
 			case self.pset.grade_type
 			when 'float'
