@@ -13,6 +13,8 @@ class StatsController < ApplicationController
 		end
 		
 		@chart_data = @chart_data.flatten(1)
+		
+		@week_data = Hand.where(done: true).where("updated_at > ?", 1.week.ago).select("strftime('%H',created_at) as the_hour, date(created_at) as the_date").map { |h| [ h.the_date.remove("-"), h.the_hour.to_i+2] }
 	end
 
 end
