@@ -43,7 +43,9 @@ class PageController < ApplicationController
 		
 		if current_user.senior? && current_user.schedule
 			@groups = current_user.schedule.groups.order(:name)
-			@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
+			# @psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
+			logger.info "loading"
+			@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.id", "psets.name").count
 			@new_students = current_user.schedule.users.not_staff.groupless.active
 		end
 		

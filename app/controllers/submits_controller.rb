@@ -14,7 +14,7 @@ class SubmitsController < ApplicationController
 	def index
 		# immediately redirect to first thing that might be graded
 		if g = @to_grade.first
-			redirect_to submit_path(g)
+			redirect_to submit_path(g, params.slice(:pset, :group, :status))
 		else
 			redirect_back_with("There's nothing to grade from your grading groups yet!")
 		end
@@ -67,6 +67,15 @@ class SubmitsController < ApplicationController
 		elsif current_user.admin?
 			# admins get everything from their current schedule (they can switch schedules)
 			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedule)
+			if params[:group]
+				@to_grade = @to_grade.where(users: { group_id: params[:group] })
+			end
+			if params[:status]
+				@to_grade = @to_grade.where(grades: { status: params[:status] })
+			end
+			if params[:pset]
+				@to_grade = @to_grade.where(psets: { id: params[:pset] })
+			end
 		elsif current_user.head? && current_user.schedules.any?
 			# heads get stuff from one schedule, but from all groups
 			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedules)
