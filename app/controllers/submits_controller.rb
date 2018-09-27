@@ -66,7 +66,7 @@ class SubmitsController < ApplicationController
 			@to_grade = Submit.to_grade
 		elsif current_user.admin?
 			# admins get everything from their current schedule (they can switch schedules)
-			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedule)
+			@to_grade = Submit.admin_to_grade.where("users.schedule_id" => current_user.schedule)
 			if params[:group]
 				@to_grade = @to_grade.where(users: { group_id: params[:group] })
 			end

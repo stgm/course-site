@@ -19,7 +19,14 @@ class Submit < ActiveRecord::Base
 		includes(:user, :pset, :grade).
 		where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).
 		where(users: { active: true }).
-		# where("psets.automatic = ? or submits.auto_graded = ?", false, true).
+		where("psets.automatic = ? or submits.auto_graded = ?", false, true).
+		order('psets.name')
+	end
+
+	scope :admin_to_grade,  -> do
+		includes(:user, :pset, :grade).
+		where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).
+		where(users: { active: true }).
 		order('psets.name')
 	end
 	
