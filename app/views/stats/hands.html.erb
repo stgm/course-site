@@ -1,3 +1,9 @@
+<% content_for :math do %>
+<%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
+<% end %>
+
+<%= timeline @chart_data %>
+
 <table class="table">
 	<tr>
 		<th>created</th>
