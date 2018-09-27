@@ -23,7 +23,7 @@
 				{
 					label: ["Questions"],
 					backgroundColor: "rgba(255,221,50,0.2)",
-					borderColor: "rgba(255,221,50,1)",
+					borderColor: "#FC5D41",
 					data: <%=raw @week_data.to_json %>
 				}, 
 			]
@@ -34,6 +34,11 @@
 	        text: 'Predicted world population (millions) in 2050'
 	      }, scales: {
 	        yAxes: [{ 
+				ticks: {
+					max:20,
+					min:7,
+					stepSize: 1
+				},
 	          scaleLabel: {
 	            display: true,
 	            labelString: "Hour"
