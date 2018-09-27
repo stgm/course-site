@@ -14,9 +14,9 @@ class StatsController < ApplicationController
 		
 		@chart_data = @chart_data.flatten(1)
 		
-		@week_data = Hand.where(done: true).where("updated_at > ?", 1.week.ago).select("strftime('%H',created_at) as the_hour, date(created_at) as the_date").map { |h| { x: h.the_date.remove("-"), y: h.the_hour.to_i+2, r: 1 } }
-		# @week_data =  Hand.where(done: true).where("updated_at > ?", 1.week.ago).group_by_hour(:created_at, format: "%d %H").count.map { |h| [ h.created_at, h.the_hour.to_i+2] }
-
+		# @week_data = Hand.where(done: true).where("updated_at > ?", 1.week.ago).select("strftime('%H',created_at) as the_hour, date(created_at) as the_date").map { |h| { x: h.the_date.remove("-"), y: h.the_hour.to_i+2, r: 1 } }
+		# @week_data =  Hand.where(done: true).where("updated_at > ?", 1.week.ago).group_by_hour(:created_at).count.map { |h| [ h.created_at, h.the_hour.to_i+2] }
+		@week_data =  Hand.where(done: true).where("updated_at > ?", 1.week.ago).group_by_hour(:created_at).count.map { |h,v| { x: h.day, y: h.hour, r: v } }
 	end
 
 end
