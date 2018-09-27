@@ -1,10 +1,55 @@
 <% content_for :math do %>
 <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
+<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" %>
 <% end %>
 
 <%= timeline @chart_data, height: "500px" %>
 
-<%= scatter_chart @week_data, xtitle:"Day", ytitle:"Hour" %>
+<canvas id="myChart" width="400" height="400"></canvas>
+	
+<script>
+	var ctx = "myChart";
+	// var myBubbleChart = new Chart(ctx,{
+	//     type: 'bubble',
+	//     data: { datasets: { data: <%=raw @week_data.to_json %> } }
+	// });
+	
+	
+	new Chart(ctx, {
+	    type: 'bubble',
+	    data: {
+			labels: "Africa",
+			datasets: [
+				{
+					label: ["Questions"],
+					backgroundColor: "rgba(255,221,50,0.2)",
+					borderColor: "rgba(255,221,50,1)",
+					data: <%=raw @week_data.to_json %>
+				}, 
+			]
+	    },
+	    options: {
+	      title: {
+	        display: true,
+	        text: 'Predicted world population (millions) in 2050'
+	      }, scales: {
+	        yAxes: [{ 
+	          scaleLabel: {
+	            display: true,
+	            labelString: "Hour"
+	          }
+	        }],
+	        xAxes: [{ 
+	          scaleLabel: {
+	            display: true,
+	            labelString: "Date"
+	          }
+	        }]
+	      }
+	    }
+	});
+</script>
+	
 
 <table class="table">
 	<tr>
