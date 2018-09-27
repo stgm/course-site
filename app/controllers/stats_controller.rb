@@ -6,11 +6,13 @@ class StatsController < ApplicationController
 	def hands
 		@today = Hand.includes(:assist).where("created_at > ?", DateTime.yesterday.beginning_of_day).order("created_at desc")
 		
-		@chart_data = Hand.joins(:assist).where("hands.created_at > ?", Date.today.beginning_of_day).order("hands.created_at desc").group_by(&:assist).map do |assist, hands|
+		@chart_data = Hand.joins(:assist).where("hands.created_at > ? and hands.done = ?", Date.today.beginning_of_day, true).order("hands.created_at desc").group_by(&:assist).map do |assist, hands|
 			hands.map do |hand|
 				[assist.name, hand.claimed_at, hand.updated_at]
 			end
-		end.flatten(1)
+		end
+		
+		@chart_data = @chart_data.flatten(1)
 	end
 
 end
