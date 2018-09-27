@@ -16,7 +16,10 @@ class StatsController < ApplicationController
 		
 		# @week_data = Hand.where(done: true).where("updated_at > ?", 1.week.ago).select("strftime('%H',created_at) as the_hour, date(created_at) as the_date").map { |h| { x: h.the_date.remove("-"), y: h.the_hour.to_i+2, r: 1 } }
 		# @week_data =  Hand.where(done: true).where("updated_at > ?", 1.week.ago).group_by_hour(:created_at).count.map { |h| [ h.created_at, h.the_hour.to_i+2] }
-		@week_data =  Hand.where(done: true).where("updated_at > ?", 1.week.ago).group_by_hour(:created_at).count.map { |h,v| { x: h.day, y: h.hour.to_i+2, r: v } }
+		
+		date1 = Date.today.at_beginning_of_week - 1.week
+		date2 = Date.today.at_beginning_of_week
+		@week_data =  Hand.where(done: true).where("updated_at > ? and updated_at < ?", date1, date2).group_by_hour(:created_at).count.map { |h,v| { x: h.day, y: h.hour.to_i+2, r: v } }
 	end
 
 end
