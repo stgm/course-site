@@ -2,7 +2,7 @@
 	<a href="/" class="navbar-brand flex-fill d-flex">
 		<%= fa_icon "terminal", class: "pull-left fa-2x text-warning" %>
 		<div class="d-flex flex-column justify-content-center">
-		<span class="course-name"><%= Settings.short_course_name %></span>
+		<span class="course-name"><%= Settings["course"]["name"] %></span>
 		<small><%= @group_name || @schedule_name %></small>
 		</div>
 	</a>
