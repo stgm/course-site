@@ -2,7 +2,10 @@
 	<script type="text/x-mathjax-config">
 		MathJax.Hub.Config({
 			showProcessingMessages: true,
-			extensions: ["tex2jax.js"]
+			extensions: ["tex2jax.js"],
+			AsciiMath: {
+				decimalsign: ","
+			}
 		});
 	</script>
 	<%= mathjax_tag %>
