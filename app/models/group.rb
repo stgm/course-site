@@ -15,8 +15,8 @@ class Group < ActiveRecord::Base
 	# these are the staff that has been assigned to grade this group
 	has_and_belongs_to_many :graders, class_name: "User"
 
-	has_many :submits, through: :users
-	has_many :grades, through: :submits
+	has_many :submits, -> { where(user: {active: true}) } , through: :users
+	has_many :grades, -> { where(user: {active: true}) }, through: :submits
 	
 	# def self.import_user(user_id, group_name, user_name, user_mail)
 	# 	if login = Login.where(login: user_id).first

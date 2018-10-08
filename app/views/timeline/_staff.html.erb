@@ -41,7 +41,7 @@
 						<span class="badge badge-primary ml-auto"><%= link_to "#{group.submits.includes(:grade).where(grades: { submit_id: nil }).count} sub", submits_path(group: group.id), class: 'text-light' %></span>
 						<span class="badge badge-primary ml-1"><%= link_to "#{group.grades.open.count} gra", submits_path(group: group.id, status: Grade.statuses[:open]), class: 'text-light' %></span>
 						<span class="badge badge-primary ml-1"><%= link_to "#{group.grades.finished.count} fin", submits_path(group: group.id, status: Grade.statuses[:finished]), class: 'text-light' %></span>
-						<span class="badge badge-secondary ml-1"><%= link_to group.grades.finished.count.to_s + " reo", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
+						<span class="badge badge-secondary ml-1"><%= link_to "#{group.grades.finished.count} reo", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
 					</li>
 					<% end %>
 				</ul>
