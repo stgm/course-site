@@ -9,15 +9,15 @@
 <% end %>
 </div>
 
-<%= line_chart [
+<%= column_chart [
 {
 	name: "total",
 	data: @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
-},
-{
-	name: "local",
-	data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
 }
+# {
+# 	name: "local",
+# 	data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
+# }
 ], height: "150px", stacked: true %>
 
 <div id="timeline" class="row">
