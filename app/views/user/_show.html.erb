@@ -9,10 +9,10 @@
 <% end %>
 </div>
 
-<%= column_chart [
+<%= line_chart [
 {
-	name: "remote",
-	data: @student.attendance_records.where(local: [nil, false]).group_by_day(:cutoff, format: "%a %d-%m").count
+	name: "total",
+	data: @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
 },
 {
 	name: "local",
