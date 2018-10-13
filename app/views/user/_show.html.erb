@@ -9,7 +9,7 @@
 <% end %>
 </div>
 
-<%= column_chart [
+<%= line_chart [
 {
 	name: "total",
 	data: @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
