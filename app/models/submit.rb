@@ -73,6 +73,9 @@ class Submit < ActiveRecord::Base
 			self.check_feedback["results"].count { |x| x["passed"].present? } / self.check_feedback["results"].size.to_f
 		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Hash) && self.check_feedback[0]["nTests"].is_a?(Integer)
 			self.check_feedback.collect { |f| f["nPassed"] }.sum
+		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Array)
+			fb = self.check_feedback.flatten(1)
+			fb.count { |x| x["status"].present? } / fb.size.to_f
 		else
 			# older version of check50 used
 			self.check_feedback.count { |x| x["status"].present? } / self.check_feedback.size.to_f
@@ -134,6 +137,9 @@ class Submit < ActiveRecord::Base
 		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Hash) && self.check_feedback[0]["nTests"].is_a?(Integer)
 			v3=true
 			items = self.check_feedback.collect {|f| f["results"]}.flatten
+		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Array)
+			v3=false
+			items = self.check_feedback.flatten(1)
 		else
 			v3=false
 			items = self.check_feedback
