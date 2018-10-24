@@ -107,8 +107,6 @@ class Grade < ActiveRecord::Base
 			self.calculated_grade = nil
 		end
 	end
-
-	private
 	
 	def calculate_grade(grade)
 		puts grade.inspect
@@ -123,6 +121,9 @@ class Grade < ActiveRecord::Base
 		end
 		return cg
 	end
+	
+	private
+	
 	
 	def unpublicize_if_undone
 		self.status = Grade.statuses[:open] unless self.any_final_grade.present?
