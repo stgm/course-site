@@ -12,7 +12,7 @@ class PageController < ApplicationController
 		if not Page.any?
 			# no pages at all means probably not configured yet
 			onboard
-		elsif logged_in?
+		elsif logged_in? && @alerts.any?
 			announcements
 		else
 			syllabus
