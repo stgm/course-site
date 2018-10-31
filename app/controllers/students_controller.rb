@@ -100,16 +100,6 @@ class StudentsController < ApplicationController
 	
 
 
-	def assign_all_final
-		schedule = params[:schedule] && Schedule.find(params[:schedule])
-		users = schedule && schedule.users
-
-		users.each do |u|
-			u.assign_final_grade(@current_user)
-		end
-		redirect_to :back
-	end
-	
 	def quiz
 		@pset = Pset.find(params[:pset_id])
 		@psets = Pset.all

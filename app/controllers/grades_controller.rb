@@ -94,6 +94,18 @@ class GradesController < ApplicationController
 		redirect_to :back
 	end
 	
+	def assign_all_final
+		schedule = params[:schedule] && Schedule.find(params[:schedule])
+		users = schedule && schedule.users
+
+		users.each do |u|
+			u.assign_final_grade(@current_user)
+		end
+		redirect_to :back
+	end
+	
+	
+	
 	private
 	
 	def grade_params
