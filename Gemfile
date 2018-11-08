@@ -76,3 +76,7 @@ gem 'garlicjs-rails'
 gem 'turbolinks'
 gem 'font-awesome-rails'
 gem 'coderay'
+
+# shut up safari
+gem 'quiet_safari', group: :development
+

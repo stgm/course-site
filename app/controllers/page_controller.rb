@@ -116,7 +116,8 @@ class PageController < ApplicationController
 		submit.style_feedback = nil
 		submit.auto_graded = false
 		submit.submitted_files = params[:f].map { |file,info| info.original_filename } if params[:f]
-		if files = params[:f] and file_contents = {}
+		if files = params[:f]
+			file_contents = {}
 			files.each do |filename, file|
 				name = file.original_filename
 				file.rewind and file_contents[name] = file.read if text_file?(name)

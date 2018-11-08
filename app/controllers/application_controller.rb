@@ -20,8 +20,10 @@ class ApplicationController < ActionController::Base
 	helper_method :current_user, :logged_in?, :authenticated?
 	
 	def register_attendance
-		if current_user.persisted? #&& request_from_local_network?
+		if (!session[:last_seen_at] || session[:last_seen_at] && session[:last_seen_at] < 15.minutes.ago) && current_user.persisted?
+			logger.debug "Setting LAST_SEEN_AT session"
 			AttendanceRecord.create_for_user(current_user, request_from_local_network?)
+			session[:last_seen_at] = DateTime.now
 		end
 	end
 	
@@ -65,8 +67,10 @@ class ApplicationController < ActionController::Base
 			else
 				@current_schedule = @schedule.current
 			end
-			@schedule_name = @schedule.name
-			@group_name = current_user.group.name if current_user.group
+			if Schedule.count > 1
+				@schedule_name = @schedule.name
+				@group_name = current_user.group.name if current_user.group
+			end
 		end
 		
 		# load alerts

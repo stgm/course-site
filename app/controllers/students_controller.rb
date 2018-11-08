@@ -50,11 +50,7 @@ class StudentsController < ApplicationController
 			@users = @users.done
 		end
 		
-		logger.debug "HHAAAAKLJASLKASLK"
-		
 		@users = @users.group_by(&:group)
-
-		logger.debug "HHAAAAKLJASLKASLK"
 	end
 	
 	def find
