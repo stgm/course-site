@@ -1,7 +1,8 @@
 class GradesController < ApplicationController
 
 	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_staff
+	before_filter :require_admin, except: [:update, :templatize]
+	before_filter :require_staff, only: [:update, :templatize]
 	
 	# TODO require empty grade, admin or it's my grade
 	

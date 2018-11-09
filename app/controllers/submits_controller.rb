@@ -79,6 +79,15 @@ class SubmitsController < ApplicationController
 		elsif current_user.head? && current_user.schedules.any?
 			# heads get stuff from one schedule, but from all groups
 			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedules)
+			if params[:group]
+				@to_grade = @to_grade.where(users: { group_id: params[:group] })
+			end
+			if params[:status]
+				@to_grade = @to_grade.where(grades: { status: params[:status] })
+			end
+			if params[:pset]
+				@to_grade = @to_grade.where(psets: { id: params[:pset] })
+			end
 		elsif current_user.assistant? && (Group.any? || Schedule.any?) && (current_user.groups.any? || current_user.schedules.any?)
 			# other assistants get stuff only from their assigned group
 			@to_grade = Submit.to_grade.where(["users.group_id in (?) or users.schedule_id in (?)", current_user.groups.pluck(:id), current_user.schedules.pluck(:id)])
