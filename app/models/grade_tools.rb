@@ -134,12 +134,12 @@ class GradeTools
 				}.max
 				log("                                    : #{grade}")
 
-				return 0 if grade == 0
+				log("max is 0") and return 0 if grade == 0
 				total += grade * real_weight
 				total_weight += real_weight
 			else
 			
-				return 0 if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
+				log("this grade is 0") and return 0 if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
 			
 				if subs[grade] != droppable_grade
 					total += subs[grade].any_final_grade * weight
