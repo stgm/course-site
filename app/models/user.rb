@@ -120,9 +120,13 @@ class User < ActiveRecord::Base
 		'N/A'
 	end
 	
+	def all_submits()
+		self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
+	end
+	
 	def assign_final_grade(grader)
 		# generate hash of  pset_name: submit_object
-		subs = self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
+		subs = self.all_submits()
 		tools = GradeTools.new
 		
 		tools.log "Calculating\n"
@@ -130,7 +134,7 @@ class User < ActiveRecord::Base
 		# calc grade from hash
 		Settings['grading']['calculation'].each do |name, formula|
 			tools.log "- #{name}"
-			grade = GradeTools.new.calc_final_grade_formula(subs, formula)
+			grade = tools.calc_final_grade_formula(subs, formula)
 			tools.log "    - result: #{grade}"
 			if grade > 0
 				final = self.submits.where(pset:Pset.where(name: name).first).count > 0
