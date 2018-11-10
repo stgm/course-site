@@ -40,6 +40,8 @@ class Submit < ActiveRecord::Base
 					s.check_feedback.present?
 				when "style"
 					s.style_feedback.present?
+				else
+					true
 				end
 			end.all?
 		end

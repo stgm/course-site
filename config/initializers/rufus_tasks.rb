@@ -24,10 +24,12 @@ unless self.private_methods.include? 'irb_binding'
 
 		scheduler.every '55m' do
 			safely do
-				if Settings.send_grade_mails && Settings.mailer_from.present?
-					Grade.where("grades.mailed_at is null").published.joins([:submit]).find_each do |g|
-						GradeMailer.new_mail(g).deliver
-						g.touch(:mailed_at)
+			    ActiveRecord::Base.transaction do
+					if Settings.send_grade_mails && Settings.mailer_from.present?
+						Grade.where("grades.mailed_at is null").published.joins([:submit]).find_each do |g|
+							GradeMailer.new_mail(g).deliver
+							g.touch(:mailed_at)
+						end
 					end
 				end
 			end
@@ -35,7 +37,9 @@ unless self.private_methods.include? 'irb_binding'
 	
 		scheduler.cron '00 06 * * *' do
 			safely do
-				User.all.each &:update_last_submitted_at
+			    ActiveRecord::Base.transaction do
+					User.all.each &:update_last_submitted_at
+				end
 			end
 		end
 	
@@ -52,28 +56,34 @@ unless self.private_methods.include? 'irb_binding'
 		# 	end
 		# end
 
-		scheduler.every '35m' do
+		scheduler.every '135m' do
 			safely do
-				User.all.each do |u|
-					u.take_attendance
+			    ActiveRecord::Base.transaction do
+					User.all.each do |u|
+						u.take_attendance
+					end
 				end
 			end
 		end
 
 		scheduler.cron '30 06 * * *' do
 			safely do
-				User.all.each do |u|
-					u.update_attribute(:questions_count_cache, u.hands.count)
+			    ActiveRecord::Base.transaction do
+					User.all.each do |u|
+						u.update_attribute(:questions_count_cache, u.hands.count)
+					end
 				end
 			end
 		end
 	
 		scheduler.cron '00 05 * * *' do
 			safely do
-				# reset locations
-				User.update_all(last_known_location: nil)
-				# reset hands that were never released
-				Hand.where("updated_at < ?", Date.today).where(done: false).update_all(done: true)
+			    ActiveRecord::Base.transaction do
+					# reset locations
+					User.update_all(last_known_location: nil)
+					# reset hands that were never released
+					Hand.where("updated_at < ?", Date.today).where(done: false).update_all(done: true)
+				end
 			end
 		end
 
