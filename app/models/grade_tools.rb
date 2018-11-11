@@ -22,16 +22,22 @@ class GradeTools
 	def calc_final_grade_formula(subs, formula)
 		total = 0
 		total_weight = 0
+		insufficient = false
 		formula.each do |subtype, weight|
 			log("    - #{subtype}")
 			grade = calc_final_grade_subtype(subs, subtype)
 			# can't find grade so return nil
 			return nil if grade == nil
+			insufficient = true if grade == 0
 			total += grade * weight
 			total_weight += weight
 		end
 		
-		return uva_round(total.to_f / total_weight.to_f)
+		if insufficient
+			return 0
+		else
+			return uva_round(total.to_f / total_weight.to_f)
+		end
 	end
 	
 	private
@@ -48,20 +54,7 @@ class GradeTools
 		total = 0
 		total_weight = 0
 		
-		# droppable_grade = nil
-		
-		# if (@grading[subtype]['drop'] == 'correctness')
-			# raise "BUG"
-			# droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
-		# end
-		
 		grades = []
-		
-		# if (@grading[subtype]['drop'] == 'scope')
-		# 	potential_drops = Grade.joins(:pset).where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).to_a
-		# 	potential_drops.keep_if { |a| a.subgrades[:scope] == 5 }
-			# grades = potential_drops.map { |d| calc_subtype_with_potential_drop(subs, subtype, @grading[subtype]['minimum'], d) }
-		# end
 		
 		grades << calc_subtype_with_potential_drop(subs, subtype, @grading[subtype]['minimum'], nil)
 		
@@ -102,7 +95,6 @@ class GradeTools
 				if subs[grade] != droppable_grade
 					total += subs[grade].any_final_grade * weight
 					total_weight += weight
-					# puts "including #{subs[grade].any_final_grade * weight}"
 				end
 			end
 		end
