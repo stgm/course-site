@@ -125,6 +125,8 @@ class User < ActiveRecord::Base
 	end
 	
 	def assign_final_grade(grader)
+		logger.info "Trying to assign grade to user #{self.name}"
+		
 		# generate hash of { pset_name: submit_object }
 		subs = self.all_submits
 		tools = GradeTools.new
@@ -144,6 +146,7 @@ class User < ActiveRecord::Base
 					final.grade.grade = grade
 					final.grade.grader = grader
 					if final.grade.changed?
+						logger.info "  changed to #{final.grade.grade}"
 						final.grade.status = Grade.statuses['finished']
 						final.grade.save
 					end
@@ -151,6 +154,7 @@ class User < ActiveRecord::Base
 
 			end
 		end
+		
 		
 		return tools.get_log
 		
