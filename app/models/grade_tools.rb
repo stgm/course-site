@@ -107,7 +107,7 @@ class GradeTools
 				total_weight += real_weight
 			else
 				# can't find grade so return nil
-				log("this grade is 0") and return nil if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
+				log("this grade is nil") and return nil if subs[grade].nil? or subs[grade].any_final_grade.nil? #or subs[grade].any_final_grade == 0
 			
 				if subs[grade] != droppable_grade
 					total += subs[grade].any_final_grade * weight
