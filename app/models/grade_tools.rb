@@ -11,6 +11,7 @@ class GradeTools
 	end
 	
 	def log(something)
+		@log ||= ""
 		@log << something + "\n"
 	end
 	
