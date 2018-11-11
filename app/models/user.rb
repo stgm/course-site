@@ -155,7 +155,7 @@ class User < ActiveRecord::Base
 			end
 		end
 		
-		puts tools.get_log
+		logger.info tools.get_log
 		return tools.get_log
 		
 		# save
