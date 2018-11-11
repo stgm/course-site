@@ -37,8 +37,10 @@ class GradeTools
 				return 0
 			end
 
-			total += grade * weight
-			total_weight += weight
+			if grade != nil
+				total += grade * weight
+				total_weight += weight
+			end
 		end
 		
 		if missing_data
