@@ -19,6 +19,7 @@ class ApiController < ApplicationController
 	end
 
 	def verify_signature(payload_body)
+		# TODO ignore request if Settings.webhook_secret is not set
 		secret = Settings.webhook_secret
 		signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, payload_body)
 		render text:'', status:500 unless request.env['HTTP_X_HUB_SIGNATURE'].present? && Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])

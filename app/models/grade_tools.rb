@@ -18,20 +18,6 @@ class GradeTools
 		@@log
 	end
 	
-	# def calc_final_grade(subs)
-	# 	logger.info "Trying to calculate final grade"
-	#
-	# 	@grading['calculation'].each do |name, formula|
-	# 		grade = calc_final_grade_formula(subs, formula)
-	# 		if grade > 0
-	# 			return grade
-	# 		end
-	# 	end
-	# 	return 0
-	# end
-	
-	# private
-
 	def calc_final_grade_formula(subs, formula)
 		total = 0
 		total_weight = 0
@@ -60,56 +46,25 @@ class GradeTools
 		total = 0
 		total_weight = 0
 		
-		# case @grading[subtype]['type']
-		# when 'pass'
-		# 	allow_drop = @grading[subtype]['drop'] == 'any' ? 1 : 0
-		# 	@grading[subtype]['submits'].each do |grade, weight|
-		# 		log("        - grade")
-		# 		return 0 if subs[grade].nil?
-		# 		return 0 if @grading[subtype]['required'] == true && subs[grade].any_final_grade == 0
-		# 		if subs[grade].any_final_grade == 0 && allow_drop >= 1
-		# 			allow_drop -= 1
-		# 		else
-		# 			total += weight if subs[grade].any_final_grade < 0
-		# 			total_weight += weight
-		# 		end
-		# 	end
-		# 	return (1.0 + 9.0 * total / total_weight).round(1)
-		# when 'percentage'
-		# 	#
-		# else
-			droppable_grade = nil
-			
-			if (@grading[subtype]['drop'] == 'correctness')
-				# raise "BUG"
-				# droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
-			end
-			
-			grades = []
-			
-			if (@grading[subtype]['drop'] == 'scope')
-				potential_drops = Grade.joins(:pset).where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).to_a
-				# puts "DROPS"
-				# potential_drops.each do |x| puts x.pset.name end
-				potential_drops.keep_if { |a| a.subgrades[:scope] == 5 }
-				# potential_drops.each do |x| puts x.pset.name end
-				# droppable_grade = potential_drops.min { |a,b| a.any_final_grade <=> b.any_final_grade }
-				grades = potential_drops.map { |d| calc_subtype_with_potential_drop(subs, subtype, @grading[subtype]['minimum'], d) }
-			end
-			
-			grades << calc_subtype_with_potential_drop(subs, subtype, @grading[subtype]['minimum'], nil)
-			
-			# Rails.logger.debug "GRADES=#{grades}"
-			
-			# grade_with_drop = calc_subtype_with_potential_drop(subs, subtype, droppable_grade)
-			# grade_without_drop = calc_subtype_with_potential_drop(subs, subtype, nil)
-
-			# Rails.logger.debug [grade_with_drop, grade_without_drop].max
-			# return [grade_with_drop, grade_without_drop].max
-			log("        - final result: #{grades.max}")
-			
-			return grades.max
+		# droppable_grade = nil
+		
+		# if (@grading[subtype]['drop'] == 'correctness')
+			# raise "BUG"
+			# droppable_grade = Grade.joins(:pset).where('grades.correctness >= 2').where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).order('grade asc, calculated_grade asc').first
 		# end
+		
+		grades = []
+		
+		# if (@grading[subtype]['drop'] == 'scope')
+		# 	potential_drops = Grade.joins(:pset).where('grades.id in (?)', subs.values).where('psets.name in (?)', @grading[subtype]['submits'].keys).to_a
+		# 	potential_drops.keep_if { |a| a.subgrades[:scope] == 5 }
+			# grades = potential_drops.map { |d| calc_subtype_with_potential_drop(subs, subtype, @grading[subtype]['minimum'], d) }
+		# end
+		
+		grades << calc_subtype_with_potential_drop(subs, subtype, @grading[subtype]['minimum'], nil)
+		
+		log("        - final result: #{grades.max}")
+		return grades.max
 	end
 	
 	def calc_subtype_with_potential_drop(subs, subtype, needs_minimum, droppable_grade)
