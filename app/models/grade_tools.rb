@@ -1,6 +1,6 @@
 class GradeTools
 	
-	@@log = ""
+	@log = ""
 
 	def self.available?
 		!!Settings['grading'] && !!Settings['grading']['calculation']
@@ -11,11 +11,11 @@ class GradeTools
 	end
 	
 	def log(something)
-		@@log << something + "\n"
+		@log << something + "\n"
 	end
 	
 	def get_log
-		@@log
+		@log
 	end
 	
 	def calc_final_grade_formula(subs, formula)
