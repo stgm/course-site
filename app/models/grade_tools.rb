@@ -23,19 +23,33 @@ class GradeTools
 		total = 0
 		total_weight = 0
 		insufficient = false
+		missing_data = false
+		
 		formula.each do |subtype, weight|
 			log("    - #{subtype}")
 			grade = calc_final_grade_subtype(subs, subtype)
-			# can't find grade so return nil
-			return nil if grade == nil
-			insufficient = true if grade == 0
+			
+			missing_data = true if grade == nil  # missing grades, so we might return nil
+			insufficient = true if grade == 0    # grade came back 0, so we'll return insuff later
+			
+			# we can immediately assign insuff if a grade that requires a minimum (exam) is insuff
+			if grade == 0 && @grading[subtype]['minimum'].present?
+				return 0
+			end
+
 			total += grade * weight
 			total_weight += weight
 		end
 		
-		if insufficient
+		if missing_data
+			# if we have grades missing (except if exam was failed, see above)
+			return nil
+		elsif insufficient
+			# if any part is insufficient (e.g., below minimum)
+			# this won't do much, no difference with the exam thing above
 			return 0
 		else
+			# otherwise we can actually calculate
 			return uva_round(total.to_f / total_weight.to_f)
 		end
 	end
