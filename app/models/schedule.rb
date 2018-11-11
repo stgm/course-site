@@ -13,6 +13,7 @@ class Schedule < ActiveRecord::Base
 	
 	# These are the students in the schedule
 	has_many :users
+	has_many :submits, through: :users
 	has_many :grades, through: :users
 	has_many :hands, through: :users
 	

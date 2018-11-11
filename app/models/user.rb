@@ -136,29 +136,25 @@ class User < ActiveRecord::Base
 			tools.log "- #{name}"
 			grade = tools.calc_final_grade_formula(subs, formula)
 			tools.log "    - result: #{grade}"
-			if grade > 0
+			if grade.present?
 				final = self.submits.where(pset:Pset.where(name: name).first)
-				# either we've got an unpublished final grade that may be updated now,
-				# or 
-				if final.count > 0 || grade > 0
+				# set grade either if there was already a grade or if sufficient or if insuff ok
+				if final.count > 0 || grade.present?
 					final = self.submits.where(pset:Pset.where(name: name).first).first_or_create
 					final.create_grade if !final.grade
 					final.grade.grade = grade
-					final.grade.grader = grader
-					if final.grade.changed?
+					if final.grade.grade_changed?
 						logger.info "  changed to #{final.grade.grade}"
+						final.grade.grader = grader
 						final.grade.status = Grade.statuses['finished']
 						final.grade.save
 					end
 				end
-
 			end
 		end
 		
-		logger.info tools.get_log
+		# logger.info tools.get_log
 		return tools.get_log
-		
-		# save
 	end
 	
 	def take_attendance

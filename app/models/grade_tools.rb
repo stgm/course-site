@@ -25,7 +25,8 @@ class GradeTools
 		formula.each do |subtype, weight|
 			log("    - #{subtype}")
 			grade = calc_final_grade_subtype(subs, subtype)
-			return 0 if grade == 0
+			# can't find grade so return nil
+			return nil if grade == nil
 			total += grade * weight
 			total_weight += weight
 		end
@@ -90,12 +91,13 @@ class GradeTools
 				}.max
 				log("                                    : #{grade}")
 
-				log("max is 0") and return 0 if grade == 0
+				# can't find grade so return nil
+				log("max is 0") and return nil if grade == 0
 				total += grade * real_weight
 				total_weight += real_weight
 			else
-			
-				log("this grade is 0") and return 0 if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
+				# can't find grade so return nil
+				log("this grade is 0") and return nil if subs[grade].nil? or subs[grade].any_final_grade.nil? or subs[grade].any_final_grade == 0
 			
 				if subs[grade] != droppable_grade
 					total += subs[grade].any_final_grade * weight
@@ -106,7 +108,7 @@ class GradeTools
 		end
 		final = (1.0 * total / total_weight)
 		log("            - result: #{final}")
-		if !needs_minimum.present? or final >= needs_minimum
+		if !needs_minimum.present? || final >= needs_minimum
 			return (1.0 * total / total_weight)
 		else
 			return 0
