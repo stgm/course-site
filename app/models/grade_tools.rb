@@ -33,7 +33,8 @@ class GradeTools
 			insufficient = true if grade == 0    # grade came back 0, so we'll return insuff later
 			
 			# we can immediately assign insuff if a grade that requires a minimum (exam) is insuff
-			if grade == 0 && @grading[subtype]['minimum'].present?
+			if grade == 0 && (@grading[subtype]['minimum'].present? ||
+				              @grading[subtype]['required'].present?)
 				return 0
 			end
 
