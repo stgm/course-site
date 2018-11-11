@@ -78,10 +78,10 @@ class GradeTools
 			# the maximum of multiple grades may be used, when specified as an array
 			#   e.g. mario: [12, mario, mario-more]
 			if weight.is_a?(Array)
-				real_weight = weight.shift # first element is weight
+				real_weight = weight.first # first element is weight
 				log("              choosing from multiple: #{weight}")
 				# get all grades for those assignments and take maximum, ignoring non-grades
-				grade = weight.map { |grade_name| 
+				grade = weight.drop(1).map { |grade_name| 
 					if subs[grade_name]
 						subs[grade_name].any_final_grade || 0
 					else
