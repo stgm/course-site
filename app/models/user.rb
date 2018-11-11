@@ -135,8 +135,10 @@ class User < ActiveRecord::Base
 			grade = tools.calc_final_grade_formula(subs, formula)
 			tools.log "    - result: #{grade}"
 			if grade > 0
-				final = self.submits.where(pset:Pset.where(name: name).first)#.count > 0
-				if final.count > 0 && final.first.status != Grade.statuses['published'] || grade > 0
+				final = self.submits.where(pset:Pset.where(name: name).first)
+				# either we've got an unpublished final grade that may be updated now,
+				# or 
+				if final.count > 0 || grade > 0
 					final = self.submits.where(pset:Pset.where(name: name).first).first_or_create
 					final.create_grade if !final.grade
 					final.grade.grade = grade
