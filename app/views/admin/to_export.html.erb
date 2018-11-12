@@ -8,6 +8,9 @@
 			<%= g.user.group.name if g.user and g.user.group %>
 		</td>
 		<td>
+			<%= g.user.login_id if g.user %>
+		</td>
+		<td>
 			<%= g.user_name %>
 		</td>
 		<td>
@@ -19,3 +22,6 @@
 	</tr>
 	<% end %>
 </table>
+
+<%= link_to "Download grades", admin_to_export_path(format: :xlsx), class: 'btn btn-primary' %>
+<%= link_to "Mark as exported", admin_to_export_do_path, method: :post, class: 'btn btn-primary', data: { confirm: "Sure?" } %>
