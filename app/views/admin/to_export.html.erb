@@ -1,0 +1,21 @@
+<table class="table">
+	<% @grades.each do |g| %>
+	<tr>
+		<td>
+			<%= g.user.schedule.name if g.user and g.user.schedule %>
+		</td>
+		<td>
+			<%= g.user.group.name if g.user and g.user.group %>
+		</td>
+		<td>
+			<%= g.user_name %>
+		</td>
+		<td>
+			<%= g.pset_name %>
+		</td>
+		<td>
+			<%= g.any_final_grade %>
+		</td>
+	</tr>
+	<% end %>
+</table>
