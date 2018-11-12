@@ -5,7 +5,7 @@ class AdminController < ApplicationController
 	
 	def export_grades
 		@users = User.student.joins(:submits).uniq.order('name')
-		@psets = Pset.order(:id)
+		@psets = Pset.order(:order)
 		@title = "Export grades"
 		respond_to do |format|
 			format.xlsx
