@@ -2,6 +2,7 @@ class Grade < ActiveRecord::Base
 
 	belongs_to :submit
 	has_one :user, through: :submit
+	delegate :name, to: :user, prefix: true, allow_nil: true
 	has_one :pset, through: :submit
 	delegate :name, to: :pset, prefix: true, allow_nil: true
 
@@ -16,7 +17,7 @@ class Grade < ActiveRecord::Base
 	# for use in the grade calculation formulae in grading.yml
 	serialize :subgrades, OpenStruct
 	
-	enum status: [:open, :finished, :published, :discussed]
+	enum status: [:open, :finished, :published, :discussed, :exported]
 	
 	scope :published,  -> { where(status: Grade.statuses[:published]) }
 	
@@ -32,7 +33,7 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def public?
-		published? or discussed?
+		published? or discussed? or exported?
 	end
 	
 	def auto_grades

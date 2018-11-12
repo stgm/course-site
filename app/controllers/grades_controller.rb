@@ -18,7 +18,7 @@ class GradesController < ApplicationController
 		# @grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
 		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 
-		if @submit.grade && (@submit.grade.finished? || @submit.grade.published? || @submit.grade.discussed?)
+		if @submit.grade && (@submit.grade.finished? || @submit.grade.public?)
 			
 		else
 			render '_form'

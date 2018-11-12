@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 	get  "admin/export_grades"
 	get  "admin/schedule"
 	post "admin/set_schedule"
+	get  "admin/to_export"
+	post "admin/to_export_do"
 	
 	get  "stats/hands"
 	

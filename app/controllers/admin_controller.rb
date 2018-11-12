@@ -11,6 +11,15 @@ class AdminController < ApplicationController
 			format.xlsx
 		end
 	end
+	
+	def to_export
+		final_grade_names = Settings.grading['calculation'].keys
+		@psets = Pset.where(name: final_grade_names)
+		@grades = Grade.joins([submit: :pset, user: [:schedule, :group]]).includes(:user).where(submits: { pset_id: @psets }).published.order('schedules.name', 'psets.name', 'groups.name')
+	end
+	
+	def to_export_do
+	end
 
 	def dump_grades
 		@students = User.order(:name)

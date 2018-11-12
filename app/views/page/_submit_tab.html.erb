@@ -1,6 +1,6 @@
 <h2>Submit Form</h2>
 
-<% if (@grading && !@grading.published?) || (@grading &&  @grading.any_final_grade.present? && @grading.any_final_grade > 0) %>
+<% if (@grading && !@grading.public?) || (@grading &&  @grading.any_final_grade.present? && @grading.any_final_grade > 0) %>
 
 <p>You can't submit this problem, because a previous submission is currently being graded or has been graded.</p>
 
