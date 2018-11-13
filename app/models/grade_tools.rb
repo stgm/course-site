@@ -32,7 +32,7 @@ class GradeTools
 			
 			missing_data = true if grade == nil  # missing grades, so we might return nil
 			insufficient = true if grade == 0    # grade came back 0, so we'll return insuff later
-			exam_done    = true if @grading[subtype]['exam'].present? && @grading[subtype]['exam']
+			exam_done    = true if grade && @grading[subtype]['exam'].present? && @grading[subtype]['exam']
 			
 			log("      exam = #{exam_done}, missing = #{missing_data}, insuff = #{insufficient}")
 			
