@@ -32,7 +32,7 @@ class GradeTools
 			
 			missing_data = true if grade == nil  # missing grades, so we might return nil
 			insufficient = true if grade == 0    # grade came back 0, so we'll return insuff later
-			exam_done    = true if @grading[subtype]['required'].present? && @grading[subtype]['required']
+			exam_done    = true if @grading[subtype]['exam'].present? && @grading[subtype]['exam']
 			
 			# we can immediately assign insuff if a grade that requires a minimum (exam) is insuff
 			if !exam_done && grade == 0 && (@grading[subtype]['minimum'].present? ||
