@@ -20,10 +20,11 @@ class GradeTools
 	end
 	
 	def calc_final_grade_formula(subs, formula)
-		total = 0
+		total        = 0
 		total_weight = 0
 		insufficient = false
 		missing_data = false
+		exam_done    = false
 		
 		formula.each do |subtype, weight|
 			log("    - #{subtype}")
@@ -31,10 +32,11 @@ class GradeTools
 			
 			missing_data = true if grade == nil  # missing grades, so we might return nil
 			insufficient = true if grade == 0    # grade came back 0, so we'll return insuff later
+			exam_done    = true if @grading[subtype]['required'].present? && @grading[subtype]['required']
 			
 			# we can immediately assign insuff if a grade that requires a minimum (exam) is insuff
-			if grade == 0 && (@grading[subtype]['minimum'].present? ||
-				              @grading[subtype]['required'].present?)
+			if !exam_done && grade == 0 && (@grading[subtype]['minimum'].present? ||
+				                            @grading[subtype]['required'].present?)
 				return 0
 			end
 
