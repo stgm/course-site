@@ -37,8 +37,8 @@ class GradeTools
 			log("      exam = #{exam_done}, missing = #{missing_data}, insuff = #{insufficient}")
 			
 			# we can immediately assign insuff if a grade that requires a minimum (exam) is insuff
-			if !exam_done && grade == 0 && (@grading[subtype]['minimum'].present? ||
-				                            @grading[subtype]['required'].present?)
+			if grade == 0 && (@grading[subtype]['minimum'].present? ||
+				              @grading[subtype]['required'].present?)
 				return 0
 			end
 
@@ -48,7 +48,10 @@ class GradeTools
 			end
 		end
 		
-		if missing_data
+		if exam_done && missing_data
+			# exam done but still missing data to pass
+			return 0
+		elsif missing_data
 			# if we have grades missing (except if exam was failed, see above)
 			return nil
 		elsif insufficient
