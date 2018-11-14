@@ -19,7 +19,7 @@
 
 <body style="height:100vh">
 
-	<div class="d-flex flex-column h-100">
+	<div class="d-flex flex-column h-100" style="max-height:100%">
 
 		<div id="navbar" class="navbar bg-dark navbar-dark navbar-expand-lg flex-shrink-0">
 			<%= render 'layouts/brand' %>
@@ -35,8 +35,8 @@
 
 		<%= render "layouts/alerts" %>
 	
-		<div class="container-fluid h-100" style="overflow-y:auto">
-			<div class="row content h-100" style="overflow-y:auto">
+		<div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
+			<div class="row content h-100">
 				<%= content_for?(:main) ? yield(:main) : yield %>
 			</div>
 		</div>

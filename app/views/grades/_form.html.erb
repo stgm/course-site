@@ -1,6 +1,6 @@
-<%= form_for(@grade, url: grade_path(submit_id: @submit.id), method: :put, html: { class: 'grade-form' }) do |f| %>
+<%= form_for(@grade, url: grade_path(submit_id: @submit.id), method: :put, html: { class: 'grade-form', style: 'min-height:100%' }) do |f| %>
 	
-<div class="d-flex flex-column" style="min-height:100%">
+<div class="d-flex flex-column h-100" style="min-height:100%">
 
 	<div class="">
 		<span class="navbar-text">
