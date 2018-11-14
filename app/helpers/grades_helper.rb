@@ -25,7 +25,7 @@ module GradesHelper
 	def grade_button(user, pset, subs, name=true)
 		if subs[pset.id] && submit = subs[pset.id][0]
 			if grade = submit.grade
-				type = grade_button_type(make_label(submit.pset_name, grade.any_final_grade), grade.public?)
+				type = grade_button_type(grade.any_final_grade, grade.public?)
 				link_to make_label(submit.pset_name, grade.any_final_grade), submit_path(id: submit.id), class: "btn btn-sm flex-fill #{type}"
 			else
 				link_to make_label(submit.pset_name, "S"), submit_path(id: submit.id), class: "btn btn-sm flex-fill btn-light"
@@ -36,7 +36,7 @@ module GradesHelper
 	end
 	
 	def make_label(name, grade, use_name=true)
-		retlabel = name 
+		retlabel = name[0,3]
 		retlabel += "<br>" + grade.to_s || 'S'
 		return retlabel.html_safe
 	end

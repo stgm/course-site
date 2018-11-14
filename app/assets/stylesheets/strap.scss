@@ -168,9 +168,21 @@ footer img
 // GRADES TABLE
 //
 
+#grade-table
+{
+    font-size:small;
+}
+
 #grade-table td
 {
     vertical-align:middle;
+    padding:1px;
+    white-space:nowrap;
+}
+
+#grade-table .btn-sm
+{
+    font-size:xx-small;
 }
 
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
