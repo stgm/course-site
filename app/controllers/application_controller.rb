@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 		redirect_to :back
 	end
 	
+	before_action :go_location_bumper
 	before_action :load_navigation
 	before_action :load_schedule
 	before_action :set_locale
@@ -29,6 +30,10 @@ class ApplicationController < ActionController::Base
 	
 	def request_from_local_network?
 		@request_from_local_network ||= is_local_ip?
+	end
+	
+	def go_location_bumper
+		redirect_to(location_path) if Settings.hands_bumper && request_from_local_network? && current_user.student? && current_user.last_known_location.blank?
 	end
 	
 	def is_local_ip?

@@ -109,6 +109,7 @@ Rails.application.routes.draw do
 	end
 
 	get  "ask" => "ask#index"
+	get  "location" => "ask#location"
 	post "ask/do"
 	post "ask/set_location"
 	post "ask/cancel"
