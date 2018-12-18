@@ -246,12 +246,16 @@ section .kramdown-table td, .kramdown-table th
     margin-bottom:2em;
 }
 
-#content .pull-right .embed
+div.embed-float
+{
+    width: 40%; float:right; margin-left: 2em;
+}
+
+div.embed-float .embed
 {
     margin-top:0;
     margin-bottom:0;
 }
-
 
 
 
