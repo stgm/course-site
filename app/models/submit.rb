@@ -137,8 +137,13 @@ class Submit < ActiveRecord::Base
 			items = self.check_feedback["results"]
 			return self.check_feedback["error"]["value"] if items.nil?
 		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Hash) && self.check_feedback[0]["nTests"].is_a?(Integer)
+			# checkpy multiple tests (module)
 			v3=true
 			items = self.check_feedback.collect {|f| f["results"]}.flatten
+		elsif self.check_feedback.is_a?(Hash) && self.check_feedback["nTests"].is_a?(Integer)
+			# checkpy single test
+			v3=true
+			items = [self.check_feedback].collect {|f| f["results"]}.flatten
 		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Array)
 			v3=false
 			items = self.check_feedback.flatten(1)
