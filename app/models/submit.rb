@@ -17,7 +17,7 @@ class Submit < ActiveRecord::Base
 	# TODO only hide stuff that's not been autograded if autograding is actually enabled
 	scope :to_grade,  -> do
 		includes(:user, :pset, :grade).
-		where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).
+		where(grades: { status: [nil, Grade.statuses[:open]] }).
 		where(users: { active: true }).
 		where("psets.automatic = ? or submits.auto_graded = ?", false, true).
 		order('psets.name')
