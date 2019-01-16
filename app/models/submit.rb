@@ -78,7 +78,7 @@ class Submit < ActiveRecord::Base
 			self.check_feedback.collect { |f| f["nPassed"] }.sum
 		elsif self.check_feedback.is_a?(Hash) && self.check_feedback["nTests"].is_a?(Integer)
 			# checkpy single test
-			[self.check_feedback].collect { |f| f["nPassed"] }.sum
+			[self.check_feedback].collect { |f| f["nPassed"] }.sum / [self.check_feedback].collect { |f| f["nTests"] }.sum
 		elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Array)
 			fb = self.check_feedback.flatten(1)
 			fb.count { |x| x["status"].present? } / fb.size.to_f
