@@ -6,7 +6,8 @@
 		<span class="navbar-text">
 			<%= @pset.name %> <%= t(:by) %> <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %>
 			<span class="badge badge-dark"><%= @grade.status %></span><br>
-			Submitted at <%= @submit.submitted_at %><br>
+			Submitted at <%= @submit.submitted_at.to_formatted_s(:short) if @submit.submitted_at %><br>
+			First graded at <%= @submit.grade.created_at.to_formatted_s(:short) if @submit.grade and @submit.grade.created_at %><br>
 			Grading by <%= @grade.grader_name %>
 		</span>
 		
