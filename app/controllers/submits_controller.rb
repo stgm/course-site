@@ -35,7 +35,7 @@ class SubmitsController < ApplicationController
 	
 	def create
 		s = Submit.create(params[:submit].permit([:pset_id, :user_id]))
-		redirect_to submits_path(s.id)
+		redirect_to submit_path(s.id)
 	end
 	
 	def destroy
