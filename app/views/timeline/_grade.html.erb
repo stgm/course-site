@@ -6,7 +6,9 @@
 	<% grade.subgrades.each_pair do |k,v| %>
 	<span class="btn btn-sm btn-outline-secondary"><%= k.capitalize %> <span class="badge badge-secondary"><%= v %></span></span>
 	<% end %>
+	<% unless Settings.grading['grades'][grade.pset.name]['hide_calculated'] %>
 	<span class="btn btn-sm btn-outline-primary"> Grade <span class="badge badge-primary"><%= translate_grade(grade.any_final_grade) %></span></span>
+	<% end%>
 </p>
 
 <%= simple_markdown(grade.comments) %>

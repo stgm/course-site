@@ -105,8 +105,6 @@ class GradesController < ApplicationController
 		redirect_to :back
 	end
 	
-	
-	
 	private
 	
 	def grade_params
