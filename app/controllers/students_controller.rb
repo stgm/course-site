@@ -36,7 +36,11 @@ class StudentsController < ApplicationController
 		end
 		
 		@psets = Pset.order(:order)
-		@users = @current_schedule.users.not_staff.includes(:group, { submits: [:pset, :grade] }).order("groups.name").order(:name)
+		if @current_schedule
+			@users = @current_schedule.users.not_staff.includes(:group, { submits: [:pset, :grade] }).order("groups.name").order(:name)
+		else
+			@users = User.not_staff.includes(:group, { submits: [:pset, :grade] }).order("groups.name").order(:name)
+		end
 		
 		@active_count = @users.active.count
 		@registered_count = @users.registered.count
