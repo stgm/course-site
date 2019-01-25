@@ -36,7 +36,7 @@ class Submit < ActiveRecord::Base
 			# which shouldn't be neccessary
 			s.auto_graded = s.pset.config["automatic"].collect do |k,v|
 				case k
-				when "correctness"
+				when "correctness", "points"
 					s.check_feedback.present?
 				when "style"
 					s.style_feedback.present?
