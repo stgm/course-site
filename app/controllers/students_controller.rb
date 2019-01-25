@@ -20,14 +20,18 @@ class StudentsController < ApplicationController
 			@schedules = current_user.schedules
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || current_user.schedules.first
 			@current_schedule_id = @current_schedule && @current_schedule.id
-			redirect_to({ group: @current_schedule.name }) and return if params[:group].blank?
-			render ({ text:"Forbidden", status:403 }) and return if not @schedules.include?(@current_schedule)
+			if @current_schedule
+				redirect_to({ group: @current_schedule.name }) and return if params[:group].blank?
+				render ({ text:"Forbidden", status:403 }) and return if not @schedules.include?(@current_schedule)
+			end
 			load_stats
 		elsif current_user.admin?
 			@schedules = Schedule.all
 			@current_schedule = params[:group] && Schedule.find_by_name(params[:group]) || Schedule.first
 			@current_schedule_id = @current_schedule && @current_schedule.id
-			redirect_to({ group: @current_schedule.name }) and return if params[:group].blank?
+			if @current_schedule
+				redirect_to({ group: @current_schedule.name }) and return if params[:group].blank?
+			end
 			load_stats
 		end
 		
