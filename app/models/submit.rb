@@ -20,14 +20,14 @@ class Submit < ActiveRecord::Base
 		where(grades: { status: [nil, Grade.statuses[:open]] }).
 		where(users: { active: true }).
 		where("psets.automatic = ? or submits.auto_graded = ?", false, true).
-		order('psets.name')
+		order('submits.created_at asc')
 	end
 
 	scope :admin_to_grade,  -> do
 		includes(:user, :pset, :grade).
 		where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).
 		where(users: { active: true }).
-		order('psets.name')
+		order('submits.created_at asc')
 	end
 	
 	before_save do |s|
