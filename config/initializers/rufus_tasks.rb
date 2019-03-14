@@ -23,13 +23,11 @@ unless self.private_methods.include? 'irb_binding'
 		# for corrections within that timeframe.
 
 		scheduler.every '55m' do
-			safely do
-			    ActiveRecord::Base.transaction do
-					if Settings.send_grade_mails && Settings.mailer_from.present?
-						Grade.where("grades.mailed_at is null").published.joins([:submit]).find_each do |g|
-							GradeMailer.new_mail(g).deliver
-							g.touch(:mailed_at)
-						end
+			if Settings.send_grade_mails && Settings.mailer_from.present?
+				Grade.where("grades.mailed_at is null").published.joins([:submit]).find_each do |g|
+					GradeMailer.new_mail(g).deliver
+					ActiveRecord::Base.transaction do
+						g.touch(:mailed_at)
 					end
 				end
 			end

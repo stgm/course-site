@@ -20,6 +20,8 @@ class StatsController < ApplicationController
 		date1 = Date.today.at_beginning_of_week - 1.week
 		date2 = Date.today.at_beginning_of_week
 		@week_data =  Hand.where(done: true).where("updated_at > ? and updated_at < ?", date1, date2).group_by_hour(:created_at).count.map { |h,v| { x: h.day, y: h.hour.to_i+2, r: v } }
+
+		#@week_data = Hand.where(id: Schedule.find_by_name("Lospeed").hands, done: true).where("updated_at > ? and updated_at < ?", 8.weeks.ago, Date.today).group_by_day_of_week("created_at").count.map { |h,v| { x: "#{h.day_of_week}", y: h.hour.to_i+2, r: v } }
 	end
 
 end
