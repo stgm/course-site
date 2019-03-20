@@ -90,7 +90,7 @@ class GradesController < ApplicationController
 	# try to make all grades public, but only valid grades
 	def publish_all
 		schedule = Schedule.find(params[:schedule])
-		grades = schedule && schedule.grades.where.not(status: Grade.statuses[:published]) || Grade.where.not(status: Grade.statuses[:published])
+		grades = schedule && schedule.grades.where.not(status: [Grade.statuses[:published], Grade.statuses[:published]])
 		grades.each &:published!
 		redirect_to :back
 	end
