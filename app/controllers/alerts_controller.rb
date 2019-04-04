@@ -71,7 +71,7 @@ class AlertsController < ApplicationController
 		if not alert_params[:schedule_id].blank?
 			recipients = Schedule.find(alert_params[:schedule_id]).users.active + Schedule.find(alert_params[:schedule_id]).users.staff
 		else
-			recipients = User.active
+			recipients = User.active + User.staff
 		end
 		recipients.each do |user|
 			AlertMailer.alert_message(user, @alert, from).deliver_later
