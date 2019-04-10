@@ -80,3 +80,4 @@ gem 'coderay'
 # shut up safari
 gem 'quiet_safari', group: :development
 
+gem 'rest-client'

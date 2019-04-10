@@ -162,6 +162,8 @@ Rails.application.routes.draw do
 	
 	resources :notes
 	
+	post "check_result/do"
+	
 	# onboarding
 	get  "welcome" => "welcome#index"
 	get  "welcome/clone"
