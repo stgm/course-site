@@ -143,7 +143,7 @@ class User < ActiveRecord::Base
 					final = self.submits.where(pset:Pset.where(name: name).first).first_or_create
 					final.create_grade if !final.grade
 					# only change if grade hasn't been published yet
-					if not [Grade.statuses['finished'], Grade.statuses['exported']].include?(final.grade.status)
+					if not [Grade.statuses['published'], Grade.statuses['exported']].include?(final.grade.status)
 						final.grade.grade = grade
 						if final.grade.grade_changed?
 							logger.info "  changed to #{final.grade.grade}"
