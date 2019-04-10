@@ -43,7 +43,7 @@
 
 <div class="col-7" style="overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset;max-height:100%">
 	
-	<% if @submit.file_contents.present? || @submit.check_feedback.present? %>
+	<% if @submit.file_contents.present? || @submit.has_feedback? %>
 	<ul class="nav nav-tabs" id="files" role="tablist">
 		<% first = true %>
 		<% @submit.file_contents.each_key do |filename| %>
