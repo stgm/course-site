@@ -167,7 +167,7 @@ class PageController < ApplicationController
 					file: zipfile,
 					slug: pset.config['check']['slug'],
 					password: "martijndoeteenphd",
-					webhook: "https://#{request.host}:3000/check_result/do",
+					webhook: "https://#{request.host}/check_result/do",
 					multipart: true
 				})
 				logger.debug JSON.parse(response.body)['id']
