@@ -20,7 +20,7 @@ class Submit < ActiveRecord::Base
 		includes(:user, :pset, :grade).
 		where(grades: { status: [nil, Grade.statuses[:open]] }).
 		where(users: { active: true }).
-		where("psets.automatic = ? or submits.auto_graded = ?", false, true).
+		where("psets.automatic = ? or submits.check_results is not null", false).
 		order('submits.created_at asc')
 	end
 
@@ -28,7 +28,7 @@ class Submit < ActiveRecord::Base
 		includes(:user, :pset, :grade).
 		where(grades: { status: [nil, Grade.statuses[:open], Grade.statuses[:finished]] }).
 		where(users: { active: true }).
-		where("psets.automatic = ? or submits.auto_graded = ?", false, true).
+		where("psets.automatic = ? or submits.check_results is not null", false).
 		order('submits.created_at asc')
 	end
 	
