@@ -148,14 +148,19 @@ class PageController < ApplicationController
 		# get files to check server
 		#
 		if pset.config['check'] && files = params[:f]
-			zipfile = Zip::OutputStream.write_buffer(::LUploadIO.new('file.zip')) do |zio|
-				files.each do |filename, file|
-					zio.put_next_entry(filename)
-					file.rewind
-					zio.write file.read
+			submitted_zips = files.keys.select { |x| x.end_with?(".zip") }
+			if submitted_zips.any?
+				zipfile = files[submitted_zips[0]]
+			else
+				zipfile = Zip::OutputStream.write_buffer(::LUploadIO.new('file.zip')) do |zio|
+					files.each do |filename, file|
+						zio.put_next_entry(filename)
+						file.rewind
+						zio.write file.read
+					end
 				end
+				zipfile.rewind
 			end
-			zipfile.rewind
 
 			server = RestClient::Resource.new(
 			  "https://agile008.science.uva.nl/#{pset.config['check']['tool']}",
