@@ -4,6 +4,7 @@
 <%= link_to p.name, { pset_id: p.id } %> 
 <% end %>
 
+<% if @pset %>
 <%= form_tag students_quiz_submit_path do |f| %>
 <%= hidden_field_tag :pset_id, @pset.id %>
 <% @students.each do |s| %>
@@ -18,6 +19,7 @@
   </div>
 <% end %>
 <input type="submit">
+<% end %>
 <% end %>
 
 </div>
