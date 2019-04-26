@@ -29,17 +29,20 @@ class PageController < ApplicationController
 		end
 	end
 	
-	def announcements
+	def load_ann
 		@schedules = Schedule.all
 		@student = User.includes(:hands, :notes).find(current_user.id)
 		@grades = Grade.published.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.created_at desc')
-		# @groups = Group.order(:name)
-		@note = Note.new(student_id: @student.id)
 	
 		@items = []
 		@items += @student.submits.where("submitted_at not null").to_a
 		@items += @grades.to_a
 		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
+	end
+	
+	def announcements
+		load_ann
+		@note = Note.new(student_id: @student.id)
 		
 		if current_user.senior? && current_user.schedule
 			@groups = current_user.schedule.groups.order(:name)
@@ -55,6 +58,7 @@ class PageController < ApplicationController
 	end
 	
 	def syllabus
+		load_ann
 		# the normal homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first
 		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
