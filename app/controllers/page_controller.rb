@@ -41,7 +41,8 @@ class PageController < ApplicationController
 	end
 	
 	def announcements
-		load_ann
+		load_ann if logged_in?
+
 		@note = Note.new(student_id: @student.id)
 		
 		if current_user.senior? && current_user.schedule
