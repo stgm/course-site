@@ -59,7 +59,7 @@ class PageController < ApplicationController
 	end
 	
 	def syllabus
-		load_ann
+		# load_ann
 		# the normal homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first
 		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
