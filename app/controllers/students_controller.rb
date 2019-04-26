@@ -105,9 +105,12 @@ class StudentsController < ApplicationController
 
 
 	def quiz
-		@pset = Pset.find(params[:pset_id])
-		@psets = Pset.all
-		@students = current_user.schedule.users.order(:name)
+		if @pset = Pset.find_by_id(params[:pset_id])
+			@psets = Pset.all
+			@students = current_user.schedule && current_user.schedule.users.student.active.order(:name) || User.student.active.order(:name)
+		else
+			@psets = Pset.all
+		end
 	end
 	
 	def quiz_submit
