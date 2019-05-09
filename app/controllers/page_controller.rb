@@ -151,6 +151,7 @@ class PageController < ApplicationController
 			submitted_zips = files.keys.select { |x| x.end_with?(".zip") }
 			if submitted_zips.any?
 				zipfile = files[submitted_zips[0]]
+				zipfile.rewind
 			else
 				zipfile = Zip::OutputStream.write_buffer(::LUploadIO.new('file.zip')) do |zio|
 					files.each do |filename, file|
