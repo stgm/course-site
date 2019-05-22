@@ -75,15 +75,21 @@ class Submit < ActiveRecord::Base
 	def check_score
 		check_results = JSON(self.check_results)
 		check_results.keys.each do |tool|
+			puts tool
+			puts check_results[tool].inspect
 			case tool
 			when "check50v2"
 				return check_results[tool].count { |x| x["status"].present? } / check_results[tool].size.to_f
 			when "check50v3"
 				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
-			when "checkpy" && check_results[tool].is_a?(Array)
-				return check_results[tool].collect { |f| f["nPassed"] }.sum
-			when "checkpy" && check_results[tool].is_a?(Hash)
-				return [check_results[tool]].collect { |f| f["nPassed"] }.sum
+			when "checkpy"
+				if check_results[tool].is_a?(Array)
+					puts "arr"
+					return check_results[tool].collect { |f| f["nPassed"] }.sum
+				elsif check_results[tool].is_a?(Hash)
+					puts "hash"
+					return [check_results[tool]].collect { |f| f["nPassed"] }.sum
+				end
 			end
 		end
 
