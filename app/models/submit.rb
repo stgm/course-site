@@ -80,9 +80,9 @@ class Submit < ActiveRecord::Base
 				return check_results[tool].count { |x| x["status"].present? } / check_results[tool].size.to_f
 			when "check50v3"
 				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
-			when "checkpy" && self.check_feedback.is_a?(Array)
+			when "checkpy" && self.check_results[tool].is_a?(Array)
 				return check_results[tool].collect { |f| f["nPassed"] }.sum
-			when "checkpy" && self.check_feedback.is_a?(Hash)
+			when "checkpy" && self.check_results[tool].is_a?(Hash)
 				return [check_results[tool]].collect { |f| f["nPassed"] }.sum
 			end
 		end
