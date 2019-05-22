@@ -169,13 +169,14 @@ class PageController < ApplicationController
 			)
 		
 			begin
-				response = server.post({
+				args = {
 					file: zipfile,
-					slug: pset.config['check']['slug'],
 					password: "martijndoeteenphd",
 					webhook: "https://#{request.host}/check_result/do",
 					multipart: true
-				})
+					# and add slug/repo/args from the config file
+				}.merge(pset.config['check'].slice('slug', 'repo', 'args'))
+				response = server.post(args)
 				logger.debug JSON.parse(response.body)['id']
 				logger.debug submit.inspect
 				submit.check_token = JSON.parse(response.body)['id']
