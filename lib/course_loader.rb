@@ -221,7 +221,7 @@ private
 						else
 							db_pset.files = nil
 						end
-						db_pset.config = Settings["grading"]["grades"][submit_config['name']]
+						db_pset.config = Settings["grading"]["grades"][submit_config['name']] if Settings["grading"].present?
 						db_pset.automatic = !!db_pset.config && db_pset.config["automatic"].present?
 						db_pset.save
 						
