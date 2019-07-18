@@ -41,7 +41,7 @@ class PageController < ApplicationController
 	end
 	
 	def announcements
-		redirect_to :root if not logged_in?
+		redirect_to :root and return if not logged_in?
 		load_ann
 
 		@note = Note.new(student_id: @student.id)
