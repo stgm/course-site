@@ -1,5 +1,16 @@
 require 'dropbox'
 
+class LUploadIO < StringIO
+	def initialize(name)
+		@path = name
+		super()   # the () is essential, calls no-arg initializer
+	end
+
+	def path
+		@path
+	end
+end
+
 class PageController < ApplicationController
 
 	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage ]
@@ -88,6 +99,9 @@ class PageController < ApplicationController
 	end
 	
 	def submit
+		#
+		# we may get here after expiry of the session?
+		#
 		if !session[:cas_user]
 			redirect_to(:back, alert: 'Please login again before submitting.') and return
 		end
@@ -101,7 +115,9 @@ class PageController < ApplicationController
 		
 		form_text = render_form_text(params[:a])
 
-		# upload to dropbox
+		#
+		# upload everything to dropbox
+		#
 		if pset.form || pset.files
 			begin
 				folder_name = pset.name + "__" + Time.now.to_i.to_s
@@ -112,7 +128,9 @@ class PageController < ApplicationController
 			end
 		end
 
+		#
 		# create submit record
+		#
 		submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 		submit.submitted_at = Time.now
 		submit.used_login = session[:cas_user]
@@ -132,12 +150,60 @@ class PageController < ApplicationController
 		submit.file_contents = file_contents
 		submit.save
 		
+		#
+		# get files to check server
+		#
+		if pset.config['check'] && files = params[:f]
+			submitted_zips = files.keys.select { |x| x.end_with?(".zip") }
+			if submitted_zips.any?
+				zipfile = files[submitted_zips[0]]
+				zipfile.rewind
+			else
+				zipfile = Zip::OutputStream.write_buffer(::LUploadIO.new('file.zip')) do |zio|
+					files.each do |filename, file|
+						zio.put_next_entry(filename)
+						file.rewind
+						zio.write file.read
+					end
+				end
+				zipfile.rewind
+			end
+
+			server = RestClient::Resource.new(
+			  "https://agile008.science.uva.nl/#{pset.config['check']['tool']}",
+			  :verify_ssl       =>  OpenSSL::SSL::VERIFY_NONE
+			)
+		
+			begin
+				args = {
+					file: zipfile,
+					password: "martijndoeteenphd",
+					webhook: "https://#{request.host}/check_result/do",
+					multipart: true
+					# and add slug/repo/args from the config file
+				}.merge(pset.config['check'].slice('slug', 'repo', 'args'))
+				response = server.post(args)
+				logger.debug JSON.parse(response.body)['id']
+				logger.debug submit.inspect
+				submit.check_token = JSON.parse(response.body)['id']
+				submit.save
+			rescue RestClient::ExceptionWithResponse => e
+			     logger.debug e.response
+			end
+			
+		end
+		
+		#
+		# this is a re-submit, so re-open for grading
+		#
 		if submit.grade
 			submit.grade.grade = nil
 			submit.grade.open!
 		end
-	
-		# success
+
+		#
+		# success, get back to previous page
+		#
 		begin
 			redirect_to :back
 		rescue ActionController::RedirectBackError

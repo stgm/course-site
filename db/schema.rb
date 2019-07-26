@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180922082709) do
+ActiveRecord::Schema.define(version: 20190213205619) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -240,6 +240,8 @@ ActiveRecord::Schema.define(version: 20180922082709) do
     t.text     "style_feedback"
     t.text     "file_contents"
     t.boolean  "auto_graded",     default: false, null: false
+    t.text     "check_results"
+    t.string   "check_token"
   end
 
   add_index "submits", ["pset_id"], name: "index_submits_on_pset_id"
