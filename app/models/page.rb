@@ -18,11 +18,6 @@ class Page < ActiveRecord::Base
 		the_path << path
 		
 		return File.join(the_path)
-		# if section
-		# 	return File.join('/course', section.path, path)
-		# else
-		# 	return File.join('/course', path)
-		# end
 	end
 	
 end

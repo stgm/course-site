@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190213205619) do
+ActiveRecord::Schema.define(version: 20190726091901) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -210,7 +210,9 @@ ActiveRecord::Schema.define(version: 20190213205619) do
     t.datetime "updated_at"
     t.string   "slug"
     t.string   "path"
-    t.boolean  "display",    default: false
+    t.boolean  "display",       default: false
+    t.text     "content_page"
+    t.text     "content_links"
   end
 
   add_index "sections", ["slug"], name: "index_sections_on_slug", unique: true

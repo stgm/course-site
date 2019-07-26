@@ -32,6 +32,26 @@
 	</ul>
 	<% end %>
 
+	<% if @section.present? && @section.content_links.present? %>
+	<ul class="nav mt-3">
+		<li>
+			<p class="nav-text"><%= @section.title %></p>
+			<ul class="nav">
+				<% @section.content_links.each do |item, link|  %>
+				<% next if item == 'description' %>
+				<% if link.nil? %>
+				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, '#', class:"nav-link disabled" %></li>
+				<% elsif link == '---' %>
+				<!-- <li role="separator" class="divider"></li> -->
+				<% else %>
+				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, link, class:"nav-link" %></li>
+				<% end %>
+				<% end %>
+			</ul>
+		</li>
+	</ul>
+	<% end %>
+
 	<ul class="nav mt-3">
 		<% if @sections.length > 0 %>
 		<li>

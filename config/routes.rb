@@ -180,5 +180,6 @@ Rails.application.routes.draw do
 
 	# default route, for content pages
 	get  ":section/:page" => "page#index"
+	get  ":section" => "section#index"
 
 end

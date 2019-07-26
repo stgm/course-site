@@ -65,7 +65,7 @@ class PageController < ApplicationController
 			@new_students = current_user.schedule.users.not_staff.groupless.active
 		end
 		
-		@title = "#{Settings.course["short_name"]} #{t(:announcements)}"
+		@title = "#{Settings.course["short_name"]} #{t(:announcements)}" if Settings.course
 	
 		render "timeline/timeline"
 	end

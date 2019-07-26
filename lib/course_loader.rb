@@ -157,6 +157,7 @@ private
 		# sections should be direct descendants of the root course dir
 		subdirs_of(dir) do |section|
 			
+			Rails.logger.debug "HEEEEEEEE {section}"
 			section_path = File.basename(section)
 			next if section_path == "info" # skip info directory
 
@@ -164,9 +165,19 @@ private
 			section_info = split_info(section_path)
 			if section_info
 				# db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section_path)
+				# Rails.logger.debug "BZZZ " + section_contents.to_s
+				
 				db_sec = Section.find_by_path(section_path) || Section.new(path: section_path)
 				db_sec.title = upcase_first_if_all_downcase(section_info[2])
 				db_sec.position = section_info[1]
+				content_file = files(section, "contents.md")
+				if File.exists?(content_file)
+					section_content_page  = IO.read(content_file)
+					db_sec.content_page = section_content_page
+				end
+				if section_content_links = read_config(files(section, "contents.yml"))
+					db_sec.content_links = section_content_links
+				end
 				db_sec.save
 				
 				process_pages(section, db_sec)
