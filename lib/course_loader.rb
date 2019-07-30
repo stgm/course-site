@@ -237,7 +237,7 @@ private
 						if Settings["grading"].present? && config = Settings["grading"]["grades"][submit_config['name']]
 							db_pset.config = config.merge(submit_config)
 						else
-							db_pset.config = submit.config
+							db_pset.config = submit_config
 						end
 
 						db_pset.automatic = !!db_pset.config && db_pset.config["automatic"].present?
