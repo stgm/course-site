@@ -70,6 +70,10 @@
     @extend .px-0;
 }
 
+#sidebar a.nav-link.disabled {
+    color: #a5a5a5;
+}
+
 #sidebar h2
 {
     font-size:.7rem;

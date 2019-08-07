@@ -56,6 +56,37 @@ module ApplicationHelper
 		end
 	end
 	
+	#
+	# convert the contents from contents.yml (available as a Hash) into a nested list of links
+	#
+	def links_to_ul(list)
+		items = []
+		
+		list.each do |item, content|
+			# next if item == 'description' # what's this for??
+			
+			if content.is_a?(Hash)
+				# recurse
+				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
+				items << content_tag(:li, links_to_ul(content), class: "nav")
+			elsif content.is_a?(String)
+				items << content_tag(:li, link_to(insert_badge(item), content, class:"nav-link"), class: "nav-item")
+			elsif content.nil?
+				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
+			end
+				
+		end
+		
+		content_tag :ul, items.join.html_safe, class: "nav"
+	end
+	
+	#
+	# converts [markup] in a string into a bootstrap badge span
+	#
+	def insert_badge(description)
+		description.sub('[', '<span class="badge">').sub(']', '</span>').html_safe
+	end
+	
 	def is_local_ip?
 		# begin
 		# 	location = Resolv.getname(request.remote_ip)

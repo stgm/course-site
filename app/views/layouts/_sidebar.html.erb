@@ -36,18 +36,7 @@
 	<ul class="nav mt-3">
 		<li>
 			<p class="nav-text"><%= @section.title %></p>
-			<ul class="nav">
-				<% @section.content_links.each do |item, link|  %>
-				<% next if item == 'description' %>
-				<% if link.nil? %>
-				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, '#', class:"nav-link disabled" %></li>
-				<% elsif link == '---' %>
-				<!-- <li role="separator" class="divider"></li> -->
-				<% else %>
-				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, link, class:"nav-link" %></li>
-				<% end %>
-				<% end %>
-			</ul>
+			<%= links_to_ul(@section.content_links) %>
 		</li>
 	</ul>
 	<% end %>
