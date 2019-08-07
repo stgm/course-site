@@ -190,9 +190,10 @@ ActiveRecord::Schema.define(version: 20190726091901) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "current_schedule_span_id_id"
     t.integer  "current_schedule_span_id"
-    t.boolean  "self_register",            default: false, null: false
-    t.boolean  "self_service",             default: false, null: false
+    t.boolean  "self_register",               default: false, null: false
+    t.boolean  "self_service",                default: false, null: false
   end
 
   create_table "schedules_users", id: false, force: :cascade do |t|
