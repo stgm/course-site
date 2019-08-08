@@ -56,10 +56,9 @@ module ApplicationHelper
 		end
 	end
 	
-	#
 	# convert the contents from contents.yml (available as a Hash) into a nested list of links
 	#
-	def links_to_ul(list, html_id=nil)
+	def links_to_ul(list)
 		items = []
 		
 		list.each do |item, content|
@@ -80,8 +79,7 @@ module ApplicationHelper
 		content_tag :ul, items.join.html_safe, class: "nav"
 	end
 	
-	#
-	# converts [markup] in a string into a bootstrap badge span
+	# convert [markup] in a string into a bootstrap badge span
 	#
 	def insert_badge(description)
 		description.sub('[', '<span class="badge">').sub(']', '</span>').html_safe
