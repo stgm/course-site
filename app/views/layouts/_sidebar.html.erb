@@ -26,9 +26,7 @@
 			</p>
 		</li>
 		<li id="schedule">
-			<!-- <ul id="schedule" class="nav"> -->
-				<%= links_to_ul(@current_schedule.content, "schedule") %>
-			<!-- </ul> -->
+			<%= links_to_ul(@current_schedule.content) %>
 		</li>
 	</ul>
 	<% end %>
@@ -37,9 +35,9 @@
 	<ul class="nav mt-3">
 		<li>
 			<p class="nav-text"><%= @section.title %></p>
-			<!-- <ul class="nav"> -->
+		</li>
+		<li>
 			<%= links_to_ul(@section.content_links) %>
-			<!-- </ul> -->
 		</li>
 	</ul>
 	<% end %>
