@@ -59,19 +59,19 @@ module ApplicationHelper
 	#
 	# convert the contents from contents.yml (available as a Hash) into a nested list of links
 	#
-	def links_to_ul(list)
+	def links_to_ul(list, html_id=nil)
 		items = []
 		
 		list.each do |item, content|
-			# next if item == 'description' # what's this for??
-			
 			if content.is_a?(Hash)
-				# recurse
+				# a Hash means subitems, so create a caption and recurse
 				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
-				items << content_tag(:li, links_to_ul(content), class: "nav")
+				items << content_tag(:li, links_to_ul(content), class: "nav-item")
 			elsif content.is_a?(String)
+				# a String means that we have a link with title
 				items << content_tag(:li, link_to(insert_badge(item), content, class:"nav-link"), class: "nav-item")
 			elsif content.nil?
+				# a nil means a caption without a link
 				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
 			end
 				

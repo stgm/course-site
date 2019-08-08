@@ -24,10 +24,11 @@
 				</span>
 				<% end %>
 			</p>
-
-			<ul id="schedule" class="nav">
-				<%= render partial: "schedule"%>
-			</ul>
+		</li>
+		<li id="schedule">
+			<!-- <ul id="schedule" class="nav"> -->
+				<%= links_to_ul(@current_schedule.content, "schedule") %>
+			<!-- </ul> -->
 		</li>
 	</ul>
 	<% end %>
@@ -36,7 +37,9 @@
 	<ul class="nav mt-3">
 		<li>
 			<p class="nav-text"><%= @section.title %></p>
+			<!-- <ul class="nav"> -->
 			<%= links_to_ul(@section.content_links) %>
+			<!-- </ul> -->
 		</li>
 	</ul>
 	<% end %>
@@ -45,6 +48,8 @@
 		<% if @sections.length > 0 %>
 		<li>
 			<p class="nav-text"><%= @current_schedule ? t(:other) : t(:materials) %></p>
+		</li>
+		<li>
 			<ul class="nav">
 				<%= render 'layouts/sections' %>
 			</ul>
