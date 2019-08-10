@@ -38,7 +38,6 @@
 	<% end %>
 	
 	<span class="navbar-text mr-2">
-		<%= current_user && current_user.name || session[:cas_user] %>
 	</span>
 		
 	<% if current_user.admin? && Schedule.count > 1 %>
@@ -77,6 +76,9 @@
 	<li class="nav-item dropdown">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
 			<%= fa_icon "user", class: "fa-fw" %>
+			<span class="d-none d-md-inline">
+			<%= current_user && current_user.name || session[:cas_user] %>
+			</span>
 		</a>
 		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
 			<%= render 'layouts/menu' %>
@@ -86,6 +88,9 @@
 	<li class="nav-item dropdown ">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
 			<%= fa_icon "user", class: "fa-fw" %>
+			<span class="d-none d-md-inline">
+			<%= current_user && current_user.name || session[:cas_user] %>
+			</span>
 		</a>
 		<div class="dropdown-menu dropdown-menu-right register-menu" id="user-menu">
 			<%= render 'profile/edit' %>
