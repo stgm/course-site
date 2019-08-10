@@ -1,6 +1,6 @@
 <div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
 
-	<ul class="nav mt-2 mt-md-3">
+	<ul class="nav">
 		<li><p class="nav-text">Course</p></li>
 		<% if logged_in? && @alerts.any? %>
 		<li><a href="/announcements" class="nav-link"><%= fa_icon 'bullhorn' %> <%= t(:announcements) %></a></li>
@@ -14,7 +14,7 @@
 	<% end %>
 
 	<% if @current_schedule %>
-	<ul class="nav mt-3">
+	<ul class="nav">
 		<li>
 			<p class="nav-text">
 				<span id="schedule_name"><%= @current_schedule.name %></span>
@@ -33,7 +33,7 @@
 	<% end %>
 
 	<% if @section.present? && @section.content_links.present? %>
-	<ul class="nav mt-3">
+	<ul class="nav">
 		<li>
 			<p class="nav-text"><%= @section.title %></p>
 		</li>
@@ -43,7 +43,7 @@
 	</ul>
 	<% end %>
 
-	<ul class="nav mt-3">
+	<ul class="nav">
 		<% if @sections.length > 0 %>
 		<li>
 			<p class="nav-text"><%= @current_schedule ? t(:other) : t(:materials) %></p>

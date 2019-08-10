@@ -1,11 +1,9 @@
-<div class="list-group" style="max-height:400px; overflow:auto;">
+<div class="list-group list-group-flush">
 <% @subpages.each do |sp| %>
 	<%= link_to search_subpage_path(id: sp.id), method: :get, remote: true, class: 'list-group-item list-group-item-action' do %>
-		<div class="d-flex w-100 justify-content-between">
-			<p>
+		<div class="">
 				<%= sp.title %><br>
 				<small><%= sp.description %></small>
-			</p>
 		</div>
 	<% end %>
 <% end %>

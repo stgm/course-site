@@ -89,7 +89,7 @@
     font-size: 14px;
 }
 
-#sidebar p.nav-text, #sidebar a
+#sidebar p.nav-text, #sidebar ul a
 {
     padding-top:0.35em;
     padding-bottom:0.35em;
@@ -98,6 +98,11 @@
 #sidebar p.nav-text, #sidebar a.dropdown-toggle {
     margin:0;
     color:#a5a5a5;
+}
+
+#sidebar-content > ul
+{
+    @extend .mt-4;
 }
 
 #sidebar > * > .nav
