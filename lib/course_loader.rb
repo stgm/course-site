@@ -299,7 +299,9 @@ private
 				file = FrontMatterParser::Parser.parse_file(File.join(dir, subpage_path))
 				
 				# new_subpage = parent_page.subpages.create(:title => subpage_info[2], :position => subpage_info[1], :content => file)
-				new_subpage = parent_page.subpages.find_by_title(file['title'] || subpage_info[2]) || parent_page.subpages.new(title: file['title'] || subpage_info[2])
+				title = file['title'].present? && "#{parent_page.section.title} / #{parent_page.title} / #{file['title']}"
+				
+				new_subpage = parent_page.subpages.find_by_title(title || subpage_info[2]) || parent_page.subpages.new(title: title || subpage_info[2])
 				new_subpage.position = subpage_info[1]
 				new_subpage.content = file.content
 				new_subpage.description = file.front_matter['description']
