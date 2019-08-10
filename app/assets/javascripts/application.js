@@ -20,5 +20,6 @@
 //= require garlic
 //= require Chart.bundle
 //= require chartkick
+//= require twitter/bloodhound
 //= require twitter/typeahead
 //= require_tree .
