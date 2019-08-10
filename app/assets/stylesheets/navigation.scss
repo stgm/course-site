@@ -139,12 +139,19 @@
 
 #search-nav .dropdown-menu
 {
-    min-width:500px;
+    width:500px;
+    background-color:#F2F8FF;
+}
+
+#search-content img
+{
+    max-width:100%;
 }
 
 #search-menu
 {
-    padding:5px;
+    border-color:#3B6999;
+    padding:8px;
 }
 
 #icon-nav .form-check
