@@ -13,8 +13,9 @@ class SearchController < ApplicationController
 	end
 	
 	def subpage
-		page = Subpage.find(params[:id])
-		@document = page.content
+		subpage = Subpage.find(params[:id])
+		@page = subpage.page
+		@document = subpage.content
 		respond_to do |format|
 			format.js { render 'subpage' }
 		end
