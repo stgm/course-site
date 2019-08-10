@@ -10,8 +10,19 @@
 
 #sidebar
 {
-    @extend .bg-dark;
-    @extend .text-light;
+//    @extend .bg-dark;
+//    @extend .text-light;
+
+}
+
+#sidebar
+{
+    background-color:#DDF0F9;
+}
+
+input#keyword-search
+{
+    background-color:#F0F7FA;
 }
 
 #icon-nav .nav-link
@@ -29,3 +40,12 @@
     right:-2px;
     margin:0;
 }
+
+#float-nav
+{
+    top:0;
+    right:0;
+    z-index:1000;
+//    background-color:rgba(20,20,30,0.05);
+}
+

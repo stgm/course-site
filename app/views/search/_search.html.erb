@@ -1,10 +1,10 @@
 <div id="search-menu">
 	
-	<form class="form-inline mr-3 w-100">
+	<form class="form-inline w-100">
 		<input id="keyword-search" type="search" autocomplete="off" class="w-100 form-control form-control-sm border-secondary" placeholder="Search for a topic to get help" aria-label="Enter topic name">
 	</form>
 	
-	<div id="search-content" class="" style="max-height:450px; overflow:auto">
+	<div id="search-content" class="" style="smax-height:450px; soverflow:auto">
 	</div>
 
 	<script>
@@ -42,6 +42,7 @@
 			// $('#keyword-search').readOnly = true;
 			$('#keyword-search').typeahead('close');
 			$.ajax({ url:"<%= search_query_path %>", dataType: "script", data: "query=" + suggestion})
+			$('#sidebar-content').hide();
 			$('#search-content').focus();
 		}
 		
@@ -50,6 +51,7 @@
 		
 		$('#keyword-search').on('input', function(e) {
 			if(e.target.value == "") {
+				$('#sidebar-content').show();
 				$('#search-content').html("");
 			}
 		});

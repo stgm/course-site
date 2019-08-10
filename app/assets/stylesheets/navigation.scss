@@ -27,12 +27,12 @@
     overflow-y:auto;
 }
 
-#row-content
-{
-    // because the position of the sidebar is fixed, need this
-    // to get the content out of the way
-    margin-left:auto;
-}
+//#row-content
+//{
+//    // because the position of the sidebar is fixed, need this
+//    // to get the content out of the way
+//    margin-left:auto;
+//}
 
 @media (min-width: 768px)
 {
@@ -66,13 +66,13 @@
 }
 
 #sidebar a.nav-link {
-	color: #f8f9fa;
+//    color: #f8f9fa;
     @extend .px-0;
 }
 
 #sidebar a.nav-link.disabled {
     font-weight:600;
-    color: #c0c1c2;
+//    color: #c0c1c2;
 }
 
 #sidebar h2
@@ -102,7 +102,7 @@
 
 #sidebar > * > .nav
 {
-    padding-bottom:2rem;
+//    padding-bottom:2rem;
 }
 
 #sidebar ul.nav > li > ul.nav > li > ul.nav
@@ -113,6 +113,12 @@
 #sidebar .nav .fa
 {
     width:1.5rem;
+    height:1rem;
+}
+
+#sidebar .fa-chevron-circle-left, #sidebar .fa-chevron-circle-right
+{
+    text-align:right;
 }
 
 #icon-nav
@@ -151,8 +157,17 @@
 #search-menu
 {
     border-color:#3B6999;
-    padding:4px;
+    padding-top:2em;
 }
+
+@media (min-width: 768px)
+{
+    #search-bar
+    {
+        position: fixed;
+    }
+}
+
 
 #icon-nav .form-check
 {

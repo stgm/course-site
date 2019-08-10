@@ -1,6 +1,7 @@
-<div class="collapse sidebar-collapse navbar-collapse" id="navbarTogglerDemo01">
+<div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
 
-	<ul class="nav mt-4 mt-md-5">
+	<ul class="nav mt-2 mt-md-3">
+		<li><p class="nav-text">Course</p></li>
 		<% if logged_in? && @alerts.any? %>
 		<li><a href="/announcements" class="nav-link"><%= fa_icon 'bullhorn' %> <%= t(:announcements) %></a></li>
 		<% end %>

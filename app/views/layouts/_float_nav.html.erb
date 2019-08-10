@@ -63,19 +63,12 @@
 	</li>
 	<% end %>
 
-	<% if Settings['keyword_index'].present? %>
-	<li class="nav-item dropdown" id="search-nav">
-		<a href="#" id="search-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "question-circle", class: "fa-fw" %></a>
-		<div class="dropdown-menu dropdown-menu-right" id="search-menu">
-			<%= render 'search/search' %>
-		</div>
-	</li>
-	<% end %>
-	
 	<% if logged_in? %>
 	<li class="nav-item dropdown">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			<span class="d-inline d-md-none">
 			<%= fa_icon "user", class: "fa-fw" %>
+			</span>
 			<span class="d-none d-md-inline">
 			<%= current_user && current_user.name || session[:cas_user] %>
 			</span>
@@ -87,7 +80,9 @@
 	<% elsif authenticated? %>
 	<li class="nav-item dropdown ">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			<span class="d-inline d-md-none">
 			<%= fa_icon "user", class: "fa-fw" %>
+			</span>
 			<span class="d-none d-md-inline">
 			<%= current_user && current_user.name || session[:cas_user] %>
 			</span>

@@ -22,15 +22,20 @@
 	<div class="container-fluid" style="">
 		<div class="row" style="">
 			
-			<div id="sidebar" class="col-md-3 p-md-4 navbar d-md-block navbar-dark">
+			<div id="sidebar" class="col-md-3 p-md-4 navbar d-md-block">
 				<%= render 'layouts/brand'%>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
+				
+				<% if Settings['keyword_index'].present? %>
+					<%= render 'search/search' %>
+				<% end %>
+					
 				<%= render 'layouts/sidebar' %>
 			</div>
 			
-			<div id="row-content" class="col-md-9 p-0">
+			<div id="row-content" class="col-md-9 offset-md-3 p-0">
 	
 				<%= render "layouts/alerts" %>
 				
@@ -41,7 +46,7 @@
 				</div>
 				<% end %>
 
-				<div class="float-md-right position-md-fixed navbar navbar-expand" style="top:0; right:0; z-index:1000; background-color:rgba(20,20,30,0.05);">
+				<div id="float-nav" class="float-md-right position-md-fixed navbar navbar-expand">
 					<%= render 'layouts/float_nav' %>
 				</div>
 
