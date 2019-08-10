@@ -3,6 +3,7 @@
 <% end %>
 
 <ul id="icon-nav" class="navbar-nav ml-auto">
+	
 	<% if current_user.senior? %>
 		<form class="form-inline mr-3">
 			<div id="search" class="dropdown">
@@ -36,6 +37,10 @@
 		</script>
 	<% end %>
 	
+	<span class="navbar-text mr-2">
+		<%= current_user && current_user.name || session[:cas_user] %>
+	</span>
+		
 	<% if current_user.admin? && Schedule.count > 1 %>
 	<li class="nav-item dropdown" id="switch-nav">
 		<a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,10 +64,19 @@
 	</li>
 	<% end %>
 
+	<% if Settings['keyword_index'].present? %>
+	<li class="nav-item dropdown" id="search-nav">
+		<a href="#" id="search-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "question-circle", class: "fa-fw" %></a>
+		<div class="dropdown-menu dropdown-menu-right" id="search-menu">
+			<%= render 'search/search' %>
+		</div>
+	</li>
+	<% end %>
+	
 	<% if logged_in? %>
 	<li class="nav-item dropdown">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-			<%= current_user && current_user.name || session[:cas_user] %>
+			<%= fa_icon "user", class: "fa-fw" %>
 		</a>
 		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
 			<%= render 'layouts/menu' %>
@@ -71,7 +85,7 @@
 	<% elsif authenticated? %>
 	<li class="nav-item dropdown ">
 		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-			<%= current_user && current_user.name || session[:cas_user] %>
+			<%= fa_icon "user", class: "fa-fw" %>
 		</a>
 		<div class="dropdown-menu dropdown-menu-right register-menu" id="user-menu">
 			<%= render 'profile/edit' %>
@@ -80,6 +94,7 @@
 	<% else %>
 	<li><%= link_to("Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
 	<% end %>
+	
 </ul>
 
 <% if is_local_ip? && current_user.student? && current_user.last_known_location.blank? %>

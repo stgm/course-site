@@ -176,6 +176,10 @@ Rails.application.routes.draw do
 	# api
 	post "api/reload"
 	
+	get  "search/autocomplete"
+	get  "search/query"
+	get  "search/subpage"
+	
 	mathjax 'mathjax'
 
 	# default route, for content pages

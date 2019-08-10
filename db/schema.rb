@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190726091901) do
+ActiveRecord::Schema.define(version: 20190809194029) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -258,6 +258,7 @@ ActiveRecord::Schema.define(version: 20190726091901) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
+    t.text     "description"
   end
 
   add_index "subpages", ["slug"], name: "index_subpages_on_slug", unique: true

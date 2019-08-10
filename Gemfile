@@ -81,3 +81,6 @@ gem 'coderay'
 gem 'quiet_safari', group: :development
 
 gem 'rest-client'
+
+gem 'front_matter_parser'
+gem 'twitter-typeahead-rails'
