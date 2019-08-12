@@ -33,8 +33,12 @@ class PageController < ApplicationController
 			# @submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 			@grading = @submitted && @submitted.grade
 		end
-		
-		render :index
+	end
+	
+	def section
+		# find section by url and bail out if not found
+		@section = Section.where(:slug => params[:section]).first
+	    raise ActionController::RoutingError.new('Not Found') if !@section || @section.content_page.blank?
 	end
 	
 	def submit

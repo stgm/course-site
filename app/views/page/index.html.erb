@@ -1,1 +1,18 @@
-<%= render 'page/content' %>
+<%= form_tag_if(logged_in? && @page.pset, page_submit_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
+<% @page.subpages.each_with_index do |subpage, index| %>
+<section class="markdown" id="<%= subpage.slug %>-content">
+	<%= markdown(subpage.content, @page) %>
+</section>
+<% end %>
+
+<% if current_user.can_submit? and @page.pset %>
+<section id="submit-content" class="d-none d-sm-block">
+	<%= render 'submit_tab' %>
+</section>
+<section id="submit-content" class="d-block d-sm-none">
+	<h1>Submit</h1>
+	<p>You can't submit on mobile, sorry. If you're on desktop, increase your browser width to submit!</p>
+</section>
+<% end %>
+<%= hidden_field_tag :page_id, @page.id %>
+<% end %>
