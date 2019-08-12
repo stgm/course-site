@@ -5,6 +5,9 @@
 		<% if logged_in? && @alerts.any? %>
 		<li><a href="/announcements" class="nav-link"><%= fa_icon 'bullhorn' %> <%= t(:announcements) %></a></li>
 		<% end %>
+		<% if logged_in? %>
+		<li><a href="/submissions" class="nav-link"><%= fa_icon 'calendar' %> <%= t(:submissions) %></a></li>
+		<% end %>
 		<li><a href="/syllabus" class="nav-link"><%= fa_icon 'file' %> <%= t(:syllabus) %></a></li>
 		<% if Settings['links'] %>
 		<% Settings['links'].each do |title, url|  %>

@@ -1,6 +1,6 @@
-<div id="timeline" class="row" style="margin-bottom:2em;">
+<div id="timeline" class="row">
 	<div class="col-sm-7">
-		<%= render partial: "timeline/alerts" %>
+		<%= render partial: "alerts" %>
 		<% if current_user.senior? %>
 		<div class="card" id="alertForm">
 			<p class="m-0">
@@ -16,10 +16,6 @@
 	</div>
 
 	<div class="col-sm-5">
-		<% if current_user.staff? %>
-		<%= render partial: "timeline/staff" %>
-		<% elsif current_user.student? %>
-		<%= render partial: "timeline/items" %>
-		<% end %>
+		<%= render partial: "staff" %>
 	</div>
 </div>

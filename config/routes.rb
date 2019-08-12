@@ -3,9 +3,11 @@ Rails.application.routes.draw do
 	resources :alerts
 
 	# homepage
-	root :to => "page#homepage"
-	get "syllabus", to: "page#syllabus"
-	get "announcements", to: "page#announcements"
+	root :to => "home#homepage"
+	get "syllabus", to: "home#syllabus"
+	get "announcements", to: "home#announcements"
+	get "submissions", to: "home#submissions"
+	get "staff", to: "home#staff"
 
 	# logged-in users only
 	get  "profile" => "profile#index"

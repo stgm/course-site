@@ -1,0 +1,9 @@
+<div class="card-columns">
+<% @alerts.each do |item| %>
+	<div class="card">
+		<div class="card-body">
+			<%= render partial: "#{item.class.to_s.downcase}", object: item %>
+		</div>
+	</div>
+<% end %>
+</div>

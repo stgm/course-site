@@ -1,15 +1,1 @@
-<% if @items.present? %>
-<div id="timeline" class="row" style="margin-bottom:2em;">
-	<div class="col-sm-7">
-<% end %>
-
-<%= render 'content' %>
-
-<% if @items.present? %>
-	</div>
-
-	<div class="col-sm-5">
-		<%= render partial: "timeline/items" %>
-	</div>
-</div>
-<% end %>
+<%= render 'page/content' %>
