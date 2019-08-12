@@ -23,6 +23,11 @@
     list-style-type: none;
 }
 
+#float-nav + #content
+{
+    padding-top:0 !important;
+}
+
 section p
 {
 	margin-top:1em;

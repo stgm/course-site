@@ -21,7 +21,7 @@ all required files, you cannot submit.</p>
 <% end %>
 
 <% if @page.pset.form || @page.pset.files %>
-<table class="table table-hover">
+<table class="table table-bordered">
 
 	<% if @page.pset.form %>
 	<tr>
@@ -33,7 +33,7 @@ all required files, you cannot submit.</p>
 
 	<% @page.pset.files.each do |header, files| %>
 	<tr>
-		<th colspan="2"><%= header %></th>
+		<th colspan="2"><%= header.humanize %></th>
 	</tr>
 	<% files.each do |file| %>
 	<tr>
@@ -50,7 +50,7 @@ all required files, you cannot submit.</p>
 <p>Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
 <% end %>
 
-<p><%= submit_tag 'Submit for grading', class:'btn btn-primary' %></p>
+<p class="mb-0 text-right"><%= submit_tag 'Submit for grading', class:'btn btn-primary' %></p>
 
 <script>
 $('#page_form').submit(function(){
