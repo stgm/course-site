@@ -1,9 +1,5 @@
 <div id="search-menu" class="d-none d-md-block">
 	
-	<form class="form-inline w-100">
-		<input id="keyword-search" type="search" autocomplete="off" class="w-100 form-control form-control-sm border-secondary" placeholder="Find supplementary materials by topic" aria-label="Enter topic name">
-	</form>
-	
 	<div id="search-content" class="mt-3" style="smax-height:450px; soverflow:auto">
 	</div>
 
@@ -43,7 +39,7 @@
 			$('#keyword-search').typeahead('close');
 			$('#keyword-search').blur();
 			$.ajax({ url:"<%= search_query_path %>", dataType: "script", data: "query=" + suggestion})
-			$('#sidebar-content').hide();
+			// $('#sidebar-content').hide();
 			$('#search-content').focus();
 		}
 		
@@ -52,7 +48,7 @@
 		
 		$('#keyword-search').on('input', function(e) {
 			if(e.target.value == "") {
-				$('#sidebar-content').show();
+				// $('#sidebar-content').show();
 				$('#search-content').html("");
 				$('#keyword-search').blur();
 			}

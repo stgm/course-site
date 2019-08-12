@@ -23,16 +23,41 @@
 		<div class="row" style="">
 			
 			<div id="sidebar" class="col-md-4 p-md-4 navbar navbar-light d-md-block">
-				<%= render 'layouts/brand'%>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+
+			    <div class="collapse show multi-collapse" id="multiCollapseExample1">
 				
-				<% if Settings['keyword_index'].present? %>
-					<%= render 'search/search' %>
-				<% end %>
+					<div class="d-flex align-items-center">
+						<%= render 'layouts/brand'%>
+					    <a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+						<%= fa_icon 'search', class: 'fa-lg' %></a>
+					</div>
+				
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+				
+					<% if Settings['keyword_index'].present? %>
+					<% end %>
 					
-				<%= render 'layouts/sidebar' %>
+					<%= render 'layouts/sidebar' %>
+				
+				</div>
+				
+			    <div class="collapse multi-collapse" id="multiCollapseExample2">
+					<div class="d-flex align-items-center">
+						<form class="form-inline w-100">
+							<small class="ml-1">Find resources by keyword:</small>
+							<input id="keyword-search" type="search" autocomplete="off" class="w-100 form-control form-control-sm border-secondary" placeholder="" aria-label="Enter topic name">
+						</form>
+					    <a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+						<%= fa_icon 'times', class: 'fa-lg' %></a>
+					</div>
+					
+					<%= render 'search/search' %>
+					
+
+			    </div>
+				
 			</div>
 			
 			<div id="row-content" class="col-md-8 offset-md-4 p-0">
