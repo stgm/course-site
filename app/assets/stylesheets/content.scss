@@ -84,6 +84,11 @@ section img
 	max-width:100%;
 }
 
+section img.s50
+{
+    transform: scale(0.5);
+}
+
 section p img.inline
 {
 	float:right;
