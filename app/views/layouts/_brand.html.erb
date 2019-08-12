@@ -10,8 +10,7 @@
 		
 		<div class="dropdown">
 			<a class="dropdown-toggle" href="#" role="button" id="schedule_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<%= @group_name || @schedule_name %>
-			</a>
+				<%= @group_name || @schedule_name %></a>
 
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="schedule_dropdown">
 				<% Schedule.all.each do |s| %>
