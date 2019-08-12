@@ -84,9 +84,24 @@ section img
 	max-width:100%;
 }
 
-section img.s50
+section img.w100
 {
-    transform: scale(0.5);
+    max-width: 100px;
+}
+
+section img.w200
+{
+    max-width: 200px;
+}
+
+section img.w300
+{
+    max-width: 300px;
+}
+
+section img.w400
+{
+    max-width: 400px;
 }
 
 section p img.inline
