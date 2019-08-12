@@ -13,8 +13,8 @@
 		<% Settings['links'].each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
 		<% end %>
+		<% end %>
 	</ul>
-	<% end %>
 
 	<% if @current_schedule %>
 	<ul class="nav">
