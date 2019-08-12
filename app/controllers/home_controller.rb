@@ -51,7 +51,7 @@ class HomeController < ApplicationController
 	end
 	
 	def staff
-		redirect_to :root and return if not logged_in?
+		render status: :forbidden and return if not logged_in?
 
 		@student = User.includes(:hands, :notes).find(current_user.id)
 		@note = Note.new(student_id: @student.id)
