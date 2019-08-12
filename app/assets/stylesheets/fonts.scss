@@ -18,11 +18,6 @@ h1
     font-weight:400;
 }
 
-#content section:first-child h1:first-child
-{
-    margin-top:0;
-}
-
 #content table
 {
 	font-size:14px;
@@ -65,16 +60,6 @@ span.underline
 	text-decoration: underline;
 }
 
-
-#content h1
-{
-    margin-top:3em;
-}
-
-#content h1:first-child
-{
-    margin-top:1em;
-}
 
 #content h2
 {

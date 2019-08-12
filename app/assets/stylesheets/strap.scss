@@ -91,46 +91,6 @@ body.page
 {
     padding-top: 0;
 }
-
-//
-// FULL WIDTH VIDEO
-//
-
-
-#content .videoblock
-{
-    margin-top:0 ! important;
-    padding-top:0;
-    padding-bottom:0;
-    background-color:black;
-}
-
-#content .videoblock
-{
-    //margin-left: calc(-50vw + 50%);
-    //margin-right: calc(-50vw + 50%);
-    margin-left:-2em;
-    margin-right:-2em;
-}
-
-@media (max-width: 768px) {
-    #content .videoblock
-    {
-        margin-left:-2em;
-        margin-right:-2em;
-    }
-}
-	
-#content header
-{
-	margin-top:0;
-}
-
-#content > #submitted_pset
-{
-	border-radius:0;
-}
-
 	
 #submit-content
 {

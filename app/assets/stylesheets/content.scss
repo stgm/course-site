@@ -238,6 +238,12 @@ section .kramdown-table td, .kramdown-table th
             @extend .embed-responsive-item;
         }
     }
+    
+    margin-top:0 ! important;
+    padding-top:0;
+    padding-bottom:0;
+    background-color:black;
+    
 }
 
 .embed
@@ -257,6 +263,15 @@ div.embed-float .embed
     margin-bottom:0;
 }
 
+#content header
+{
+	margin-top:0;
+}
+
+#content > #submitted_pset
+{
+	border-radius:0;
+}
 
 
 //
