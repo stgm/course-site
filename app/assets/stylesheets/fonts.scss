@@ -1,21 +1,23 @@
 #content
 {
+	font-size:15px;
 	line-height:1.6;
 	font-weight:normal;
-	font-size:15px;
     color:#3f3f3f;
 }
 
 h1
 {
-    font-weight:500; color:#111; font-size:40px;
+    font-size:40px;
+    font-weight:500;
+    color:#111;
 }
 
 #content h1
 {
-    margin-bottom:1em;
-    margin-top:1.5em;
     font-weight:400;
+    margin-bottom:1em;
+    margin-top:1em;
 }
 
 #content table

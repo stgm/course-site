@@ -10,15 +10,15 @@
 
 #sidebar
 {
-//    @extend .bg-dark;
-//    @extend .text-light;
-
+    background-color:#f9fbfc;
 }
 
-#sidebar
+@media (min-width: 768px)
 {
-    background-color:#f9fbfc;
-    border-right:1px solid #64A2C0;
+    #sidebar
+    {
+        border-right:1px solid #64A2C0;
+    }
 }
 
 input#keyword-search
