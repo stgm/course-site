@@ -189,5 +189,6 @@
 a[href*="//"]:after
 {
 	content:" \f08e";
-	font: "normal normal normal 14px/1 FontAwesome";
+	font-family: "FontAwesome";
+	font-size:10pt;
 }
