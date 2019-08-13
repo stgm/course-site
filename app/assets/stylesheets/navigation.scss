@@ -185,3 +185,9 @@
 {
     background-color: #ff9966;
 }
+
+a[href*="//"]:after
+{
+	content:" \f08e";
+	font: "normal normal normal 14px/1 FontAwesome";
+}
