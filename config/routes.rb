@@ -3,9 +3,11 @@ Rails.application.routes.draw do
 	resources :alerts
 
 	# homepage
-	root :to => "page#homepage"
-	get "syllabus", to: "page#syllabus"
-	get "announcements", to: "page#announcements"
+	root :to => "home#homepage"
+	get "syllabus", to: "home#syllabus"
+	get "announcements", to: "home#announcements"
+	get "submissions", to: "home#submissions"
+	get "staff", to: "home#staff"
 
 	# logged-in users only
 	get  "profile" => "profile#index"
@@ -176,10 +178,14 @@ Rails.application.routes.draw do
 	# api
 	post "api/reload"
 	
+	get  "search/autocomplete"
+	get  "search/query"
+	get  "search/subpage"
+	
 	mathjax 'mathjax'
 
 	# default route, for content pages
 	get  ":section/:page" => "page#index"
-	get  ":section" => "section#index"
+	get  ":section" => "page#section"
 
 end

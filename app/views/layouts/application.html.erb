@@ -22,15 +22,45 @@
 	<div class="container-fluid" style="">
 		<div class="row" style="">
 			
-			<div id="sidebar" class="col-md-3 p-3 p-md-4 d-flex flex-column navbar-dark">
-				<%= render 'layouts/brand'%>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<%= render 'layouts/sidebar' %>
+			<div id="sidebar" class="col-md-4 p-md-4 navbar navbar-light d-md-block">
+
+			    <div class="collapse show multi-collapse" id="multiCollapseExample1">
+				
+					<div class="d-flex align-items-center">
+						<%= render 'layouts/brand'%>
+					    <a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+						<%= fa_icon 'search', class: 'fa-lg' %></a>
+					</div>
+				
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+				
+					<% if Settings['keyword_index'].present? %>
+					<% end %>
+					
+					<%= render 'layouts/sidebar' %>
+				
+				</div>
+				
+			    <div class="collapse multi-collapse" id="multiCollapseExample2">
+					<div class="d-flex align-items-center">
+						<form class="form-inline w-100">
+							<small class="ml-1">Find resources by keyword:</small>
+							<input id="keyword-search" type="search" autocomplete="off" class="w-100 form-control form-control-sm border-secondary" placeholder="" aria-label="Enter topic name">
+						</form>
+					    <a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+						<%= fa_icon 'times', class: 'fa-lg' %></a>
+					</div>
+					
+					<%= render 'search/search' %>
+					
+
+			    </div>
+				
 			</div>
 			
-			<div id="row-content" class="col-md-9 p-0">
+			<div id="row-content" class="col-md-8 offset-md-4 p-0">
 	
 				<%= render "layouts/alerts" %>
 				
@@ -41,11 +71,11 @@
 				</div>
 				<% end %>
 
-				<div class="pull-right pt-3 navbar navbar-expand">
+				<div id="float-nav" class="float-md-right position-absolute position-sticky navbar navbar-expand p-3">
 					<%= render 'layouts/float_nav' %>
 				</div>
 
-				<div id="content" class="p-3 p-md-4 p-sm-5 px-lg-5">
+				<div id="content" class="p-3 p-md-4 p-sm-5 p-lg-5 pt-0">
 					<%= yield %>
 				</div>
 

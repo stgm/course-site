@@ -1,7 +1,0 @@
-<% @alerts.each do |item| %>
-<div class="card">
-	<div class="card-body">
-		<%= render partial: "timeline/#{item.class.to_s.downcase}", object: item %>
-	</div>
-</div>
-<% end %>

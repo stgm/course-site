@@ -27,13 +27,6 @@
     overflow-y:auto;
 }
 
-#row-content
-{
-    // because the position of the sidebar is fixed, need this
-    // to get the content out of the way
-    margin-left:auto;
-}
-
 @media (min-width: 768px)
 {
     #sidebar
@@ -66,8 +59,13 @@
 }
 
 #sidebar a.nav-link {
-	color: #f8f9fa;
+//    color: #f8f9fa;
     @extend .px-0;
+}
+
+#sidebar a.nav-link.disabled {
+    font-weight:600;
+//    color: #c0c1c2;
 }
 
 #sidebar h2
@@ -84,7 +82,7 @@
     font-size: 14px;
 }
 
-#sidebar p.nav-text, #sidebar a
+#sidebar p.nav-text, #sidebar ul a
 {
     padding-top:0.35em;
     padding-bottom:0.35em;
@@ -95,9 +93,14 @@
     color:#a5a5a5;
 }
 
+#sidebar-content > ul
+{
+    @extend .mt-4;
+}
+
 #sidebar > * > .nav
 {
-    padding-bottom:2rem;
+//    padding-bottom:2rem;
 }
 
 #sidebar ul.nav > li > ul.nav > li > ul.nav
@@ -108,6 +111,12 @@
 #sidebar .nav .fa
 {
     width:1.5rem;
+    height:1rem;
+}
+
+#sidebar .fa-chevron-circle-left, #sidebar .fa-chevron-circle-right
+{
+    text-align:right;
 }
 
 #icon-nav
@@ -131,6 +140,32 @@
 {
     min-width:300px;
 }
+
+#search-nav .dropdown-menu
+{
+    width:500px;
+    background-color:#F2F8FF;
+}
+
+#search-content img
+{
+    max-width:100%;
+}
+
+#search-menu
+{
+    border-color:#3B6999;
+    padding-top:2em;
+}
+
+@media (min-width: 768px)
+{
+    #search-bar
+    {
+        position: fixed;
+    }
+}
+
 
 #icon-nav .form-check
 {

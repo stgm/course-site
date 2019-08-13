@@ -11,10 +11,6 @@
     clear:both;
 }
 
-#content
-{
-}
-
 #content #markdown-toc
 {
     background-color:white;
@@ -24,11 +20,12 @@
     position:sticky;
     position:-webkit-sticky;
     top:1em;
+    list-style-type: none;
 }
 
-#content #markdown-toc
+#float-nav + #content
 {
-    list-style-type: none;
+    padding-top:0 !important;
 }
 
 section p
@@ -90,6 +87,26 @@ section blockquote p
 section img
 {
 	max-width:100%;
+}
+
+section img.w100
+{
+    max-width: 100px;
+}
+
+section img.w200
+{
+    max-width: 200px;
+}
+
+section img.w300
+{
+    max-width: 300px;
+}
+
+section img.w400
+{
+    max-width: 400px;
 }
 
 section p img.inline
@@ -238,6 +255,12 @@ section .kramdown-table td, .kramdown-table th
             @extend .embed-responsive-item;
         }
     }
+    
+    margin-top:0 ! important;
+    padding-top:0;
+    padding-bottom:0;
+    background-color:black;
+    
 }
 
 .embed
@@ -258,6 +281,15 @@ div.embed-float .embed
     margin-bottom:0;
 }
 
+#content header
+{
+	margin-top:0;
+}
+
+#content > #submitted_pset
+{
+	border-radius:0;
+}
 
 
 //

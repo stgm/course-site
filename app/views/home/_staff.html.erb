@@ -10,7 +10,7 @@
 	<% end %>
 	
 	<% if current_user.head? %>
-	<%= render 'timeline/psets_to_publish' %>
+	<%= render 'psets_to_publish' %>
 	<% end %>
 
 	<% if current_user.admin? %>
@@ -50,7 +50,7 @@
 					<% end %>
 				</ul>
 				<% end %>
-				<%= render 'timeline/psets_to_publish' %>
+				<%= render 'psets_to_publish' %>
 			</div>
 			
 			<% if @new_students.present? %>

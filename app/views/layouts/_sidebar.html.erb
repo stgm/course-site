@@ -1,19 +1,23 @@
-<div class="collapse sidebar-collapse" id="navbarTogglerDemo01">
+<div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
 
-	<ul class="nav mt-2 mt-md-5">
+	<ul class="nav">
+		<li><p class="nav-text">Course</p></li>
 		<% if logged_in? && @alerts.any? %>
 		<li><a href="/announcements" class="nav-link"><%= fa_icon 'bullhorn' %> <%= t(:announcements) %></a></li>
+		<% end %>
+		<% if logged_in? && current_user.submits.any? %>
+		<li><a href="/submissions" class="nav-link"><%= fa_icon 'calendar' %> <%= t(:submissions) %></a></li>
 		<% end %>
 		<li><a href="/syllabus" class="nav-link"><%= fa_icon 'file' %> <%= t(:syllabus) %></a></li>
 		<% if Settings['links'] %>
 		<% Settings['links'].each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
 		<% end %>
+		<% end %>
 	</ul>
-	<% end %>
 
 	<% if @current_schedule %>
-	<ul class="nav mt-3">
+	<ul class="nav">
 		<li>
 			<p class="nav-text">
 				<span id="schedule_name"><%= @current_schedule.name %></span>
@@ -24,38 +28,30 @@
 				</span>
 				<% end %>
 			</p>
-
-			<ul id="schedule" class="nav">
-				<%= render partial: "schedule"%>
-			</ul>
+		</li>
+		<li id="schedule">
+			<%= links_to_ul(@current_schedule.content) %>
 		</li>
 	</ul>
 	<% end %>
 
 	<% if @section.present? && @section.content_links.present? %>
-	<ul class="nav mt-3">
+	<ul class="nav">
 		<li>
 			<p class="nav-text"><%= @section.title %></p>
-			<ul class="nav">
-				<% @section.content_links.each do |item, link|  %>
-				<% next if item == 'description' %>
-				<% if link.nil? %>
-				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, '#', class:"nav-link disabled" %></li>
-				<% elsif link == '---' %>
-				<!-- <li role="separator" class="divider"></li> -->
-				<% else %>
-				<li class="nav-item"><%= link_to item.sub('[', '<span class="badge">').sub(']', '</span>').html_safe, link, class:"nav-link" %></li>
-				<% end %>
-				<% end %>
-			</ul>
+		</li>
+		<li>
+			<%= links_to_ul(@section.content_links) %>
 		</li>
 	</ul>
 	<% end %>
 
-	<ul class="nav mt-3">
+	<ul class="nav">
 		<% if @sections.length > 0 %>
 		<li>
 			<p class="nav-text"><%= @current_schedule ? t(:other) : t(:materials) %></p>
+		</li>
+		<li>
 			<ul class="nav">
 				<%= render 'layouts/sections' %>
 			</ul>

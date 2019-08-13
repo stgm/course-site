@@ -10,6 +10,43 @@
 
 #sidebar
 {
-    @extend .bg-dark;
-    @extend .text-light;
+    background-color:#f9fbfc;
 }
+
+@media (min-width: 768px)
+{
+    #sidebar
+    {
+        border-right:1px solid #64A2C0;
+    }
+}
+
+input#keyword-search
+{
+//    background-color:#F0F7FA;
+}
+
+#icon-nav .nav-link
+{
+    outline: none;
+}
+
+#icon-nav .nav-link[aria-expanded=true]
+{
+    background-color:#85C1FF;
+}
+
+.dropdown-menu-right
+{
+    right:-2px;
+    margin:0;
+}
+
+#float-nav
+{
+    top:0;
+    right:0;
+    z-index:1000;
+//    background-color:rgba(20,20,30,0.05);
+}
+

@@ -13,71 +13,10 @@ end
 
 class PageController < ApplicationController
 
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage ]
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?, except: [ :homepage ]
-	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?, except: [ :homepage ]
+	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?
+	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?
 
 	before_action :register_attendance
-	
-	def homepage
-		if not Page.any?
-			# no pages at all means probably not configured yet
-			onboard
-		elsif logged_in? && (current_user.senior? || @alerts.any?)
-			announcements
-		else
-			syllabus
-		end
-	end
-	
-	def onboard
-		if User.admin.any?
-			# there's already an admin, go to config, will force login
-			redirect_to config_path
-		else
-			# there's no admin yet, make current user admin
-			redirect_to welcome_register_path
-		end
-	end
-	
-	def load_ann
-		@schedules = Schedule.all
-		@student = User.includes(:hands, :notes).find(current_user.id)
-		@grades = Grade.published.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.created_at desc')
-	
-		@items = []
-		@items += @student.submits.where("submitted_at not null").to_a
-		@items += @grades.to_a
-		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
-	end
-	
-	def announcements
-		redirect_to :root and return if not logged_in?
-		load_ann
-
-		@note = Note.new(student_id: @student.id)
-		
-		if current_user.senior? && current_user.schedule
-			@groups = current_user.schedule.groups.order(:name)
-			# @psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
-			logger.info "loading"
-			@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.id", "psets.name").count
-			@new_students = current_user.schedule.users.not_staff.groupless.active
-		end
-		
-		@title = "#{Settings.course["short_name"]} #{t(:announcements)}" if Settings.course
-	
-		render "timeline/timeline"
-	end
-	
-	def syllabus
-		load_ann if logged_in?
-		# the normal homepage is the page without a parent section
-		@page = Page.where(:section_id => nil).first
-		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
-	    raise ActionController::RoutingError.new('Not Found') if !@page
-		render :index
-	end
 	
 	def index
 		# find section by url and bail out if not found
@@ -94,8 +33,12 @@ class PageController < ApplicationController
 			# @submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).count > 0
 			@grading = @submitted && @submitted.grade
 		end
-		
-		render :index
+	end
+	
+	def section
+		# find section by url and bail out if not found
+		@section = Section.where(:slug => params[:section]).first
+	    raise ActionController::RoutingError.new('Not Found') if !@section || @section.content_page.blank?
 	end
 	
 	def submit
