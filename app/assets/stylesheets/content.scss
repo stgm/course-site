@@ -48,9 +48,14 @@ section > dl
 	margin:1em 2em;
 }
 
+section ul li, section ol li
+{
+    margin-bottom:0.25em;
+}
+
 section ul p, section ol p /* all paragraphs IN all lists get this */
 {
-	margin:0 0 0.5em 0;
+    margin:0;
 }
 
 section ul p + p, section ol p + p
