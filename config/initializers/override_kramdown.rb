@@ -15,7 +15,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		if el.attr['alt'] == 'videoplayer'
 			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><video src='#{cdn_url(el.attr['src'])}' controls width='auto' height='auto' preload='none' class='embed-responsive-item video-js vjs-sublime-skin' data-setup='{}'></div></div>"
 		elsif el.attr['alt'] == 'embed'
-			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><iframe class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
+			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><iframe allowfullscreen class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
 		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end
