@@ -61,7 +61,7 @@ private
 		Page.where("id in (?)", to_delete).delete_all
 
 		# remove all sections having no pages
-		to_delete = Section.includes(:pages).where(:pages => { :id => nil }).pluck(:id)
+		to_delete = Section.includes(:pages).where(:pages => { :id => nil }).where(content_page:nil).pluck(:id)
 		Section.where("id in (?)", to_delete).delete_all
 		
 		# remove psetfiles for psets that have no parent page
