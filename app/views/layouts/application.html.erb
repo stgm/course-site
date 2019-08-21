@@ -28,9 +28,10 @@
 				
 					<div class="d-flex align-items-center">
 						<%= render 'layouts/brand'%>
-					    <a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
 						<% if Settings['keyword_index'].present? %>
-						<%= fa_icon 'search', class: 'fa-lg' %></a>
+						<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+							<%= fa_icon 'search', class: 'fa-lg' %>
+						</a>
 						<% end %>
 					</div>
 				
