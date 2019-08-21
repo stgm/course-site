@@ -13,7 +13,7 @@ h1
     color:#111;
 }
 
-#content h1
+#content > h1
 {
     font-weight:400;
     margin-bottom:1em;
@@ -69,7 +69,7 @@ span.underline
     margin-bottom:1em;
 }
 
-#content h3, h4, h5
+#content > h3, #content > h4, #content > h5
 {
     margin-top:1.5em;
     margin-bottom:1em;
