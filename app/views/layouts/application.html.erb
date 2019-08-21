@@ -29,15 +29,15 @@
 					<div class="d-flex align-items-center">
 						<%= render 'layouts/brand'%>
 					    <a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+						<% if Settings['keyword_index'].present? %>
 						<%= fa_icon 'search', class: 'fa-lg' %></a>
+						<% end %>
 					</div>
 				
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 				
-					<% if Settings['keyword_index'].present? %>
-					<% end %>
 					
 					<%= render 'layouts/sidebar' %>
 				
