@@ -43,6 +43,7 @@
 				
 				</div>
 				
+				<% if Settings['keyword_index'].present? %>
 			    <div class="collapse multi-collapse" id="multiCollapseExample2">
 					<div class="d-flex align-items-center">
 						<form class="form-inline w-100">
@@ -54,9 +55,8 @@
 					</div>
 					
 					<%= render 'search/search' %>
-					
-
-			    </div>
+				</div>
+				<% end %>
 				
 			</div>
 			
