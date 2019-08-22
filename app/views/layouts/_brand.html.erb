@@ -1,6 +1,8 @@
 <div class="brand flex-fill align-items-center">
+
 	<%= fa_icon "terminal", class: "pull-left fa-2x text-warning" %>
-	<div class="d-flex flex-column">
+
+	<div class="d-flex flex-column flex-fill">
 		<a href="/" class="navbar-brand pb-0 flex-fill d-flex">
 			<span class="course-name"><%= Settings["course"] && Settings["course"]["name"] %></span>
 		</a>
@@ -23,4 +25,13 @@
 		<% end %>
 		<% end %>
 	</div>
+
+	<div class="d-none d-md-inline align-items-center">
+		<% if Settings['keyword_index'].present? %>
+		<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+			<%= fa_icon 'search', class: 'fa-lg' %>
+		</a>
+		<% end %>
+	</div>
+
 </div>

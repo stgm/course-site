@@ -50,10 +50,10 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# entry text
 	#
 	
-	def convert_blockquote(el, opts)
-		el.attr['class'] = 'protip'
-        format_as_indented_block_html(el.type, el.attr, '<i class="fa fa-2x fa-thumb-tack"></i>' + inner(el, indent), indent)
-	end
+	# def convert_blockquote(el, opts)
+	# 	el.attr['class'] = 'protip'
+	#         format_as_indented_block_html(el.type, el.attr, '<i class="fa fa-2x fa-thumb-tack"></i>' + inner(el, indent), indent)
+	# end
 	
 	def convert_p(el, indent)
 		if el.children.length == 1 && el.children.first.type == :img && el.children.first.attr['alt'] == 'embed'

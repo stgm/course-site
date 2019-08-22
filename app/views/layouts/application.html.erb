@@ -19,29 +19,19 @@
 
 <body class="<%= controller.controller_name %>">
 
-	<div class="container-fluid" style="">
-		<div class="row" style="">
+	<div class="container-fluid">
+		<div class="row">
 			
-			<div id="sidebar" class="col-md-4 p-md-4 navbar navbar-light d-md-block">
+			<div id="sidebar" class="navbar navbar-light d-md-block col-md-4 p-md-4">
 
-			    <div class="collapse show multi-collapse" id="multiCollapseExample1">
+				<%= render 'layouts/brand'%>
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 				
-					<div class="d-flex align-items-center">
-						<%= render 'layouts/brand'%>
-						<% if Settings['keyword_index'].present? %>
-						<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-							<%= fa_icon 'search', class: 'fa-lg' %>
-						</a>
-						<% end %>
-					</div>
-				
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-				
-					
+				<div class="collapse show multi-collapse" id="multiCollapseExample1">
 					<%= render 'layouts/sidebar' %>
-				
 				</div>
 				
 				<% if Settings['keyword_index'].present? %>
