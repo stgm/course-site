@@ -1,52 +1,67 @@
+// CSS for the theme, which is mostly the colors of elements
+
 #timeline .card small
 {
-    color:#339879; text-transform: uppercase; font-size:x-small;
+	color:#339879; text-transform: uppercase; font-size:x-small;
 }
 
 #timeline .card small.author
 {
-    color:#8b9894;
+	color:#8b9894;
 }
 
 #sidebar
 {
-    background-color:#f9fbfc;
+	background-color:#f9fbfc;
 }
 
 @media (min-width: 768px)
 {
-    #sidebar
-    {
-        border-right:1px solid #64A2C0;
-    }
-}
-
-input#keyword-search
-{
-//    background-color:#F0F7FA;
+	#sidebar
+	{
+		border-right:1px solid #64A2C0;
+	}
 }
 
 #icon-nav .nav-link
 {
-    outline: none;
+	outline: none;
 }
 
 #icon-nav .nav-link[aria-expanded=true]
 {
-    background-color:#85C1FF;
+	background-color:#85C1FF;
 }
 
 .dropdown-menu-right
 {
-    right:-2px;
-    margin:0;
+	right:-2px;
+	margin:0;
 }
 
 #float-nav
 {
-    top:0;
-    right:0;
-    z-index:1000;
-//    background-color:rgba(20,20,30,0.05);
+	top:0;
+	right:0;
+	z-index:1000;
+}
+
+
+.btn.btn-grayed
+{
+	color: #545454;
+	background-color: #ececec;
+	border-color: #ccc;
+}
+
+.btn-grayed:active
+{
+	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.menu-hidden
+{
+    background-color: #ff9966;
 }
 

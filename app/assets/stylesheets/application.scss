@@ -35,24 +35,18 @@ $color5: #F25D50;
 //$font-size-h3: 1.5rem;
 //$font-size-h4: 1rem;
 
-// this is the max width for medium and large screens (not too large)
-//$container-sm: auto;
-//$container-lg: 970px;
-
 //$enable-gradients: true;
 
-//@import "bootstrap-sprockets";
 @import "bootstrap";
 
+@import "framework";
 @import "navigation";
 @import "content";
+@import "elements";
 @import "timeline";
 
 @import "theme";
-@import "strap";
 @import "tweaks";
-
-@import "fonts";
 @import "print";
 
 @import "font-awesome";

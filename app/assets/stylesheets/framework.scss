@@ -1,0 +1,106 @@
+// This file specifies attributes for the overall layout elements of the standard page.
+
+body
+{
+	-webkit-font-smoothing: subpixel-antialiased;
+	//    line-height:1.2em;
+	spadding-top:82px;
+	background-color:#f3f3f3;
+	background-size:cover;
+	background-attachment: fixed;
+}
+
+body.page
+{
+	background-color:#fcfcfc;
+}
+
+//****************************************************************************
+
+.alert
+{
+	margin-bottom:0;
+	border-radius:0;
+	border-top:none;
+	border-left:none;
+	border-right:none;
+}
+
+
+//****************************************************************************
+
+.container
+{
+	padding-left:30px;
+	padding-right:30px;
+}
+
+@media (max-width: 768px)
+{
+	.container
+	{
+		//padding-left:15px;
+		//padding-right:15px;
+	}
+}
+
+.container-fluid
+{
+	margin-right:auto;
+	margin-left:auto;
+}
+
+.container.limit-width
+{
+	max-width:60em;
+}
+
+//****************************************************************************
+
+#content section, #content header
+{
+	margin-bottom:1.5em;
+}
+
+#content section:first-child
+{
+	padding-top: 0;
+}
+	
+#submit-content
+{
+	table-layout:fixed;
+	margin-bottom:0 !important;
+	padding-bottom:2em;
+	border-radius:0.25em;
+	border:1px solid gray;
+	background-color:whitesmoke;
+	padding:2em;
+}
+
+#submit-content h2
+{
+	margin-top:0 !important;
+}
+
+//****************************************************************************
+
+footer
+{
+	padding:1.5em;
+	text-align:center;
+	background-color: $color1;
+	color:white;
+	font-size:x-small;
+}
+
+footer a
+{
+	color:white;
+}
+
+footer img
+{
+	vertical-align:-4px;
+	margin-right:1em;
+}

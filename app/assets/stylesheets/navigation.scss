@@ -1,6 +1,4 @@
-//
-// BRAND
-//
+// CSS for the navbar and the sidebar
 
 .brand
 {
@@ -18,9 +16,7 @@
     white-space:normal;
 }
 
-//
-// SIDEBAR RESPONSIVE + SCROLLING STUFF
-//
+//****************************************************************************
 
 #sidebar
 {
@@ -121,6 +117,8 @@
     text-align:right;
 }
 
+//****************************************************************************
+
 #icon-nav
 {
     //    position:-webkit-sticky;
@@ -138,10 +136,24 @@
     width:1.5rem;
 }
 
+#icon-nav .form-check
+{
+    padding-left:.25rem;
+}
+
+#icon-nav .register-menu
+{
+    min-width:400px;
+}
+
+//****************************************************************************
+
 #ama-nav .dropdown-menu
 {
     min-width:300px;
 }
+
+//****************************************************************************
 
 #search-nav .dropdown-menu
 {
@@ -166,31 +178,4 @@
     {
         position: fixed;
     }
-}
-
-
-#icon-nav .form-check
-{
-    padding-left:.25rem;
-}
-
-#icon-nav .register-menu
-{
-    min-width:400px;
-}
-
-//
-// MENUS
-//
-
-.menu-hidden
-{
-    background-color: #ff9966;
-}
-
-a[href*="//"]:after
-{
-	content:" \f08e";
-	font-family: "FontAwesome";
-	font-size:10pt;
 }

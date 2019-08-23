@@ -1,0 +1,100 @@
+// CSS for specialized elements that occur on a few pages
+
+//****************************************************************************
+
+#grade-table
+{
+	font-size:small;
+}
+
+#grade-table td
+{
+	vertical-align:middle;
+	padding:1px;
+	white-space:nowrap;
+}
+
+#grade-table .btn-sm
+{
+	font-size:xx-small;
+}
+
+#grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
+{
+	text-align:center;
+}
+
+#grade-table .auto-hide
+{
+	opacity:0.1;
+}
+
+#grade-table td:hover .auto-hide
+{
+	opacity:1;
+}
+
+#grade-table tr:first-child
+{
+	background-color:transparent;
+}
+
+#grade-table .btn-block
+{
+	min-width:30px;
+	padding:2px;
+}
+
+//****************************************************************************
+
+form .btn
+{
+	margins-top:0;
+}
+
+.grade-form
+{
+	height:100%;
+    
+	label
+	{
+		margin-left:.15em;
+		margin-bottom:0;
+		font-size:small;
+	}
+    
+	#grade-boxes .form-group:not(:first-child)
+	{
+		margin-left:.5rem;
+	}
+}
+
+//****************************************************************************
+
+.dropdown-menu .modal-dialog
+{
+	margin:0;
+	box-shadow:none;
+}
+
+.dropdown-menu .modal-dialog .modal-content
+{
+	margin:0;
+	box-shadow:none;
+	border:none;
+}
+
+//****************************************************************************
+
+span.bubble {
+	display: inline-block;
+	vertical-align:top;
+	max-width:20em;
+	padding: 2em;
+	text-align: center;
+	background-color: #fff;
+	border: 2px solid #DCE0E4;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}

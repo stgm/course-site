@@ -1,7 +1,7 @@
 /****************************************************************************
- *  print styles
- *
- */
+*  print styles
+*
+*/
 
 @media print
 {
@@ -12,16 +12,16 @@
 	}
 	
 	#sidebar, footer, ul.nav, #content > h1, section .video-js, iframe,
-    #schedule-column, #comments-column, .embed,
-    section#submit-content
+	#schedule-column, #comments-column, .embed,
+	section#submit-content
 	{
 		display:none !important;
 	}
     
-    #row-content
-    {
-        margin:0;
-    }
+	#row-content
+	{
+		margin:0;
+	}
 
 	#content
 	{
@@ -29,10 +29,15 @@
 		max-width:auto;
 	}
     
-    #content h1
-    {
-        margin:0; padding:0;
-    }
+	#content, #content p
+	{
+		font-size:9pt ! important;
+	}
+	
+	#content h1
+	{
+		margin:0; padding:0;
+	}
 
 	#content, section
 	{
@@ -40,10 +45,10 @@
 		display:block;
 	}
 
-    section textarea
-    {
-        resize:none;
-    }
+	section textarea
+	{
+		resize:none;
+	}
 	
 	#content blockquote
 	{
@@ -67,9 +72,9 @@
 
 	@page
 	{
-	    size: auto;   /* auto is the initial value */
+		size: auto;   /* auto is the initial value */
 
-	    /* this affects the margin in the printer settings */
-	    margin: 20mm 40mm 20mm 0mm;
+		/* this affects the margin in the printer settings */
+		margin: 20mm 40mm 20mm 0mm;
 	}
 }

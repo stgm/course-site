@@ -1,25 +1,4 @@
-.btn.btn-grayed
-{
-    color: #545454;
-    background-color: #ececec;
-    border-color: #ccc;
-}
-
-.btn-grayed:active
-{
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-}
-
-//.bar
-//{
-//    font-family: "Menlo";
-//}
-
-.navbar-nav .dropdown-menu
-{
-//    position: absolute;
-}
+// CSS that changes some bootstrap layout basics
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
 
@@ -57,4 +36,12 @@ textarea#notes
 .alert-dismissible .close {
   top: 0;
   right: 0;
+}
+
+// add a marker to external links
+a[href*="//"]:after
+{
+	content:" \f08e";
+	font-family: "FontAwesome";
+	font-size:10pt;
 }
