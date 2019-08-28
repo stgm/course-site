@@ -32,7 +32,7 @@ class SubmitsController < ApplicationController
 		if mod = @pset.parent_mod
 			@files_from_module = Submit.where(pset: mod.psets, user: @user).pluck(:file_contents).compact
 			if @files_from_module.present?
-				@files_from_module.reduce({}) {|h,pairs| pairs.each {|k,v| (h[k] ||= []) << v}; h}
+				@files_from_module = @files_from_module.reduce({}) {|h,pairs| pairs.each {|k,v| (h[k] ||= []) << v}; h}
 			end
 		end
 		@files = @submit.file_contents || @files_from_module
