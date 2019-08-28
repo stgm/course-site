@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190809194029) do
+ActiveRecord::Schema.define(version: 20190827184446) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -109,6 +109,13 @@ ActiveRecord::Schema.define(version: 20190809194029) do
 
   add_index "logins", ["user_id"], name: "index_logins_on_user_id"
 
+  create_table "mods", force: :cascade do |t|
+    t.string  "name"
+    t.integer "pset_id"
+  end
+
+  add_index "mods", ["pset_id"], name: "index_mods_on_pset_id"
+
   create_table "notes", force: :cascade do |t|
     t.text     "text"
     t.integer  "student_id"
@@ -171,8 +178,10 @@ ActiveRecord::Schema.define(version: 20190809194029) do
     t.text     "files"
     t.boolean  "automatic",   default: false, null: false
     t.text     "config"
+    t.integer  "mod_id"
   end
 
+  add_index "psets", ["mod_id"], name: "index_psets_on_mod_id"
   add_index "psets", ["page_id"], name: "index_psets_on_page_id"
 
   create_table "schedule_spans", force: :cascade do |t|
@@ -190,10 +199,9 @@ ActiveRecord::Schema.define(version: 20190809194029) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "current_schedule_span_id_id"
     t.integer  "current_schedule_span_id"
-    t.boolean  "self_register",               default: false, null: false
-    t.boolean  "self_service",                default: false, null: false
+    t.boolean  "self_register",            default: false, null: false
+    t.boolean  "self_service",             default: false, null: false
   end
 
   create_table "schedules_users", id: false, force: :cascade do |t|

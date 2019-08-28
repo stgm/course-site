@@ -29,6 +29,13 @@ class SubmitsController < ApplicationController
 		# load other useful stuff
 		@user = @submit.user
 		@pset = @submit.pset
+		if mod = @pset.parent_mod
+			@files_from_module = Submit.where(pset: mod.psets, user: @user).pluck(:file_contents).compact
+			if @files_from_module.present?
+				@files_from_module.reduce({}) {|h,pairs| pairs.each {|k,v| (h[k] ||= []) << v}; h}
+			end
+		end
+		@files = @submit.file_contents || @files_from_module
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
 		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 	end
