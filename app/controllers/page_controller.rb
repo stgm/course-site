@@ -26,6 +26,7 @@ class PageController < ApplicationController
 		# find page by url in section and bail out if not found
 		@page = @section.pages.where(:slug => params[:page]).first		
 	    raise ActionController::RoutingError.new('Not Found') if !@page
+		@subpages = @page.subpages
 		
 		if @page.pset && current_user.can_submit?
 			@has_form = @page.pset.form

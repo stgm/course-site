@@ -73,7 +73,7 @@ class HomeController < ApplicationController
 		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0
 		@subpages = @schedule && @page.subpages.where(title: @schedule.name) || @page.subpages.where(position: 0)
 		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
-	    raise ActionController::RoutingError.new('Not Found') if !@page
+		raise ActionController::RoutingError.new('Not Found') if !@page
 		render "page/index"
 	end
 	

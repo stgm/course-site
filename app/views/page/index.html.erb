@@ -1,5 +1,5 @@
 <%= form_tag_if(logged_in? && @page.pset, page_submit_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
-<% @page.subpages.each_with_index do |subpage, index| %>
+<% @subpages.each_with_index do |subpage, index| %>
 <section class="markdown" id="<%= subpage.slug %>-content">
 	<%= markdown(subpage.content, @page) %>
 </section>
