@@ -51,7 +51,7 @@ class HomeController < ApplicationController
 	end
 	
 	def staff
-		render status: :forbidden and return if not logged_in?
+		render status: :forbidden and return if not logged_in? && current_user.senior?
 
 		@student = User.includes(:hands, :notes).find(current_user.id)
 		@note = Note.new(student_id: @student.id)
