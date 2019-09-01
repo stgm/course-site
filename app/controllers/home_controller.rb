@@ -71,7 +71,7 @@ class HomeController < ApplicationController
 		# the normal homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first
 		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0
-		@subpages = @schedule && @page.subpages.where(title: @schedule.name) || @page.subpages.where(position: 0)
+		@subpages = @schedule && @page.subpages.where(title: @schedule.name).first || @page.subpages.where(position: 0).first || @page.subpages.first
 		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
 		raise ActionController::RoutingError.new('Not Found') if !@page
 		render "page/index"
