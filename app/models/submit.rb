@@ -153,7 +153,7 @@ class Submit < ActiveRecord::Base
 	def has_feedback?
 		return false if not self.check_results
 		check_results = JSON(self.check_results)
-		(check_results.keys & ["check50v2"]).any?
+		(check_results.keys & ["check50v2", "check50", "check50v3"]).any?
 	end
 	
 	def check_feedback_formatted
