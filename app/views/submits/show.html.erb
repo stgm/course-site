@@ -3,7 +3,7 @@
 
 <div class="col-2 px-0 py-0" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
 	<ul class="nav flex-column">
-		<%= button_to 'Mark as finished', finish_submits_path, class: 'btn m-3', data: { confirm:'Are you sure? All items that are correctly filled-in will be marked as "finished". You will not be able to edit those.' } %>
+		<%= button_to 'Mark as finished', finish_submits_path, class: 'btn btn-secondary m-3', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those after.' } %>
 		<% @to_grade.each do |submit| %>
 		<li class="nav-item">
 			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, submit_path(submit.id, params.slice(:pset, :group, :status)), class: 'nav-link' %>

@@ -21,14 +21,11 @@
 				true;
 			})
 			$('#student-search').on('focus', function(e) {
-				// e.preventDefault();
 				if(!$("#search-results").hasClass("show")) {
 					$('#dropdown-control').dropdown('toggle');
 				}
 			})
 			$('#student-search').on('blur', function(e) {
-				console.log("blur");
-				// e.preventDefault();
 				setTimeout(100, function() {
 				if($("#search-results").hasClass("show")) {
 					$('#dropdown-control').dropdown('toggle');

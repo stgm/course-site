@@ -53,10 +53,12 @@ class PageController < ApplicationController
 		page = Page.find(params[:page_id])
 		pset = page.pset
 
+		folder_name = pset.name + "__" + Time.now.to_i.to_s
+
 		if (pset.form || pset.files.any?) && (!Dropbox.connected? || Settings.dropbox_folder_name.blank?)
 			redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
 		end
-		
+
 		form_text = render_form_text(params[:a])
 
 		#
@@ -64,7 +66,6 @@ class PageController < ApplicationController
 		#
 		if pset.form || pset.files
 			begin
-				folder_name = pset.name + "__" + Time.now.to_i.to_s
 				upload_to_dropbox(session[:cas_user], current_user.name,
 					Settings.dropbox_folder_name, folder_name, params[:notes], form_text, params[:f])
 			rescue
@@ -93,6 +94,19 @@ class PageController < ApplicationController
 		end
 		submit.file_contents = file_contents
 		submit.save
+		
+		#
+		# create or touch submit for associated module, if possible/needed
+		#
+		if pset.mod.present? && pset.mod.pset.present?
+			mod_submit = Submit.where(:user_id => current_user.id, :pset_id => pset.mod.pset.id).first_or_initialize
+			if mod_submit.persisted?
+				mod_submit.touch(:submitted_at)
+			else
+				mod_submit.submitted_at = Time.now
+				mod_submit.save
+			end
+		end
 		
 		#
 		# get files to check server
