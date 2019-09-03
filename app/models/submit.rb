@@ -80,6 +80,8 @@ class Submit < ActiveRecord::Base
 			case tool
 			when "check50v2"
 				return check_results[tool].count { |x| x["status"].present? } / check_results[tool].size.to_f
+			when "check50"
+				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
 			when "check50v3"
 				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
 			when "checkpy"
@@ -168,6 +170,10 @@ class Submit < ActiveRecord::Base
 			when "check50v2"
 				v3=false
 				items = check_results[tool]
+			when "check50"
+				v3=true
+				items = check_results[tool]["results"]
+				return check_results[tool]["error"]["value"] if items.nil?
 			when "check50v3"
 				v3=true
 				items = check_results[tool]["results"]
