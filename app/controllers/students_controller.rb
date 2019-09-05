@@ -135,6 +135,7 @@ class StudentsController < ApplicationController
 					subgrades.each do |name, value|
 						g.subgrades[name] = value.to_i if value.present?
 					end
+					g.save
 				end
 			end
 		end
