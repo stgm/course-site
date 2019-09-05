@@ -166,6 +166,7 @@ class Submit < ActiveRecord::Base
 
 		check_results.keys.each do |tool|
 			puts tool
+			puts check_results[tool].is_a?(Array)
 			case tool
 			when "check50v2"
 				v3=false
@@ -178,16 +179,21 @@ class Submit < ActiveRecord::Base
 				v3=true
 				items = check_results[tool]["results"]
 				return check_results[tool]["error"]["value"] if items.nil?
-			when "checkpy" && check_results[tool].is_a?(Array)
-				v3=true
-				items = self.check_feedback.collect {|f| f["results"]}.flatten
-			when "checkpy" && check_results[tool].is_a?(Hash)
-				v3=true
-				items = [check_results[tool]].collect {|f| f["results"]}.flatten
+			when "checkpy"
+				if check_results[tool].is_a?(Array)
+					puts "ARR"
+					v3=true
+					items = check_results[tool].collect {|f| f["results"]}.compact.flatten
+				elsif check_results[tool].is_a?(Hash)
+					v3=true
+					items = [check_results[tool]].collect {|f| f["results"]}.flatten
+				end
 			end
+			
+			puts items
 		end
 		
-		return "" if not defined? items
+		return "" if items.nil?
 
 		# result = ""
 
