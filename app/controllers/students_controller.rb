@@ -115,6 +115,9 @@ class StudentsController < ApplicationController
 	end
 	
 	def quiz_submit
+		
+		render text: params.inspect and return
+		
 		params[:grades].each do |user_id, points|
 			if points.present?
 				logger.debug "#{user_id}  #{points}"

@@ -25,7 +25,7 @@
 			<% bla = s.submits.where(pset_id: @pset.id).first%>
 			<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
 			<td>
-				<input type="text" name="grades[<%= s.id %>][subgrade_name]" class="form-control" placeholder="" value="<%= bla.grade.subgrades.points if bla %>">
+				<input type="text" name="grades[<%= s.id %>][<%= subgrade_name %>]" class="form-control" placeholder="" value="<%= bla.grade.subgrades.points if bla %>">
 			</td>
 			<% end %>
 			<% end %>
