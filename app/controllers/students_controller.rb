@@ -116,19 +116,21 @@ class StudentsController < ApplicationController
 	
 	def quiz_submit
 		
-		render text: params.inspect and return
+		# render text: params.inspect and return
 		
-		params[:grades].each do |user_id, points|
-			if points.present?
+		params[:grades].each do |user_id, subgrades|
+			if subgrades.present?
 				logger.debug "#{user_id}  #{points}"
 				s = Submit.where(user_id: user_id, pset_id: params[:pset_id]).first_or_create
 				puts "That's submit #{s.id}"
 				if g = s.grade
-					g.subgrades.points = points.to_i
+					subgrades.each do |name, value|
+						g.subgrades[name] = value
+					end
 					g.grader = current_user
 					g.save
 				else
-					s.create_grade(subgrades: { points: points.to_i }, grader: current_user)
+					s.create_grade(subgrades: subgrades, grader: current_user)
 				end
 			end
 		end
