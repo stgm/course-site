@@ -125,7 +125,7 @@ class StudentsController < ApplicationController
 				puts "That's submit #{s.id}"
 				if g = s.grade
 					subgrades.each do |name, value|
-						g.subgrades[name] = value
+						g.subgrades[name] = value.to_i
 					end
 					g.grader = current_user
 					g.save
