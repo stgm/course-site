@@ -108,7 +108,7 @@ class StudentsController < ApplicationController
 		if @pset = Pset.find_by_id(params[:pset_id])
 			@psets = Pset.all
 			@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
-			@students = current_user.schedule && current_user.schedule.users.student.active.order(:name) || User.student.active.order(:name)
+			@students = current_user.schedule && current_user.schedule.users.student.order('lower(name)') || User.student.order('lower(name)')
 		else
 			@psets = Pset.all
 		end
