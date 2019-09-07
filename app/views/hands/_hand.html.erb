@@ -1,7 +1,7 @@
 <% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 <%= hand.user.name %> / <%= hand.location %>
 <% if hand.user.group %>
-<span class="pull-right badge badge-secondary"><%= hand.user.group.name %></span>
+<span class="pull-right badge badge-secondary" style="<%= get_colors_for_text(hand.user.group.name) %>"><%= hand.user.group.name %></span>
 <% elsif hand.user.schedule %>
 <span class="pull-right badge badge-secondary"><%= hand.user.schedule.name %></span>
 <% end %>
