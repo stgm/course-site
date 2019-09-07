@@ -7,7 +7,7 @@ class AskController < ApplicationController
 
 	def do
 		if Hand.where(user: current_user, done: false).count == 0
-			hand = Hand.create(user:current_user, help_question:params[:question], location:params[:location])
+			hand = Hand.create(user:current_user, help_question:params[:question], subject: params[:subject], location:params[:location])
 			current_user.update!(last_known_location: params[:location])
 		end
 

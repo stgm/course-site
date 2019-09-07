@@ -1,0 +1,9 @@
+<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
+<%= hand.user.name %>
+<% if hand.user.group %>
+<span class="pull-right badge badge-secondary"><%= hand.user.group.name %></span>
+<% elsif hand.user.schedule %>
+<span class="pull-right badge badge-secondary"><%= hand.user.schedule.name %></span>
+<% end %>
+<br>
+<small><%= time_ago_in_words(hand.created_at) %> / <strong><%= hand.subject %></strong> / <strong><%= hand.location %></strong></small>
