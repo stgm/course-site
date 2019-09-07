@@ -7,7 +7,7 @@
 	<% if @my_hands.any? %>
 	<% @my_hands.each do |hand| %>
 	<%= link_to({controller: 'hands', action: 'show', id: hand.id}, class: 'list-group-item active') do %>
-	<%= render partial: "item", object: hand %>
+	<%= render partial: "hand", object: hand %>
 	<% end %>
 	<% end %>
 	<% end %>
