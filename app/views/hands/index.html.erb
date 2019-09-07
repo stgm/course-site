@@ -24,23 +24,22 @@
 	<% @long_time_users.each do |user| %>
 	<%= link_to({controller: 'hands', action: 'student', id: user.id}, class: 'list-group-item') do %>
 	<%= user.name %>
-	<span class="badge badge-light"><%= user.last_known_location if not user.last_known_location.blank? %></span>
 	<% if user.group %>
-		(<%= user.group.name %>)
-	<% else %>
-		<span class="pull-right badge badge-secondary"><%= user.schedule && user.schedule.name %></span>
+	<span class="pull-right badge badge-secondary" style="<%= get_colors_for_text(hand.user.group.name) %>"><%= user.group.name %></span>
+	<% elsif user.schedule %>
+	<span class="pull-right badge badge-secondary"><%= user.schedule.name %></span>
 	<% end %>
 	<br>
-	<small class="text-warning">
-		<% if user.last_spoken_at.blank? %>A new student: give them a warm welcome!
+	<small>
+		<% if user.last_spoken_at.blank? %>
+		never asked anything <%= time_ago_in_words(hand.created_at) %>
 		<% else %>
-		Last spoken <%= time_ago_in_words(user.last_spoken_at) unless user.last_spoken_at.blank? %> ago
+		<%= "spoken " + time_ago_in_words(user.last_spoken_at) + " ago" unless user.last_spoken_at.blank? %>
 		<% end %>
+		<%= "@ " + user.last_known_location if not user.last_known_location.blank? %>
 	</small>
-	</a>
 	<% end %>
 	<% end %>
-
 	<% end %>
 
 </div>
