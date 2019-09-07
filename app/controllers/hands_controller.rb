@@ -7,7 +7,7 @@ class HandsController < ApplicationController
 		redirect_to hands_available_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
 		@my_hands = Hand.where(done:false, assist:current_user).order('created_at asc')
 		@hands = Hand.where(done:false, assist:nil).order('created_at asc')
-		@long_time_users = User.student.where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 1.day.ago).order('last_spoken_at asc')
+		@long_time_users = User.student.where("last_known_location is not null").where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 1.day.ago).order('last_spoken_at asc')
 	end
 	
 	def show
