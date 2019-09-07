@@ -43,23 +43,29 @@ section h1
 
 // heading margins
 
-section > h1
+section h1
 {
 	margin-bottom:1em;
 	margin-top:1em;
 }
 
-section > h2
+section h2
 {
 	margin-top:2em;
 	margin-bottom:1em;
 }
 
-section > h3, section > h4, section > h5
+section h3, section h4, section h5
 {
 	margin-top:1.5em;
 	margin-bottom:1em;
 }
+
+section h4
+{
+	margin-top:1.5em;
+}
+
 
 @media (max-width: 768px)
 {
@@ -88,14 +94,9 @@ span.underline
 
 
 
-section > p
+section p
 {
 	margin-top:1em;
-}
-
-section > h4
-{
-	margin-top:1.5em;
 }
 
 section dd
@@ -103,7 +104,7 @@ section dd
 	margin: 0.5em 1em;
 }
 
-section > dl
+section dl
 {
 	margin:1em 2em;
 }
