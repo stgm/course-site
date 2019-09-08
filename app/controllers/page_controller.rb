@@ -46,7 +46,7 @@ class PageController < ApplicationController
 		#
 		# we may get here after expiry of the session?
 		#
-		if !session[:cas_user]
+		if not logged_in?
 			redirect_to(:back, alert: 'Please login again before submitting.') and return
 		end
 		

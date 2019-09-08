@@ -6,4 +6,4 @@
 <span class="pull-right badge badge-secondary" style="<%= get_colors_for_text(hand.user.schedule.name) %>"><%= hand.user.schedule.name %></span>
 <% end %>
 <br>
-<small>in line for <%= time_ago_in_words(hand.created_at) %> @ <%= hand.location %></small>
+<small>in line since <%= time_ago_in_words(hand.created_at) %><% if Settings.hands_location %> @ <%= hand.location %><% end %></small>

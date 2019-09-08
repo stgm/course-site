@@ -7,7 +7,9 @@
 	<%= form_tag(ask_do_path, method: :post, remote: true) do %>
 		<textarea name="question" class="form-control" rows="3" required placeholder="<%= t "hands.briefly_summarize" %>" style="margin-top:0.5em"></textarea>
 		<input type="text" name="subject" class="form-control" required placeholder="<%= t "hands.subject" %>" style="margin-top:0.5em" value="">
+		<% if Settings.hands_location %>
 		<input type="text" name="location" class="form-control" required placeholder="<%= t "hands.location" %>" style="margin-top:0.5em" value="<%= current_user.last_known_location %>">
+		<% end %>
 		<button id="ask-button" data-loading-text="<%= t "hands.posting_question" %>" type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-default  btn-block btn-warning" name="how" value="hands"><%= t "hands.ask_for_assistance" %></button>
 	<% end %>
 </li>
