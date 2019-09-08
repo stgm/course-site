@@ -1,5 +1,5 @@
 <small><%= date_span_with_title(submit.submitted_at)%></small>
-<h5 class="card-title">You submitted <%= submit.pset.name %>!</h5>
+<h5 class="card-title"><%= t "you_submitted", name: submit.pset.name %></h5>
 
 <% if submit.url %>
 URL: <%= link_to submit.url, submit.url %>
@@ -15,7 +15,7 @@ URL: <%= link_to submit.url, submit.url %>
 </p>
 <% end %>
 <% if submit.has_feedback? %>
-<%= link_to "Check results", profile_feedback_path(submit), class:"btn btn-secondary", data: { toggle:'modal', target:'#fb-modal', submit: submit.id } %>
+<%= link_to t("check_results"), profile_feedback_path(submit), class:"btn btn-secondary", data: { toggle:'modal', target:'#fb-modal', submit: submit.id } %>
 <% end %>
 
 <div id="fb-modal" class="fade modal" tabindex="-1" role="dialog">

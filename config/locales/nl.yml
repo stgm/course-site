@@ -22,13 +22,29 @@
 nl:
     syllabus: "Studiewijzer"
     announcements: "Mededelingen"
-    submissions: "Opdrachten"
+    submissions: "Voortgang"
     ago: "geleden"
     by: "door"
     was_graded: "is nagekeken"
     materials: "materialen"
     other: "overig"
-    
+    you_submitted: "Je hebt %{name} ingezonden"
+    check_results: "Check-resultaten"
+    hands:
+        staff_are_currently_available:
+            one: Eén medewerker beschikbaar
+            other: "%{count} medewerkers beschikbaar"
+        request_assistance_in_class: "Zet jezelf hier in de rij voor een vraag:"
+        briefly_summarize: "Geef een korte samenvatting van je vraag"
+        subject: "Over welke opdracht gaat het?"
+        location: "Geef je locatie"
+        ask_for_assistance: "Verstuur aanvraag"
+        posting_question: "Aanvraag wordt verstuurd..."
+        you_are_number_1_in_line: "Je bent nummer %{number} in de wachtrij."
+        wait_is_over: "Het wachten is voorbij!"
+        is_looking_to_help_you: "%{name} is op dit moment op zoek naar je om je te assisteren"
+        cancel_request: "Annuleren"
+
     activerecord:
       errors:
         messages:

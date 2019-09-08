@@ -1,13 +1,13 @@
 <% if @assist_available.length > 0 %>
-<li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;"><%= @assist_available.length %> staff are currently available.</li>
+<li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;"><%= t "hands.staff_are_currently_available", count: @assist_available.length %></li>
 <% else %>
-<li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;">Request assistance in class!</li>
+<li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;"><%= t "hands.request_assistance_in_class" %></li>
 <% end %>
 <li class="dropdown-header"  style="padding:2px 10px 0 10px;">
 	<%= form_tag(ask_do_path, method: :post, remote: true) do %>
-		<textarea name="question" class="form-control" rows="3" required placeholder="Briefly describe your question" style="margin-top:0.5em"></textarea>
-		<input type="text" name="subject" class="form-control" required placeholder="About which assignment?" style="margin-top:0.5em" value="">
-		<input type="text" name="location" class="form-control" required placeholder="Enter your location" style="margin-top:0.5em" value="<%= current_user.last_known_location %>">
-		<button id="ask-button" data-loading-text="Posting question..." type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-default  btn-block btn-warning" name="how" value="hands">Ask for assistance</button>
+		<textarea name="question" class="form-control" rows="3" required placeholder="<%= t "hands.briefly_summarize" %>" style="margin-top:0.5em"></textarea>
+		<input type="text" name="subject" class="form-control" required placeholder="<%= t "hands.subject" %>" style="margin-top:0.5em" value="">
+		<input type="text" name="location" class="form-control" required placeholder="<%= t "hands.location" %>" style="margin-top:0.5em" value="<%= current_user.last_known_location %>">
+		<button id="ask-button" data-loading-text="<%= t "hands.posting_question" %>" type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-default  btn-block btn-warning" name="how" value="hands"><%= t "hands.ask_for_assistance" %></button>
 	<% end %>
 </li>
