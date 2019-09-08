@@ -37,6 +37,7 @@ en:
         subject: "About which assignment?"
         location: "Enter your location"
         ask_for_assistance: "Ask for assistance"
+        posting_question: "Aanvraag wordt verstuurd..."
         you_are_number_1_in_line: "You are number %{number} in line."
         wait_is_over: "Het wachten is voorbij!"
         is_looking_to_help_you: "%{name} is looking to assist you right now"
