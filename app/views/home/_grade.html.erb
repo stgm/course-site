@@ -3,7 +3,7 @@
 	<%= grade.pset.name %> <%= t(:was_graded) %><br>
 </h5>
 <p id="grade_buttons">
-	<% if Settings.grading['grades'][grade.pset.name] && Settings.grading['grades'][grade.pset.name]['subgrades'] %>
+	<% if Settings.grading['grades'][grade.pset.name] && Settings.grading['grades'][grade.pset.name]['subgrades'] && !Settings.grading['grades'][grade.pset.name]['hide_calculated'] %>
 	<% Settings.grading['grades'][grade.pset.name]['subgrades'].each_pair do |subgrade_name, unin| %>
 	<% k=subgrade_name %>
 	<% v=grade.subgrades[k] %>
