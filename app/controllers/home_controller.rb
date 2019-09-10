@@ -55,6 +55,7 @@ class HomeController < ApplicationController
 
 		@student = User.includes(:hands, :notes).find(current_user.id)
 		@note = Note.new(student_id: @student.id)
+		@notes = Note.all.order("updated_at desc")
 		
 		if current_user.senior? && current_user.schedule
 			@groups = current_user.schedule.groups.order(:name)
