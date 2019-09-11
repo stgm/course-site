@@ -89,7 +89,13 @@ class PageController < ApplicationController
 			file_contents = {}
 			files.each do |filename, file|
 				name = file.original_filename
-				file.rewind and file_contents[name] = file.read if text_file?(name)
+				if text_file?(name)
+					if file.size < 10000
+						file.rewind and file_contents[name] = file.read
+					else
+						file_contents[name] = "Uploaded file was too large!"
+					end
+				end
 			end
 		end
 		submit.file_contents = file_contents
