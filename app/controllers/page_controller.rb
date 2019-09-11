@@ -113,7 +113,7 @@ class PageController < ApplicationController
 				mod_submit.save
 			end
 		end
-		s
+		
 		#
 		# get files to check server
 		#
