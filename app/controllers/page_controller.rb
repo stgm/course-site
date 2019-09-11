@@ -90,7 +90,7 @@ class PageController < ApplicationController
 			files.each do |filename, file|
 				name = file.original_filename
 				if text_file?(name)
-					if file.size < 10000
+					if file.size < 60000
 						file.rewind and file_contents[name] = file.read
 					else
 						file_contents[name] = "Uploaded file was too large!"
@@ -113,7 +113,7 @@ class PageController < ApplicationController
 				mod_submit.save
 			end
 		end
-		
+		s
 		#
 		# get files to check server
 		#
