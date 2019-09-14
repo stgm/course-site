@@ -46,6 +46,10 @@ class PageController < ApplicationController
 		#
 		# we may get here after expiry of the session?
 		#
+		if request.content_length > 999999
+			redirect_to(:back, alert: "Your files are too big somehow! Please check what you're uploading or ask your teacher.") and return
+		end
+		
 		if not logged_in?
 			redirect_to(:back, alert: 'Please login again before submitting.') and return
 		end
