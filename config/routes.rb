@@ -155,6 +155,10 @@ Rails.application.routes.draw do
 			post "publish_mine"
 			post "publish_all"
 			post "publish"
+			
+			get  "form_for_publish_auto"
+			post "publish_auto"
+			
 			put  "assign_all_final"
 			post "reopen/(:group_id)", to: "grades#reopen", as: "reopen"
 		end

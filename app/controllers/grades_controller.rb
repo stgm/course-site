@@ -95,6 +95,30 @@ class GradesController < ApplicationController
 		redirect_to :back
 	end
 	
+	def form_for_publish_auto
+		@psets = Pset.where(automatic: true).order(:order)
+		render layout: "application"
+	end
+
+	def publish_auto
+		ids = []
+		params[:psets].each do |name|
+			pset = Pset.find_by_name(name)
+			ids << pset.id
+		end
+		
+		@schedule.submits.where(pset_id: ids).each do |s|
+			if s.grade.nil?
+				g = s.build_grade
+				if g.subgrades.correctness == 5
+					g.published!
+				end
+			end
+		end
+		
+		redirect_to students_in_group_path(@schedule.name)
+	end
+	
 	def assign_all_final
 		schedule = params[:schedule] && Schedule.find_by_id(params[:schedule])
 		users = schedule && schedule.users
