@@ -74,6 +74,8 @@ class Submit < ActiveRecord::Base
 	
 	def check_score
 		check_results = JSON(self.check_results)
+		return nil if not self.check_results.present?
+		
 		check_results.keys.each do |tool|
 			puts tool
 			puts check_results[tool].inspect

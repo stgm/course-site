@@ -29,13 +29,23 @@ class SubmitsController < ApplicationController
 		# load other useful stuff
 		@user = @submit.user
 		@pset = @submit.pset
+
+		# load files submitted in child psets if we want to grade a parent module
 		if mod = @pset.parent_mod
-			@files_from_module = Submit.where(pset: mod.psets, user: @user).pluck(:file_contents).compact
-			if @files_from_module.present?
-				@files_from_module = @files_from_module.reduce(Hash.new, :merge)
+			files = {}
+			Submit.joins(:pset).where(pset: mod.psets, user: @user).each do |submit|
+				if submit.file_contents
+					submit.file_contents.each do |filename, contents|
+						files["#{submit.pset.name} / #{submit.check_score} / #{filename}"] = contents
+					end
+				end
 			end
+			@files_from_module = files
 		end
+
+		# either use the files attached to this specific submit, or all gathered from the module
 		@files = @submit.file_contents || @files_from_module
+
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
 		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 	end
