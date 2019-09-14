@@ -74,7 +74,7 @@ class Submit < ActiveRecord::Base
 	
 	def check_score
 		check_results = JSON(self.check_results)
-		return nil if not self.check_results.present?
+		return nil if !self.check_results.present?
 		
 		check_results.keys.each do |tool|
 			puts tool
@@ -82,9 +82,8 @@ class Submit < ActiveRecord::Base
 			case tool
 			when "check50v2"
 				return check_results[tool].count { |x| x["status"].present? } / check_results[tool].size.to_f
-			when "check50"
-				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
-			when "check50v3"
+			when "check50", "check50v3"
+				return 0 if check_results[tool]["error"].present?
 				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
 			when "checkpy"
 				if check_results[tool].is_a?(Array)
