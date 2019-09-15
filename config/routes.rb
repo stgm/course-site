@@ -181,6 +181,7 @@ Rails.application.routes.draw do
 	
 	# api
 	post "api/reload"
+	get  "api/current_longest_waiting_time"
 	
 	get  "search/autocomplete"
 	get  "search/query"

@@ -10,8 +10,25 @@ class ApiController < ApplicationController
 		render text:''
 	end
 	
-	def waiting_time
-		
+	def current_longest_waiting_time
+		if longest = Hand.waiting.order("created_at desc").first
+			seconds = (Time.now - longest.created_at).to_i
+			render json: {
+				"postfix": "m",
+				"color": "green",
+				"data": {
+					"value": seconds / 60
+				}
+			}
+		else
+			render json: {
+				"postfix": "",
+				"color": "green",
+				"data": {
+					"value": "-"
+				}
+			}
+		end
 	end
 
 	private
