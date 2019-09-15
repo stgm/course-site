@@ -31,7 +31,7 @@ class SubmitsController < ApplicationController
 		@pset = @submit.pset
 
 		# load files submitted in child psets if we want to grade a parent module
-		if mod = @pset.parent_mod
+		if mod = @pset.mod
 			files = {}
 			Submit.joins(:pset).where(pset: mod.psets, user: @user).each do |submit|
 				if submit.file_contents
