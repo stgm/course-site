@@ -14,7 +14,7 @@ class ApiController < ApplicationController
 		if longest = Hand.waiting.order("created_at desc").first
 			seconds = (Time.now - longest.created_at).to_i
 			render json: {
-				"postfix": "m",
+				"postfix": "minutes",
 				"color": "green",
 				"data": {
 					"value": seconds / 60
@@ -22,7 +22,7 @@ class ApiController < ApplicationController
 			}
 		else
 			render json: {
-				"postfix": "",
+				"postfix": "minutes",
 				"color": "green",
 				"data": {
 					"value": 0
