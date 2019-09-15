@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
 	# scope :active,    -> { where(active: true) }
 	
 	scope :active, -> { where('users.active != ? and users.done != ? and (users.started_at < ? or last_submitted_at is not null)', false, true, DateTime.now) }
-	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now) }
+	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now).where(active: true) }
 	
 	scope :inactive,  -> { where(active: false) }
 	scope :done, -> { where(done:true) }
