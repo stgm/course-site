@@ -25,7 +25,7 @@ class ApiController < ApplicationController
 				"postfix": "",
 				"color": "green",
 				"data": {
-					"value": "-"
+					"value": 0
 				}
 			}
 		end
