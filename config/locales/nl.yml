@@ -29,6 +29,8 @@ nl:
     materials: "materialen"
     other: "overig"
     you_submitted: "Je hebt %{name} ingezonden"
+    you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
+    see_submissions_page: "Zie de voortgangspagina voor een overzicht."
     check_results: "Check-resultaten"
     hands:
         staff_are_currently_available:

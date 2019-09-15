@@ -29,6 +29,8 @@ en:
     materials: "materials"
     other: "other"
     you_submitted: "You submitted %{name}"
+    you_submitted_ago: "You have submitted this problem set %{time} ago."
+    see_submissions_page: "See the progress page for an overview."
     check_results: "Check results"
     hands:
         staff_are_currently_available: "%{number} staff are currently available"
