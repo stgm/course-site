@@ -107,8 +107,8 @@ class PageController < ApplicationController
 		#
 		# create or touch submit for associated module, if possible/needed
 		#
-		if pset.mod.present? && pset.mod.pset.present?
-			mod_submit = Submit.where(:user_id => current_user.id, :pset_id => pset.mod.pset.id).first_or_initialize
+		if pset.parent_mod.present? && pset.parent_mod.pset.present?
+			mod_submit = Submit.where(:user_id => current_user.id, :pset_id => pset.parent_mod.pset.id).first_or_initialize
 			if mod_submit.persisted?
 				mod_submit.touch(:submitted_at)
 			else
