@@ -1,5 +1,5 @@
 <% @items.each do |item| %>
-<div class="card <%= "card-highlight" if item.updated_at > 1.week.ago %>">
+<div class="card">
 	<div class="card-body">
 		<%= render partial: "#{item.class.to_s.downcase}", object: item %>
 	</div>
