@@ -4,7 +4,7 @@
 </h5>
 <p id="grade_buttons">
 
-	<% if Settings.grading['grades'][grade.pset.name] && Settings.grading['grades'][grade.pset.name]['subgrades'] && !Settings.grading['grades'][grade.pset.name]['hide_subgrades'] %>
+	<% if Settings.grading && Settings.grading['grades'][grade.pset.name] && Settings.grading['grades'][grade.pset.name]['subgrades'] && !Settings.grading['grades'][grade.pset.name]['hide_subgrades'] %>
 		<% Settings.grading['grades'][grade.pset.name]['subgrades'].each_pair do |subgrade_name, unin| %>
 		<% k=subgrade_name %>
 		<% v=grade.subgrades[k] %>
@@ -12,7 +12,7 @@
 		<% end %>
 	<% end %>
 
-	<% if !Settings.grading['grades'][grade.pset.name] || !Settings.grading['grades'][grade.pset.name]['hide_calculated'] %>
+	<% if !Settings.grading || !Settings.grading['grades'][grade.pset.name] || !Settings.grading['grades'][grade.pset.name]['hide_calculated'] %>
 	<span class="btn btn-sm btn-outline-primary"> Grade <span class="badge badge-primary"><%= translate_grade(grade.any_final_grade) %></span></span>
 	<% end%>
 

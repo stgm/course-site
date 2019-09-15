@@ -28,7 +28,7 @@ class HomeController < ApplicationController
 		@grades = Grade.published.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.updated_at desc')
 	
 		@items = []
-		@items += @student.submits.includes({:pset => :mod}).where("submitted_at is not null and mods.id is not null").references(:mods).to_a
+		@items += @student.submits.includes({:pset => [:parent_mod, :mod]}).where("submitted_at is not null").where("psets.mod_id is not null or mods_psets.pset_id is null").references(:psets, :mods).to_a
 		@items += @grades.to_a
 		@items = @items.sort { |a,b| b.updated_at <=> a.updated_at }
 	end
