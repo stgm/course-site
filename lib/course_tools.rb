@@ -54,10 +54,11 @@ class CourseTools
 			Settings['grading']['modules'].each do |name, psets|
 				mod = Mod.where(name: name).first_or_create
 				mod_pset = Pset.where(name: name).first_or_create
-				mod.update(pset: mod_pset)
+				# mod.update(pset: mod_pset)
+				mod_pset.update(mod: mod)
 				psets.each do |pset_name|
 					pset = Pset.find_by_name(pset_name)
-					pset.update(mod: mod)
+					pset.update(parent_mod: mod)
 				end
 			end
 		end
