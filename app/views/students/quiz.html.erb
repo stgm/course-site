@@ -28,6 +28,9 @@
 				<input type="text" name="grades[<%= s.id %>][<%= subgrade_name %>]" class="form-control" placeholder="" value="<%= bla.grade.subgrades[subgrade_name] if bla && bla.grade %>">
 			</td>
 			<% end %>
+			<td>
+				<%= bla.grade.comments if bla && bla.grade %>
+			</td>
 			<% end %>
 		</tr>
 		<% end %>
