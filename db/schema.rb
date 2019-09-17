@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190907075659) do
+ActiveRecord::Schema.define(version: 20190917070902) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20190907075659) do
     t.integer  "status",           default: 0,     null: false
     t.integer  "grader_id"
     t.text     "auto_grades"
+    t.text     "notes"
   end
 
   add_index "grades", ["submit_id"], name: "index_grades_on_submit_id"

@@ -118,7 +118,9 @@ class StudentsController < ApplicationController
 		
 		# render text: params.inspect and return
 		
-		params[:grades].each do |user_id, subgrades|
+		params[:grades].each do |user_id, info|
+			notes = info[:notes]
+			subgrades = info[:subgrades]
 			# check if any of the subgrades has been filled
 			if subgrades.values.map(&:present?).any?
 				# logger.debug "#{user_id}  #{points}"
@@ -128,6 +130,7 @@ class StudentsController < ApplicationController
 					subgrades.each do |name, value|
 						g.subgrades[name] = value.to_i if value.present?
 					end
+					g.notes = notes
 					g.grader = current_user
 					g.save
 				else
@@ -135,6 +138,7 @@ class StudentsController < ApplicationController
 					subgrades.each do |name, value|
 						g.subgrades[name] = value.to_i if value.present?
 					end
+					g.notes = notes
 					g.save
 				end
 			end
