@@ -1,0 +1,21 @@
+<div class="col-12">
+
+	<table class="table" style="width:auto">
+		<% @students.each do |s| %>
+		<tr>
+			<td>
+				<input type="text" readonly class="form-control-plaintext" id="staticEmail" value="<%= s.name %>">
+			</td>
+			<% s.submits.each do |submit| %>
+			<td>
+				<input type="text" readonly class="form-control-plaintext" placeholder="" value="<%= submit.pset.name %>: <%= submit.grade.calculated_grade if submit.grade %>">
+			</td>
+			<td>
+				<input type="text" readonly class="form-control-plaintext" placeholder="" value="<%= submit.grade.notes if submit.grade %>">
+			</td>
+			<% end %>
+		</tr>
+		<% end %>
+	</table>
+
+</div>
