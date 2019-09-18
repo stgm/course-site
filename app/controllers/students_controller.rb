@@ -112,8 +112,6 @@ class StudentsController < ApplicationController
 		else
 			@psets = Pset.all
 		end
-		
-		redirect_to :back, notice: "Saved."
 	end
 	
 	def quiz_overview
@@ -156,7 +154,7 @@ class StudentsController < ApplicationController
 			end
 		end
 		
-		render text: "Done"
+		redirect_to :back, notice: "Saved."
 	end
 	
 	
