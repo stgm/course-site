@@ -46,7 +46,20 @@ class Grade < ActiveRecord::Base
 
 		# take this opportunity to convert any stringified ints from the params to ints
 		val.each do |k,v|
-			val[k] = v.to_i if v.to_i.to_s == v
+			# get type from grading config
+			begin
+				f = Settings['grading']['grades'][this.pset_name]['subgrades'][k]
+			rescue
+				f = "integer"
+			end
+			
+			case f
+			when "integer"
+				val[k] = v.to_i #if v.to_i.to_s == v
+			when "float"
+				# val[k] = v.to_f #if [v,"0"+v].include?(v.to_f.to_s)
+				val[k] = v.sub(",", ".").to_f #if [v.sub(",", "."),"0"+v.sub(",", ".")].include?(v.sub(",", ".").to_f.to_s)
+			end
 		end if val
 
 		super OpenStruct.new val.to_h if val
