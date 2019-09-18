@@ -89,6 +89,7 @@ Rails.application.routes.draw do
 	
 	get "students/quiz"
 	post "students/quiz_submit"
+	get "students/quiz_overview"
 	
 	get "status" => "status#index"
 
