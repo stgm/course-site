@@ -44,21 +44,20 @@ class Grade < ActiveRecord::Base
 		# we would like this to be stored as an OpenStruct
 		return super if val.is_a? OpenStruct
 
-		# take this opportunity to convert any stringified ints from the params to ints
+		# take this opportunity to convert any stringified stuff to numbers
 		val.each do |k,v|
 			# get type from grading config
 			begin
-				f = Settings['grading']['grades'][this.pset_name]['subgrades'][k]
+				grade_type = Settings['grading']['grades'][self.pset_name]['subgrades'][k]
 			rescue
-				f = "integer"
+				grade_type = "integer"
 			end
 			
-			case f
+			case grade_type
 			when "integer"
-				val[k] = v.to_i #if v.to_i.to_s == v
+				val[k] = v.to_i
 			when "float"
-				# val[k] = v.to_f #if [v,"0"+v].include?(v.to_f.to_s)
-				val[k] = v.sub(",", ".").to_f #if [v.sub(",", "."),"0"+v.sub(",", ".")].include?(v.sub(",", ".").to_f.to_s)
+				val[k] = v.sub(",", ".").to_f
 			end
 		end if val
 
