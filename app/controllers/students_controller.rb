@@ -116,7 +116,7 @@ class StudentsController < ApplicationController
 	
 	def quiz_overview
 		@psets = Pset.where(name: Settings['grading']['tests']['submits'].keys)
-		@students = User.joins(submits: :grade).where(submits: { pset_id: @psets }).where("grades.calculated_grade = 0").order(:name)
+		@students = User.includes(submits: :grade).where(submits: { pset_id: @psets }).where("grades.calculated_grade = 0").order(:name)
 	end
 	
 	def quiz_submit
