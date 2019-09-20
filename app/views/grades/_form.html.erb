@@ -43,6 +43,11 @@
 		<%= f.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
 	</div>
 	
+	<div class="form-group">
+		<label for="grade_comments" class="control-label">Internal notes </label>
+		<%= f.text_area :notes, class: 'form-control', rows: 3 %>
+	</div>
+
 	<div id="grade-boxes" class="d-flex">
 		<% if @grading_definition && @grading_definition['subgrades'] %>
 		<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
