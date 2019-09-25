@@ -136,9 +136,9 @@ class StudentsController < ApplicationController
 						g.subgrades[name] = value.to_i if value.present?
 					end
 					g.notes = notes
-					g.grader = current_user
 					# if anything's new, reset grade published-ness and save
 					if g.changed?
+						g.grader = current_user
 						g.status = Grade.statuses[:finished]
 						g.save
 					end
