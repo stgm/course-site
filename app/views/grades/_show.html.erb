@@ -11,6 +11,8 @@
 		
 	</div>
 	
+	<hr style="width:100%">
+	
 	<div class="pull-right">
 		<% @grade.subgrades.each_pair do |k,v| %>
 		<%= v %> /
@@ -20,8 +22,8 @@
 		<% end %>
 	</div>
 
-	
-	
+	<hr style="width:100%">
+
 	<% if @submit and not @submit.url.blank? %>
 	<div class="form-group">
 		<label for="" class="control-label">Link</label>
@@ -35,13 +37,17 @@
 		<%= simple_markdown(@grade.comments) %>
 	</div>
 	
+	<% if @grade.notes.present? %>
+	<hr style="width:100%">
+	
+	<p>Internal notes:</p>
+	<%= simple_markdown(@grade.notes) %>
+	<% end %>
+
+	<hr style="width:100%">
+	
 	<% if current_user.admin? %>
-	<div class="form-group">
-		<label for="inputPassword3" class="control-label">Calculated grade</label>
-		<div class="input-group">
-			<p class="form-control-static"><%= @grade.calculated_grade %></p>
-		</div>
-	</div>
+	<p>Calculated grade: <%= @grade.calculated_grade %><p>
 	<% end %>
 
 	<div class="form-group d-flex mt-auto">
