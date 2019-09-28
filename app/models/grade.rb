@@ -54,7 +54,7 @@ class Grade < ActiveRecord::Base
 			end
 			
 			case grade_type
-			when "integer"
+			when "integer", "boolean"
 				val[k] = v.to_i unless v == ""
 			when "float"
 				val[k] = v.sub(",", ".").to_f unless v == ""
