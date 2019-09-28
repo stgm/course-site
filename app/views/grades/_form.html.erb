@@ -60,7 +60,8 @@
 		<div class="form-group">
 			<div class="checkbox">
 				<label>
-					<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", true, @grade.subgrades && @grade.subgrades[subgrade_name] %> <%= subgrade_name.capitalize %>
+					<%= hidden_field_tag "grade[subgrades[#{subgrade_name}]]", 0 %>
+					<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] %> <%= subgrade_name.capitalize %>
 				</label>
 			</div>
 		</div>
