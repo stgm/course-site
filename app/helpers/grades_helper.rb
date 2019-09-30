@@ -16,9 +16,16 @@ module GradesHelper
 	end
 	
 	def translate_grade(grade)
-		return "error" if grade.nil? or grade < -1
+		return "error" if grade.nil? || grade < -1
 		return "pass" if grade == -1
 		return "fail" if grade == 0
+		return grade.to_s
+	end
+
+	def translate_subgrade(grade)
+		return "" if grade.nil?
+		return "yes" if grade == -1 || grade.to_i == -1
+		return "no" if grade == 0
 		return grade.to_s
 	end
 	

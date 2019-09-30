@@ -8,7 +8,7 @@
 		<% Settings.grading['grades'][grade.pset.name]['subgrades'].each_pair do |subgrade_name, unin| %>
 		<% k=subgrade_name %>
 		<% v=grade.subgrades[k] %>
-		<span class="btn btn-sm btn-outline-secondary"><%= k.capitalize %> <span class="badge badge-secondary"><%= v %></span></span>
+		<span class="btn btn-sm btn-outline-secondary"><%= k.capitalize %> <span class="badge badge-secondary"><%= translate_subgrade(v) %></span></span>
 		<% end %>
 	<% end %>
 
