@@ -33,7 +33,9 @@ en:
     see_submissions_page: "See the progress page for an overview."
     check_results: "Check results"
     hands:
-        staff_are_currently_available: "%{number} staff are currently available"
+        staff_are_currently_available:
+            one: One member of staff is available
+            other: "%{count} staff are currently available"
         request_assistance_in_class: "Request assistance in class!"
         briefly_summarize: "Briefly summarize your question"
         subject: "About which assignment?"
