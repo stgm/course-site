@@ -37,12 +37,8 @@ class CourseTools
 				# TODO put "automatic" attribute into pset record
 				p.update_attribute(:grade_type, definition['type'] || :float)
 				p.update_attribute(:test, definition['is_test'] || false)
-				# db_pset.test = !!db_pset.config && db_pset.config["is_test"].present?
-				# puts "HAHAHAHAHAHAM #{db_pset.id} / #{db_pset.test.inspect} / #{db_pset.config["is_test"].inspect }"
 			end
-			# p = Pset.where(name: 'final').first_or_create
-			# p.update_attribute(:order, counter)
-			# p.update_attribute(:grade_type, :float)
+
 			if Settings['grading']['calculation']
 				Settings['grading']['calculation'].each do |name, formula|
 					p = Pset.where(name: name).first_or_create
