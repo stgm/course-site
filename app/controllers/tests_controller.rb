@@ -17,6 +17,8 @@ class TestsController < ApplicationController
 	def overview
 		@psets = Pset.where(name: Settings['grading']['tests']['submits'].keys)
 		@students = User.includes(submits: :grade).where(submits: { pset_id: @psets }).where("grades.calculated_grade = 0").order(:name)
+		
+		render layout: false
 	end
 	
 	def save
