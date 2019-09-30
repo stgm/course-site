@@ -87,9 +87,17 @@ Rails.application.routes.draw do
 	get  "students(/that/are/:status)", to: "students#index", as: :students, defaults: { status: 'active' }
 	get  "students/find"
 	
-	get "students/quiz"
-	post "students/quiz_submit"
-	get "students/quiz_overview"
+	# get "students/quiz"
+	# post "students/quiz_submit"
+	# get "students/quiz_overview"
+	
+	resources :tests, only: [ :index, :show ] do
+		post "save"
+		
+		collection do
+			get  "overview"
+		end
+	end
 	
 	get "status" => "status#index"
 

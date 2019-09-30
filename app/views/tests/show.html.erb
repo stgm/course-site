@@ -1,12 +1,8 @@
 <div class="col-12">
 
-	<% @psets.each do |p| %>
-	<%= link_to p.name, { pset_id: p.id } %> 
-	<% end %>
+	<h1><%= @pset.name %></h1>
 
-	<% if @pset %>
-	<%= form_tag students_quiz_submit_path do |f| %>
-	<%= hidden_field_tag :pset_id, @pset.id %>
+	<%= form_tag test_save_path(test_id: @pset.id) do |f| %>
 	<table class="table" style="width:auto">
 		<tr>
 			<td>Name</td>
@@ -37,7 +33,6 @@
 		<% end %>
 	</table>
 	<input type="submit">
-	<% end %>
 	<% end %>
 
 </div>

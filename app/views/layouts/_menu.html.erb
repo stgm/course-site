@@ -1,25 +1,27 @@
 <% if current_user.admin? %>
 
-<%= link_to '<i class="glyphicon glyphicon-download-alt"></i> Update courseware...'.html_safe, course_import_path, method: :post, class: 'dropdown-item' %>
-<%= link_to '<i class="glyphicon glyphicon-wrench"></i> Configuration'.html_safe, config_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("download") + 'Update courseware...', course_import_path, method: :post, class: 'dropdown-item' %>
+<%= link_to fa_icon("cog") + 'Configuration', config_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
-<%= link_to '<i class="glyphicon glyphicon-th"></i> Overview'.html_safe, students_path, class: 'dropdown-item' %>
-<%= link_to '<i class="glyphicon glyphicon-tasks"></i> Grading'.html_safe, submits_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("check") + 'Tests', tests_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("file-text-o") + 'Grading', submits_path, class: 'dropdown-item' %>
+<div class="dropdown-divider"></div>
 <% if Settings.hands_allow %>
-<%= link_to '<i class="glyphicon glyphicon-hand-up"></i> Hands'.html_safe, hands_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
 <% end %>
-<div class="dropdown-divider"></div>
 
 
 
 <% elsif current_user.head? %>
 
-<%= link_to fa_icon("list") + " Overview", students_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("file-text-o") + 'Grading', submits_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("check") + 'Tests', tests_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 <% if Settings.hands_allow %>
-<%= link_to fa_icon("hand-pointer-o") + " Hands", hands_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
 <% end %>
-<%= link_to fa_icon("pencil") + " Grading", submits_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 
 
@@ -27,10 +29,10 @@
 <% elsif current_user.assistant? %>
 
 <% if Settings.hands_allow %>
-<%= link_to fa_icon("hand-pointer-o") + " Hands", hands_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
 <% end %>
 <% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-<%= link_to fa_icon("pencil") + " Grading", submits_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("file-text-o") + 'Grading', submits_path, class: 'dropdown-item' %>
 <% end %>
 <div class="dropdown-divider"></div>
 
@@ -43,4 +45,4 @@
 <% end%>
 
 
-<%= link_to fa_icon("sign-out") + " Logout", profile_logout_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("sign-out") + "Logout", profile_logout_path, class: 'dropdown-item' %>

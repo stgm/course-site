@@ -1,0 +1,61 @@
+class TestsController < ApplicationController
+
+	before_filter CASClient::Frameworks::Rails::Filter
+	before_filter :require_senior
+	
+	def index
+		@psets = Pset.all
+	end
+
+	def show
+		@pset = Pset.find_by_id(params[:id])
+		@psets = Pset.all
+		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
+		@students = User.student.order('lower(name)')
+	end
+	
+	def overview
+		@psets = Pset.where(name: Settings['grading']['tests']['submits'].keys)
+		@students = User.includes(submits: :grade).where(submits: { pset_id: @psets }).where("grades.calculated_grade = 0").order(:name)
+	end
+	
+	def save
+		# render text: params.inspect and return
+		grades = params[:grades]
+		pset_id = params[:test_id]
+		
+		grades.each do |user_id, info|
+			notes = info[:notes]
+			subgrades = info[:subgrades]
+			# check if any of the subgrades has been filled
+			if subgrades.values.map(&:present?).any?
+				# logger.debug "#{user_id}  #{points}"
+				s = Submit.where(user_id: user_id, pset_id: pset_id).first_or_create
+				puts "That's submit #{s.id}"
+				if g = s.grade
+					subgrades.each do |name, value|
+						g.subgrades[name] = value.to_i if value.present?
+					end
+					g.notes = notes
+					# if anything's new, reset grade published-ness and save
+					if g.changed?
+						g.grader = current_user
+						g.status = Grade.statuses[:finished]
+						g.save
+					end
+				else
+					g = s.build_grade(grader: current_user)
+					subgrades.each do |name, value|
+						g.subgrades[name] = value.to_i if value.present?
+					end
+					g.notes = notes
+					g.status = Grade.statuses[:finished]
+					g.save
+				end
+			end
+		end
+		
+		redirect_to :back, notice: "Saved."
+	end
+	
+end

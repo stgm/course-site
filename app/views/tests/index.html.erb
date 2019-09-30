@@ -1,0 +1,15 @@
+<div class="col-12">
+	
+	<h1>Tests</h1>
+
+	<p>
+	<% @psets.each do |p| %>
+	<%= link_to p.name, test_path(p.id) %><br>
+	<% end %>
+	</p>
+	
+	<p>
+		<%= link_to "Overview", overview_tests_path %>
+	</p>
+
+</div>

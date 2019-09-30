@@ -61,9 +61,6 @@
 				<div class="dropdown-divider"></div>
 				<%= link_to 'Calculate final grades'.html_safe, assign_all_final_grades_path(schedule: @current_schedule_id), method: :put, data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
 				<% end %>
-				<div class="dropdown-divider"></div>
-				<%= link_to 'Enter test grades...'.html_safe, students_quiz_path, class:"dropdown-item"  %>
-				<%= link_to 'View list of failed tests...'.html_safe, students_quiz_overview_path, class:"dropdown-item"  %>
 			</div>
 		</div>
 

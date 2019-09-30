@@ -3,8 +3,6 @@ class StudentsController < ApplicationController
 	before_action CASClient::Frameworks::Rails::Filter
 	before_action :require_admin, except: [ :index, :find ]
 	before_action :require_senior, only: [ :index, :find ]
-	# before_action :require_senior, only: [ :publish_finished ]
-	# before_action :require_admin, only: [ :publish_mine, :publish_all, :assign_all_final ]
 	before_action :load_stats, except: :index
 
 	layout 'full-width'
@@ -100,65 +98,6 @@ class StudentsController < ApplicationController
 		@submits = Submit.includes(:grade).group_by(&:user_id)
 		render "index"
 	end
-	
-	
-
-
-	def quiz
-		if @pset = Pset.find_by_id(params[:pset_id])
-			@psets = Pset.all
-			@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
-			@students = User.student.order('lower(name)')
-		else
-			@psets = Pset.all
-		end
-	end
-	
-	def quiz_overview
-		@psets = Pset.where(name: Settings['grading']['tests']['submits'].keys)
-		@students = User.includes(submits: :grade).where(submits: { pset_id: @psets }).where("grades.calculated_grade = 0").order(:name)
-	end
-	
-	def quiz_submit
-		
-		# render text: params.inspect and return
-		
-		params[:grades].each do |user_id, info|
-			notes = info[:notes]
-			subgrades = info[:subgrades]
-			# check if any of the subgrades has been filled
-			if subgrades.values.map(&:present?).any?
-				# logger.debug "#{user_id}  #{points}"
-				s = Submit.where(user_id: user_id, pset_id: params[:pset_id]).first_or_create
-				puts "That's submit #{s.id}"
-				if g = s.grade
-					subgrades.each do |name, value|
-						g.subgrades[name] = value.to_i if value.present?
-					end
-					g.notes = notes
-					# if anything's new, reset grade published-ness and save
-					if g.changed?
-						g.grader = current_user
-						g.status = Grade.statuses[:finished]
-						g.save
-					end
-				else
-					g = s.build_grade(grader: current_user)
-					subgrades.each do |name, value|
-						g.subgrades[name] = value.to_i if value.present?
-					end
-					g.notes = notes
-					g.status = Grade.statuses[:finished]
-					g.save
-				end
-			end
-		end
-		
-		redirect_to :back, notice: "Saved."
-	end
-	
-	
-	
 	
 	private
 	
