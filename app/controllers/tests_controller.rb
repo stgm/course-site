@@ -4,7 +4,7 @@ class TestsController < ApplicationController
 	before_filter :require_senior
 	
 	def index
-		@psets = Pset.all
+		@psets = Pset.where(test: true)
 	end
 
 	def show

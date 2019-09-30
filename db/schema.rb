@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190917070902) do
+ActiveRecord::Schema.define(version: 20190930172728) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "title"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 20190917070902) do
     t.boolean  "automatic",   default: false, null: false
     t.text     "config"
     t.integer  "mod_id"
+    t.boolean  "test"
   end
 
   add_index "psets", ["mod_id"], name: "index_psets_on_mod_id"
