@@ -4,7 +4,9 @@
 <%= link_to fa_icon("cog") + 'Configuration', config_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 <%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
+<% if Settings.tests_present %>
 <%= link_to fa_icon("check") + 'Tests', tests_path, class: 'dropdown-item' %>
+<% end %>
 <%= link_to fa_icon("file-text-o") + 'Grading', submits_path, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 <% if Settings.hands_allow %>
@@ -17,7 +19,9 @@
 
 <%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
 <%= link_to fa_icon("file-text-o") + 'Grading', submits_path, class: 'dropdown-item' %>
+<% if Settings.tests_present %>
 <%= link_to fa_icon("check") + 'Tests', tests_path, class: 'dropdown-item' %>
+<% end %>
 <div class="dropdown-divider"></div>
 <% if Settings.hands_allow %>
 <%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>

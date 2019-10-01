@@ -27,6 +27,8 @@ class CourseTools
 			end
 		end
 		
+		# GRADES
+		# checks all grades defined in grading.yml, adds them with config
 		if Settings['grading'] && Settings['grading']['grades']
 			counter = 1
 			Pset.update_all(order: nil)
@@ -48,6 +50,11 @@ class CourseTools
 			end
 		end
 		
+		# TESTS
+		# check if any grades are "tests" (for easy data entry on exams), sets flag
+		Settings['tests_present'] = Pset.where(test:true).any?
+		
+		# MODULES
 		# check all module definitions, make mod objects and connect to psets
 		if Settings['grading'] && Settings['grading']['modules']
 			Settings['grading']['modules'].each do |name, psets|
