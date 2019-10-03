@@ -112,6 +112,8 @@ class GradeTools
 				log("max is 0") and return nil if grade == 0
 				total += grade * real_weight
 				total_weight += real_weight
+			elsif weight == "bonus"
+				total += subs[grade].any_final_grade
 			else
 				# can't find grade so return nil
 				log("this grade is nil") and return nil if subs[grade].nil? or subs[grade].any_final_grade.nil? #or subs[grade].any_final_grade == 0
