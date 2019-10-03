@@ -113,7 +113,7 @@ class GradeTools
 				total += grade * real_weight
 				total_weight += real_weight
 			elsif weight == "bonus"
-				total += subs[grade].any_final_grade
+				total += subs[grade].any_final_grade if subs[grade].present?
 			else
 				# can't find grade so return nil
 				log("this grade is nil") and return nil if subs[grade].nil? or subs[grade].any_final_grade.nil? #or subs[grade].any_final_grade == 0
