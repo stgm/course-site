@@ -129,11 +129,11 @@ class GradeTools
 		final = (1.0 * total.round(2) / total_weight)
 		log("            - result: #{final}")
 		if !needs_minimum.present? && !@grading[subtype]['required'].present?
-			return (1.0 * total / total_weight)
+			return final
 		elsif needs_minimum.present? && final >= needs_minimum
-			return (1.0 * total / total_weight)
+			return final
 		elsif @grading[subtype]['required'].present? && final.abs == 1
-			return (1.0 * total / total_weight)
+			return final
 		else
 			return 0
 		end
