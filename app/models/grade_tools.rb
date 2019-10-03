@@ -109,7 +109,7 @@ class GradeTools
 				log("                                    : #{grade}")
 
 				# can't find grade so return nil
-				log("max is 0") and return nil if grade == 0
+				log("max is 0") and return nil if grade <= 0
 				total += grade * real_weight
 				total_weight += real_weight
 			elsif weight == "bonus"
@@ -124,6 +124,7 @@ class GradeTools
 				end
 			end
 		end
+		log("            - total #{total} / weight #{total_weight}")
 		final = (1.0 * total / total_weight)
 		log("            - result: #{final}")
 		if !needs_minimum.present? || final >= needs_minimum
