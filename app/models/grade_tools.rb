@@ -69,6 +69,7 @@ class GradeTools
 	def uva_round(grade)
 		return 5 if grade >= 4.75 && grade < 5.5
 		return 6 if grade >= 5.5 && grade < 6.25
+		return 10 if grade > 10
 		return (2.0 * grade).round(0) / 2.0
 	end
 	
