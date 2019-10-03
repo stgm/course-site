@@ -60,6 +60,8 @@ module GradesHelper
 	def grade_button_type(grade, is_public)
 		return 'btn-light' if not is_public
 		case grade
+		when 10.0001..20
+			'btn-dark'
 		when -1, 6.5..10.0
 			'btn-success'
 		when 0..5.4
