@@ -135,9 +135,9 @@ class Submit < ActiveRecord::Base
 			json = Dropbox.download(path)
 			contents = json.present? ? JSON.parse(json) : nil
 			if contents.is_a?(Array)
-				self.update(check_feedback: { "checkpy" => contents.to_json })
+				self.update(check_results: { "checkpy" => contents.to_json })
 			else
-				self.update(check_feedback: contents.to_json)
+				self.update(check_results: contents.to_json)
 			end
 		rescue
 			# go on, assuming its not there
