@@ -129,17 +129,21 @@ class Submit < ActiveRecord::Base
 		self.check_feedback.index { |x| x["status"].blank? }.present?
 	end
 	
-	# def retrieve_check_feedback
-	# 	path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'check_results.json')
-	# 	begin
-	# 		json = Dropbox.download(path)
-	# 		contents = json.present? ? JSON.parse(json) : nil
-	# 		self.update(check_feedback: contents)
-	# 	rescue
-	# 		# go on, assuming its not there
-	# 	end
-	# end
-	#
+	def retrieve_check_feedback
+		path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'check_results.json')
+		begin
+			json = Dropbox.download(path)
+			contents = json.present? ? JSON.parse(json) : nil
+			if contents.is_a?(Array)
+				self.update(check_feedback: { "checkpy" => contents })
+			else
+				self.update(check_feedback: contents)
+			end
+		rescue
+			# go on, assuming its not there
+		end
+	end
+
 	# def retrieve_style_feedback
 	# 	path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'style_results.json')
 	# 	begin
