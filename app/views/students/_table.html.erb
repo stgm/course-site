@@ -4,7 +4,10 @@
 		<th>Name</th>
 		<th><span class="fa fa-sticky-note" aria-hidden="true"></span></th>
 		<th><span class="fa fa-exclamation-triangle" aria-hidden="true"></span></th>
-		<th>Attend</th>
+		<th>Days</th>
+		<% if params[:totals] == 'true' %>
+		<th>Total</th>
+		<% end %>
 		<th class="rotate">Spoken</th>
 		<% if params[:status] == 'registered' %>
 		<th class="rotate">Start date</th>
@@ -34,6 +37,10 @@
 		</td>
 		
 		<td class="bar"><%= user.attendance %></td>
+		
+		<% if params[:totals] == 'true' %>
+		<td><%= user.attendance_records.count %></td>
+		<% end %>
 		
 		<td><%= user.questions_count_cache %></td>
 		
