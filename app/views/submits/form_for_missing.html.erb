@@ -7,14 +7,16 @@
 	<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
 </div>
 <div class="form-group">
-	<label for="exampleInputEmail1">For this group of students:</label>
-	<%= select_tag :schedule_id, options_from_collection_for_select(@schedules, "id", "name"), class: 'form-control' %>
-</div>
-<div class="form-group">
 	<label for="exampleInputEmail1">Send this message:</label>
 	<textarea name="text" class="form-control">Let op: je hebt nog niets ingestuurd voor deze opdracht! Geen probleem,
 maar vergeet niet om vóór de deadline te submitten!</textarea>
 </div>
 <input type="submit" class="btn btn-default">
+
+<ul>
+	<% @users.each do |u| %>
+		<li><%= u.name %> &lt;<%= u.mail %>&gt;</li>
+	<% end %>
+</ul>
 
 <% end %>

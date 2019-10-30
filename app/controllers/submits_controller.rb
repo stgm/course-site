@@ -75,6 +75,26 @@ class SubmitsController < ApplicationController
 		send_data @file, type: "text/plain", filename: params[:filename]
 	end
 	
+	def form_for_missing
+		@schedule = current_user.schedule
+		@users = @schedule.users.not_staff.not_inactive
+		@psets = Pset.all
+		render layout: "application"
+	end
+
+	def notify_missing
+		@schedule = current_user.schedule
+		@pset = Pset.find(params[:pset_id])
+		@users = @schedule.users.not_staff.not.active
+
+		@users.each do |u|
+			if !@pset.submit_from(u)
+				NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver
+			end
+		end
+		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
+	end
+
 	private
 	
 	def load_grading_list
@@ -155,23 +175,6 @@ class SubmitsController < ApplicationController
 	# 	end
 	# 	redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
 	# end
-	#
-	# def form_for_missing
-	# 	@schedules = Schedule.all
-	# 	@psets = Pset.all
-	# 	render layout: "application"
-	# end
-	#
-	# def notify_missing
-	# 	@schedule = Schedule.find(params[:schedule_id])
-	# 	@pset = Pset.find(params[:pset_id])
-	#
-	# 	@schedule.users.not_staff.each do |u|
-	# 		if !@pset.submit_from(u)
-	# 			NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver
-	# 		end
-	# 	end
-	# 	redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
-	# end
+
 	
 end
