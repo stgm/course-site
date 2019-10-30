@@ -99,7 +99,6 @@ private
 		if config = read_config(File.join(dir, 'course.yml'))
 			Settings["course"] = config
 			if config['course']
-				Settings['long_course_name'] = config['course']['title'] if config['course']['title']
 				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
 				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
 				Settings['homepage'] = config['homepage'] if config['homepage']
