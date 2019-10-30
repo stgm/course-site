@@ -85,7 +85,7 @@ class SubmitsController < ApplicationController
 	def notify_missing
 		@schedule = current_user.schedule
 		@pset = Pset.find(params[:pset_id])
-		@users = @schedule.users.not_staff.not.active
+		@users = @schedule.users.not_staff.not_inactive
 
 		@users.each do |u|
 			if !@pset.submit_from(u)
