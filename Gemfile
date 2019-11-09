@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>5.1.0'
+gem 'rails', '~>5.2.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -39,7 +39,7 @@ gem 'chartkick'
 gem 'dropbox_api'
 gem 'helpscout'
 gem 'bugsnag'
-gem 'rubycas-client', :git => 'https://github.com/rubycas/rubycas-client.git'
+gem 'rubycas-client', git: 'https://github.com/rubycas/rubycas-client.git'
 
 # manages settings in database
 gem 'rails-settings-cached'#, '0.4.1'
@@ -64,7 +64,8 @@ gem 'sucker_punch'
 #
 gem 'kramdown'
 gem 'asciidoctor'
-gem 'mathjax-rails'
+# disabled for now because it can't serve csrf protected files or disable protection
+#gem 'mathjax-rails'
 gem 'videojs_rails'
 
 # XLSX generation
