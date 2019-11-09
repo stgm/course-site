@@ -1,5 +1,5 @@
-require 'course_git'
-require 'course_tools'
+# require 'course_git'
+# require 'course_tools'
 
 class CourseLoader
 	
