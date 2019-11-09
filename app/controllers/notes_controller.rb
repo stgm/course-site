@@ -31,7 +31,7 @@ class NotesController < ApplicationController
 		@note = Note.new(note_params.merge( {author_id: current_user.id}))
 		
 		if @note.save
-			redirect_back(fallback_location: '/'), notice: 'Note was successfully created.'
+			redirect_back fallback_location: '/', notice: 'Note was successfully created.'
 		else
 			render :new
 		end

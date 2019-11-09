@@ -57,7 +57,7 @@ class TestsController < ApplicationController
 			end
 		end
 		
-		redirect_back(fallback_location: '/'), notice: "Saved."
+		redirect_back fallback_location: '/', notice: "Saved."
 	end
 	
 end

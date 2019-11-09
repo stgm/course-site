@@ -16,7 +16,7 @@ class SubmitsController < ApplicationController
 		if g = @to_grade.first
 			redirect_to submit_path(g, params.permit(:pset, :group, :status))
 		else
-			redirect_back_with("There's nothing to grade from your grading groups yet!")
+			redirect_back fallback_location: '/', alert: "There's nothing to grade from your grading groups yet!"
 		end
 	end
 	
@@ -134,7 +134,7 @@ class SubmitsController < ApplicationController
 			@to_grade = Submit.to_grade
 		end
 
-		redirect_back_with("You haven't been assigned grading groups yet!") if not @to_grade
+		redirect_back(fallback_location: '/', alert: "You haven't been assigned grading groups yet!") if not @to_grade
 	end
 
 	#

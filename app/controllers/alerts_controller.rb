@@ -32,7 +32,7 @@ class AlertsController < ApplicationController
 		
 		if @alert.save
 			send_mail if params[:send_mail]
-			redirect_back(fallback_location: '/'), notice: 'Alert was successfully created.'
+			redirect_back fallback_location: '/', notice: 'Alert was successfully created.'
 		else
 			render :new
 		end

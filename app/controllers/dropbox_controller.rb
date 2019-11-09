@@ -8,7 +8,7 @@ class DropboxController < ApplicationController
 		if Dropbox.available?
 			redirect_to Dropbox.get_auth_url(url_for action: 'oauth', protocol: 'https')
 		else
-			redirect_back(fallback_location: '/'), alert: "Dropbox has not been configured server-side."
+			redirect_back fallback_location: '/', alert: "Dropbox has not been configured server-side."
 		end
 	end
 
