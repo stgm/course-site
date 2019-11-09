@@ -1,4 +1,4 @@
-class Ping < ActiveRecord::Base
+class Ping < ApplicationRecord
 
 	belongs_to :user
 	

@@ -1,4 +1,4 @@
-class Schedule < ActiveRecord::Base
+class Schedule < ApplicationRecord
 	
 	#
 	# A schedule is one particular time or way to do the course - there may be multiple
@@ -6,7 +6,7 @@ class Schedule < ActiveRecord::Base
 
 	# A schedule defines a set of modules (ScheduleSpans) that students work through
 	has_many :schedule_spans, dependent: :destroy
-	belongs_to :current, class_name: "ScheduleSpan", foreign_key: "current_schedule_span_id"
+	belongs_to :current, class_name: "ScheduleSpan", foreign_key: "current_schedule_span_id", optional: true
 
 	# A schedule can have grading groups defined
 	has_many :groups, dependent: :destroy

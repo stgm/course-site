@@ -1,8 +1,8 @@
-class Hand < ActiveRecord::Base
+class Hand < ApplicationRecord
 
 	belongs_to :user
 
-	belongs_to :assist, class_name: "User"
+	belongs_to :assist, class_name: "User", optional: true
 	delegate :name, to: :assist, prefix: true, allow_nil: true
 	
 	scope :waiting, -> { where(assist: nil).where.not(done: true) }

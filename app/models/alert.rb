@@ -1,3 +1,3 @@
-class Alert < ActiveRecord::Base
+class Alert < ApplicationRecord
 
 end

@@ -14,7 +14,7 @@ class SubmitsController < ApplicationController
 	def index
 		# immediately redirect to first thing that might be graded
 		if g = @to_grade.first
-			redirect_to submit_path(g, params.slice(:pset, :group, :status))
+			redirect_to submit_path(g, params.permit(:pset, :group, :status))
 		else
 			redirect_back_with("There's nothing to grade from your grading groups yet!")
 		end

@@ -1,4 +1,4 @@
-class Subpage < ActiveRecord::Base
+class Subpage < ApplicationRecord
 
 	# this generates a url friendly part for the subpage (used for html ids in this case)
 	extend FriendlyId

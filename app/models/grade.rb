@@ -1,4 +1,4 @@
-class Grade < ActiveRecord::Base
+class Grade < ApplicationRecord
 
 	belongs_to :submit
 	has_one :user, through: :submit

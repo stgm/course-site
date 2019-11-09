@@ -1,12 +1,12 @@
-class Page < ActiveRecord::Base
+class Page < ApplicationRecord
 
 	# this generates a url friendly part for the page
 	extend FriendlyId
 	friendly_id :title, use: [ :slugged, :scoped ], scope: :section
 
-	belongs_to :section  # parent section
-	has_many :subpages   # content tabs
-	has_one :pset        # linked pset if available
+	belongs_to :section, optional: true  # parent section
+	has_many :subpages                   # content tabs
+	has_one :pset                        # linked pset if available
 
 	# Make sure the subpages are always ordered
 	default_scope { order(:position) }

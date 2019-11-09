@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -20,17 +19,15 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "schedule_id"
+    t.index ["schedule_id"], name: "index_alerts_on_schedule_id"
   end
-
-  add_index "alerts", ["schedule_id"], name: "index_alerts_on_schedule_id"
 
   create_table "attendance_records", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "cutoff"
     t.boolean  "local"
+    t.index ["user_id"], name: "index_attendance_records_on_user_id"
   end
-
-  add_index "attendance_records", ["user_id"], name: "index_attendance_records_on_user_id"
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
@@ -60,9 +57,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.integer  "grader_id"
     t.text     "auto_grades"
     t.text     "notes"
+    t.index ["submit_id"], name: "index_grades_on_submit_id"
   end
-
-  add_index "grades", ["submit_id"], name: "index_grades_on_submit_id"
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -70,18 +66,16 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.datetime "updated_at"
     t.string   "slug"
     t.integer  "schedule_id"
+    t.index ["schedule_id"], name: "index_groups_on_schedule_id"
+    t.index ["slug"], name: "index_groups_on_slug", unique: true
   end
-
-  add_index "groups", ["schedule_id"], name: "index_groups_on_schedule_id"
-  add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true
 
   create_table "groups_users", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
+    t.index ["group_id"], name: "index_groups_users_on_group_id"
+    t.index ["user_id"], name: "index_groups_users_on_user_id"
   end
-
-  add_index "groups_users", ["group_id"], name: "index_groups_users_on_group_id"
-  add_index "groups_users", ["user_id"], name: "index_groups_users_on_user_id"
 
   create_table "hands", force: :cascade do |t|
     t.integer  "user_id"
@@ -99,24 +93,21 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.datetime "claimed_at"
     t.datetime "closed_at"
     t.string   "subject"
+    t.index ["assist_id"], name: "index_hands_on_assist_id"
+    t.index ["user_id"], name: "index_hands_on_user_id"
   end
-
-  add_index "hands", ["assist_id"], name: "index_hands_on_assist_id"
-  add_index "hands", ["user_id"], name: "index_hands_on_user_id"
 
   create_table "logins", force: :cascade do |t|
     t.string  "login"
     t.integer "user_id"
+    t.index ["user_id"], name: "index_logins_on_user_id"
   end
-
-  add_index "logins", ["user_id"], name: "index_logins_on_user_id"
 
   create_table "mods", force: :cascade do |t|
     t.string  "name"
     t.integer "pset_id"
+    t.index ["pset_id"], name: "index_mods_on_pset_id"
   end
-
-  add_index "mods", ["pset_id"], name: "index_mods_on_pset_id"
 
   create_table "notes", force: :cascade do |t|
     t.text     "text"
@@ -124,10 +115,9 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["author_id"], name: "index_notes_on_author_id"
+    t.index ["student_id"], name: "index_notes_on_student_id"
   end
-
-  add_index "notes", ["author_id"], name: "index_notes_on_author_id"
-  add_index "notes", ["student_id"], name: "index_notes_on_student_id"
 
   create_table "pages", force: :cascade do |t|
     t.string   "title"
@@ -138,9 +128,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.string   "slug"
     t.string   "path"
     t.boolean  "public",     default: false
+    t.index ["slug", "section_id"], name: "index_pages_on_slug_and_section_id", unique: true
   end
-
-  add_index "pages", ["slug", "section_id"], name: "index_pages_on_slug_and_section_id", unique: true
 
   create_table "pings", force: :cascade do |t|
     t.integer  "user_id"
@@ -151,9 +140,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "help_question"
+    t.index ["user_id"], name: "index_pings_on_user_id"
   end
-
-  add_index "pings", ["user_id"], name: "index_pings_on_user_id"
 
   create_table "pset_files", force: :cascade do |t|
     t.string   "filename"
@@ -161,9 +149,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.integer  "pset_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["pset_id"], name: "index_pset_files_on_pset_id"
   end
-
-  add_index "pset_files", ["pset_id"], name: "index_pset_files_on_pset_id"
 
   create_table "psets", force: :cascade do |t|
     t.string   "name"
@@ -182,10 +169,9 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.text     "config"
     t.integer  "mod_id"
     t.boolean  "test"
+    t.index ["mod_id"], name: "index_psets_on_mod_id"
+    t.index ["page_id"], name: "index_psets_on_page_id"
   end
-
-  add_index "psets", ["mod_id"], name: "index_psets_on_mod_id"
-  add_index "psets", ["page_id"], name: "index_psets_on_page_id"
 
   create_table "schedule_spans", force: :cascade do |t|
     t.string   "name"
@@ -193,9 +179,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
   end
-
-  add_index "schedule_spans", ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
 
   create_table "schedules", force: :cascade do |t|
     t.string   "name"
@@ -210,10 +195,9 @@ ActiveRecord::Schema.define(version: 20190930172728) do
   create_table "schedules_users", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "schedule_id"
+    t.index ["schedule_id"], name: "index_schedules_users_on_schedule_id"
+    t.index ["user_id"], name: "index_schedules_users_on_user_id"
   end
-
-  add_index "schedules_users", ["schedule_id"], name: "index_schedules_users_on_schedule_id"
-  add_index "schedules_users", ["user_id"], name: "index_schedules_users_on_user_id"
 
   create_table "sections", force: :cascade do |t|
     t.string   "title"
@@ -225,9 +209,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.boolean  "display",       default: false
     t.text     "content_page"
     t.text     "content_links"
+    t.index ["slug"], name: "index_sections_on_slug", unique: true
   end
-
-  add_index "sections", ["slug"], name: "index_sections_on_slug", unique: true
 
   create_table "settings", force: :cascade do |t|
     t.string   "var",                   null: false
@@ -236,9 +219,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.string   "thing_type", limit: 30
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
   end
-
-  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
 
   create_table "submits", force: :cascade do |t|
     t.integer  "user_id"
@@ -256,10 +238,9 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.boolean  "auto_graded",     default: false, null: false
     t.text     "check_results"
     t.string   "check_token"
+    t.index ["pset_id"], name: "index_submits_on_pset_id"
+    t.index ["user_id"], name: "index_submits_on_user_id"
   end
-
-  add_index "submits", ["pset_id"], name: "index_submits_on_pset_id"
-  add_index "submits", ["user_id"], name: "index_submits_on_user_id"
 
   create_table "subpages", force: :cascade do |t|
     t.string   "title"
@@ -270,9 +251,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.datetime "updated_at"
     t.string   "slug"
     t.text     "description"
+    t.index ["slug"], name: "index_subpages_on_slug", unique: true
   end
-
-  add_index "subpages", ["slug"], name: "index_subpages_on_slug", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -300,9 +280,8 @@ ActiveRecord::Schema.define(version: 20190930172728) do
     t.datetime "started_at"
     t.text     "grades_cache"
     t.integer  "current_module_id"
+    t.index ["current_module_id"], name: "index_users_on_current_module_id"
+    t.index ["schedule_id"], name: "index_users_on_schedule_id"
   end
-
-  add_index "users", ["current_module_id"], name: "index_users_on_current_module_id"
-  add_index "users", ["schedule_id"], name: "index_users_on_schedule_id"
 
 end

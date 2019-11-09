@@ -1,11 +1,11 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 	
 	serialize :grades_cache
 	
 	# normal users
-	belongs_to :group
-	belongs_to :schedule
-	belongs_to :current_module, class_name: "ScheduleSpan"
+	belongs_to :group, optional: true
+	belongs_to :schedule, optional: true
+	belongs_to :current_module, class_name: "ScheduleSpan", optional: true
 	
 	# permissions for heads/tas
 	has_and_belongs_to_many :groups
