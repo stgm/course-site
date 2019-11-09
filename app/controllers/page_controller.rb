@@ -45,12 +45,12 @@ class PageController < ApplicationController
 	def submit
 		# we may get here after expiry of the session if someone doesn't reload now and then
 		if not logged_in?
-			redirect_to(:back, alert: 'Please login again before submitting.') and return
+			redirect_back(fallback_location: '/', alert: 'Please login again before submitting.') and return
 		end
 
 		# is the total upload size acceptable? (10MiB)
 		if request.content_length > 9999999
-			redirect_to(:back, alert: "Your files are too big somehow! Please check what you're uploading or ask your teacher.") and return
+			redirect_back(fallback_location: '/', alert: "Your files are too big somehow! Please check what you're uploading or ask your teacher.") and return
 		end
 		
 		page = Page.find(params[:page_id])
@@ -59,7 +59,7 @@ class PageController < ApplicationController
 		folder_name = pset.name + "__" + Time.now.to_i.to_s
 
 		if (pset.form || pset.files.any?) && (!Dropbox.connected? || Settings.dropbox_folder_name.blank?)
-			redirect_to(:back, flash: { alert: "<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.".html_safe }) and return
+			redirect_back(fallback_location: '/', alert: '<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.'.html_safe) and return
 		end
 
 		form_text = render_form_text(params[:a])
@@ -72,7 +72,7 @@ class PageController < ApplicationController
 				upload_to_dropbox(session[:cas_user], current_user.name,
 					Settings.dropbox_folder_name, folder_name, params[:notes], form_text, params[:f])
 			rescue
-				redirect_to(:back, flash: { alert: "<b>There was a problem uploading your submission! Please try again.</b> If the problem persists, contact your instructor.".html_safe }) and return
+				redirect_back(fallback_location: '/', alert: "<b>There was a problem uploading your submission! Please try again.</b> If the problem persists, contact your instructor.".html_safe ) and return
 			end
 		end
 

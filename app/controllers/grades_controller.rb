@@ -39,7 +39,7 @@ class GradesController < ApplicationController
 			@submit.grade.update!(grade_params)
 		end
 
-		redirect_to params[:referer] || :back
+		redirect_to params[:referer] or redirect_back fallback_location: '/'
 	end
 	
 	def reopen

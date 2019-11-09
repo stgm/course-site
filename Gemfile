@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>5.0.0'
+gem 'rails', '~>5.1.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -13,8 +13,12 @@ gem 'sqlite3'#, '~>1.3.0'
 gem 'sass-rails'#, '~> 5.0.0'
 
 group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
+	# bundle exec rake doc:rails generates the API under doc/api.
+	gem 'sdoc', require: false
+end
+
+group :development do
+	gem 'listen'
 end
 
 # faster local server
