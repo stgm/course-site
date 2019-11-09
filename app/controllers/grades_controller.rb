@@ -1,8 +1,8 @@
 class GradesController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin, except: [:update, :templatize]
-	before_filter :require_staff, only: [:update, :templatize]
+	before_action CASClient::Frameworks::Rails::Filter
+	before_action :require_admin, except: [:update, :templatize]
+	before_action :require_staff, only: [:update, :templatize]
 	
 	# TODO require empty grade, admin or it's my grade
 	
@@ -45,7 +45,7 @@ class GradesController < ApplicationController
 	def reopen
 		@group = Group.find(params[:group_id])
 		@group.grades.finished.update_all(:status => Grade.statuses[:open])
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	def templatize
@@ -56,7 +56,7 @@ class GradesController < ApplicationController
 		@grade.grade = auto_feedback["grade"]
 		@grade.status = Grade.statuses[:finished]
 		@grade.save
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	def publish
@@ -76,7 +76,7 @@ class GradesController < ApplicationController
 
 		grades = schedule && schedule.grades.finished || Grade.finished
 		grades.each &:published!
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	# mark only my own grades public, and even when not marked as finished
@@ -84,7 +84,7 @@ class GradesController < ApplicationController
 		schedule = params[:schedule] && Schedule.find_by_id(params[:schedule])
 		grades = schedule && schedule.grades.where(grader: current_user) || Grade.where(grader: current_user)
 		grades.each &:published!
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 
 	# try to make all grades public, but only valid grades
@@ -92,7 +92,7 @@ class GradesController < ApplicationController
 		schedule = params[:schedule] && Schedule.find_by_id(params[:schedule])
 		grades = schedule && schedule.grades.where.not(status: [Grade.statuses[:published], Grade.statuses[:published], Grade.statuses[:exported]])
 		grades.each &:published!
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	def form_for_publish_auto
@@ -126,7 +126,7 @@ class GradesController < ApplicationController
 		users.each do |u|
 			u.assign_final_grade(@current_user)
 		end
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	private

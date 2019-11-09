@@ -1,6 +1,6 @@
 class ProfileController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
+	before_action CASClient::Frameworks::Rails::Filter
 	
 	def logout
 		CASClient::Frameworks::Rails::Filter.logout(self)
@@ -26,7 +26,7 @@ class ProfileController < ApplicationController
 	end
 	
 	def ping
-		render nothing:true
+		head :ok
 	end
 	
 	def prev
@@ -109,7 +109,7 @@ class ProfileController < ApplicationController
 				flash[:notice] = "Your question has been received! Expect someone to arrive soon."
 			end
 		end
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 end

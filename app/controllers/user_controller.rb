@@ -2,9 +2,9 @@ class UserController < ApplicationController
 	
 	include ApplicationHelper
 	
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_senior
-	before_filter :require_admin, only: :set_permissions
+	before_action CASClient::Frameworks::Rails::Filter
+	before_action :require_senior
+	before_action :require_admin, only: :set_permissions
 
 	def show
 		@schedules = Schedule.all
@@ -38,7 +38,7 @@ class UserController < ApplicationController
 
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
-			format.html { redirect_to :back }
+			format.html { redirect_back(fallback_location: '/') }
 		end
 	end
 	
@@ -48,7 +48,7 @@ class UserController < ApplicationController
 
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
-			format.html { redirect_to :back }
+			format.html { redirect_back(fallback_location: '/') }
 		end
 	end
 	
@@ -66,7 +66,7 @@ class UserController < ApplicationController
 		end
 
 		respond_to do |format|
-			format.html { redirect_to :back }
+			format.html { redirect_back(fallback_location: '/') }
 		end
 	end
 	
@@ -83,7 +83,7 @@ class UserController < ApplicationController
 			user.groups.delete(group)
 		end
 
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 
 	#
@@ -92,7 +92,7 @@ class UserController < ApplicationController
 	def touch_submit
 		s = Submit.find(params[:submit_id])
 		s.grade.open! if s.grade
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 
 	def set_alarm
@@ -101,7 +101,7 @@ class UserController < ApplicationController
 		puts params[:alarm].inspect
 		p.notes.create(text: "#{a == "false" ? 'Removed' : 'Added'} alarm", author_id: current_user.id)
 		p.update_attribute(:alarm, a)
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	def assign_group
@@ -111,7 +111,7 @@ class UserController < ApplicationController
 		p.group = g
 		p.save
 		
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	def assign_schedule
@@ -122,7 +122,7 @@ class UserController < ApplicationController
 		p.group = nil
 		p.save
 		
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	def calculate_final_grade
@@ -132,7 +132,7 @@ class UserController < ApplicationController
 		u = User.find(params[:user_id])
 		result = u.assign_final_grade(current_user)
 		Settings.debug_alert = simple_markdown("#{result}\n".html_safe)
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 end

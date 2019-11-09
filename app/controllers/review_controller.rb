@@ -1,7 +1,7 @@
 class ReviewController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_senior
+	before_action CASClient::Frameworks::Rails::Filter
+	before_action :require_senior
 	
 	layout "full-width"
 

@@ -4,8 +4,8 @@ class SubmitsController < ApplicationController
 	# This controller manages the list of submits to be graded by assistants
 	#
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_staff
+	before_action CASClient::Frameworks::Rails::Filter
+	before_action :require_staff
 	
 	before_action :load_grading_list, only: [ :index, :show ]
 	
@@ -66,7 +66,7 @@ class SubmitsController < ApplicationController
 		# TODO some of the constraints can be moved to model
 		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).open.where(users: { active: true }).where(grader: current_user)
 		@grades.update_all(status: Grade.statuses[:finished])
-		redirect_to :back
+		redirect_back(fallback_location: '/')
 	end
 	
 	def download
@@ -141,9 +141,9 @@ class SubmitsController < ApplicationController
 	# This controller mainly controls the list of submits to be graded by assistants
 	#
 
-	# before_filter CASClient::Frameworks::Rails::Filter
-	# before_filter :require_staff
-	# before_filter :require_senior, only: [ :form_for_late, :close_and_mail_late, :form_for_missing, :notify_missing ]
+	# before_action CASClient::Frameworks::Rails::Filter
+	# before_action :require_staff
+	# before_action :require_senior, only: [ :form_for_late, :close_and_mail_late, :form_for_missing, :notify_missing ]
 	#
 	# def create
 	# 	submit = Submit.create(params.require(:submit).permit(:pset_id, :user_id))

@@ -172,7 +172,7 @@ class PageController < ApplicationController
 		# success, get back to previous page
 		#
 		begin
-			redirect_to :back
+			redirect_back(fallback_location: '/')
 		rescue ActionController::RedirectBackError
 			redirect_to :root
 		end

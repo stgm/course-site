@@ -1,6 +1,6 @@
 class AskController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
+	before_action CASClient::Frameworks::Rails::Filter
 	
 	skip_before_action :go_location_bumper
 	

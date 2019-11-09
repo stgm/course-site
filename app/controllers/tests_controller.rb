@@ -1,7 +1,7 @@
 class TestsController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_senior
+	before_action CASClient::Frameworks::Rails::Filter
+	before_action :require_senior
 	
 	def index
 		@psets = Pset.where(test: true).order(:order)
@@ -57,7 +57,7 @@ class TestsController < ApplicationController
 			end
 		end
 		
-		redirect_to :back, notice: "Saved."
+		redirect_back(fallback_location: '/'), notice: "Saved."
 	end
 	
 end
