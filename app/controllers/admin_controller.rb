@@ -28,7 +28,7 @@ class AdminController < ApplicationController
 		@psets = Pset.where(name: final_grade_names)
 		@grades = Grade.joins([submit: :pset]).includes(user: [:schedule, :group]).where(submits: { pset_id: @psets }).published
 		@grades.update_all(status: Grade.statuses['exported'])
-		redirect_back(fallback_location: '/')
+		redirect_back fallback_location: '/'
 	end
 
 	def dump_grades

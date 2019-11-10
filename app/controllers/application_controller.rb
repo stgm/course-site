@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
 		flash[:alert] = "<strong>Warning:</strong> you were logged out since you last loaded this page. If you just submitted, please login and try again.".html_safe
-		redirect_back(fallback_location: '/')
+		redirect_back fallback_location: '/'
 	end
 	
 	before_action :go_location_bumper

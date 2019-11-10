@@ -109,7 +109,7 @@ class ProfileController < ApplicationController
 				flash[:notice] = "Your question has been received! Expect someone to arrive soon."
 			end
 		end
-		redirect_back(fallback_location: '/')
+		redirect_back fallback_location: '/'
 	end
 	
 end

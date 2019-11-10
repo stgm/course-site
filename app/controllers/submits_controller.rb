@@ -66,7 +66,7 @@ class SubmitsController < ApplicationController
 		# TODO some of the constraints can be moved to model
 		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).open.where(users: { active: true }).where(grader: current_user)
 		@grades.update_all(status: Grade.statuses[:finished])
-		redirect_back(fallback_location: '/')
+		redirect_back fallback_location: '/'
 	end
 	
 	def download
