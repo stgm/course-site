@@ -103,7 +103,7 @@ class ApplicationController < ActionController::Base
 		if authenticated? && login = Login.where(login: request.session['cas']['user']).first
 			@current_user = login.user
 		else
-			# no session, so fake empty user
+			# use an empty user object in case of no login
 			@current_user = User.new
 		end
 		
