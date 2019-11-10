@@ -80,7 +80,7 @@ Admin configuration options
 
 * Setting an `COURSESITE_API_TOKEN` will allow another website to import some data from a special endpoint.
 
-* Setting a `CAS_BASE_URL` is needed for authentication. You can optionally set a `CAS_FAKE_USER` to prevent CAS roundtrips during testing.
+* Setting a `CAS_BASE_URL` is needed for authentication using CAS (the only option). In development, a "fake" login screen is used which accepts any username.
 
 * Setting a `MAILER_ADDRESS` and `MAILER_DOMAIN` will allow mails to be sent to users.
 

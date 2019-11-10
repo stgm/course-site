@@ -1,6 +1,6 @@
 class AlertsController < ApplicationController
 
-	before_action CASClient::Frameworks::Rails::Filter
+	before_action :authorize
 	before_action :require_senior, except: :show
 
 	before_action :set_alert, only: [:show, :edit, :update, :destroy]

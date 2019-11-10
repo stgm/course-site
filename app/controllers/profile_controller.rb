@@ -1,11 +1,7 @@
 class ProfileController < ApplicationController
 
-	before_action CASClient::Frameworks::Rails::Filter
-	
-	def logout
-		CASClient::Frameworks::Rails::Filter.logout(self)
-	end
-	
+	before_action :authorize
+		
 	def index
 		@title = "Profile"
 	end
@@ -66,11 +62,12 @@ class ProfileController < ApplicationController
 
 		# create user if possible
 		ActiveRecord::Base.transaction do
-			login = Login.where(login: session[:cas_user]).first_or_create
-			login.create_user and login.save if login.user.nil?
-			@current_user = login.user
+			# login = Login.where(login: session[:cas_user]).first_or_create
+			# login.create_user and login.save if login.user.nil?
+			# @current_user = login.user
 			current_user.update!(params.require(:user).permit(:name, :mail, :schedule_id))
 			current_user.student!
+			current_user.logins.create(login: request.session['cas']['user'])
 		end
 
 		redirect_to :root

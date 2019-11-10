@@ -9,11 +9,14 @@ Rails.application.routes.draw do
 	get "submissions", to: "home#submissions"
 	get "staff", to: "home#staff"
 
+	# login
+	get 'session/login', to: 'session#new'
+	get 'session/logout', to: 'session#destroy'
+
 	# logged-in users only
 	get  "profile" => "profile#index"
 	post "profile/save"
 	get  "profile/pair"
-	get  "profile/logout"
 	post "profile/ask"
 	get  "profile/ping"
 	get  "profile/feedback/:submit_id", to: "profile#feedback", as: "profile_feedback"
@@ -197,7 +200,7 @@ Rails.application.routes.draw do
 	get  "search/subpage"
 	
 	# mathjax 'mathjax'
-
+	
 	# default route, for content pages
 	get  ":section/:page" => "page#index"
 	get  ":section" => "page#section"

@@ -1,6 +1,6 @@
 class GradesController < ApplicationController
 
-	before_action CASClient::Frameworks::Rails::Filter
+	before_action :authorize
 	before_action :require_admin, except: [:update, :templatize]
 	before_action :require_staff, only: [:update, :templatize]
 	

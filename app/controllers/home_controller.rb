@@ -1,8 +1,6 @@
 class HomeController < ApplicationController
 
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage, :syllabus ]
-	prepend_before_action CASClient::Frameworks::Rails::Filter, except: [ :homepage, :syllabus ]
-
+	before_action :authorize, except: [ :homepage, :syllabus ]
 	before_action :register_attendance
 	
 	def homepage

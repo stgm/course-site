@@ -1,4 +1,4 @@
-require 'api_provider'
+# require 'api_provider'
 
 class ApiController < ApplicationController
 

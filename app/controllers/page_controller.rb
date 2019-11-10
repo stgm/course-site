@@ -13,9 +13,7 @@ end
 
 class PageController < ApplicationController
 
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, unless: :request_from_local_network?
-	prepend_before_action CASClient::Frameworks::Rails::Filter, if: :request_from_local_network?
-
+	before_action :authorize, if: :request_from_local_network?
 	before_action :register_attendance
 	
 	def index

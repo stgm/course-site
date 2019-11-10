@@ -1,6 +1,6 @@
 class StudentsController < ApplicationController
 
-	before_action CASClient::Frameworks::Rails::Filter
+	before_action :authorize
 	before_action :require_admin, except: [ :index, :find ]
 	before_action :require_senior, only: [ :index, :find ]
 	before_action :load_stats, except: :index

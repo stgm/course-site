@@ -17,6 +17,7 @@
 			</span>
 			<span class="d-none d-md-inline">
 			<%= current_user && current_user.name || session[:cas_user] %>
+			<%= current_user.login_id %>
 			</span>
 		</a>
 		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
@@ -38,7 +39,7 @@
 		</div>
 	</li>
 	<% else %>
-	<li><%= link_to("Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
+	<li><%= link_to("Sign in".html_safe, session_login_path)%></li>
 	<% end %>
 	
 </ul>
