@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
 	# logged-in users only
 	get  "profile" => "profile#index"
+	get  "profile/login"
 	post "profile/save"
 	get  "profile/pair"
 	get  "profile/logout"
@@ -197,7 +198,7 @@ Rails.application.routes.draw do
 	get  "search/subpage"
 	
 	# mathjax 'mathjax'
-
+	
 	# default route, for content pages
 	get  ":section/:page" => "page#index"
 	get  ":section" => "page#section"

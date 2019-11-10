@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
 
-	before_action CASClient::Frameworks::Rails::Filter
+	before_action :login_required
 	before_action :require_senior
 	
 	def export_grades

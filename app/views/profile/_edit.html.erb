@@ -28,6 +28,6 @@
 <%= hidden_field_tag "user[schedule_id]", Schedule.first.id %>
 <% end %>
 
-<p><%= submit_tag 'Create Profile', class:'btn btn-primary btn-lg' %></p>
+<p><%= submit_tag 'Create Profile', class:'btn btn-primary btn-lg' %> <%= link_to 'Logout', profile_logout_path, class: 'btn btn-secondary' %></p>
 
 <% end %>

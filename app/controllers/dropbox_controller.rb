@@ -1,6 +1,6 @@
 class DropboxController < ApplicationController
 
-	before_action CASClient::Frameworks::Rails::Filter
+	before_action :login_required
 	before_action :require_admin
 
 	# redirects to dropbox to allow oauth confirmation

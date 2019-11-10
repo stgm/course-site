@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 	before_action :load_navigation
 	before_action :load_schedule
 	before_action :set_locale
- 
+	
 	def set_locale
 	  I18n.locale = (Settings.course["language"] if Settings.course) || I18n.default_locale
 	end
@@ -82,8 +82,13 @@ class ApplicationController < ActionController::Base
 		@alerts = Alert.where(schedule_id: alert_sources).order("created_at desc")
 	end
 	
+	def login_required
+		# defer login to rack-cas
+		head :unauthorized unless request.session['cas'].present?
+	end
+ 
 	def authenticated?
-		return !!session[:cas_user]
+		return request.session['cas'].present?
 	end
 	
 	def logged_in?
@@ -95,7 +100,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_current_user
-		if login = Login.where(login: session[:cas_user]).first
+		if authenticated? && login = Login.where(login: request.session['cas']['user']).first
 			@current_user = login.user
 		else
 			# no session, so fake empty user
