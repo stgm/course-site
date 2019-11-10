@@ -307,17 +307,17 @@ section .kramdown-table td, .kramdown-table th
 {
 	@extend .embed;
     
-//	.content
-//	{
-//		@extend .embed-responsive;
-//		@extend .embed-responsive-16by9;
-//
-//		iframe
-//		{
-//			@extend .embed-responsive-item;
-//		}
-//	}
-//   
+	.content
+	{
+		@extend .embed-responsive;
+		@extend .embed-responsive-16by9;
+
+		iframe
+		{
+			@extend .embed-responsive-item;
+		}
+	}
+   
 	margin-top:0 ! important;
 	padding-top:0;
 	padding-bottom:0;
