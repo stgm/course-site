@@ -1,18 +1,9 @@
 class ProfileController < ApplicationController
 
-	before_action :login_required
+	before_action :authorize
 		
-	def logout
-		session.delete('cas')
-		redirect_to :root
-	end
-	
 	def index
 		@title = "Profile"
-	end
-	
-	def login
-		redirect_to :root
 	end
 	
 	def feedback

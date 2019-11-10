@@ -22,8 +22,7 @@
 			
 		</div>
 		<div class="modal-footer">
-			<!-- <button type="button" class="btn btn-default">Cancel / Logout</button> -->
-			<%= link_to 'Cancel', '/profile/logout', class: 'btn btn-default' %>
+			<%= link_to 'Cancel', session_logout_path, class: 'btn btn-default' %>
 			<%= submit_tag 'Create Profile', class:'btn btn-primary' %>
 		</div>
 	</div>

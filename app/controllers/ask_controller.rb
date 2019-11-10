@@ -1,6 +1,6 @@
 class AskController < ApplicationController
 
-	before_action :login_required
+	before_action :authorize
 	skip_before_action :go_location_bumper
 	
 

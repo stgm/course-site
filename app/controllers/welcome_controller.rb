@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
 
-	before_action :login_required, except: [ :index ]
+	before_action :authorize, except: [ :index ]
 
 	def index
 		if not authenticated?

@@ -13,7 +13,7 @@ end
 
 class PageController < ApplicationController
 
-	before_action :login_required, if: :request_from_local_network?
+	before_action :authorize, if: :request_from_local_network?
 	before_action :register_attendance
 	
 	def index

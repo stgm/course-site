@@ -11,5 +11,4 @@ if base_url.present?
 	Rails.application.configure do
 		config.rack_cas.server_url = base_url
 	end
-
 end

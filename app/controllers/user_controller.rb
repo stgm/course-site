@@ -2,7 +2,7 @@ class UserController < ApplicationController
 	
 	include ApplicationHelper
 	
-	before_action :login_required
+	before_action :authorize
 	before_action :require_senior
 	before_action :require_admin, only: :set_permissions
 

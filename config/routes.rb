@@ -9,12 +9,14 @@ Rails.application.routes.draw do
 	get "submissions", to: "home#submissions"
 	get "staff", to: "home#staff"
 
+	# login
+	get 'session/login', to: 'session#new'
+	get 'session/logout', to: 'session#destroy'
+
 	# logged-in users only
 	get  "profile" => "profile#index"
-	get  "profile/login"
 	post "profile/save"
 	get  "profile/pair"
-	get  "profile/logout"
 	post "profile/ask"
 	get  "profile/ping"
 	get  "profile/feedback/:submit_id", to: "profile#feedback", as: "profile_feedback"

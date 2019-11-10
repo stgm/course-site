@@ -1,6 +1,6 @@
 class GradesController < ApplicationController
 
-	before_action :login_required
+	before_action :authorize
 	before_action :require_admin, except: [:update, :templatize]
 	before_action :require_staff, only: [:update, :templatize]
 	

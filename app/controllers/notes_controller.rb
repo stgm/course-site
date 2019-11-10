@@ -1,6 +1,6 @@
 class NotesController < ApplicationController
 
-	before_action :login_required
+	before_action :authorize
 	before_action :require_senior
 
 	before_action :set_note, only: [:show, :edit, :update, :destroy]

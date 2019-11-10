@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
 	
 	def register_attendance
 		if (!session[:last_seen_at] || session[:last_seen_at] && session[:last_seen_at] < 15.minutes.ago) && current_user.persisted?
-			logger.debug "Setting LAST_SEEN_AT session"
 			AttendanceRecord.create_for_user(current_user, request_from_local_network?)
 			session[:last_seen_at] = DateTime.now
 		end
@@ -82,7 +81,7 @@ class ApplicationController < ActionController::Base
 		@alerts = Alert.where(schedule_id: alert_sources).order("created_at desc")
 	end
 	
-	def login_required
+	def authorize
 		# defer login to rack-cas
 		head :unauthorized unless request.session['cas'].present?
 	end

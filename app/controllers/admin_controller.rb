@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
 
-	before_action :login_required
+	before_action :authorize
 	before_action :require_senior
 	
 	def export_grades

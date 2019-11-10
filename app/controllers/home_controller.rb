@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 
-	before_action :login_required, except: [ :homepage, :syllabus ]
+	before_action :authorize, except: [ :homepage, :syllabus ]
 	before_action :register_attendance
 	
 	def homepage

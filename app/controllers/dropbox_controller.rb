@@ -1,6 +1,6 @@
 class DropboxController < ApplicationController
 
-	before_action :login_required
+	before_action :authorize
 	before_action :require_admin
 
 	# redirects to dropbox to allow oauth confirmation

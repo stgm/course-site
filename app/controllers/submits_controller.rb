@@ -4,7 +4,7 @@ class SubmitsController < ApplicationController
 	# This controller manages the list of submits to be graded by assistants
 	#
 
-	before_action :login_required
+	before_action :authorize
 	before_action :require_staff
 	
 	before_action :load_grading_list, only: [ :index, :show ]
