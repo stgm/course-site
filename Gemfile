@@ -7,10 +7,10 @@ gem 'rails', '~>6.0.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'#, '~>1.3.0'
+gem 'sqlite3'
 
 # sass
-gem 'sass-rails'#, '~> 5.0.0'
+gem 'sass-rails'
 
 group :doc do
 	# bundle exec rake doc:rails generates the API under doc/api.
@@ -25,7 +25,7 @@ end
 gem 'thin'
 
 # slug generator
-gem "friendly_id"#, "~> 5.0.0"
+gem "friendly_id"
 
 # git integration
 gem 'git'
@@ -42,10 +42,10 @@ gem 'bugsnag'
 gem 'rubycas-client', git: 'https://github.com/rubycas/rubycas-client.git'
 
 # manages settings in database
-gem 'rails-settings-cached'#, '0.4.1'
+gem 'rails-settings-cached'
 
 # in-place editing for grade table
-gem 'best_in_place'#, '~> 3.0.1'
+gem 'best_in_place'
 
 # scheduled email sending for grades
 gem 'rufus-scheduler'
@@ -69,7 +69,7 @@ gem 'asciidoctor'
 gem 'videojs_rails'
 
 # XLSX generation
-gem 'rubyzip'#, '>= 1.2.1'
+gem 'rubyzip'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'axlsx_rails'
 
@@ -77,8 +77,8 @@ gem 'axlsx_rails'
 # Front-end
 #
 gem 'jquery-rails'
-gem 'uglifier'#, '>= 1.3.0'
-gem 'bootstrap'#, '~> 4.3.1'
+gem 'uglifier'
+gem 'bootstrap'
 gem 'coffee-rails'
 gem 'garlicjs-rails'
 gem 'turbolinks'
