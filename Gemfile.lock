@@ -1,15 +1,4 @@
 GIT
-  remote: https://github.com/randym/axlsx.git
-  revision: c8ac844572b25fda358cc01d2104720c4c42f450
-  ref: c8ac844
-  specs:
-    axlsx (2.1.0.pre)
-      htmlentities (~> 4.3.4)
-      mimemagic (~> 0.3)
-      nokogiri (>= 1.6.6)
-      rubyzip (>= 1.2.1)
-
-GIT
   remote: https://github.com/rubycas/rubycas-client.git
   revision: 7b67c8f1b5515ee4e28479d640d2da0a5aadfbe0
   specs:
@@ -287,7 +276,6 @@ PLATFORMS
 
 DEPENDENCIES
   asciidoctor
-  axlsx!
   axlsx_rails
   best_in_place
   bootsnap (>= 1.1.0)
