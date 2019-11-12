@@ -135,6 +135,7 @@ class Submit < ActiveRecord::Base
 		grade.reset_automatic_grades(self.automatic)
 		grade.set_calculated_grade
 		grade.status = Grade.statuses[:published]
+		grade.save
 		
 		self.save
 
