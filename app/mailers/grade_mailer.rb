@@ -5,7 +5,7 @@ class GradeMailer < ActionMailer::Base
 	default from: Settings.mailer_from
 	
 	def new_mail(grade)
-		@course_name = Settings.short_course_name
+		@course_name = Settings['course']['short_name']
 		@grade_name = grade.pset.name
 		@feedback = grade.comments
 		if Settings.grading && Settings.grading['grades'][grade.submit.pset.name] && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated']
@@ -20,7 +20,7 @@ class GradeMailer < ActionMailer::Base
 	end
 	
 	def bad_submit(submit)
-		@course_name = Settings.short_course_name
+		@course_name = Settings['course']['short_name']
 		@grade_name = submit.pset_name
 		@login = submit.used_login
 		mail(to: submit.user.mail, subject: "#{@course_name}: warning about failed check")
