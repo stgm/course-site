@@ -81,7 +81,6 @@ class PageController < ApplicationController
 		#
 		submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 		submit.submitted_at = Time.now
-		submit.updated_at = submit.submitted_at
 		submit.used_login = session[:cas_user]
 		submit.url = params[:url]
 		submit.folder_name = folder_name
