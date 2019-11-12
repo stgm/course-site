@@ -132,6 +132,7 @@ class Submit < ActiveRecord::Base
 		grade = self.grade || self.build_grade
 		
 		# check via the grade if this submit is OK
+		grade.reset_automatic_grades(self.automatic)
 		grade.set_calculated_grade
 		grade.status = Grade.statuses[:published]
 		

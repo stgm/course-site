@@ -32,6 +32,12 @@ class Grade < ActiveRecord::Base
 		end
 	end
 	
+	def reset_automatic_grades(auto_grades)
+		auto_grades.to_h.each do |k,v|
+			self.subgrades[k] = v
+		end
+	end
+	
 	def public?
 		published? or discussed? or exported?
 	end
