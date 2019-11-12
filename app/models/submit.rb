@@ -123,6 +123,17 @@ class Submit < ActiveRecord::Base
 		end
 	end
 	
+	def register_check_results(json)
+		self.check_token = nil
+		self.check_results = json
+		grade = self.grade || self.build_grade
+		grade.set_calculated_grade
+		if grade.calculated_grade == 0
+			GradeMailer.bad_submit(self).deliver
+		end
+		self.save
+	end
+	
 	def check_feedback_problems?
 		return false if self.check_feedback.blank?
 		

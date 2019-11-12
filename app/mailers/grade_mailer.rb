@@ -19,4 +19,11 @@ class GradeMailer < ActionMailer::Base
 		mail(to: grade.user.mail, subject: "#{Settings.short_course_name}: feedback for #{@grade_name}")
 	end
 	
+	def bad_submit(submit)
+		@course_name = Settings.short_course_name
+		@grade_name = submit.pset_name
+		@login = submit.used_login
+		mail(to: submit.user.mail, subject: "#{@course_name}: warning about failed check")
+	end
+	
 end
