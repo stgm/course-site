@@ -29,6 +29,38 @@ class HomeController < ApplicationController
 		@items += @student.submits.includes({:pset => [:parent_mod, :mod]}).where("submitted_at is not null").where("psets.mod_id is not null or mods_psets.pset_id is null").references(:psets, :mods).to_a
 		@items += @grades.to_a
 		@items = @items.sort { |a,b| b.updated_at <=> a.updated_at }
+
+		# determine what final grade calculation to use
+		@final_grade_names = Settings.grading['calculation'].keys
+		@final_grade_name = @final_grade_names[0]
+
+		# determine the categories, ignore weight 0
+		@overview = Hash.new
+		Settings.grading['calculation'][@final_grade_name].each_pair do |category, weight|
+			if weight != 0
+				@overview[category] = []
+			end
+		end
+
+		# determine submits for categories, add subgrades, ignore weight 0 and bonus
+		@subgrades = []
+		@overview.each_pair do |category, submits|
+			Settings.grading[category]['submits'].each_pair do |submit, weight|
+				if weight != 0 && weight != 'bonus'
+					@overview[category] << submit
+					if !Settings.grading['grades'][submit]['hide_subgrades']
+						@subgrades += Settings.grading['grades'][submit]['subgrades'].keys
+					end
+				end
+			end
+		end
+
+		# remove dupes
+		@subgrades = @subgrades.uniq
+
+		# convert grades to an easy-to-use format
+		@grades_by_pset = Hash[@grades.collect { |item| [item.pset.name, item] } ]
+
 	end
 	
 	def announcements

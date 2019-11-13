@@ -32,6 +32,9 @@ en:
     you_submitted_ago: "You have submitted this problem set %{time} ago."
     see_submissions_page: "See the progress page for an overview."
     check_results: "Check results"
+    assignment: "Assignment"
+    overview: "Grades overview"
+    weight: "weight"
     hands:
         staff_are_currently_available:
             one: One member of staff is available
