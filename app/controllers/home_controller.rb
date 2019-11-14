@@ -59,7 +59,7 @@ class HomeController < ApplicationController
 		@subgrades = @subgrades.uniq
 
 		# convert grades to an easy-to-use format
-		@grades_by_pset = Hash[@grades.collect { |item| [item.pset.name, item] } ]
+		@grades_by_pset = @grades.to_h { |item| [item.pset.name, item] }
 
 	end
 	
