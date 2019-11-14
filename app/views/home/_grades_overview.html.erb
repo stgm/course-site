@@ -13,13 +13,13 @@
 				<%# Final grade %>
 				<th>Grade</th>
 			</tr>
-			<% @overview.each_pair do |category, submits| %>
+			<% @overview.each_pair do |category, content| %>
 				<%# Create category heading. %>
 				<tr>
 					<th colspan=<%= @subgrades.length + 2 %>><center><%= category.capitalize %></center></th>
 				</tr>
 
-				<% submits.each do |submit| %>
+				<% content['submits'].each_pair do |submit, weight| %>
 					<%# Each submit within category %>
 					<tr>
 						<%# Submit name %>

@@ -30,29 +30,18 @@ class HomeController < ApplicationController
 		@items += @grades.to_a
 		@items = @items.sort { |a,b| b.updated_at <=> a.updated_at }
 
-		# determine what final grade calculation to use
-		@final_grade_names = Settings.grading['calculation'].keys
-		@final_grade_name = @final_grade_names[0]
+		# determine the categories to show
+		@overview = Settings.grading.select { |category, value| value['show_progress'] }
 
-		# determine the categories, ignore weight 0
-		@overview = {}
-		Settings.grading['calculation'][@final_grade_name].each_pair do |category, weight|
-			if weight != 0
-				@overview[category] = []
-			end
-		end
-
-		# determine submits for categories, add subgrades, ignore weight 0 and bonus
 		@subgrades = []
-		@overview.each_pair do |category, submits|
-			Settings.grading[category]['submits'].each_pair do |submit, weight|
-				if weight != 0 && weight != 'bonus'
-					@overview[category] << submit
-					if !Settings.grading['grades'][submit]['hide_subgrades']
-						@subgrades += Settings.grading['grades'][submit]['subgrades'].keys
-					end
-				end
-			end
+		@overview.each_pair do |category, content|
+			# remove weight 0 and bonus
+			@overview[category]['submits'] = @overview[category]['submits'].reject { |submit, weight| (weight == 0 || weight == 'bonus') }
+
+			# determine subgrades
+			@overview[category]['submits'].each_pair do |submit, weight|
+				@subgrades += Settings.grading['grades'][submit]['subgrades'].keys
+			end 
 		end
 
 		# remove dupes
