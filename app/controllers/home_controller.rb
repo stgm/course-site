@@ -35,7 +35,7 @@ class HomeController < ApplicationController
 		@final_grade_name = @final_grade_names[0]
 
 		# determine the categories, ignore weight 0
-		@overview = Hash.new
+		@overview = {}
 		Settings.grading['calculation'][@final_grade_name].each_pair do |category, weight|
 			if weight != 0
 				@overview[category] = []
