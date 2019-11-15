@@ -40,7 +40,7 @@ class HomeController < ApplicationController
 
 			# determine subgrades
 			@overview[category]['submits'].each_pair do |submit, weight|
-				@subgrades += Settings.grading['grades'][submit]['subgrades'].keys
+				@subgrades += Settings.grading['grades'][submit]['subgrades'].keys if !Settings.grading['grades'][submit]['hide_subgrades']
 			end 
 		end
 
