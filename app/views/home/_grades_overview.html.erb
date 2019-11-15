@@ -1,22 +1,19 @@
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title"><%= t('overview') %></h5>
-		<table class="table table-sm table-responsive">
-			<%# Table header  %>
-			<tr>
-				<%# Assignment %>
-				<th><%= t('assignment') %></th>
-				<%# Subgrades  %>
-				<% @subgrades.each do |subgrade| %>
-					<th><%= subgrade.capitalize %></th>
-				<% end %>
-				<%# Final grade %>
-				<th>Grade</th>
-			</tr>
-			<% @overview.each_pair do |category, content| %>
-				<%# Create category heading. %>
+		<% @overview.each_pair do |category, content| %>
+			<h6><b><%= category.capitalize %></b></h6>
+			<table class="table table-sm table-responsive">
+				<%# Table header  %>
 				<tr>
-					<th colspan=<%= @subgrades.length + 2 %>><center><%= category.capitalize %></center></th>
+					<%# Assignment %>
+					<th><%= t('assignment') %></th>
+					<%# Subgrades  %>
+					<% @subgrades[category].each do |subgrade| %>
+						<th><%= subgrade.capitalize %></th>
+					<% end %>
+					<%# Final grade %>
+					<th>Grade</th>
 				</tr>
 
 				<% content['submits'].each_pair do |submit, weight| %>
@@ -24,7 +21,7 @@
 					<tr>
 						<%# Submit name %>
 						<td><%= submit %></td>
-						<% @subgrades.each do |subgrade| %>
+						<% @subgrades[category].each do |subgrade| %>
 							<%# Print each subgrade if it exists for this grade, subgrades are not hidden, and the grade isn't unpublished. %>
 							<%# Else, print a dash. %>
 							<% if @grades_by_pset.key?(submit) && !Settings.grading['grades'][submit]['hide_subgrades'] && @grades_by_pset[submit].subgrades[subgrade] %>
@@ -43,7 +40,8 @@
 					</tr>
 				<% end %>
 
-			<% end %>
-		</table>
+			
+			</table>
+		<% end %>
 	</div>
 </div>
