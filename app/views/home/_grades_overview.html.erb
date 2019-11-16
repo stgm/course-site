@@ -1,4 +1,4 @@
-<div class="card">
+<div id="overview" class="card">
 	<div class="card-body">
 		<h5 class="card-title"><%= t('overview') %></h5>
 		<% @overview.each_pair do |category, content| %>
@@ -10,11 +10,11 @@
 					<th></th>
 					<%# Subgrades  %>
 					<% @subgrades[category].each do |subgrade| %>
-						<th><center><%= subgrade.capitalize %></center></th>
+						<th><%= subgrade.capitalize %></th>
 					<% end %>
 					<%# Final grade %>
 					<% if @show_calculated[category] %>
-						<th><center>Grade</center></th>
+						<th>Grade</th>
 					<% end %>
 				</tr>
 
@@ -27,18 +27,18 @@
 							<%# Print each subgrade if it exists for this grade, subgrades are not hidden, and the grade isn't unpublished. %>
 							<%# Else, print a dash. %>
 							<% if @grades_by_pset.key?(submit) && !Settings.grading['grades'][submit]['hide_subgrades'] && @grades_by_pset[submit].subgrades[subgrade] %>
-								<td><center><%= translate_subgrade(@grades_by_pset[submit].subgrades[subgrade]) %></center></td>
+								<td><%= translate_subgrade(@grades_by_pset[submit].subgrades[subgrade]) %></td>
 							<% else %>
-								<td><center>-</center></td>
+								<td>-</td>
 							<% end %>
 						<% end %>
 						<% if @show_calculated[category] %>
 							<%# Print calculated grade for this submit if it is not unpublished or hidden. %>
 							<%# Else, print a dash. %>
 							<% if @grades_by_pset.key?(submit) && !Settings.grading['grades'][submit]['hide_calculated'] %>
-								<td><center><%= translate_grade(@grades_by_pset[submit].any_final_grade) %></center></td>
+								<td><%= translate_grade(@grades_by_pset[submit].any_final_grade) %></td>
 							<% else %>
-								<td><center>-</center></td>
+								<td>-</td>
 							<% end %>
 						<% end %>
 					</tr>
