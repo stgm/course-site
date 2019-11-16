@@ -33,19 +33,23 @@ class HomeController < ApplicationController
 		# determine the categories to show
 		@overview = Settings.grading.select { |category, value| value['show_progress'] }
 
-		@subgrades = []
+		@subgrades = {}
+		@show_calculated = {}
 		@overview.each_pair do |category, content|
 			# remove weight 0 and bonus
 			@overview[category]['submits'] = @overview[category]['submits'].reject { |submit, weight| (weight == 0 || weight == 'bonus') }
 
 			# determine subgrades
+			@subgrades[category] = []
+			@show_calculated[category] = false
 			@overview[category]['submits'].each_pair do |submit, weight|
-				@subgrades += Settings.grading['grades'][submit]['subgrades'].keys if !Settings.grading['grades'][submit]['hide_subgrades']
-			end 
+				@subgrades[category] += Settings.grading['grades'][submit]['subgrades'].keys if !Settings.grading['grades'][submit]['hide_subgrades']
+				@show_calculated[category] = true if !Settings.grading['grades'][submit]['hide_calculated']
+			end
+			
+			# remove dupes
+			@subgrades[category] = @subgrades[category].uniq
 		end
-
-		# remove dupes
-		@subgrades = @subgrades.uniq
 
 		# convert grades to an easy-to-use format
 		@grades_by_pset = @grades.to_h { |item| [item.pset.name, item] }
