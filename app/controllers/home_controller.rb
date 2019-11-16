@@ -34,14 +34,17 @@ class HomeController < ApplicationController
 		@overview = Settings.grading.select { |category, value| value['show_progress'] }
 
 		@subgrades = {}
+		@show_calculated = {}
 		@overview.each_pair do |category, content|
 			# remove weight 0 and bonus
 			@overview[category]['submits'] = @overview[category]['submits'].reject { |submit, weight| (weight == 0 || weight == 'bonus') }
 
 			# determine subgrades
 			@subgrades[category] = []
+			@show_calculated[category] = false
 			@overview[category]['submits'].each_pair do |submit, weight|
 				@subgrades[category] += Settings.grading['grades'][submit]['subgrades'].keys if !Settings.grading['grades'][submit]['hide_subgrades']
+				@show_calculated[category] = true if !Settings.grading['grades'][submit]['hide_calculated']
 			end
 			
 			# remove dupes

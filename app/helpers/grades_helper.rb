@@ -14,6 +14,10 @@ module GradesHelper
 		
 		return ""
 	end
+
+	def humanize_submit(submit)
+		return submit.humanize.gsub(/([^\d\s])(\d)/, '\1 \2')
+	end
 	
 	def translate_grade(grade)
 		return "error" if grade.nil? || grade < -1
