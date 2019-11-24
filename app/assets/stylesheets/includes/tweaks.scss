@@ -45,3 +45,21 @@ a[href*="//"]:after
 	font-family: "FontAwesome";
 	font-size:10pt;
 }
+
+// cols for the announcements page
+// 992: min width for bootstrap 'medium' size
+@media screen and (min-width: 992px) {
+	#alert-cards {
+		-webkit-column-count: 2; // Chrome, Safari, Opera
+  		-moz-column-count: 2; // Firefox
+		column-count: 2;
+	}
+}
+
+@media screen and (max-width: 991px) {
+	#alert-cards {
+		-webkit-column-count: 1; // Chrome, Safari, Opera
+  		-moz-column-count: 1; // Firefox
+		column-count: 1;
+	}
+}
