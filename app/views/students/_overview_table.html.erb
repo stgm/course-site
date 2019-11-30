@@ -31,7 +31,7 @@
 	<td style="padding-left:1em; padding-right:1em;"><strong><%= name.humanize %></strong></td>
 	
 	<% psets.each do |name| %>
-	<td><%= grade_button(user, @grouped_psets[name][0], subs)%></td>
+	<td><%= grade_button(user, @grouped_psets[name][0], subs, false)%></td>
 	<% end %>
 
 <% end %>
