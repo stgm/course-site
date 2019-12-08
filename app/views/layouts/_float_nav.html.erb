@@ -17,7 +17,7 @@
 			</span>
 			<span class="d-none d-md-inline">
 			<%= current_user && current_user.name || session[:cas_user] %>
-			<%= current_user.login_id %>
+			(<%= current_user.login_id %>)
 			</span>
 		</a>
 		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
