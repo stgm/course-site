@@ -1,115 +1,76 @@
-<%= form_for(@grade, url: grade_path(submit_id: @submit.id), method: :put, html: { class: 'grade-form', style: 'min-height:100%' }) do |f| %>
-	
-<div class="d-flex flex-column h-100" style="min-height:100%">
+<% if @grade.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
 
-	<div class="">
-		<span class="navbar-text">
-			<%= @pset.name %> <%= t(:by) %> <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %>
-			<span class="badge badge-dark"><%= @grade.status %></span><br>
-			Submitted at <%= @submit.submitted_at.to_formatted_s(:short) if @submit.submitted_at %><br>
-			First graded at <%= @submit.grade.created_at.to_formatted_s(:short) if @submit.grade and @submit.grade.created_at %><br>
-			Grading by <%= @grade.grader_name %>
-		</span>
-		
-	</div>
-	
-
-	<% if @grade.errors.any? %>
-	<div id="error_explanation">
-		<h2><%= pluralize(@grade.errors.count, "error") %> prohibited this grade from being saved:</h2>
-
-		<ul>
-			<% @grade.errors.full_messages.each do |msg| %>
-			<li><%= msg %></li>
-			<% end %>
-		</ul>
-	</div>
-	<% end %>
-
-
-
-	<% if @submit and not @submit.url.blank? %>
-	<div class="form-group">
-		<label for="" class="control-label">Link</label>
-		<p class="form-control-static">
-			<%= link_to @submit.url, @submit.url %>
-		</p>
-	</div>
-	<% end %>
-
-	<div class="form-group">
-		<span class="pull-right" data-toggle="tooltip" title="Use bullets * to separate points. Use `backticks` to insert code."><%= fa_icon 'question-circle'%></span>
-		<label for="grade_comments" class="control-label">Focus points </label>
-		<%= f.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
-	</div>
-	
-	<div class="form-group">
-		<label for="grade_comments" class="control-label">Internal notes </label>
-		<%= f.text_area :notes, class: 'form-control', rows: 3 %>
-	</div>
-
-	<div id="grade-boxes" class="d-flex">
-		<% if @grading_definition && @grading_definition['subgrades'] %>
-		<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
-		<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
-		<div class="form-group">
-			<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %> (<%= @automatic_grades[subgrade_name] %>)</label>
-			<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="grade[subgrades[<%= subgrade_name %>]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
-		</div>
-		<% elsif subgrade_type == 'boolean' %>
-		<div class="form-group">
-			<div class="checkbox">
-				<label>
-					<%= hidden_field_tag "grade[subgrades[#{subgrade_name}]]", 0 %>
-					<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.capitalize %>
-				</label>
-			</div>
-		</div>
+	<ul>
+		<% @grade.errors.full_messages.each do |msg| %>
+		<li><%= msg %></li>
 		<% end %>
-		<% end %>
-		<% end %>
-	</div>
-			
-	<% if current_user.admin? || not(@grading_definition && @grading_definition['subgrades'] && @grading_definition['calculation']) %>
-	<div class="form-group">
-		<label for="grade_grade" class="control-label">Grade</label>
-		<div class="input-group">
-			<%= f.text_field :grade, class: 'form-control form-control-sm', value: @grade.grade %>
-			<span class="input-group-append">
-				<button class="btn btn-light btn-sm" type="button" id="pass-btn"><small>PASS</small></button>
-				<button class="btn btn-light btn-sm" type="button" id="fail-btn"><small>FAIL</small></button>
-			</span>
-		</div>
-	</div>
-	<% end %>
-	
-	<div class="form-group">
-		<% Settings["course"]["feedback_templates"].each do |f, c| %>
-		<%= link_to f.humanize, templatize_grade_path(id: @submit.id, type: f), method: :put, class: "btn btn-light", data: { confirm: "This will insert automatic feedback, sure? \n\n" + c["explanation"] } %>
-		<% end if Settings["course"]["feedback_templates"] %>
-	</div>
-
-	<% if current_user.admin? %>
-	<div class="form-group">
-		<label for="inputPassword3" class="control-label">Calculated grade</label>
-		<div class="input-group">
-			<p class="form-control-static"><%= @grade.calculated_grade %></p>
-		</div>
-	</div>
-	<% end %>
-
-	<div class="form-group d-flex mt-auto">
-		<% if current_user.admin? || @grade.open? %>
-		<%= f.submit 'Save', class: 'btn btn-primary form-control' %>
-		<% end %>
-		<% if current_user.senior? and @submit %>
-		<% if current_user.admin? %>
-		<%= link_to "Destroy", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-secondary ml-1' if @submit %>
-		<% end %>
-		<%= link_to_if @submit.grade && @submit.grade.persisted?, "Publish", grade_path(submit_id: @submit.id, grade: { status: :published }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-secondary ml-1' do "" end %>
-		<% end %>
-	</div>
-	
+	</ul>
 </div>
-		
+<% end %>
+
+<% if not @submit.url.blank? %>
+<div class="form-group">
+	<label for="" class="control-label">Link</label>
+	<p class="form-control-static">
+		<%= link_to @submit.url, @submit.url %>
+	</p>
+</div>
+<% end %>
+
+<div class="form-group">
+	<span class="pull-right" data-toggle="tooltip" title="Use bullets * to separate points. Use `backticks` to insert code."><%= fa_icon 'question-circle'%></span>
+	<label for="grade_comments" class="control-label">Focus points </label>
+	<%= f.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
+</div>
+	
+<div class="form-group">
+	<label for="grade_notes" class="control-label">Internal notes </label>
+	<%= f.text_area :notes, class: 'form-control', rows: 3 %>
+</div>
+
+<div id="grade-boxes" class="d-flex">
+	<% if @submit.pset.config && @submit.pset.config['subgrades'] %>
+	<% @submit.pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
+	<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
+	<div class="form-group flex-fill">
+		<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic[subgrade_name] %>(<%= @submit.automatic[subgrade_name] %>)<% end %></label>
+		<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="grade[subgrades[<%= subgrade_name %>]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
+	</div>
+	<% elsif subgrade_type == 'boolean' %>
+	<div class="form-group">
+		<div class="checkbox">
+			<label>
+				<%= hidden_field_tag "grade[subgrades[#{subgrade_name}]]", 0 %>
+				<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.capitalize %>
+			</label>
+		</div>
+	</div>
+	<% end %>
+	<% end %>
+	<% end %>
+</div>
+			
+<% if current_user.admin? || not(@submit.pset.config && @submit.pset.config['subgrades'] && @submit.pset.config['calculation']) %>
+<div class="form-group">
+	<label for="grade_grade" class="control-label">Grade
+		<% if current_user.admin? && @grade.calculated_grade %>(<%= @grade.calculated_grade %>)<% end %>
+	</label>
+	<div class="input-group">
+		<%= f.text_field :grade, class: 'form-control form-control-sm', value: @grade.grade %>
+		<span class="input-group-append">
+			<button class="btn btn-light btn-sm" type="button" id="pass-btn"><small>PASS</small></button>
+			<button class="btn btn-light btn-sm" type="button" id="fail-btn"><small>FAIL</small></button>
+		</span>
+	</div>
+</div>
+<% end %>
+	
+<% if Settings["course"]["feedback_templates"] %>
+<div class="form-group">
+	<% Settings["course"]["feedback_templates"].each do |f, c| %>
+	<%= link_to f.humanize, templatize_grade_path(id: @submit.id, type: f), method: :put, class: "btn btn-light", data: { confirm: "This will insert automatic feedback, sure? \n\n" + c["explanation"] } %>
+	<% end if Settings["course"]["feedback_templates"] %>
+</div>
 <% end %>

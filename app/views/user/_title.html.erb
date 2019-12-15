@@ -3,8 +3,8 @@
 	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 	<% end %>
 	<div>
-	<h5><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %> <%= @student.login_id %></h5>
-	<%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %> <%= link_to fa_icon("envelope"), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new" %><br>
+	<h5><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h5>
+	<%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %> <%= link_to fa_icon("envelope"), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new" %> (<%= @student.login_id %>)<br>
 	Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %>
 	</div>
 </div>
@@ -43,7 +43,7 @@
 		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Settings <span class="caret"></span>
 		</button>
-		<ul class="dropdown-menu">
+		<ul class="dropdown-menu dropdown-menu-right">
 			<% if @student.active? %>
 			<%= link_to 'Mark as inactive', user_path(id: @student.id, user: { active: false }), method: :put, class: 'dropdown-item' %>
 			<% else %>

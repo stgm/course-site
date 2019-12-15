@@ -49,12 +49,11 @@
 				<%= link_to 'Publish auto grades...'.html_safe, form_for_publish_auto_grades_path(schedule: @current_schedule_id), class:"dropdown-item" %>
 				<% end %>
 				<% if current_user.admin? %>
-				<%= link_to 'Publish my grades, even if not done'.html_safe, publish_mine_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
+				<%= link_to 'Publish my grades, even if not done'.html_safe, publish_my_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
 				<%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_grades_path(schedule: @current_schedule_id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' }, class:"dropdown-item"  %>
 				<% if Schedule.any? %>
 				<div class="dropdown-divider"></div>
 				<%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_submits_path, class:"dropdown-item"  %>
-				<%= link_to 'Fail students who missed some deadline'.html_safe, form_for_late_submits_path, class:"dropdown-item"  %>
 				<% end %>
 				<% end %>
 				<% if current_user.admin? && GradeTools.available? %>

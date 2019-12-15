@@ -137,23 +137,19 @@ Rails.application.routes.draw do
 	post "hands/helpline"
 	get  "hands/:id"          => "hands#show"
 
-	resources :submits, only: [ :index, :show, :create, :destroy ], path: "grading" do
-		# the grade that belongs to a specific submit
-		# resource :grade, only: [ :show, :update ]
-		
-		member do
-			get  "download"
-		end
-		
+	# the grading interface
+	resources :grading, param: 'submit_id', only: [ :index, :show, :create ], path: "grading" do
+		get  "download"
+	end
+	# one button in the grading interface
+	post "grading/finish", as: "finish_grading"
+	
+	resources :submits, only: [ :show, :create, :destroy ] do
 		collection do
-			post "finish"
-			
-			
 			get  "form_for_late"
 			post "close_and_mail_late"
 			get  "form_for_missing"
 			post "notify_missing"
-			
 		end
 	end
 	
@@ -164,7 +160,7 @@ Rails.application.routes.draw do
 				
 		collection do
 			post "publish_finished"
-			post "publish_mine"
+			post "publish_my"
 			post "publish_all"
 			post "publish"
 			

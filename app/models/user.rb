@@ -69,6 +69,15 @@ class User < ApplicationRecord
 		end
 	end
 	
+	def initials
+		name.split.map(&:first).join
+	end
+	
+	def suspect_name
+		first, *rest = *name.split
+		first + " " + rest.map(&:first).join()
+	end
+	
 	def submit(pset)
 		submits.where(:pset_id => pset.id).first
 	end
@@ -123,6 +132,19 @@ class User < ApplicationRecord
 	
 	def all_submits
 		self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
+	end
+	
+	# retrieve all submitted file contents for all submits from a particular module (for this user)
+	def files_for_module(mod)
+		files = {}
+		self.submits.where(pset: mod.psets).each do |submit|
+			if submit.file_contents
+				submit.file_contents.each do |filename, contents|
+					files["(#{submit.check_score}) #{submit.pset.name}/#{filename}"] = contents
+				end
+			end
+		end
+		return files
 	end
 	
 	def assign_final_grade(grader)

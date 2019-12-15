@@ -235,12 +235,7 @@ private
 							db_pset.files = nil
 						end
 
-						# get what's in grading.yml and merge with local submit.yml
-						if Settings["grading"].present? && config = Settings["grading"]["grades"][submit_config['name']]
-							db_pset.config = config.merge(submit_config)
-						else
-							db_pset.config = submit_config
-						end
+						db_pset.config = submit_config
 
 						db_pset.automatic = !!db_pset.config && db_pset.config["automatic"].present?
 						db_pset.save

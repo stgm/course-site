@@ -163,7 +163,7 @@ class PageController < ApplicationController
 		#
 		if submit.grade
 			submit.grade.grade = nil
-			submit.grade.open!
+			submit.grade.unfinished!
 		end
 
 		#

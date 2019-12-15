@@ -91,7 +91,7 @@ class UserController < ApplicationController
 	#
 	def touch_submit
 		s = Submit.find(params[:submit_id])
-		s.grade.open! if s.grade
+		s.grade.unfinished! if s.grade
 		redirect_back fallback_location: '/'
 	end
 

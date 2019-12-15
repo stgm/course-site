@@ -10,7 +10,6 @@ class TestsController < ApplicationController
 	def show
 		@pset = Pset.find_by_id(params[:id])
 		@psets = Pset.all
-		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 		@students = User.student.order('lower(name)')
 	end
 	

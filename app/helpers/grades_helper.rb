@@ -33,12 +33,12 @@ module GradesHelper
 		if subs[pset.id] && submit = subs[pset.id][0]
 			if grade = submit.grade
 				type = grade_button_type(grade.any_final_grade, grade.public?)
-				link_to make_label(submit.pset_name, grade.any_final_grade), submit_path(id: submit.id), class: "btn btn-sm flex-fill #{type}"
+				link_to make_label(submit.pset_name, grade.any_final_grade), submit_path(id: submit.id), remote: true, class: "btn btn-sm flex-fill #{type}", data: { trigger: 'modal' }
 			else
-				link_to make_label(submit.pset_name, "S"), submit_path(id: submit.id), class: "btn btn-sm flex-fill btn-light"
+				link_to make_label(submit.pset_name, "S"), submit_path(id: submit.id), remote: true, class: "btn btn-sm flex-fill btn-light", data: { trigger: 'modal' }
 			end
 		else
-			link_to make_label(pset.name, "--"), submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+			link_to make_label(pset.name, "--"), submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, remote: true, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?', trigger: 'modal' }
 		end
 	end
 	

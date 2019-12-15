@@ -1,64 +1,61 @@
-<div class="d-flex flex-column" style="min-height:100%">
+<% if local_assigns[:summary] || local_assigns[:summary].nil? %>
+<%= render partial: 'grades/summary' %>
+<% end %>
 
-	<div class="">
-		<span class="navbar-text">
-			<%= @pset.name %> <%= t(:by) %> <%= @user.name %> <%= "/ #{@submit.used_login}" if @submit %>
-			<span class="badge badge-dark"><%= @grade.status %></span><br>
-			Submitted at <%= @submit.submitted_at.to_formatted_s(:short) if @submit.submitted_at %><br>
-			First graded at <%= @submit.grade.created_at.to_formatted_s(:short) if @submit.grade and @submit.grade.created_at %><br>
-			Grading by <%= @grade.grader_name %>
-		</span>
-		
-	</div>
-	
-	<hr style="width:100%">
-	
-	<div class="pull-right">
-		<% @grade.subgrades.each_pair do |k,v| %>
-		<%= v %> /
-		<% end %>
-		<% if current_user.senior? %>
-		<strong><%= translate_grade(@grade.any_final_grade) %></strong>
-		<% end %>
-	</div>
-
-	<hr style="width:100%">
-
-	<% if @submit and not @submit.url.blank? %>
-	<div class="form-group">
-		<label for="" class="control-label">Link</label>
-		<p class="form-control-static">
-			<%= link_to @submit.url, @submit.url %>
-		</p>
-	</div>
-	<% end %>
-
-	<div class="form-group">
-		<%= simple_markdown(@grade.comments) %>
-	</div>
-	
-	<% if @grade.notes.present? %>
-	<hr style="width:100%">
-	
-	<p>Internal notes:</p>
-	<%= simple_markdown(@grade.notes) %>
-	<% end %>
-
-	<hr style="width:100%">
-	
-	<% if current_user.admin? %>
-	<p>Calculated grade: <%= @grade.calculated_grade %><p>
-	<% end %>
-
-	<div class="form-group d-flex mt-auto">
-		<% if current_user.senior? %>
-		<%= link_to "Re-open", grade_path(submit_id: @submit.id, grade: { status: :open }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-secondary' %>
-		
-		<% if current_user.admin? %>
-		<%= link_to "Destroy", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-secondary ml-1' if @submit %>
-		<% end %>
-		<%= link_to_if @submit.grade && @submit.grade.persisted?, "Publish", grade_path(submit_id: @submit.id, grade: { status: :published }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-secondary ml-1' do "" end %>
-		<% end %>
-	</div>
-	
+<% if not @submit.url.blank? %>
+<div class="form-group">
+	<label for="" class="control-label">Link</label>
+	<p class="form-control-static">
+		<%= link_to @submit.url, @submit.url %>
+	</p>
 </div>
+<% end %>
+
+<div class="form-group">
+	<label for="grade_comments" class="control-label">Feedback</label>
+	<%= @grade.comments && simple_markdown(@grade.comments) || '<p>(none)</p>'.html_safe %>
+</div>
+
+<div class="form-group">
+	<label for="" class="control-label">Internal notes</label>
+	<%= @grade.notes.present? && simple_markdown(@grade.notes) || '<p>(none)</p>'.html_safe %>
+</div>
+
+<div id="grade-boxes" class="d-flex">
+	<% if @submit.pset.config && @submit.pset.config['subgrades'] %>
+	<% @submit.pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
+	<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
+	<div class="form-group flex-fill">
+		<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic[subgrade_name] %>(<%= @submit.automatic[subgrade_name] %>)<% end %></label>
+		<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" disabled name="grade[subgrades[<%= subgrade_name %>]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
+	</div>
+	<% elsif subgrade_type == 'boolean' %>
+	<div class="form-group">
+		<div class="checkbox">
+			<label>
+				<%= hidden_field_tag "grade[subgrades[#{subgrade_name}]]", 0 %>
+				<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.capitalize %>
+			</label>
+		</div>
+	</div>
+	<% end %>
+	<% end %>
+	<% end %>
+</div>
+
+<% if current_user.admin? || not(@submit.pset.config && @submit.pset.config['subgrades'] && @submit.pset.config['calculation']) %>
+<div class="form-group">
+	<label for="grade_grade" class="control-label">Grade
+		<% if current_user.admin? && @grade.calculated_grade %>(<%= @grade.calculated_grade %>)<% end %>
+	</label>
+	<div class="input-group">
+		<%= text_field_tag :grade, @grade.grade, disabled: true, class: 'form-control form-control-sm' %>
+	</div>
+</div>
+<% end %>
+
+<% if current_user.senior? %>
+<div class="form-group d-flex mt-auto mb-0 flex-row-reverse">
+	<%= link_to "Re-open", grade_path(id: @grade.id, grade: { status: :unfinished }), method: :put, remote: !local_assigns[:no_ajax], data: { confirm: "Sure?" }, class: 'btn btn-secondary' %>
+</div>
+<% end %>
