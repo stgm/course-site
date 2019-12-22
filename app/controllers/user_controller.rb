@@ -6,6 +6,7 @@ class UserController < ApplicationController
 	before_action :require_senior
 	before_action :require_admin, only: :set_permissions
 
+	# GET /user/:id.js
 	def show
 		@schedules = Schedule.all
 		@student = User.includes(:hands, :notes).find(params[:id])
@@ -23,15 +24,9 @@ class UserController < ApplicationController
 		@notes = @student.notes.order("created_at desc")
 		
 		@psets = Pset.order('"psets"."order" is null, "psets"."order"')
-		
-		respond_to do |format|
-			format.js { render 'user' }
-			format.html { render layout: 'application' }
-		end
-		
-		
 	end
 	
+	# PUT /user/:id
 	def update
 		p = User.find(params[:id])
 		p.update_attributes!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :alarm, :role))
@@ -42,6 +37,7 @@ class UserController < ApplicationController
 		end
 	end
 	
+	# PUT /user/:user_id/admin
 	def admin
 		p = User.find(params[:user_id])
 		p.update_attributes!(params.require(:user).permit(:role))
@@ -83,15 +79,6 @@ class UserController < ApplicationController
 			user.groups.delete(group)
 		end
 
-		redirect_back fallback_location: '/'
-	end
-
-	#
-	# put submit into grading queue
-	#
-	def touch_submit
-		s = Submit.find(params[:submit_id])
-		s.grade.unfinished! if s.grade
 		redirect_back fallback_location: '/'
 	end
 

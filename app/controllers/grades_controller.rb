@@ -100,6 +100,8 @@ class GradesController < ApplicationController
 	end
 	
 	def form_for_publish_auto
+		load_navigation
+		load_schedule
 		@psets = Pset.where(automatic: true).order(:order)
 		render layout: "application"
 	end

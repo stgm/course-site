@@ -7,9 +7,6 @@ class ApplicationController < ActionController::Base
 		redirect_back fallback_location: '/'
 	end
 	
-	before_action :go_location_bumper
-	before_action :load_navigation
-	before_action :load_schedule
 	before_action :set_locale
 	
 	def set_locale

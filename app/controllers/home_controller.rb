@@ -3,6 +3,9 @@ class HomeController < ApplicationController
 	before_action :authorize, except: [ :homepage, :syllabus ]
 	before_action :register_attendance
 	
+	before_action :load_navigation
+	before_action :load_schedule
+
 	def homepage
 		if not Page.any?
 			# no pages at all means probably not configured yet

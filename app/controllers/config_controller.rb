@@ -5,6 +5,9 @@ class ConfigController < ApplicationController
 	before_action :authorize
 	before_action :require_admin
 	
+	before_action :load_navigation
+	before_action :load_schedule
+
 	def index
 		@dropbox_linked = Dropbox.connected?
 		@secret = Settings.webhook_secret

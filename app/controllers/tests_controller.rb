@@ -3,6 +3,9 @@ class TestsController < ApplicationController
 	before_action :authorize
 	before_action :require_senior
 	
+	before_action :load_navigation
+	before_action :load_schedule
+
 	def index
 		@psets = Pset.where(test: true).order(:order)
 	end

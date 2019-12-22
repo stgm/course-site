@@ -33,6 +33,8 @@ class SubmitsController < ApplicationController
 	
 	# GET /submits/form_for_missing
 	def form_for_missing
+		load_navigation
+		load_schedule
 		@schedule = current_user.schedule
 		@users = @schedule.users.not_staff.not_inactive
 		@psets = Pset.all
