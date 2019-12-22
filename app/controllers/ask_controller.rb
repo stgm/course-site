@@ -1,8 +1,6 @@
 class AskController < ApplicationController
 
 	before_action :authorize
-	skip_before_action :go_location_bumper
-	
 
 	def do
 		if Hand.where(user: current_user, done: false).count == 0
