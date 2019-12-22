@@ -59,8 +59,14 @@ class StudentsController < ApplicationController
 		@users = @users.group_by(&:group)
 	end
 	
+	# GET /students/find?text=.. for admins + heads
 	def find
-		@results = User.joins(:logins).student.where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").limit(10).order(:name)
+		if params[:text] != ""
+			@results = User.joins(:logins).student.where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").limit(10).order(:name)
+		else
+			@results = []
+		end
+		
 		respond_to do |format|
 			format.js { render 'find' }
 		end

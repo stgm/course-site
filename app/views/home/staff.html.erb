@@ -1,19 +1,5 @@
 <div id="timeline">
 	<div class="card-columns" style="column-count:2">
-
-		<%= render partial: "modal_browser" %>
-
-		<div class="card">
-			<div class="card-body">
-			<form class="form-inline mr-3">
-				<div id="search" class="dropdown" style="position: relative; width:100%">
-					<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
-					<div id="dropdown-control" data-toggle="dropdown"></div>
-					<div id="search-results" class="dropdown-menu"></div>
-				</div>
-			</form>
-			</div>
-		</div>
 		
 		<div class="card">
 			<div class="card-body">
@@ -25,25 +11,6 @@
 			</div>
 		</div>
 		
-		<script>
-			$('#student-search').on('change paste input', function(e) {
-				$.ajax('<%= students_find_path %>', { data: { text: $('#student-search').val() } });
-				true;
-			})
-			$('#student-search').on('focus', function(e) {
-				if(!$("#search-results").hasClass("show")) {
-					$('#dropdown-control').dropdown('toggle');
-				}
-			})
-			$('#student-search').on('blur', function(e) {
-				setTimeout(100, function() {
-				if($("#search-results").hasClass("show")) {
-					$('#dropdown-control').dropdown('toggle');
-				}
-				});
-			})
-		</script>
-
 		<div class="card" id="alertForm">
 			<div class="card-body" id="collapseAlertForm"  data-parent="#alertForm">
 				<h5 class="card-title">Add announcement</h5>
