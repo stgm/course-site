@@ -22,6 +22,11 @@
 	position:-webkit-sticky;
 	top:1em;
 	list-style-type: none;
+	
+	section ul a, section ol a
+	{
+		display:block;
+	}
 }
 
 #float-nav + #content
@@ -127,11 +132,6 @@ section dl
 section ul li, section ol li, section ol a, section ul a
 {
 	margin-bottom:0.25em;
-}
-
-section ul a, section ol a
-{
-	display:block;
 }
 
 section ul p, section ol p /* all paragraphs IN all lists get this */
