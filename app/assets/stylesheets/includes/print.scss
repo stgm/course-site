@@ -7,7 +7,7 @@
 {
 	body
 	{
-		padding-top:0;
+		padding-top:3rem;
 		background-color:transparent ! important;
 	}
 	
@@ -17,21 +17,38 @@
 	{
 		display:none !important;
 	}
+	
+	#markdown-toc
+	{
+		float:none !important;
+		position:initial !important;
+		border:0 !important;
+		padding:0 !important;
+		
+		a
+		{
+			text-decoration:none;
+		}
+	}
     
 	#row-content
 	{
 		margin:0;
+		width:100% !important;
+		max-width:100% !important;
+		flex:0 0 100% !important;
 	}
 
 	#content
 	{
 		width:auto;
 		max-width:auto;
+		margin-right:0 !important;
 	}
     
 	#content, #content p
 	{
-		font-size:9pt ! important;
+		font-size:12pt ! important;
 	}
 	
 	#content h1
