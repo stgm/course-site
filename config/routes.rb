@@ -191,9 +191,7 @@ Rails.application.routes.draw do
 	get  "search/autocomplete"
 	get  "search/query"
 	get  "search/subpage"
-	
-	# mathjax 'mathjax'
-	
+		
 	# default route, for content pages
 	get  ":section/:page" => "page#index"
 	get  ":section" => "page#section"

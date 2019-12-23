@@ -64,8 +64,6 @@ gem 'sucker_punch'
 #
 gem 'kramdown'
 gem 'asciidoctor'
-# disabled for now because it can't serve csrf protected files or disable protection
-#gem 'mathjax-rails'
 gem 'videojs_rails'
 
 # XLSX generation
