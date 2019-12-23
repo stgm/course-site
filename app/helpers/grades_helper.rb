@@ -15,6 +15,17 @@ module GradesHelper
 		return ""
 	end
 	
+	def subgrade_for(submit, subgrade)
+		if submit
+			submitted = submit[0]
+			if submitted.grade
+				return submitted.grade.subgrades[subgrade]
+			end
+		end
+		
+		return ""
+	end
+	
 	def translate_grade(grade)
 		return "error" if grade.nil? || grade < -1
 		return "pass" if grade == -1

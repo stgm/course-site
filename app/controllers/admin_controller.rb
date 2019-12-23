@@ -4,7 +4,7 @@ class AdminController < ApplicationController
 	before_action :require_senior
 	
 	def export_grades
-		@users = User.student.joins(:submits).order('name').uniq
+		@users = User.student.joins(:submits).order(:order).uniq
 		@psets = Pset.order(:order)
 		@title = "Export grades"
 		respond_to do |format|
