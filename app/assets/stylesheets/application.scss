@@ -52,3 +52,7 @@ $color5: #F25D50;
 @import "font-awesome";
 @import "videojs-sublime-skin";
 @import "typeahead";
+
+@import "nbpreview/katex.min";
+@import "nbpreview/notebook";
+@import "nbpreview/prism";

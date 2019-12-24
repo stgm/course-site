@@ -20,3 +20,6 @@
 # The course contents should not be included in this source code
 /public/course
 /public/assets
+
+# ignore JetBrains' RubyMine IDE files
+/.idea/
