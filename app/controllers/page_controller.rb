@@ -181,7 +181,7 @@ class PageController < ApplicationController
 	private
 	
 	def text_file?(name)
-		return [".py", ".c", ".txt", ".html", ".css", ".h", ".java"].include?(File.extname(name)) || name == "Makefile"
+		return [".py", ".c", ".txt", ".html", ".css", ".h", ".java", ".ipynb"].include?(File.extname(name)) || name == "Makefile"
 	end
 	
 	# writes hash with form contents to a plain text string
