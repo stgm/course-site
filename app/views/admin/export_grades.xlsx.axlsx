@@ -28,7 +28,7 @@ wb.add_worksheet(name: "Grades") do |sheet|
 				data << grade_for(subs[pset.id])
 			end
 			pset.config['subgrades'].keys.each do |subgrade|
-				labels << subgrade_for(subs[pset.id], subgrade)
+				data << subgrade_for(subs[pset.id], subgrade)
 			end if pset.config && pset.config['subgrades']
 		end
 		data << user.schedule.name if user.schedule
