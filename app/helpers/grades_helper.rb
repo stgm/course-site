@@ -14,6 +14,10 @@ module GradesHelper
 		
 		return ""
 	end
+
+	def humanize_submit(submit)
+		return submit.humanize.gsub(/([^\d\s])(\d)/, '\1 \2')
+	end
 	
 	def subgrade_for(submit, subgrade)
 		if submit
@@ -35,8 +39,9 @@ module GradesHelper
 
 	def translate_subgrade(grade)
 		return "" if grade.nil?
-		return "yes" if grade == -1 || grade.to_i == -1
+		return "yes" if grade == -1 && !grade.is_a?(Float)
 		return "no" if grade == 0
+		return grade.to_i.to_s if grade == grade.to_i
 		return grade.to_s
 	end
 	
