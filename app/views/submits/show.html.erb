@@ -58,18 +58,23 @@
 		<% end %>
 	</ul>
 	<div class="tab-content">
+    <script>
+        function load_notebook(id_sub, id_holder) {
+            load_json(document.getElementById(id_sub).innerText, document.getElementById(id_holder));
+        }
+    </script>
 		<% first = true %>
 		<% @files.each do |filename, contents| %>
       <% if filename.end_with? ".ipynb" %>
-        <div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab">
-          <code id="submission" style="display: none">
+        <div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">		<%= link_to 'd', { action: :download, submit_id: @submit.id, filename: filename }, class: 'pull-right' %>
+          <code id="submission-<%= filename.parameterize %>" style="display: none">
             <%= JSON.parse(contents).to_json  %>
           </code>
-          <div id="notebook-holder"></div>
+          <div id="notebook-<%= filename.parameterize %>"></div>
           <script>
-            (function() {
-                load_json(document.getElementById("submission").innerText, document.getElementById("notebook-holder"));
-            })()
+              (function () {
+                  load_notebook('submission-<%= filename.parameterize %>', 'notebook-<%= filename.parameterize %>')
+              })()
           </script>
         </div>
       <% else %>
