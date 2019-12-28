@@ -49,6 +49,7 @@ class ProfileController < ApplicationController
 		# remove leading and trailing space to give the user some slack
 		params[:user][:name].strip!
 		params[:user][:mail].strip!
+		params[:user][:schedule_id] ||= Schedule.first.id
 		
 		# be explicit, but not so nice
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
