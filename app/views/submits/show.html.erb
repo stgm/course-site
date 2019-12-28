@@ -42,7 +42,6 @@
 </div>
 
 <div class="col-7" style="overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset;max-height:100%">
-	
 	<% if @files.present? || @submit.has_feedback? %>
 	<ul class="nav nav-tabs" id="files" role="tablist">
 		<% first = true %>
@@ -51,6 +50,7 @@
 			<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-<%= filename.parameterize %>" role="tab"><%= filename %></a>
 		</li>
 		<% end if @files.present? %>
+
 		<% if @submit.has_feedback? %>
 		<li class="nav-item">
 			<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-check" role="tab">check</a>
@@ -58,12 +58,32 @@
 		<% end %>
 	</ul>
 	<div class="tab-content">
+    <script>
+        function load_notebook(id_sub, id_holder) {
+            load_json(document.getElementById(id_sub).innerText, document.getElementById(id_holder));
+        }
+    </script>
 		<% first = true %>
 		<% @files.each do |filename, contents| %>
-		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">		<%= link_to 'd', { action: :download, submit_id: @submit.id, filename: filename }, class: 'pull-right' %><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %></div>
+      <% if filename.end_with? ".ipynb" %>
+        <div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">		<%= link_to 'd', { action: :download, submit_id: @submit.id, filename: filename }, class: 'pull-right' %>
+          <code id="submission-<%= filename.parameterize %>" style="display: none">
+            <%= JSON.parse(contents).to_json  %>
+          </code>
+          <div id="notebook-<%= filename.parameterize %>"></div>
+          <script>
+              (function () {
+                  load_notebook('submission-<%= filename.parameterize %>', 'notebook-<%= filename.parameterize %>')
+              })()
+          </script>
+        </div>
+      <% else %>
+		    <div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">		<%= link_to 'd', { action: :download, submit_id: @submit.id, filename: filename }, class: 'pull-right' %><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %></div>
+      <% end %>
 		<% end if @files.present? %>
+
 		<% if @submit.has_feedback? %>
-		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab"><code><pre><%= @submit.check_feedback_formatted %></code></pre></div>
+		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab"><pre><code><%= @submit.check_feedback_formatted %></code></pre></div>
 		<% end %>
 	</div>
 	<% end %>
