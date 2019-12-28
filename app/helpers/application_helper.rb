@@ -19,6 +19,7 @@ module ApplicationHelper
 		                       :cdn_prefix => Settings.cdn_prefix,
 							   :parse_block_html => true,
 							   :toc_levels => 2..3,
+							   :math_engine => nil,
 		                       :coderay_css => :class,
 		                       :coderay_tab_width => 4,
 		                       :enable_coderay => true,

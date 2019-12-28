@@ -9,11 +9,14 @@ Rails.application.routes.draw do
 	get "submissions", to: "home#submissions"
 	get "staff", to: "home#staff"
 
+	# login
+	get 'session/login', to: 'session#new'
+	get 'session/logout', to: 'session#destroy'
+
 	# logged-in users only
 	get  "profile" => "profile#index"
 	post "profile/save"
 	get  "profile/pair"
-	get  "profile/logout"
 	post "profile/ask"
 	get  "profile/ping"
 	get  "profile/feedback/:submit_id", to: "profile#feedback", as: "profile_feedback"
@@ -102,16 +105,13 @@ Rails.application.routes.draw do
 	get "status" => "status#index"
 
 	resources :user, only: [ :show, :update ] do
-		# member do
-			patch "set_permissions"
-			patch "remove_permissions"
-			put "admin"
-			put "touch_submit"
-			post "assign/:group_id", action: "assign_group", as: 'assign_group'
-			post "schedule/:schedule_id", action: "assign_schedule", as: 'assign_schedule'
-			post "set_alarm/:alarm", action: "set_alarm", as: 'set_alarm'
-			post "calculate_final_grade"
-		# end
+		patch "set_permissions"
+		patch "remove_permissions"
+		put "admin"
+		post "assign/:group_id", action: "assign_group", as: 'assign_group'
+		post "schedule/:schedule_id", action: "assign_schedule", as: 'assign_schedule'
+		post "set_alarm/:alarm", action: "set_alarm", as: 'set_alarm'
+		post "calculate_final_grade"
 	end
 	
 	namespace :hands do
@@ -134,23 +134,19 @@ Rails.application.routes.draw do
 	post "hands/helpline"
 	get  "hands/:id"          => "hands#show"
 
-	resources :submits, only: [ :index, :show, :create, :destroy ], path: "grading" do
-		# the grade that belongs to a specific submit
-		# resource :grade, only: [ :show, :update ]
-		
-		member do
-			get  "download"
-		end
-		
+	# the grading interface
+	resources :grading, param: 'submit_id', only: [ :index, :show, :create ], path: "grading" do
+		get  "download"
+	end
+	# one button in the grading interface
+	post "grading/finish", as: "finish_grading"
+	
+	resources :submits, only: [ :show, :create, :destroy ] do
 		collection do
-			post "finish"
-			
-			
 			get  "form_for_late"
 			post "close_and_mail_late"
 			get  "form_for_missing"
 			post "notify_missing"
-			
 		end
 	end
 	
@@ -161,7 +157,7 @@ Rails.application.routes.draw do
 				
 		collection do
 			post "publish_finished"
-			post "publish_mine"
+			post "publish_my"
 			post "publish_all"
 			post "publish"
 			
@@ -195,9 +191,7 @@ Rails.application.routes.draw do
 	get  "search/autocomplete"
 	get  "search/query"
 	get  "search/subpage"
-	
-	mathjax 'mathjax'
-
+		
 	# default route, for content pages
 	get  ":section/:page" => "page#index"
 	get  ":section" => "page#section"

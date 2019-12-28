@@ -1,4 +1,4 @@
-class PsetFile < ActiveRecord::Base
+class PsetFile < ApplicationRecord
 
 	belongs_to :pset
 

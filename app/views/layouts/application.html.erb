@@ -22,7 +22,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			
-			<div id="sidebar" class="navbar navbar-light d-md-block col-md-4 p-md-4">
+			<div id="sidebar" class="navbar navbar-light d-md-block col-md-<%= Settings.room_for_toc && 3 || 4 %> p-md-4">
 
 				<%= render 'layouts/brand'%>
 
@@ -51,7 +51,7 @@
 				
 			</div>
 			
-			<div id="row-content" class="col-md-8 offset-md-4 p-0">
+			<div id="row-content" class="col-md-<%= Settings.room_for_toc && 9 || 8 %> offset-md-<%= Settings.room_for_toc && 3 || 4 %> p-0">
 	
 				<%= render "layouts/alerts" %>
 				
@@ -66,7 +66,7 @@
 					<%= render 'layouts/float_nav' %>
 				</div>
 
-				<div id="content" class="p-3 p-md-4 p-sm-5 p-lg-5 pt-0">
+				<div id="content" class="p-3 p-md-4 p-sm-5 p-lg-5 pt-0" <%= Settings.room_for_toc && "style=margin-right:17em;" || "" %>>
 					<%= yield %>
 				</div>
 
@@ -77,7 +77,7 @@
 	</div>
 
 	<div id="popup"></div>
-	
+	<%= render partial: "modal_browser" if current_user.senior? %>
 </body>
 
 <% if !current_user.valid_profile? %>

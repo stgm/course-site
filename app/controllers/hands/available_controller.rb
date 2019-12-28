@@ -1,7 +1,7 @@
 class Hands::AvailableController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_staff
+	before_action :authorize
+	before_action :require_staff
 
 	def index
 		@user = current_user

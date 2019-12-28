@@ -1,8 +1,8 @@
-require 'api_provider'
+# require 'api_provider'
 
 class ApiController < ApplicationController
 
-    skip_before_filter :verify_authenticity_token
+    skip_before_action :verify_authenticity_token
 	before_action :restrict_access, only: :reload
 	
 	def reload

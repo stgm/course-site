@@ -1,4 +1,4 @@
-class AlertMailer < ActionMailer::Base
+class AlertMailer < ApplicationMailer
 
 	def alert_message(user, alert, from_address)
 		mail(

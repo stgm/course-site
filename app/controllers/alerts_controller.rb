@@ -1,7 +1,7 @@
 class AlertsController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_senior, except: :show
+	before_action :authorize
+	before_action :require_senior, except: :show
 
 	before_action :set_alert, only: [:show, :edit, :update, :destroy]
 
@@ -32,7 +32,7 @@ class AlertsController < ApplicationController
 		
 		if @alert.save
 			send_mail if params[:send_mail]
-			redirect_to :back, notice: 'Alert was successfully created.'
+			redirect_back fallback_location: '/', notice: 'Alert was successfully created.'
 		else
 			render :new
 		end

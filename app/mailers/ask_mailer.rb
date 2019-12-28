@@ -1,4 +1,4 @@
-class AskMailer < ActionMailer::Base
+class AskMailer < ApplicationMailer
 
 	def ask_me_anything(user, question, ip)
 		mail(

@@ -1,7 +1,6 @@
 class WelcomeController < ApplicationController
 
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :index ]
-	prepend_before_action CASClient::Frameworks::Rails::Filter, except: [ :index ]
+	before_action :authorize, except: [ :index ]
 
 	def index
 		if not authenticated?

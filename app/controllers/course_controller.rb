@@ -1,7 +1,7 @@
 class CourseController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin
+	before_action :authorize
+	before_action :require_admin
 	
 	#
 	# update the courseware from the linked git repository
@@ -11,9 +11,9 @@ class CourseController < ApplicationController
 		logger.debug errors.join('<br>').inspect
 		if errors.size > 0
 			logger.debug "yes error"
-			redirect_to :back, alert: errors.join('<br>')
+			redirect_back fallback_location: '/', alert: errors.join('<br>')
 		else
-			redirect_to :back, notice: 'The course content was successfully updated.'
+			redirect_back fallback_location: '/', notice: 'The course content was successfully updated.'
 		end
 	end
 	

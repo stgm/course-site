@@ -1,4 +1,4 @@
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
 	
 	#
 	# Group is about grading: it defines a set of students that one grader might grade

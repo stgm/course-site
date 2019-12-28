@@ -1,0 +1,20 @@
+<div id="modal-browser" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+		<div class="modal-content">
+			<div id="modal-browser-header" class="modal-header">
+				<h5 class="modal-title"></h5>
+			</div>
+			<div id="modal-browser-body" class="modal-body">
+				<p style="text-align:center; font-size:xx-large"><%= fa_icon 'cog', class:'fa-spin' %></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('#modal-browser').on('show.bs.modal', function (e) {
+		// clear modal upon load
+		$('#modal-browser-header').html("");
+		$('#modal-browser-body').html('<p style="text-align:center; font-size:xx-large"><%= fa_icon "cog", class:"fa-spin" %></p>');
+	})
+</script>

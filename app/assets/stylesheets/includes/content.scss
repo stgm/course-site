@@ -11,14 +11,22 @@
 
 #content #markdown-toc
 {
-	background-color:white;
-	margin-left:1rem;
-	padding:1rem;
+	margin-top:3em;
+	width:14rem;
 	float:right;
+	margin-right:-17rem;
+	padding:1rem;
+	padding-top:7rem;
+	border-left:1px solid #64A2C0;
 	position:sticky;
 	position:-webkit-sticky;
 	top:1em;
 	list-style-type: none;
+	
+	section ul a, section ol a
+	{
+		display:block;
+	}
 }
 
 #float-nav + #content
@@ -45,17 +53,27 @@ section h1
 
 section h1
 {
-	margin-bottom:1em;
-	margin-top:1em;
-}
-
-section h2
-{
 	margin-top:2em;
 	margin-bottom:1em;
 }
 
-section h3, section h4, section h5
+section h2
+{
+	font-weight:600;
+	margin-top:3em;
+	margin-bottom:1em;
+	padding-bottom:0.25em;
+//	border-bottom:1px solid #919B9C;
+}
+
+section h3
+{
+	font-weight:300;
+	margin-top:2em;
+	margin-bottom:1em;
+}
+
+section h4, section h5
 {
 	margin-top:1.5em;
 	margin-bottom:1em;
@@ -63,6 +81,8 @@ section h3, section h4, section h5
 
 section h4
 {
+	font-size:20px;
+	font-weight:400;
 	margin-top:1.5em;
 }
 
@@ -109,7 +129,7 @@ section dl
 	margin:1em 2em;
 }
 
-section ul li, section ol li
+section ul li, section ol li, section ol a, section ul a
 {
 	margin-bottom:0.25em;
 }
@@ -311,13 +331,13 @@ section .kramdown-table td, .kramdown-table th
 	{
 		@extend .embed-responsive;
 		@extend .embed-responsive-16by9;
-        
+
 		iframe
 		{
 			@extend .embed-responsive-item;
 		}
 	}
-    
+   
 	margin-top:0 ! important;
 	padding-top:0;
 	padding-bottom:0;

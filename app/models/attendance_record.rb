@@ -1,4 +1,4 @@
-class AttendanceRecord < ActiveRecord::Base
+class AttendanceRecord < ApplicationRecord
 
 	def self.create_for_user(user, is_local)
 		# get current hour

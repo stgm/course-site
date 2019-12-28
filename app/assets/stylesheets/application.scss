@@ -8,7 +8,6 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  */
 
 $color1: #595959;
@@ -17,38 +16,18 @@ $color3: #F2D8CE;
 $color4: #F2785C;
 $color5: #F25D50;
 
-//$link-color: darken($color5, 30%);
-
-//$navbar-default-bg: #FCFCFC;
-//$navbar-default-color: #918291;
-//$navbar-default-link-color: #262626;
-//$navbar-default-link-active-color: white;
-//$navbar-default-link-active-bg: #262626;
-//$navbar-default-border: transparent;
-
-//$component-active-bg: #52B15A;
-
-//$font-size-base: 1rem;
-//
-//$font-size-h1: 2rem;
-//$font-size-h2: 2rem;
-//$font-size-h3: 1.5rem;
-//$font-size-h4: 1rem;
-
-//$enable-gradients: true;
-
 @import "bootstrap";
 
-@import "framework";
-@import "navigation";
-@import "content";
-@import "elements";
-@import "timeline";
+@import "includes/framework";
+@import "includes/navigation";
+@import "includes/content";
+@import "includes/elements";
+@import "includes/timeline";
 
-@import "theme";
-@import "tweaks";
-@import "print";
+@import "includes/theme";
+@import "includes/tweaks";
+@import "includes/print";
 
 @import "font-awesome";
-@import "videojs-sublime-skin";
-@import "typeahead";
+@import "includes/videojs-sublime-skin";
+@import "includes/typeahead";

@@ -14,6 +14,21 @@ module GradesHelper
 		
 		return ""
 	end
+
+	def humanize_submit(submit)
+		return submit.humanize.gsub(/([^\d\s])(\d)/, '\1 \2')
+	end
+	
+	def subgrade_for(submit, subgrade)
+		if submit
+			submitted = submit[0]
+			if submitted.grade
+				return submitted.grade.subgrades[subgrade]
+			end
+		end
+		
+		return ""
+	end
 	
 	def translate_grade(grade)
 		return "error" if grade.nil? || grade < -1
@@ -24,8 +39,9 @@ module GradesHelper
 
 	def translate_subgrade(grade)
 		return "" if grade.nil?
-		return "yes" if grade == -1 || grade.to_i == -1
+		return "yes" if grade == -1 && !grade.is_a?(Float)
 		return "no" if grade == 0
+		return grade.to_i.to_s if grade == grade.to_i
 		return grade.to_s
 	end
 	
@@ -33,12 +49,12 @@ module GradesHelper
 		if subs[pset.id] && submit = subs[pset.id][0]
 			if grade = submit.grade
 				type = grade_button_type(grade.any_final_grade, grade.public?)
-				link_to make_label(submit.pset_name, grade.any_final_grade), submit_path(id: submit.id), class: "btn btn-sm flex-fill #{type}"
+				link_to make_label(submit.pset_name, grade.any_final_grade), submit_path(id: submit.id), remote: true, class: "btn btn-sm flex-fill #{type}", data: { trigger: 'modal' }
 			else
-				link_to make_label(submit.pset_name, "S"), submit_path(id: submit.id), class: "btn btn-sm flex-fill btn-light"
+				link_to make_label(submit.pset_name, "S"), submit_path(id: submit.id), remote: true, class: "btn btn-sm flex-fill btn-light", data: { trigger: 'modal' }
 			end
 		else
-			link_to make_label(pset.name, "--"), create_new ? submits_path(submit: { pset_id: pset.id, user_id: user.id }) : "#", method: :post, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+			link_to make_label(pset.name, "--"), create_new ? submits_path(submit: { pset_id: pset.id, user_id: user.id }) : "#", method: :post, remote: true, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?', trigger: 'modal' }
 		end
 	end
 	

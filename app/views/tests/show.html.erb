@@ -6,8 +6,8 @@
 	<table class="table" style="width:auto">
 		<tr>
 			<td>Name</td>
-			<% if @grading_definition %>
-			<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
+			<% if @pset.config %>
+			<% @pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
 			<td><%= subgrade_name.capitalize %></td>
 			<% end %>
 			<% end %>
@@ -18,9 +18,9 @@
 			<td>
 				<input type="text" readonly class="form-control-plaintext" id="staticEmail" value="<%= s.name %>">
 			</td>
-			<% if @grading_definition %>
+			<% if @pset.config %>
 			<% bla = s.submits.where(pset_id: @pset.id).first%>
-			<% @grading_definition['subgrades'].each do |subgrade_name, subgrade_type| %>
+			<% @pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
 			<td>
 				<input type="text" name="grades[<%= s.id %>][subgrades][<%= subgrade_name %>]" class="form-control" placeholder="" value="<%= bla.grade.subgrades[subgrade_name] if bla && bla.grade %>">
 			</td>

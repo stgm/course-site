@@ -1,4 +1,4 @@
-class ScheduleSpan < ActiveRecord::Base
+class ScheduleSpan < ApplicationRecord
 
 	belongs_to :schedule
 	

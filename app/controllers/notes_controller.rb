@@ -1,7 +1,7 @@
 class NotesController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_senior
+	before_action :authorize
+	before_action :require_senior
 
 	before_action :set_note, only: [:show, :edit, :update, :destroy]
 
@@ -31,7 +31,7 @@ class NotesController < ApplicationController
 		@note = Note.new(note_params.merge( {author_id: current_user.id}))
 		
 		if @note.save
-			redirect_to :back, notice: 'Note was successfully created.'
+			redirect_back fallback_location: '/', notice: 'Note was successfully created.'
 		else
 			render :new
 		end

@@ -1,19 +1,5 @@
 <div id="timeline">
 	<div class="card-columns" style="column-count:2">
-
-		<%= render partial: "user_modal" %>
-
-		<div class="card">
-			<div class="card-body">
-			<form class="form-inline mr-3">
-				<div id="search" class="dropdown" style="position: relative; width:100%">
-					<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
-					<div id="dropdown-control" data-toggle="dropdown"></div>
-					<div id="search-results" class="dropdown-menu"></div>
-				</div>
-			</form>
-			</div>
-		</div>
 		
 		<div class="card">
 			<div class="card-body">
@@ -25,25 +11,6 @@
 			</div>
 		</div>
 		
-		<script>
-			$('#student-search').on('change paste input', function(e) {
-				$.ajax('<%= students_find_path %>', { data: { text: $('#student-search').val() } });
-				true;
-			})
-			$('#student-search').on('focus', function(e) {
-				if(!$("#search-results").hasClass("show")) {
-					$('#dropdown-control').dropdown('toggle');
-				}
-			})
-			$('#student-search').on('blur', function(e) {
-				setTimeout(100, function() {
-				if($("#search-results").hasClass("show")) {
-					$('#dropdown-control').dropdown('toggle');
-				}
-				});
-			})
-		</script>
-
 		<div class="card" id="alertForm">
 			<div class="card-body" id="collapseAlertForm"  data-parent="#alertForm">
 				<h5 class="card-title">Add announcement</h5>
@@ -95,7 +62,7 @@
 						<li class="list-group-item d-flex align-items-center">
 							<%= group.name %>
 							<span class="badge badge-primary ml-auto"><%= link_to "#{group.submits.includes(:grade).where(grades: { submit_id: nil }).count} sub", submits_path(group: group.id), class: 'text-light' %></span>
-							<span class="badge badge-primary ml-1"><%= link_to "#{group.grades.open.count} gra", submits_path(group: group.id, status: Grade.statuses[:open]), class: 'text-light' %></span>
+							<span class="badge badge-primary ml-1"><%= link_to "#{group.grades.unfinished.count} gra", submits_path(group: group.id, status: Grade.statuses[:unfinished]), class: 'text-light' %></span>
 							<span class="badge badge-primary ml-1"><%= link_to "#{group.grades.finished.count} fin", submits_path(group: group.id, status: Grade.statuses[:finished]), class: 'text-light' %></span>
 							<span class="badge badge-secondary ml-1"><%= link_to "#{group.grades.finished.count} reo", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
 						</li>
@@ -106,7 +73,6 @@
 				</div>
 		
 				<% if @new_students.present? %>
-
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title">New students</h5>
@@ -114,7 +80,7 @@
 							<ul class="list-group list-group-flush">
 								<% @new_students.each do |student| %>
 								<li class="list-group-item d-flex align-items-center">
-									<%= link_to student.name, "#", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
+									<%= link_to student.name, "#", onclick: "$('#modal-browser').modal('show');", data: { toggle: "modal", target: "#user-modal", user: student.id } %>
 									<span class="badge badge-primary ml-auto"><%= student.created_at.strftime("%e %b") %></span>
 								</li>
 								<% end %>
@@ -152,7 +118,6 @@
 					</script>
 				</div>
 			</div>
-			<%= render partial: "user_modal" %>
 		<% end %>
 
 		<% end %>

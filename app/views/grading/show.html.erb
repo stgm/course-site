@@ -3,10 +3,10 @@
 
 <div class="col-2 px-0 py-0" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
 	<ul class="nav flex-column">
-		<%= button_to 'Mark as finished', finish_submits_path, class: 'btn btn-secondary m-3', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those after.' } %>
+		<%= button_to 'Mark as finished', finish_grading_path, class: 'btn btn-secondary m-3 btn-sm', form: { style: 'text-align:center' }, data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those after.' } %>
 		<% @to_grade.each do |submit| %>
 		<li class="nav-item">
-			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, submit_path(submit.id, params.slice(:pset, :group, :status)), class: 'nav-link' %>
+			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: 'nav-link' %>
 		</li>
 		<% end %>
 	</ul>
@@ -14,11 +14,16 @@
 
 <div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset; max-height:100% ">
 	
-	<% if @grade.open? %>
-	<%= render partial: "grades/form" %>
-	<% else %>
-	<%= render "grades/show"%>
+	<div class="d-flex flex-column" style="min-height:100%">
+	
+	<%= render partial: 'submits/grading_info' %>
+	<%= form_with model: @grade, local: true, html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
+	<%= f.hidden_field :submit_id %>
+	<%= f.hidden_field :grader_id %>
+	<%= render @grade, no_ajax: true, summary: false %>
 	<% end %>
+	
+	</div>
 	
 	<% @grades.each do |grade| %>
 	<hr>
@@ -39,6 +44,7 @@
 		</div>
 	</div>
 	<% end %>
+	
 </div>
 
 <div class="col-7" style="overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset;max-height:100%">
@@ -60,7 +66,9 @@
 	<div class="tab-content">
 		<% first = true %>
 		<% @files.each do |filename, contents| %>
-		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">		<%= link_to 'd', { action: :download, submit_id: @submit.id, filename: filename }, class: 'pull-right' %><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %></div>
+		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">
+			<%= link_to 'd', grading_download_path(grading_submit_id: @submit.id, filename: filename), class: 'pull-right' %><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %>
+		</div>
 		<% end if @files.present? %>
 		<% if @submit.has_feedback? %>
 		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab"><code><pre><%= @submit.check_feedback_formatted %></code></pre></div>

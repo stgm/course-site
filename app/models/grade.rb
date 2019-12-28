@@ -1,4 +1,4 @@
-class Grade < ActiveRecord::Base
+class Grade < ApplicationRecord
 
 	belongs_to :submit
 	has_one :user, through: :submit
@@ -8,6 +8,7 @@ class Grade < ActiveRecord::Base
 
 	belongs_to :grader, class_name: "User"
 	delegate :name, to: :grader, prefix: true, allow_nil: true
+	delegate :initials, to: :grader, prefix: true, allow_nil: true
 
 	before_save :set_calculated_grade, :unpublicize_if_undone # :update_grades_cache, 
 	
@@ -17,9 +18,9 @@ class Grade < ActiveRecord::Base
 	# for use in the grade calculation formulae in grading.yml
 	serialize :subgrades, OpenStruct
 	
-	enum status: [:open, :finished, :published, :discussed, :exported]
+	enum status: [:unfinished, :finished, :published, :discussed, :exported]
 	
-	scope :published,  -> { where(status: Grade.statuses[:published]) }
+	# scope :published,  -> { where(status: Grade.statuses[:published]) }
 	
 	
 	# this adds automatic grades to the subgrades quite aggressively
@@ -42,7 +43,23 @@ class Grade < ActiveRecord::Base
 		published? or discussed? or exported?
 	end
 	
+	def to_partial_path
+		# This very nice rails feature allows us to decide whether a form or
+		# a read-only presentation should be rendered. Simply use "render
+		# @grade_object" and this method will be consulted.
+		unfinished? && 'grades/edit' || 'grades/show'
+	end
+	
+	def last_graded
+		updated_at && updated_at.to_formatted_s(:short) || "not yet"
+	end
+	
+	def first_graded
+		created_at && created_at.to_formatted_s(:short) || "not yet"
+	end
+	
 	def auto_grades
+		# provides default value
 		super || {}
 	end
 
@@ -111,24 +128,22 @@ class Grade < ActiveRecord::Base
 	end
 	
 	def set_calculated_grade
-		logger.info "Setting calc grade"
-		if calculated_grade = calculate_grade(self)
-			case self.pset.grade_type
-			when 'float'
-				# calculated_grade = calculated_grade
-			else # integer, pass
-				calculated_grade = calculated_grade.round
+		if subgrades_changed?
+			if calculated_grade = calculate_grade(self)
+				case self.pset.grade_type
+				when 'float'
+					# calculated_grade = calculated_grade
+				else # integer, pass
+					calculated_grade = calculated_grade.round
+				end
+				self.calculated_grade = calculated_grade * 10
+			else
+				self.calculated_grade = nil
 			end
-			# self.update_attribute(:calculated_grade, calculated_grade*10)
-			self.calculated_grade = calculated_grade * 10
-		else
-			# self.update_attribute(:calculated_grade, nil)
-			self.calculated_grade = nil
 		end
 	end
 	
 	def calculate_grade(grade)
-		puts grade.inspect
 		f = Settings['grading']['grades'] if Settings['grading']
 		return nil if f.nil?
 		pset_name = grade.pset.name
@@ -144,7 +159,7 @@ class Grade < ActiveRecord::Base
 	private
 		
 	def unpublicize_if_undone
-		self.status = Grade.statuses[:open] unless self.any_final_grade.present?
+		self.status = Grade.statuses[:unfinished] unless self.any_final_grade.present?
 		true
 	end
 	

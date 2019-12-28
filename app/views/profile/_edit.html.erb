@@ -11,7 +11,7 @@
 	<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 </div>
 			
-<% if Schedule.count > 1 %>
+<% if Schedule.where(self_register: true).count > 1 %>
 <div class="form-group">
 	<label>Your schedule</label>
 
@@ -28,6 +28,6 @@
 <%= hidden_field_tag "user[schedule_id]", Schedule.first.id %>
 <% end %>
 
-<p><%= submit_tag 'Create Profile', class:'btn btn-primary btn-lg' %></p>
+<p><%= submit_tag 'Create Profile', class:'btn btn-primary' %> <%= link_to 'Logout', session_logout_path, class: 'btn btn-secondary pull-right' %></p>
 
 <% end %>

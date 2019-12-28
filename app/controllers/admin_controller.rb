@@ -1,10 +1,10 @@
 class AdminController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_senior
+	before_action :authorize
+	before_action :require_senior
 	
 	def export_grades
-		@users = User.student.joins(:submits).uniq.order('name')
+		@users = User.student.joins(:submits).uniq
 		@psets = Pset.order(:order)
 		@title = "Export grades"
 		respond_to do |format|
@@ -28,7 +28,7 @@ class AdminController < ApplicationController
 		@psets = Pset.where(name: final_grade_names)
 		@grades = Grade.joins([submit: :pset]).includes(user: [:schedule, :group]).where(submits: { pset_id: @psets }).published
 		@grades.update_all(status: Grade.statuses['exported'])
-		redirect_to :back
+		redirect_back fallback_location: '/'
 	end
 
 	def dump_grades

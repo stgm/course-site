@@ -1,5 +1,19 @@
 <ul id="icon-nav" class="navbar-nav ml-auto">
 	
+	<% if current_user.senior? %>
+	<div id="search" class="dropdown form-inline">
+		<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
+		<div id="search-results" class="dropdown-menu w-100"></div>
+	</div>
+	<% end %>
+
+	<script>
+		$('#student-search').on('paste input', function(e) {
+			$.ajax('<%= students_find_path %>', { data: { text: $('#student-search').val() } });
+			true;
+		})
+	</script>
+
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
 		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
@@ -17,6 +31,7 @@
 			</span>
 			<span class="d-none d-md-inline">
 			<%= current_user && current_user.name || session[:cas_user] %>
+			(<%= current_user.login_id %>)
 			</span>
 		</a>
 		<ul class="dropdown-menu dropdown-menu-right" id="user-menu">
@@ -38,7 +53,7 @@
 		</div>
 	</li>
 	<% else %>
-	<li><%= link_to("Sign in".html_safe, CASClient::Frameworks::Rails::Filter.login_url(controller))%></li>
+	<li><%= link_to("Sign in".html_safe, session_login_path)%></li>
 	<% end %>
 	
 </ul>

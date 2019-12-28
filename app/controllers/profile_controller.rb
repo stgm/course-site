@@ -1,11 +1,7 @@
 class ProfileController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	
-	def logout
-		CASClient::Frameworks::Rails::Filter.logout(self)
-	end
-	
+	before_action :authorize
+		
 	def index
 		@title = "Profile"
 	end
@@ -26,7 +22,7 @@ class ProfileController < ApplicationController
 	end
 	
 	def ping
-		render nothing:true
+		head :ok
 	end
 	
 	def prev
@@ -53,24 +49,26 @@ class ProfileController < ApplicationController
 		# remove leading and trailing space to give the user some slack
 		params[:user][:name].strip!
 		params[:user][:mail].strip!
+		params[:user][:schedule_id] ||= Schedule.first.id
 		
 		# be explicit, but not so nice
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
-			render :text => 'Will not work! Enter a valid name.'
+			render plain: 'Will not work! Enter a valid name.'
 			return
 		end
 		if params[:user][:mail] !~ /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-			render :text => 'Will not work! Enter a valid email address.'
+			render plain: 'Will not work! Enter a valid email address.'
 			return
 		end
 
 		# create user if possible
 		ActiveRecord::Base.transaction do
-			login = Login.where(login: session[:cas_user]).first_or_create
-			login.create_user and login.save if login.user.nil?
-			@current_user = login.user
+			# login = Login.where(login: session[:cas_user]).first_or_create
+			# login.create_user and login.save if login.user.nil?
+			# @current_user = login.user
 			current_user.update!(params.require(:user).permit(:name, :mail, :schedule_id))
 			current_user.student!
+			current_user.logins.create(login: request.session['cas']['user'])
 		end
 
 		redirect_to :root
@@ -109,7 +107,7 @@ class ProfileController < ApplicationController
 				flash[:notice] = "Your question has been received! Expect someone to arrive soon."
 			end
 		end
-		redirect_to :back
+		redirect_back fallback_location: '/'
 	end
 	
 end

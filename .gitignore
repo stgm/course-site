@@ -20,3 +20,5 @@
 # The course contents should not be included in this source code
 /public/course
 /public/assets
+
+/config/master.key

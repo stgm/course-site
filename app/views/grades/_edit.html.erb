@@ -1,0 +1,26 @@
+<%= form_with model: @grade, local: local_assigns[:no_ajax], html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
+
+	<%= f.hidden_field :submit_id %>
+	<%= f.hidden_field :grader_id %>
+
+	<% if local_assigns[:summary] || local_assigns[:summary].nil? %>
+	<%= render partial: 'grades/summary' %>
+	<% end %>
+
+	<%= render partial: 'grades/form', locals: { f: f } %>
+	
+	<div class="form-group d-flex mt-auto">
+		<% if current_user.admin? || @grade.unfinished? %>
+		<%= f.submit 'Save', class: 'btn btn-primary form-control' %>
+		<% end %>
+		<% if current_user.admin? %>
+		<%= link_to "Destroy", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-secondary ml-1' if @submit %>
+		<% end %>
+		<% if current_user.senior? %>
+		<% if @grade.persisted? %>
+		<%= link_to "Publish", grade_path(id: @grade.id, grade: { status: :published }), method: :put, remote: !local_assigns[:no_ajax], data: { confirm: "Sure?" }, class: 'btn btn-secondary ml-1' %>
+		<% end%>
+		<% end %>
+	</div>
+
+<% end %>

@@ -1,7 +1,7 @@
 class HandsController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_staff
+	before_action :authorize
+	before_action :require_staff
 	
 	def index
 		redirect_to hands_available_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
@@ -57,7 +57,7 @@ class HandsController < ApplicationController
 		# check dib and report
 		if Hand.find(params[:which]).assist == current_user
 			flash[:notice] = "Taken, it's yours!"
-			redirect_to :back
+			redirect_back fallback_location: '/'
 		else
 			flash[:alert] = "Someone was ahead of you!"
 			redirect_to ({ action: :index })

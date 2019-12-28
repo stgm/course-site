@@ -6,8 +6,9 @@ class CourseTools
 	
 	def CourseTools.clean_psets
 
-		# an Array only contains pset names and order
+		# the structure of the 'psets' info in course.yml can differ
 		if Settings['psets'].class == Array
+			# 1: an Array only contains pset names and order
 			counter = 1
 			Settings['psets'].each do |pset|
 				if p = Pset.find_by(name:pset)
@@ -15,9 +16,8 @@ class CourseTools
 					counter += 1
 				end
 			end
-
-		# a Hash contains pset names, order and weight!
 		elsif Settings['psets'].class == Hash
+			# 2: a Hash contains pset names, order and weight!
 			counter = 1
 			Settings['psets'].each do |pset, weight|
 				if p = Pset.find_by(name:pset)
@@ -34,18 +34,27 @@ class CourseTools
 			Pset.update_all(order: nil)
 			Settings['grading']['grades'].each do |name, definition|
 				p = Pset.where(name: name).first_or_create
-				p.update_attribute(:order, counter)
+				
+				# set order
+				p.order = counter
 				counter += 1
-				# TODO put "automatic" attribute into pset record
-				p.update_attribute(:grade_type, definition['type'] || :float)
-				p.update_attribute(:test, definition['is_test'] || false)
+				
+				# add any info from course.yml to the pset config, which already can contain info from submit.yml
+				p.config = (p.config || {}).merge(definition || {})
+				
+				# set a few flags from config for easier queries later on
+				p.grade_type = definition['type'] || :float
+				p.test = definition['is_test'] || false
+				p.save
 			end
 
 			if Settings['grading']['calculation']
 				Settings['grading']['calculation'].each do |name, formula|
 					p = Pset.where(name: name).first_or_create
-					p.update_attribute(:order, counter)
-					p.update_attribute(:grade_type, :float)
+					p.order = counter
+					counter += 1
+					p.grade_type = :float
+					p.save
 				end			
 			end
 		end

@@ -2,6 +2,10 @@
 	<%= fa_icon "edit", style: 'margin-right:0.25em;', class: 'dropcap'  %>
 	Published pages
 </h2>
+
+<%= toggle_setting_form('room_for_toc', 'Make room for table of contents') %>
+<%= toggle_setting_form('pages_enable_math', 'Enable MathJax') %>
+
 <p>Check all the pages that should be visible to students and guests.</p>
 
 <% @all_sections.each do |section| %>

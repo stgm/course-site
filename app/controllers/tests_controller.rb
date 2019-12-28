@@ -1,8 +1,11 @@
 class TestsController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_senior
+	before_action :authorize
+	before_action :require_senior
 	
+	before_action :load_navigation
+	before_action :load_schedule
+
 	def index
 		@psets = Pset.where(test: true).order(:order)
 	end
@@ -10,7 +13,6 @@ class TestsController < ApplicationController
 	def show
 		@pset = Pset.find_by_id(params[:id])
 		@psets = Pset.all
-		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
 		@students = User.student.order('lower(name)')
 	end
 	
@@ -57,7 +59,7 @@ class TestsController < ApplicationController
 			end
 		end
 		
-		redirect_to :back, notice: "Saved."
+		redirect_back fallback_location: '/', notice: "Saved."
 	end
 	
 end

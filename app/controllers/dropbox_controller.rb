@@ -1,14 +1,14 @@
 class DropboxController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin
+	before_action :authorize
+	before_action :require_admin
 
 	# redirects to dropbox to allow oauth confirmation
 	def connect
 		if Dropbox.available?
 			redirect_to Dropbox.get_auth_url(url_for action: 'oauth', protocol: 'https')
 		else
-			redirect_to :back, alert: "Dropbox has not been configured server-side."
+			redirect_back fallback_location: '/', alert: "Dropbox has not been configured server-side."
 		end
 	end
 

@@ -1,51 +1,55 @@
 class GradesController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	before_filter :require_admin, except: [:update, :templatize]
-	before_filter :require_staff, only: [:update, :templatize]
-	
-	# TODO require empty grade, admin or it's my grade
-	
+	before_action :authorize
+	before_action :require_admin, except: [:create, :update, :templatize]
+	before_action :require_staff, only: [:create, :update, :templatize]
+		
 	layout false
 
 	def show
-		@grade = Grade.find(params[:id])
-		@user = @grade.user
-		@pset = @grade.pset
-		@submit = @grade.submit
-		# @automatic_grades = @grade.submit.automatic
-		# @grade = @submit.grade || @submit.build_grade({ grader: current_user })
-		# @grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @user.id).order('submits.created_at desc')
-		@grading_definition = Settings['grading']['grades'][@pset.name] if Settings['grading'] and Settings['grading']['grades']
+		@grade = Grade.includes(submit: [ :user, :pset ]).find(params[:id])
+	end
+	
+	def create
+		@grade = Grade.create!(grade_params)
 
-		if @submit.grade && (@submit.grade.finished? || @submit.grade.public?)
-			
-		else
-			render '_form'
+		respond_to do |format|
+			format.js do
+				@user = @grade.user
+				@pset = @grade.pset
+				@submit = @grade.submit
+				render 'show'
+			end
+			format.html do
+				redirect_to grading_path(submit_id:grade_params['submit_id'])
+			end
 		end
 	end
 	
 	def update
-		@submit = Submit.find(params[:submit_id])
-
-		if !@submit.grade
-			# grades can be created (for a given submit) by anyone
-			@submit.build_grade(grader: current_user)
-			@submit.grade.update_attributes(grade_params)
-		elsif current_user.senior? || @submit.grade.open?
+		@grade = Grade.find(params[:id])
+		if current_user.senior? || @grade.unfinished?
 			# grades can only be edited if "open" or if user is admin
-			@submit.grade.update!(grade_params)
-		elsif current_user.assistant? && @submit.grade.published? && params["grade"]["status"] == "discussed"
-			@submit.grade.update!(grade_params)
+			@grade.update!(grade_params)
+		# elsif current_user.assistant? && @submit.grade.published? && params["grade"]["status"] == "discussed"
+		# 	@grade.update!(grade_params)
 		end
-
-		redirect_to params[:referer] || :back
+		
+		respond_to do |format|
+			format.js do
+				@user = @grade.user
+				@pset = @grade.pset
+				@submit = @grade.submit
+				render 'show'
+			end
+			format.html { redirect_back fallback_location:@grade }
+		end
 	end
 	
 	def reopen
 		@group = Group.find(params[:group_id])
-		@group.grades.finished.update_all(:status => Grade.statuses[:open])
-		redirect_to :back
+		@group.grades.finished.update_all(:status => Grade.statuses[:unfinished])
+		redirect_back fallback_location: '/'
 	end
 	
 	def templatize
@@ -56,7 +60,7 @@ class GradesController < ApplicationController
 		@grade.grade = auto_feedback["grade"]
 		@grade.status = Grade.statuses[:finished]
 		@grade.save
-		redirect_to :back
+		redirect_back fallback_location: '/'
 	end
 	
 	def publish
@@ -76,15 +80,15 @@ class GradesController < ApplicationController
 
 		grades = schedule && schedule.grades.finished || Grade.finished
 		grades.each &:published!
-		redirect_to :back
+		redirect_back fallback_location: '/'
 	end
 	
 	# mark only my own grades public, and even when not marked as finished
-	def publish_mine
+	def publish_my
 		schedule = params[:schedule] && Schedule.find_by_id(params[:schedule])
 		grades = schedule && schedule.grades.where(grader: current_user) || Grade.where(grader: current_user)
 		grades.each &:published!
-		redirect_to :back
+		redirect_back fallback_location: '/'
 	end
 
 	# try to make all grades public, but only valid grades
@@ -92,10 +96,12 @@ class GradesController < ApplicationController
 		schedule = params[:schedule] && Schedule.find_by_id(params[:schedule])
 		grades = schedule && schedule.grades.where.not(status: [Grade.statuses[:published], Grade.statuses[:published], Grade.statuses[:exported]])
 		grades.each &:published!
-		redirect_to :back
+		redirect_back fallback_location: '/'
 	end
 	
 	def form_for_publish_auto
+		load_navigation
+		load_schedule
 		@psets = Pset.where(automatic: true).order(:order)
 		render layout: "application"
 	end
@@ -126,7 +132,7 @@ class GradesController < ApplicationController
 		users.each do |u|
 			u.assign_final_grade(@current_user)
 		end
-		redirect_to :back
+		redirect_back fallback_location: '/'
 	end
 	
 	private

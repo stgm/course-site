@@ -3,21 +3,5 @@
 	E-mail
 </h2>
 
-<%= form_for(:settings, url: config_settings_path(), remote: true, html: { id: "enable_hands_form", class: "form-inline" }) do |form| %>
-	<div class="form-group">
-		<label for="inputPassword3" class="col-form-label">Sender address for announcements, grade e-mails</label><br>
-		<input name="settings[mailer_from]" type="email" class="form-control ml-2" id="inputPassword3" placeholder="help@mprog.nl" value="<%= Settings.mailer_from %>">
-		<input type="submit" class="btn btn-primary ml-2" value="Save">
-	</div>
-<% end %>
-
-<%= form_for(:settings, url: config_settings_path(), remote: true, html: { id: "enable_mail_form" }) do |form| %>
-	<div class="form-group">
-		<div class="form-check">
-			<%= form.check_box :send_grade_mails, { remote: true, checked: Settings.send_grade_mails, id: "enable_mail_check", class: "form-check-input", onclick: "$('#enable_mail_form').trigger('submit.rails');" } %>
-			<label class="form-check-label" for="enable_mail_check">
-				Send grade e-mails
-			</label>
-		</div>
-	</div>
-<% end %>
+<%= change_setting_form('mailer_from', 'Sender address for announcements, grade e-mails:') %>
+<%= toggle_setting_form('send_grade_mails', 'Send grade e-mails') %>

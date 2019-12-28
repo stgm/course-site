@@ -1,9 +1,6 @@
 class AskController < ApplicationController
 
-	before_filter CASClient::Frameworks::Rails::Filter
-	
-	skip_before_action :go_location_bumper
-	
+	before_action :authorize
 
 	def do
 		if Hand.where(user: current_user, done: false).count == 0

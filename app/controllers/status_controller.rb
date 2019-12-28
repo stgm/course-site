@@ -1,6 +1,6 @@
 class StatusController < ApplicationController
 
-	before_action CASClient::Frameworks::Rails::Filter
+	before_action :authorize
 	before_action :require_senior
 	
 	def index

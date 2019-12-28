@@ -1,5 +1,5 @@
 <% @results.each do |r| %>
-<%= link_to(user_path(r), class:"dropdown-item", data: { toggle:'modal', target:'#user-modal', user: r.id}) do %>
+<%= link_to(user_path(r), class:"dropdown-item", onclick: "$('#modal-browser').modal('show');", remote: true) do %>
 <%= r.name %>
 <% if r.schedule%>
 <span class="badge badge-info"><%= r.schedule.name %></span>

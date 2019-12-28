@@ -1,10 +1,11 @@
 class HomeController < ApplicationController
 
-	prepend_before_action CASClient::Frameworks::Rails::GatewayFilter, only: [ :homepage, :syllabus ]
-	prepend_before_action CASClient::Frameworks::Rails::Filter, except: [ :homepage, :syllabus ]
-
+	before_action :authorize, except: [ :homepage, :syllabus ]
 	before_action :register_attendance
 	
+	before_action :load_navigation
+	before_action :load_schedule
+
 	def homepage
 		if not Page.any?
 			# no pages at all means probably not configured yet
@@ -31,6 +32,31 @@ class HomeController < ApplicationController
 		@items += @student.submits.includes({:pset => [:parent_mod, :mod]}).where("submitted_at is not null").where("psets.mod_id is not null or mods_psets.pset_id is null").references(:psets, :mods).to_a
 		@items += @grades.to_a
 		@items = @items.sort { |a,b| b.updated_at <=> a.updated_at }
+
+		# determine the categories to show
+		@overview = Settings.grading.select { |category, value| value['show_progress'] }
+
+		@subgrades = {}
+		@show_calculated = {}
+		@overview.each_pair do |category, content|
+			# remove weight 0 and bonus
+			@overview[category]['submits'] = @overview[category]['submits'].reject { |submit, weight| (weight == 0 || weight == 'bonus') }
+
+			# determine subgrades
+			@subgrades[category] = []
+			@show_calculated[category] = false
+			@overview[category]['submits'].each_pair do |submit, weight|
+				@subgrades[category] += Settings.grading['grades'][submit]['subgrades'].keys if !Settings.grading['grades'][submit]['hide_subgrades']
+				@show_calculated[category] = true if !Settings.grading['grades'][submit]['hide_calculated']
+			end
+			
+			# remove dupes
+			@subgrades[category] = @subgrades[category].uniq
+		end
+
+		# convert grades to an easy-to-use format
+		@grades_by_pset = @grades.to_h { |item| [item.pset.name, item] }
+
 	end
 	
 	def announcements
