@@ -36,7 +36,9 @@
 <%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
 <% end %>
 <% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
+<%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
 <%= link_to fa_icon("file-text-o") + 'Grading', grading_index_path, class: 'dropdown-item' %>
+>>>>>>> master
 <% end %>
 <div class="dropdown-divider"></div>
 

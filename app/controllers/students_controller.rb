@@ -2,7 +2,7 @@ class StudentsController < ApplicationController
 
 	before_action :authorize
 	before_action :require_admin, except: [ :index, :find ]
-	before_action :require_senior, only: [ :index, :find ]
+	before_action :require_staff, only: [ :index, :find ]
 	before_action :load_stats, except: :index
 
 	layout 'full-width'
@@ -12,7 +12,20 @@ class StudentsController < ApplicationController
 		@status = params[:status]
 
 		# check which schedules this user is allowed to view
-		if current_user.head?
+		if current_user.assistant?
+			# heads need to have schedules assigned to them
+			redirect_back(fallback_location: '/', alert: "You haven't been assigned a schedule!") and return if current_user.groups.empty?
+			@schedules = current_user.groups
+			@current_schedule = params[:group] && Group.find_by_name(params[:group]) || current_user.groups.first
+			@current_schedule_id = @current_schedule && @current_schedule.id
+			if @current_schedule
+				redirect_to({ group: @current_schedule.name }) and return if params[:group].blank?
+				render ({ text:"Forbidden", status:403 }) and return if not @schedules.include?(@current_schedule)
+			end
+			# [["Problems", ["M1", "M2", "M3", ...]], ...]
+			@overview = Settings.grading.select { |c,v| v['show_progress'] }.map { |c,v| [c, v['submits'].map {|k,v| k}] }
+			load_stats
+		elsif current_user.head?
 			# heads need to have schedules assigned to them
 			redirect_back(fallback_location: '/', alert: "You haven't been assigned a schedule!") and return if current_user.schedules.empty?
 			@schedules = current_user.schedules
@@ -34,6 +47,7 @@ class StudentsController < ApplicationController
 		end
 		
 		@psets = Pset.order(:order)
+		@grouped_psets = @psets.group_by &:name
 		if @current_schedule
 			@users = @current_schedule.users.not_staff.includes(:group, { submits: [:pset, :grade] }).order("groups.name").order(:name)
 		else
@@ -57,6 +71,12 @@ class StudentsController < ApplicationController
 		end
 		
 		@users = @users.group_by(&:group)
+		
+		if current_user.assistant?
+			render 'overview'
+		else
+			render 'index'
+		end
 	end
 	
 	# GET /students/find?text=.. for admins + heads

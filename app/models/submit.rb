@@ -130,6 +130,28 @@ class Submit < ApplicationRecord
 		end
 	end
 	
+	def register_check_results(json)
+		# put results into db
+		self.check_token = nil
+		self.check_results = json
+		
+		# create a create if needed
+		grade = self.grade || self.build_grade
+		
+		# check via the grade if this submit is OK
+		grade.reset_automatic_grades(self.automatic)
+		grade.set_calculated_grade
+		grade.status = Grade.statuses[:published]
+		grade.save
+		
+		self.save
+
+		# if not OK, send an e-mail
+		if grade.calculated_grade == 0
+			GradeMailer.bad_submit(self).deliver
+		end
+	end
+	
 	def check_feedback_problems?
 		return false if self.check_feedback.blank?
 		

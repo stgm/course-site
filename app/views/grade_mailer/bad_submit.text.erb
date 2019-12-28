@@ -1,0 +1,13 @@
+<%= @header %>
+
+Course : <%= @course_name %>
+Problem: <%= @grade_name %>
+
+You sent in a solution that does not work quite correctly according 
+to our automatic checks. Because of this, the submit has been marked 
+as insufficient. You can re-submit it up until the deadline.
+
+<% if @login %>
+------------------------------------------------------------------------------
+
+<%= @login %><% end %>

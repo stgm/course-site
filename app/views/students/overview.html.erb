@@ -1,0 +1,12 @@
+<%= render partial: 'tabs' %>
+<%= render partial: 'overview_table', locals: { users: @users, psets: @psets } %>
+<%= render partial: 'grade_modal' %>
+<%= render partial: 'user_modal' %>
+
+<script type="text/javascript" charset="utf-8">
+$(function()
+{
+	$('.best_in_place').best_in_place()
+	$('[data-toggle="tooltip"]').tooltip()
+})
+</script>

@@ -36,7 +36,7 @@
 		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-secondary', 'btn-outline-secondary text-light') %>
 	</div>
 
-
+	<% if current_user.senior? %>
 	<div class="btn-group ml-3" role="group">
 
 		<div class="btn-group" role="group">
@@ -91,6 +91,7 @@
 		<% end %>
 
 	</div>
+	<% end %>
 </div>
 
 <% end %>
