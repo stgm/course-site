@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_09_225333) do
+ActiveRecord::Schema.define(version: 2019_12_28_162500) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -261,7 +261,7 @@ ActiveRecord::Schema.define(version: 2019_11_09_225333) do
     t.datetime "updated_at"
     t.integer "group_id"
     t.boolean "done", default: false
-    t.boolean "active", default: false
+    t.boolean "active", default: true
     t.string "term"
     t.string "status"
     t.string "token"
