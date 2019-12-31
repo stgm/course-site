@@ -40,7 +40,7 @@ module SettingsHelper
 	end
 	
 	def settings_form(setting_name)
-		form_for(:settings, url: config_settings_path(), remote: true, html: { id: "settings_#{setting_name}_form" }) do |form|
+		form_for(:settings, url: admin_site_settings_path(), remote: true, html: { id: "settings_#{setting_name}_form" }) do |form|
 			yield form
 		end
 	end

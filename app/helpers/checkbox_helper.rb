@@ -1,16 +1,23 @@
 module CheckboxHelper
-	
+
+	#
+	# render a remote checkbox form,
+	#    object: any ActiveRecord object that has an id
+	#    item: the object attribute name that will be toggled
+	#    value: the current value of the attribute
+	#    url: where to submit to
+	#    block: the content of the label attached to the checkbox
+	#
 	def checkbox_for(object, item, value, url, &block)
-		id = object.class.to_s + "_" + item.to_s + "_" + object.id.to_s
-		content = capture(&block)
+		id = object.class.to_s.downcase + "_" + item.to_s + "_" + object.id.to_s
+		label_content = capture(&block)
 		
 		capture do
 			form_for(object, url: url, remote: true, html: { id: "form_#{id}" }) do |form|
-				concat form.hidden_field(:id)
+				concat hidden_field_tag(:id)
 				concat form.check_box item, { remote: true, checked: value, id: "check_#{id}", onclick: "$('#form_#{id}').trigger('submit.rails');" }
 				concat " <label for='check_#{id}'>".html_safe
-				# capture(&block)
-				concat content
+				concat label_content
 				concat "</label>".html_safe
 			end
 		end

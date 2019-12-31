@@ -1,9 +1,9 @@
-class StatusController < ApplicationController
+class Manage::StatusController < ApplicationController
 
 	before_action :authorize
 	before_action :require_senior
 	
-	def index
+	def show
 		if current_user.admin?
 			scope = Hand
 		else

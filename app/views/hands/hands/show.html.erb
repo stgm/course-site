@@ -1,0 +1,44 @@
+<div class="my-3">
+
+<h4>
+<% if @hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
+<%= @hand.user.name %><% if @hand.user.group %> (<%= @hand.user.group.name %>)<% end %>
+<% if @hand.done %>
+<span class="badge pull-right">done</span>
+<% end %>
+<br>
+<small><%= @hand.location or "no location" %>, <%= time_ago_in_words(@hand.created_at) %> ago</small>
+</h4>
+
+<p><%= @hand.help_question or "No question was entered, even if this would be impossible." %></p>
+
+<% if @hand.assist.blank? %>
+
+<p><%= button_to("I'll take the question", dib_hand_path(@hand), method: :put, class: 'btn btn-primary btn-block') %></p>
+			
+<p><%= button_to('Student has left, remove question', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-default btn-block', data: { confirm: 'Sure to delete?' })%></p>
+
+<p><%= button_to("Back to list", hands_path, method: :get, class: 'btn btn-default btn-block' ) %></p>
+
+<% else %>
+
+<%= form_tag(done_hand_path(@hand, success: true), method: :put) do %>
+
+<%= render partial: 'form' %>
+
+<button type="submit" class="btn btn-primary btn-block">Mark as done</button>
+
+<hr>
+
+<div class="btn-group d-flex" role="group">
+<%= link_to('Student not found, remove', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-sm btn-warning flex-fill', data: { confirm: 'Sure to delete?' })%>
+<%= link_to('Put back in list', helpline_hand_path(@hand), method: :put, class: 'btn btn-sm btn-danger flex-fill', data: { confirm: 'Are you sure that someone is available for extra help?' })%>
+</div>
+
+<p></p>
+
+<% end %>
+
+<% end %>
+
+</div>

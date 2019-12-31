@@ -10,6 +10,12 @@
  *
  */
 
+$theme-colors: (
+  "primary": #0074d9,
+  "secondary": #6689ac,
+  "danger": #ff4136
+);
+
 $color1: #595959;
 $color2: #262626;
 $color3: #F2D8CE;
@@ -23,6 +29,7 @@ $color5: #F25D50;
 @import "includes/content";
 @import "includes/elements";
 @import "includes/timeline";
+@import "includes/modal";
 
 @import "includes/theme";
 @import "includes/tweaks";

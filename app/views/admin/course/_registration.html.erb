@@ -1,0 +1,16 @@
+<table class="table table-sm table-borderless">
+	<% Schedule.all.each do |schedule| %>
+	<tr>
+		<td>
+			<%= checkbox_for(schedule, :self_register, schedule.self_register, admin_course_schedule_registration_path(id: schedule.id)) do %>
+			<%= schedule.name %>
+			<% end %>
+		</td>
+		<td>
+			<%= checkbox_for(schedule, :self_service, schedule.self_service, admin_course_schedule_self_service_path(id: schedule.id)) do %>
+			students may browse modules
+			<% end %>
+		</td>
+	</tr>
+	<% end %>
+</table>

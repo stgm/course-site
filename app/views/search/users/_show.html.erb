@@ -1,0 +1,11 @@
+<% @results.each do |r| %>
+<%= link_to(user_path(r), class:"dropdown-item", onclick: "$('#modal-browser').modal('show');", remote: true) do %>
+<%= r.name %>
+<% if r.schedule%>
+<span class="badge badge-info"><%= r.schedule.name %></span>
+<% end %>
+<% if r.done %><span class="badge badge-success">done</span><% end %>
+<% if !r.active %><span class="badge badge-warning">inactive</span><% end %>
+<% if !r.student? %><span class="badge badge-secondary"><%= r.role %></span><% end %>
+<% end %>
+<% end if @results %>

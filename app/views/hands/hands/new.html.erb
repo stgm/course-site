@@ -1,0 +1,23 @@
+<div class="my-3">
+
+<h4>
+	<%= @user.name %><% if @user.group %> <%= @user.group.name %><% end %><br>
+	<small>was seen on this site <%= @user.last_seen_at ? time_ago_in_words(@user.last_seen_at) : 'never??' %> ago</small>
+</h4>
+
+<p>
+	Ask this student what they are working on right now. Let them explain a bit.
+	<br>
+	If this student is new, please welcome them and show the "Ask" button on the website.
+	Refer them to help@mprog.nl for practical matters.
+</p>
+
+<%= form_tag(hands_path(user_id: @user.id)) do %>
+
+<%= render partial: 'form' %>
+		
+<p><button type="submit" class="btn btn-primary btn-block">Mark as done</button></p>
+
+<% end %>
+
+</div>

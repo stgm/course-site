@@ -26,10 +26,10 @@
 		<div class="container-fluid">
 			<div class="row content">
 				<div class="col-12">
-					<%= form_tag({ controller: 'hands', action: 'search' }, method: 'get', class: 'form mt-3') do %>
+					<%= form_tag(hands_path, method: 'get', class: 'form mt-3') do %>
 					<div class="input-group">
 						<div class="input-group-prepend">
-							<a class="btn btn-secondary" href="<%= url_for(controller: 'hands', action: 'index') %>"><%= fa_icon 'chevron-left' %></a>
+							<a class="btn btn-secondary" href="<%= hands_path %>"><%= fa_icon 'chevron-left' %></a>
 						</div>
 						<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
 						<div class="input-group-append">

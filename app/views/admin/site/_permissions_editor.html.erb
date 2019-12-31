@@ -1,0 +1,52 @@
+<table class="table table table-borderless">
+	<tr>
+		<th>Name</th>
+		<th>Role</th>
+		<th>Grade schedules</th>
+		<th>Grade groups</th>
+	</tr>
+
+<% @users.each do |user| %>
+	<tr>
+		<td><%= link_to user.name, "mailto:#{user.mail}" %></td>
+		<td>
+			<%= best_in_place user, :role, as: :select, url: admin_user_set_role_path(user_id: user.id), collection: User.roles.keys.map {|w| [w,w]} %>
+		</td>
+		<td>
+			<% user.schedules.each do |schedule| %>
+			<%= link_to schedule.name, admin_user_remove_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch %>,
+			<% end %>			
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fa fa-plus"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<% @schedules.each do |schedule| %>
+					<%= link_to schedule.name, admin_user_set_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch, class:"dropdown-item" %>
+					<% end %>
+				</ul>
+			</div>
+		</td>
+		<td>
+			<% user.groups.each do |group| %>
+			<%= link_to group.name, admin_user_remove_permissions_path(user_id: user.id, group_id: group.id), method: :patch %>,
+			<% end %>
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fa fa-plus"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<% @groups.each do |group| %>
+					<%= link_to group.name, admin_user_set_permissions_path(user_id: user.id, group_id: group.id), method: :patch, class:"dropdown-item" %>
+					<% end %>
+				</ul>
+			</div>
+		</td>
+	</tr>
+<% end %>
+
+</table>
+
+<script type="text/javascript" charset="utf-8">
+$('.best_in_place').best_in_place()
+</script>

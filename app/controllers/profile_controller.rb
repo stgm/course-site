@@ -2,7 +2,7 @@ class ProfileController < ApplicationController
 
 	before_action :authorize
 		
-	def index
+	def show
 		@title = "Profile"
 	end
 	
@@ -29,7 +29,7 @@ class ProfileController < ApplicationController
 		respond_to do |format|
 			format.js do
 				current_user.update(current_module: current_user.current_module.previous)
-				@current_schedule = current_user.current_module
+				@current_module = current_user.current_module
 				render 'schedule'
 			end
 		end
@@ -39,7 +39,7 @@ class ProfileController < ApplicationController
 		respond_to do |format|
 			format.js do
 				current_user.update(current_module: current_user.current_module.next)
-				@current_schedule = current_user.current_module
+				@current_module = current_user.current_module
 				render 'schedule'
 			end
 		end

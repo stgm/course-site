@@ -1,0 +1,68 @@
+<div class="flex-grow-1">
+	<% if @student.avatar.present? %>
+	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
+	<% end %>
+	<div>
+	<h5><%= best_in_place @student, :name, as: :input, url: user_path(id: @student.id) %></h5>
+	<%= best_in_place @student, :mail, as: :input, url: user_path(id: @student.id) %> <%= link_to fa_icon("envelope"), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new" %> (<%= @student.login_id %>)<br>
+	Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %>
+	</div>
+</div>
+
+<div>
+	<% if @student.alarm %>
+	<%= button_to "Remove alarm", user_set_alarm_path(user_id: @student.id, alarm: :false), class: "btn btn-sm btn-warning", data: { confirm: "Sure?" }, form: { style: 'display:inline;'} %>
+	<% else %>
+	<%= button_to "Set alarm", user_set_alarm_path(user_id: @student.id, alarm: true), class: "btn btn-sm btn-warning", data: { confirm: "Sure?" }, form: { style: 'display:inline;'} %>
+	<% end %>
+	
+	
+	<div class="btn-group">
+		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Group <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<% @groups.each do |group| %>
+			<%= link_to "Move to #{group.name}".html_safe, user_assign_group_path(user_id: @student.id, group_id: group.slug), method: :post, class: 'dropdown-item' + class_if(@student.group_id == group.id, 'disabled') %>
+			<% end if @groups %>
+		</ul>
+	</div>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Schedule <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<% @schedules.each do |schedule| %>
+			<%= link_to "Assign to #{schedule.name}".html_safe, admin_user_assign_schedule_path(user_id: @student.id, schedule_id: schedule.id), method: :post, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') %>
+			<% end %>
+		</ul>
+	</div>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Settings <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<% if @student.active? %>
+			<%= link_to 'Mark as inactive', user_path(id: @student.id, user: { active: false }), method: :put, class: 'dropdown-item' %>
+			<% else %>
+			<%= link_to 'Mark as active', user_path(id: @student.id, user: { active: true }), method: :put, class: 'dropdown-item' %>
+			<% end %>
+			<% if @student.done? %>
+			<%= link_to 'Mark as not done', user_path(id: @student.id, user: { done: false }), method: :put, class: 'dropdown-item' %>
+			<% else %>
+			<%= link_to 'Mark as done', user_path(id: @student.id, user: { done: true }), method: :put, class: 'dropdown-item' %>
+			<% end %>
+			<% if current_user.admin? %>
+			<div class="dropdown-divider"></div>
+			<%= link_to 'Make assistant', user_path(id: @student.id, user: { role: :assistant }), method: :put, class: 'dropdown-item' %>
+			<%= link_to 'Make head', user_path(id: @student.id, user: { role: :head }), method: :put, class: 'dropdown-item' %>
+			<%= link_to 'Make admin', user_path(id: @student.id, user: { role: :admin }), method: :put, class: 'dropdown-item' %>
+			<%= link_to 'Undo admin', user_path(id: @student.id, user: { role: :student, schedule_id: nil }), method: :put, class: 'dropdown-item' %>
+			<div class="dropdown-divider"></div>
+			<%= link_to_if GradeTools.available?, 'Calculate final grade', user_calculate_final_grade_path(user_id: @student.id), method: :post, class: 'dropdown-item' %>
+			<% end %>
+		</ul>
+	</div>
+</div>

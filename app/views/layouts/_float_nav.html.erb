@@ -3,13 +3,13 @@
 	<% if current_user.senior? %>
 	<div id="search" class="dropdown form-inline">
 		<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
-		<div id="search-results" class="dropdown-menu w-100"></div>
+		<div id="search-results" class="dropdown-menu"></div>
 	</div>
 	<% end %>
 
 	<script>
 		$('#student-search').on('paste input', function(e) {
-			$.ajax('<%= students_find_path %>', { data: { text: $('#student-search').val() } });
+			$.ajax('<%= search_users_path %>', { data: { text: $('#student-search').val() } });
 			true;
 		})
 	</script>
@@ -60,12 +60,12 @@
 
 <% if is_local_ip? && current_user.student? && current_user.last_known_location.blank? %>
 <script>
-	$.ajax('<%= ask_path %>');
+	$.ajax('<%= hands_ask_path %>');
 </script>
 <% else %>
 <script>
 	$('#ama-nav').one('show.bs.dropdown', function(e) {
-		$.ajax('<%= ask_path %>');
+		$.ajax('<%= hands_raise_path %>');
 	})
 </script>
 <% end %>

@@ -9,7 +9,7 @@
 		<span class="badge badge-primary ml-auto"><%= link_to "#{count} done", submits_path(pset: pset[0], status: Grade.statuses[:finished]), class: 'text-light' %></span>
 		<% if current_user.admin? %>
 		<span class="badge badge-primary ml-1">
-			<%= link_to "publish", publish_grades_path(pset: pset[1]), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %>
+			<%= link_to "publish", publish_schedule_grades_path(@current_schedule, pset: pset[1]), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %>
 		</span>
 		<% end %>
 	</li>

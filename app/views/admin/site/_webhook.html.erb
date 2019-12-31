@@ -1,0 +1,12 @@
+<p>Download of course materials can be triggered by using this webhook.</p>
+
+<% if @secret.present? %>
+<p>
+	URL: <%= api_reload_url(protocol: 'https') %><br>
+	Secret: <span id="secret"><%= @secret %></span>
+</p>
+<% else %>
+<p>
+	<%= link_to "Generate", config_generate_secret_path, method:'post', class:'btn btn-primary' %>
+</p>
+<% end %>

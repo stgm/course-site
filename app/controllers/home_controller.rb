@@ -4,7 +4,6 @@ class HomeController < ApplicationController
 	before_action :register_attendance
 	
 	before_action :load_navigation
-	before_action :load_schedule
 
 	def homepage
 		if not Page.any?
@@ -24,7 +23,7 @@ class HomeController < ApplicationController
 	end
 
 	def submissions
-		@schedules = Schedule.all
+		@current_schedules = Schedule.all
 		@student = User.includes(:hands, :notes).find(current_user.id)
 		@grades = Grade.published.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.updated_at desc')
 	
@@ -98,7 +97,7 @@ class HomeController < ApplicationController
 		# the normal homepage is the page without a parent section
 		@page = Page.where(:section_id => nil).first
 		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0
-		@subpages = [@schedule && @page.subpages.where(title: @schedule.name).first || @page.subpages.where(position: 0).first || @page.subpages.first]
+		@subpages = [@current_schedule && @page.subpages.where(title: @current_schedule.name).first || @page.subpages.where(position: 0).first || @page.subpages.first]
 		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
 		raise ActionController::RoutingError.new('Not Found') if !@page
 		render "page/index"

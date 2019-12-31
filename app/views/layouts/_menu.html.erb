@@ -1,23 +1,25 @@
 <% if current_user.admin? %>
 
-<%= link_to fa_icon("download") + 'Update courseware...', course_import_path, method: :post, class: 'dropdown-item' %>
-<%= link_to fa_icon("cog") + 'Configuration', config_path, class: 'dropdown-item' %>
-<div class="dropdown-divider"></div>
-<%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("line-chart") + 'Overview', schedule_overview_path, class: 'dropdown-item' %>
 <% if Settings.tests_present %>
 <%= link_to fa_icon("check") + 'Tests', tests_path, class: 'dropdown-item' %>
 <% end %>
 <%= link_to fa_icon("file-text-o") + 'Grading', grading_index_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
+<div class="dropdown-divider"></div>
+<%= link_to fa_icon("sliders") + 'Course administration...', admin_course_path, remote: true, class: 'dropdown-item', data: { trigger: 'modal' } %>
+<%= link_to fa_icon("cog") + 'Site configuration...', admin_site_path, remote: true, class: 'dropdown-item', data: { trigger: 'modal' } %>
+<%= link_to fa_icon("unlock") + 'Edit permissions...', admin_site_permissions_editor_path, remote: true, class: 'dropdown-item', data: { trigger: 'modal' } %>
+<%= link_to fa_icon("download") + 'Update courseware', admin_course_import_path, method: :post, class: 'dropdown-item' %>
 <div class="dropdown-divider"></div>
 <% if Settings.hands_allow %>
-<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
 <% end %>
 
 
 
 <% elsif current_user.head? %>
 
-<%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("line-chart") + 'Overview', schedule_overview_path, class: 'dropdown-item' %>
 <%= link_to fa_icon("file-text-o") + 'Grading', grading_index_path, class: 'dropdown-item' %>
 <% if Settings.tests_present %>
 <%= link_to fa_icon("check") + 'Tests', tests_path, class: 'dropdown-item' %>
@@ -36,9 +38,8 @@
 <%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
 <% end %>
 <% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-<%= link_to fa_icon("line-chart") + 'Overview', students_path, class: 'dropdown-item' %>
+<%= link_to fa_icon("line-chart") + 'Overview', schedule_overview_path, class: 'dropdown-item' %>
 <%= link_to fa_icon("file-text-o") + 'Grading', grading_index_path, class: 'dropdown-item' %>
->>>>>>> master
 <% end %>
 <div class="dropdown-divider"></div>
 

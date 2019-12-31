@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_28_162500) do
+ActiveRecord::Schema.define(version: 2019_12_31_161305) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -190,6 +190,8 @@ ActiveRecord::Schema.define(version: 2019_12_28_162500) do
     t.integer "current_schedule_span_id"
     t.boolean "self_register", default: false, null: false
     t.boolean "self_service", default: false, null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_schedules_on_slug", unique: true
   end
 
   create_table "schedules_users", id: false, force: :cascade do |t|

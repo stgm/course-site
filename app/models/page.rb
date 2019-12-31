@@ -9,7 +9,7 @@ class Page < ApplicationRecord
 	has_one :pset                        # linked pset if available
 
 	# Make sure the subpages are always ordered
-	default_scope { order(:position) }
+	default_scope { order(:position, :title) }
 	
 	def public_url
 		the_path = ["/course"]

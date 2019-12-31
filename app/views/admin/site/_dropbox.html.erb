@@ -1,0 +1,11 @@
+<p>Any student uploads will be placed the linked Dropbox account.</p>
+
+<p>
+	<% if @dropbox_linked %>
+	Dropbox is connected.
+	<% else %>
+	<%= link_to 'Link to your account', admin_dropbox_connect_path, method: :post, class:'btn btn-secondary' %>
+	<% end %>
+</p>
+
+<%= change_setting_form('dropbox_folder_name', 'Dropbox folder name to save submissions to (/Dropbox/Submits/[name])') %>

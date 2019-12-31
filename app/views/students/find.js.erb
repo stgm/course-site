@@ -1,6 +1,0 @@
-<% if @results.any? %>
-document.getElementById('search-results').innerHTML = "<%= j(render 'find') %>";
-document.getElementById('search-results').style.display = 'block';
-<% else %>
-document.getElementById('search-results').style.display = 'none';
-<% end %>

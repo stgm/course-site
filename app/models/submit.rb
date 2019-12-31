@@ -62,6 +62,7 @@ class Submit < ApplicationRecord
 	end
 	
 	def automatic
+		puts "HIER #{self.inspect}"
 		f = pset.config
 		return {} if f.nil? || f['automatic'].nil?
 

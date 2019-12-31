@@ -44,8 +44,8 @@
 							<%= @new_students.count %> students have submitted.
 							No grading groups have been defined yet.
 						</p>
-						<%= link_to 'Generate', admin_generate_groups_path(schedule_id: @schedule.id), class: 'btn btn-primary' %>
-						<%= link_to 'Import', admin_import_path(schedule_id: @schedule.id), class: 'btn btn-primary' %>
+						<%= link_to 'Generate', manage_groups_generate_path(schedule_id: @current_schedule.id), class: 'btn btn-primary' %>
+						<%= link_to 'Import', manage_groups_import_path(schedule_id: @current_schedule.id), class: 'btn btn-primary' %>
 						<% end %>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 							<span class="badge badge-primary ml-auto"><%= link_to "#{group.submits.includes(:grade).where(grades: { submit_id: nil }).count} sub", submits_path(group: group.id), class: 'text-light' %></span>
 							<span class="badge badge-primary ml-1"><%= link_to "#{group.grades.unfinished.count} gra", submits_path(group: group.id, status: Grade.statuses[:unfinished]), class: 'text-light' %></span>
 							<span class="badge badge-primary ml-1"><%= link_to "#{group.grades.finished.count} fin", submits_path(group: group.id, status: Grade.statuses[:finished]), class: 'text-light' %></span>
-							<span class="badge badge-secondary ml-1"><%= link_to "#{group.grades.finished.count} reo", reopen_grades_path(group.id), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
+							<span class="badge badge-secondary ml-1"><%= link_to "#{group.grades.finished.count} reo", group_reopen_grades_path(group), remote: true, method: :post, data: { confirm: "Sure?" }, class: "text-light" %></span>
 						</li>
 						<% end %>
 					</ul>
@@ -107,7 +107,7 @@
 					$('.set-schedule').bind('change', function(a) {
 					    var z = a;
 						$.ajax({
-							url: "<%= admin_set_schedule_path %>?schedule=" + a.currentTarget.name + "&item=" + a.currentTarget.value,
+							url: "<%= manage_schedule_set_current_module_path %>?schedule=" + a.currentTarget.name + "&item=" + a.currentTarget.value,
 							headers: {
 								Accept : "text/javascript; charset=utf-8",
 								"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'

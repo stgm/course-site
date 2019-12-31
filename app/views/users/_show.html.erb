@@ -1,0 +1,60 @@
+<div class="">
+<% 
+	subs = @student.submits.group_by(&:pset_id)
+	#subs = @student.grades_cache || [] 
+%>
+
+<% @psets.each do |pset| %>
+<%= grade_button(@student, pset, subs)%>
+<% end %>
+</div>
+
+<%= line_chart [
+{
+	name: "total",
+	data: @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
+}
+# {
+# 	name: "local",
+# 	data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
+# }
+], height: "150px", stacked: true %>
+
+<div id="timeline" class="row">
+	<div class="col-sm-5">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= form_for(@note) do |f| %>
+				<%= f.hidden_field :student_id %>
+				<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
+				<p>
+					<span class="pull-right">
+					<%= f.submit "Add note", class: "btn btn-primary" %>
+					</span>
+				</p>
+				<% end %>
+			</div>
+		</div>
+		<% @notes.each do |item| %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= render partial: "users/#{item.class.to_s.downcase}", object: item %>
+			</div>
+		</div>
+		<% end %>
+	</div>
+	
+	<div class="col-sm-7">
+	<% @items.each do |item| %>
+	<div class="card card-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
+		<div class="card-body">
+			<%= render partial: "#{item.class.to_s.downcase}", object: item %>
+		</div>
+	</div>
+	<% end %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+$('.best_in_place').best_in_place()
+</script>

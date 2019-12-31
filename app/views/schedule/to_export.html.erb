@@ -1,0 +1,30 @@
+<table class="table">
+	<% @grades.each do |g| %>
+	<tr>
+		<td>
+			<%= g.user.schedule.name if g.user and g.user.schedule %>
+		</td>
+		<td>
+			<%= g.user.group.name if g.user and g.user.group %>
+		</td>
+		<td>
+			<%= g.user.login_id if g.user %>
+		</td>
+		<td>
+			<%= g.user_name %>
+		</td>
+		<td>
+			<%= g.pset_name %>
+		</td>
+		<td>
+			<%= g.created_at %>
+		</td>
+		<td>
+			<%= g.any_final_grade %>
+		</td>
+	</tr>
+	<% end %>
+</table>
+
+<%= link_to "Download grades", manage_schedule_to_export_path(format: :xlsx), class: 'btn btn-primary' %>
+<%= link_to "Mark as exported", manage_schedule_to_export_do_path, method: :post, class: 'btn btn-primary', data: { confirm: "Sure?" } %>

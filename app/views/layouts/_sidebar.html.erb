@@ -18,12 +18,12 @@
 		<% end %>
 	</ul>
 
-	<% if @current_schedule %>
+	<% if @current_module %>
 	<ul class="nav">
 		<li>
 			<p class="nav-text">
-				<span id="schedule_name"><%= @current_schedule.name %></span>
-				<% if @schedule.self_service %>
+				<span id="schedule_name"><%= @current_module.name %></span>
+				<% if @current_schedule.self_service %>
 				<span class="pull-right">
 					<%= link_to fa_icon('chevron-circle-left', style: 'color:#aaa').html_safe, profile_prev_path, method: :post, remote: true %>
 					<%= link_to fa_icon('chevron-circle-right', style: 'color:#aaa').html_safe, profile_next_path, method: :post, remote: true %>
@@ -32,7 +32,7 @@
 			</p>
 		</li>
 		<li id="schedule">
-			<%= links_to_ul(@current_schedule.content) %>
+			<%= links_to_ul(@current_module.content) %>
 		</li>
 	</ul>
 	<% end %>
@@ -51,7 +51,7 @@
 	<ul class="nav">
 		<% if @sections.length > 0 %>
 		<li>
-			<p class="nav-text"><%= @current_schedule ? t(:other) : t(:materials) %></p>
+			<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
 		</li>
 		<li>
 			<ul class="nav">

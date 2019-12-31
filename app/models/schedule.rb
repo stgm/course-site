@@ -19,6 +19,9 @@ class Schedule < ApplicationRecord
 	
 	# These are the staff that may have been assigned to grade this group
 	has_and_belongs_to_many :graders, class_name: "User"
+	
+	extend FriendlyId
+	friendly_id :name, use: :slugged
 
 	def load(contents)
 		# this method accepts the yaml contents of a schedule file

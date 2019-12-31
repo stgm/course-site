@@ -11,6 +11,9 @@ class WelcomeController < ApplicationController
 		end
 	end
 	
+	#
+	# make whoever registers first into admin
+	#
 	def register
 		if logged_in?
 			unless User.where(role: User.roles['admin']).count > 0
@@ -18,11 +21,6 @@ class WelcomeController < ApplicationController
 				redirect_to config_path and return
 			end
 		end
-		# if current_user.admin?
-		# 	redirect_to config_path and return
-		# else
-		# 	redirect_to root_path
-		# end
 	end
 
 end

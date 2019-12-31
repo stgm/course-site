@@ -48,33 +48,32 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_navigation
+		# content browser
 		if current_user.staff?
 			@sections = Section.includes(pages: :pset).order("pages.position")
 		else
 			@sections = Section.includes(pages: :pset).where("pages.public" => true).order("pages.position")
 		end
-	end
-	
-	def load_schedule
+
 		# if user switched schedules, may lack current_module TODO move to user model on change schedule
 		current_user.check_current_module
 		
 		# load schedule
-		if @schedule = current_user.schedule
-			if @schedule.self_service
-				@current_schedule = current_user.current_module || @schedule.current
+		if @current_schedule = current_user.schedule
+			if @current_schedule.self_service
+				@current_module = current_user.current_module || @current_schedule.current
 			else
-				@current_schedule = @schedule.current
+				@current_module = @current_schedule.current
 			end
 			if Schedule.count > 1
-				@schedule_name = @schedule.name
+				@current_schedule_name = @current_schedule.name
 				@group_name = current_user.group.name if current_user.group
 			end
 		end
-		
+
 		# load alerts
 		alert_sources = [nil]
-		alert_sources.append @schedule.id if @schedule
+		alert_sources.append @current_schedule.id if @current_schedule
 		@alerts = Alert.where(schedule_id: alert_sources).order("created_at desc")
 	end
 	
@@ -134,6 +133,6 @@ class ApplicationController < ActionController::Base
 	def default_url_options(options={})
 		# { :protocol => 'https' }
 		options
-	end 
+	end
 	
 end
