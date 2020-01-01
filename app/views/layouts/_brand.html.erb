@@ -16,7 +16,7 @@
 
 			<div class="dropdown-menu" aria-labelledby="schedule_dropdown">
 				<% Schedule.all.each do |s| %>
-				<%= link_to s.name, admin_user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), method: :post, class: "dropdown-item" %>
+				<%= link_to s.name, user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), method: :post, class: "dropdown-item" %>
 				<% end %>
 			</div>
 		</div>

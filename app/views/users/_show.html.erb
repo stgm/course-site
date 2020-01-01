@@ -35,23 +35,10 @@
 				<% end %>
 			</div>
 		</div>
-		<% @notes.each do |item| %>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<%= render partial: "users/#{item.class.to_s.downcase}", object: item %>
-			</div>
-		</div>
-		<% end %>
 	</div>
 	
 	<div class="col-sm-7">
-	<% @items.each do |item| %>
-	<div class="card card-default <%= "panel-highlight" if item.updated_at > 1.week.ago %>">
-		<div class="card-body">
-			<%= render partial: "#{item.class.to_s.downcase}", object: item %>
-		</div>
-	</div>
-	<% end %>
+		<%= render partial: "items/item", collection: @items %>
 	</div>
 </div>
 

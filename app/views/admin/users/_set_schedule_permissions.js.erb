@@ -1,0 +1,1 @@
+$('#schedule_permissions_<%= @user.id %>').html('<%= j render('schedule_permissions', { schedules: @user.schedules, user: @user }) %>');

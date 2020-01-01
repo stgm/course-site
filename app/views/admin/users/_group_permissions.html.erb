@@ -1,0 +1,3 @@
+<% groups.each do |group| %>
+<%= link_to group.name, admin_user_remove_group_permission_path(user, group_id: group), method: :delete, remote: true %>,
+<% end %>

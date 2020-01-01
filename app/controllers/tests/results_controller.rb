@@ -1,17 +1,18 @@
-class Tests::ResultsController < ApplicationController
+class Tests::ResultsController < Tests::TestsController
 
 	before_action :authorize
 	before_action :require_senior
 	before_action :load_navigation
 	
-	def index
-		@psets = Pset.where(test: true).order(:order)
-	end
+	# def index
+	# 	@psets = Pset.where(test: true).order(:order)
+	# end
 
 	def show
 		@pset = Pset.find_by_id(params[:test_id])
 		@psets = Pset.all
 		@students = User.student.order('lower(name)')
+		render_to_modal header: @pset.name.titleize, link_back: tests_path, link_description: 'Tests'
 	end
 
 	def update

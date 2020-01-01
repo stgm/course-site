@@ -1,6 +1,6 @@
 $('#modal-browser').modal('show');
 <% if @header %>
-$('#modal-browser-title').html("<%= j @header %>");
+$('#modal-browser-header').html("<%= j render 'modal_title', header: @header %>");
 <% elsif @header_partial %>
 $('#modal-browser-header').html("<%= j(render @header_partial) %>");
 <% end %>

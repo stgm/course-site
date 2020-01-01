@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 		# site-wide settings, often used only once
 		get 'site', to: 'site#index'
 		namespace :site do
-			get  'permissions_editor'     #done
+			get  'permissions'            #done
 			post 'settings'               #done
 			post 'set_git_repo'           #done
 			post 'generate_secret'        #done
@@ -25,19 +25,21 @@ Rails.application.routes.draw do
 		# course settings, not often used
 		get 'course', to: 'course#index'
 		namespace :course do
-			post  'import'                #done
 			get   'export_grades'         #done
 			patch 'schedule_registration' #done
 			patch 'schedule_self_service' #done
 			patch 'page_update'           #done
 		end
-
-		resources :users, only: [] do
-			patch 'set_permissions'
-			patch 'remove_permissions'
-			put   'set_role'
-			post  'schedule/:schedule_id', action: 'assign_schedule', as: 'assign_schedule'
+		
+		resources :users, only: [ :index ] do
+			post   'add_group_permission'
+			delete 'remove_group_permission'
+			post   'add_schedule_permission'
+			delete 'remove_schedule_permission'
+			patch  'set_role'
 		end
+		
+		resource :update, only: [ :create ]
 	end
 
 	#--BULK OPS---------------------------------------------------------------------------------
@@ -129,6 +131,9 @@ Rails.application.routes.draw do
 			post  "assign/:group_id", action: "assign_group", as: 'assign_group'
 			post  "set_alarm/:alarm", action: "set_alarm", as: 'set_alarm'
 			post  "calculate_final_grade"
+			post  'schedule/:schedule_id', action: 'assign_schedule', as: 'assign_schedule'
+
+			# resources :group_permissions, only: [ :index, :create, :destroy ]
 		end
 
 		resources :alerts

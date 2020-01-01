@@ -1,0 +1,3 @@
+<% schedules.each do |schedule| %>
+<%= link_to schedule.name, admin_user_remove_schedule_permission_path(user, schedule_id: schedule.id), method: :delete, remote: true %>,
+<% end %>			

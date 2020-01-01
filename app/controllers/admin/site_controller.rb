@@ -19,22 +19,10 @@ class Admin::SiteController < ModalController
 		if setting = params["settings"]
 			setting.each do |k,v|
 				v = v == "1" if v == "1" or v == "0"
-				logger.debug "Setting #{k} to #{v.inspect}"
 				Settings[k] = v
 			end
 		end
 		head :ok
-	end
-	
-	#
-	# permissions modal
-	#
-	def permissions_editor
-		@users = User.staff.order(:role, :name)
-		@schedules = Schedule.all
-		@groups = Group.all
-
-		render_to_modal header: 'User permissions'
 	end
 	
 	#

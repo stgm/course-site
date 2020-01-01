@@ -1,35 +1,24 @@
 class UsersController < ApplicationController
 	
-	include ApplicationHelper
+	# include ApplicationHelper
 	
 	before_action :authorize
 	before_action :require_senior
-	before_action :require_admin, only: :set_permissions
 
 	# GET /user/:id.js
 	def show
-		@schedules = Schedule.all
 		@student = User.includes(:hands, :notes).find(params[:id])
-		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @student.id).order('grades.created_at desc')
+		@schedules = Schedule.all
 		@groups = @student.schedule.groups.order(:name) if @student.schedule
 		@note = Note.new(student_id: @student.id)
-		
-		@items = []
-		@items += @student.submits.where("submitted_at not null").to_a
-		@items += @grades.to_a
-		@items += @student.hands.to_a
-		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
-		
-		@hands = @student.hands.where("note is not null").order("created_at desc")
-		@notes = @student.notes.order("created_at desc")
-		
+		@items = @student.items(true)
 		@psets = Pset.order('"psets"."order" is null, "psets"."order"')
 	end
 	
 	# PUT /user/:id
 	def update
 		p = User.find(params[:id])
-		p.update_attributes!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :alarm, :role))
+		p.update_attributes!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :alarm))
 
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
@@ -37,51 +26,6 @@ class UsersController < ApplicationController
 		end
 	end
 	
-	# PUT /user/:user_id/admin
-	def admin
-		p = User.find(params[:user_id])
-		p.update_attributes!(params.require(:user).permit(:role))
-
-		respond_to do |format|
-			format.json { respond_with_bip(p) }
-			format.html { redirect_back fallback_location: '/' }
-		end
-	end
-	
-	def set_permissions
-		user = User.find(params[:user_id])
-		
-		if params[:schedule_id]
-			schedule = Schedule.find(params[:schedule_id])
-			user.schedules << schedule
-		end
-
-		if params[:group_id]
-			group = Group.find(params[:group_id])
-			user.groups << group
-		end
-
-		respond_to do |format|
-			format.html { redirect_back fallback_location: '/' }
-		end
-	end
-	
-	def remove_permissions
-		user = User.find(params[:user_id])
-		
-		if params[:schedule_id]
-			schedule = Schedule.find(params[:schedule_id])
-			user.schedules.delete(schedule)
-		end
-
-		if params[:group_id]
-			group = Group.find(params[:group_id])
-			user.groups.delete(group)
-		end
-
-		redirect_back fallback_location: '/'
-	end
-
 	def set_alarm
 		p = User.find(params[:user_id])
 		a = params[:alarm]

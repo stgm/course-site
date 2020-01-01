@@ -1,4 +1,4 @@
-class Tests::TestsController < ApplicationController
+class Tests::TestsController < ModalController
 
 	before_action :authorize
 	before_action :require_senior
@@ -6,6 +6,7 @@ class Tests::TestsController < ApplicationController
 
 	def index
 		@psets = Pset.where(test: true).order(:order)
+		render_to_modal header: 'Test administration'
 	end
 
 end

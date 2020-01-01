@@ -44,8 +44,8 @@
 							<%= @new_students.count %> students have submitted.
 							No grading groups have been defined yet.
 						</p>
-						<%= link_to 'Generate', manage_groups_generate_path(schedule_id: @current_schedule.id), class: 'btn btn-primary' %>
-						<%= link_to 'Import', manage_groups_import_path(schedule_id: @current_schedule.id), class: 'btn btn-primary' %>
+						<%= link_to 'Generate', new_schedule_generate_groups_path(schedule_slug: @current_schedule.slug), class: 'btn btn-primary' %>
+						<%= link_to 'Import', new_schedule_import_groups_path(schedule_slug: @current_schedule.slug), class: 'btn btn-primary' %>
 						<% end %>
 					</div>
 				</div>

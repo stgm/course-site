@@ -1,0 +1,3 @@
+<% set_permissions.each do |schedule| %>
+<%= link_to schedule.name, admin_user_remove_permissions_path(user_id: user.id, schedule_id: schedule.id), method: :patch, remote: true %>,
+<% end %>			
