@@ -1,4 +1,4 @@
-class Manage::StatusController < ApplicationController
+class StatusController < ApplicationController
 
 	before_action :authorize
 	before_action :require_senior
