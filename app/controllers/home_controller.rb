@@ -23,35 +23,12 @@ class HomeController < ApplicationController
 	end
 
 	def submissions
-		@current_schedules = Schedule.all
 		@student = User.includes(:hands, :notes).find(current_user.id)
-		@grades = Grade.published.joins(:submit).includes(:submit).where('submits.user_id = ?', current_user.id).order('grades.updated_at desc')
 		@items = @student.items
 
-		# determine the categories to show
-		@overview = Settings.grading.select { |category, value| value['show_progress'] }
-
-		@subgrades = {}
-		@show_calculated = {}
-		@overview.each_pair do |category, content|
-			# remove weight 0 and bonus
-			@overview[category]['submits'] = @overview[category]['submits'].reject { |submit, weight| (weight == 0 || weight == 'bonus') }
-
-			# determine subgrades
-			@subgrades[category] = []
-			@show_calculated[category] = false
-			@overview[category]['submits'].each_pair do |submit, weight|
-				@subgrades[category] += Settings.grading['grades'][submit]['subgrades'].keys if !Settings.grading['grades'][submit]['hide_subgrades']
-				@show_calculated[category] = true if !Settings.grading['grades'][submit]['hide_calculated']
-			end
-			
-			# remove dupes
-			@subgrades[category] = @subgrades[category].uniq
-		end
-
-		# convert grades to an easy-to-use format
-		@grades_by_pset = @grades.to_h { |item| [item.pset.name, item] }
-
+		# overview table
+		@overview_config = Settings.overview_config
+		@grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).to_h { |item| [item.pset.name, item.grade] }
 	end
 	
 	def announcements

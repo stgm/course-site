@@ -1,7 +1,7 @@
 <div id="overview" class="card">
 	<div class="card-body">
 		<h5 class="card-title"><%= t('overview') %></h5>
-		<% @overview.each_pair do |category, content| %>
+		<% @overview_config.each do |category, definition| %>
 			<h6><%= category.capitalize %></h6>
 			<table class="table table-sm table-responsive">
 				<%# Table header  %>
@@ -9,21 +9,21 @@
 					<%# Assignment %>
 					<th></th>
 					<%# Subgrades  %>
-					<% @subgrades[category].each do |subgrade| %>
+					<% definition['subgrades'].each do |subgrade| %>
 						<th><%= subgrade.capitalize %></th>
 					<% end %>
 					<%# Final grade %>
-					<% if @show_calculated[category] %>
+					<% if definition['show_calculated'] %>
 						<th>Grade</th>
 					<% end %>
 				</tr>
 
-				<% content['submits'].each_pair do |submit, weight| %>
+				<% definition['submits'].each do |submit| %>
 					<%# Each submit within category %>
 					<tr>
 						<%# Submit name %>
 						<th><%= humanize_submit(submit) %></th>
-						<% @subgrades[category].each do |subgrade| %>
+						<% definition['subgrades'].each do |subgrade| %>
 							<%# Print each subgrade if it exists for this grade, subgrades are not hidden, and the grade isn't unpublished. %>
 							<%# Else, print a dash. %>
 							<% if @grades_by_pset.key?(submit) && !Settings.grading['grades'][submit]['hide_subgrades'] && @grades_by_pset[submit].subgrades[subgrade] %>
@@ -32,7 +32,7 @@
 								<td>-</td>
 							<% end %>
 						<% end %>
-						<% if @show_calculated[category] %>
+						<% if definition['show_calculated'] %>
 							<%# Print calculated grade for this submit if it is not unpublished or hidden. %>
 							<%# Else, print a dash. %>
 							<% if @grades_by_pset.key?(submit) && !Settings.grading['grades'][submit]['hide_calculated'] %>

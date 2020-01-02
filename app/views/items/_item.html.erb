@@ -1,6 +1,5 @@
 <div class="card">
 	<div class="card-body">
-		<% puts item.inspect %>
 		<%= render partial: "items/#{item.class.to_s.downcase}", object: item %>
 	</div>
 </div>

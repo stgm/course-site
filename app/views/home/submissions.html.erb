@@ -1,11 +1,11 @@
 <% if @items.present? %>
 <div id="timeline" class="row flex-xl-row-reverse">
-	<% if !@overview.empty? %>
+	<% if !@overview_config.empty? %>
 		<div class="col-xl-6 col-lg-12">
 			<%= render partial: "grades_overview" %>
 		</div>
 	<% end %>
-	<div class="<%= 'col-xl-6' if !@overview.empty? %> col-lg-12">
+	<div class="<%= 'col-xl-6' if !@overview_config.empty? %> col-lg-12">
 		<%= render partial: "items/item", collection: @items %>
 	</div>
 </div>
