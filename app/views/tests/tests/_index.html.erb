@@ -1,9 +1,7 @@
-<ul>
+<div class="list-group">
 	<% @psets.each do |p| %>
-	<li><%= link_to p.name, test_results_path(p.id), remote: true %></li>
+	<%= link_to p.name.titleize, test_results_path(p.id), remote: true, class: 'list-group-item list-group-item-action' %>
 	<% end %>
-</ul>
+</div>
 
-<p>
-	<%= link_to "Overview", test_overview_path %>
-</p>
+<%= link_to "Overview", test_overview_path, remote: false, class: 'btn btn-light mt-3' %>

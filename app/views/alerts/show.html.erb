@@ -1,19 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @alert.title %>
-</p>
-
-<p>
-  <strong>Body:</strong>
-  <%= @alert.body %>
-</p>
-
-<p>
-  <strong>Published:</strong>
-  <%= @alert.published %>
-</p>
+<%= render partial: 'show' %>
 
 <%= link_to 'Edit', edit_alert_path(@alert) %> |
 <%= link_to 'Back', alerts_path %>

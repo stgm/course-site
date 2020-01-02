@@ -16,7 +16,7 @@
 
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
-		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %></a>
+		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %><%= Hand.waiting.count %></a>
 		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
 			<%= render 'layouts/ama' %>
 		</div>

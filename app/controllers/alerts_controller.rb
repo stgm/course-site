@@ -1,11 +1,9 @@
-class AlertsController < ApplicationController
+class AlertsController < ModalController
 
 	before_action :authorize
-	before_action :require_senior, except: :show
+	before_action :require_senior
 	before_action :load_navigation
 	
-	before_action :set_alert, only: [:show, :edit, :update, :destroy]
-
 	# GET /alerts
 	def index
 		@alerts = Alert.all
@@ -13,9 +11,7 @@ class AlertsController < ApplicationController
 
 	# GET /alerts/1
 	def show
-		if request.xhr?
-			render :popup, layout: false
-		end
+		set_alert
 	end
 	
 	# GET /alerts/new
@@ -25,6 +21,7 @@ class AlertsController < ApplicationController
 
 	# GET /alerts/1/edit
 	def edit
+		set_alert
 	end
 
 	# POST /alerts
@@ -33,7 +30,10 @@ class AlertsController < ApplicationController
 		
 		if @alert.save
 			send_mail if params[:send_mail]
-			redirect_back fallback_location: '/', notice: 'Alert was successfully created.'
+			respond_to do |format|
+				format.js { go_to_index }
+				format.html { redirect_back fallback_location: '/', notice: 'Alert was successfully created.' }
+			end
 		else
 			render :new
 		end
@@ -41,9 +41,13 @@ class AlertsController < ApplicationController
 
 	# PATCH/PUT /alerts/1
 	def update
+		set_alert
 		if @alert.update(alert_params)
 			send_mail if params[:send_mail]
-			redirect_to @alert, notice: 'Alert was successfully updated.'
+			respond_to do |format|
+				format.js { go_to_index }
+				format.html { redirect_to @alert, notice: 'Alert was successfully updated.' }
+			end
 		else
 			render :edit
 		end
@@ -51,8 +55,13 @@ class AlertsController < ApplicationController
 
 	# DELETE /alerts/1
 	def destroy
+		set_alert
 		@alert.destroy
-		redirect_to alerts_path, notice: 'Alert was successfully destroyed.'
+		
+		respond_to do |format|
+			format.js { go_to_index }
+			format.html { redirect_to alerts_path, notice: 'Alert was successfully destroyed.' }
+		end
 	end
 
 	private
@@ -77,6 +86,11 @@ class AlertsController < ApplicationController
 		recipients.each do |user|
 			AlertMailer.alert_message(user, @alert, from).deliver_later
 		end
+	end
+	
+	def go_to_index
+		index
+		render 'index'
 	end
 
 end

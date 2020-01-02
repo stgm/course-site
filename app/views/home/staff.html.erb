@@ -1,34 +1,7 @@
 <div id="timeline">
 	<div class="card-columns" style="column-count:2">
 		
-		<div class="card">
-			<div class="card-body">
-				<% @notes.each do |note| %>
-				<div style="margin-bottom:1em">
-				<%= note.student.name %>:<br><%= note.text %><br><small>(<%= note.author_name %> @ <%= time_ago_in_words(note.updated_at) %> ago)</small>
-				</div>
-				<% end %>
-			</div>
-		</div>
-		
-		<div class="card" id="alertForm">
-			<div class="card-body" id="collapseAlertForm"  data-parent="#alertForm">
-				<h5 class="card-title">Add announcement</h5>
-				<% @alert = Alert.new() %>
-				<%= render partial: "alerts/form" %>
-			</div>
-		</div>
-
 		<% if current_user.schedule %>
-
-		<% if Hand.waiting.any? %>
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Hands queue</h5>
-				<p><%= Hand.waiting.count %> are waiting.</p>
-			</div>
-		</div>
-		<% end %>
 
 		<%= render 'psets_to_publish' %>
 

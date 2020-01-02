@@ -8,9 +8,6 @@
 		<li><a href="/submissions" class="nav-link"><%= fa_icon 'calendar' %> <%= t(:submissions) %></a></li>
 		<% end %>
 		<li><a href="/syllabus" class="nav-link"><%= fa_icon 'file' %> <%= t(:syllabus) %></a></li>
-		<% if @current_user.senior? %>
-		<li><a href="/staff" class="nav-link"><%= fa_icon 'binoculars' %> Staff</a></li>
-		<% end %>
 		<% if Settings['links'] %>
 		<% Settings['links'].each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>

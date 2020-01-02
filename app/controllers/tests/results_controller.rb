@@ -4,15 +4,16 @@ class Tests::ResultsController < Tests::TestsController
 	before_action :require_senior
 	before_action :load_navigation
 	
-	# def index
-	# 	@psets = Pset.where(test: true).order(:order)
-	# end
+	def index
+		@psets = Pset.where(test: true).order(:order)
+		render_to_modal header: 'Test administration'
+	end
 
 	def show
 		@pset = Pset.find_by_id(params[:test_id])
 		@psets = Pset.all
 		@students = User.student.order('lower(name)')
-		render_to_modal header: @pset.name.titleize, link_back: tests_path, link_description: 'Tests'
+		render_to_modal header: @pset.name.titleize
 	end
 
 	def update
@@ -51,7 +52,10 @@ class Tests::ResultsController < Tests::TestsController
 			end
 		end
 		
-		redirect_back fallback_location: '/', notice: "Saved."
+		respond_to do |format|
+			format.js { head :ok }
+			format.html { redirect_back fallback_location: '/', notice: "Saved." }
+		end
 	end
 	
 end

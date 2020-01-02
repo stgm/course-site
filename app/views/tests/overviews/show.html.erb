@@ -4,7 +4,7 @@
 		<% @students.each do |s| %>
 		<tr>
 			<td>
-				<input type="text" readonly class="form-control-plaintext" id="staticEmail" value="<%= s.name %>">
+				<input type="text" readonly class="form-control-plaintext" value="<%= s.name %>">
 			</td>
 			<% s.submits.each do |submit| %>
 			<td>
