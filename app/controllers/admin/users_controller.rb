@@ -19,7 +19,7 @@ class Admin::UsersController < ModalController
 	# PUT /user/:user_id/admin
 	def set_role
 		p = User.find(params[:user_id])
-		p.update_attributes!(params.require(:user).permit(:role))
+		p.update!(params.require(:user).permit(:role))
 
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
