@@ -42,7 +42,7 @@ gem 'bugsnag'
 gem 'rack-cas'
 
 # manages settings in database
-gem 'rails-settings-cached'
+gem 'rails-settings-cached', '~>0.4.1'
 
 # in-place editing for grade table
 gem 'best_in_place'
