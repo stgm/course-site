@@ -5,7 +5,7 @@ class Hand < ApplicationRecord
 	belongs_to :assist, class_name: "User", optional: true
 	delegate :name, to: :assist, prefix: true, allow_nil: true
 	
-	scope :waiting, -> { where(assist: nil).where.not(done: true) }
+	scope :waiting, -> { where(assist_id: nil).where.not(done: true) }
 	
 	after_validation do |hand|
 		if hand.done
