@@ -1,5 +1,10 @@
 <div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
 
+	<div class="d-md-none mt-3">
+		<%= render partial: 'layouts/search' %>
+		
+	</div>
+
 	<ul class="nav">
 		<% if logged_in? && @alerts.any? %>
 		<li><a href="/announcements" class="nav-link"><%= fa_icon 'bullhorn' %> <%= t(:announcements) %></a></li>
@@ -56,6 +61,11 @@
 			</ul>
 		</li>
 		<% end %>
+	</ul>
+	
+	<ul class="nav d-md-none">
+		<p class="nav-text">Menu</p>
+		<%= render partial: 'layouts/menu', locals: { context: :sidebar } %>
 	</ul>
 
 </div>

@@ -1,49 +1,49 @@
 <% if current_user.admin? %>
 
-<%= link_to fa_icon("line-chart") + 'Overview', schedule_overview_path, class: 'dropdown-item' %>
-<%= link_to fa_icon("file-text-o") + 'Grading', grading_index_path, class: 'dropdown-item' %>
+<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
+<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
 <% if Settings.hands_allow %>
-<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
+<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
 <% end %>
-<div class="dropdown-divider"></div>
-<%= link_to fa_icon("bullhorn") + 'Announcements...', alerts_path, remote: true, class: 'dropdown-item' %>
+<div class="dropdown-divider d-none d-md-block"></div>
+<%= menu_link_to 'Announcements...', 'bullhorn', alerts_path, context, remote: true %>
 <% if Settings.tests_present %>
-<%= link_to fa_icon("check") + 'Tests...', tests_path, remote: true, class: 'dropdown-item' %>
+<%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
 <% end %>
-<div class="dropdown-divider"></div>
-<%= link_to fa_icon("sliders") + 'Course administration...', admin_course_path, remote: true, class: 'dropdown-item' %>
-<%= link_to fa_icon("cog") + 'Site configuration...', admin_site_path, remote: true, class: 'dropdown-item' %>
-<%= link_to fa_icon("unlock") + 'Edit permissions...', admin_users_path, remote: true, class: 'dropdown-item' %>
-<%= link_to fa_icon("download") + 'Update courseware', admin_update_path, method: :post, class: 'dropdown-item' %>
-<div class="dropdown-divider"></div>
+<div class="dropdown-divider d-none d-md-block"></div>
+<%= menu_link_to 'Course administration...', 'sliders', admin_course_path, context, remote: true %>
+<%= menu_link_to 'Site configuration...', 'cog', admin_site_path, context, remote: true %>
+<%= menu_link_to 'Edit permissions...', 'unlock', admin_users_path, context, remote: true %>
+<%= menu_link_to 'Update courseware...', 'download', admin_update_path, context, method: :post %>
+<div class="dropdown-divider d-none d-md-block"></div>
 
 
 
 <% elsif current_user.head? %>
 
 <% if Settings.hands_allow %>
-<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
+<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
 <% end %>
 <% if Settings.tests_present %>
-<%= link_to fa_icon("check") + 'Tests...', tests_path, class: 'dropdown-item' %>
+<%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
 <% end %>
-<div class="dropdown-divider"></div>
-<%= link_to fa_icon("line-chart") + 'Overview', schedule_overview_path, class: 'dropdown-item' %>
-<%= link_to fa_icon("file-text-o") + 'Grading', grading_index_path, class: 'dropdown-item' %>
-<div class="dropdown-divider"></div>
+<div class="dropdown-divider d-none d-md-block"></div>
+<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
+<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
+<div class="dropdown-divider d-none d-md-block"></div>
 
 
 
 <% elsif current_user.assistant? %>
 
 <% if Settings.hands_allow %>
-<%= link_to fa_icon("hand-pointer-o") + 'Hands', hands_path, class: 'dropdown-item' %>
+<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
 <% end %>
 <% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-<%= link_to fa_icon("line-chart") + 'Overview', schedule_overview_path, class: 'dropdown-item' %>
-<%= link_to fa_icon("file-text-o") + 'Grading', grading_index_path, class: 'dropdown-item' %>
+<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
+<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
 <% end %>
-<div class="dropdown-divider"></div>
+<div class="dropdown-divider d-none d-md-block"></div>
 
 
 
@@ -54,4 +54,4 @@
 <% end%>
 
 
-<%= link_to fa_icon("sign-out") + "Logout", session_logout_path, class: 'dropdown-item' %>
+<%= menu_link_to 'Logout', 'sign-out', session_logout_path, context %>
