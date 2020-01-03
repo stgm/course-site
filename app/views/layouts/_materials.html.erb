@@ -10,6 +10,6 @@
 
 <h6 class="dropdown-header"><span><%= section.title %></span></h6>
 <% for page in section.pages %>
-	<%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: 'dropdown-item ' + (page.public ? '' : 'menu-hidden') %>
+	<%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", remote: false, class: 'dropdown-item ' + (page.public ? '' : 'menu-hidden') %>
 <% end %>
 <% end %>

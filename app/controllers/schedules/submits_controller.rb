@@ -7,9 +7,9 @@ class Schedules::SubmitsController < ApplicationController
 	def form_for_missing
 		load_navigation
 		@schedule = current_user.schedule
-		@users = @schedule.users.not_staff.not_inactive
+		# @users = @schedule.users.not_staff.not_inactive
 		@psets = Pset.all
-		render layout: "application"
+		render_to_modal header: 'Notify non-submitters'
 	end
 
 	# POST /schedules/.../submits/notify_missing

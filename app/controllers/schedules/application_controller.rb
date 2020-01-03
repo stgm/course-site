@@ -1,4 +1,6 @@
 class Schedules::ApplicationController < ApplicationController
+	
+	before_action :load_navigation
 
 	private
 	

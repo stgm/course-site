@@ -1,10 +1,8 @@
-class Admin::CourseController < ModalController
+class Admin::CourseController < ApplicationController
 
 	before_action :authorize
 	before_action :require_admin
 	
-	layout 'wide'
-
 	def index
 		@all_sections = Section.includes(pages: :pset)
 		

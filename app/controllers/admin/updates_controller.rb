@@ -1,4 +1,4 @@
-class Admin::UpdatesController < ModalController
+class Admin::UpdatesController < ApplicationController
 
 	before_action :authorize
 	before_action :require_admin

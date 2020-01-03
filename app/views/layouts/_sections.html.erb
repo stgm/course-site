@@ -6,7 +6,7 @@
 	</a>
 	<ul class="nav collapse" id="collapse-<%= section.title.parameterize %>">
 		<% for page in section.pages %>
-		<li class="nav-item"><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", class: 'nav-link ' + (page.public ? '' : 'menu-hidden') %></li>
+		<li class="nav-item"><%= link_to (page.title).html_safe, "/#{section.slug}/#{page.slug}", remote: false, class: 'nav-link ' + (page.public ? '' : 'menu-hidden') %></li>
 		<% end %>
 	</ul>
 </li>

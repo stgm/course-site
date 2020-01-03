@@ -4,7 +4,6 @@ class Schedules::ScheduleController < ApplicationController
 	before_action :require_admin
 	
 	before_action :load_schedule
-	layout 'wide'
 
 	#
 	# set "current" schedule that is displayed to users

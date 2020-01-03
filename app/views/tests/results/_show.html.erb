@@ -30,6 +30,6 @@
 </table>
 <div class="mt-3 actions clearfix">
 	<%= link_to 'Back to list', tests_path, class: 'btn btn-light' %>
-	<%= f.submit class: 'btn btn-primary pull-right' %>
+	<%= f.submit class: 'btn btn-primary pull-right', data: { loading: 'Saving!' } %>
 </div>
 <% end %>

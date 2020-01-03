@@ -35,12 +35,8 @@
 
 		<%= render "layouts/alerts" %>
 	
-		<div class="container-fluid flex-fill h-100" style="max-width: 767.98px">
-			<div class="row content h-100">
-				<div class="col">
-				<%= content_for?(:main) ? yield(:main) : yield %>
-				</div>
-			</div>
+		<div class="container-fluid pt-3">
+			<%= content_for?(:main) ? yield(:main) : yield %>
 		</div>
 	
 	</div>

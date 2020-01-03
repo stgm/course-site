@@ -6,11 +6,10 @@ class Schedules::ImportGroupsController < Schedules::ApplicationController
 	before_action :authorize
 	before_action :require_admin
 	
-	layout 'wide'
-
 	def new
 		load_schedule
 		@paste = Settings.cached_user_paste
+		render_to_modal header: 'Import groups'
 	end
 	
 	def create

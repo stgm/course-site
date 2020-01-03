@@ -39,7 +39,7 @@
 				<%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_schedule_grades_path(schedule_id: @current_module_id), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' }, class:"dropdown-item"  %>
 				<% if Schedule.any? %>
 				<div class="dropdown-divider"></div>
-				<%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_schedule_submits_path(schedule_id: @current_module_id), class:"dropdown-item"  %>
+				<%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_schedule_submits_path(schedule_id: @current_module_id), class:"dropdown-item", remote: true  %>
 				<% end %>
 				<% end %>
 				<% if current_user.admin? && GradeTools.available? %>
@@ -56,8 +56,8 @@
 			</button>
 
 			<ul class="dropdown-menu dropdown-menu-right">
-				<%= link_to 'Import Groups'.html_safe, new_schedule_import_groups_path(schedule_slug: params[:schedule_slug]), class:"dropdown-item" %>
-				<%= link_to 'Generate Groups'.html_safe, new_schedule_generate_groups_path(schedule_slug: params[:schedule_slug]), class:"dropdown-item" %>
+				<%= link_to 'Import Groups'.html_safe, new_schedule_import_groups_path(schedule_slug: params[:schedule_slug]), remote:true, class:"dropdown-item" %>
+				<%= link_to 'Generate Groups'.html_safe, new_schedule_generate_groups_path(schedule_slug: params[:schedule_slug]), remote:true, class:"dropdown-item" %>
 			</ul>
 		</div>
 		<% end %>

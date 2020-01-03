@@ -2,7 +2,6 @@ class Schedules::OverviewsController < ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
-	before_action :load_navigation
 
 	def show
 		

@@ -3,10 +3,9 @@ class Schedules::GenerateGroupsController < Schedules::ApplicationController
 	before_action :authorize
 	before_action :require_admin
 	
-	layout 'wide'
-
 	def new
 		load_schedule
+		render_to_modal header: 'Generate groups'
 	end
 	
 	# generate a number of groups and randomly assign students

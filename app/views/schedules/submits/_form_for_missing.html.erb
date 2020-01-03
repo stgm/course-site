@@ -1,7 +1,4 @@
-<h1>Notify non-submitters</h1>
-
-<%= form_tag notify_missing_schedule_submits_path(schedule_id: params[:schedule_id]), :method => :post do %>
-
+<%= form_with url:notify_missing_schedule_submits_path(schedule_id: params[:schedule_id]), :method => :post, local:true do %>
 <div class="form-group">
 	<label for="exampleInputEmail1">Notify those who did not submit this pset yet:</label>
 	<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
@@ -11,12 +8,5 @@
 	<textarea name="text" class="form-control">Let op: je hebt nog niets ingestuurd voor deze opdracht! Geen probleem,
 maar vergeet niet om vóór de deadline te submitten!</textarea>
 </div>
-<input type="submit" class="btn btn-default">
-
-<ul>
-	<% @users.each do |u| %>
-		<li><%= u.name %> &lt;<%= u.mail %>&gt;</li>
-	<% end %>
-</ul>
-
+<input type="submit" class="btn btn-primary">
 <% end %>

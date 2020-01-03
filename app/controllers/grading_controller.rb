@@ -9,8 +9,6 @@ class GradingController < ApplicationController
 	before_action :require_staff
 
 	before_action :load_grading_list, only: [ :index, :show ]
-	
-	layout "full-width"
 
 	# GET /grading
 	def index

@@ -2,11 +2,9 @@ class Schedules::SchedulesController < Schedules::ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
-
-	before_action :load_navigation
 	before_action :verify_access
 
-	layout 'full-width'
+	layout 'schedules'
 
 	def index
 

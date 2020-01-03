@@ -1,10 +1,8 @@
-class Admin::SiteController < ModalController
+class Admin::SiteController < ApplicationController
 
 	before_action :authorize
 	before_action :require_admin
 
-	layout 'wide'
-	
 	def index
 		@dropbox_linked = Dropbox.connected?
 		@secret = Settings.webhook_secret

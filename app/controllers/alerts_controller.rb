@@ -1,4 +1,4 @@
-class AlertsController < ModalController
+class AlertsController < ApplicationController
 
 	before_action :authorize
 	before_action :require_senior

@@ -1,4 +1,4 @@
-class Admin::UsersController < ModalController
+class Admin::UsersController < ApplicationController
 	
 	include ApplicationHelper
 	
