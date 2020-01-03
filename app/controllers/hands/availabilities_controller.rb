@@ -1,7 +1,9 @@
-class Hands::AvailabilityController < ApplicationController
+class Hands::AvailabilitiesController < ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
+
+	layout 'hands'
 
 	def edit
 		@user = current_user
