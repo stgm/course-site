@@ -105,8 +105,9 @@ Rails.application.routes.draw do
 	resources :hands, only: [ :index, :show, :new, :create, :update ], module: 'hands' do
 		collection do
 			# students
-			resource :raise, as: 'hands_raise', only: [ :show, :create, :destroy ]
-			resource :location, as: 'hands_location', only: [ :update ]
+			resource :raise, as: 'hands_raise', only: [ :show, :create, :destroy ] do
+				patch 'set_location'
+			end
 			# assistants
 			resource :availability, as: 'hands_availability', only: [ :edit, :update ]
 			# heads

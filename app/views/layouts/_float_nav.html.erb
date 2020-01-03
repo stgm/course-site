@@ -60,7 +60,7 @@
 
 <% if is_local_ip? && current_user.student? && current_user.last_known_location.blank? %>
 <script>
-	$.ajax('<%= hands_ask_path %>');
+	$.ajax('<%= hands_raise_path %>');
 </script>
 <% else %>
 <script>

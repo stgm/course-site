@@ -13,12 +13,24 @@ class Hands::RaisesController < ApplicationController
 					else
 						helping
 					end
-				elsif is_local_ip? && current_user.student? && current_user.last_known_location.blank?
+				elsif Settings.hands_location && is_local_ip? && current_user.student? && current_user.last_known_location.blank?
 					location_small
 				else
 					form
 				end
 			end
+		end
+	end
+	
+	def set_location
+		if !params[:location].blank?
+			current_user.update!(last_known_location: params[:location])
+		end
+
+		# index
+		respond_to do |format|
+			format.html { redirect_to "/" }
+			format.js { show }
 		end
 	end
 	
