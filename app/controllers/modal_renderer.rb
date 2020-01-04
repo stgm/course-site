@@ -7,7 +7,7 @@ module ModalRenderer
 		@header = options[:header]
 		@header_partial = options[:header_partial]
 		@tooltips = options[:tooltips]
-		render 'modal/load_modal.js.erb'
+		render 'load_modal.js.erb'
 	end
 	
 	private

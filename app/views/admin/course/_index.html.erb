@@ -1,11 +1,11 @@
-<%= render partial: 'stats', layout: 'modal/modal_card', locals: { title: 'Statistics', subtitle: nil }%>
+<%= render partial: 'stats', layout: 'modal_card', locals: { title: 'Statistics', subtitle: nil }%>
 
 <% if Schedule.any? %>
-<%= render partial: 'registration', layout: 'modal/modal_card', locals: { title: 'Schedule registration', subtitle: 'Allow students to register for the following schedules' } %>
+<%= render partial: 'registration', layout: 'modal_card', locals: { title: 'Schedule registration', subtitle: 'Allow students to register for the following schedules' } %>
 <% end %>
 
 <% if @all_sections.any? %>
-<%= render partial: 'pages', layout: 'modal/modal_card', locals: { title: 'Published pages', subtitle: 'Check all the pages that should be visible to students and guests' } %>
+<%= render partial: 'pages', layout: 'modal_card', locals: { title: 'Published pages', subtitle: 'Check all the pages that should be visible to students and guests' } %>
 <% end %>
 
-<%= render partial: 'export', layout: 'modal/modal_card', locals: { title: 'Export results', subtitle: 'Download student results from all schedules for archival' }%>
+<%= render partial: 'export', layout: 'modal_card', locals: { title: 'Export results', subtitle: 'Download student results from all schedules for archival' }%>

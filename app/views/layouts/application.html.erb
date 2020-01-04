@@ -77,7 +77,7 @@
 	</div>
 
 	<div id="popup"></div>
-	<%= render partial: "modal/modal_browser" if current_user.senior? %>
+	<%= render partial: "modal_browser" if current_user.senior? %>
 </body>
 
 <% if !current_user.valid_profile? %>
