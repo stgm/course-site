@@ -7,25 +7,13 @@
 			<span class="course-name"><%= Settings["course"] && Settings["course"]["name"] %></span>
 		</a>
 		
-		<% if @group_name || @current_schedule_name %>
-		<% if current_user.admin? && Schedule.count > 1 %>
-		
-		<div class="dropdown">
-			<a class="dropdown-toggle" href="#" role="button" id="schedule_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<%= @group_name || @current_schedule_name %></a>
-
-			<div class="dropdown-menu" aria-labelledby="schedule_dropdown">
-				<% Schedule.all.each do |s| %>
-				<%= link_to s.name, user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), method: :post, class: "dropdown-item" %>
-				<% end %>
-			</div>
+		<div class="d-flex flex-row">
+			<span class="d-none d-md-none d-lg-none d-xl-inline mr-1"><%= current_user && current_user.name || session[:cas_user] %>
+			<%= '&middot;'.html_safe if current_user && (@group_name || @current_schedule_name) %></span>
+			<%= @group_name || @current_schedule_name %>
 		</div>
-		<% else %>
-		<%= @group_name || @current_schedule_name %>
-		<% end %>
-		<% end %>
 	</div>
-
+	
 	<div class="d-none d-md-inline align-items-center">
 		<% if Settings['keyword_index'].present? %>
 		<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="sidebarCollapse">
@@ -33,5 +21,5 @@
 		</a>
 		<% end %>
 	</div>
-
+	
 </div>

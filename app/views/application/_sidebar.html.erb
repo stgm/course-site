@@ -1,9 +1,16 @@
 <div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
 
-	<div class="d-md-none mt-3">
-		<%= render partial: 'search' %>
-		
+	<% if !logged_in? && authenticated? %>
+	<div class="card mt-3">
+		<%= render 'profile/edit' %>
 	</div>
+	<% end %>
+
+	<% if current_user.senior? %>
+	<div class="mt-4 w-100">
+		<%= render partial: 'search' %>
+	</div>
+	<% end %>
 
 	<ul class="nav">
 		<% if logged_in? && @alerts.any? %>
@@ -65,7 +72,7 @@
 	
 	<ul class="nav d-md-none">
 		<p class="nav-text">Menu</p>
-		<%= render partial: 'menu', locals: { context: :sidebar } %>
+		<%= render partial: 'menu_items', locals: { context: :sidebar } %>
 	</ul>
 
 </div>

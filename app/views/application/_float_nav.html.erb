@@ -1,51 +1,18 @@
 <ul id="icon-nav" class="navbar-nav ml-auto">
-	
-	<%= render partial: 'search' %>
-	
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
-		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %><%= Hand.waiting.count if current_user.staff? %></a>
+		<a href="#" id="ama-dd" class="bg-white rounded-pill p-2 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %><%= Hand.waiting.count if current_user.staff? %></a>
 		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
 			<%= render 'ama' %>
 		</div>
 	</li>
 	<% end %>
 
-	<% if logged_in? %>
-	<li class="nav-item dropdown">
-		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-			<span class="d-inline d-md-none">
-			<%= fa_icon "user", class: "fa-fw" %>
-			</span>
-			<span class="d-none d-md-inline">
-			<%= current_user && current_user.name || session[:cas_user] %>
-			<% if current_user.staff? %>
-			(<%= current_user.login_id %>)
-			<% end %>
-			</span>
-		</a>
-		<div class="dropdown-menu dropdown-menu-right" id="user-menu">
-			<%= render partial: 'menu', locals: { context: :menu } %>
-		</div>
-	</li>
-	<% elsif authenticated? %>
-	<li class="nav-item dropdown ">
-		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-			<span class="d-inline d-md-none">
-			<%= fa_icon "user", class: "fa-fw" %>
-			</span>
-			<span class="d-none d-md-inline">
-			<%= current_user && current_user.name || session[:cas_user] %>
-			</span>
-		</a>
-		<div class="dropdown-menu dropdown-menu-right register-menu" id="user-menu">
-			<%= render 'profile/edit' %>
-		</div>
-	</li>
-	<% else %>
+	<% if !authenticated? %>
 	<li><%= link_to("Sign in".html_safe, session_login_path)%></li>
+	<% elsif logged_in? %>
+	<%= render 'menu' %>
 	<% end %>
-	
 </ul>
 
 <% if is_local_ip? && current_user.student? && current_user.last_known_location.blank? %>

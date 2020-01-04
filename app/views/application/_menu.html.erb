@@ -1,57 +1,8 @@
-<% if current_user.admin? %>
-
-<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
-<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
-<% if Settings.hands_allow %>
-<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
-<% end %>
-<div class="dropdown-divider d-none d-md-block"></div>
-<%= menu_link_to 'Announcements...', 'bullhorn', alerts_path, context, remote: true %>
-<% if Settings.tests_present %>
-<%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
-<% end %>
-<div class="dropdown-divider d-none d-md-block"></div>
-<%= menu_link_to 'Course administration...', 'sliders', admin_course_path, context, remote: true %>
-<%= menu_link_to 'Site configuration...', 'cog', admin_site_path, context, remote: true %>
-<%= menu_link_to 'Edit permissions...', 'unlock', admin_users_path, context, remote: true %>
-<%= menu_link_to 'Update courseware...', 'download', admin_update_path, context, method: :post %>
-<div class="dropdown-divider d-none d-md-block"></div>
-
-
-
-<% elsif current_user.head? %>
-
-<% if Settings.hands_allow %>
-<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
-<% end %>
-<% if Settings.tests_present %>
-<%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
-<% end %>
-<div class="dropdown-divider d-none d-md-block"></div>
-<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
-<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
-<div class="dropdown-divider d-none d-md-block"></div>
-
-
-
-<% elsif current_user.assistant? %>
-
-<% if Settings.hands_allow %>
-<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
-<% end %>
-<% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
-<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
-<% end %>
-<div class="dropdown-divider d-none d-md-block"></div>
-
-
-
-<% else %>
-
-
-
-<% end%>
-
-
-<%= menu_link_to 'Logout', 'sign-out', session_logout_path, context %>
+<div class="dropdown  ml-2">
+	<a href="#" class="bg-white rounded-pill p-2 dropdown-toggle" data-toggle="dropdown"><%= fa_icon 'user' %></a>
+	<% if logged_in? %>
+	<div class="dropdown-menu dropdown-menu-right" id="user-menu">
+		<%= render partial: 'menu_items', locals: { context: :menu } %>
+	</div>
+	<% end %>
+</div>
