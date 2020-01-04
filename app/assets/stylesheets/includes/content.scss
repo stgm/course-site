@@ -29,6 +29,10 @@
 	}
 }
 
+@media (max-width: 768px) {
+	#markdown-toc { display:none; }
+}
+
 #content
 {
 	font-size:15px;
