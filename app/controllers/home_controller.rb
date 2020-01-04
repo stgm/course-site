@@ -25,6 +25,7 @@ class HomeController < ApplicationController
 	def submissions
 		@student = User.includes(:hands, :notes).find(current_user.id)
 		@items = @student.items
+		raise ActionController::RoutingError.new('Not Found') if @items.empty?
 
 		# overview table
 		@overview_config = Settings.overview_config
