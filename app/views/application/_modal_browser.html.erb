@@ -8,7 +8,7 @@
 		        </button>
 			</div>
 			<div id="modal-browser-body" class="modal-body">
-				<p style="text-align:center; font-size:xx-large"><%= fa_icon 'cog', class:'fa-spin' %></p>
+				<p style="text-align:center; font-size:xx-large"><%= icon 'hammer', size: '64x64' %></p>
 			</div>
 		</div>
 	</div>
@@ -18,6 +18,6 @@
 	$('#modal-browser').on('show.bs.modal', function (e) {
 		// clear modal upon load
 		$('#modal-browser-title').html('');
-		$('#modal-browser-body').html('<p style="text-align:center; font-size:xx-large"><%= fa_icon "cog", class:"fa-spin" %></p>');
+		$('#modal-browser-body').html('<p style="text-align:center; font-size:xx-large"><%= icon "hammer", size: '64x64' %></p>');
 	})
 </script>

@@ -103,7 +103,13 @@ module ApplicationHelper
 			   request.remote_ip == '127.0.0.1'
 	end
 	
-	def menu_link_to(title, icon, path, context, options={remote:false})
-		link_to fa_icon(icon) + title, path, options.merge(class: (context == :sidebar ? 'nav-link' : 'dropdown-item'))
+	def menu_link_to(title, icon_name, path, context, options={remote:false})
+		link_to icon(icon_name, class: 'mr-2', size: '20x20') + title, path, options.merge(class: (context == :sidebar ? 'nav-link' : 'dropdown-item'))
 	end
+	
+	def icon(name, options={})
+		image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'mr-1', style: 'vertical-align: -4px;' }.merge(options)
+		# "<img src=\"/assets/img/#{name}.svg\" alt=\"\" width=\"32\" height=\"32\" title=\"#{name.capitalize}\">"
+	end
+	
 end

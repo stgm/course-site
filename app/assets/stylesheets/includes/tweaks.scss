@@ -39,12 +39,17 @@ textarea#notes
 }
 
 // add a marker to external links
-a[href*="//"]:after
+.home, .page
 {
-	content:" \f08e";
-	font-family: "FontAwesome";
-	font-size:10pt;
-}
+	#sidebar, #content
+	{
+		a[href*="//"]:after
+		{
+			content: url('/icons/box-arrow-up-right.svg');
+			margin-left:3px;
+		}
+	}	
+}	
 
 #overview table td
 {

@@ -2,8 +2,8 @@
 
 	<tr>
 		<th>Name</th>
-		<th><span class="fa fa-sticky-note" aria-hidden="true"></span></th>
-		<th><span class="fa fa-exclamation-triangle" aria-hidden="true"></span></th>
+		<th><%= icon 'document-text' %></th>
+		<th><%= icon 'alert-triangle-fill' %></th>
 		<th>Days</th>
 		<% if params[:totals] == 'true' %>
 		<th>Total</th>
@@ -23,7 +23,7 @@
 		<td>
 			<%= link_to user.name, user, remote: true, data: { toggle: "modal", target: "#modal-browser" } %>
 			<% if user.last_known_location %>
-			<span class="fa fa-location-arrow" aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>"></span>
+			<span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
 			<% end %>
 		</td>
 		
@@ -31,7 +31,7 @@
 		
 		<td>
 			<% if user.alarm %>
-			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+			<%= icon 'alert-triangle-fill' %>
 			<% end %>
 		</td>
 		

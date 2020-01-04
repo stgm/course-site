@@ -1,10 +1,10 @@
 <% content_for :navbar_items do %>
 
-<div class="d-flex navbar">
+<div id="schedule-navbar-items" class="d-flex navbar">
 
 	<% if @accessible_schedules.size > 1 %>
 	<div class="dropdown">
-		<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<%= @name %>
 		</button>
 		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -16,18 +16,18 @@
 	<% end %>
 	
 	<div class="btn-group ml-3" role="group" aria-label="Basic example">
-		<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'active', 'btn-secondary', 'btn-outline-secondary text-light') %>
-		<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'registered', 'btn-secondary', 'btn-outline-secondary text-light') %>
-		<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'inactive', 'btn-secondary', 'btn-outline-secondary text-light') %>
-		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-secondary', 'btn-outline-secondary text-light') %>
+		<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'active', 'btn-light', 'btn-outline-light text-light') %>
+		<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'registered', 'btn-light', 'btn-outline-light text-light') %>
+		<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'inactive', 'btn-secondary', 'btn-outline-light text-light') %>
+		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-secondary', 'btn-outline-light text-light') %>
 	</div>
 
 	<% if current_user.senior? %>
 	<div class="btn-group ml-3" role="group">
 
 		<div class="btn-group" role="group">
-			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-secondary text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="fa fa-check"></span> <span class="caret"></span>
+			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-light text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<%= icon 'check' %> <span class="caret"></span>
 			</button>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
 				<% if current_user.senior? %>
@@ -51,8 +51,8 @@
 
 		<% if @selected_schedule && current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-sm btn-outline-secondary text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="fa fa-user"></span> <span class="caret"></span>
+			<button type="button" class="btn btn-sm btn-outline-light text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<%= icon 'people' %> <span class="caret"></span>
 			</button>
 
 			<ul class="dropdown-menu dropdown-menu-right">

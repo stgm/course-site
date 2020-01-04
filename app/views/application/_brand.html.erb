@@ -1,6 +1,6 @@
 <div class="brand flex-fill align-items-center">
 
-	<%= fa_icon "terminal", class: "pull-left fa-2x text-warning" %>
+	<a href="/"><%= icon "terminal", class: "pull-left bg-warning rounded mr-2", size: '32x32' %></a>
 
 	<div class="d-flex flex-column flex-fill">
 		<a href="/" class="navbar-brand pb-0">
@@ -17,7 +17,7 @@
 	<div class="d-none d-md-inline align-items-center">
 		<% if Settings['keyword_index'].present? %>
 		<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="sidebarCollapse">
-			<%= fa_icon 'search', class: 'fa-lg' %>
+			<%= icon 'search' %>
 		</a>
 		<% end %>
 	</div>

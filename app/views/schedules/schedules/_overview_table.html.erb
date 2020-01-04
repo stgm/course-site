@@ -14,7 +14,7 @@
 			<!-- <%= link_to user.name, manage_user_path(user) %> -->
 			<%= user.name %>
 			<% if user.last_known_location %>
-			<span class="fa fa-location-arrow" aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>"></span>
+			<span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
 			<% end %>
 		</td>
 		

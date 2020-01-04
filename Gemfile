@@ -78,7 +78,6 @@ gem 'bootstrap'
 gem 'coffee-rails'
 gem 'garlicjs-rails'
 gem 'turbolinks'
-gem 'font-awesome-rails'
 gem 'coderay'
 
 # shut up safari
