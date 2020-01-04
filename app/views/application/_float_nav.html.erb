@@ -1,12 +1,12 @@
 <ul id="icon-nav" class="navbar-nav ml-auto">
 	
-	<%= render partial: 'layouts/search' %>
+	<%= render partial: 'search' %>
 	
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
 		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= fa_icon "hand-pointer-o", class: "fa-fw" %><%= Hand.waiting.count if current_user.staff? %></a>
 		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
-			<%= render 'layouts/ama' %>
+			<%= render 'ama' %>
 		</div>
 	</li>
 	<% end %>
@@ -25,7 +25,7 @@
 			</span>
 		</a>
 		<div class="dropdown-menu dropdown-menu-right" id="user-menu">
-			<%= render partial: 'layouts/menu', locals: { context: :menu } %>
+			<%= render partial: 'menu', locals: { context: :menu } %>
 		</div>
 	</li>
 	<% elsif authenticated? %>

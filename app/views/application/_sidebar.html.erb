@@ -1,7 +1,7 @@
 <div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
 
 	<div class="d-md-none mt-3">
-		<%= render partial: 'layouts/search' %>
+		<%= render partial: 'search' %>
 		
 	</div>
 
@@ -57,7 +57,7 @@
 		</li>
 		<li>
 			<ul class="nav">
-				<%= render 'layouts/sections' %>
+				<%= render 'sections' %>
 			</ul>
 		</li>
 		<% end %>
@@ -65,7 +65,7 @@
 	
 	<ul class="nav d-md-none">
 		<p class="nav-text">Menu</p>
-		<%= render partial: 'layouts/menu', locals: { context: :sidebar } %>
+		<%= render partial: 'menu', locals: { context: :sidebar } %>
 	</ul>
 
 </div>

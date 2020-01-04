@@ -22,18 +22,18 @@
 	<div class="d-flex flex-column h-100">
 
 		<div id="navbar" class="navbar sticky-top bg-dark navbar-dark navbar-expand-lg flex-shrink-0">
-			<%= render 'layouts/brand' %>
+			<%= render 'brand' %>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<%= yield :navbar_items %>
-				<%= render 'layouts/float_nav' %>
+				<%= render 'float_nav' %>
 			</div>
 		</div>
 
-		<%= render "layouts/alerts" %>
+		<%= render "alerts" %>
 	
 		<div class="container-fluid pt-3">
 			<%= content_for?(:main) ? yield(:main) : yield %>
