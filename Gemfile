@@ -68,7 +68,7 @@ gem 'videojs_rails'
 
 # XLSX generation
 gem 'rubyzip'
-gem 'axlsx_rails'
+gem 'caxlsx_rails'
 
 ##
 # Front-end
