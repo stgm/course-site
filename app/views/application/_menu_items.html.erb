@@ -26,14 +26,14 @@
 <% elsif current_user.head? %>
 
 <% if Settings.hands_allow %>
-<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
+<%= menu_link_to 'Hands', 'people-fill', hands_path, context %>
 <% end %>
 <% if Settings.tests_present %>
 <%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
 <% end %>
 <div class="dropdown-divider d-none d-md-block"></div>
-<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
-<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
+<%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
+<%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
 <div class="dropdown-divider d-none d-md-block"></div>
 
 
@@ -41,11 +41,11 @@
 <% elsif current_user.assistant? %>
 
 <% if Settings.hands_allow %>
-<%= menu_link_to 'Hands', 'hand-pointer-o', hands_path, context %>
+<%= menu_link_to 'Hands', 'people-fill', hands_path, context %>
 <% end %>
 <% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-<%= menu_link_to 'Overview', 'line-chart', schedule_overview_path, context %>
-<%= menu_link_to 'Grading', 'file-text-o', grading_index_path, context %>
+<%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
+<%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
 <% end %>
 <div class="dropdown-divider d-none d-md-block"></div>
 
