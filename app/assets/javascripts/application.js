@@ -15,7 +15,6 @@
 //= require jquery.purr
 //= require popper
 //= require bootstrap
-//= require video
 //= require best_in_place
 //= require garlic
 //= require Chart.bundle

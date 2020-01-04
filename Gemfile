@@ -64,7 +64,6 @@ gem 'sucker_punch'
 #
 gem 'kramdown'
 gem 'asciidoctor'
-gem 'videojs_rails'
 
 # XLSX generation
 gem 'rubyzip'

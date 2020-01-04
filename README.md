@@ -44,8 +44,7 @@ Formatting your pages
 
 * All pages are to be formatted with [Markdown] and the [Kramdown] extensions.
 
-* You can use [AsciiMath] if enclosed within pairs of dollar signs ($$). Check
-  the [AsciiMath syntax].
+* You can use [AsciiMath] or LaTeX if enclosed within pairs of dollar signs (`$sin(x)$$`, or `$sin(x)$` for inlined math). Check the [AsciiMath syntax].
 
 * Add a table of contents to a page using:
 
@@ -62,10 +61,6 @@ Formatting your pages
 
     Then, any link starting with `cdn://` will be rewritten to start with
     that exact cdn url.
-
-* Use `videoplayer` as the alt text for an image link in order to generate a video player:
-
-        ![videoplayer](cdn://video/lecture001.mp4)
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [Kramdown]: http://kramdown.rubyforge.org/syntax.html

@@ -254,11 +254,6 @@ section pre .comment
 	color:#363;
 }
 
-section .video-js
-{
-	background-color:black;
-}
-
 section ul.checkboxes, section ul.radios, section ul.none
 {
 	list-style-type:none;
@@ -322,28 +317,6 @@ section .kramdown-table td, .kramdown-table th
 //
 // VIDEO
 //
-
-.videoblock
-{
-	@extend .embed;
-    
-	.content
-	{
-		@extend .embed-responsive;
-		@extend .embed-responsive-16by9;
-
-		iframe
-		{
-			@extend .embed-responsive-item;
-		}
-	}
-   
-	margin-top:0 ! important;
-	padding-top:0;
-	padding-bottom:0;
-	background-color:black;
-    
-}
 
 .embed
 {

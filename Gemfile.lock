@@ -267,7 +267,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    videojs_rails (4.12.15)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -313,7 +312,6 @@ DEPENDENCIES
   turbolinks
   twitter-typeahead-rails
   uglifier
-  videojs_rails
 
 BUNDLED WITH
    1.17.2
