@@ -22,7 +22,7 @@ class SessionController < ApplicationController
 
 	def destroy
 		session.delete('cas')
-		redirect_to :root, notice: "Logged out!"
+		redirect_to :root
 	end
 
 end

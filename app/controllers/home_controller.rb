@@ -30,6 +30,8 @@ class HomeController < ApplicationController
 		# overview table
 		@overview_config = Settings.overview_config
 		@grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).to_h { |item| [item.pset.name, item.grade] }
+
+		render layout: 'boxes'
 	end
 	
 	def announcements
@@ -47,6 +49,8 @@ class HomeController < ApplicationController
 		end
 		
 		@title = "#{Settings.course["short_name"]} #{t(:announcements)}" if Settings.course
+		
+		render layout: 'boxes'
 	end
 	
 	def staff

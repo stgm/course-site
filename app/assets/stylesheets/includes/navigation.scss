@@ -10,15 +10,15 @@
     line-height:1em;
 }
 
-.navbar-brand .course-name
+.navbar-brand.course-name
 {
     font-weight:bold;
     white-space:no-wrap;
 }
 
-.navbar-dark .brand
+#sidebar
 {
-	color:#ffffff;
+	padding:0;
 }
 
 //****************************************************************************
@@ -60,13 +60,11 @@
 }
 
 #sidebar a.nav-link {
-//    color: #f8f9fa;
     @extend .px-0;
 }
 
 #sidebar a.nav-link.disabled {
     font-weight:600;
-//    color: #c0c1c2;
 }
 
 #sidebar h2
@@ -96,7 +94,12 @@
 
 #sidebar-content > ul
 {
-    @extend .mt-4;
+    margin-top:1.5rem;
+}
+
+#sidebar-content > ul:first-child
+{
+	margin-top:0;
 }
 
 #sidebar > * > .nav
@@ -107,6 +110,19 @@
 #sidebar ul.nav > li > ul.nav > li > ul.nav
 {
     padding-left:1em;
+}
+
+#sidebar ul#sections
+{
+	img
+	{
+		opacity: 0.3;
+		vertical-align: -3px;
+		height: 1rem;
+		width: 1.3rem;
+		margin-left:-1.3rem;
+		color: #D4DAE0; // doesn't work because it's a SVG (currently)
+	}
 }
 
 #sidebar .nav .fa

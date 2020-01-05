@@ -17,14 +17,14 @@
     <link rel="icon" type="image/png" href="/images/minor.png" />
 </head>
 
-<body class="<%= @body_class || controller.controller_name %>">
+<body class="boxes">
 
 	<div class="container-fluid">
 		<div class="row">
 			
 			<div id="sidebar" class="navbar navbar-light d-md-block col-md-<%= Settings.room_for_toc && 3 || 4 %> col-xl-3">
 
-				<div class="brand justify-content-between flex-fill w-100 px-2 px-md-3 py-2 py-md-3 px-lg-4 pt-lg-4">
+				<div class="brand flex-fill justify-content-between align-items-center w-100 px-2 px-md-3 py-2 py-md-3 px-lg-4 pt-lg-4">
 					<%= render 'brand'%>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 
-				<div id="content" class="p-3 p-sm-4 px-lg-5 pb-md-3" <%= Settings.room_for_toc && "style=margin-right:17em;" || "" %>>
+				<div id="content" class="px-3 px-md-4 px-xl-5 pb-md-3 pt-md-3" <%= Settings.room_for_toc && "style=margin-right:17em;" || "" %>>
 					<%= yield %>
 				</div>
 

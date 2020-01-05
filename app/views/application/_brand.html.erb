@@ -1,25 +1,25 @@
-<div class="brand flex-fill align-items-center">
+<div class="d-flex align-items-center">
+	<a href="/"><%= icon "terminal", class: "pull-left bg-warning rounded mr-2", size: '32x32', style: 'vertical-align:text-bottom;' %></a>
 
-	<a href="/"><%= icon "terminal", class: "pull-left bg-warning rounded mr-2", size: '32x32' %></a>
-
-	<div class="d-flex flex-column flex-fill">
-		<a href="/" class="navbar-brand pb-0">
-			<span class="course-name"><%= Settings["course"] && Settings["course"]["name"] %></span>
+	<div class="d-flex flex-column flex-fill" style="overflow-x:hidden; ">
+		<a href="/" class="navbar-brand pb-0 pt-0 text-truncate course-name">
+			<%= Settings["course"] && Settings["course"]["name"] %>
 		</a>
-		
-		<div class="d-flex flex-row">
-			<span class="d-none d-md-none d-lg-none d-xl-inline mr-1"><%= current_user && current_user.name || session[:cas_user] %>
-			<%= '&middot;'.html_safe if current_user && (@group_name || @current_schedule_name) %></span>
-			<%= @group_name || @current_schedule_name %>
-		</div>
-	</div>
 	
-	<div class="d-none d-md-inline align-items-center">
-		<% if Settings['keyword_index'].present? %>
-		<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="sidebarCollapse">
-			<%= icon 'search' %>
-		</a>
+		<% if logged_in? %>
+		<div class="d-flex flex-row text-truncate"><small>
+			<span class="mr-1"><%= current_user && current_user.name || session[:cas_user] %>
+			<%= '&middot;'.html_safe if current_user && (@group_name || @current_schedule_name) %></span>
+			<%= @group_name || @current_schedule_name %></small>
+		</div>
 		<% end %>
 	</div>
-	
 </div>
+
+<!-- <div class="d-none d-md-inline align-items-center">
+	<% if Settings['keyword_index'].present? %>
+	<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="sidebarCollapse">
+		<%= icon 'search' %>
+	</a>
+	<% end %>
+</div> -->

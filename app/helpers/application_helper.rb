@@ -109,7 +109,6 @@ module ApplicationHelper
 	
 	def icon(name, options={})
 		image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'mr-1', style: 'vertical-align: -4px;' }.merge(options)
-		# "<img src=\"/assets/img/#{name}.svg\" alt=\"\" width=\"32\" height=\"32\" title=\"#{name.capitalize}\">"
 	end
 	
 end

@@ -2,7 +2,7 @@
 
 #timeline
 {
-    margin-bottom:2em
+//    margin-bottom:2em
 }
 
 #timeline ul#links
@@ -23,10 +23,32 @@
 
 #timeline .card
 {
-    border:1px solid #FAFAFA;
+//    border:1px solid #FAFAFA;
+	border:none;
 	margin-bottom:30px;
     box-shadow:none;
+	border-radius:0;
 }
+
+#timeline .card:last-child
+{
+	margin-bottom:0;
+}
+
+#timeline .card *:last-child
+{
+	margin-bottom:0;
+}
+
+@media (max-width: 768px)
+{
+	#timeline .card
+	{
+		border:none;
+//		box-shadow:;
+	}
+}
+
 
 #timeline .card-body, #timeline .list-group-item
 {

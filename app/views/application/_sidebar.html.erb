@@ -1,16 +1,22 @@
-<div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
+<div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse p-3 px-lg-4">
 
+	<%# User registration form %>
+	
 	<% if !logged_in? && authenticated? %>
 	<div class="card mt-3">
 		<%= render 'profile/edit' %>
 	</div>
 	<% end %>
 
+	<%# Admin user search%>
+
 	<% if current_user.senior? %>
-	<div class="mt-4 w-100">
+	<div class="w-100">
 		<%= render partial: 'search' %>
 	</div>
 	<% end %>
+	
+	<%# Main navigation%>
 
 	<ul class="nav">
 		<% if logged_in? && @alerts.any? %>
@@ -26,6 +32,8 @@
 		<% end %>
 		<% end %>
 	</ul>
+	
+	<%# Schedule-based navigation %>
 
 	<% if @current_module %>
 	<ul class="nav">
@@ -46,6 +54,8 @@
 	</ul>
 	<% end %>
 
+	<%# Navigation items from section %>
+
 	<% if @section.present? && @section.content_links.present? %>
 	<ul class="nav">
 		<li>
@@ -57,8 +67,10 @@
 	</ul>
 	<% end %>
 
-	<ul class="nav">
-		<% if @sections.length > 0 %>
+	<%# All pages by section, but users only see "published" pages here %>
+
+	<% if @sections.length > 0 %>
+	<ul id="sections" class="nav">
 		<li>
 			<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
 		</li>
@@ -67,12 +79,20 @@
 				<%= render 'sections' %>
 			</ul>
 		</li>
-		<% end %>
 	</ul>
-	
+	<% end %>
+
+	<%# User menu items are shown in sidebar on small screens %>
+
 	<ul class="nav d-md-none">
-		<p class="nav-text">Menu</p>
+		<li>
+			<p class="nav-text">Menu</p>
+		</li>
+		<% if !authenticated? %>
+		<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link")%></li>
+		<% elsif logged_in? %>
 		<%= render partial: 'menu_items', locals: { context: :sidebar } %>
+		<% end %>
 	</ul>
 
 </div>
