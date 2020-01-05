@@ -3,7 +3,7 @@
 
 	<div id="course-title" class="d-flex flex-column">
 		<a id="course-name" href="/" class="navbar-brand py-0">
-			Lolcats are <%= Settings["course"] && Settings["course"]["name"] %>
+			<%= Settings["course"] && Settings["course"]["name"] %>
 		</a>
 	
 		<% if logged_in? %>
