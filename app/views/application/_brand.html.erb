@@ -1,17 +1,17 @@
-<div class="d-flex align-items-center">
-	<a href="/"><%= icon "terminal", class: "pull-left bg-warning rounded mr-2", size: '32x32', style: 'vertical-align:text-bottom;' %></a>
+<div class="navbar-brand py-0 d-flex align-items-center" style="min-width:0;">
+	<a href="/"><%= icon "terminal", class: "pull-left bg-warning rounded mr-2", size: '32x32', style: 'vertical-align:bottom;' %></a>
 
-	<div class="d-flex flex-column flex-fill" style="overflow-x:hidden; ">
-		<a href="/" class="navbar-brand pb-0 pt-0 text-truncate course-name">
-			<%= Settings["course"] && Settings["course"]["name"] %>
+	<div id="course-title" class="d-flex flex-column">
+		<a id="course-name" href="/" class="navbar-brand py-0">
+			Lolcats are <%= Settings["course"] && Settings["course"]["name"] %>
 		</a>
 	
 		<% if logged_in? %>
-		<div class="d-flex flex-row text-truncate"><small>
-			<span class="mr-1"><%= current_user && current_user.name || session[:cas_user] %>
-			<%= '&middot;'.html_safe if current_user && (@group_name || @current_schedule_name) %></span>
-			<%= @group_name || @current_schedule_name %></small>
-		</div>
+		<small class="text-truncate">
+			<%= current_user && current_user.name || session[:cas_user] %>
+			<%= '&middot;'.html_safe if current_user && (@group_name || @current_schedule_name) %>
+			<%= @group_name || @current_schedule_name %>
+		</small>
 		<% end %>
 	</div>
 </div>

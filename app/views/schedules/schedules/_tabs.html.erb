@@ -1,6 +1,6 @@
 <% content_for :navbar_items do %>
 
-<div id="schedule-navbar-items" class="d-flex ml-3">
+<div id="schedule-navbar-items" class="d-flex flex-wrap">
 
 	<% if @accessible_schedules.size > 1 %>
 	<div class="dropdown">
@@ -15,7 +15,7 @@
 	</div>
 	<% end %>
 	
-	<div class="btn-group ml-3" role="group" aria-label="Basic example">
+	<div class="btn-group" role="group" aria-label="Basic example">
 		<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'active', 'btn-light', 'btn-outline-light text-light') %>
 		<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'registered', 'btn-light', 'btn-outline-light text-light') %>
 		<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'inactive', 'btn-secondary', 'btn-outline-light text-light') %>
@@ -23,7 +23,7 @@
 	</div>
 
 	<% if current_user.senior? %>
-	<div class="btn-group ml-3" role="group">
+	<div class="btn-group" role="group">
 
 		<div class="btn-group" role="group">
 			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-light text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -24,14 +24,14 @@
 			
 			<div id="sidebar" class="navbar navbar-light d-md-block col-md-<%= Settings.room_for_toc && 3 || 4 %> col-xl-3">
 
-				<div class="brand justify-content-between flex-fill w-100 px-2 px-md-3 py-2 py-md-3 px-lg-4 pt-lg-4">
+				<div class="brand justify-content-between px-2 px-md-3 py-2 py-md-3 px-lg-4 pt-lg-4">
 					<%= render 'brand'%>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 				</div>
 
-				<div class="collapse show multi-collapse w-100" id="sidebarCollapse">
+				<div class="collapse navbar-collapse multi-collapse show" id="sidebarCollapse">
 					<%= render 'sidebar' %>
 				</div>
 				

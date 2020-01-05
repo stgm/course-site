@@ -3,6 +3,7 @@
 .brand
 {
     display:flex;
+	width:100%;
 }
 
 .navbar-brand
@@ -10,28 +11,41 @@
     line-height:1em;
 }
 
-.navbar-brand.course-name
+#course-title
+{
+	min-width:0;
+}
+
+#course-title *
+{
+	overflow-x:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+#course-name
 {
     font-weight:bold;
-    white-space:no-wrap;
 }
 
 #sidebar
 {
 	padding:0;
+    overflow-y:auto;
+	width:100%;
 }
 
-//****************************************************************************
-
-#sidebar
+.navbar-dark .brand
 {
-    overflow-y:auto;
+	max-width:10em;
+	border-bottom:none;
 }
 
 @media (min-width: 768px)
 {
     #sidebar
     {
+		width:auto;
         position: fixed;
         top: 0;
         bottom: 0;
@@ -42,13 +56,36 @@
         display:flex;
         flex-direction:column;
     }
-
+	
     // can be in sidebar or in navbar (latter is in full-width layout)
     .navbar-toggler
     {
         display: none;
     }
 }
+
+@media (max-width: 767.98px)
+{
+	#schedule-navbar-items
+	{
+		margin-top:1rem;
+	}
+	#schedule-navbar-items > *
+	{
+		margin-right:0;
+		width:100%;
+	}
+}
+
+@media (min-width: 768px)
+{
+	#schedule-navbar-items > *
+	{
+		margin-right:1rem;
+	}
+}
+
+//****************************************************************************
 
 #sidebar .nav
 {
