@@ -5,11 +5,9 @@
 <% Schedule.all.each do |s| %>
 <%= menu_link_to "Switch to #{s.name}", 'list-ol', user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), context, method: :post %>
 <% end %>
-<% end %>
 <div class="dropdown-divider"></div>
-<h6 class="dropdown-header">
-	<% if Schedule.many? %><%= @current_schedule.name %><% end %>
-</h6>
+<% end %>
+<h6 class="dropdown-header"><%= @current_schedule.name if @current_schedule %></h6>
 <%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
 <%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
 <% if Settings.hands_allow %>
