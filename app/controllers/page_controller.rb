@@ -88,7 +88,7 @@ class PageController < ApplicationController
 		submit.check_feedback = nil
 		submit.style_feedback = nil
 		submit.auto_graded = false
-		submit.submitted_files = params.permit(:f)[:f].map { |file,info| info.original_filename } if params[:f]
+		submit.submitted_files = params.permit(f: {})[:f].map { |file,info| info.original_filename } if params[:f]
 		if files = params[:f]
 			file_contents = {}
 			files.each do |filename, file|
