@@ -146,7 +146,7 @@ class PageController < ApplicationController
 				args = {
 					file: zipfile,
 					password: "martijndoeteenphd",
-					webhook: "https://#{request.host}/check_result/do",
+					webhook: "https://#{request.host}/api/check_result/do",
 					multipart: true
 					# and add slug/repo/args from the config file
 				}.merge(pset.config['check'].slice('slug', 'repo', 'args'))

@@ -173,7 +173,7 @@ Rails.application.routes.draw do
 	post "api/reload"
 	get  "api/current_longest_waiting_time"
 	
-	post "check_result/do"
+	post "api/check_result/do", to: "api/check_result#do"
 	
 	#--CONTENT----------------------------------------------------------------------------------
 
