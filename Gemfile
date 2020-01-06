@@ -66,7 +66,7 @@ gem 'kramdown'
 gem 'asciidoctor'
 
 # XLSX generation
-gem 'rubyzip'
+gem 'rubyzip', require: 'zip'
 gem 'caxlsx_rails'
 
 ##
