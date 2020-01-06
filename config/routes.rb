@@ -155,7 +155,7 @@ Rails.application.routes.draw do
 		get  'pair'
 		post 'ask'
 		get  'ping'
-		get  'feedback/:submit_id', to: "profile#feedback", as: "profile_feedback"
+		get  'feedback/:submit_id', action: 'feedback', as: "feedback"
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
 	end
