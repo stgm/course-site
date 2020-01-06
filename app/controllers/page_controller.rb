@@ -60,7 +60,7 @@ class PageController < ApplicationController
 		folder_name = pset.name + "__" + Time.now.to_i.to_s
 
 		if (pset.form || pset.files.any?) && (!Dropbox.connected? || Settings.dropbox_folder_name.blank?)
-			redirect_back(fallback_location: '/', alert: '<b>There is a problem with submitting!</b> Warn your professor immediately and mention Dropbox.'.html_safe) and return
+			redirect_back(fallback_location: '/', alert: 'There is a problem with submitting! Warn your teacher immediately and mention Dropbox.'.html_safe) and return
 		end
 
 		form_text = render_form_text(params[:a])
@@ -70,10 +70,10 @@ class PageController < ApplicationController
 		#
 		if pset.form || pset.files
 			begin
-				upload_to_dropbox(session[:cas_user], current_user.name,
+				upload_to_dropbox(current_user.login_id, current_user.name,
 					Settings.dropbox_folder_name, folder_name, params[:notes], form_text, params[:f])
 			rescue
-				redirect_back(fallback_location: '/', alert: "<b>There was a problem uploading your submission! Please try again.</b> If the problem persists, contact your instructor.".html_safe ) and return
+				redirect_back(fallback_location: '/', alert: "There was a problem uploading your submission! Please try again. If the problem persists, contact your teacher.".html_safe ) and return
 			end
 		end
 
@@ -82,7 +82,7 @@ class PageController < ApplicationController
 		#
 		submit = Submit.where(:user_id => current_user.id, :pset_id => pset.id).first_or_initialize
 		submit.submitted_at = Time.now
-		submit.used_login = session[:cas_user]
+		submit.used_login = current_user.login_id
 		submit.url = params[:url]
 		submit.folder_name = folder_name
 		submit.check_feedback = nil
