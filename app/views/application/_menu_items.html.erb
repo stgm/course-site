@@ -1,20 +1,26 @@
 <% if current_user.admin? %>
 
+<% if Schedule.many? %>
+<h6 class="dropdown-header">Schedules</h6>
 <% Schedule.all.each do |s| %>
-<%= menu_link_to s.name, 'list-ol', user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), context, method: :post %>
+<%= menu_link_to "Switch to #{s.name}", 'list-ol', user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), context, method: :post %>
+<% end %>
 <% end %>
 <div class="dropdown-divider"></div>
+<h6 class="dropdown-header">
+	<% if Schedule.many? %><%= @current_schedule.name %><% end %>
+</h6>
 <%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
 <%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
 <% if Settings.hands_allow %>
 <%= menu_link_to 'Hands', 'people-fill', hands_path, context %>
 <% end %>
-<div class="dropdown-divider"></div>
 <%= menu_link_to 'Announcements...', 'bell-fill', alerts_path, context, remote: true %>
 <% if Settings.tests_present %>
 <%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
 <% end %>
 <div class="dropdown-divider d-none d-md-block"></div>
+<h6 class="dropdown-header">Course</h6>
 <%= menu_link_to 'Course administration...', 'inboxes', admin_course_path, context, remote: true %>
 <%= menu_link_to 'Site configuration...', 'wrench', admin_site_path, context, remote: true %>
 <%= menu_link_to 'Edit permissions...', 'unlock', admin_users_path, context, remote: true %>
