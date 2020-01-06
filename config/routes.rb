@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 	#--BULK OPS---------------------------------------------------------------------------------
 
 	resource :overview, module: 'schedules', as: 'schedule_overview', only: [ :show ]
+
 	resources :schedules, module: 'schedules', param: 'slug', only: [] do
 
 		get  "(/status/:status)", action: :index, as: '', defaults: { status: 'active' }

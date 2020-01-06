@@ -1,4 +1,4 @@
-class Schedules::ScheduleController < ApplicationController
+class Schedules::CurrentModulesController < ApplicationController
 
 	before_action :authorize
 	before_action :require_admin
@@ -8,7 +8,7 @@ class Schedules::ScheduleController < ApplicationController
 	#
 	# set "current" schedule that is displayed to users
 	#
-	def set_current_module
+	def update
 		if params[:item] == "0"
 			@schedule.update_attribute(:current, nil)
 		else

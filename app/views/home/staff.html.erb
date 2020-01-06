@@ -70,22 +70,23 @@
 				<div class="card-body">
 					<h5 class="card-title">Current schedule</h5>
 					<% schedule = current_user.schedule %>
+					<%= form_with url: schedule_current_module_path(schedule), method: :put do |form| %>
 					<% schedule.schedule_spans.each do |item| %>
-					<%= radio_button_tag( schedule.id, item.id, item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>
+					<%= form.radio_button(:item, item.id, checked: item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>
 					<% end %>
-					<%= radio_button_tag( schedule.id, 0, nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %>
-
-
+					<%= form.radio_button(:item, 0, checked: nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %>
+					<p><%= form.submit class: 'btn btn-primary' %></p>
+					<% end %>
 					<script type="text/javascript" charset="utf-8">
 					$('.set-schedule').bind('change', function(a) {
 					    var z = a;
 						$.ajax({
-							url: "<%= manage_schedule_set_current_module_path %>?schedule=" + a.currentTarget.name + "&item=" + a.currentTarget.value,
+							url: "/schedules/" + a.currentTarget.name + "/current_module/" + a.currentTarget.value,
 							headers: {
 								Accept : "text/javascript; charset=utf-8",
 								"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
 							},
-							type: 'POST'
+							type: 'PUT'
 						});
 					});
 					</script>
