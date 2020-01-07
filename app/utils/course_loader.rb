@@ -124,7 +124,7 @@ private
 		
 		# load the default schedule in schedule.yml, if available
 		if contents = read_config(File.join(dir, 'schedule.yml'))
-			schedule = Schedule.where(name: 'Standard').first_or_create
+			schedule = Schedule.first || Schedule.where(name: 'Standard').first_or_create
 			schedule.load(contents)
 		end
 
