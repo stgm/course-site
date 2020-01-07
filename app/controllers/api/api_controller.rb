@@ -7,7 +7,7 @@ class Api::ApiController < ApplicationController
 	
 	def reload
 		CourseLoader.new.run
-		render text:''
+		head :ok
 	end
 	
 	def current_longest_waiting_time
