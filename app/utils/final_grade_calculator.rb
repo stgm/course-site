@@ -2,23 +2,22 @@ module FinalGradeCalculator
 	
 	# FinalGradeCalculator.run_for(User.first)
 	
-	def self.run_for(user)
+	def self.run_for(user_grade_list)
 		# tries to calculate all kinds of final grades
-		subs = user.all_submits
 		
 		grades = {}
 		Settings['grading']['calculation'].each do |name, parts|
-			grades[name] = final_grade_from_partial_grades(parts, subs)
+			grades[name] = final_grade_from_partial_grades(parts, user_grade_list)
 		end
 		
 		return grades # { final: '6.0', resit: '0.0' }
 	end
 	
-	def self.final_grade_from_partial_grades(config, subs)
+	def self.final_grade_from_partial_grades(config, user_grade_list)
 		# attempt to calculate each partial grade
 		weighted_partial_grades = config.collect do |partial_name, weight|
 			partial_config = Settings['grading'][partial_name]
-			[partial_name, average_grade_from_submits(partial_config, subs), weight]
+			[partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
 		end
 		
 		# if any of the partial grades has failed, propagate this result immediately
@@ -26,18 +25,17 @@ module FinalGradeCalculator
 		return :not_attempted if partial_grades.include? :not_attempted
 		return :missing_data  if partial_grades.include? :missing_data
 		return :insufficient  if partial_grades.include? :insufficient
-		puts weighted_partial_grades.inspect
 
 		return uva_round(calculate_average(weighted_partial_grades))
 	end
 	
-	def self.average_grade_from_submits(config, subs)
+	def self.average_grade_from_submits(config, user_grade_list)
 		# config := { need_attempt: true, minimum: 5.5, required: true, drop: :lowest, submits: { m1: 1, m2: 2, ... } }
-		grades = collect_grades_from_submits(config['submits'], subs)
+		grades = collect_grades_from_submits(config['submits'], user_grade_list)
 		grades = remove_unused_bonus(grades)
 
 		# missing data for something like an exam receives a "not attempted" note
-		return :not_attempted if config['need_attempt'] && missing_data?(grades)
+		return :not_attempted if config['attempt_required'] && missing_data?(grades)
 		
 		# missing data means we can't calculate any average
 		return :missing_data if missing_data?(grades)
@@ -54,10 +52,10 @@ module FinalGradeCalculator
 		return average
 	end
 
-	def self.collect_grades_from_submits(config, subs)
+	def self.collect_grades_from_submits(config, user_grade_list)
 		grades = config.collect do |grade_name, weight|
-			# if no subs[grade_name] exists this will enter 'nil' into the resulting array
-			grade = subs[grade_name] && subs[grade_name].any_final_grade
+			# if no user_grade_list[grade_name] exists this will enter 'nil' into the resulting array
+			grade = user_grade_list[grade_name] && user_grade_list[grade_name].any_final_grade
 			[grade_name, grade, weight]
 		end
 	end
@@ -81,7 +79,6 @@ module FinalGradeCalculator
 	end
 	
 	def self.calculate_average(grades)
-		puts "calculate_average#{grades.inspect}"
 		if has_bonus?(grades)
 			# bonus calculation assumes equals weights for all grades!
 			total = grades.map{|g| g[1]}.sum

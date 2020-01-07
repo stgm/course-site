@@ -57,12 +57,10 @@ class UsersController < ApplicationController
 	end
 	
 	def calculate_final_grade
-		# feature has to be enabled in grading.yml - otherwise play stupid
-		raise ActionController::RoutingError.new('Not Found') if not GradeTools.available?
-
-		u = User.find(params[:user_id])
-		result = u.assign_final_grade(current_user)
-		Settings.debug_alert = simple_markdown("#{result}\n".html_safe)
+		# feature has to be enabled by supplying a grading.yml
+		raise ActionController::RoutingError.new('Not Found') if not FinalGradeAssigner.available?
+		student = User.find(params[:user_id])
+		result = FinalGradeAssigner.assign_final_grade(student, current_user)
 		redirect_back fallback_location: '/'
 	end
 	
