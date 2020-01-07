@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
 		get  "(/status/:status)", action: :index, as: '', defaults: { status: 'active' }
 		
-		resource :current_module, only: [ :update ]
+		resource :current_module, only: [ :edit, :update ]
 		resource :export_final_grades, only: [ :new, :create ]
 		resource :import_groups, only: [ :new, :create ]
 		resource :generate_groups, only: [ :new, :create ]

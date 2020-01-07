@@ -1,0 +1,10 @@
+<% schedule = current_user.schedule %>
+<%= form_with url: schedule_current_module_path(schedule), method: :put do |form| %>
+<% schedule.schedule_spans.each do |item| %>
+<%# TODO when using rails-ujs, the submit code should be Rails.fire(form, "submit"); (hopefully) %>
+<%= form.radio_button(:item, item.id, checked: item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule', onclick: '$(form).submit()') %>
+<%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>
+<% end %>
+<%= form.radio_button(:item, 0, checked: nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule', onclick: '$(form).submit()') %>
+<%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %>
+<% end %>

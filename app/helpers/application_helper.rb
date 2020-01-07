@@ -108,7 +108,11 @@ module ApplicationHelper
 	end
 	
 	def icon(name, options={})
-		image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'mr-1', style: 'vertical-align: -4px;' }.merge(options)
+		if name
+			image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'mr-1', style: 'vertical-align: -4px;' }.merge(options)
+		else
+			tag.span('', class: 'mr-2', style: 'display: inline-block; width:20px; height:20px')
+		end
 	end
 	
 end

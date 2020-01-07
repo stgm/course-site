@@ -65,34 +65,6 @@
 
 		<% end %>
 
-		<% if current_user.admin? && !current_user.schedule.self_service %>
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title">Current schedule</h5>
-					<% schedule = current_user.schedule %>
-					<%= form_with url: schedule_current_module_path(schedule), method: :put do |form| %>
-					<% schedule.schedule_spans.each do |item| %>
-					<%= form.radio_button(:item, item.id, checked: item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule') %> <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>
-					<% end %>
-					<%= form.radio_button(:item, 0, checked: nil == schedule.current, id: "#{schedule.name}0", class: 'set-schedule') %> <%= label_tag "(hide schedule)", "(hide schedule)", for: "#{schedule.name}0" %>
-					<p><%= form.submit class: 'btn btn-primary' %></p>
-					<% end %>
-					<script type="text/javascript" charset="utf-8">
-					$('.set-schedule').bind('change', function(a) {
-					    var z = a;
-						$.ajax({
-							url: "/schedules/" + a.currentTarget.name + "/current_module/" + a.currentTarget.value,
-							headers: {
-								Accept : "text/javascript; charset=utf-8",
-								"Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
-							},
-							type: 'PUT'
-						});
-					});
-					</script>
-				</div>
-			</div>
-		<% end %>
 
 		<% end %>
 	</div>
