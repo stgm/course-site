@@ -157,17 +157,9 @@ class User < ApplicationRecord
 	end
 	
 	def assign_final_grade(grader)
-		logger.info "Trying to assign grade to user #{self.name}"
-		
-		# generate hash of { pset_name: submit_object }
-		subs = self.all_submits
-		tools = GradeTools.new
-		
-		# take all grading formulas in grading.yml and try to calculate
-		Settings['grading']['calculation'].each do |name, formula|
-			tools.log "- #{name}"
-			grade = tools.calc_final_grade_formula(subs, formula)
-			tools.log "    - result: #{grade}"
+		grades = FinalGradeCalculator.run_for(self)
+		grades.each do |name, grade|
+			grade = number_grade(grade)
 			if grade.present?
 				final = self.submits.where(pset:Pset.where(name: name).first)
 				# set grade either if there was already a grade or if sufficient or if insuff ok
@@ -178,7 +170,6 @@ class User < ApplicationRecord
 					if not ['published', 'exported'].include?(final.grade.status)
 						final.grade.grade = grade
 						if final.grade.grade_changed?
-							logger.info "  changed to #{final.grade.grade}"
 							final.grade.grader = grader
 							final.grade.status = Grade.statuses['finished']
 							final.grade.save
@@ -188,8 +179,54 @@ class User < ApplicationRecord
 			end
 		end
 		
+		# # generate hash of { pset_name: submit_object }
+		# subs = self.all_submits
+		# tools = GradeTools.new
+		#
+		# # take all grading formulas in grading.yml and try to calculate
+		# Settings['grading']['calculation'].each do |name, formula|
+		# 	tools.log "- #{name}"
+		# 	grade = tools.calc_final_grade_formula(subs, formula)
+		# 	tools.log "    - result: #{grade}"
+		# 	if grade.present?
+		# 		final = self.submits.where(pset:Pset.where(name: name).first)
+		# 		# set grade either if there was already a grade or if sufficient or if insuff ok
+		# 		if final.count > 0 || grade.present?
+		# 			final = self.submits.where(pset:Pset.where(name: name).first).first_or_create
+		# 			final.create_grade if !final.grade
+		# 			# only change if grade hasn't been published yet
+		# 			if not ['published', 'exported'].include?(final.grade.status)
+		# 				final.grade.grade = grade
+		# 				if final.grade.grade_changed?
+		# 					logger.info "  changed to #{final.grade.grade}"
+		# 					final.grade.grader = grader
+		# 					final.grade.status = Grade.statuses['finished']
+		# 					final.grade.save
+		# 				end
+		# 			end
+		# 		end
+		# 	end
+		# end
+		
 		# logger.info tools.get_log
-		return tools.get_log
+		# return tools.get_log
+		return ''
+	end
+	
+	def number_grade(grade)
+		case grade
+		when :not_attempted
+			# something that must have been attempted wasn't
+			return nil
+		when :missing_data
+			# anything that must have been attempted, was, but something else is missing
+			return 0
+		when :insufficient
+			# some tests have been failed
+			return 0
+		else
+			return grade
+		end
 	end
 	
 	def take_attendance

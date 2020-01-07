@@ -65,7 +65,7 @@ class Grade < ApplicationRecord
 
 	def subgrades=(val)
 		# we would like this to be stored as an OpenStruct
-		return super if val.is_a? OpenStruct
+		#return super if val.is_a? OpenStruct
 
 		# take this opportunity to convert any stringified stuff to numbers
 		val.each do |k,v|
@@ -77,12 +77,14 @@ class Grade < ApplicationRecord
 			end
 			
 			case grade_type
-			when "integer", "boolean"
+			when "integer", "pass", "boolean"
 				val[k] = v.to_i unless v == ""
 			when "float"
 				val[k] = v.sub(",", ".").to_f unless v == ""
 			end
 		end if val
+		
+		puts val.inspect
 
 		super OpenStruct.new val.to_h if val
 	end
@@ -129,7 +131,9 @@ class Grade < ApplicationRecord
 	
 	def set_calculated_grade
 		if subgrades_changed?
-			if calculated_grade = calculate_grade(self)
+			calculated_grade = calculate_grade(self)
+			if !calculated_grade.blank?
+				# puts calculated_grade.inspect
 				case self.pset.grade_type
 				when 'float'
 					# calculated_grade = calculated_grade
@@ -150,6 +154,7 @@ class Grade < ApplicationRecord
 		return nil if f[pset_name].nil? or f[pset_name]['calculation'].nil?
 		begin
 			cg = grade.subgrades.instance_eval(f[pset_name]['calculation'])
+			puts "HIER #{grade.subgrades.inspect}"
 		rescue
 			cg = nil
 		end
