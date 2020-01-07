@@ -18,13 +18,14 @@ class Hands::HandsController < ApplicationController
 		end
 	end
 	
+	# showing a hand automatically dibs/claims it, only for assistant users
 	def show
 		# catch erroneous GET requests for /hands/done
 		raise ActionController::RoutingError.new("Huh?") if params[:id] == "done"
 		
 		load_hand
 		
-		if current_user.assistant?
+		if current_user.assistant? && @hand.assist != current_user
 			if auto_claim_hand
 				flash[:notice] = "Taken, it's yours!"
 			else
@@ -47,6 +48,7 @@ class Hands::HandsController < ApplicationController
 	def search
 	end
 	
+	# manual dibs for admins
 	def dib
 		# try to dib
 		if hand = Hand.where(id: params[:id], assist: nil).first

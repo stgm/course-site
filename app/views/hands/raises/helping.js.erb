@@ -2,5 +2,5 @@ localStorage.removeItem('waiting-gif');
 $('#ama-nav').addClass('open');
 $('#ama').html("<%= j(render 'helping') %>");
 setTimeout(function(){
-	$.ajax('<%= ask_path %>');
+	$.ajax('<%= hands_raise_path %>');
 }, 60000 );
