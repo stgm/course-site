@@ -53,6 +53,12 @@ class User < ApplicationRecord
 		end
 	end
 	
+	def accessible_schedules
+		# ensure admins have access to all schedules at all times by overriding
+		return Schedule.all if self.admin?
+		self.schedules
+	end
+	
 	def check_current_module
 		if self.schedule.present? && self.current_module.nil?
 			if span = self.schedule.schedule_spans.first

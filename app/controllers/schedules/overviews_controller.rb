@@ -12,6 +12,7 @@ class Schedules::OverviewsController < ApplicationController
 			redirect_back(fallback_location: '/', alert: "You haven't been assigned a schedule yet!") and return if current_user.schedules.empty?
 			slug = current_user.schedules.first
 		elsif current_user.admin?
+			# default to currently selected schedule
 			slug = current_user.schedule
 		end
 		redirect_to(schedule_path(schedule_slug: slug)) and return

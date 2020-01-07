@@ -2,6 +2,7 @@ class Schedules::SchedulesController < Schedules::ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
+	before_action :load_schedule # needed to verify access
 	before_action :verify_access
 
 	layout 'schedules'
@@ -15,11 +16,8 @@ class Schedules::SchedulesController < Schedules::ApplicationController
 
 			# [["Problems", ["M1", "M2", "M3", ...]], ...]
 			@overview = Settings.grading.select { |c,v| v['show_progress'] }.map { |c,v| [c, v['submits'].map {|k,v| k}] }
-		elsif current_user.head?
-			@accessible_schedules = current_user.schedules
-			@selected_schedule = Schedule.friendly.find(params[:schedule_slug])
-		elsif current_user.admin?
-			@accessible_schedules = Schedule.all
+		elsif current_user.head? || current_user.admin?
+			@accessible_schedules = current_user.accessible_schedules
 			@selected_schedule = Schedule.friendly.find(params[:schedule_slug])
 		end
 		
