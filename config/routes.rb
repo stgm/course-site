@@ -170,7 +170,7 @@ Rails.application.routes.draw do
 
 	#--EXTERNAL APIs----------------------------------------------------------------------------
 
-	post "api/reload"
+	post "api/reload", to: "api/api#reload"
 	get  "api/current_longest_waiting_time"
 	
 	post "api/check_result/do", to: "api/check_result#do"
