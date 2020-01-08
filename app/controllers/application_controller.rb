@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def load_current_user
-		if authenticated? && login = Login.where(login: request.session['cas']['user']).first
+		if authenticated? && login = Login.where(login: request.session['cas']['user'].downcase).first
 			@current_user = login.user
 		else
 			# use an empty user object in case of no login

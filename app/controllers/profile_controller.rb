@@ -68,7 +68,7 @@ class ProfileController < ApplicationController
 			# @current_user = login.user
 			current_user.update!(params.require(:user).permit(:name, :mail, :schedule_id))
 			current_user.student!
-			current_user.logins.create(login: request.session['cas']['user'])
+			current_user.logins.create(login: request.session['cas']['user'].downcase)
 		end
 
 		redirect_to :root
