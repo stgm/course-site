@@ -15,8 +15,8 @@ module GradesHelper
 		return ""
 	end
 
-	def humanize_submit(submit)
-		return submit.humanize.gsub(/([^\d\s])(\d)/, '\1 \2')
+	def formatted_submit_name(submit)
+		return submit.titleize.gsub(/([^\d\s])(\d)/, '\1 \2')
 	end
 	
 	def subgrade_for(submit, subgrade)

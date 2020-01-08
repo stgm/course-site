@@ -22,7 +22,7 @@
 					<%# Each submit within category %>
 					<tr>
 						<%# Submit name %>
-						<th><%= humanize_submit(submit) %></th>
+						<th><%= formatted_submit_name(submit) %></th>
 						<% definition['subgrades'].each do |subgrade| %>
 							<%# Print each subgrade if it exists for this grade, subgrades are not hidden, and the grade isn't unpublished. %>
 							<%# Else, print a dash. %>
