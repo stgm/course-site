@@ -28,6 +28,10 @@ class Attachments
 		end
 	end
 	
+	def all
+		@files
+	end
+	
 	def presentable_file_contents
 		# start with form contents
 		presentable_files = @other_files.to_h

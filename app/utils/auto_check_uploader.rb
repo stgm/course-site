@@ -5,7 +5,7 @@ class AutoCheckUploader
 	end
 	
 	def initialize(attachments, config, host)
-		@attachments = attachments
+		@zipped_attachments = attachments
 		@config = config
 		@host = host
 	end
@@ -17,7 +17,7 @@ class AutoCheckUploader
 	
 		begin
 			args = {
-				file: @attachments.zipped,
+				file: @zipped_attachments,
 				password: "martijndoeteenphd",
 				webhook: "https://#{@host}/api/check_result/do",
 				multipart: true

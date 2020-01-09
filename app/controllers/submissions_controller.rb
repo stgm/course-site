@@ -4,11 +4,11 @@ class SubmissionsController < ApplicationController
 	
 	def create
 		collect_attachments
-		begin
+		# begin
 			upload_attachments_to_dropbox if Dropbox.available?
-		rescue
-			redirect_back(fallback_location: '/', alert: "There was a problem uploading your submission! Please try again. If the problem persists, contact your teacher.".html_safe ) and return
-		end
+		# rescue
+			# redirect_back(fallback_location: '/', alert: "There was a problem uploading your submission! Please try again. If the problem persists, contact your teacher.".html_safe ) and return
+		# end
 		upload_files_to_check_server if can_do_auto_check?
 		record_submission
 		redirect_back fallback_location: '/'
@@ -56,7 +56,7 @@ class SubmissionsController < ApplicationController
 			@submit_folder_name)           # /mario__21981289
 		
 		uploader = DropboxUploader.new(submission_path)
-		uploader.upload(@attachments)
+		uploader.upload(@attachments.all)
 	end
 	
 	def can_do_auto_check?
@@ -64,7 +64,7 @@ class SubmissionsController < ApplicationController
 	end
 	
 	def upload_files_to_check_server
-		@token = AutoCheckUploader.new(@attachments, @pset.config['check'], request.host).start
+		@token = AutoCheckUploader.new(@attachments.zipped, @pset.config['check'], request.host).start
 	end
 		
 	def record_submission
