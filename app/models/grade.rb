@@ -10,6 +10,8 @@ class Grade < ApplicationRecord
 	delegate :name, to: :grader, prefix: true, allow_nil: true
 	delegate :initials, to: :grader, prefix: true, allow_nil: true
 
+	scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
+	
 	before_save :set_calculated_grade, :unpublicize_if_undone # :update_grades_cache, 
 	
 	serialize :auto_grades

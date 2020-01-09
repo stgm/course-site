@@ -1,4 +1,4 @@
-module Dropbox
+class Dropbox
 	
 	@@dropbox_key = ENV['DROPBOX_KEY']
 	@@dropbox_secret = ENV['DROPBOX_SECRET']
@@ -11,7 +11,7 @@ module Dropbox
 
 	# check basic requirements for this API to function
 	def self.available?
-		return @@dropbox_key.present? && @@dropbox_secret.present? && @@dropbox_access_type.present?
+		return Rails.env.production? && @@dropbox_key.present? && @@dropbox_secret.present? && @@dropbox_access_type.present?
 	end
 	
 	# see if we're already connected (dropbox connections do not expire)

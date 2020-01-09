@@ -61,6 +61,34 @@ class Submit < ApplicationRecord
 		submitted_at && submitted_at.to_formatted_s(:short) || "never"
 	end
 	
+	def record(used_login: nil, dropbox_folder_name: nil, url: nil, attachments: nil, check_token: nil)
+		# basic info
+		self.submitted_at = Time.now
+		self.used_login = used_login
+		self.folder_name = dropbox_folder_name
+
+		# attachments
+		self.url = url
+		self.submitted_files = attachments.file_names
+		self.file_contents = attachments.presentable_file_contents
+		
+		# reset auto checks
+		self.check_token = check_token
+		self.check_feedback = nil
+		self.style_feedback = nil
+		self.auto_graded = false
+
+		self.save
+
+		# update the submission for the parent module, if there is one
+		if pset.parent_pset
+			Submit.where(user: self.user, pset: pset.parent_pset).first_or_initialize.update(submitted_at:Time.now)
+		end
+
+		# reset and unpublish grade
+		self.grade.update_columns(grade: nil, status: Grade.statuses[:unfinished]) if self.grade
+	end
+	
 	def automatic
 		puts "HIER #{self.inspect}"
 		f = pset.config
@@ -158,32 +186,6 @@ class Submit < ApplicationRecord
 		
 		self.check_feedback.index { |x| x["status"].blank? }.present?
 	end
-	
-	def retrieve_check_feedback
-		path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'check_results.json')
-		begin
-			json = Dropbox.download(path)
-			contents = json.present? ? JSON.parse(json) : nil
-			if contents.is_a?(Array)
-				self.update(check_results: { "checkpy" => contents }.to_json )
-			else
-				self.update(check_results: contents.to_json)
-			end
-		rescue
-			# go on, assuming its not there
-		end
-	end
-
-	# def retrieve_style_feedback
-	# 	path = File.join(Dropbox.root_folder, Settings.dropbox_folder_name, user.login_id, self.folder_name, 'style_results.json')
-	# 	begin
-	# 		json = Dropbox.download(path)
-	# 		contents = json.present? ? JSON.parse(json) : nil
-	# 		self.update(style_feedback: contents)
-	# 	rescue
-	# 		# go on, assuming its not there
-	# 	end
-	# end
 	
 	def has_feedback?
 		return false if not self.check_results

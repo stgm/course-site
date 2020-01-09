@@ -190,6 +190,7 @@ Rails.application.routes.draw do
 	get  "search/subpage"
 
 	# pages
+	resource :submissions, only: [ :create ]
 	post "page/submit"
 	get  ":section/:page" => "page#index" # default route, for content pages (must be 2nd last!)
 	get  ":section" => "page#section"     # default route, for section pages (must be last!)

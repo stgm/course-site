@@ -1,4 +1,4 @@
-<%= form_tag_if(logged_in? && @page.pset, page_submit_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
+<%= form_tag_if(logged_in? && @page.pset, submissions_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
 <% @subpages.each_with_index do |subpage, index| %>
 <section class="markdown" id="<%= subpage.slug %>-content">
 	<%= markdown(subpage.content, @page) %>
@@ -14,5 +14,5 @@
 	<p>You can't submit on mobile, sorry. If you're on desktop, increase your browser width to submit!</p>
 </section>
 <% end %>
-<%= hidden_field_tag :page_id, @page.id %>
+<%= hidden_field_tag :pset_id, @page.pset.id if @page.pset %>
 <% end %>
