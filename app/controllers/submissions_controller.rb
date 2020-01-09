@@ -4,7 +4,11 @@ class SubmissionsController < ApplicationController
 	
 	def create
 		collect_attachments
-		upload_attachments_to_dropbox if Dropbox.available?
+		begin
+			upload_attachments_to_dropbox if Dropbox.available?
+		rescue
+			redirect_back(fallback_location: '/', alert: "There was a problem uploading your submission! Please try again. If the problem persists, contact your teacher.".html_safe ) and return
+		end
 		upload_files_to_check_server if can_do_auto_check?
 		record_submission
 		redirect_back fallback_location: '/'
@@ -44,19 +48,15 @@ class SubmissionsController < ApplicationController
 	def upload_attachments_to_dropbox
 		@submit_folder_name = @pset.name + "__" + Time.now.to_i.to_s
 
-		dropbox_path = File.join(
-			"/",
+		submission_path = File.join(
+			'/',
 			'Submit',                      # /Submit
 			Settings.dropbox_folder_name,  # /course name
 			current_user.login_id,         # /student ID
 			@submit_folder_name)           # /mario__21981289
 		
-		begin
-			uploader = DropboxUploader.new(path)
-			uploader.upload(@attachments)
-		rescue
-			redirect_back(fallback_location: '/', alert: "There was a problem uploading your submission! Please try again. If the problem persists, contact your teacher.".html_safe ) and return
-		end
+		uploader = DropboxUploader.new(submission_path)
+		uploader.upload(@attachments)
 	end
 	
 	def can_do_auto_check?
