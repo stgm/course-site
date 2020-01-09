@@ -1,10 +1,10 @@
-class CourseTools
+class Course::Tools
 	
 	#
 	#
 	# Walks all psets named in course.yml and ranks them in the database
 	
-	def CourseTools.clean_psets
+	def self.clean_psets
 
 		# the structure of the 'psets' info in course.yml can differ
 		if Settings['psets'].class == Array

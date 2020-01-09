@@ -61,7 +61,7 @@
 			<%= link_to 'Make admin', admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, remote: true, class: 'dropdown-item' %>
 			<%= link_to 'Undo admin', admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, remote: true, class: 'dropdown-item' %>
 			<div class="dropdown-divider"></div>
-			<%= link_to_if FinalGradeAssigner.available?, 'Calculate final grade', user_calculate_final_grade_path(@student), method: :post, class: 'dropdown-item' %>
+			<%= link_to_if Grading::FinalGradeAssigner.available?, 'Calculate final grade', user_calculate_final_grade_path(@student), method: :post, class: 'dropdown-item' %>
 			<% end %>
 		</ul>
 	</div>

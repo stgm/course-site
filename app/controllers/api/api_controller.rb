@@ -6,7 +6,7 @@ class Api::ApiController < ApplicationController
 	before_action :restrict_access, only: :reload
 	
 	def reload
-		CourseLoader.new.run
+		Course::Loader.new.run
 		head :ok
 	end
 	

@@ -4,7 +4,9 @@
 
 <%= render partial: 'settings', layout: 'modal_card', locals: { title: 'Settings', subtitle: nil }%>
 
+<% if Dropbox::Client.available? %>
 <%= render partial: 'dropbox', layout: 'modal_card', locals: { title: 'Dropbox', subtitle: nil }%>
+<% end %>
 
 <%= render partial: 'webhook', layout: 'modal_card', locals: { title: 'Webhook', subtitle: nil }%>
 

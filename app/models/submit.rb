@@ -61,11 +61,11 @@ class Submit < ApplicationRecord
 		submitted_at && submitted_at.to_formatted_s(:short) || "never"
 	end
 	
-	def record(used_login: nil, dropbox_folder_name: nil, url: nil, attachments: nil, check_token: nil)
+	def record(used_login: nil, archive_folder_name: nil, url: nil, attachments: nil, check_token: nil)
 		# basic info
 		self.submitted_at = Time.now
 		self.used_login = used_login
-		self.folder_name = dropbox_folder_name
+		self.folder_name = archive_folder_name
 
 		# attachments
 		self.url = url

@@ -1,4 +1,4 @@
-class AutoCheckUploader
+class CheckServer::Uploader
 	
 	def self.enabled?
 		ENV['CHECK_SERVER_URL'].present? && ENV['CHECK_SERVER_SECRET'].present?

@@ -1,22 +1,24 @@
-class Dropbox
+class Dropbox::Client
 	
 	@@dropbox_key = ENV['DROPBOX_KEY']
 	@@dropbox_secret = ENV['DROPBOX_SECRET']
 	@@dropbox_access_type = ENV['DROPBOX_ACCESS_TYPE']
 	
-	@@root_folder = "/Submit"
-
 	@@client = nil
 	@@return_url = nil
 
 	# check basic requirements for this API to function
 	def self.available?
-		return Rails.env.production? && @@dropbox_key.present? && @@dropbox_secret.present? && @@dropbox_access_type.present?
+		return @@dropbox_key.present? && @@dropbox_secret.present? && @@dropbox_access_type.present?
 	end
 	
 	# see if we're already connected (dropbox connections do not expire)
 	def self.connected?
 		return !!Settings['dropbox.session']
+	end
+	
+	def self.configured?
+		Settings.dropbox_base_folder.present? && Settings.dropbox_course_folder
 	end
 
 	# get a reference to a client object
@@ -25,7 +27,7 @@ class Dropbox
 	end
 	
 	def self.root_folder
-		@@root_folder
+		Settings['dropbox_base_folder']
 	end
 	
 	# is able to download a (small?) file by path; only returns contents, no metadata

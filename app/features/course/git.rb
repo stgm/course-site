@@ -2,15 +2,7 @@
 #  Get remote git data, either by pulling existing, or cloning anew.
 #
 
-class Git::Lib
-	
-	def update_submodules
-		command 'submodule update --remote'
-	end
-	
-end
-
-module CourseGit
+module Course::Git
 
 	def self.pull
 		if git = self.existing_local_repo

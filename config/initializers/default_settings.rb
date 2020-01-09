@@ -1,1 +1,1 @@
-Settings.defaults['dropbox.root_folder'] = 'Submit'
+Settings.defaults['dropbox_base_folder'] = 'Submit'
