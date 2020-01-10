@@ -5,7 +5,6 @@ class Schedules::SubmitsController < ApplicationController
 
 	# GET /schedules/.../submits/form_for_missing
 	def form_for_missing
-		load_navigation
 		@schedule = current_user.schedule
 		# @users = @schedule.users.not_staff.not_inactive
 		@psets = Pset.all

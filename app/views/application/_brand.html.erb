@@ -9,8 +9,8 @@
 		<% if logged_in? %>
 		<small class="text-truncate">
 			<%= current_user && current_user.name || session[:cas_user] %>
-			<%= '&middot;'.html_safe if current_user && (@group_name || @current_schedule_name) %>
-			<%= @group_name || @current_schedule_name %>
+			<%= '&middot;'.html_safe if current_user && user_designation %>
+			<%= user_designation %>
 		</small>
 		<% end %>
 	</div>

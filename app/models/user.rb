@@ -4,7 +4,11 @@ class User < ApplicationRecord
 	
 	# normal users
 	belongs_to :group, optional: true
+	delegate :name, to: :group, prefix: true, allow_nil: true
+	
 	belongs_to :schedule, optional: true
+	delegate :name, to: :schedule, prefix: true, allow_nil: true
+	
 	belongs_to :current_module, class_name: "ScheduleSpan", optional: true
 	
 	# permissions for heads/tas

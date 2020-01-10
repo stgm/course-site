@@ -2,9 +2,7 @@ class PageController < ApplicationController
 
 	before_action :authorize, if: :request_from_local_network?
 	before_action :register_attendance
-	
 	before_action :go_location_bumper
-	before_action :load_navigation
 
 	def index
 		# find section by url and bail out if not found

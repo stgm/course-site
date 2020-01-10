@@ -19,7 +19,7 @@
 	<%# Main navigation%>
 
 	<ul class="nav">
-		<% if logged_in? && @alerts.any? %>
+		<% if logged_in? && alerts_for_current_schedule.any? %>
 		<li><a href="/announcements" class="nav-link"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></li>
 		<% end %>
 		<% if logged_in? && current_user.submits.any? %>
@@ -35,7 +35,7 @@
 	
 	<%# Schedule-based navigation %>
 
-	<% if @current_module %>
+	<% if current_module %>
 	<ul class="nav">
 		<li>
 			<p class="nav-text">
@@ -54,7 +54,7 @@
 	</ul>
 	<% end %>
 
-	<%# Navigation items from section %>
+	<%# Navigation items from section that current page belongs to %>
 
 	<% if @section.present? && @section.content_links.present? %>
 	<ul class="nav">
@@ -69,7 +69,7 @@
 
 	<%# All pages by section, but users only see "published" pages here %>
 
-	<% if @sections.length > 0 %>
+	<% if current_sections.length > 0 %>
 	<ul id="sections" class="nav">
 		<li>
 			<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>

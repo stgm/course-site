@@ -1,9 +1,9 @@
 class HomeController < ApplicationController
+	
+	include NavigationHelper
 
 	before_action :authorize, except: [ :homepage, :syllabus ]
 	before_action :register_attendance
-	
-	before_action :load_navigation
 
 	def homepage
 		if not Page.any?
@@ -15,7 +15,7 @@ class HomeController < ApplicationController
 				# there's no admin yet, make current user admin
 				redirect_to welcome_register_path
 			end
-		elsif logged_in? && @alerts.any?
+		elsif logged_in? && alerts_for_current_schedule.any?
 			redirect_to action: "announcements"
 		else
 			redirect_to action: "syllabus"

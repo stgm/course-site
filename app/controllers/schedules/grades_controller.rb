@@ -26,7 +26,6 @@ class Schedules::GradesController < Schedules::ApplicationController
 	end
 	
 	def form_for_publish_auto
-		load_navigation
 		# render status: :forbidden and return if not verify_access?
 		
 		@psets = Pset.where(automatic: true).order(:order)
