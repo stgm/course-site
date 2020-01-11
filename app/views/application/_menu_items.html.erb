@@ -1,6 +1,6 @@
 <% if current_user.admin? %>
 
-	<h6 class="dropdown-header pl-0 pl-md-4"><%= @current_schedule.name if @current_schedule %></h6>
+	<h6 class="dropdown-header pl-0 pl-md-4"><%= current_schedule.name %></h6>
 		<%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
 		<%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
 		<% if Settings.hands_allow %>
@@ -11,7 +11,7 @@
 		<%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
 		<% end %>
 		<% if !current_user.schedule.self_service %>
-		<%= menu_link_to 'Set module...', 'calendar', edit_schedule_current_module_path(@current_schedule), context, remote: true %>
+		<%= menu_link_to 'Set module...', 'calendar', edit_schedule_current_module_path(current_schedule), context, remote: true %>
 		<% end %>
 	<div class="dropdown-divider d-none d-md-block"></div>
 
@@ -19,7 +19,7 @@
 	<% if current_user.accessible_schedules.many? %>
 	<h6 class="dropdown-header pl-0 pl-md-4">Your schedules</h6>
 		<% Schedule.all.each do |s| %>
-		<%= menu_link_to s.name, (s==@current_schedule ? 'check' : nil), user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), context, method: :post %>
+		<%= menu_link_to s.name, (s==current_schedule ? 'check' : nil), user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), context, method: :post %>
 		<% end %>
 	<div class="dropdown-divider d-none d-md-block"></div>
 	<% end %>

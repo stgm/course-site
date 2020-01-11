@@ -40,7 +40,7 @@
 		<li>
 			<p class="nav-text">
 				<span id="schedule_name"><%= @current_module.name %></span>
-				<% if @current_schedule.self_service %>
+				<% if current_schedule.self_service %>
 				<span class="pull-right">
 					<%= link_to icon('chevron-left').html_safe, profile_prev_path, method: :post, remote: true %>
 					<%= link_to icon('chevron-right').html_safe, profile_next_path, method: :post, remote: true %>
