@@ -29,7 +29,6 @@ class ProfileController < ApplicationController
 		respond_to do |format|
 			format.js do
 				current_user.update(current_module: current_user.current_module.previous)
-				@current_module = current_user.current_module
 				render 'schedule'
 			end
 		end
@@ -39,7 +38,6 @@ class ProfileController < ApplicationController
 		respond_to do |format|
 			format.js do
 				current_user.update(current_module: current_user.current_module.next)
-				@current_module = current_user.current_module
 				render 'schedule'
 			end
 		end
