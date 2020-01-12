@@ -103,11 +103,22 @@ module ApplicationHelper
 			   request.remote_ip == '127.0.0.1'
 	end
 	
-	def menu_link_to(title, icon_name, path, context, options={remote:false})
-		link_to icon(icon_name, class: 'mr-2', size: '20x20') + title, path, options.merge(class: (context == :sidebar ? 'nav-link' : 'dropdown-item'))
+	def menu_group(name=nil, &block)
+		[
+			name && tag.h6(name, class: 'dropdown-header pl-0 pl-md-4'),
+			capture(&block),
+			tag.div(class: 'dropdown-divider d-none d-md-block')
+		].
+		compact.join.html_safe
 	end
 	
-	def icon(name, options={})
+
+	def menu_link(title, path, icon: '', context: :menu, condition: true, **options)
+		return nil if !condition
+		link_to icon(icon, class: 'mr-2', size: '20x20') + title, path, options
+	end
+
+	def icon(name, **options)
 		if name
 			image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'mr-1', style: 'vertical-align: -4px;' }.merge(options)
 		else

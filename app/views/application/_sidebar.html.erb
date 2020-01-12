@@ -84,14 +84,14 @@
 
 	<%# User menu items are shown in sidebar on small screens %>
 
-	<ul class="nav d-md-none">
+	<ul id="user-menu-sidebar" class="nav d-md-none">
 		<li>
 			<p class="nav-text">Menu</p>
 		</li>
 		<% if !authenticated? %>
 		<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link")%></li>
 		<% elsif logged_in? %>
-		<%= render partial: 'menu_items', locals: { context: :sidebar } %>
+		<%= render partial: 'menu_items' %>
 		<% end %>
 	</ul>
 

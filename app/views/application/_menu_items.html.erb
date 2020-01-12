@@ -1,70 +1,49 @@
 <% if current_user.admin? %>
 
-	<h6 class="dropdown-header pl-0 pl-md-4"><%= current_schedule.name %></h6>
-		<%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
-		<%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
-		<% if Settings.hands_allow %>
-		<%= menu_link_to 'Hands', 'people-fill', hands_path, context %>
-		<% end %>
-		<%= menu_link_to 'Announcements...', 'bell-fill', alerts_path, context, remote: true %>
-		<% if Settings.tests_present %>
-		<%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
-		<% end %>
-		<% if !current_user.schedule.self_service %>
-		<%= menu_link_to 'Set module...', 'calendar', edit_schedule_current_module_path(current_schedule), context, remote: true %>
-		<% end %>
-	<div class="dropdown-divider d-none d-md-block"></div>
+<%= menu_group current_schedule.name do %>
+	<%= menu_link 'Overview', schedule_overview_path, icon: 'columns' %>
+	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
+	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
+	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', remote: true %>
+	<%= menu_link 'Tests...', tests_path, icon: 'check', remote: true, condition: Settings.tests_present %>
+	<%= menu_link 'Set module...', edit_schedule_current_module_path(current_schedule), icon: 'calendar', remote: true, condition: !current_user.schedule.self_service %>
+<% end %>
 
-
-	<% if current_user.accessible_schedules.many? %>
-	<h6 class="dropdown-header pl-0 pl-md-4">Your schedules</h6>
-		<% Schedule.all.each do |s| %>
-		<%= menu_link_to s.name, (s==current_schedule ? 'check' : nil), user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), context, method: :post %>
-		<% end %>
-	<div class="dropdown-divider d-none d-md-block"></div>
+<% if current_user.accessible_schedules.many? %>
+<%= menu_group 'Your schedules' do %>
+	<% Schedule.all.each do |s| %>
+	<%= menu_link s.name, user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), icon: (s==current_schedule ? 'check' : nil), method: :post %>
 	<% end %>
+<% end%>
+<% end %>
 
-
-	<h6 class="dropdown-header pl-0 pl-md-4">Course</h6>
-		<%= menu_link_to 'Course administration...', 'inboxes', admin_course_path, context, remote: true %>
-		<%= menu_link_to 'Site configuration...', 'wrench', admin_site_path, context, remote: true %>
-		<%= menu_link_to 'Edit permissions...', 'unlock', admin_users_path, context, remote: true %>
-		<%= menu_link_to 'Update courseware', 'download', admin_update_path, context, method: :post %>
-
-
+<%= menu_group 'Course' do %>
+	<%= menu_link 'Course administration...', admin_course_path, icon: 'inboxes', remote: true %>
+	<%= menu_link 'Site configuration...', admin_site_path, icon: 'wrench', remote: true %>
+	<%= menu_link 'Edit permissions...', admin_users_path, icon: 'unlock', remote: true %>
+	<%= menu_link 'Update courseware', admin_update_path, icon: 'download', method: :post %>
+<% end %>
 
 <% elsif current_user.head? %>
 
-	<% if Settings.hands_allow %>
-	<%= menu_link_to 'Hands', 'people-fill', hands_path, context %>
-	<% end %>
-	<% if Settings.tests_present %>
-	<%= menu_link_to 'Tests...', 'check', tests_path, context, remote: true %>
-	<% end %>
-	<div class="dropdown-divider d-none d-md-block"></div>
-	<%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
-	<%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
-
-
+<%= menu_group do %>
+	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
+<% end %>
+	
+<%= menu_group do %>
+	<%= menu_link 'Overview', schedule_overview_path, icon: 'columns' %>
+	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
+	<%= menu_link 'Tests...', tests_path, icon: 'check', remote: true, condition: Settings.tests_present %>
+<% end %>
 
 <% elsif current_user.assistant? %>
 
-	<% if Settings.hands_allow %>
-	<%= menu_link_to 'Hands', 'people-fill', hands_path, context %>
-	<% end %>
-	<% if !Schedule.exists? or current_user.groups.any? or current_user.schedules.any? %>
-	<%= menu_link_to 'Overview', 'columns', schedule_overview_path, context %>
-	<%= menu_link_to 'Grading', 'pen', grading_index_path, context %>
-	<% end %>
-
-
-
-<% else %>
-
-
+<%= menu_group do %>
+	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
+	<%= menu_link 'Overview', schedule_overview_path, icon: 'columns', condition: current_user.groups.any? || current_user.schedules.any? %>
+	<%= menu_link 'Grading', grading_index_path, icon: 'pen', condition: !Schedule.exists? || current_user.groups.any? || current_user.schedules.any? %>
+<% end %>
 
 <% end%>
 
-
-<div class="dropdown-divider d-none d-md-block"></div>
-<%= menu_link_to 'Logout', 'box-arrow-right', session_logout_path, context %>
+<%= menu_link 'Logout', session_logout_path, icon: 'box-arrow-right' %>
