@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 			# no pages at all means probably not configured yet
 			if User.admin.any?
 				# there's already an admin, go to config, will force login
-				redirect_to config_path
+				redirect_to :root
 			else
 				# there's no admin yet, make current user admin
 				redirect_to welcome_register_path
