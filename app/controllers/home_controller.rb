@@ -6,15 +6,8 @@ class HomeController < ApplicationController
 	before_action :register_attendance
 
 	def homepage
-		if not Page.any?
-			# no pages at all means probably not configured yet
-			if User.admin.any?
-				# there's already an admin, go to config, will force login
-				redirect_to :root
-			else
-				# there's no admin yet, make current user admin
-				redirect_to welcome_register_path
-			end
+		if User.admin.none? && Page.none?
+			redirect_to welcome_path
 		elsif logged_in? && alerts_for_current_schedule.any?
 			redirect_to action: "announcements"
 		else

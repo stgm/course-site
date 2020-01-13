@@ -4,10 +4,19 @@ class WelcomeController < ApplicationController
 
 	def index
 		if not authenticated?
-			# falls through to the welcome page, which links to registration
+			# Welcome, you can start now by trying to auth
 		elsif not logged_in?
-			# Please register
-			redirect_to action:'register' and return
+			# We don't know you yet, please register
+			redirect_to action: 'register'
+		elsif User.admin.none?
+			# Automatically claim admin rights
+			redirect_to action: 'claim'
+		elsif Page.none?
+			# Please set course repo, or finalizing setting course repo
+			redirect_to action: 'clone'
+		else
+			# Done!
+			redirect_to :root
 		end
 	end
 	
@@ -15,11 +24,26 @@ class WelcomeController < ApplicationController
 	# make whoever registers first into admin
 	#
 	def register
-		if logged_in?
-			unless User.where(role: User.roles['admin']).count > 0
-				current_user.admin!
-				redirect_to config_path and return
-			end
+		#
+	end
+	
+	#
+	# gives first registered user admin rights
+	#
+	def claim
+		if logged_in? && User.admin.none?
+			current_user.admin!
+			redirect_to action: 'index' and return
+		end
+	end
+	
+	#
+	# allow setting the git repository
+	#
+	def clone
+		if Page.any?
+			User.first.update(schedule: Schedule.first)
+			redirect_to action: 'index'
 		end
 	end
 
