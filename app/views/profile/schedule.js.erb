@@ -1,2 +1,3 @@
-$('#schedule_name').html("<%= @current_module.name %>");
-$('#schedule').html("<%= escape_javascript links_to_ul(@current_module.content) %>");
+document.querySelector("#schedule_name").innerHTML = "<%= current_module && current_module.name || '' %>";
+document.querySelector("#schedule").innerHTML = "<%= escape_javascript current_module && links_to_ul(current_module.content) || '' %>";
+document.querySelector("#schedule").highlight_briefly();

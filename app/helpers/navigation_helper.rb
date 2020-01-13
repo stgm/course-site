@@ -29,7 +29,7 @@ module NavigationHelper
 	end
 
 	def alerts_for_current_schedule
-		Alert.having_schedule_or_nil(current_schedule)
+		Alert.having_schedule_or_nil(current_schedule).where(published: true)
 	end
 
 end

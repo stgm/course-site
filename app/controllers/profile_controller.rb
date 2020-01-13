@@ -29,7 +29,6 @@ class ProfileController < ApplicationController
 		respond_to do |format|
 			format.js do
 				current_user.update(current_module: current_user.current_module.previous)
-				@current_module = current_user.current_module
 				render 'schedule'
 			end
 		end
@@ -39,7 +38,6 @@ class ProfileController < ApplicationController
 		respond_to do |format|
 			format.js do
 				current_user.update(current_module: current_user.current_module.next)
-				@current_module = current_user.current_module
 				render 'schedule'
 			end
 		end
@@ -49,7 +47,7 @@ class ProfileController < ApplicationController
 		# remove leading and trailing space to give the user some slack
 		params[:user][:name].strip!
 		params[:user][:mail].strip!
-		params[:user][:schedule_id] ||= Schedule.first.id
+		params[:user][:schedule_id] ||= Schedule.first.id if Schedule.first
 		
 		# be explicit, but not so nice
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/

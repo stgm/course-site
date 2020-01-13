@@ -237,3 +237,13 @@
         position: fixed;
     }
 }
+
+#user-menu a
+{
+	@extend .dropdown-item;
+}
+
+#user-menu-sidebar a
+{
+	@extend .nav-link;
+}
