@@ -6,9 +6,10 @@ class HomeController < ApplicationController
 	before_action :register_attendance
 
 	def homepage
-		if User.admin.none? && Page.none?
+		if User.admin.none? || Page.none?
 			redirect_to welcome_path
-		elsif logged_in? && alerts_for_current_schedule.any?
+		elsif Page.where(section_id: nil).none? || logged_in? && alerts_for_current_schedule.any?
+			# show announcements page if no syllabus in repo or if there are ann to show at all
 			redirect_to action: "announcements"
 		else
 			redirect_to action: "syllabus"
@@ -28,21 +29,7 @@ class HomeController < ApplicationController
 	end
 	
 	def announcements
-		redirect_to :root and return if not logged_in?
-
-		@student = User.includes(:hands, :notes).find(current_user.id)
-		@note = Note.new(student_id: @student.id)
-		
-		if current_user.senior? && current_user.schedule
-			@groups = current_user.schedule.groups.order(:name)
-			# @psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.name").count
-			logger.info "loading"
-			@psets = current_user.schedule.grades.finished.joins(:submit => :pset).group("psets.id", "psets.name").count
-			@new_students = current_user.schedule.users.not_staff.groupless.active
-		end
-		
 		@title = "#{Settings.course["short_name"]} #{t(:announcements)}" if Settings.course
-		
 		render layout: 'boxes'
 	end
 	
@@ -66,11 +53,11 @@ class HomeController < ApplicationController
 	
 	def syllabus
 		# the normal homepage is the page without a parent section
-		@page = Page.where(:section_id => nil).first
+		@page = Page.where(section_id: nil).first
+		raise ActionController::RoutingError.new('Not Found') if !@page
 		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0
 		@subpages = [current_schedule && @page.subpages.where(title: current_schedule.name).first || @page.subpages.where(position: 0).first || @page.subpages.first]
 		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
-		raise ActionController::RoutingError.new('Not Found') if !@page
 		render "page/index"
 	end
 	
