@@ -23,7 +23,6 @@
 
 <% 
 	subs = user.submits.group_by(&:pset_id)
-	#subs = @student.grades_cache || [] 
 %>
 
 <% @overview.each do |name, psets| %>

@@ -12,7 +12,7 @@ class Grade < ApplicationRecord
 
 	scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
 	
-	before_save :set_calculated_grade, :unpublicize_if_undone # :update_grades_cache, 
+	before_save :set_calculated_grade, :unpublicize_if_undone 
 	
 	serialize :auto_grades
 	
@@ -170,8 +170,4 @@ class Grade < ApplicationRecord
 		true
 	end
 	
-	def update_grades_cache
-		user.update_grades_cache
-	end
-
 end

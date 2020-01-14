@@ -1,7 +1,5 @@
 class User < ApplicationRecord
 	
-	serialize :grades_cache
-	
 	# normal users
 	belongs_to :group, optional: true
 	delegate :name, to: :group, prefix: true, allow_nil: true
@@ -131,12 +129,6 @@ class User < ApplicationRecord
 		else
 			self.last_submitted_at < 1.month.ago
 		end
-	end
-	
-	def update_grades_cache
-		grades = self.grades.select(:id, :submit_id, :pset_id, :grade, :calculated_grade)
-		grouped = grades.group_by(&:pset_id).transform_values { |v| v[0].serializable_hash }
-		update(grades_cache: grouped)
 	end
 	
 	def update_last_submitted_at
