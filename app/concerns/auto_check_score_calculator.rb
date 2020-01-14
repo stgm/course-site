@@ -1,19 +1,16 @@
-module AutoCheckScoreInterpreter
+module AutoCheckScoreCalculator
 	
 	extend ActiveSupport::Concern
 	
 	def automatic_scores
-		# puts "HIER #{self.inspect}"
 		f = pset.config
 		return {} if f.nil? || f['automatic'].nil?
 
 		# take all automatic rules and use it to create hash of grades
 		results = f['automatic'].transform_values do |rule|
-			# logger.debug rule
 			begin
 				self.instance_eval(rule)
 			rescue
-				# puts "FAIL"
 				nil
 			end
 		end
@@ -21,13 +18,12 @@ module AutoCheckScoreInterpreter
 		return results
 	end
 	
+	# method will be called from grading.yml expressions
 	def correctness_score
 		check_results = self.check_results
 		return nil if !self.check_results.present?
 		
 		check_results.keys.each do |tool|
-			puts tool
-			puts check_results[tool].inspect
 			case tool
 			when "check50v2"
 				return check_results[tool].count { |x| x["status"].present? } / check_results[tool].size.to_f
@@ -36,21 +32,15 @@ module AutoCheckScoreInterpreter
 				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
 			when "checkpy"
 				if check_results[tool].is_a?(Array)
-					puts "arr"
 					return check_results[tool].collect { |f| f["nPassed"] }.sum
 				elsif check_results[tool].is_a?(Hash)
-					puts "hash"
 					return [check_results[tool]].collect { |f| f["nPassed"] }.sum
 				end
 			end
 		end
-
-		# didn't document what kind of tool generates the below
-		# elsif self.check_feedback.is_a?(Array) && self.check_feedback[0].is_a?(Array)
-		# 	fb = self.check_feedback.flatten(1)
-		# 	fb.count { |x| x["status"].present? } / fb.size.to_f
 	end
 	
+	# method will be called from grading.yml expressions
 	def style_score
 		check_results = self.check_results
 		check_results.keys.each do |tool|

@@ -1,7 +1,7 @@
 class Submit < ApplicationRecord
 	
 	include AutoCheckReceiver
-	include AutoCheckScoreInterpreter
+	include AutoCheckScoreCalculator
 	include AutoCheckFeedbackFormatter
 
 	belongs_to :user

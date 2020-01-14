@@ -11,7 +11,9 @@ module AutoCheckReceiver
 		grade = self.grade || self.build_grade
 		
 		# check via the grade if this submit is OK
-		grade.reset_automatic_grades(self.automatic_scores)
+		self.automatic_scores.each do |k,v|
+			grade.subgrades[k] = v
+		end
 		grade.set_calculated_grade
 		grade.status = Grade.statuses[:published]
 		grade.save
