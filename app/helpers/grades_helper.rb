@@ -1,5 +1,9 @@
 module GradesHelper
 	
+	def some_time_or_never(time)
+		time && time.to_formatted_s(:short) || "never"
+	end
+	
 	def color_for_filename(filename, potential)
 		potential.include?(filename) && 'text-success' || 'text-danger'
 	end

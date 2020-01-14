@@ -68,11 +68,11 @@ class SubmissionsController < ApplicationController
 	end
 	
 	def should_perform_auto_check?
-		CheckServer::Uploader.enabled? && @pset.config['check'].present?
+		AutoCheckSender.enabled? && @pset.config['check'].present?
 	end
 	
 	def upload_files_to_check_server
-		@token = CheckServer::Uploader.new(@attachments.zipped, @pset.config['check'], request.host).start
+		@token = AutoCheckSender.new(@attachments.zipped, @pset.config['check'], request.host).start
 	end
 		
 	def record_submission

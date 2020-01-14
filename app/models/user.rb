@@ -159,7 +159,7 @@ class User < ApplicationRecord
 		self.submits.where(pset: mod.psets).each do |submit|
 			if submit.file_contents
 				submit.file_contents.each do |filename, contents|
-					files["(#{submit.check_score}) #{submit.pset.name}/#{filename}"] = contents
+					files["(#{submit.correctness_score}) #{submit.pset.name}/#{filename}"] = contents
 				end
 			end
 		end

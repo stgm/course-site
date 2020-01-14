@@ -29,7 +29,7 @@ class Grade < ApplicationRecord
 	after_initialize do
 		if !self.persisted?
 			# add any newly found autogrades to the subgrades as default
-			self.submit.automatic().to_h.each do |k,v|
+			self.submit.automatic_scores.to_h.each do |k,v|
 				self.subgrades[k] = v if not self.subgrades[k].present?
 			end
 		end
