@@ -54,6 +54,8 @@ class Submit < ApplicationRecord
 		self.auto_graded = false
 
 		self.save
+		
+		user.update(last_submitted_at: self.submitted_at)
 
 		# update the submission for the parent module, if there is one
 		if pset.parent_pset
