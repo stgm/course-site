@@ -28,7 +28,10 @@ class SubmitsController < ApplicationController
 	def destroy
 		@submit = Submit.find(params[:id])
 		@submit.destroy
-		redirect_back fallback_location: root_path
+		respond_to do |format|
+			format.js { redirect_js location: user_path(@submit.user) }
+			format.html { redirect_back fallback_location: root_path }
+		end
 	end
 	
 	# GET /submits/form_for_missing

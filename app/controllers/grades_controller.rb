@@ -47,6 +47,20 @@ class GradesController < ApplicationController
 		end
 	end
 	
+	# DELETE /grades/:id
+	def destroy
+		@grade = Grade.find(params[:id])
+		@submit = @grade.submit
+
+		@grade.destroy
+		@grade = @submit.build_grade({ grader: current_user })
+
+		respond_to do |format|
+			format.js { render 'show' }
+			format.html { redirect_back fallback_location:@submit }
+		end
+	end
+
 	def templatize
 		auto_feedback = Settings["course"]["feedback_templates"][params[:type]]
 		submit = Submit.find(params[:id])

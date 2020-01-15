@@ -11,10 +11,11 @@
 	
 	<div class="form-group d-flex mt-auto">
 		<% if current_user.admin? || @grade.unfinished? %>
-		<%= f.submit 'Save', class: 'btn btn-primary form-control' %>
+		<%= f.submit 'Save', class: 'btn btn-primary flex-fill' %>
 		<% end %>
 		<% if current_user.admin? %>
-		<%= link_to "Destroy", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-secondary ml-1' if @submit %>
+		<%= link_to "Destroy Grade", grade_path(id: @grade.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This deletes the grade completely, including internal info." }, class: 'btn btn-secondary ml-1' if @grade.persisted? %>
+		<%= link_to "Destroy Submit", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-secondary ml-1' if @submit %>
 		<% end %>
 		<% if current_user.senior? %>
 		<% if @grade.persisted? %>
