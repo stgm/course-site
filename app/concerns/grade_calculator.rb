@@ -8,7 +8,7 @@ module GradeCalculator
 
 	def set_calculated_grade
 		if subgrades_changed?
-			calculated_grade = calculate_grade(self)
+			calculated_grade = calculate_grade
 			if calculated_grade.present?
 				case self.pset.grade_type
 				when 'float'
