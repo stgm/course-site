@@ -22,6 +22,10 @@ class Schedule < ApplicationRecord
 	
 	extend FriendlyId
 	friendly_id :name, use: :slugged
+	
+	def can_admin_set_module?
+		!self_service && schedule_spans.any?
+	end
 
 	def load(contents)
 		# this method accepts the yaml contents of a schedule file
