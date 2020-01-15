@@ -51,28 +51,10 @@
 	
 	<% if @files.present? || @submit.has_auto_feedback? %>
 	<ul class="nav nav-tabs" id="files" role="tablist">
-		<% first = true %>
-		<% @files.each_key do |filename| %>
-		<li class="nav-item">
-			<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-<%= filename.parameterize %>" role="tab"><%= filename %></a>
-		</li>
-		<% end if @files.present? %>
-		<% if @submit.has_auto_feedback? %>
-		<li class="nav-item">
-			<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-check" role="tab">check</a>
-		</li>
-		<% end %>
+		<%= render partial: 'file_tabs', locals: { first: true } %>
 	</ul>
 	<div class="tab-content">
-		<% first = true %>
-		<% @files.each do |filename, contents| %>
-		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">
-			<%= link_to 'd', grading_download_path(grading_submit_id: @submit.id, filename: filename), class: 'pull-right' %><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %>
-		</div>
-		<% end if @files.present? %>
-		<% if @submit.has_auto_feedback? %>
-		<div class="tab-pane fade <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab"><code><pre><%= @submit.formatted_auto_feedback %></code></pre></div>
-		<% end %>
+		<%= render partial: 'file_panels', locals: { first: true } %>
 	</div>
 	<% end %>
 	

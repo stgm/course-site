@@ -10,15 +10,12 @@ module AutoCheckFeedbackFormatter
 	def formatted_auto_feedback
 		check_results = self.check_results
 
-		result = ""
 		items = nil
 		v3=nil
 
 		# each tool has different output formats that we detect here
 		
 		check_results.keys.each do |tool|
-			# puts tool
-			# puts check_results[tool].is_a?(Array)
 			case tool
 			when "check50v2"
 				v3=false
@@ -33,9 +30,11 @@ module AutoCheckFeedbackFormatter
 				return check_results[tool]["error"]["value"] if items.nil?
 			when "checkpy"
 				if check_results[tool].is_a?(Array)
-					# puts "ARR"
 					v3=true
-					items = check_results[tool].collect {|f| f["results"]}.compact.flatten
+					# items = check_results[tool].collect {|f| f["results"]}.compact.flatten
+					return check_results[tool].collect do |item|
+						format_checkpy_feedback(item)
+					end.join
 				elsif check_results[tool].is_a?(Hash)
 					v3=true
 					items = [check_results[tool]].collect {|f| f["results"]}.flatten
@@ -48,6 +47,7 @@ module AutoCheckFeedbackFormatter
 		return "" if items.nil?
 
 		# now generate basic feedback
+		result = ""
 		
 		items.each do |item|
 			# puts item
@@ -67,6 +67,29 @@ module AutoCheckFeedbackFormatter
 		end
 	
 		return result
+	end
+	
+	def format_checkpy_feedback(part)
+		"- #{part['name']}\n" +
+		part['results'].collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
+	end
+	
+	def format_line(success, description, explanation)
+		result = ''
+		case success
+		when true
+			result << "  :)"
+		when false
+			# puts "FALSE"
+			result << "  :("
+		when nil
+			result << "  :|"
+		end
+		result << " #{description}\n"
+		if explanation.present?
+			result << "      #{explanation}\n"
+		end
+		result
 	end
 	
 end

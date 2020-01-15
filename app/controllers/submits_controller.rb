@@ -59,6 +59,12 @@ class SubmitsController < ApplicationController
 		# load the submit and any grade that might be attached
 		@submit = Submit.includes(:grade, :user, :pset).find(id)
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
+
+		# load files submitted in child psets if we want to grade a parent module
+		@files_from_module = @submit.user.files_for_module(@submit.pset.mod) if @submit.pset.mod
+
+		# either use the files attached to this specific submit, or all gathered from the module
+		@files = @submit.file_contents || @files_from_module
 	end
 
 end
