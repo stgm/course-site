@@ -1,6 +1,6 @@
 // CSS for the navbar and the sidebar
 
-.brand
+.brand-container
 {
     display:flex;
 	width:100%;
@@ -8,7 +8,7 @@
 
 .navbar-brand
 {
-    line-height:1em;
+    line-height:normal;
 }
 
 #course-title

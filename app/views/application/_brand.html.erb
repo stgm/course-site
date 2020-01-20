@@ -1,20 +1,21 @@
-<div class="navbar-brand py-0 d-flex align-items-center" style="min-width:0;">
-	<a href="/"><%= icon "terminal", class: "pull-left bg-warning rounded mr-2", size: '32x32', style: 'vertical-align:bottom;' %></a>
-
-	<div id="course-title" class="d-flex flex-column">
-		<a id="course-name" href="/" class="navbar-brand py-0">
-			<%= Settings["course"] && Settings["course"]["name"] %>
-		</a>
+<%# min-width:0 is to allow the div to dictate the width for flexboxed children %>
+<a href="/" class="navbar-brand d-flex align-items-center" style="min-width:0;">
 	
+	<%= icon "terminal", class: "pull-left bg-warning rounded mr-2 flex-shrink-0", size: '32x32', style: 'vertical-align:bottom;' %>
+
+	<div id="course-title" class="d-flex flex-column font-weight-bold text-truncate">
+		<%= Settings["course"] && Settings["course"]["name"] %>
+
 		<% if logged_in? %>
-		<small class="text-truncate">
+		<small>
 			<%= current_user && current_user.name || session[:cas_user] %>
 			<%= '&middot;'.html_safe if current_user && user_designation %>
 			<%= user_designation %>
 		</small>
 		<% end %>
 	</div>
-</div>
+
+</a>
 
 <!-- <div class="d-none d-md-inline align-items-center">
 	<% if Settings['keyword_index'].present? %>
