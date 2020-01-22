@@ -2,7 +2,7 @@
 #  Get remote git data, either by pulling existing, or cloning anew.
 #
 
-module Course::Git
+class Course::Git
 
 	def self.pull
 		if git = self.existing_local_repo

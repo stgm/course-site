@@ -1,8 +1,8 @@
 class Submit < ApplicationRecord
 	
-	include AutoCheckReceiver
-	include AutoCheckScoreCalculator
-	include AutoCheckFeedbackFormatter
+	include AutoCheck::Receiver
+	include AutoCheck::ScoreCalculator
+	include AutoCheck::FeedbackFormatter
 
 	belongs_to :user
 	delegate :name, to: :user, prefix: true, allow_nil: true

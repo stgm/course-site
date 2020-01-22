@@ -1,4 +1,4 @@
-module GradeCalculator
+module Grading::GradeCalculator
 	
 	extend ActiveSupport::Concern
 
@@ -7,7 +7,7 @@ module GradeCalculator
 	end
 
 	def set_calculated_grade
-		# This always runs, even if no subgrades have been changes. This is to ensure that grades are also recalculated after the grade formula has changed.
+		# This always runs, even if no subgrades have been changed. This is to ensure that grades are also recalculated after the grade formula has changed.
 		calculated_grade = calculate_grade
 		if calculated_grade.present?
 			case self.pset.grade_type

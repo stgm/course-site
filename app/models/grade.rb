@@ -1,6 +1,6 @@
 class Grade < ApplicationRecord
 	
-	include GradeCalculator
+	include Grading::GradeCalculator
 
 	belongs_to :submit
 

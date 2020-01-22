@@ -1,4 +1,4 @@
-module AutoCheckScoreCalculator
+module AutoCheck::ScoreCalculator
 	
 	extend ActiveSupport::Concern
 	
