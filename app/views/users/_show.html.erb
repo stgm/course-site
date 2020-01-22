@@ -3,10 +3,14 @@
 	subs = @student.submits.group_by(&:pset_id)
 %>
 
-<% @psets.each do |pset| %>
-<%= grade_button(@student, pset, subs)%>
+<% cache subs do %>
+	<% @psets.each do |pset| %>
+	<%= grade_button(@student, pset, subs)%>
+	<% end %>
 <% end %>
 </div>
+
+<% cache @student do %>
 
 <%= line_chart [
 {
@@ -19,11 +23,13 @@
 # }
 ], height: "150px", stacked: true %>
 
+<% end %>
+
 <div id="timeline" class="row">
 	<div class="col-sm-5">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<%= form_for(@note) do |f| %>
+				<%= form_with model: @note do |f| %>
 				<%= f.hidden_field :student_id %>
 				<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
 				<p>
@@ -37,7 +43,7 @@
 	</div>
 	
 	<div class="col-sm-7">
-		<%= render partial: "items/item", collection: @items %>
+		<%= render partial: "items/item", collection: @items, cached: true %>
 	</div>
 </div>
 

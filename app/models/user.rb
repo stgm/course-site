@@ -44,16 +44,9 @@ class User < ApplicationRecord
 	
 	enum role: [:guest, :student, :assistant, :head, :admin]
 	
-	before_validation do
-		# set user's current module to whatever's first in their newly assigned schedule
-		if self.schedule_id_changed? || (self.schedule_id.present? && self.current_module_id.nil?)
-			if span = self.schedule.schedule_spans.first
-				self.current_module_id = span.id
-			else
-				self.current_module_id = nil
-			end
-		end
-	end
+	before_save :reset_group, if: :schedule_id_changed?
+	before_save :reset_current_module, if: :schedule_id_changed?
+	after_save :log_changes
 	
 	def accessible_schedules
 		# ensure admins have access to all schedules at all times by overriding
@@ -173,6 +166,28 @@ class User < ApplicationRecord
 	def generate_pairing_code!
 		self.token = SecureRandom.random_number(10000)
 		self.save
+	end
+	
+	def log_changes_for(user)
+		@user = user
+	end
+	
+	private
+	
+	def reset_group
+		self.group_id = nil
+	end
+	
+	def reset_current_module
+		if span = self.schedule.schedule_spans.first
+			self.current_module = span
+		else
+			self.current_module_id = nil
+		end
+	end
+	
+	def log_changes
+		self.notes.create(text: self.previous_changes.reject{|k,v|k=='updated_at'}.collect{|k,v| "#{k}: #{v[1]}  "}.join, author_id: @user.id) if @user
 	end
 	
 end

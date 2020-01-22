@@ -12,7 +12,7 @@
 <% if current_user.accessible_schedules.many? %>
 <%= menu_group 'Your schedules' do %>
 	<% Schedule.all.each do |s| %>
-	<%= menu_link s.name, user_assign_schedule_path(user_id: current_user.id, schedule_id: s.id), icon: (s==current_schedule ? 'check' : nil), method: :post %>
+	<%= menu_link s.name, [current_user, user: {schedule_id: s.id}], method: :patch, icon: (s==current_schedule ? 'check' : nil) %>
 	<% end %>
 <% end%>
 <% end %>

@@ -24,6 +24,7 @@ class Admin::UsersController < ApplicationController
 		respond_to do |format|
 			format.json { respond_with_bip(p) }
 			format.html { redirect_back fallback_location: '/' }
+			format.js { redirect_js location: user_path(p) }
 		end
 	end
 	

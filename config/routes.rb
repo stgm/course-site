@@ -130,11 +130,12 @@ Rails.application.routes.draw do
 	scope '/manage' do
 
 		resources :users, only: [ :show, :update ] do
-			post  "assign/:group_id", action: "assign_group", as: 'assign_group'
-			post  "set_alarm/:alarm", action: "set_alarm", as: 'set_alarm'
-			post  "calculate_final_grade"
-			post  'schedule/:schedule_id', action: 'assign_schedule', as: 'assign_schedule'
-
+			member do
+				post  'group/:group_id', action: 'group', as: 'group'
+				post  'alarm/:alarm', action: 'alarm', as: 'alarm'
+				post  'calculate_final_grade'
+				post  'schedule/:schedule_id', action: 'schedule', as: 'schedule'
+			end
 			# resources :group_permissions, only: [ :index, :create, :destroy ]
 		end
 
