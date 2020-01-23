@@ -112,21 +112,27 @@ span.bubble {
 {
 	width: 1rem;
 	height: 1rem;
-	margin: 0.05rem;
+//	margin: 0.01rem;
 //	background-color: #797979;
-}
-
-.blockgraph .block.weekday
-{
-//	border: 0.1rem solid gray;
-//	margin-bottom: 0;
 }
 
 .blockgraph .block.weekend
 {
-	border: 0.1rem solid white;
+//	border: 0.1rem solid white;
 //	margin-bottom: 0;
 }
+
+.block + .weekend
+{
+	margin-left: 0.4rem;
+}
+
+.weekend + .weekend
+{
+	margin-left: 0rem;
+	margin-right: 0.4rem;
+}
+
 
 .strength-0 { background-color: #FAFAFA;}
 .strength-1 { background-color: #DFDFDF;}
