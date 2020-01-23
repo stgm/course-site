@@ -63,8 +63,12 @@ class Attachments
 			zipfile = Zip::OutputStream.write_buffer(::LUploadIO.new('file.zip')) do |zio|
 				@files.each do |filename, file|
 					zio.put_next_entry(filename)
-					file.rewind
-					zio.write file.read
+					if file.class == String
+						zio.write file
+					else
+						file.rewind
+						zio.write file.read
+					end
 				end
 			end
 		end
