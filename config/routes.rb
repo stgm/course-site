@@ -141,7 +141,12 @@ Rails.application.routes.draw do
 
 		resources :alerts
 		resources :notes, only: [ :create ]
-		resources :submits, only: [ :show, :create, :destroy ]
+		resources :submits, only: [ :show, :create, :destroy ] do
+			member do
+				post 'recheck'
+			end
+		end
+		
 		resources :grades, except: [ :index ] do
 			member do
 				put  "templatize"

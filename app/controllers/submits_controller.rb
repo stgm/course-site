@@ -34,6 +34,16 @@ class SubmitsController < ApplicationController
 		end
 	end
 	
+	def recheck
+		@submit = Submit.find(params[:id])
+		@submit.recheck(request.host)
+		
+		respond_to do |format|
+			format.js { redirect_js location: user_path(@submit.user) }
+			format.html { redirect_back fallback_location: root_path }
+		end
+	end
+	
 	# GET /submits/form_for_missing
 	def form_for_missing
 		@schedule = current_user.schedule
