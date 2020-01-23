@@ -118,6 +118,10 @@ class Grade < ApplicationRecord
 		end
 	end
 	
+	def short_description
+		"#{pset_name} graded"
+	end
+	
 	private
 	
 	def unpublicize_if_undone

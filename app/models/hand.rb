@@ -26,5 +26,9 @@ class Hand < ApplicationRecord
 			nil
 		end
 	end
+	
+	def short_description
+		"1 question asked and answered"
+	end
 
 end

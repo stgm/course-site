@@ -72,4 +72,8 @@ class Submit < ApplicationRecord
 		self.update(check_token: token)
 	end
 	
+	def short_description
+		"#{pset_name} submitted"
+	end
+	
 end

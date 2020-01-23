@@ -39,7 +39,7 @@ class SubmitsController < ApplicationController
 		@submit.recheck(request.host)
 		
 		respond_to do |format|
-			format.js { redirect_js location: user_path(@submit.user) }
+			format.js { redirect_js location: submit_path(@submit) }
 			format.html { redirect_back fallback_location: root_path }
 		end
 	end
