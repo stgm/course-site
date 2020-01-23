@@ -11,7 +11,7 @@
 </div>
 
 <% cache @student do %>
-<% @grouped_items = @items.group_by_day{ |i| i.updated_at } %>
+<% @grouped_items = @items.group_by_day{ |i| i.class==Submit && i.submitted_at || i.updated_at } %>
 <div class="blockgraph">
 	<% @student.attendance_by_day.each do |date, strength| %>
 	<% @day_items = @grouped_items.select{|k,v| k==date}.collect{|k,v| v.collect{|ai| ai.short_description}}.flatten %>
