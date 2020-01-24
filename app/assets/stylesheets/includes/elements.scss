@@ -114,15 +114,10 @@ span.bubble {
 	width: 1.5rem;
 	height: 1rem;
 	margin-bottom: 0.4rem;
-//	flex-grow: 1;
-//	margin: 0.01rem;
-//	background-color: #797979;
-}
-
-.blockgraph .block.weekend
-{
-//	border: 0.1rem solid white;
-//	margin-bottom: 0;
+	line-height:0.9;
+	text-align:center;
+	color:white;
+	cursor: pointer;
 }
 
 .block + .weekend
