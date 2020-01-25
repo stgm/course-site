@@ -173,22 +173,24 @@ class User < ApplicationRecord
 	end
 	
 	def attendance_by_day
-		records = attendance_records.group_by_day(:cutoff).count.to_a
+		records = attendance_records.group_by_day(:cutoff).count#.to_a
 
-		first_day = records.first.first
-		last_day = records.last.first
-
-		first_day_of_week = first_day.beginning_of_week
-		(first_day_of_week...first_day).each do |day|
-			records << [day,0]
-		end
-
-		today = Date.today
-		(last_day+1..today).each do |day|
-			records << [day,0]
-		end
-		
-		records.sort
+	# 	if records.any?
+	# 	first_day = records.first.first
+	# 	last_day = records.last.first
+	#
+	# 	first_day_of_week = first_day.beginning_of_week
+	# 	(first_day_of_week...first_day).each do |day|
+	# 		records << [day,0]
+	# 	end
+	#
+	# 	today = Date.today
+	# 	(last_day+1..today).each do |day|
+	# 		records << [day,0]
+	# 	end
+	# end
+	#
+	# 	records.sort
 	end
 	
 	private

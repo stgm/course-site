@@ -120,9 +120,15 @@ span.bubble {
 	cursor: pointer;
 }
 
+.blockgraph.small .block
+{
+	width: 0.25rem;
+}
+
+
 .block + .weekend
 {
-	margin-left: 0.1rem;
+//	margin-left: 0.1rem;
 }
 
 .weekend + .weekend

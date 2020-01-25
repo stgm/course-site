@@ -11,13 +11,7 @@
 </div>
 
 <% cache @student do %>
-<% @grouped_items = @items.group_by_day{ |i| i.class==Submit && i.submitted_at || i.updated_at } %>
-<div class="blockgraph">
-	<% @student.attendance_by_day.each do |date, strength| %>
-	<% @day_items = @grouped_items.select{|k,v| k==date}.collect{|k,v| v.collect{|ai| ai.short_description}}.flatten %>
-	<div class="block strength-<%= [strength,8].min %> <%= @day_items.any? && 'interesting' || '' %> <%= !(1..5).include?(date.wday) && 'weekend' ||  '' %>" data-toggle="tooltip" data-placement="top" title="<%= date %> (<%= strength %>) <%= @day_items %>"><%= @day_items.join =~ /submit/ && 's' || '' %></div>
-	<% end %>
-</div>
+<%= progress_bar(@student, @items) %>
 <% end %>
 
 <div id="timeline" class="row">
