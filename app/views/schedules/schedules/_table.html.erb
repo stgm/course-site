@@ -1,4 +1,4 @@
-<table id="grade-table" class="table table-sm table-striped table-responsive">
+<table id="grade-table" class="table table-sm table-responsive">
 
 	<tr>
 		<th>Name</th>
@@ -16,7 +16,7 @@
 	</tr>
 
 	<% users.each do |group, user_list|%>
-	<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td></tr>
+	<tr><td colspan="20"><strong><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></strong></td></tr>
 
 	<% user_list.each do |user| %>
 	<tr <%= 'class=table-warning' if user.stagnated? %>>
