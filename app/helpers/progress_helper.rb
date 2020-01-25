@@ -15,9 +15,7 @@ module ProgressHelper
 			@attendance.default = 0
 			course_dates.each do |date|
 				@day_items = @grouped_items.select{|k,v| k==date}.collect{|k,v| v.collect{|ai| ai.short_description}}.flatten
-				concat tag.div(class: "block strength-#{[@attendance[date],8].min} #{@day_items.any? && 'interesting' || ''} #{!(1..5).include?(date.wday) && 'weekend' ||  ''}", data: { toggle: 'tooltip', placement: 'top' }, title: "#{date} (#{@attendance[date]}) #{@day_items}") do
-					@day_items.join =~ /submit/ && 's' || ''
-				end
+				concat tag.div((@day_items.join =~ /submit/ && 's' || ''), class: "block strength-#{[@attendance[date],8].min} #{@day_items.any? && 'interesting' || ''} #{!(1..5).include?(date.wday) && 'weekend' ||  ''}", data: { toggle: 'tooltip', placement: 'top' }, title: "#{date} (#{@attendance[date]}) #{@day_items}")
 			end
 		end
 	end
