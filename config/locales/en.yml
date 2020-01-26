@@ -48,3 +48,8 @@ en:
         wait_is_over: "Het wachten is voorbij!"
         is_looking_to_help_you: "%{name} is looking to assist you right now"
         cancel_request: "Cancel request"
+    time:
+        formats:
+            default: "%a %d %b %Y %H:%M:%S %Z"
+            long: "%A %d %B %Y %H:%M"
+            short: "%A %d %b %H:%M"

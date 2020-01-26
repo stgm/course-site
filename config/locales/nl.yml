@@ -28,7 +28,7 @@ nl:
     was_graded: "is nagekeken"
     materials: "materialen"
     other: "overig"
-    you_submitted: "Je hebt %{name} ingezonden"
+    you_submitted: "Je hebt %{name} ingestuurd"
     you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
     see_submissions_page: "Zie de voortgangspagina voor een overzicht."
     check_results: "Check-resultaten"
@@ -257,6 +257,6 @@ nl:
       am: "'s ochtends"
       formats:
         default: "%a %d %b %Y %H:%M:%S %Z"
-        long: "%d %B %Y %H:%M"
-        short: "%d %b %H:%M"
+        long: "%A %d %B %Y %H:%M"
+        short: "%A %d %b %H:%M"
       pm: "'s middags"

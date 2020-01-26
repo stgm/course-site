@@ -9,7 +9,7 @@ module ApplicationHelper
 	end
 	
 	def date_span_with_title(date)
-		"<span title=\"#{date.strftime("%A %d %b %Y %R")}\">#{time_ago_in_words(date)} #{t(:ago)}</span>".html_safe
+		"<span title=\"#{l date, format: :long}\">#{l date, format: :short}</span>".html_safe
 	end
 
 	def markdown(text, page_context)
