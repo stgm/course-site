@@ -37,7 +37,9 @@
 		
 		<!-- <td class="bar"><%= user.attendance %></td> -->
 		
+		<% cache [user,user.items] do %>
 		<td style="white-space:nowrap"><%= progress_bar(user, user.items, class: 'small') %></td>
+		<% end %>
 		
 		<% if params[:totals] == 'true' %>
 		<td><%= user.attendance_records.count %></td>
@@ -52,7 +54,7 @@
 
 		<!-- <td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td> -->
 
-
+<% cache [user,user.submits] do %>
 <% 
 	subs = user.submits.group_by(&:pset_id)
 %>
@@ -62,7 +64,7 @@
 <%= grade_button(user, pset, subs)%>
 </td>
 <% end %>
-
+<% end %>
 
 	</tr>
 	<% end %>

@@ -1,6 +1,6 @@
 class Hand < ApplicationRecord
 
-	belongs_to :user
+	belongs_to :user, touch: true
 
 	belongs_to :assist, class_name: "User", optional: true
 	delegate :name, to: :assist, prefix: true, allow_nil: true

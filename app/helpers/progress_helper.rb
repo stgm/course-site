@@ -29,4 +29,8 @@ module ProgressHelper
 		end
 	end
 	
+	# def submits(user_submits)
+	#
+	# end
+	
 end
