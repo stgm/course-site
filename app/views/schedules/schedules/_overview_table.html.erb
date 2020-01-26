@@ -5,7 +5,7 @@
 		<th>Submitted</th>
 	</tr>
 
-	<% users.each do |group, user_list|%>
+	<% groups.each do |group, user_list|%>
 	<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td></tr>
 
 	<% user_list.each do |user| %>

@@ -45,7 +45,7 @@ class Schedules::SchedulesController < Schedules::ApplicationController
 			@users = @users.done
 		end
 		
-		@users = @users.group_by(&:group)
+		@groups = @users.group_by(&:group)
 		
 		if current_user.assistant?
 			render 'overview'
