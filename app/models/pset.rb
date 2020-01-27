@@ -7,9 +7,10 @@ class Pset < ApplicationRecord
 	# belongs_to :mod
 	# has_one :parent_mod, class_name: "Mod"
 
-	has_many :pset_files
 	has_many :submits
 	has_many :grades, through: :submits
+
+	has_many :pset_files
 	
 	enum grade_type: [:integer, :float, :pass, :percentage]
 	

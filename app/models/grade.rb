@@ -4,7 +4,7 @@ class Grade < ApplicationRecord
 
 	belongs_to :submit
 
-	has_one :user, through: :submit
+	has_one :user, through: :submit, touch: true
 	delegate :name, to: :user, prefix: true, allow_nil: true
 
 	has_one :pset, through: :submit

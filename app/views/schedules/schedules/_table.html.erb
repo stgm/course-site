@@ -17,7 +17,7 @@
 		<tr><td colspan="20"><strong><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></strong></td></tr>
 
 		<% user_list.each do |user| %>
-			<% cache user do %>
+			<% cache [user, Settings['grading']] do %>
 	
 			<tr <%= 'class=table-warning' if user.stagnated? %>>
 				<td>
