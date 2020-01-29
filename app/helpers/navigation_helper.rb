@@ -25,7 +25,7 @@ module NavigationHelper
 	end
 
 	def user_designation
-		@user_designation ||= current_user.group_name || current_user.schedule_name if Schedule.count > 1
+		@user_designation ||= current_user.group_name || current_user.schedule_name
 	end
 
 	def alerts_for_current_schedule
