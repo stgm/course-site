@@ -25,9 +25,9 @@
 	<%= link_to(new_hand_path(user_id: user.id), class: 'list-group-item') do %>
 	<%= user.name %>
 	<% if (!Schedule.many? || Settings.hands_groups) && user.group %>
-	<span class="pull-right badge badge-secondary" style="<%= get_colors_for_text(user.group.name) %>"><%= user.group.name %></span>
+	<span class="float-right badge badge-secondary" style="<%= get_colors_for_text(user.group.name) %>"><%= user.group.name %></span>
 	<% elsif user.schedule %>
-	<span class="pull-right badge badge-secondary" style="<%= get_colors_for_text(user.schedule.name) %>"><%= user.schedule.name %></span>
+	<span class="float-right badge badge-secondary" style="<%= get_colors_for_text(user.schedule.name) %>"><%= user.schedule.name %></span>
 	<% end %>
 	<br>
 	<small>

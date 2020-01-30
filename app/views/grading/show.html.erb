@@ -6,7 +6,7 @@
 		<%= button_to 'Mark as finished', finish_grading_path, class: 'btn btn-secondary m-3 btn-sm', form: { style: 'text-align:center' }, data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those after.' } %>
 		<% @to_grade.each do |submit| %>
 		<li class="nav-item">
-			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: 'nav-link' %>
+			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary float-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: 'nav-link' %>
 		</li>
 		<% end %>
 	</ul>
@@ -30,7 +30,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<%= grade.submit.pset.name %>
-			<div class="pull-right">
+			<div class="float-right">
 				<% grade.subgrades.each_pair do |k,v| %>
 				<%= v %> /
 				<% end %>
