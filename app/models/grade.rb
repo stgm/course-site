@@ -1,8 +1,12 @@
 class Grade < ApplicationRecord
+	
+	include Grading::GradeCalculator
 
 	belongs_to :submit
+
 	has_one :user, through: :submit
 	delegate :name, to: :user, prefix: true, allow_nil: true
+
 	has_one :pset, through: :submit
 	delegate :name, to: :pset, prefix: true, allow_nil: true
 
@@ -10,32 +14,22 @@ class Grade < ApplicationRecord
 	delegate :name, to: :grader, prefix: true, allow_nil: true
 	delegate :initials, to: :grader, prefix: true, allow_nil: true
 
-	before_save :set_calculated_grade, :unpublicize_if_undone # :update_grades_cache, 
-	
-	serialize :auto_grades
-	
 	# this is an OpenStruct to make sure that subgrades can be referenced as a method
 	# for use in the grade calculation formulae in grading.yml
 	serialize :subgrades, OpenStruct
 	
+	scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
+	
 	enum status: [:unfinished, :finished, :published, :discussed, :exported]
-	
-	# scope :published,  -> { where(status: Grade.statuses[:published]) }
-	
+	before_save :unpublicize_if_undone 
 	
 	# this adds automatic grades to the subgrades quite aggressively
 	after_initialize do
 		if !self.persisted?
 			# add any newly found autogrades to the subgrades as default
-			self.submit.automatic().to_h.each do |k,v|
+			self.submit.automatic_scores.each do |k,v|
 				self.subgrades[k] = v if not self.subgrades[k].present?
 			end
-		end
-	end
-	
-	def reset_automatic_grades(auto_grades)
-		auto_grades.to_h.each do |k,v|
-			self.subgrades[k] = v
 		end
 	end
 	
@@ -58,11 +52,6 @@ class Grade < ApplicationRecord
 		created_at && created_at.to_formatted_s(:short) || "not yet"
 	end
 	
-	def auto_grades
-		# provides default value
-		super || {}
-	end
-
 	def subgrades=(val)
 		# we would like this to be stored as an OpenStruct
 		#return super if val.is_a? OpenStruct
@@ -104,8 +93,8 @@ class Grade < ApplicationRecord
 	end
 	
 	def any_final_grade
-    # this function prefers hard-coded grades but can also provide the calculated grade
-		self.grade or self.calculated_grade
+		# this function prefers hard-coded grades but can also provide the calculated grade
+		self.grade || self.calculated_grade
 	end
 
 	def grade=(new_grade)
@@ -129,47 +118,11 @@ class Grade < ApplicationRecord
 		end
 	end
 	
-	def set_calculated_grade
-		if subgrades_changed?
-			calculated_grade = calculate_grade(self)
-			if !calculated_grade.blank?
-				# puts calculated_grade.inspect
-				case self.pset.grade_type
-				when 'float'
-					# calculated_grade = calculated_grade
-				else # integer, pass
-					calculated_grade = calculated_grade.round
-				end
-				self.calculated_grade = calculated_grade * 10
-			else
-				self.calculated_grade = nil
-			end
-		end
-	end
-	
-	def calculate_grade(grade)
-		f = Settings['grading']['grades'] if Settings['grading']
-		return nil if f.nil?
-		pset_name = grade.pset.name
-		return nil if f[pset_name].nil? or f[pset_name]['calculation'].nil?
-		begin
-			cg = grade.subgrades.instance_eval(f[pset_name]['calculation'])
-			puts "HIER #{grade.subgrades.inspect}"
-		rescue
-			cg = nil
-		end
-		return cg
-	end
-	
 	private
-		
+	
 	def unpublicize_if_undone
-		self.status = Grade.statuses[:unfinished] unless self.any_final_grade.present?
+		self.status = Grade.statuses[:unfinished] if self.any_final_grade.blank?
 		true
 	end
 	
-	def update_grades_cache
-		user.update_grades_cache
-	end
-
 end

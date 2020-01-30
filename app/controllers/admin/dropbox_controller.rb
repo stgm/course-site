@@ -5,16 +5,12 @@ class Admin::DropboxController < ApplicationController
 
 	# redirects to dropbox to allow oauth confirmation
 	def connect
-		if Dropbox.available?
-			redirect_to Dropbox.get_auth_url(url_for action: 'oauth', protocol: 'https')
-		else
-			redirect_back fallback_location: '/', alert: "Dropbox has not been configured server-side."
-		end
+		redirect_to Dropbox::Client.get_auth_url(url_for action: 'oauth', protocol: 'https')
 	end
 
 	# endpoint after dropbox confirmation, checks connection and saves
 	def oauth
-		Dropbox.process_authorization(params[:code])
+		Dropbox::Client.process_authorization(params[:code])
 		redirect_to :root
 	end
 	

@@ -35,7 +35,7 @@
 	<% @submit.pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
 	<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
 	<div class="form-group flex-fill">
-		<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic[subgrade_name] %>(<%= @submit.automatic[subgrade_name] %>)<% end %></label>
+		<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic_scores[subgrade_name] %>(<%= @submit.automatic_scores[subgrade_name] %>)<% end %></label>
 		<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="grade[subgrades[<%= subgrade_name %>]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
 	</div>
 	<% elsif subgrade_type == 'boolean' %>

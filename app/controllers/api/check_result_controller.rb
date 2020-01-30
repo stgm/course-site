@@ -6,10 +6,8 @@ class Api::CheckResultController < ApplicationController
 		submit = Submit.find_by_check_token(params["id"])
 		if submit
 			results = params["result"]
-			submit.register_check_results(results.to_json)
-			render json: "Hi!"
-		else
-			render json: "Bye!"
+			submit.register_auto_check_results(results)
+			head :ok
 		end
 	end
 

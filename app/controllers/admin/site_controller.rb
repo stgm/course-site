@@ -4,7 +4,7 @@ class Admin::SiteController < ApplicationController
 	before_action :require_admin
 
 	def index
-		@dropbox_linked = Dropbox.connected?
+		@dropbox_linked = Dropbox::Client.connected?
 		@secret = Settings.webhook_secret
 
 		render_to_modal header: 'Site configuration'
@@ -33,7 +33,7 @@ class Admin::SiteController < ApplicationController
 		else
 			Settings.git_repo = params[:repo_url]
 			Settings.git_branch = params[:repo_branch]
-			CourseLoader.new.run
+			Course::Loader.new.run
 			redirect_back fallback_location: '/', notice: 'The course content was successfully cloned.'
 		end
 	end

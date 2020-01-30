@@ -1,0 +1,10 @@
+<% @files.each_key do |filename| %>
+<li class="nav-item">
+	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-<%= filename.parameterize %>" role="tab"><%= filename %></a>
+</li>
+<% end if @files.present? %>
+<% if @submit.has_auto_feedback? %>
+<li class="nav-item">
+	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-check" role="tab">check</a>
+</li>
+<% end %>

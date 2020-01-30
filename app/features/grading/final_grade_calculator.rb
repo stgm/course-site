@@ -1,4 +1,4 @@
-module FinalGradeCalculator
+module Grading::FinalGradeCalculator
 	
 	# FinalGradeCalculator.run_for(User.first)
 	

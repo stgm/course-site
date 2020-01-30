@@ -1,11 +1,11 @@
-module FinalGradeAssigner
+module Grading::FinalGradeAssigner
 
 	def self.available?
 		!!Settings['grading'] && !!Settings['grading']['calculation']
 	end
 
 	def self.assign_final_grade(student, grader)
-		grades = FinalGradeCalculator.run_for(student.all_submits)
+		grades = Grading::FinalGradeCalculator.run_for(student.all_submits)
 		grades.each do |name, grade|
 			grade = number_grade(grade)
 			if grade.present? # there really is an assignable grade

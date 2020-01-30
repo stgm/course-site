@@ -1,7 +1,4 @@
-# require 'course_git'
-# require 'course_tools'
-
-class CourseLoader
+class Course::Loader
 	
 	# This class is responsible for importing course information from
 	# the source into the database.
@@ -38,7 +35,7 @@ class CourseLoader
 			recreate_all_slugs
 		
 			# put psets in order
-			CourseTools.clean_psets
+			Course::Tools.clean_psets
 		rescue SQLite3::BusyException
 			@errors << "A timeout occurred while loading the new course content. Just try again!"
 		end
@@ -88,7 +85,7 @@ private
 	# overridden in an initializer in order to function well!
 	#
 	def update_repo(dir)
-		if !CourseGit.pull
+		if !Course::Git.pull
 			@errors << "Repo could not be updated from remote. You can simply try again."
 		end
 	end

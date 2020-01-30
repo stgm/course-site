@@ -1,3 +1,8 @@
-<div id="grade">
-	<%= render @grade %>
+<div class="tab-content" id="myTabContent">
+	<div class="tab-pane show active" id="submit-grading" role="tabpanel" aria-labelledby="submit-grading-tab">
+		<div id="grade">
+			<%= render @grade %>
+		</div>
+	</div>
+	<%= render partial: 'grading/file_panels', locals: { first: false } %>
 </div>

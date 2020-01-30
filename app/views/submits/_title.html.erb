@@ -1,4 +1,10 @@
-<div>
+<div class="w-100">
 	<h5><%= link_to @submit.user_name, @submit.user, remote: true %> / <%= @submit.pset_name %></h5>
 	<%= render partial: 'submits/info' %>
+	<ul class="nav nav-tabs mt-3 mb-n3 border-bottom-0" id="myTab" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link active" id="submit-grading-tab" data-toggle="tab" href="#submit-grading" role="tab" aria-controls="home" aria-selected="true">Grading</a>
+		</li>
+		<%= render partial: 'grading/file_tabs', locals: { first: false } %>
+	</ul>
 </div>

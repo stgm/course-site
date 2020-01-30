@@ -32,27 +32,6 @@ unless self.private_methods.include? 'irb_binding'
 				end
 			end
 		end
-	
-		scheduler.cron '00 06 * * *' do
-			safely do
-			    ActiveRecord::Base.transaction do
-					User.all.each &:update_last_submitted_at
-				end
-			end
-		end
-	
-		# scheduler.every '20m' do
-		# 	if Settings.automatic_grading_enabled
-		# 		Submit.where(check_feedback: nil).limit(20).each do |s|
-		# 			sleep 1
-		# 			s.retrieve_check_feedback
-		# 		end
-		# 		Submit.where(check_feedback: nil).limit(20).each do |s|
-		# 			sleep 1
-		# 			s.retrieve_style_feedback
-		# 		end
-		# 	end
-		# end
 
 		scheduler.every '135m' do
 			safely do

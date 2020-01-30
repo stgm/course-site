@@ -3,6 +3,7 @@ class Pset < ApplicationRecord
 	belongs_to :page, optional: true
 	has_one :mod
 	belongs_to :parent_mod, class_name: "Mod", foreign_key: "mod_id", optional: true
+	delegate :pset, to: :parent_mod, prefix: 'parent', allow_nil: true
 	# belongs_to :mod
 	# has_one :parent_mod, class_name: "Mod"
 

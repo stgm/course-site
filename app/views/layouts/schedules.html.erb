@@ -22,16 +22,15 @@
 	<div class="d-flex flex-column h-100">
 
 		<div id="navbar" class="navbar bg-dark navbar-dark navbar-expand-lg flex-shrink-0">
-			<div class="brand">
-				<%= render 'brand' %>
-			</div>
+			<%= render 'brand' %>
 			
-			<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
-			</button> -->
+			</button>
 			
 			<div class="collapse show navbar-collapse" id="navbarSupportedContent">
 				<%= yield :navbar_items %>
+				<%= render 'float_nav' %>
 			</div>
 		</div>
 
@@ -43,6 +42,7 @@
 	
 	</div>
 
+	<%= render partial: "modal_browser" if current_user.senior? %>
 </body>
 
 </html>
