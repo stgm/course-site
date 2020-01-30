@@ -20,7 +20,5 @@ class ChangeBools < ActiveRecord::Migration[6.0]
 		change_column :users, :done, :boolean, :default => false
 		change_column :users, :active, :boolean, :default => false
 		change_column :users, :alarm, :boolean, :default => false
-		
-		puts "Don't forget to run  rails course:fixbools  to change bool columns in SQLite"
 	end
 end
