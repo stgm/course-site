@@ -2,8 +2,8 @@ Element.prototype.highlight_briefly = function ()
 {
 	this.onanimationend = function ()
 	{
-		this.classList.remove("highlight")
+		this.classList.remove("highlight-briefly")
 	};
 	
-	this.classList.add("highlight")
+	this.classList.add("highlight-briefly")
 };
