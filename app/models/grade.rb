@@ -2,7 +2,7 @@ class Grade < ApplicationRecord
 	
 	include Grading::GradeCalculator
 
-	belongs_to :submit, touch: true
+	belongs_to :submit
 
 	has_one :user, through: :submit
 	delegate :name, to: :user, prefix: true, allow_nil: true
