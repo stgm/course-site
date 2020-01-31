@@ -66,6 +66,10 @@ class Submit < ApplicationRecord
 		self.grade.update_columns(grade: nil, status: Grade.statuses[:unfinished]) if self.grade
 	end
 	
+	def checkable?
+		pset.check_config.present?
+	end
+	
 	def recheck(host)
 		zip = Attachments.new(self.file_contents).zipped
 		token = AutoCheck::Sender.new(zip, self.pset.config['check'], host).start

@@ -23,5 +23,9 @@ class Pset < ApplicationRecord
 	def submit_from(user)
 		Submit.where(:user_id => user.id, :pset_id => id).first
 	end
+	
+	def check_config
+		config && config['check']
+	end
 
 end
