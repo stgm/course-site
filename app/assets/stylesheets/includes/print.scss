@@ -13,9 +13,20 @@
 	
 	#sidebar, footer, ul.nav, #content > h1, iframe,
 	#schedule-column, #comments-column, .embed,
-	section#submit-content, #float-nav
+	section#submit-content, #float-nav, .alert
 	{
 		display:none !important;
+	}
+	
+	.home, .page, .boxes
+	{
+		#sidebar, #content
+		{
+			a[href*="//"]:after
+			{
+				content:none;
+			}
+		}
 	}
 	
 	#markdown-toc
@@ -72,6 +83,7 @@
 		margin-left:0;
 		margin-right:0;
 		padding:1em 0;
+		border-left:0;
 		border-top:1px solid black;
 		border-bottom:1px solid black;
 	}

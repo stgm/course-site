@@ -10,8 +10,9 @@
 	<%= render 'submit_tab' %>
 </section>
 <section id="submit-content" class="d-block d-sm-none">
-	<h1>Submit</h1>
-	<p>You can't submit on mobile, sorry. If you're on desktop, increase your browser width to submit!</p>
+<div class="alert alert-danger" role="alert">
+  Your browser window is too small to show the submit form. If you're on desktop, increase your browser width to submit!
+</div>
 </section>
 <% end %>
 <%= hidden_field_tag :pset_id, @page.pset.id if @page.pset %>

@@ -51,28 +51,12 @@ body
 
 #content section, #content header
 {
-	margin-bottom:1.5em;
+//	margin-bottom:1.5em;
 }
 
 #content section:first-child
 {
 	padding-top: 0;
-}
-	
-#submit-content
-{
-	table-layout:fixed;
-	margin-bottom:0 !important;
-	padding-bottom:2em;
-	border-radius:0.25em;
-	border:1px solid gray;
-	background-color:whitesmoke;
-	padding:2em;
-}
-
-#submit-content h2
-{
-	margin-top:0 !important;
 }
 
 //****************************************************************************

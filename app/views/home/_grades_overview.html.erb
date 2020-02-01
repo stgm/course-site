@@ -1,9 +1,9 @@
-<div id="overview" class="card">
-	<div class="card-body">
-		<h5 class="card-title"><%= t('overview') %></h5>
+		<!-- <h5 class="card-title"><%= t('overview') %></h5> -->
 		<% @overview_config.each do |category, definition| %>
-			<h6><%= category.capitalize %></h6>
-			<table class="table table-sm table-responsive">
+<div id="overview" class="card">
+	<div class="card-body overflow-auto">
+			<h5 class="card-title"><%= category.capitalize %></h5>
+			<table class="table table-sm">
 				<%# Table header  %>
 				<tr>
 					<%# Assignment %>
@@ -22,7 +22,7 @@
 					<%# Each submit within category %>
 					<tr>
 						<%# Submit name %>
-						<th><%= formatted_submit_name(submit) %></th>
+						<th scope="col"><%= formatted_submit_name(submit) %></th>
 						<% definition['subgrades'].each do |subgrade| %>
 							<%# Print each subgrade if it exists for this grade, subgrades are not hidden, and the grade isn't unpublished. %>
 							<%# Else, print a dash. %>
@@ -44,6 +44,6 @@
 					</tr>
 				<% end %>
 			</table>
-		<% end %>
 	</div>
 </div>
+		<% end %>
