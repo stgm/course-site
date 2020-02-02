@@ -1,16 +1,12 @@
 <div class="">
 <% 
-	subs = @student.submits.group_by(&:pset_id)
+	subs = @student.submits.includes(:grade).group_by(&:pset_id)
 %>
 
-<% cache subs do %>
-	<% @psets.each do |pset| %>
-	<%= grade_button(@student, pset, subs)%>
-	<% end %>
+<% @psets.each do |pset| %>
+<%= grade_button(@student, pset, subs)%>
 <% end %>
 </div>
-
-<% cache @student do %>
 
 <%= line_chart [
 {
@@ -22,8 +18,6 @@
 # 	data: @student.attendance_records.where(local: true).group_by_day(:cutoff, format: "%a %d-%m").count
 # }
 ], height: "150px", stacked: true %>
-
-<% end %>
 
 <div id="timeline" class="row">
 	<div class="col-sm-5">
@@ -43,7 +37,7 @@
 	</div>
 	
 	<div class="col-sm-7">
-		<%= render partial: "items/item", collection: @items, cached: true %>
+		<%= render partial: "items/item", collection: @items %>
 	</div>
 </div>
 

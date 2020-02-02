@@ -74,8 +74,8 @@ class User < ApplicationRecord
 		items = []
 		items += submits.includes({:pset => [:parent_mod, :mod]}).where("submitted_at is not null").where("psets.mod_id is not null or mods_psets.pset_id is null").references(:psets, :mods).to_a
 		items += grades.includes(:pset, :submit, :grader).showable.to_a
-		items += hands.to_a if with_private
-		items += notes.to_a if with_private
+		items += hands.includes(:assist).to_a if with_private
+		items += notes.includes(:author).to_a if with_private
 		items = items.sort { |a,b| b.updated_at <=> a.updated_at }
 	end
 	
