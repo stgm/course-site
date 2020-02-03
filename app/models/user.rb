@@ -76,7 +76,7 @@ class User < ApplicationRecord
 		items += grades.includes(:pset, :submit, :grader).showable.to_a
 		items += hands.includes(:assist).to_a if with_private
 		items += notes.includes(:author).to_a if with_private
-		items = items.sort { |a,b| b.updated_at <=> a.updated_at }
+		items = items.sort { |a,b| b.sortable_date <=> a.sortable_date }
 	end
 	
 	def initials

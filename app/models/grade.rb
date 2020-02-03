@@ -33,6 +33,10 @@ class Grade < ApplicationRecord
 		end
 	end
 	
+	def sortable_date
+		updated_at
+	end
+	
 	def public?
 		published? or discussed? or exported?
 	end

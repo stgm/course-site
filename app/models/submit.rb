@@ -37,6 +37,10 @@ class Submit < ApplicationRecord
 		order('submits.created_at asc')
 	end
 	
+	def sortable_date
+		submitted_at
+	end
+	
 	def record(used_login: nil, archive_folder_name: nil, url: nil, attachments: nil, check_token: nil)
 		# basic info
 		self.submitted_at = Time.now

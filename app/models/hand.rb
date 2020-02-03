@@ -27,4 +27,8 @@ class Hand < ApplicationRecord
 		end
 	end
 
+	def sortable_date
+		updated_at
+	end
+	
 end
