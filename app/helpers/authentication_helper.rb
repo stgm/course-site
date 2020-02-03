@@ -1,7 +1,7 @@
 module AuthenticationHelper
 
 	def authenticated?
-		return request.session['cas'].present?
+		return request.session['token'].present? || request.session['cas'].present?
 	end
 	
 	def logged_in?
@@ -15,7 +15,7 @@ module AuthenticationHelper
 	private
 	
 	def load_current_user
-		if authenticated? && login = Login.where(login: request.session['cas']['user'].downcase).first
+		if authenticated? && login = Login.where(login: (request.session['token'] || request.session['cas']['user']).downcase).first
 			@current_user = login.user
 		else
 			# use an empty user object in case of no login

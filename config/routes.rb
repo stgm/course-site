@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 			patch 'page_update'           #done
 		end
 		
-		resources :users, only: [ :index ] do
+		resources :users, only: [ :index, :new, :create ] do
 			post   'add_group_permission'
 			delete 'remove_group_permission'
 			post   'add_schedule_permission'

@@ -1,5 +1,7 @@
 <%= render partial: 'stats', layout: 'modal_card', locals: { title: 'Statistics', subtitle: nil }%>
 
+<%= render partial: 'new_user', layout: 'modal_card', locals: { title: 'Create a new user', subtitle: nil }%>
+
 <% if Schedule.any? %>
 <%= render partial: 'registration', layout: 'modal_card', locals: { title: 'Schedule registration', subtitle: 'Allow students to register for the following schedules' } %>
 <% end %>

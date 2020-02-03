@@ -16,6 +16,18 @@ class Admin::UsersController < ApplicationController
 		render_to_modal header: 'User permissions'
 	end
 	
+	def new
+		@user = User.new
+		render_to_modal header: 'Add user'
+	end
+	
+	def create
+		@u = User.new(params.require(:user).permit(:name, :mail))
+		@u.generate_token!
+		@u.logins.create(login:@u.token)
+		render_to_modal header: "User #{@u.name} added"
+	end	
+	
 	# PUT /user/:user_id/admin
 	def set_role
 		p = User.find(params[:user_id])

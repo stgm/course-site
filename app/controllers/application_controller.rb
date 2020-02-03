@@ -12,12 +12,18 @@ class ApplicationController < ActionController::Base
 		I18n.locale = (Settings.course["language"] if Settings.course) || I18n.default_locale
 	end
 	
+	before_action do # login by token
+		if params[:token].present?
+			# login via generated token
+			request.session['token'] = params[:token]
+		end
+	end
+	
 	##
 	## Before-actions
 
 	def authorize
-		# defer login to rack-cas
-		head :unauthorized unless request.session['cas'].present?
+		head :unauthorized unless request.session['user'].present? || request.session['cas'].present?
 	end
  
 	def register_attendance

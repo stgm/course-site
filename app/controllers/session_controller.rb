@@ -21,6 +21,7 @@ class SessionController < ApplicationController
 	# end
 
 	def destroy
+		session.delete('token')
 		session.delete('cas')
 		redirect_to :root
 	end
