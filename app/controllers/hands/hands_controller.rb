@@ -23,14 +23,15 @@ class Hands::HandsController < ApplicationController
 		# catch erroneous GET requests for /hands/done
 		raise ActionController::RoutingError.new("Huh?") if params[:id] == "done"
 		
-		load_hand
-		
-		if current_user.assistant? && @hand.assist != current_user
-			if auto_claim_hand
-				flash[:notice] = "Taken, it's yours!"
-			else
-				flash[:alert] = "Someone was ahead of you!"
-				redirect_to hands_path and return
+		Hand.transaction do
+			load_hand
+			if current_user.assistant? && @hand.assist != current_user && !@hand.helpline
+				if auto_claim_hand
+					flash[:notice] = "Taken, it's yours!"
+				else
+					flash[:alert] = "Someone was ahead of you!"
+					redirect_to hands_path and return
+				end
 			end
 		end
 	end
@@ -88,9 +89,9 @@ class Hands::HandsController < ApplicationController
 	end
 	
 	def auto_claim_hand
-		if @hand.assist.blank? and not @hand.helpline
+		if @hand.assist.blank?
 			@hand.update(assist_id: current_user.id, claimed_at: DateTime.now)
-			return @hand.assist == current_user
+			return true
 		end
 	end
 
