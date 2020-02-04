@@ -49,20 +49,17 @@ class Hands::HandsController < ApplicationController
 	def search
 	end
 	
-	# manual dibs for admins
+	# manual dibs for admins & other situations
 	def dib
-		# try to dib
-		if hand = Hand.where(id: params[:id], assist: nil).first
-			hand.update_attributes(assist: current_user, claimed_at: DateTime.now)
-		end
-		
-		# check dib and report
-		if Hand.find(params[:id]).assist == current_user
-			flash[:notice] = "Taken, it's yours!"
-			redirect_back fallback_location: '/'
-		else
-			flash[:alert] = "Someone was ahead of you!"
-			redirect_to ({ action: :index })
+		Hand.transaction do
+			load_hand
+			if auto_claim_hand
+				flash[:notice] = "Taken, it's yours!"
+				redirect_back fallback_location: '/'
+			else
+				flash[:alert] = "Someone was ahead of you!"
+				redirect_to hands_path and return
+			end
 		end
 	end
 
