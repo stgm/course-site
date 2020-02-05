@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 			delete 'remove_group_permission'
 			post   'add_schedule_permission'
 			delete 'remove_schedule_permission'
-			patch  'set_role'
+			put    'set_role'
 		end
 		
 		resource :update, only: [ :create ]
