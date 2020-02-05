@@ -22,11 +22,13 @@ class Admin::UsersController < ApplicationController
 	end
 	
 	def create
-		@u = User.new(params.require(:user).permit(:name, :mail))
+		@u = User.new(params.require(:user).permit(:name, :mail, :schedule_id))
+		@u.student!
 		@u.generate_token!
 		@u.logins.create(login:@u.token)
+		@url = root_url(token: @u.token)
 		render_to_modal header: "User #{@u.name} added"
-	end	
+	end
 	
 	# PUT /user/:user_id/admin
 	def set_role
