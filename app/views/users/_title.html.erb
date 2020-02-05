@@ -21,10 +21,16 @@
 		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Group <span class="caret"></span>
 		</button>
-		<ul class="dropdown-menu">
+		<ul class="dropdown-menu dropdown-menu-right">
+			<% if @groups.any? %>
 			<% @groups.each do |group| %>
 			<%= link_to "Move to #{group.name}".html_safe, [@student, user: {group_id: group.id}], method: :patch, class: 'dropdown-item' + class_if(@student.group_id == group.id, 'disabled') %>
-			<% end if @groups %>
+			<% end %>
+			<% elsif @student.schedule_name.present? %>
+			<%= link_to "No groups for #{@student.schedule_name}", '', class: 'dropdown-item disabled' %>
+			<% else %>
+			<%= link_to "No schedule selected", '', class: 'dropdown-item disabled' %>
+			<% end %>
 		</ul>
 	</div>
 
@@ -32,7 +38,7 @@
 		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Schedule <span class="caret"></span>
 		</button>
-		<ul class="dropdown-menu">
+		<ul class="dropdown-menu dropdown-menu-right">
 			<% @schedules.each do |schedule| %>
 			<%= link_to "Assign to #{schedule.name}".html_safe, [@student, user: {schedule_id: schedule.id}], method: :patch, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') %>
 			<% end %>

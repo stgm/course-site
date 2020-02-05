@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 	def show
 		@student = User.includes(:hands, :notes).find(params[:id])
 		@schedules = Schedule.all
-		@groups = @student.schedule.groups.order(:name) if @student.schedule
+		@groups = @student.schedule && @student.schedule.groups.order(:name) || []
 		@note = Note.new(student_id: @student.id)
 		@items = @student.items(true)
 		@psets = Pset.order(Arel.sql("'order' IS NULL"), :order)
