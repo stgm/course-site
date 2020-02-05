@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 	## Before-actions
 
 	def authorize
-		head :unauthorized unless request.session['user'].present? || request.session['cas'].present?
+		head :unauthorized unless request.session['token'].present? || request.session['cas'].present?
 	end
  
 	def register_attendance
