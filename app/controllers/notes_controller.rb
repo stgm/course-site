@@ -33,7 +33,7 @@ class NotesController < ApplicationController
 		if @note.save
 			redirect_back fallback_location: '/', notice: 'Note was successfully created.'
 		else
-			render :new
+			redirect_js location: user_path(@note.user)
 		end
 	end
 
