@@ -30,11 +30,7 @@ class NotesController < ApplicationController
 	def create
 		@note = Note.new(note_params.merge({ author_id: current_user.id }))
 		
-		if @note.save
-			redirect_back fallback_location: '/', notice: 'Note was successfully created.'
-		else
-			redirect_js location: user_path(@note.user)
-		end
+		redirect_js location: user_path(@note.user)
 	end
 
 	# # PATCH/PUT /notes/1
