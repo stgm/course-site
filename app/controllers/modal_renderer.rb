@@ -1,7 +1,7 @@
 module ModalRenderer
 	
 	def render_to_modal(options={})
-		@partial = action_name
+		@partial = options[:action] || action_name
 		@header = options[:header]
 		@header_partial = options[:header_partial]
 		@tooltips = options[:tooltips]

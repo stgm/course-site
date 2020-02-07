@@ -44,7 +44,7 @@ class Admin::SiteController < ApplicationController
 	def generate_secret
 		secret = SecureRandom.hex(20)
 		Settings.webhook_secret = secret
-		redirect_back fallback_location: '/'
+		redirect_js location:admin_site_path
 	end
 
 end
