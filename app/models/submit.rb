@@ -70,6 +70,10 @@ class Submit < ApplicationRecord
 		self.grade.update_columns(grade: nil, status: Grade.statuses[:unfinished]) if self.grade
 	end
 	
+	def file_contents
+		super || {}
+	end
+	
 	def checkable?
 		pset.check_config.present?
 	end
