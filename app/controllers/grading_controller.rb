@@ -30,7 +30,7 @@ class GradingController < ApplicationController
 		@files_from_module = @submit.user.files_for_module(@submit.pset.mod) if @submit.pset.mod
 
 		# take all submitted files for the individual submits and add those in the module submit
-		@files = @submit.file_contents.merge(@files_from_module)
+		@files = @submit.file_contents.merge(@files_from_module||{})
 
 		# load other grades for summarizing
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @submit.user.id).order('submits.created_at desc')
