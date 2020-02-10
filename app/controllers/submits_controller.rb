@@ -76,8 +76,8 @@ class SubmitsController < ApplicationController
 		# load files submitted in child psets if we want to grade a parent module
 		@files_from_module = @submit.user.files_for_module(@submit.pset.mod) if @submit.pset.mod
 
-		# either use the files attached to this specific submit, or all gathered from the module
-		@files = @submit.file_contents || @files_from_module
+		# take all submitted files for the individual submits and add those in the module submit
+		@files = @submit.file_contents.merge(@files_from_module||{})
 	end
 
 end
