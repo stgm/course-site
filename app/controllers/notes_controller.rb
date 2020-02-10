@@ -28,7 +28,7 @@ class NotesController < ApplicationController
 
 	# POST /notes
 	def create
-		@note = Note.new(note_params.merge({ author_id: current_user.id }))
+		@note = Note.create(note_params.merge({ author_id: current_user.id }))
 		
 		redirect_js location: user_path(@note.student)
 	end
