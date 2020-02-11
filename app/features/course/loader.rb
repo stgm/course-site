@@ -233,8 +233,6 @@ private
 						end
 
 						db_pset.config = submit_config
-
-						db_pset.automatic = !!db_pset.config && db_pset.config["automatic"].present?
 						db_pset.save
 						
 						Pset.where("id != ?", db_pset).where(page_id: db_page).update_all(page_id: nil)
@@ -251,7 +249,7 @@ private
 						# 	end
 						# end
 					end
-										
+					
 					if submit_config['dependent_grades']
 						submit_config['dependent_grades'].each do |grade|
 							pset = Pset.where(:name => grade).first_or_create
@@ -311,8 +309,6 @@ private
 			# if parsable file name
 			if subpage_info
 				file = IO.read(File.join(dir, subpage_path))
-				
-				Rails.logger.info "HAAAI #{parent_page.public_url}"
 				
 				document = Asciidoctor.load file, safe: :safe, attributes: { 'showtitle' => true, 'imagesdir' => parent_page.public_url, 'skip-front-matter' => true, 'stem' => true }
 				html = document.convert

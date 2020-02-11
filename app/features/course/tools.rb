@@ -43,6 +43,7 @@ class Course::Tools
 				p.config = (p.config || {}).merge(definition || {})
 				
 				# set a few flags from config for easier queries later on
+				p.automatic = p.config.present? && p.config["automatic"].present?
 				p.grade_type = definition['type'] || :float
 				p.test = definition['is_test'] || false
 				p.save
