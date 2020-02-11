@@ -63,9 +63,9 @@ form .btn
 		font-size:small;
 	}
     
-	#grade-boxes .form-group:not(:first-child)
+	#grade-boxes .form-group:not(:last-child)
 	{
-		margin-left:.5rem;
+		margin-right:.5rem;
 	}
 }
 

@@ -30,7 +30,7 @@
 	<%= f.text_area :notes, class: 'form-control', rows: 3 %>
 </div>
 
-<div id="grade-boxes" class="d-flex">
+<div id="grade-boxes" class="d-flex flex-wrap">
 	<% if @submit.pset.config && @submit.pset.config['subgrades'] %>
 	<% @submit.pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
 	<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
