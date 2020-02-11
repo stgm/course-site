@@ -43,7 +43,7 @@
 		<div class="checkbox">
 			<label>
 				<%= hidden_field_tag "grade[subgrades[#{subgrade_name}]]", 0 %>
-				<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.capitalize %>
+				<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.humanize %>
 			</label>
 		</div>
 	</div>
