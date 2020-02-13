@@ -42,7 +42,13 @@ class Tests::ResultsController < Tests::TestsController
 				else
 					g = s.build_grade(grader: current_user)
 					subgrades.each do |name, value|
-						g.subgrades[name] = value.to_i if value.present?
+						if value.present?
+							if value.to_i.to_s == value
+								g.subgrades[name] = value.to_i
+							else
+								g.subgrades[name] = value.to_f
+							end
+						end
 					end
 					g.notes = notes
 					g.status = Grade.statuses[:finished]
