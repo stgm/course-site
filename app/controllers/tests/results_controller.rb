@@ -30,7 +30,13 @@ class Tests::ResultsController < Tests::TestsController
 				puts "That's submit #{s.id}"
 				if g = s.grade
 					subgrades.each do |name, value|
-						g.subgrades[name] = value.to_i if value.present?
+						if value.present?
+							if value.to_i.to_s == value
+								g.subgrades[name] = value.to_i
+							else
+								g.subgrades[name] = value.to_f
+							end
+						end
 					end
 					g.notes = notes
 					# if anything's new, reset grade published-ness and save
