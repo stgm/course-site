@@ -66,7 +66,9 @@ class User < ApplicationRecord
 	
 	def self.find_by_login(login)
 		if login
-			return Login.find_by_login(login).user
+			if login = Login.find_by_login(login)
+				return login.user
+			end
 		end
 	end
 	
