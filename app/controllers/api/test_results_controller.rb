@@ -35,10 +35,11 @@ class Api::TestResultsController < ApplicationController
 				grade.updated_at = result['date']
 				grade.notes ||= '' #initialize string if needed
 				grade.notes << "#{result['date']}, #{result['grader']}, version: #{result['version']}, passed: #{result['passed']}\n"
-				grade.status = Grade.statuses['finished']
-				grade.save
-				
-				succeeded << result['id']
+				grade.status = Grade.statuses['published']
+				grade.grader = User.admin.first
+
+				saved = grade.save
+				succeeded << result['id'] if saved
 			end
 		end
 		
