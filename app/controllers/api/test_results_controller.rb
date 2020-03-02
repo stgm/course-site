@@ -28,7 +28,7 @@ class Api::TestResultsController < ApplicationController
 			if user.present? && pset.present?
 				submit = Submit.where(user: user, pset: pset).first_or_initialize
 				submit.submitted_at = DateTime.now
-				submit.save
+				submit.save!
 				
 				grade = submit.grade || submit.create_grade
 				grade.subgrades['passed'] = result['passed'] && -1 || 0
@@ -37,9 +37,9 @@ class Api::TestResultsController < ApplicationController
 				grade.notes << "#{result['date']}, #{result['grader']}, version: #{result['version']}, passed: #{result['passed']}\n"
 				grade.status = Grade.statuses['published']
 				grade.grader = User.admin.first
-
-				saved = grade.save
-				succeeded << result['id'] if saved
+				grade.save!
+				
+				succeeded << result['id']
 			end
 		end
 		
