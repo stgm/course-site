@@ -26,12 +26,15 @@
 		<li><a href="/submissions" class="nav-link"><%= icon 'kanban' %> <%= t(:submissions) %></a></li>
 		<% end %>
 		<li><a href="/syllabus" class="nav-link"><%= icon 'calendar' %> <%= t(:syllabus) %></a></li>
-		<% if Settings['links'] %>
+	</ul>
+	
+	<% if Settings['links'] %>
+	<ul class="nav">
 		<% Settings['links'].each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
 		<% end %>
-		<% end %>
 	</ul>
+	<% end %>
 	
 	<%# Schedule-based navigation %>
 
