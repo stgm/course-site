@@ -106,7 +106,6 @@ private
 			Settings['display_license'] = config['license'] if config['license']
 			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
 			Settings['psets'] = config['psets'] if config['psets']
-			Settings['links'] = config['links']
 			Settings['submodule'] = config['submodule'] if config['submodule']
 		else
 			@errors << "You do not have a course.yml!"

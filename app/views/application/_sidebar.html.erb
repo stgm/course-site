@@ -26,11 +26,19 @@
 		<li><a href="/submissions" class="nav-link"><%= icon 'kanban' %> <%= t(:submissions) %></a></li>
 		<% end %>
 		<li><a href="/syllabus" class="nav-link"><%= icon 'calendar' %> <%= t(:syllabus) %></a></li>
+		<% if Settings['course']['links'] %>
+		<% Settings['course']['links'].each do |title, url|  %>
+		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
+		<% end %>
+		<% end %>
 	</ul>
 	
-	<% if Settings['links'] %>
+	<% if Settings['course']['modules'] %>
 	<ul class="nav">
-		<% Settings['links'].each do |title, url|  %>
+		<li>
+			<p class="nav-text"><%= @current_module ? t(:other) : t(:modules) %></p>
+		</li>
+		<% Settings['course']['modules'].each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
 		<% end %>
 	</ul>

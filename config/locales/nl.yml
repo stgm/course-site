@@ -27,6 +27,7 @@ nl:
     by: "door"
     was_graded: "is nagekeken"
     materials: "materialen"
+    modules: "modules"
     other: "overig"
     you_submitted: "Je hebt %{name} ingezonden"
     you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
