@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_31_161305) do
+ActiveRecord::Schema.define(version: 2020_03_31_125744) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -240,6 +240,7 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.boolean "auto_graded", default: false, null: false
     t.text "check_results"
     t.string "check_token"
+    t.text "form_contents"
     t.index ["pset_id"], name: "index_submits_on_pset_id"
     t.index ["user_id"], name: "index_submits_on_user_id"
   end

@@ -18,6 +18,7 @@ class Submit < ApplicationRecord
 
 	serialize :submitted_files
 	serialize :file_contents
+	serialize :form_contents
 	serialize :check_results
 
 	# TODO only hide stuff that's not been autograded if autograding is actually enabled
@@ -41,7 +42,7 @@ class Submit < ApplicationRecord
 		submitted_at
 	end
 	
-	def record(used_login: nil, archive_folder_name: nil, url: nil, attachments: nil, check_token: nil)
+	def record(used_login: nil, archive_folder_name: nil, url: nil, attachments: nil, check_token: nil, form_contents: nil)
 		# basic info
 		self.submitted_at = Time.now
 		self.used_login = used_login
@@ -51,6 +52,7 @@ class Submit < ApplicationRecord
 		self.url = url
 		self.submitted_files = attachments.file_names
 		self.file_contents = attachments.presentable_file_contents
+		self.form_contents = form_contents
 		
 		# reset auto checks
 		self.check_token = check_token
@@ -72,6 +74,10 @@ class Submit < ApplicationRecord
 	
 	def file_contents
 		super || {}
+	end
+	
+	def has_form_response?
+		form_contents.present?
 	end
 	
 	def checkable?

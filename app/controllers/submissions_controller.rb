@@ -29,23 +29,13 @@ class SubmissionsController < ApplicationController
 	
 	def collect_attachments
 		@attachments = Attachments.new(params.permit(f: {})[:f].to_h)
-		
-		# we don't actually have forms in our sites at this point
-		# if params[:a]
-		# 	form = params[:a].each do |key, value|
-		# 		"#{key}\n\n" + "#{value}\n\n"
-		# 	end
-		# 	@attachments.add("form.txt", form)
-		# end
-		
+		@form_contents = params.permit(form: {})[:form].to_h
 		# params[:notes] is historically also interesting
 		# # compose info.txt file contents
 		# info = "student_login_id = " + user
 		# info += ("\nname = " + name) if name
 		# info += "\n\n"
 		# info += notes if notes
-		
-		puts @attachments.inspect
 	end
 	
 	def upload_attachments_to_dropbox
@@ -82,6 +72,7 @@ class SubmissionsController < ApplicationController
 			archive_folder_name: @submit_folder_name,
 			url: params[:url],
 			attachments: @attachments,
+			form_contents: @form_contents,
 			check_token: @token)
 	end
 	
