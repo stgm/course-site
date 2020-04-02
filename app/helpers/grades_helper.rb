@@ -95,4 +95,16 @@ module GradesHelper
 		end
 	end
 	
+	def format_form_contents(form_contents)
+		tag.table(class: 'table') do
+			form_contents.collect do |form_field, field_value|
+				concat(
+					tag.tr do
+						tag.td(form_field) + tag.td(field_value)
+					end
+				)
+			end
+		end
+	end
+	
 end

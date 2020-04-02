@@ -1,18 +1,15 @@
 <% if @submit.has_form_response? %>
 <div class="tab-pane <%= (first = false) || 'show active' if first %>" id="form-contents" role="tabpanel" aria-labelledby="home-tab">
-	<table class="table">
-	<% @submit.form_contents.each do |form_field, field_value| %>
-	<tr>
-		<td><%= form_field %></td>
-		<td><%= field_value %></td>
-	</tr>
-	<% end %>
-	</table>
+	<%= format_form_contents(@submit.form_contents) %>
 </div>
 <% end %>
 <% @files.each do |filename, contents| %>
 <div class="tab-pane <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">
+	<% if filename[-4,4] == "Form" %>
+	<%= format_form_contents(contents) %>
+	<% else %>
 	<%= link_to 'd', grading_download_path(grading_submit_id: @submit.id, filename: filename), remote: false, class: 'float-right' %><%= CodeRay.scan(contents, CodeRay::FileType.fetch(filename, :text)).div(:line_numbers => :inline).html_safe %>
+	<% end %>
 </div>
 <% end if @files.present? %>
 <% if @submit.has_auto_feedback? %>
