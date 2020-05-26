@@ -23,6 +23,10 @@ class Schedule < ApplicationRecord
 	extend FriendlyId
 	friendly_id :name, use: :slugged
 	
+	def self.default
+		Schedule.where(self_register: true).first
+	end
+	
 	def can_admin_set_module?
 		!self_service && schedule_spans.any?
 	end

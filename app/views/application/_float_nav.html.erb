@@ -11,7 +11,7 @@
 
 	<% if !authenticated? %>
 	<li><%= link_to("Sign in".html_safe, session_login_path, class:"bg-light rounded-pill p-2 ")%></li>
-	<% elsif logged_in? %>
+	<% else #if logged_in? %>
 	<%= render 'menu' %>
 	<% end %>
 </ul>

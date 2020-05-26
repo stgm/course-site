@@ -2,7 +2,7 @@
 
 	<%# User registration form %>
 	
-	<% if !logged_in? && authenticated? %>
+	<% if authenticated? && !current_user.valid_profile? && Schedule.default.present? %>
 	<div class="card mt-3">
 		<%= render 'profile/edit' %>
 	</div>

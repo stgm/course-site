@@ -48,6 +48,19 @@ class User < ApplicationRecord
 	before_save :reset_current_module, if: :schedule_id_changed?
 	after_save :log_changes
 	
+
+	def create_profile(params, login)
+		# cancel this thing if registration is not open
+		raise unless Schedule.default
+
+		self.assign_attributes(params)
+		self.role = :student
+		self.schedule ||= Schedule.default
+		self.save!
+	
+		self.logins.create(login: login) unless self.logins.any?
+	end
+	
 	def accessible_schedules
 		# ensure admins have access to all schedules at all times by overriding
 		return Schedule.all if self.admin?
@@ -103,7 +116,7 @@ class User < ApplicationRecord
 	end
 
 	def valid_profile?
-		return !self.name.blank?
+		return self.persisted? && !self.name.blank?
 	end
 	
 	def can_submit?

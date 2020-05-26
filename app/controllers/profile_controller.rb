@@ -47,7 +47,6 @@ class ProfileController < ApplicationController
 		# remove leading and trailing space to give the user some slack
 		params[:user][:name].strip!
 		params[:user][:mail].strip!
-		params[:user][:schedule_id] ||= Schedule.first.id if Schedule.first
 		
 		# be explicit, but not so nice
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
@@ -61,12 +60,9 @@ class ProfileController < ApplicationController
 
 		# create user if possible
 		ActiveRecord::Base.transaction do
-			# login = Login.where(login: session[:cas_user]).first_or_create
-			# login.create_user and login.save if login.user.nil?
-			# @current_user = login.user
-			current_user.update!(params.require(:user).permit(:name, :mail, :schedule_id))
-			current_user.student!
-			current_user.logins.create(login: request.session['cas']['user'].downcase)
+			user_params = params.require(:user).permit(:name, :mail, :schedule_id)
+			login = request.session['cas']['user'].downcase
+			current_user.create_profile(user_params, login)
 		end
 
 		redirect_to :root
