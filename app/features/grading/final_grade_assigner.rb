@@ -32,11 +32,11 @@ module Grading::FinalGradeAssigner
 	def self.number_grade(grade)
 		case grade
 		when :not_attempted
-			# something that must have been attempted wasn't
+			# something like an exam hadn't been attempted
 			return nil
 		when :missing_data
 			# anything that must have been attempted, was, but something else is missing
-			return 0
+			return nil
 		when :insufficient
 			# some tests have been failed
 			return 0
