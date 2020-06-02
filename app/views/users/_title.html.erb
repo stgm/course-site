@@ -61,13 +61,18 @@
 			<%= link_to 'Mark as done', [@student, user: { done: true }], method: :put, class: 'dropdown-item' %>
 			<% end %>
 			<% if current_user.admin? %>
-			<div class="dropdown-divider"></div>
-			<%= link_to 'Make assistant', admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, remote: true, class: 'dropdown-item' %>
-			<%= link_to 'Make head', admin_user_set_role_path(@student, user: { role: :head }), method: :patch, remote: true, class: 'dropdown-item' %>
-			<%= link_to 'Make admin', admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, remote: true, class: 'dropdown-item' %>
-			<%= link_to 'Undo admin', admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, remote: true, class: 'dropdown-item' %>
-			<div class="dropdown-divider"></div>
-			<%= link_to_if Grading::FinalGradeAssigner.available?, 'Calculate final grade', calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' %>
+				<div class="dropdown-divider"></div>
+				<%= link_to 'Make assistant', admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, remote: true, class: 'dropdown-item' %>
+				<%= link_to 'Make head', admin_user_set_role_path(@student, user: { role: :head }), method: :patch, remote: true, class: 'dropdown-item' %>
+				<%= link_to 'Make admin', admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, remote: true, class: 'dropdown-item' %>
+				<%= link_to 'Undo admin', admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, remote: true, class: 'dropdown-item' %>
+				<% if Grading::FinalGradeAssigner.available? %>
+					<div class="dropdown-divider"></div>
+					<%= link_to 'Calculate any final grade', calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' %>
+					<% Grading.final_grade_names.each do |grade_name| %>
+						<%= link_to "Calculate #{grade_name.humanize}", calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' %>
+					<% end %>
+				<% end %>
 			<% end %>
 		</ul>
 	</div>

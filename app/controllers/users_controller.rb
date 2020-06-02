@@ -33,7 +33,7 @@ class UsersController < ApplicationController
 		# feature has to be enabled by supplying a grading.yml
 		raise ActionController::RoutingError.new('Not Found') if not Grading::FinalGradeAssigner.available?
 		@user = User.find(params[:id])
-		result = Grading::FinalGradeAssigner.assign_final_grade(@user, current_user)
+		result = Grading::FinalGradeAssigner.assign_final_grade(@user, current_user, only: params[:grades])
 
 		respond_to do |format|
 			format.html { redirect_back fallback_location: '/' }

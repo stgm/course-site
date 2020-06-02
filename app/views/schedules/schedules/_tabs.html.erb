@@ -44,7 +44,10 @@
 				<% end %>
 				<% if current_user.admin? && Grading::FinalGradeAssigner.available? %>
 				<div class="dropdown-divider"></div>
-				<%= link_to 'Calculate final grades'.html_safe, assign_all_final_schedule_grades_path(schedule_id: @current_module_id), method: :put, data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
+				<%= link_to 'Calculate all final grades', assign_all_final_schedule_grades_path(schedule_id: @current_module_id), method: :put, data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
+				<% Grading.final_grade_names.each do |grade_name| %>
+				<%= link_to "Calculate final grades of type #{grade_name.humanize}", assign_all_final_schedule_grades_path(schedule_id: @current_module_id, grades: grade_name), method: :put, data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
+				<% end %>
 				<% end %>
 			</div>
 		</div>

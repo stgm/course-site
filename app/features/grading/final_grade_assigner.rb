@@ -4,8 +4,18 @@ module Grading::FinalGradeAssigner
 		!!Settings['grading'] && !!Settings['grading']['calculation']
 	end
 
-	def self.assign_final_grade(student, grader)
+	def self.assign_final_grade(student, grader, *args)
+		# calculate all possible grades
 		grades = Grading::FinalGradeCalculator.run_for(student.all_submits)
+
+		# extract only requested grades if needed
+		options = args.extract_options!
+		only_these = options[:only]
+		grades.slice!(*only_these) if only_these
+
+		Rails.logger.debug "HIER #{grades.inspect}"
+
+		# assisgn where possible
 		grades.each do |name, grade|
 			grade = number_grade(grade)
 			if grade.present? # there really is an assignable grade
