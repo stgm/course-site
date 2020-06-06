@@ -19,10 +19,10 @@ class UsersController < ApplicationController
 	def update
 		@user = User.find(params[:id])
 		@user.log_changes_for(current_user)
-		@user.update_attributes!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :group_id, :alarm))
+		@user.update!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :group_id, :alarm))
 
 		respond_to do |format|
-			format.json { respond_with_bip(p) }
+			format.json { respond_with_bip(@user) }
 			format.html { redirect_back fallback_location: '/' }
 			format.js { redirect_js location: user_path(@user) }
 		end
