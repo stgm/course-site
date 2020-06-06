@@ -11,9 +11,7 @@ class AttendanceRecord < ApplicationRecord
 		ar.save
 
 		# update user last_seen
-		user.with_lock do 
-			user.update_attributes(last_seen_at: DateTime.now)
-		end
+		user.update(last_seen_at: DateTime.now)
 	end
 
 end
