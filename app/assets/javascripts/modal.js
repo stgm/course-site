@@ -1,4 +1,5 @@
-$(function() {
+function hookupModals()
+{
     // wait for user confirmation before showing modal for these buttons
     $('a[data-trigger=modal]').on('confirm:complete', function(e, response) {
         if(response) {
@@ -10,4 +11,7 @@ $(function() {
     $('a[data-trigger=modal]:not([data-confirm])').on('click', function() {
         $('#modal-browser').modal('show');
     });
-})
+}
+
+// $(hookupModals);
+$(document).on('turbolinks:load', hookupModals);

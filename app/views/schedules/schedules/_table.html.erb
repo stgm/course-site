@@ -47,20 +47,17 @@
 		<td><%= user.started_at.strftime("%e %b") if user.started_at %></td>
 		<% end %>
 		
-
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
+		<% 
+		subs = user.submits.group_by(&:pset_id)
+		%>
 
-<% 
-	subs = user.submits.group_by(&:pset_id)
-%>
-
-<% @psets.each do |pset| %>
-<td>
-<%= grade_button(user, pset, subs)%>
-</td>
-<% end %>
-
+		<% @psets.each do |pset| %>
+		<td>
+			<%= grade_button(user, pset, subs)%>
+		</td>
+		<% end %>
 
 	</tr>
 	<% end %>
