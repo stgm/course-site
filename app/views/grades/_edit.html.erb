@@ -1,4 +1,4 @@
-<%= form_with model: @grade, local: local_assigns[:no_ajax], html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
+<%= form_with model: @grade, html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
 
 	<%= f.hidden_field :submit_id %>
 	<%= f.hidden_field :grader_id %>
@@ -14,15 +14,15 @@
 		<%= f.submit 'Save', class: 'btn btn-primary flex-fill' %>
 		<% end %>
 		<% if current_user.admin? %>
-		<%= link_to "Destroy Grade", grade_path(id: @grade.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This deletes the grade completely, including internal info." }, class: 'btn btn-secondary ml-1' if @grade.persisted? %>
-		<%= link_to "Destroy Submit", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-secondary ml-1' if @submit %>
+		<%= link_to "Destroy Grade", grade_path(id: @grade.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This deletes the grade completely, including internal info." }, class: 'btn btn-secondary btn-sm ml-1' if @grade.persisted? %>
+		<%= link_to "Destroy Submit", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'btn btn-secondary btn-sm ml-1' if @submit %>
 		<% end %>
 		<% if current_user.admin? && @submit.checkable? %>
-		<%= link_to "Re-check", recheck_submit_path(id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'btn btn-secondary ml-1' if @submit %>
+		<%= link_to "Re-check", recheck_submit_path(id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'btn btn-secondary btn-sm ml-1' if @submit %>
 		<% end %>
 		<% if current_user.senior? %>
 		<% if @grade.persisted? %>
-		<%= link_to "Publish", grade_path(id: @grade.id, grade: { status: :published }), method: :put, remote: !local_assigns[:no_ajax], data: { confirm: "Sure?" }, class: 'btn btn-secondary ml-1' %>
+		<%= link_to "Publish", grade_path(id: @grade.id, grade: { status: :published }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-secondary btn-sm ml-1' %>
 		<% end%>
 		<% end %>
 	</div>

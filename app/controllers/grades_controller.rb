@@ -38,10 +38,15 @@ class GradesController < ApplicationController
 		
 		respond_to do |format|
 			format.js do
-				@user = @grade.user
-				@pset = @grade.pset
-				@submit = @grade.submit
-				render 'show'
+				logger.info params[:commit]
+				if params[:commit] == 'autosave'
+					head :ok
+				else
+					@user = @grade.user
+					@pset = @grade.pset
+					@submit = @grade.submit
+					render 'show'
+				end
 			end
 			format.html { redirect_back fallback_location:@grade }
 		end

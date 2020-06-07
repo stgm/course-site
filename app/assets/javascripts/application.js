@@ -11,8 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
 //= require jquery.purr
+//= require turbolinks
+//= require rails-ujs
 //= require popper
 //= require bootstrap
 //= require best_in_place

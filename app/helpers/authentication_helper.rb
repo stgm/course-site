@@ -9,7 +9,7 @@ module AuthenticationHelper
 	end
 	
 	def current_user
-		return @current_user || load_current_user
+		Current.user = @current_user || load_current_user
 	end
 	
 	private

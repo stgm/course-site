@@ -1,5 +1,5 @@
 <p>
-	<strong><%= @submit.user_suspect_name %>/<%= @submit.pset_name %> <span class="badge badge-secondary"><%= @grade.status %></span></strong><br>
+	<strong><%= @submit.user_suspect_name %>/<%= @submit.pset_name %> <span id='grade-badge' class="badge badge-secondary"><%= @grade.status %></span></strong><br>
 	<small><% if @submit.submitted_at %>Last submitted: <%= some_time_or_never(@submit.submitted_at) %> (<%= "#{@submit.used_login}" if @submit.used_login %>)<br><% end %>
 	Last graded: <%= @submit.last_graded %> (<%= @grade.grader_initials %>)<br> </small>
 </p>

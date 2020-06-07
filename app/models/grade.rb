@@ -2,7 +2,7 @@ class Grade < ApplicationRecord
 	
 	include Grading::GradeCalculator
 
-	belongs_to :submit
+	belongs_to :submit, touch: true
 
 	has_one :user, through: :submit
 	delegate :name, to: :user, prefix: true, allow_nil: true
@@ -23,14 +23,19 @@ class Grade < ApplicationRecord
 	enum status: [:unfinished, :finished, :published, :discussed, :exported]
 	before_save :unpublicize_if_undone 
 	
-	# this adds automatic grades to the subgrades quite aggressively
 	after_initialize do
+		# this adds automatic grades to the subgrades quite aggressively
 		if !self.persisted?
 			# add any newly found autogrades to the subgrades as default
 			self.submit.automatic_scores.each do |k,v|
 				self.subgrades[k] = v if not self.subgrades[k].present?
 			end
 		end
+	end
+	
+	before_save do |grade|
+		# assistants always take ownership of the grade when editing
+		grade.grader = Current.user if Current.user != grade.grader && grade.grader.senior?
 	end
 	
 	def sortable_date
@@ -45,7 +50,7 @@ class Grade < ApplicationRecord
 		# This very nice rails feature allows us to decide whether a form or
 		# a read-only presentation should be rendered. Simply use "render
 		# @grade_object" and this method will be consulted.
-		unfinished? && 'grades/edit' || 'grades/show'
+		unfinished? && 'grades/form' || 'grades/show'
 	end
 	
 	def last_graded

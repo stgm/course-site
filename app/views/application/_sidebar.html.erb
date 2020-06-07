@@ -64,6 +64,13 @@
 		</li>
 	</ul>
 	<% end %>
+	
+	<script>
+		// clear cache whenever the schedule is changed by user
+		$(document).on('ajax:before', '[data-remote]', () => {
+			Turbolinks.clearCache();
+		});
+	</script>
 
 	<%# Navigation items from section that current page belongs to %>
 

@@ -1,30 +1,30 @@
 <% content_for :navbar_items do %>
+		<%= button_to 'Mark as finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm', form: { style: 'text-align:center' }, data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those after.' } %>
 <% end %>
 
+<% cache [ @to_grade, @submit ] do %>
 <div class="col-2 px-0 py-0" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
 	<ul class="nav flex-column">
-		<%= button_to 'Mark as finished', finish_grading_path, class: 'btn btn-secondary m-3 btn-sm', form: { style: 'text-align:center' }, data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those after.' } %>
 		<% @to_grade.each do |submit| %>
-		<li class="nav-item">
+		<li class="nav-item <%= 'bg-secondary' if @submit == submit %>">
 			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary float-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: 'nav-link' %>
 		</li>
 		<% end %>
 	</ul>
 </div>
+<% end %>
 
-<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset; max-height:100% ">
+<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; border-left:1px solid #eee; max-height:100% ">
 	
-	<div class="d-flex flex-column" style="min-height:100%">
+	<!-- TODO id=grade makes it auto-update but it doesn't quite work because it was made for a different page -->
 	
-	<%= render partial: 'submits/grading_info' %>
-	<%= form_with model: @grade, local: true, html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
-	<%= f.hidden_field :submit_id %>
-	<%= f.hidden_field :grader_id %>
-	<%= render @grade, no_ajax: true, summary: false %>
-	<% end %>
-	
+	<%= render partial: 'grading_info' %>
+
+	<div id="grade" class="d-flex flex-column" style="min-height:100%">
+		<%= render @grade %>
 	</div>
 	
+	<% cache @grades do %>
 	<% @grades.each do |grade| %>
 	<hr>
 	<div class="panel panel-default">
@@ -44,10 +44,11 @@
 		</div>
 	</div>
 	<% end %>
+	<% end %>
 	
 </div>
 
-<div class="col-7" style="overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset;max-height:100%">
+<div class="col-7" style="overflow-y:scroll; min-height:0; border-left:1px solid #eee; max-height:100%">
 	
 	<% if @files.present? || @submit.has_auto_feedback? %>
 	<ul class="nav nav-tabs" id="files" role="tablist">

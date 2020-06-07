@@ -1,7 +1,3 @@
-<% if local_assigns[:summary] || local_assigns[:summary].nil? %>
-<%= render partial: 'grades/summary' %>
-<% end %>
-
 <% if not @submit.url.blank? %>
 <div class="form-group">
 	<label for="" class="control-label">Link</label>
@@ -56,6 +52,6 @@
 
 <% if current_user.senior? %>
 <div class="form-group d-flex mt-auto mb-0 flex-row-reverse">
-	<%= link_to "Re-open", grade_path(id: @grade.id, grade: { status: :unfinished }), method: :put, remote: !local_assigns[:no_ajax], data: { confirm: "Sure?" }, class: 'btn btn-secondary' %>
+	<%= link_to "Re-open", grade_path(id: @grade.id, grade: { status: :unfinished }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-secondary' %>
 </div>
 <% end %>
