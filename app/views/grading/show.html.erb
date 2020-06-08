@@ -7,7 +7,7 @@
 	<ul class="nav flex-column">
 		<% @to_grade.each do |submit| %>
 		<li class="nav-item <%= 'bg-secondary' if @submit == submit %>">
-			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary float-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: 'nav-link' %>
+			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'text-white' if @submit == submit}" %>
 		</li>
 		<% end %>
 	</ul>
