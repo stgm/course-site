@@ -6,7 +6,7 @@ class AskMailer < ApplicationMailer
 		from: user.mail,
 		body: question + "\n\n" + "(Sent from #{ip})",
 		content_type: "text/plain",
-		subject: "Question about #{Settings.short_course_name}")
+		subject: "Question about #{Course.short_name}")
 	end
 
 end

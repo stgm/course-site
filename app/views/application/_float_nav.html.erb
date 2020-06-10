@@ -10,7 +10,7 @@
 	<% end %>
 
 	<% if !authenticated? %>
-	<li><%= link_to("Sign in".html_safe, session_login_path, class:"bg-light rounded-pill p-2 ")%></li>
+	<li><%= link_to("Sign in".html_safe, session_login_path, class:"bg-light rounded-pill p-2", data: { turbolinks: false })%></li>
 	<% else #if logged_in? %>
 	<%= render 'menu' %>
 	<% end %>

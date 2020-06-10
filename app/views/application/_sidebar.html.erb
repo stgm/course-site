@@ -26,19 +26,17 @@
 		<li><a href="/submissions" class="nav-link"><%= icon 'kanban' %> <%= t(:submissions) %></a></li>
 		<% end %>
 		<li><a href="/syllabus" class="nav-link"><%= icon 'calendar' %> <%= t(:syllabus) %></a></li>
-		<% if Settings['course']['links'] %>
-		<% Settings['course']['links'].each do |title, url|  %>
+		<% Course.links.each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
-		<% end %>
 		<% end %>
 	</ul>
 	
-	<% if Settings['course']['modules'] %>
+	<% if Course.modules %>
 	<ul class="nav">
 		<li>
 			<p class="nav-text"><%= @current_module ? t(:other) : t(:modules) %></p>
 		</li>
-		<% Settings['course']['modules'].each do |title, url|  %>
+		<% Course.modules.each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
 		<% end %>
 	</ul>
@@ -107,7 +105,7 @@
 			<p class="nav-text">Menu</p>
 		</li>
 		<% if !authenticated? %>
-		<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link")%></li>
+		<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link", data: { turbolinks: false })%></li>
 		<% elsif logged_in? %>
 		<%= render partial: 'menu_items' %>
 		<% end %>

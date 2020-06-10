@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	before_action do # set_locale
-		I18n.locale = (Settings.course["language"] if Settings.course) || I18n.default_locale
+		I18n.locale = Course.language || I18n.default_locale
 	end
 	
 	before_action do # login by token

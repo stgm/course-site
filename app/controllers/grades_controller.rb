@@ -67,7 +67,7 @@ class GradesController < ApplicationController
 	end
 
 	def templatize
-		auto_feedback = Settings["course"]["feedback_templates"][params[:type]]
+		auto_feedback = Course.feedback_templates[params[:type]]
 		submit = Submit.find(params[:id])
 		@grade = submit.grade || submit.build_grade(grader: current_user)
 		@grade.comments = auto_feedback["feedback"]

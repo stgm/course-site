@@ -7,19 +7,19 @@ class Course::Tools
 	def self.clean_psets
 
 		# the structure of the 'psets' info in course.yml can differ
-		if Settings['psets'].class == Array
+		if Course.psets.class == Array
 			# 1: an Array only contains pset names and order
 			counter = 1
-			Settings['psets'].each do |pset|
+			Course.psets.each do |pset|
 				if p = Pset.find_by(name:pset)
 					p.update_attribute(:order,counter)
 					counter += 1
 				end
 			end
-		elsif Settings['psets'].class == Hash
+		elsif Course.psets.class == Hash
 			# 2: a Hash contains pset names, order and weight!
 			counter = 1
-			Settings['psets'].each do |pset, weight|
+			Course.psets.each do |pset, weight|
 				if p = Pset.find_by(name:pset)
 					p.update_attributes(order: counter, weight: weight)
 					counter += 1

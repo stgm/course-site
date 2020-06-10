@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html <%= "lang=\"#{Settings.course["language"]}\"".html_safe if Settings.course && Settings.course["language"] %>>
+<html <%= "lang=\"#{Course.language}\"".html_safe if Course.language %>>
 
 <head>
 	<meta charset="UTF-8">
@@ -73,7 +73,7 @@
 					<%= yield %>
 				</div>
 
-				<% #= yield :footer %>
+				<%= yield :footer %>
 			</div>
 			
 		</div>

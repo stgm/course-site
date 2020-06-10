@@ -13,7 +13,7 @@ class Page < ApplicationRecord
 	
 	def public_url
 		the_path = ["/course"]
-		the_path << Settings.submodule if Settings.submodule
+		the_path << Course.submodule if Course.submodule
 		the_path << section.path if section
 		the_path << path
 		

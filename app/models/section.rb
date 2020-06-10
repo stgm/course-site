@@ -17,7 +17,7 @@ class Section < ApplicationRecord
 
 	def public_url
 		the_path = ["/course"]
-		the_path << Settings.submodule if Settings.submodule
+		the_path << Course.submodule if Course.submodule
 		the_path << path
 		
 		return File.join(the_path)

@@ -77,11 +77,11 @@
 	</div>
 	<% end %>
 	
-	<% if Settings["course"]["feedback_templates"] %>
+	<% if Course.feedback_templates %>
 	<div class="form-group">
-		<% Settings["course"]["feedback_templates"].each do |f, c| %>
+		<% Course.feedback_templates.each do |f, c| %>
 		<%= link_to f.humanize, templatize_grade_path(id: @submit.id, type: f), method: :put, class: "btn btn-light", data: { confirm: "This will insert automatic feedback, sure? \n\n" + c["explanation"] } %>
-		<% end if Settings["course"]["feedback_templates"] %>
+		<% end %>
 	</div>
 	<% end %>
 

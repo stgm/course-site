@@ -4,7 +4,7 @@
 	<%= icon "terminal", class: "pull-left bg-warning rounded mr-2 flex-shrink-0", size: '32x32', style: 'vertical-align:bottom;' %>
 
 	<div id="course-title" class="d-flex flex-column font-weight-bold text-truncate">
-		<%= Settings["course"] && Settings["course"]["name"] %>
+		<%= Course.long_name %>
 
 		<% if logged_in? %>
 		<small>

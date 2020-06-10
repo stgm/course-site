@@ -9,7 +9,7 @@ module NavigationHelper
 	end
 
 	def current_schedule
-		return @current_schedule ||= current_user.schedule
+		return @current_schedule ||= current_user.schedule || Schedule.new(name: 'Standard', slug: 'standard')
 	end
 
 	def current_module

@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 	end
 	
 	def announcements
-		@title = "#{Settings.course["short_name"]} #{t(:announcements)}" if Settings.course
+		@title = "#{Course.short_name} #{t(:announcements)}"
 		render layout: 'boxes'
 	end
 	
@@ -48,7 +48,7 @@ class HomeController < ApplicationController
 			@new_students = current_user.schedule.users.not_staff.groupless.active
 		end
 		
-		@title = "#{Settings.course["short_name"]} #{t(:announcements)}" if Settings.course
+		@title = "#{Course.short_name} #{t(:announcements)}"
 	end
 	
 	def syllabus
@@ -57,7 +57,7 @@ class HomeController < ApplicationController
 		raise ActionController::RoutingError.new('Not Found') if !@page
 		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0
 		@subpages = [current_schedule && @page.subpages.where(title: current_schedule.name).first || @page.subpages.where(position: 0).first || @page.subpages.first]
-		@title = "#{Settings.course["short_name"]}  #{t(:syllabus)}"
+		@title = "#{Course.short_name}  #{t(:syllabus)}"
 		render "page/index"
 	end
 	

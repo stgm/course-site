@@ -6,7 +6,7 @@ class AlertMailer < ApplicationMailer
 			from: from_address,
 			body: alert.body,
 			content_type: "text/plain",
-			subject: "#{Settings['course']['short_name']}: #{alert.title}"
+			subject: "#{Course.short_name}: #{alert.title}"
 		)
 	end
 

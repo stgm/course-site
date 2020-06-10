@@ -78,7 +78,7 @@ class ProfileController < ApplicationController
 					customer: {
 						email: current_user.mail
 					},
-					subject: "New question from #{Settings.short_course_name}",
+					subject: "New question from #{Course.short_name}",
 					mailbox: {
 						id: 19905
 					},

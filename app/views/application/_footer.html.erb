@@ -1,4 +1,4 @@
 <footer>
-	<%= Settings.display_license.html_safe if Settings.display_license %>
-	<a data-toggle="tooltip" data-placement="top" title="<%= Settings.display_acknowledgements.join("\n\n").html_safe if Settings.display_acknowledgements %>">Acknowledgements.</a>
+	<%= Course.license %>
+	<a data-toggle="tooltip" data-placement="top" title="<%= Course.acknowledgements %>">Acknowledgements.</a>
 </footer>

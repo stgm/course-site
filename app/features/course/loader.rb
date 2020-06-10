@@ -23,8 +23,8 @@ class Course::Loader
 			load_schedules(COURSE_DIR)
 		
 			# and all sections, recursively
-			if Settings.submodule
-				process_sections("#{COURSE_DIR}/#{Settings.submodule}")
+			if Course.submodule
+				process_sections("#{COURSE_DIR}/#{Course.submodule}")
 			else
 				process_sections(COURSE_DIR)
 			end
@@ -95,18 +95,6 @@ private
 	def load_course_info(dir)
 		if config = read_config(File.join(dir, 'course.yml'))
 			Settings["course"] = config
-			if config['course']
-				Settings['short_course_name'] = config['course']['short'] if config['course']['short']
-				Settings['submit_directory'] = config['course']['submit'] if config['course']['submit']
-				Settings['homepage'] = config['homepage'] if config['homepage']
-				Settings['icon'] = config['course']['icon']
-				Settings['hands_allow'] = config['ask']['hands'] if config['ask']
-			end
-			Settings['display_acknowledgements'] = config['acknowledgements'] if config['acknowledgements']
-			Settings['display_license'] = config['license'] if config['license']
-			Settings['cdn_prefix'] = config['cdn'] if config['cdn']
-			Settings['psets'] = config['psets'] if config['psets']
-			Settings['submodule'] = config['submodule'] if config['submodule']
 		else
 			@errors << "You do not have a course.yml!"
 		end
