@@ -43,7 +43,14 @@ class Schedule < ApplicationRecord
 		# create all items
 		contents.each do |name, items|
 			span = schedule_spans.where(name: name).first_or_initialize
-			span.content = items.to_yaml
+			if items.class == Hash
+				span.content = items.to_yaml
+			elsif items.class == Array
+				# names of modules to include
+				all_modules = Section.where slug: items
+				combined_content = all_modules.pluck('content_links').reduce({}, :merge)
+				span.content = combined_content.to_yaml
+			end
 			span.save
 		end
 		

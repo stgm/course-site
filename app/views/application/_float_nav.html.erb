@@ -1,4 +1,12 @@
 <ul id="icon-nav" class="navbar-nav ml-auto">
+	<% if current_user.senior? %>
+	<div class="w-100">
+		<%= render partial: 'search' %>
+	</div>
+	<% end %>
+
+	<%# Admin user search%>
+
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
 		<a href="#" id="ama-dd" class="bg-light rounded-pill p-2 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -10,7 +18,7 @@
 	<% end %>
 
 	<% if !authenticated? %>
-	<li><%= link_to("Sign in".html_safe, session_login_path, class:"bg-light rounded-pill p-2", data: { turbolinks: false })%></li>
+	<li><%= link_to("Sign in".html_safe, session_login_path, class:"bg-light rounded-pill px-2 py-1 d-inline-block", style:"background-color:#DBE6EC", data: { turbolinks: false })%></li>
 	<% else #if logged_in? %>
 	<%= render 'menu' %>
 	<% end %>

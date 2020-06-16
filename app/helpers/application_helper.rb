@@ -65,11 +65,11 @@ module ApplicationHelper
 		list.each do |item, content|
 			if content.is_a?(Hash)
 				# a Hash means subitems, so create a caption and recurse
-				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
+				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled small mt-2"), class: "nav-item")
 				items << content_tag(:li, links_to_ul(content), class: "nav-item")
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
-				items << content_tag(:li, link_to(insert_badge(item), content, remote: false, class:"nav-link"), class: "nav-item")
+				items << content_tag(:li, check_box_tag(:item, 'ding', false, class: 'float-left flex-shrink-0 d-block m-2') + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;"), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
 			elsif content.nil?
 				# a nil means a caption without a link
 				items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
@@ -77,7 +77,7 @@ module ApplicationHelper
 				
 		end
 		
-		content_tag :ul, items.join.html_safe, class: "nav"
+		content_tag :ul, items.join.html_safe, class: "nav p-0 bg-lisght"
 	end
 	
 	# convert [markup] in a string into a bootstrap badge span

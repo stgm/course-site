@@ -7,31 +7,38 @@
 		<%= render 'profile/edit' %>
 	</div>
 	<% end %>
-
-	<%# Admin user search%>
-
-	<% if current_user.senior? %>
-	<div class="w-100">
-		<%= render partial: 'search' %>
-	</div>
-	<% end %>
 	
 	<%# Main navigation%>
+	
+	<div id="course-links" class="contasiner">
+		<div class="row mx-1 m-0">
+			<% if logged_in? && alerts_for_current_schedule.any? %>
+			<div class="col-6 col-xl-4 px-1 mb-1"><a href="/announcements" class="d-block w-100 text-truncate p-2 bg-light rounded"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></div>
+			<% end %>
+			<% if logged_in? && current_user.submits.any? %>
+			<div class="col-6 col-xl-4 px-1 mb-1"><a href="/submissions" class="d-block w-100  text-truncate p-2 bg-light rounded"><%= icon 'kanban' %> <%= t(:submissions) %></a></div>
+			<% end %>
+			<div class="col-6 col-xl-4 px-1 mb-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 bg-light rounded"><%= icon 'calendar' %> <%= t(:syllabus) %></a></div>
+			<% Course.links.each do |title, url|  %>
+			<div class="col-6 col-xl-4 px-1 mb-1"><%= link_to title.html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 bg-light rounded" %></div>
+			<% end %>
+		</div>
+	</div>
 
-	<ul class="nav">
+	<!--ul id="course-links" class="nav">
 		<% if logged_in? && alerts_for_current_schedule.any? %>
-		<li><a href="/announcements" class="nav-link"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></li>
+		<li><a href="/announcements" class="nav-link text-truncate"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></li>
 		<% end %>
 		<% if logged_in? && current_user.submits.any? %>
-		<li><a href="/submissions" class="nav-link"><%= icon 'kanban' %> <%= t(:submissions) %></a></li>
+		<li><a href="/submissions" class="nav-link text-truncate"><%= icon 'kanban' %> <%= t(:submissions) %></a></li>
 		<% end %>
-		<li><a href="/syllabus" class="nav-link"><%= icon 'calendar' %> <%= t(:syllabus) %></a></li>
+		<li><a href="/syllabus" class="nav-link text-truncate"><%= icon 'calendar' %> <%= t(:syllabus) %></a></li>
 		<% Course.links.each do |title, url|  %>
-		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
+		<li><%= link_to title.html_safe, url, class:"nav-link text-truncate" %></li>
 		<% end %>
-	</ul>
+	</ul-->
 	
-	<% if Course.modules %>
+	<% if Course.modules.any? %>
 	<ul class="nav">
 		<li>
 			<p class="nav-text"><%= @current_module ? t(:other) : t(:modules) %></p>
@@ -48,7 +55,7 @@
 	<ul class="nav">
 		<li>
 			<p class="nav-text">
-				<span id="schedule_name"><%= @current_module.name %></span>
+				<span id="schedule_name" class="text-dark"><%= @current_module.name %></span>
 				<% if current_schedule.self_service %>
 				<span class="float-right">
 					<%= link_to icon('chevron-left').html_safe, profile_prev_path, method: :post, remote: true %>
@@ -72,7 +79,7 @@
 
 	<%# Navigation items from section that current page belongs to %>
 
-	<% if @section.present? && @section.content_links.present? %>
+	<% if !current_module && @section.present? && @section.content_links.present? %>
 	<ul class="nav">
 		<li>
 			<p class="nav-text"><%= @section.title %></p>

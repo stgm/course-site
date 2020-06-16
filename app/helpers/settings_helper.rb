@@ -19,6 +19,7 @@ module SettingsHelper
 	end
 
 	# create a remote form for toggling a setting in the Settings model
+	# TODO see checkbox_helper implementation
 	def toggle_setting_form(setting_name, label)
 		settings_form(setting_name) do |form|
 			tag.div class:'form-group' do

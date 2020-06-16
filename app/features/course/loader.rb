@@ -20,7 +20,6 @@ class Course::Loader
 			# add course info pages
 			load_course_info(COURSE_DIR)
 			process_info(COURSE_DIR)
-			load_schedules(COURSE_DIR)
 		
 			# and all sections, recursively
 			if Course.submodule
@@ -28,6 +27,8 @@ class Course::Loader
 			else
 				process_sections(COURSE_DIR)
 			end
+			
+			load_schedules(COURSE_DIR)
 				
 			# remove old stuff
 			prune_untouched
@@ -156,12 +157,12 @@ private
 				db_sec = Section.find_by_path(section_path) || Section.new(path: section_path)
 				db_sec.title = upcase_first_if_all_downcase(section_info[2])
 				db_sec.position = section_info[1]
-				content_file = files(section, "contents.md")
+				content_file = files(section, "index.md")
 				if File.exists?(content_file)
 					section_content_page  = IO.read(content_file)
 					db_sec.content_page = section_content_page
 				end
-				if section_content_links = read_config(files(section, "contents.yml"))
+				if section_content_links = read_config(files(section, "module.yml"))
 					db_sec.content_links = section_content_links
 				end
 				db_sec.save
