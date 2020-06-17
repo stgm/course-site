@@ -141,11 +141,14 @@ private
 	#
 	def process_sections(dir)
 		
+		paths = []
+		
 		# find all directories having at least one subdirectory containing a markdown/adoc file
 		Dir.glob("#{dir}/*/**/*.{md,adoc}").map{|p| File.dirname(File.dirname(p))}.uniq.sort.each do |section|
 			
 			section_path = File.basename(section)
-			next if section_path.in? ['info', '.'] # skip info and root directories
+			paths << "#{section_path} #{section}"
+			next if section == "public/course" # skip info and root directories
 
 			# if this directory name is parsable
 			if section_info = split_info(section_path)
@@ -172,6 +175,8 @@ private
 				process_pages(section, db_sec)
 			end
 		end
+		
+		puts paths
 
 	end
 	
