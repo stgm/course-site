@@ -86,7 +86,7 @@
 	<%# All pages by section, but users only see "published" pages here %>
 
 	<% if current_sections.length > 0 %>
-	<ul id="sections" class="nav">
+	<ul id="sections" class="nav" data-turbolinks-permanent>
 		<li>
 			<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
 		</li>
