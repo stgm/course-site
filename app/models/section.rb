@@ -1,6 +1,6 @@
 class Section < ApplicationRecord
 
-	has_many :pages
+	has_many :pages, dependent: :destroy
 
 	# this generates a url friendly part for the section
 	extend FriendlyId

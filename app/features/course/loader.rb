@@ -141,32 +141,34 @@ private
 	#
 	def process_sections(dir)
 		
-		# sections should be direct descendants of the root course dir
-		subdirs_of(dir) do |section|
+		# find all directories having at least one subdirectory containing a markdown/adoc file
+		Dir.glob("#{dir}/*/**/*.{md,adoc}").map{|p| File.dirname(File.dirname(p))}.uniq.sort.each do |section|
 			
-			Rails.logger.debug "HEEEEEEEE {section}"
 			section_path = File.basename(section)
-			next if section_path == "info" # skip info directory
+			next if section_path.in? ['info', '.'] # skip info and root directories
 
 			# if this directory name is parsable
-			section_info = split_info(section_path)
-			if section_info
-				# db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section_path)
-				# Rails.logger.debug "BZZZ " + section_contents.to_s
+			if section_info = split_info(section_path)
 				
+				# find database entry and fill info
 				db_sec = Section.find_by_path(section_path) || Section.new(path: section_path)
 				db_sec.title = upcase_first_if_all_downcase(section_info[2])
 				db_sec.position = section_info[1]
-				content_file = files(section, "index.md")
-				if File.exists?(content_file)
+				
+				# add section index
+				if File.exists?(files(section, "index.md"))
 					section_content_page  = IO.read(content_file)
 					db_sec.content_page = section_content_page
 				end
+				
+				# add section links
 				if section_content_links = read_config(files(section, "module.yml"))
 					db_sec.content_links = section_content_links
 				end
+				
 				db_sec.save
 				
+				# add any pages in this section
 				process_pages(section, db_sec)
 			end
 		end

@@ -1,12 +1,13 @@
 class Page < ApplicationRecord
 
+	belongs_to :section, optional: true
+	
+	has_many :subpages, dependent: :destroy
+	has_one  :pset  # should never be destroyed, because may have submits
+
 	# this generates a url friendly part for the page
 	extend FriendlyId
 	friendly_id :title, use: [ :slugged, :scoped ], scope: :section
-
-	belongs_to :section, optional: true  # parent section
-	has_many :subpages                   # content tabs
-	has_one :pset                        # linked pset if available
 
 	# Make sure the subpages are always ordered
 	default_scope { order(:position, :title) }
