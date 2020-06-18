@@ -8,6 +8,7 @@ class HomeController < ApplicationController
 	def homepage
 		if User.admin.none? || Page.none?
 			redirect_to welcome_path
+		# TODO Page.where(section_id: nil) should be changed to another way to find that there is no syllabus
 		elsif Page.where(section_id: nil).none? || logged_in? && alerts_for_current_schedule.any?
 			# show announcements page if no syllabus in repo or if there are ann to show at all
 			redirect_to action: "announcements"
@@ -53,6 +54,7 @@ class HomeController < ApplicationController
 	
 	def syllabus
 		# the normal homepage is the page without a parent section
+		# TODO
 		@page = Page.where(section_id: nil).first
 		raise ActionController::RoutingError.new('Not Found') if !@page
 		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0

@@ -2,9 +2,10 @@ module NavigationHelper
 
 	def current_sections
 		if current_user.staff?
-			Section.includes(pages: :pset).order("pages.position")
+			Settings.page_tree || {}
 		else
-			Section.includes(pages: :pset).where("pages.public" => true).order("pages.position")
+			# TODO hide hidden pages
+			Settings.page_tree || {}
 		end
 	end
 	

@@ -4,7 +4,8 @@ class Admin::CourseController < ApplicationController
 	before_action :require_admin
 	
 	def index
-		@all_sections = Section.includes(pages: :pset)
+		# TODO
+		@all_sections = nil #Section.includes(pages: :pset)
 		
 		@geregistreerd = User.student.count
 		@gestart = User.student.joins(:submits).uniq.count
