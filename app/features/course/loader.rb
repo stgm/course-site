@@ -25,7 +25,9 @@ class Course::Loader
 			if Course.submodule
 				process_sections("#{COURSE_DIR}/#{Course.submodule}")
 			else
-				process_sections(COURSE_DIR)
+				Dir.chdir(COURSE_DIR) do
+					process_sections('.')
+				end
 			end
 			
 			load_schedules(COURSE_DIR)
@@ -142,13 +144,13 @@ private
 	def process_sections(dir)
 		
 		# find all directories having at least one subdirectory containing a markdown/adoc file
-		Dir.glob("#{dir}/*/**/*.{md,adoc}").map{|p| File.dirname(File.dirname(p))}.uniq.sort.each do |section|
+		Dir.glob("*/**/*.{md,adoc}").map{|p| File.dirname(File.dirname(p))}.uniq.sort.each do |section_path|
 			
-			section_path = File.basename(section)
-			next if section == "public/course" # skip info and root directories
-
+			next if section_path == "." # skip root directory
+			section_title = File.basename(section_path)
+			
 			# if this directory name is parsable
-			if section_info = split_info(section_path)
+			if section_info = split_info(section_title)
 				
 				# find database entry and fill info
 				db_sec = Section.find_by_path(section_path) || Section.new(path: section_path)
@@ -156,20 +158,21 @@ private
 				db_sec.position = section_info[1]
 				
 				# add section index
-				if File.exists?(files(section, "index.md"))
+				content_file = files(section_path, "index.md")
+				if File.exists?(content_file)
 					section_content_page  = IO.read(content_file)
 					db_sec.content_page = section_content_page
 				end
 				
 				# add section links
-				if section_content_links = read_config(files(section, "module.yml"))
+				if section_content_links = read_config(files(section_path, "module.yml"))
 					db_sec.content_links = section_content_links
 				end
 				
 				db_sec.save
 				
 				# add any pages in this section
-				process_pages(section, db_sec)
+				process_pages(section_path, db_sec)
 			end
 		end
 

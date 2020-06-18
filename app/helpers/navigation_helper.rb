@@ -7,7 +7,7 @@ module NavigationHelper
 			Section.includes(pages: :pset).where("pages.public" => true).order("pages.position")
 		end
 	end
-
+	
 	def current_schedule
 		return @current_schedule ||= current_user.schedule || Schedule.new(name: 'Standard', slug: 'standard')
 	end
