@@ -48,9 +48,9 @@ class Schedule < ApplicationRecord
 			elsif items.class == Array
 				# TODO collect module contents
 				# names of modules to include
-				# all_modules = Section.where slug: items
-				# combined_content = all_modules.pluck('content_links').reduce({}, :merge)
-				# span.content = combined_content.to_yaml
+				all_modules = Mod.where name:items
+				combined_content = all_modules.pluck('content_links').reduce({}, :merge)
+				span.content = combined_content.to_yaml
 			end
 			span.save
 		end

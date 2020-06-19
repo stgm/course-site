@@ -184,9 +184,16 @@ private
 			db_page.position = page_info[1]
 			db_page.save
 				
-			# pages[db_page.title] = page_path
+			# load module info if available
+			if content_links = read_config(files(page_path, "module.yml"))
+				name = page_info[2].parameterize
+				mod = Mod.where(name: name).first_or_initialize
+				mod.content_links = content_links
+				mod.pset = Pset.where(name: name).first_or_create
+				mod.save!
+			end
 
-			# load submit.yml config file which contains items to submit
+			# load submit info if available
 			submit_config = read_config(files(page_path, "submit.yml"))
 
 			# add pset to database

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_31_125744) do
+ActiveRecord::Schema.define(version: 2020_06_19_071850) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_125744) do
   create_table "mods", force: :cascade do |t|
     t.string "name"
     t.integer "pset_id"
+    t.text "content_links"
     t.index ["pset_id"], name: "index_mods_on_pset_id"
   end
 
