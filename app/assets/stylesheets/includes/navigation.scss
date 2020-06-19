@@ -166,7 +166,7 @@
 
 #sidebar #course-links .bg-light
 {
-	background-color: transparent !important; //#D7DDE3 !important;
+	sbackground-color: transparent !important; //#D7DDE3 !important;
 }
 
 #sidebar .nav#course-links
@@ -198,20 +198,16 @@
 #sidebar a.nav-link
 {
 	@extend .px-0;
-	color:#555;
 }
 
-#sidebar a.nav-link:hover
-{
-	background-color:#DFE3E6;
-}
-
-#sidebar a.nav-link:hover
+#sidebar a:hover
 {
 	color:#235A9E;
+	background-color:#DFE3E6;
+	text-decoration:none;
 }
 
-#sidebar a.nav-link.disabled
+#sidebar a.disabled
 {
 	font-weight:600;
 }

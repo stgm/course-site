@@ -10,17 +10,17 @@
 	
 	<%# Main navigation%>
 	
-	<div id="course-links" class="contasiner">
-		<div class="row mx-1 m-0">
+	<div id="course-links">
+		<div class="row row-cols-3 row-cols-sm-5 row-cols-md-2 row-cols-lg-3 mx-0 mx-lg-1">
 			<% if logged_in? && alerts_for_current_schedule.any? %>
-			<div class="col-6 col-xl-4 px-1 mb-1"><a href="/announcements" class="d-block w-100 text-truncate p-2 bg-light rounded"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></div>
+			<div class="px-1"><a href="/announcements" class="d-block w-100 text-truncate p-2 rounded"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></div>
 			<% end %>
 			<% if logged_in? && current_user.submits.any? %>
-			<div class="col-6 col-xl-4 px-1 mb-1"><a href="/submissions" class="d-block w-100  text-truncate p-2 bg-light rounded"><%= icon 'kanban' %> <%= t(:submissions) %></a></div>
+			<div class="px-1"><a href="/submissions" class="d-block w-100  text-truncate p-2 rounded"><%= icon 'kanban' %> <%= t(:submissions) %></a></div>
 			<% end %>
-			<div class="col-6 col-xl-4 px-1 mb-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 bg-light rounded"><%= icon 'calendar' %> <%= t(:syllabus) %></a></div>
+			<div class="px-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 rounded"><%= icon 'calendar' %> <%= t(:syllabus) %></a></div>
 			<% Course.links.each do |title, url|  %>
-			<div class="col-6 col-xl-4 px-1 mb-1"><%= link_to title.html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 bg-light rounded" %></div>
+			<div class="px-1"><%= link_to title.html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 rounded" %></div>
 			<% end %>
 		</div>
 	</div>
