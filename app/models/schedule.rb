@@ -20,6 +20,8 @@ class Schedule < ApplicationRecord
 	# These are the staff that may have been assigned to grade this group
 	has_and_belongs_to_many :graders, class_name: "User"
 	
+	belongs_to :page
+	
 	extend FriendlyId
 	friendly_id :name, use: :slugged
 	
@@ -31,7 +33,7 @@ class Schedule < ApplicationRecord
 		!self_service && schedule_spans.any?
 	end
 
-	def load(contents)
+	def load(contents, schedule_page=nil)
 		# this method accepts the yaml contents of a schedule file
 
 		# save the NAME of the current schedule item, to restore later
@@ -57,6 +59,8 @@ class Schedule < ApplicationRecord
 		
 		# restore 'current' item
 		update_attribute(:current, backup_position && self.schedule_spans.find_by_name(backup_position))
+		
+		update(page: schedule_page) if schedule_page
 	end
 	
 	def generate_groups(number)

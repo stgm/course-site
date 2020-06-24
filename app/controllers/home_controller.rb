@@ -26,11 +26,13 @@ class HomeController < ApplicationController
 		@overview_config = Settings.overview_config
 		@grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).where(grades: { status: Grade.statuses[:published] }).to_h { |item| [item.pset.name, item.grade] }
 
+		@title = "#{t(:submissions)} - #{Course.long_name}"
+
 		render layout: 'boxes'
 	end
 	
 	def announcements
-		@title = "#{Course.short_name} #{t(:announcements)}"
+		@title = "#{t(:announcements)} - #{Course.long_name}"
 		render layout: 'boxes'
 	end
 	
@@ -55,11 +57,10 @@ class HomeController < ApplicationController
 	def syllabus
 		# the normal homepage is the page without a parent section
 		# TODO
-		@page = Page.where(section_id: nil).first
+		@page = current_schedule && current_schedule.page || Page.find_by_slug('')
 		raise ActionController::RoutingError.new('Not Found') if !@page
-		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0
-		@subpages = [current_schedule && @page.subpages.where(title: current_schedule.name).first || @page.subpages.where(position: 0).first || @page.subpages.first]
-		@title = "#{Course.short_name}  #{t(:syllabus)}"
+		@subpages = @page.subpages
+		@title = "#{t(:syllabus)} - #{Course.long_name}"
 		render "page/index"
 	end
 	

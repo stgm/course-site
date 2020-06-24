@@ -18,7 +18,9 @@
 			<% if logged_in? && current_user.submits.any? %>
 			<div class="px-1"><a href="/submissions" class="d-block w-100  text-truncate p-2 rounded"><%= icon 'kanban' %> <%= t(:submissions) %></a></div>
 			<% end %>
+			<% if current_schedule.page %>
 			<div class="px-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 rounded"><%= icon 'calendar' %> <%= t(:syllabus) %></a></div>
+			<% end %>
 			<% Course.links.each do |title, url|  %>
 			<div class="px-1"><%= link_to title.html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 rounded" %></div>
 			<% end %>

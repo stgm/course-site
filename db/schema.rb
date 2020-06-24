@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_19_071850) do
+ActiveRecord::Schema.define(version: 2020_06_24_183615) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -192,6 +192,8 @@ ActiveRecord::Schema.define(version: 2020_06_19_071850) do
     t.boolean "self_register", default: false, null: false
     t.boolean "self_service", default: false, null: false
     t.string "slug"
+    t.integer "page_id"
+    t.index ["page_id"], name: "index_schedules_on_page_id"
     t.index ["slug"], name: "index_schedules_on_slug", unique: true
   end
 
@@ -288,4 +290,5 @@ ActiveRecord::Schema.define(version: 2020_06_19_071850) do
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
   end
 
+  add_foreign_key "schedules", "pages"
 end

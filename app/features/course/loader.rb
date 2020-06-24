@@ -26,11 +26,12 @@ class Course::Loader
 				raise "Not implemented (anymore)"
 			else
 				Dir.chdir(COURSE_DIR) do
+					process_pages(Pathname.new('.'), '')
 					Settings.page_tree = traverse(Pathname.new('.'), '')
 				end
 			end
 			
-			load_schedules(COURSE_DIR)
+			# load_schedules(COURSE_DIR)
 			
 			# remove old stuff
 			prune_untouched
@@ -93,21 +94,21 @@ private
 		end
 	end
 	
-	def load_schedules(dir)
-		# load the default schedule in schedule.yml, if available
-		if contents = read_config(File.join(dir, 'schedule.yml'))
-			schedule = Schedule.first || Schedule.where(name: 'Standard').first_or_create
-			schedule.load(contents)
-		end
-
-		# load all schedules in schedules.yml, if available
-		if contents = read_config(File.join(dir, 'schedules.yml'))
-			contents.each do |name, items|
-				schedule = Schedule.where(name: name).first_or_create
-				schedule.load(items)
-			end
-		end
-	end
+	# def load_schedules(dir)
+	# 	# load the default schedule in schedule.yml, if available
+	# 	if contents = read_config(File.join(dir, 'schedule.yml'))
+	# 		schedule = Schedule.first || Schedule.where(name: 'Standard').first_or_create
+	# 		schedule.load(contents)
+	# 	end
+	#
+	# 	# load all schedules in schedules.yml, if available
+	# 	if contents = read_config(File.join(dir, 'schedules.yml'))
+	# 		contents.each do |name, items|
+	# 			schedule = Schedule.where(name: name).first_or_create
+	# 			schedule.load(items)
+	# 		end
+	# 	end
+	# end
 
 	# Reads the `info` directory in the course repo. It creates a
 	# page for it and fills it with the subpages. This special page
@@ -191,6 +192,13 @@ private
 				mod.content_links = content_links
 				mod.pset = Pset.where(name: name).first_or_create
 				mod.save!
+			end
+			
+			# load schedule if available
+			if schedule_contents = read_config(files(page_path, "schedule.yml"))
+				schedule_name = db_page.title != '.' ? db_page.title : 'Standard'
+				schedule = Schedule.where(name: schedule_name).first_or_create
+				schedule.load(schedule_contents, db_page)
 			end
 
 			# load submit info if available
