@@ -5,7 +5,7 @@ class Admin::CourseController < ApplicationController
 	
 	def index
 		# TODO
-		@all_sections = nil #Section.includes(pages: :pset)
+		@all_sections = [] #Section.includes(pages: :pset)
 		
 		@geregistreerd = User.student.count
 		@gestart = User.student.joins(:submits).uniq.count
