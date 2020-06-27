@@ -239,10 +239,7 @@ private
 				name = page_info[2].parameterize
 				content = content_links
 			end
-			mod = Mod.where(name: name).first_or_initialize
-			mod.content_links = content
-			mod.pset = Pset.where(name: name).first_or_create
-			mod.save!
+			mod = Mod.where(name: name).first_or_initialize.load(content, page_path)
 		end
 		
 		# load schedule if available
