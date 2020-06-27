@@ -232,9 +232,15 @@ private
 
 		# load module info if available
 		if content_links = read_config(files(page_path, "module.yml"))
-			name = page_info[2].parameterize
+			if content_links.class==Hash && content_links.has_key?('name')
+				name = content_links['name']
+				content = content_links['content']
+			else
+				name = page_info[2].parameterize
+				content = content_links
+			end
 			mod = Mod.where(name: name).first_or_initialize
-			mod.content_links = content_links
+			mod.content_links = content
 			mod.pset = Pset.where(name: name).first_or_create
 			mod.save!
 		end
