@@ -168,38 +168,20 @@ private
 	# Reads the second-level pages from the course repo. Creates a page
 	# in the database and recursively reads subpages in the page.
 	#
-	def process_pages(dir, parent_slug)
+	def process_pages(page_path, parent_slug)
 		
-		page_path=dir
-		
-		return nil unless dir.glob("*.{md,adoc}").any?
-			
+		# page_path=dir
 		page_info = split_info(File.basename(page_path))  # array of position and page name
+		page_title = upcase_first_if_all_downcase(page_info[2])
 
-		# if this directory name is parsable
-		if page_info
+		# if this directory contains any documents
+		if page_path.glob("*.{md,adoc}").any?
 			# create the page
 			db_page = Page.find_by_path(page_path.to_s) || Page.new(path: page_path.to_s)
-			db_page.title = upcase_first_if_all_downcase(page_info[2])
+			db_page.title = page_title
 			db_page.slug = parent_slug
 			db_page.position = page_info[1]
 			db_page.save
-				
-			# load module info if available
-			if content_links = read_config(files(page_path, "module.yml"))
-				name = page_info[2].parameterize
-				mod = Mod.where(name: name).first_or_initialize
-				mod.content_links = content_links
-				mod.pset = Pset.where(name: name).first_or_create
-				mod.save!
-			end
-			
-			# load schedule if available
-			if schedule_contents = read_config(files(page_path, "schedule.yml"))
-				schedule_name = db_page.title != '.' ? db_page.title : 'Standard'
-				schedule = Schedule.where(name: schedule_name).first_or_create
-				schedule.load(schedule_contents, db_page)
-			end
 
 			# load submit info if available
 			submit_config = read_config(files(page_path, "submit.yml"))
@@ -244,8 +226,26 @@ private
 				Pset.where(page_id: db_page).update_all(page_id: nil)
 			end
 			process_subpages(page_path, db_page)
+		else
+			db_page = nil
 		end
 
+		# load module info if available
+		if content_links = read_config(files(page_path, "module.yml"))
+			name = page_info[2].parameterize
+			mod = Mod.where(name: name).first_or_initialize
+			mod.content_links = content_links
+			mod.pset = Pset.where(name: name).first_or_create
+			mod.save!
+		end
+		
+		# load schedule if available
+		if schedule_contents = read_config(files(page_path, "schedule.yml"))
+			schedule_name = page_title != '.' ? page_title : 'Standard'
+			schedule = Schedule.where(name: schedule_name).first_or_create
+			schedule.load(schedule_contents, db_page)
+		end
+		
 		return db_page
 	end
 	

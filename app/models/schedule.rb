@@ -20,7 +20,8 @@ class Schedule < ApplicationRecord
 	# These are the staff that may have been assigned to grade this group
 	has_and_belongs_to_many :graders, class_name: "User"
 	
-	belongs_to :page
+	# The information page linked to this schedule
+	belongs_to :page, optional: true
 	
 	extend FriendlyId
 	friendly_id :name, use: :slugged
@@ -48,11 +49,11 @@ class Schedule < ApplicationRecord
 			if items.class == Hash
 				span.content = items.to_yaml
 			elsif items.class == Array
-				# TODO collect module contents
-				# names of modules to include
-				all_modules = Mod.where name:items
-				combined_content = all_modules.pluck('content_links').reduce({}, :merge)
-				span.content = combined_content.to_yaml
+				# retrieve module contents in order specified
+				all_modules = Mod.where(name:items).sort_by{|m| items.index(m.name)}
+				# combine the content links into a single hash
+				combined_content = all_modules.map(&:content_links).reduce({}, :merge)
+				span.content = combined_content
 			end
 			span.save
 		end

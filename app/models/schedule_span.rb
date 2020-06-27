@@ -2,10 +2,12 @@ class ScheduleSpan < ApplicationRecord
 
 	belongs_to :schedule
 	
-	def content
-		return YAML.load(self[:content])
-	end
+	serialize :content
 	
+	# def content
+	# 	return YAML.load(self[:content])
+	# end
+	#
 	def previous
 		schedule.schedule_spans.where("id < ?", self.id).last || self
 	end
