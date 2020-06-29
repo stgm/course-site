@@ -27,7 +27,7 @@
 
 		<div class="btn-group" role="group">
 			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-light text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<%= icon 'check' %> <span class="caret"></span>
+				<%= bootstrap_icon 'check' %> <span class="caret"></span>
 			</button>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
 				<% if current_user.senior? %>
@@ -55,7 +55,7 @@
 		<% if @selected_schedule && current_user.admin? %>
 		<div class="btn-group" role="group">
 			<button type="button" class="btn btn-sm btn-outline-light text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<%= icon 'people' %> <span class="caret"></span>
+				<%= bootstrap_icon 'people' %> <span class="caret"></span>
 			</button>
 
 			<ul class="dropdown-menu dropdown-menu-right">

@@ -22,34 +22,8 @@
 	<div class="container-fluid">
 		<div class="row">
 			
-			<div id="sidebar" class="navbar navbar-light d-md-block col-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-4">
-
-				<div id="sidebar-tools">
-					<%= render 'brand'%>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-				</div>
-
-				<div class="collapse navbar-collapse multi-collapse show" id="sidebarCollapse">
-					<%= render 'sidebar' %>
-				</div>
-				
-				<% if Settings['keyword_index'].present? %>
-			    <div class="collapse multi-collapse" id="multiCollapseExample2">
-					<div class="d-flex align-items-center">
-						<form class="form-inline w-100">
-							<small class="ml-1">Find resources by keyword:</small>
-							<input id="keyword-search" type="search" autocomplete="off" class="w-100 form-control form-control-sm border-secondary" placeholder="" aria-label="Enter topic name">
-						</form>
-					    <a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-						x</a>
-					</div>
-					
-					<%= render 'search/search' %>
-				</div>
-				<% end %>
-				
+			<div id="sidebar" class="navbar navbar-light d-md-flex align-items-stretch flex-shrink-0 flex-column col-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-4">
+				<%= render 'sidebar' %>
 			</div>
 			
 			<div id="row-content" class="col-md-<%= Settings.room_for_toc && 8 || 8 %> offset-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-8 offset-xl-4 p-0">
@@ -64,7 +38,7 @@
 				<% end %>
 
 				<div id="float-nav" class="clearfix d-none d-md-block navbar-expand sticky-top p-3">
-					<div class="float-md-right mt-2 mb-0">
+					<div class="float-md-right mt-1 mb-0">
 					<%= render 'float_nav' %>
 					</div>
 				</div>

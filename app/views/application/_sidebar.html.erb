@@ -1,5 +1,27 @@
-<div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
+<div class="collapse sidebar-collapse navbar-collapse multi-collapse show align-items-stretch">
 
+	<div id="sidebar-tools" class="flex-shrink-0">
+		<%= render 'brand'%>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
+
+	<% if Settings['keyword_index'].present? %>
+	<div class="collapse multi-collapse" id="multiCollapseExample2">
+		<div class="d-flex align-items-center">
+			<form class="form-inline w-100">
+				<small class="ml-1">Find resources by keyword:</small>
+				<input id="keyword-search" type="search" autocomplete="off" class="w-100 form-control form-control-sm border-secondary" placeholder="" aria-label="Enter topic name">
+			</form>
+			<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+				x</a>
+			</div>
+					
+			<%= render 'search/search' %>
+		</div>
+		<% end %>
+				
 	<%# User registration form %>
 	
 	<% if authenticated? && !current_user.valid_profile? && Schedule.default.present? %>
@@ -10,16 +32,16 @@
 	
 	<%# Main navigation%>
 	
-	<div id="course-links">
-		<div class="row row-cols-3 row-cols-sm-5 row-cols-md-2 row-cols-lg-3 mx-0 mx-lg-1">
+	<div id="course-links" class="flex-shrink-0">
+		<div class="row row-cols-3 row-cols-sm-5 row-cols-md-2 row-cols-lg-3 m-0 m-lg-1">
 			<% if logged_in? && alerts_for_current_schedule.any? %>
-			<div class="px-1"><a href="/announcements" class="d-block w-100 text-truncate p-2 rounded"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></div>
+			<div class="px-1"><a href="/announcements" class="d-block w-100 text-truncate p-2 rounded"><%= bootstrap_icon 'bell-fill' %> <%= t(:announcements) %></a></div>
 			<% end %>
 			<% if logged_in? && current_user.submits.any? %>
-			<div class="px-1"><a href="/submissions" class="d-block w-100  text-truncate p-2 rounded"><%= icon 'kanban' %> <%= t(:submissions) %></a></div>
+			<div class="px-1"><a href="/submissions" class="d-block w-100  text-truncate p-2 rounded"><%= bootstrap_icon 'kanban' %> <%= t(:submissions) %></a></div>
 			<% end %>
 			<% if current_schedule.page %>
-			<div class="px-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 rounded"><%= icon 'calendar' %> <%= t(:syllabus) %></a></div>
+			<div class="px-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 rounded"><%= bootstrap_icon 'calendar' %> <%= t(:syllabus) %></a></div>
 			<% end %>
 			<% Course.links.each do |title, url|  %>
 			<div class="px-1"><%= link_to title.html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 rounded" %></div>
@@ -27,97 +49,88 @@
 		</div>
 	</div>
 
-	<!--ul id="course-links" class="nav">
-		<% if logged_in? && alerts_for_current_schedule.any? %>
-		<li><a href="/announcements" class="nav-link text-truncate"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></li>
+	<div id="sidebar-content" class="sidebar-scroller flex-grow-1">
+
+		<% if Course.modules.any? %>
+		<ul class="nav">
+			<li>
+				<p class="nav-text"><%= @current_module ? t(:other) : t(:modules) %></p>
+			</li>
+			<% Course.modules.each do |title, url|  %>
+			<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
+			<% end %>
+		</ul>
 		<% end %>
-		<% if logged_in? && current_user.submits.any? %>
-		<li><a href="/submissions" class="nav-link text-truncate"><%= icon 'kanban' %> <%= t(:submissions) %></a></li>
-		<% end %>
-		<li><a href="/syllabus" class="nav-link text-truncate"><%= icon 'calendar' %> <%= t(:syllabus) %></a></li>
-		<% Course.links.each do |title, url|  %>
-		<li><%= link_to title.html_safe, url, class:"nav-link text-truncate" %></li>
-		<% end %>
-	</ul-->
 	
-	<% if Course.modules.any? %>
-	<ul class="nav">
-		<li>
-			<p class="nav-text"><%= @current_module ? t(:other) : t(:modules) %></p>
-		</li>
-		<% Course.modules.each do |title, url|  %>
-		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
+		<%# Schedule-based navigation %>
+
+		<% if current_module %>
+		<ul class="nav">
+			<li>
+				<p class="nav-text">
+					<span id="schedule_name" class="text-dark"><%= @current_module.name %></span>
+					<% if current_schedule.self_service %>
+					<span class="float-right">
+						<%= link_to bootstrap_icon('chevron-left').html_safe, profile_prev_path, method: :post, remote: true %>
+						<%= link_to bootstrap_icon('chevron-right', class: 'mr-n1').html_safe, profile_next_path, method: :post, remote: true %>
+					</span>
+					<% end %>
+				</p>
+			</li>
+			<li id="schedule">
+				<%= links_to_ul(@current_module.content) %>
+			</li>
+		</ul>
 		<% end %>
-	</ul>
-	<% end %>
 	
-	<%# Schedule-based navigation %>
+		<script>
+			// clear cache whenever the schedule is changed by user
+			$(document).on('ajax:before', '[data-remote]', () => {
+				Turbolinks.clearCache();
+			});
+		</script>
 
-	<% if current_module %>
-	<ul class="nav">
-		<li>
-			<p class="nav-text">
-				<span id="schedule_name" class="text-dark"><%= @current_module.name %></span>
-				<% if current_schedule.self_service %>
-				<span class="float-right">
-					<%= link_to icon('chevron-left').html_safe, profile_prev_path, method: :post, remote: true %>
-					<%= link_to icon('chevron-right', class: 'mr-n1').html_safe, profile_next_path, method: :post, remote: true %>
-				</span>
-				<% end %>
-			</p>
-		</li>
-		<li id="schedule">
-			<%= links_to_ul(@current_module.content) %>
-		</li>
-	</ul>
-	<% end %>
-	
-	<script>
-		// clear cache whenever the schedule is changed by user
-		$(document).on('ajax:before', '[data-remote]', () => {
-			Turbolinks.clearCache();
-		});
-	</script>
+		<%# Navigation items from section that current page belongs to %>
 
-	<%# Navigation items from section that current page belongs to %>
-
-	<% if !current_module && @section.present? && @section.content_links.present? %>
-	<ul class="nav">
-		<li>
-			<p class="nav-text"><%= @section.title %></p>
-		</li>
-		<li>
-			<%= links_to_ul(@section.content_links) %>
-		</li>
-	</ul>
-	<% end %>
-
-	<%# All pages by section, but users only see "published" pages here %>
-
-	<% if current_sections.any? %>
-	<ul id="sections" class="nav" data-turbolinks-permanent>
-		<li>
-			<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
-		</li>
-		<li>
-			<ul class="nav">
-				<%= material_links_to_li(current_sections) %>
-			</ul>
-		</li>
-	</ul>
-	<% end %>
-
-	<%# User menu items are shown in sidebar on small screens %>
-
-	<ul id="user-menu-sidebar" class="nav d-md-none">
-		<li>
-			<p class="nav-text">Menu</p>
-		</li>
-		<% if !authenticated? %>
-		<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link", data: { turbolinks: false })%></li>
-		<% elsif logged_in? %>
-		<%= render partial: 'menu_items' %>
+		<% if !current_module && @section.present? && @section.content_links.present? %>
+		<ul class="nav">
+			<li>
+				<p class="nav-text"><%= @section.title %></p>
+			</li>
+			<li>
+				<%= links_to_ul(@section.content_links) %>
+			</li>
+		</ul>
 		<% end %>
-	</ul>
+
+		<%# All pages by section, but users only see "published" pages here %>
+
+		<% if current_sections.any? %>
+		<ul id="sections" class="nav" data-turbolinks-permanent>
+			<li>
+				<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
+			</li>
+			<li>
+				<ul class="nav materials">
+					<%= material_links_to_li(current_sections) %>
+				</ul>
+			</li>
+		</ul>
+		<% end %>
+
+		<%# User menu items are shown in sidebar on small screens %>
+
+		<ul id="user-menu-sidebar" class="nav d-md-none">
+			<li>
+				<p class="nav-text">Menu</p>
+			</li>
+			<% if !authenticated? %>
+			<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link", data: { turbolinks: false })%></li>
+			<% elsif logged_in? %>
+			<%= render partial: 'menu_items' %>
+			<% end %>
+		</ul>
+	
+	</div>
 
 </div>

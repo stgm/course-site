@@ -65,7 +65,7 @@ module ApplicationHelper
 		list.each do |item, content|
 			if content.is_a?(Hash)
 				# a Hash means subitems, so create a caption and recurse
-				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled small mt-2"), class: "nav-item")
+				items << content_tag(:li, insert_badge(item), class: "nav-item small mb-1 mt-2")
 				items << content_tag(:li, links_to_ul(content), class: "nav-item")
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
@@ -86,7 +86,7 @@ module ApplicationHelper
 		list.each do |item, content|
 			if content.is_a?(Hash)
 				# a Hash means subitems, so create a caption and recurse
-				link = link_to icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-#{item.parameterize}", class: "nav-link", data: { toggle: "collapse" }, role: "button", aria: { haspopup: "true", expanded: "false" }
+				link = link_to bootstrap_icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-#{item.parameterize}", class: "nav-link", data: { toggle: "collapse" }, role: "button", aria: { haspopup: "true", expanded: "false" }
 				list = content_tag(:ul, material_links_to_li(content), class: 'nav collapse', id: "collapse-#{item.parameterize}")
 				items << content_tag(:li, link + list)
 				# items << content_tag(:li,   , class: "nav p-0", class: "nav-item")
@@ -140,7 +140,7 @@ module ApplicationHelper
 
 	def menu_link(title, path, icon: '', context: :menu, condition: true, **options)
 		return nil if !condition
-		link_to icon(icon, class: 'mr-2', size: '20x20') + title, path, options
+		link_to bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
 	end
 
 	def icon(name, **options)
@@ -148,6 +148,12 @@ module ApplicationHelper
 			image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'mr-1', style: 'vertical-align: -4px;' }.merge(options)
 		else
 			tag.span('', class: 'mr-2', style: 'display: inline-block; width:20px; height:20px')
+		end
+	end
+	
+	def bootstrap_icon(name, **options)
+		tag.svg({class:'bi', width:20, height:20, fill:'currentColor'}.merge(options)) do
+		  "<use xlink:href=\"/icons/bootstrap-icons.svg##{name}\"/>".html_safe
 		end
 	end
 	

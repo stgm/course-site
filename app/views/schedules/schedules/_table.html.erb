@@ -2,8 +2,8 @@
 
 	<tr>
 		<th>Name</th>
-		<th><%= icon 'document-text' %></th>
-		<th><%= icon 'alert-triangle-fill' %></th>
+		<th><%= bootstrap_icon 'document-text' %></th>
+		<th><%= bootstrap_icon 'alert-triangle-fill' %></th>
 		<th>Days</th>
 		<% if params[:totals] == 'true' %>
 		<th>Total</th>
@@ -31,7 +31,7 @@
 		
 		<td>
 			<% if user.alarm %>
-			<%= icon 'alert-triangle-fill' %>
+			<%= bootstrap_icon 'alert-triangle-fill' %>
 			<% end %>
 		</td>
 		
