@@ -163,7 +163,7 @@ module ApplicationHelper
 		if match = description.match(/\[([^\]]+)\] ?(.*)/)
 			icon_name = match[1]
 			rest = match[2]
-			return bootstrap_icon(icon_name, style:'vertical-align:-0.35em') + " " + rest
+			return bootstrap_icon(icon_name) + " " + rest
 		else
 			return description
 		end
