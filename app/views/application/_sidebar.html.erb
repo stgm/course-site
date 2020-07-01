@@ -44,7 +44,7 @@
 			<div class="px-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 rounded"><%= bootstrap_icon 'calendar' %> <%= t(:syllabus) %></a></div>
 			<% end %>
 			<% Course.links.each do |title, url|  %>
-			<div class="px-1"><%= link_to title.html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 rounded" %></div>
+			<div class="px-1"><%= link_to insert_icon(title).html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 rounded" %></div>
 			<% end %>
 		</div>
 	</div>

@@ -157,4 +157,16 @@ module ApplicationHelper
 		end
 	end
 	
+	# convert [name] in a string into a bootstrap icon
+	#
+	def insert_icon(description)
+		if match = description.match(/\[([^\]]+)\] ?(.*)/)
+			icon_name = match[1]
+			rest = match[2]
+			return bootstrap_icon(icon_name, style:'vertical-align:-0.35em') + " " + rest
+		else
+			return description
+		end
+	end
+	
 end
