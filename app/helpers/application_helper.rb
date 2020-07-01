@@ -80,14 +80,14 @@ module ApplicationHelper
 		content_tag :ul, items.join.html_safe, class: "nav p-0"
 	end
 	
-	def material_links_to_li(list)
+	def material_links_to_li(list, path="")
 		items = []
 		
 		list.each do |item, content|
 			if content.is_a?(Hash)
 				# a Hash means subitems, so create a caption and recurse
-				link = link_to bootstrap_icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-#{item.parameterize}", class: "nav-link", data: { toggle: "collapse" }, role: "button", aria: { haspopup: "true", expanded: "false" }
-				list = content_tag(:ul, material_links_to_li(content), class: 'nav collapse', id: "collapse-#{item.parameterize}")
+				link = link_to bootstrap_icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-materials-#{path.parameterize}-#{item.parameterize}", class: "nav-link", data: { toggle: "collapse" }, role: "button", aria: { haspopup: "true", expanded: "false" }
+				list = content_tag(:ul, material_links_to_li(content,path+"-#{item.parameterize}"), class: 'nav collapse', id: "collapse-materials-#{path.parameterize}-#{item.parameterize}")
 				items << content_tag(:li, link + list)
 				# items << content_tag(:li,   , class: "nav p-0", class: "nav-item")
 			elsif content.is_a?(String)
