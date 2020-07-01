@@ -33,23 +33,23 @@
 	<%# Main navigation%>
 	
 	<div id="course-links" class="flex-shrink-0">
-		<div class="row row-cols-3 row-cols-sm-5 row-cols-md-2 row-cols-lg-3 m-0 m-lg-1">
+		<div class="row row-cols-6 row-cols-sm-6 row-cols-md-3 row-cols-lg-5 m-0 m-lg-1">
 			<% if logged_in? && alerts_for_current_schedule.any? %>
-			<div class="px-1"><a href="/announcements" class="d-block w-100 text-truncate p-2 rounded"><%= bootstrap_icon 'bell-fill' %> <%= t(:announcements) %></a></div>
+			<div><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
 			<% end %>
 			<% if logged_in? && current_user.submits.any? %>
-			<div class="px-1"><a href="/submissions" class="d-block w-100  text-truncate p-2 rounded"><%= bootstrap_icon 'kanban' %> <%= t(:submissions) %></a></div>
+			<div><a href="/submissions" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'kanban' %><br><small><%= t(:submissions) %></small></a></div>
 			<% end %>
 			<% if current_schedule.page %>
-			<div class="px-1"><a href="/syllabus" class="d-block w-100 text-truncate p-2 rounded"><%= bootstrap_icon 'calendar' %> <%= t(:syllabus) %></a></div>
+			<div><a href="/syllabus" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'calendar' %><br><small><%= t(:syllabus) %></small></a></div>
 			<% end %>
 			<% Course.links.each do |title, url|  %>
-			<div class="px-1"><%= link_to insert_icon(title).html_safe, url, class:"d-block w-100  w-100 text-truncate p-2 rounded" %></div>
+			<div><%= link_to insert_icon(title).html_safe, url, class:"d-block w-100 w-100 text-center text-truncate p-1 rounded" %></div>
 			<% end %>
 		</div>
 	</div>
 
-	<div id="sidebar-content" class="sidebar-scroller flex-grow-1 turbolinks-disable-scroll">
+	<div id="sidebar-content" class="sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
 
 		<% if Course.modules.any? %>
 		<ul class="nav">

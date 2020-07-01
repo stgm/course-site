@@ -17,7 +17,7 @@
 #sidebar-tools
 {
 	width: 100%;
-	padding: 1rem;
+	padding: 0.5rem;
 
 	display:flex;
 	-webkit-box-pack: justify !important;
@@ -35,7 +35,8 @@
 .navbar-brand
 {
 	line-height:normal;
-	padding:0;
+	padding:0.5rem;
+	border-radius:0.25rem;
 }
 
 #course-title
@@ -64,9 +65,9 @@
 
 @media (max-width: 767.98px)
 {
-	#sidebar-tools
+	.navbar-brand
 	{
-		background-color:#C2CBD9;
+		padding:0.1rem;
 	}
 	
 	#sidebar .nav
@@ -114,7 +115,7 @@
 		flex-direction:column;
 	}
 	
-	#sidebar-tools, #sidebar > .nav
+	#sisdebar-tools, #sidebar > .nav
 	{
 		padding-left:.75rem;
 		padding-right:.75rem;
@@ -135,7 +136,7 @@
 
 @media (min-width: 992px)
 {
-	#sidebar-tools, #sidebar > .nav > .nav
+	#sidesbar-tools, #sidebar > .nav > .nav
 	{
 		padding-left:1rem;
 		padding-right:1rem;
@@ -143,7 +144,6 @@
 	
 	#sidebar-content
 	{
-//		padding: 0 1.5rem 1rem 1.5rem;
 		paddding:0;
 	}
 }
@@ -169,11 +169,6 @@
 #sidebar #course-links
 {
 	width: 100%;
-}
-
-#sidebar #course-links .bi
-{
-	vertical-align:-0.35em;
 }
 
 #sidebar .nav#course-links
