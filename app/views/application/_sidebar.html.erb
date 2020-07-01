@@ -1,4 +1,4 @@
-<div class="collapse sidebar-collapse navbar-collapse multi-collapse show align-items-stretch">
+<div class="collapse sidebar-collapse navbar-collapse multi-collapse show align-items-stretch" data-turbolinks-permanent>
 
 	<div id="sidebar-tools" class="flex-shrink-0">
 		<%= render 'brand'%>
@@ -49,7 +49,7 @@
 		</div>
 	</div>
 
-	<div id="sidebar-content" class="sidebar-scroller flex-grow-1">
+	<div id="sidebar-content" class="sidebar-scroller flex-grow-1 turbolinks-disable-scroll">
 
 		<% if Course.modules.any? %>
 		<ul class="nav">
@@ -106,7 +106,7 @@
 		<%# All pages by section, but users only see "published" pages here %>
 
 		<% if current_sections.any? %>
-		<ul id="sections" class="nav" data-turbolinks-permanent>
+		<ul id="sections" class="nav">
 			<li>
 				<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
 			</li>

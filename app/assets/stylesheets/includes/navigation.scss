@@ -258,24 +258,36 @@
 	border-top:0;
 }
 
-#sidebar > * > .nav
+//****************************************************************************
+
+#sidebar .materials a
 {
-	//    padding-bottom:2rem;
+	padding:0.4rem;
+	margin-left:-0.25rem;
+	margin-right:-0.25rem;
 }
 
-#sidebar .materials [data-toggle="collapse"]
+#sidebar .materials a a
 {
+	margin-left:-1.25rem;
+	padding-left:0.25rem;
+}
+
+#sidebar .materials a [data-toggle="collapse"]
+{
+	margin-left:-1.25rem;
+	padding-left:0.25rem;
 	color:#343a40;
+}
+
+#sidebar .materials .nav-item
+{
+	margin-left:0.95rem;
 }
 
 #sidebar .materials ul.nav
 {
 	padding-left:1.5rem;
-}
-
-#sidebar .materials a
-{
-	padding-left:0.25rem;
 }
 
 #sidebar ul#sections
@@ -298,9 +310,11 @@
 
 #sidebar .materials .chevron
 {
+	color:#aaa;
 	text-align:center;
-	margin-right:0.25em;
-	width:1.25rem;
+	margin-left:-0.25rem;
+	margin-right:0.15rem;
+	width:1rem;
 	height:1rem;
 }
 
