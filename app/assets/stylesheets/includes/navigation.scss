@@ -11,7 +11,8 @@
 
 #sidebar-content
 {
-	padding: 1rem;
+	padding:1rem;
+	padding-top:0!important;
 }
 
 #sidebar-tools
@@ -63,11 +64,42 @@
 	border-bottom:none;
 }
 
+#sidebar #course-links
+{
+	margin-left:-1rem;
+	margin-right:-1rem;
+	background-color:rgba(181, 206, 223, 0.1);
+	padding:0.35rem 0;
+}
+
+#sidebar #course-links div:first-child
+{
+	margin-left:auto;
+}
+
+#sidebar #course-links div:last-child
+{
+	margin-right:auto;
+}
+
+
+
 @media (max-width: 767.98px)
 {
 	.navbar-brand
 	{
 		padding:0.1rem;
+	}
+	
+	#sidebar-content
+	{
+		padding:0.25rem;
+	}
+	
+	#sidebar #course-links
+	{
+		margin-left:-0.25rem;
+		margin-right:-0.25rem;
 	}
 	
 	#sidebar .nav
@@ -165,31 +197,6 @@
 }
 
 //****************************************************************************
-
-#sidebar #course-links
-{
-	width: 100%;
-	border-top:1px solid --dark;
-	border-bottom:1px solid --dark;
-	background-color:rgba(181, 206, 223, 0.1);
-}
-
-#sidebar .nav#course-links
-{
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row!important;
-}
-
-#sidebar .nav#course-links li
-{
-	margin-right:1rem;
-}
-
-#sidebar .nav#course-links li:first-child
-{
-	margin-left:0;
-}
 
 #sidebar .nav
 {

@@ -5,24 +5,6 @@
 	</button>
 </div>
 
-
-<div id="course-links" class="flex-shrink-0">
-	<div class="row row-cols-6 row-cols-sm-6 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 m-0 m-lg-1">
-		<% if logged_in? && alerts_for_current_schedule.any? %>
-		<div><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
-		<% end %>
-		<% if logged_in? && current_user.submits.any? %>
-		<div><a href="/submissions" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'kanban' %><br><small><%= t(:submissions) %></small></a></div>
-		<% end %>
-		<% if current_schedule.page %>
-		<div><a href="/syllabus" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'calendar' %><br><small><%= t(:syllabus) %></small></a></div>
-		<% end %>
-		<% Course.links.each do |title, url|  %>
-		<div><%= link_to insert_icon(title).html_safe, url, class:"d-block w-100 w-100 text-center text-truncate p-1 rounded" %></div>
-		<% end %>
-	</div>
-</div>
-
 <% if Settings['keyword_index'].present? %>
 <div class="collapse multi-collapse" id="multiCollapseExample2">
 	<div class="d-flex align-items-center">
@@ -49,6 +31,21 @@
 <%# Main navigation%>
 
 <div id="sidebar-content" class="sidebar-collapse sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
+
+	<div id="course-links" class="flex-shrink-0 row row-cols-6 row-cols-sm-6 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+		<% if logged_in? && alerts_for_current_schedule.any? %>
+			<div><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
+		<% end %>
+		<% if logged_in? && current_user.submits.any? %>
+			<div><a href="/submissions" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'kanban' %><br><small><%= t(:submissions) %></small></a></div>
+		<% end %>
+		<% if current_schedule.page %>
+			<div><a href="/syllabus" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'calendar' %><br><small><%= t(:syllabus) %></small></a></div>
+		<% end %>
+		<% Course.links.each do |title, url|  %>
+			<div><%= link_to insert_icon(title).html_safe, url, class:"d-block w-100 w-100 text-center text-truncate p-1 rounded" %></div>
+		<% end %>
+	</div>
 
 	<% if Course.modules.any? %>
 	<ul class="nav">
