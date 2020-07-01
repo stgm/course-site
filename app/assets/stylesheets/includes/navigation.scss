@@ -17,7 +17,7 @@
 #sidebar-tools
 {
 	width: 100%;
-	padding: 0.5rem;
+	padding: 0.25rem;
 
 	display:flex;
 	-webkit-box-pack: justify !important;
@@ -27,7 +27,7 @@
 .sidebar-scroller
 {
 	overflow-y: scroll;
-	border-top:1px solid #ccc;
+//	border-top:1px solid #ccc;
 	padding-top:0.5rem;
 	padding-bottom:1rem;
 }
@@ -169,6 +169,9 @@
 #sidebar #course-links
 {
 	width: 100%;
+	border-top:1px solid --dark;
+	border-bottom:1px solid --dark;
+	background-color:rgba(181, 206, 223, 0.1);
 }
 
 #sidebar .nav#course-links
