@@ -88,7 +88,7 @@
 	margin-right:auto;
 }
 
-
+//****************************************************************************
 
 @media (max-width: 767.98px)
 {
@@ -100,12 +100,6 @@
 	#sidebar-content
 	{
 		padding:0.25rem;
-	}
-	
-	#sidebar #course-links
-	{
-//		margin-left:-0.25rem;
-//		margin-right:-0.25rem;
 	}
 	
 	#sidebar .nav
@@ -123,13 +117,6 @@
 	{
 		margin-right:0;
 		width:100%;
-	}
-}
-
-@media (min-width: 576px)
-{
-	#sidebar-tools
-	{
 	}
 }
 
@@ -169,7 +156,6 @@
 	{
 		margin-right:1rem;
 	}
-	
 }
 
 @media (min-width: 992px)
@@ -179,11 +165,6 @@
 		padding-left:1rem;
 		padding-right:1rem;
 	}
-	
-	#sidebar-content
-	{
-		paddding:0;
-	}
 }
 
 @media (min-width: 1200px)
@@ -192,13 +173,6 @@
 	{
 		-webkit-box-flex: 0;
 		flex: 0 0 25%;
-		//max-width: 25%;
-	}
-	
-	#sidebar-tools, #sidebar .nav
-	{
-//		padding-left:1.5rem;
-//		padding-right:1.5rem;
 	}
 }
 
@@ -264,7 +238,7 @@
 
 #sidebar-content > ul:first-child
 {
-	margin-top:0;
+	margin-top:0.5rem;
 	padding-top:0;
 	border-top:0;
 }
