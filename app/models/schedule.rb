@@ -47,7 +47,7 @@ class Schedule < ApplicationRecord
 		contents.each do |name, items|
 			span = schedule_spans.where(name: name).first_or_initialize
 			if items.class == Hash
-				span.content = items.to_yaml
+				span.content = items
 			elsif items.class == Array
 				# retrieve module contents in order specified
 				all_modules = Mod.where(name:items).sort_by{|m| items.index(m.name)}
