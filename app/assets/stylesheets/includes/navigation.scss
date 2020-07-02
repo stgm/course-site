@@ -66,10 +66,10 @@
 
 #sidebar #course-links
 {
-	margin-left:-1rem;
-	margin-right:-1rem;
+	margin-left:0;
+	margin-right:0;
 	background-color:rgba(181, 206, 223, 0.1);
-	padding:0.35rem 0;
+	padding:0.35rem 0.15rem;
 }
 
 #sidebar #course-links div:first-child
@@ -98,8 +98,8 @@
 	
 	#sidebar #course-links
 	{
-		margin-left:-0.25rem;
-		margin-right:-0.25rem;
+//		margin-left:-0.25rem;
+//		margin-right:-0.25rem;
 	}
 	
 	#sidebar .nav
