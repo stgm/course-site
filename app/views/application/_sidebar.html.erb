@@ -36,7 +36,7 @@
 	<% if Course.modules.any? %>
 	<ul class="nav">
 		<li>
-			<p class="nav-text"><%= @current_module ? t(:other) : t(:modules) %></p>
+			<p class="ml-1"><%= @current_module ? t(:other) : t(:modules) %></p>
 		</li>
 		<% Course.modules.each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
@@ -49,7 +49,7 @@
 	<% if current_module %>
 	<ul class="nav">
 		<li>
-			<p class="nav-text">
+			<p class="nav-text ml-1 text-dark">
 				<span id="schedule_name"><%= @current_module.name %></span>
 				<% if current_schedule.self_service %>
 				<span class="float-right mr-n1 spr-1">

@@ -65,7 +65,7 @@ module ApplicationHelper
 		list.each do |item, content|
 			if content.is_a?(Hash)
 				# a Hash means subitems, so create a caption and recurse
-				items << content_tag(:li, insert_badge(item), class: "nav-item small mb-1 mt-2")
+				items << content_tag(:li, insert_badge(item), class: "nav-item small ml-1 mb-1 mt-2")
 				items << content_tag(:li, links_to_ul(content), class: "nav-item")
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
