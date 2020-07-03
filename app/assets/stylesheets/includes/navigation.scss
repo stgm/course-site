@@ -70,18 +70,10 @@
 	border-bottom:none;
 }
 
-#sidebar-tools
-{
-	background-color:rgba(181, 206, 223, 0.1);
-//	background: linear-gradient(50deg, #FEF3BE 0%, #FDDED0 100%);
-}
-
 #sidebar #course-links
 {
 	margin-left:0;
 	margin-right:0;
-	background-color:rgba(181, 206, 223, 0.1);
-//	background: linear-gradient(50deg, #FEF3BE 0%, #FDDED0 100%);
 	padding:0.35rem 0.15rem;
 }
 
@@ -197,14 +189,6 @@
 #sidebar a.nav-link
 {
 //	@extend .px-0;
-}
-
-#sidebar a:hover
-{
-	color:#235A9E;
-	background-color:#DFE3E6;
-	background: linear-gradient(50deg, #FCDFBD 0%, #FCDCC1 100%);
-	text-decoration:none;
 }
 
 #sidebar a.disabled
