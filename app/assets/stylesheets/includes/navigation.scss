@@ -130,8 +130,6 @@
 
 	#sidebar .sidebar-collapse
 	{
-		display:flex;
-		flex-direction:column;
 	}
 	
 	#sidebar > .nav
@@ -142,7 +140,14 @@
 	
 	#sidebar-content
 	{
+		display:flex;
+		flex-direction:column;
 		padding-top:0.5rem;
+	}
+	
+	#course-links
+	{
+		display:flex;
 	}
 	
 	// can be in sidebar or in navbar (latter is in full-width layout)
