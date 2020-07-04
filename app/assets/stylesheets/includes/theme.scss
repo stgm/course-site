@@ -19,7 +19,8 @@ body.boxes
 {
 	#sidebar-tools, #course-links
 	{
-		background-color:rgba(181, 206, 223, 0.1);
+		-webkit-backdrop-filter: brightness(102%);
+		backdrop-filter: brightness(102%);
 	}
 
 	a:hover

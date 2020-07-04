@@ -13,13 +13,13 @@
 #sidebar-content
 {
 	padding:1rem;
-	padding-top:0!important;
+	padding-top:0;
 }
 
 #sidebar-tools
 {
 	width: 100%;
-	padding: 0.25rem;
+	padding: 0.5rem;
 
 	display:flex;
 	-webkit-box-pack: justify !important;
@@ -74,7 +74,7 @@
 {
 	margin-left:0;
 	margin-right:0;
-	padding:0.35rem 0.15rem;
+	padding:0.35rem 0.35rem;
 }
 
 #sidebar #course-links div:first-child
@@ -98,13 +98,8 @@
 	
 	#sidebar-content
 	{
-		padding:0.25rem;
-	}
-	
-	#sidebar .nav
-	{
-		padding-left:.75rem;
-		padding-right:.75rem;
+		padding:0.5rem;
+		padding-top:0;
 	}
 	
 	#schedule-navbar-items
@@ -139,10 +134,15 @@
 		flex-direction:column;
 	}
 	
-	#sisdebar-tools, #sidebar > .nav
+	#sidebar > .nav
 	{
 		padding-left:.75rem;
 		padding-right:.75rem;
+	}
+	
+	#sidebar-content
+	{
+		padding-top:0.5rem;
 	}
 	
 	// can be in sidebar or in navbar (latter is in full-width layout)
@@ -225,12 +225,11 @@
 {
 	margin-top:0.75rem;
 	padding-top:.75rem;
-	padding-bottom:.75rem;
 }
 
 #sidebar-content > ul:first-child
 {
-	margin-top:0.5rem;
+	margin-top:0rem;
 	padding-top:0;
 	border-top:0;
 }

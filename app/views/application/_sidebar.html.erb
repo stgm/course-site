@@ -1,6 +1,6 @@
 <div id="sidebar-tools" class="flex-shrink-0">
 	<%= render 'brand'%>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+	<button class="navbar-toggler border-0 px-0" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 </div>
@@ -115,17 +115,17 @@
 
 </div>
 
-<div id="course-links" class="flex-shrink-0 row row-cols-6 row-cols-sm-6 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+<div id="course-links" class="flex-shrink-0 row">
 	<% if logged_in? && alerts_for_current_schedule.any? %>
-		<div><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
+		<div style="flex:1 0 0; min-width:0"><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
 	<% end %>
 	<% if logged_in? && current_user.submits.any? %>
-		<div><a href="/submissions" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'kanban' %><br><small><%= t(:submissions) %></small></a></div>
+		<div style="flex:1 0 0; min-width:0"><a href="/submissions" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'kanban' %><br><small><%= t(:submissions) %></small></a></div>
 	<% end %>
 	<% if current_schedule.page %>
-		<div><a href="/syllabus" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'calendar' %><br><small><%= t(:syllabus) %></small></a></div>
+		<div style="flex:1 0 0; min-width:0"><a href="/syllabus" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'calendar' %><br><small><%= t(:syllabus) %></small></a></div>
 	<% end %>
 	<% Course.links.each do |title, url|  %>
-		<div><%= link_to insert_icon(title).html_safe, url, class:"d-block w-100 w-100 text-center text-truncate p-1 rounded" %></div>
+		<div style="flex:1 0 0; min-width:0"><%= link_to insert_icon(title).html_safe, url, class:"d-block w-100 w-100 text-center text-truncate p-1 rounded" %></div>
 	<% end %>
 </div>
