@@ -1,16 +1,18 @@
-<div id="sidebar-tools" class="flex-shrink-0" style="z-index:10000">
-	<%= render 'brand'%>
-	<% if !authenticated? %>
-	<li class=" d-block d-md-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbolinks: false })%></li>
-	<% else #if logged_in? %>
-	<div class="d-block d-md-none ">
-	<%= render 'menu' %>
-	</div>
-	<% end %>
+<div id="sidebar-tools" class="navbar navbar-light navbar-expand flex-shrink-0" style="z-index:1000">
+	<div class="container-fluid">
+		<%= render 'brand'%>
+		<% if !authenticated? %>
+		<li class="navbar-nav d-block d-md-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbolinks: false })%></li>
+		<% else #if logged_in? %>
+		<div class="navbar-nav d-flex d-md-none ">
+			<%= render 'menu' %>
+		</div>
+		<% end %>
 	
-	<button class="navbar-toggler border-0 px-0" type="button" data-toggle="collapse" data-target="#sidebar-content,#course-links" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
+		<button class="navbar-toggler border-0 px-0 d-block d-md-none" type="button" data-toggle="collapse" data-target="#sidebar-content,#course-links" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
 </div>
 
 <% if Settings['keyword_index'].present? %>
@@ -57,7 +59,7 @@
 	<% if current_module %>
 	<ul class="nav">
 		<li>
-			<p class="nav-text ml-1 text-dark">
+			<p class="nav-text mx-1 text-dark">
 				<span id="schedule_name"><%= @current_module.name %></span>
 				<% if current_schedule.self_service %>
 				<span class="float-right mr-n1 spr-1">

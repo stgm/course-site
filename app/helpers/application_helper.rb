@@ -130,9 +130,9 @@ module ApplicationHelper
 	
 	def menu_group(name=nil, &block)
 		[
-			name && tag.h6(name, class: 'dropdown-header pl-0 pl-md-4'),
+			name && tag.h6(name, class: 'dropdown-header'),
 			capture(&block),
-			tag.div(class: 'dropdown-divider d-none d-md-block')
+			tag.div(class: 'dropdown-divider')
 		].
 		compact.join.html_safe
 	end
