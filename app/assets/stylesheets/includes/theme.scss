@@ -26,6 +26,11 @@ body.boxes
 	{
 		-webkit-backdrop-filter: brightness(102%);
 		backdrop-filter: brightness(102%);
+
+		.bg-light
+		{
+			background-color:transparent !important;
+		}
 	}
 
 	a:hover

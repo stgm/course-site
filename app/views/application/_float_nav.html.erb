@@ -1,4 +1,4 @@
-<ul id="icon-nav" class="navbar-nav ml-auto">
+<ul id="icon-nav" class="navbar-nav navbar-collapse ml-auto">
 	<% if current_user.senior? %>
 	<div class="w-100">
 		<%= render partial: 'search' %>
@@ -9,8 +9,8 @@
 
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
-		<a href="#" id="ama-dd" class="bg-light rounded-pill p-2 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			<%= bootstrap_icon "question-fill", size: '24x24', style: 'vertical-align:-6px;' %><%= Hand.waiting.count if current_user.staff? %></a>
+		<a href="#" id="ama-dd" class="nav-link bg-light rounded-pill d-block py-1 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			<%= bootstrap_icon "question-circle-fill", size: '24x24', style: 'vertical-align:-0.255em;' %><%= tag.span(Hand.waiting.count, class:'ml-1') if current_user.staff? %></a>
 		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
 			<%= render 'ama' %>
 		</div>

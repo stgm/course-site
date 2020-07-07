@@ -1,8 +1,8 @@
-<div class="nav-item dropdown d-flex align-items-center">
-	<a href="#" class="nav-link dropdown-toggle d-inline-block m-0 p-2" style="sbackground-color:#DBE6EC" data-toggle="dropdown"><%= bootstrap_icon 'person-fill', size: '24x24', style: 'vertical-align:-0.255em;' %></a>
+<li class="nav-item dropdown d-flex align-items-center">
+	<a href="#" class="nav-link dropdown-toggle d-block py-2 rounded-pill bg-light py-md-1" data-toggle="dropdown"><%= bootstrap_icon 'person-fill', size: '24x24', style: 'vertical-align:-0.255em;' %></a>
 	<% if authenticated? %>
 	<div class="dropdown-menu dropdown-menu-right" id="user-menu">
 		<%= render partial: 'menu_items' %>
 	</div>
 	<% end %>
-</div>
+</li>
