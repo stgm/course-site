@@ -22,7 +22,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			
-			<div id="sidebar" class="navbar navbar-light d-md-flex align-items-stretch flex-shrink-0 flex-column col-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-4">
+			<div id="sidebar" class="d-md-flex align-items-stretch flex-shrink-0 flex-column col-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-4">
 				<%= render 'sidebar' %>
 			</div>
 			
@@ -38,7 +38,7 @@
 				<% end %>
 
 				<div id="float-nav" class="clearfix d-none d-md-block navbar-expand sticky-top p-3">
-					<div class="float-md-right mt-1 mb-0">
+					<div class="float-md-right">
 					<%= render 'float_nav' %>
 					</div>
 				</div>
