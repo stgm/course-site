@@ -15,6 +15,8 @@ class Schedules::OverviewsController < ApplicationController
 			# default to currently selected schedule
 			slug = current_user.schedule
 		end
+		
+		redirect_back(fallback_location: '/', alert: 'No schedules') and return if slug.blank?
 		redirect_to(schedule_path(schedule_slug: slug)) and return
 
 	end
