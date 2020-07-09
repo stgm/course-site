@@ -11,7 +11,7 @@ class WelcomeController < ApplicationController
 		elsif User.admin.none?
 			# Automatically claim admin rights
 			redirect_to action: 'claim'
-		elsif Page.none?
+		elsif Settings.git_repo.blank?
 			# Please set course repo, or finalizing setting course repo
 			redirect_to action: 'clone'
 		else
@@ -41,7 +41,7 @@ class WelcomeController < ApplicationController
 	# allow setting the git repository
 	#
 	def clone
-		if Page.any?
+		if Settings.git_repo.present?
 			User.first.update(schedule: Schedule.first)
 			redirect_to action: 'index'
 		end

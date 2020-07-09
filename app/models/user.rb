@@ -51,7 +51,7 @@ class User < ApplicationRecord
 
 	def create_profile(params, login)
 		# cancel this thing if registration is not open (but not if first user)
-		raise unless User.none? || Schedule.default
+		raise unless User.none? || Schedule.none? || Schedule.default
 
 		self.assign_attributes(params)
 		self.role = :student

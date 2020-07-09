@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 	include NavigationHelper
 
 	before_action :authorize, except: [ :homepage, :syllabus ]
+	before_action :validate_profile
 	before_action :register_attendance
 
 	def homepage

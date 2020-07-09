@@ -1,6 +1,7 @@
 class PageController < ApplicationController
 
 	before_action :authorize, if: :request_from_local_network?
+	before_action :validate_profile
 	before_action :register_attendance
 	before_action :go_location_bumper
 

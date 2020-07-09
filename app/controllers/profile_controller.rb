@@ -1,7 +1,15 @@
 class ProfileController < ApplicationController
 
 	before_action :authorize
-		
+
+	def index
+		if Schedule.none? || Schedule.default.present?
+			render layout: 'welcome'
+		else
+			render 'sorry', layout: 'welcome'
+		end
+	end
+
 	def show
 		@title = "Profile"
 	end
