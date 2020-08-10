@@ -20,6 +20,11 @@ body.boxes
 	color:#ffffff;
 }
 
+summary
+{
+	color: theme-color("primary");
+}
+
 #sidebar
 {
 	#sidebar-tools, #course-links
