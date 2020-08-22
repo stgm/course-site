@@ -51,6 +51,20 @@ class ProfileController < ApplicationController
 		end
 	end
 	
+	#
+	# allows setting arbitrary settings in the settings model
+	#
+	def save_progress
+		if items = params["progress"]
+			items.each do |k,v|
+				v = v == "1" if v == "1" or v == "0"
+				current_user.progress[k] = v
+				current_user.save
+			end
+		end
+		head :ok
+	end
+	
 	def save # POST
 		# remove leading and trailing space to give the user some slack
 		params[:user][:name].strip!

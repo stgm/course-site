@@ -69,7 +69,7 @@ module ApplicationHelper
 				items << content_tag(:li, links_to_ul(content), class: "nav-item")
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
-				items << content_tag(:li, check_box_tag(:item, 'ding', false, class: 'float-left flex-shrink-0 d-block m-2') + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;"), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
+				items << content_tag(:li, toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;"), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
 			elsif content.nil?
 				# a nil means a caption without a link
 				items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
@@ -103,7 +103,21 @@ module ApplicationHelper
 		items.join.html_safe
 		# content_tag :ul, items.join.html_safe, class: "nav p-0"
 	end
-	
+
+	# create a remote form for toggling a user's progress for a page
+	def toggle_progress_form(page_name)
+		form_for(:progress, url: profile_save_progress_path(), remote: true) do |form|
+			form.check_box(page_name,
+				{
+					remote: true,
+					checked: current_user.progress[page_name],
+					id: "progress_#{page_name.parameterize}_check",
+					class: "sform-check-input m-2",
+					onclick: "Rails.fire(this.form, 'submit');"
+				}
+			)
+		end
+	end
 	
 	# convert [markup] in a string into a bootstrap badge span
 	#

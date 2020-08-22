@@ -43,6 +43,7 @@ class User < ApplicationRecord
 	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
 	
 	enum role: [:guest, :student, :assistant, :head, :admin]
+	serialize :progress, Hash
 	
 	before_save :reset_group, if: :schedule_id_changed?
 	before_save :reset_current_module, if: :schedule_id_changed?
