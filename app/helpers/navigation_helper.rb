@@ -10,7 +10,7 @@ module NavigationHelper
 	end
 	
 	def current_schedule
-		return @current_schedule ||= current_user.schedule || Schedule.find_or_initialize(name: 'Standard', slug: 'standard')
+		return @current_schedule ||= current_user.schedule || Schedule.find_or_initialize_by(name: 'Standard', slug: 'standard')
 	end
 
 	def current_module
