@@ -49,3 +49,4 @@ en:
         wait_is_over: "Het wachten is voorbij!"
         is_looking_to_help_you: "%{name} is looking to assist you right now"
         cancel_request: "Cancel request"
+        link: "Provide your Zoom link"
