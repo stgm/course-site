@@ -69,7 +69,7 @@ module ApplicationHelper
 				items << content_tag(:li, links_to_ul(content), class: "nav-item")
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
-				items << content_tag(:li, toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;"), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
+				items << content_tag(:li, toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;"), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center", target: content =~ /^http/i ? '_blank' : '')
 			elsif content.nil?
 				# a nil means a caption without a link
 				items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
