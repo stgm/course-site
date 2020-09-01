@@ -70,6 +70,12 @@ module ApplicationHelper
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
 				items << content_tag(:li, toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;", target: content =~ /^http/i ? '_blank' : nil), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
+			elsif content.is_a?(Array)
+				# this pulls in any links from module definitions, combines into hash and renders
+				all_modules = Mod.where(name:content).sort_by{|m| items.index(m.name)}
+				# combine the content links into a single hash
+				combined_content = all_modules.map(&:content_links).reduce({}, :merge)
+				items << content_tag(:li, links_to_ul(combined_content), class: "nav-item")
 			elsif content.nil?
 				# a nil means a caption without a link
 				items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
