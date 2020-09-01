@@ -87,7 +87,7 @@ module ApplicationHelper
 	
 	def array_of_links_to_ul(content)
 		# this pulls in any links from module definitions, combines into hash and renders
-		all_modules = SubModule.where(name:content)#.sort_by{|m| items.index(m.name)}
+		all_modules = SubModule.where(name:content).sort_by{|m| content.index(m.name)}
 		# combine the content links into a single hash
 		combined_content = all_modules.map(&:content_links).reduce({}, :merge)
 		return content_tag(:li, links_to_ul(combined_content), class: "nav-item")
