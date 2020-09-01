@@ -61,29 +61,36 @@ module ApplicationHelper
 	#
 	def links_to_ul(list)
 		items = []
-		
-		list.each do |item, content|
-			if content.is_a?(Hash)
-				# a Hash means subitems, so create a caption and recurse
-				items << content_tag(:li, insert_badge(item), class: "nav-item small ml-1 mb-1 mt-2")
-				items << content_tag(:li, links_to_ul(content), class: "nav-item")
-			elsif content.is_a?(String)
-				# a String means that we have a link with title
-				items << content_tag(:li, toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;", target: content =~ /^http/i ? '_blank' : nil), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
-			elsif content.is_a?(Array)
-				# this pulls in any links from module definitions, combines into hash and renders
-				all_modules = Mod.where(name:content).sort_by{|m| items.index(m.name)}
-				# combine the content links into a single hash
-				combined_content = all_modules.map(&:content_links).reduce({}, :merge)
-				items << content_tag(:li, links_to_ul(combined_content), class: "nav-item")
-			elsif content.nil?
-				# a nil means a caption without a link
-				items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
+
+		if list.is_a?(Hash)
+			list.each do |item, content|
+				if content.is_a?(Hash)
+					# a Hash means subitems, so create a caption and recurse
+					items << content_tag(:li, insert_badge(item), class: "nav-item small ml-1 mb-1 mt-2")
+					items << content_tag(:li, links_to_ul(content), class: "nav-item")
+				elsif content.is_a?(String)
+					# a String means that we have a link with title
+					items << content_tag(:li, toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;", target: content =~ /^http/i ? '_blank' : nil), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
+				elsif content.is_a?(Array)
+					items << array_of_links_to_ul(content)
+				elsif content.nil?
+					# a nil means a caption without a link
+					items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
+				end
 			end
-				
+		elsif list.is_a?(Array)
+			items << array_of_links_to_ul(list)
 		end
-		
+
 		content_tag :ul, items.join.html_safe, class: "nav p-0"
+	end
+	
+	def array_of_links_to_ul(content)
+		# this pulls in any links from module definitions, combines into hash and renders
+		all_modules = SubModule.where(name:content)#.sort_by{|m| items.index(m.name)}
+		# combine the content links into a single hash
+		combined_content = all_modules.map(&:content_links).reduce({}, :merge)
+		return content_tag(:li, links_to_ul(combined_content), class: "nav-item")
 	end
 	
 	def material_links_to_li(list, path="")

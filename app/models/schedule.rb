@@ -46,15 +46,7 @@ class Schedule < ApplicationRecord
 		# create all items
 		contents.each do |name, items|
 			span = schedule_spans.where(name: name).first_or_initialize
-			if items.class == Hash
-				span.content = items
-			elsif items.class == Array
-				# retrieve module contents in order specified
-				all_modules = Mod.where(name:items).sort_by{|m| items.index(m.name)}
-				# combine the content links into a single hash
-				combined_content = all_modules.map(&:content_links).reduce({}, :merge)
-				span.content = combined_content
-			end
+			span.content = items
 			span.save
 		end
 		

@@ -239,7 +239,7 @@ private
 				name = page_info[2].parameterize
 				content = content_links
 			end
-			mod = Mod.where(name: name).first_or_initialize.load(content, page_path)
+			mod = SubModule.where(name: name).first_or_initialize.load(content, page_path)
 		end
 		
 		# load schedule if available
