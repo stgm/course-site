@@ -48,7 +48,6 @@ class User < ApplicationRecord
 	before_save :reset_group, if: :schedule_id_changed?
 	before_save :reset_current_module, if: :schedule_id_changed?
 	after_save :log_changes
-	
 
 	def create_profile(params, login)
 		# cancel this thing if registration is not open (but not if first user)
@@ -61,23 +60,13 @@ class User < ApplicationRecord
 	
 		self.logins.create(login: login) unless self.logins.any?
 	end
-	
+
 	def accessible_schedules
 		# ensure admins have access to all schedules at all times by overriding
 		return Schedule.all if self.admin?
 		self.schedules
 	end
-	
-	def check_current_module
-		if self.schedule.present? && self.current_module.nil?
-			if span = self.schedule.schedule_spans.first
-				self.update(current_module_id: span.id)
-			else
-				self.update(current_module_id: nil)
-			end
-		end
-	end
-	
+
 	def self.find_by_login(login)
 		if login
 			if login = Login.find_by_login(login)
@@ -85,7 +74,7 @@ class User < ApplicationRecord
 			end
 		end
 	end
-	
+
 	def items(with_private=false)
 		items = []
 		items += submits.includes({:pset => [:parent_mod, :mod]}).where("submitted_at is not null").where("psets.mod_id is not null or mods_psets.pset_id is null").references(:psets, :mods).to_a
@@ -191,22 +180,22 @@ class User < ApplicationRecord
 		@user = user
 	end
 	
-	private
-	
-	def reset_group
-		self.group_id = nil
-	end
-	
 	def reset_current_module
-		if span = self.schedule.schedule_spans.first
+		if span = self.schedule.default_span(only_public: self.student?)
 			self.current_module = span
 		else
 			self.current_module_id = nil
 		end
 	end
-	
+
+	private
+
+	def reset_group
+		self.group_id = nil
+	end
+
 	def log_changes
 		self.notes.create(text: self.previous_changes.reject{|k,v|k=='updated_at'}.collect{|k,v| "#{k}: #{v[1]}  "}.join, author_id: @user.id) if @user
 	end
-	
+
 end

@@ -1,11 +1,12 @@
 class Admin::CourseController < ApplicationController
 
+	include NavigationHelper
+
 	before_action :authorize
 	before_action :require_admin
 	
 	def index
-		# TODO
-		@all_sections = [] #Section.includes(pages: :pset)
+		@schedule_spans = current_schedule.schedule_spans.order(:rank)
 		
 		@geregistreerd = User.student.count
 		@gestart = User.student.joins(:submits).uniq.count
@@ -45,11 +46,11 @@ class Admin::CourseController < ApplicationController
 	end
 
 	#
-	# show/hide pages
+	# make schedule parts public or not
 	#
-	def page_update
-		p = Page.find(params[:id])
-		p.update!(params.require(:page).permit(:public))
+	def update_schedule_span
+		p = ScheduleSpan.find(params[:id])
+		p.update!(params.require(:schedule_span).permit(:public))
 		render json: p
 	end
 

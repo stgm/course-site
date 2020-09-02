@@ -38,7 +38,7 @@
 	<% if Course.modules.any? %>
 	<ul class="nav">
 		<li>
-			<p class="ml-1"><%= @current_module ? t(:other) : t(:modules) %></p>
+			<p class="ml-1"><%= current_module ? t(:other) : t(:modules) %></p>
 		</li>
 		<% Course.modules.each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
@@ -52,17 +52,17 @@
 	<ul class="nav">
 		<li>
 			<p class="nav-text mx-1 text-dark">
-				<span id="schedule_name"><%= @current_module.name %></span>
+				<span id="schedule_name" class="<%= 'text-danger' if !current_module.public? %>"><%= current_module.name %></span>
 				<% if current_schedule.self_service %>
 				<span class="float-right mr-n1 spr-1">
-					<%= link_to bootstrap_icon('chevron-left', class: 'rounded').html_safe, profile_prev_path, method: :post, remote: true %>
-					<%= link_to bootstrap_icon('chevron-right', class: 'rounded').html_safe, profile_next_path, method: :post, remote: true %>
+					<%= link_to bootstrap_icon('chevron-left', class: 'rounded').html_safe, prev_module.present? ? profile_prev_path : '', method: :post, remote: true, id: 'schedule_prev_button', disabled:!prev_module.present? %>
+					<%= link_to bootstrap_icon('chevron-right', class: 'rounded').html_safe, next_module.present? ? profile_next_path : '', method: :post, remote: true, id: 'schedule_next_button', disabled:!next_module.present? %>
 				</span>
 				<% end %>
 			</p>
 		</li>
 		<li id="schedule">
-			<%= links_to_ul(@current_module.content) %>
+			<%= links_to_ul(current_module.content) %>
 		</li>
 	</ul>
 	<% end %>
@@ -92,7 +92,7 @@
 	<% if current_schedule.blank? && current_sections.any? %>
 	<ul id="sections" class="nav">
 		<li>
-			<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
+			<p class="nav-text"><%= current_module ? t(:other) : t(:materials) %></p>
 		</li>
 		<li>
 			<ul class="nav materials">

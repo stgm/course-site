@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_01_123713) do
+ActiveRecord::Schema.define(version: 2020_09_02_194908) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -179,6 +179,8 @@ ActiveRecord::Schema.define(version: 2020_09_01_123713) do
     t.text "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "public", default: true
+    t.integer "rank"
     t.index ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
   end
 

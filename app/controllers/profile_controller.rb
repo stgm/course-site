@@ -2,6 +2,8 @@ class ProfileController < ApplicationController
 
 	before_action :authorize
 
+	include NavigationHelper
+
 	def index
 		if Schedule.none? || Schedule.default.present?
 			render layout: 'welcome'
@@ -36,7 +38,7 @@ class ProfileController < ApplicationController
 	def prev
 		respond_to do |format|
 			format.js do
-				current_user.update(current_module: current_user.current_module.previous)
+				current_user.update(current_module: prev_module) if prev_module
 				render 'schedule'
 			end
 		end
@@ -45,7 +47,7 @@ class ProfileController < ApplicationController
 	def next
 		respond_to do |format|
 			format.js do
-				current_user.update(current_module: current_user.current_module.next)
+				current_user.update(current_module: next_module) if next_module
 				render 'schedule'
 			end
 		end

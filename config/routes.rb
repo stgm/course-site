@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 			patch 'schedule_registration' #done
 			patch 'schedule_self_service' #done
 			patch 'page_update'           #done
+			patch 'update_schedule_span'
 		end
 		
 		resources :users, only: [ :index, :new, :create ] do

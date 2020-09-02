@@ -50,3 +50,9 @@ textarea#notes
 		}
 	}	
 }
+
+#schedule_prev_button[href=''], #schedule_next_button[href=''],
+#schedule_prev_button[href='']:hover, #schedule_next_button[href='']:hover
+{
+	color: lightgray;
+}
