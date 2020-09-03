@@ -31,7 +31,7 @@ module NavigationHelper
 	def valid_current_module?
 		return false if !current_user.schedule.present?
 		return false if current_user.current_module.nil?
-		return false if !current_user.senior? && !current_user.current_module.public?
+		return false if !current_user.staff? && !current_user.current_module.public?
 		return true
 	end
 
