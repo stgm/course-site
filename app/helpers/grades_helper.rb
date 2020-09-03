@@ -51,8 +51,14 @@ module GradesHelper
 	
 	def grade_button(user, pset, subs, change=true)
 		if !change
-			return tag.div(class: "btn btn-sm flex-fill btn-light auto-hide") do
-				make_label(pset.name, "--")
+			type=''
+			if subs[pset.id] && submit = subs[pset.id][0]
+				if grade = submit.grade
+					type = grade_button_type(grade.any_final_grade, grade.public?)
+				end
+			end
+			return tag.div(class: "btn btn-sm flex-fill btn-light austo-hide #{type}") do
+				make_label(pset.name, subs[pset.id] && subs[pset.id][0].grade ? subs[pset.id][0].grade.any_final_grade : "--")
 			end
 		end
 		
