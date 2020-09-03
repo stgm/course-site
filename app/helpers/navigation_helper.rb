@@ -15,7 +15,7 @@ module NavigationHelper
 	end
 
 	def current_module
-		if current_user.persisted? && current_schedule.persisted?
+		if logged_in? && current_schedule.persisted?
 			# if user switched schedules, may lack current_module
 			if !valid_current_module?
 				current_user.reset_current_module && current_user.save
