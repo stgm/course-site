@@ -11,7 +11,7 @@ module AutoCheck::Receiver
 		self.save
 	end
 
-	def create_auto_grade
+	def create_auto_grade(send_mail=true)
 		if self.pset.config['auto_publish']
 			# create a create if needed
 			grade = self.grade || self.build_grade
@@ -26,9 +26,9 @@ module AutoCheck::Receiver
 			grade.status = Grade.statuses[:published]
 			grade.grader = User.admin.first
 			grade.save
-		
+
 			# if the results do not appear OK, send an e-mail
-			if grade.calculated_grade == 0
+			if send_mail && grade.calculated_grade == 0
 				GradeMailer.bad_submit(self).deliver
 			end
 		end
