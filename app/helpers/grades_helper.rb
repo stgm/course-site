@@ -55,10 +55,15 @@ module GradesHelper
 			if subs[pset.id] && submit = subs[pset.id][0]
 				if grade = submit.grade
 					type = grade_button_type(grade.any_final_grade, grade.public?)
+					label = make_label(pset.name, subs[pset.id] && subs[pset.id][0].grade ? subs[pset.id][0].grade.any_final_grade : "--")
+				else
+					label = make_label(pset.name, "S")
 				end
+			else
+				label = make_label(pset.name, "--")
 			end
-			return tag.div(class: "btn btn-sm flex-fill btn-light austo-hide #{type}") do
-				make_label(pset.name, subs[pset.id] && subs[pset.id][0].grade ? subs[pset.id][0].grade.any_final_grade : "--")
+			return tag.div(class: "btn btn-sm flex-fill #{type}") do
+				label
 			end
 		end
 		
