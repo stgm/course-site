@@ -23,7 +23,7 @@ class Schedules::SchedulesController < Schedules::ApplicationController
 		
 		@name = @selected_schedule.name
 		@status = params[:status]
-		@psets = Pset.order(:order)
+		@psets = Pset.ordered_by_grading #Pset.order(:order)
 		@grouped_psets = @psets.group_by &:name
 
 		@users = @selected_schedule.users.not_staff.includes(:group, { submits: [:pset, :grade] }).order("groups.name").order(:name)
