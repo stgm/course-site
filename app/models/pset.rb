@@ -14,7 +14,7 @@ class Pset < ApplicationRecord
 	enum grade_type: [:integer, :float, :pass, :percentage]
 	
 	serialize :files, Hash
-	serialize :config
+	serialize :config, Hash
 
 	def self.ordered_by_grading
 		if Settings['grading'] && Settings['grading']['modules']
