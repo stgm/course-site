@@ -22,7 +22,7 @@ class Schedules::SubmitsController < ApplicationController
 				NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver_later
 			end
 		end
-		redirect_to @schedule, notice: 'E-mails are being sent.'
+		redirect_to schedule_overview_path(@schedule), notice: 'E-mails are being sent.'
 	end
 	
 end

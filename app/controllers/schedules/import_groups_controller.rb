@@ -19,7 +19,7 @@ class Schedules::ImportGroupsController < Schedules::ApplicationController
 			Settings.cached_user_paste = source
 			@schedule.import_groups(source)
 		end
-		redirect_to @schedule, notice: 'Student groups were successfully imported.'
+		redirect_to schedule_overview_path(@schedule), notice: 'Student groups were successfully imported.'
 	end
 
 end
