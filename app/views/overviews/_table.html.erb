@@ -19,6 +19,7 @@
 	<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td></tr>
 
 	<% user_list.each do |user| %>
+	<% cache user do %>
 	<tr <%= 'class=table-warning' if user.stagnated? %>>
 		<td>
 			<%= link_to user.name, user, remote: true, data: { toggle: "modal", target: "#modal-browser" } %>
@@ -41,7 +42,7 @@
 		<td><%= user.attendance_records.count %></td>
 		<% end %>
 		
-		<td><%= user.questions_count_cache %></td>
+		<td><%= user.hands.where(success:true).count %></td>
 		
 		<% if params[:status] == 'registered' %>
 		<td><%= user.started_at.strftime("%e %b") if user.started_at %></td>
@@ -61,6 +62,7 @@
 
 	</tr>
 	<% end %>
+	<% end%>
 
 	<% end %>
 
