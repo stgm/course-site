@@ -48,7 +48,7 @@ class Schedules::GradesController < Schedules::ApplicationController
 			end
 		end
 		
-		redirect_to @schedule
+		redirect_to schedule_overview_path(@schedule)
 	end
 	
 	# mark only my own grades public, and even when not marked as finished

@@ -45,8 +45,14 @@ textarea#notes
 	{
 		a[href*="//"]:after
 		{
-			content: url('/icons/box-arrow-up-right.svg');
-			margin-left:3px;
+//			content: url('/icons/box-arrow-up-right.svg');
+//			margin-left:3px;
 		}
 	}	
+}
+
+#schedule_prev_button[href=''], #schedule_next_button[href=''],
+#schedule_prev_button[href='']:hover, #schedule_next_button[href='']:hover
+{
+	color: lightgray;
 }

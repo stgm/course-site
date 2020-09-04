@@ -13,7 +13,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_img(el, indent)
 		if el.attr['alt'] == 'embed'
-			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><iframe allowfullscreen class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
+			return "<div class='embed' #{html_attributes(el.attr)}><div class='embed-responsive embed-responsive-16by9'><iframe allowfullscreen class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
 		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end

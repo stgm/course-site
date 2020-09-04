@@ -1,7 +1,7 @@
 <% if current_user.admin? %>
 
 <%= menu_group current_schedule.name do %>
-	<%= menu_link 'Overview', schedule_overview_path, icon: 'columns' %>
+	<%= menu_link 'Overview', overview_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
 	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', remote: true %>
@@ -31,7 +31,7 @@
 <% end %>
 	
 <%= menu_group do %>
-	<%= menu_link 'Overview', schedule_overview_path, icon: 'columns' %>
+	<%= menu_link 'Overview', overview_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
 	<%= menu_link 'Tests...', tests_path, icon: 'check', remote: true, condition: Settings.tests_present %>
 <% end %>
@@ -40,7 +40,7 @@
 
 <%= menu_group do %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
-	<%= menu_link 'Overview', schedule_overview_path, icon: 'columns', condition: current_user.groups.any? || current_user.schedules.any? %>
+	<%= menu_link 'Overview', overview_path, icon: 'columns', condition: current_user.groups.any? || current_user.schedules.any? %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen', condition: !Schedule.exists? || current_user.groups.any? || current_user.schedules.any? %>
 <% end %>
 

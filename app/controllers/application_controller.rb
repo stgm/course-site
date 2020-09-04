@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 	include AuthenticationHelper
 
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
-		flash[:alert] = "<strong>Warning:</strong> you were logged out since you last loaded this page. If you just submitted, please login and try again.".html_safe
+		flash[:alert] = "Warning: you were logged out since you last loaded this page. If you just submitted, please login and try again."
 		redirect_back fallback_location: '/'
 	end
 	
@@ -23,9 +23,13 @@ class ApplicationController < ActionController::Base
 	## Before-actions
 
 	def authorize
-		head :unauthorized unless request.session['token'].present? || request.session['cas'].present?
+		head :unauthorized unless authenticated?
 	end
- 
+	
+	def validate_profile
+		redirect_to profile_path if authenticated? && !current_user.valid_profile?
+	end
+	
 	def register_attendance
 		if (!session[:last_seen_at] || session[:last_seen_at] && session[:last_seen_at] < 15.minutes.ago) && current_user.persisted?
 			AttendanceRecord.create_for_user(current_user, request_from_local_network?)

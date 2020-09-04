@@ -1,3 +1,12 @@
 document.querySelector("#schedule_name").innerHTML = "<%= current_module && current_module.name || '' %>";
+<% if current_module.public? %>
+document.querySelector("#schedule_name").classList.remove("text-danger");
+<% else %>
+document.querySelector("#schedule_name").classList.add("text-danger");
+<% end %>
 document.querySelector("#schedule").innerHTML = "<%= escape_javascript current_module && links_to_ul(current_module.content) || '' %>";
-document.querySelector("#schedule").highlight_briefly();
+document.querySelector("#schedule_prev_button").href = "<%= escape_javascript prev_module.present? ? profile_prev_path : '' %>";
+document.querySelector("#schedule_next_button").href = "<%= escape_javascript next_module.present? ? profile_next_path : '' %>";
+document.querySelector("#schedule_prev_button").disabled = <%= escape_javascript !prev_module.present? %>;
+document.querySelector("#schedule_next_button").disabled = <%= escape_javascript !next_module.present? %>;
+document.querySelector("#schedule_name").highlight_briefly();

@@ -1,4 +1,4 @@
-<% if not @my_hands.any? || @hands.any? || @long_time_users.any? %>
+<% if not @my_hands.any? || @hands.any? || (Settings.hands_show_non_questions && @long_time_users.any?) %>
 <h5 class="text-center my-5">No requests. Go and find<br> a student to talk to! ❤️</h5>
 <% end %>
 
@@ -20,7 +20,7 @@
 	<% end %>
 
 
-	<% if @long_time_users.any? %>
+	<% if @long_time_users.any? && Settings.hands_show_non_questions %>
 	<% @long_time_users.each do |user| %>
 	<%= link_to(new_hand_path(user_id: user.id), class: 'list-group-item') do %>
 	<%= user.name %>

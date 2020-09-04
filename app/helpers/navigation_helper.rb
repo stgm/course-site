@@ -2,26 +2,48 @@ module NavigationHelper
 
 	def current_sections
 		if current_user.staff?
-			Section.includes(pages: :pset).order("pages.position")
+			Settings.page_tree || {}
 		else
-			Section.includes(pages: :pset).where("pages.public" => true).order("pages.position")
+			# TODO hide hidden pages
+			Settings.page_tree || {}
 		end
 	end
 
 	def current_schedule
-		return @current_schedule ||= current_user.schedule || Schedule.new(name: 'Standard', slug: 'standard')
+		# TODO lijkt niet nodig om hier een default aan te houden
+		return @current_schedule ||= current_user.schedule || Schedule.find_or_initialize_by(name: 'Standard', slug: 'standard')
 	end
 
 	def current_module
-		if current_schedule
-			# if user switched schedules, may lack current_module TODO move to user model on change schedule
-			current_user.check_current_module
+		if logged_in? && current_schedule.persisted?
+			# if user switched schedules, may lack current_module
+			if !valid_current_module?
+				current_user.reset_current_module && current_user.save
+				@current_module = nil
+			end
 			return @current_module ||= if current_schedule.self_service
 					current_user.current_module || current_schedule.current
 				else
 					current_schedule.current
 				end
 		end
+	end
+
+	def valid_current_module?
+		return false if !current_user.schedule.present?
+		return false if current_user.current_module.nil?
+		return false if !current_user.staff? && !current_user.current_module.public?
+		return true
+	end
+
+	def prev_module
+		# retrieve previous module from here, accounting for student/admin permissions
+		current_user.current_module.previous(current_user.student?)
+	end
+
+	def next_module
+		# retrieve next module from here, accounting for student/admin permissions
+		current_user.current_module.next(current_user.student?)
 	end
 
 	def user_designation

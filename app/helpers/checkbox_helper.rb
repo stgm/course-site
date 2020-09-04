@@ -13,9 +13,9 @@ module CheckboxHelper
 		label_content = capture(&block)
 		
 		capture do
-			form_for(object, url: url, remote: true, html: { id: "form_#{id}" }) do |form|
+			form_for(object, url: url, remote: true) do |form|
 				concat hidden_field_tag(:id)
-				concat form.check_box item, { remote: true, checked: value, id: "check_#{id}", onclick: "$('#form_#{id}').trigger('submit.rails');" }
+				concat form.check_box item, { remote: true, checked: value, id: "check_#{id}", onclick: "Rails.fire(this.form, 'submit');" }
 				concat " <label for='check_#{id}'>".html_safe
 				concat label_content
 				concat "</label>".html_safe

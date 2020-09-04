@@ -13,7 +13,8 @@
 $theme-colors: (
   "primary": #0074d9,
   "secondary": #4091d9,
-  "danger": #ff4136
+  "danger": #ff4136,
+  "light": #fffdfc
 );
 
 $color1: #595959;
@@ -21,6 +22,8 @@ $color2: #262626;
 $color3: #F2D8CE;
 $color4: #F2785C;
 $color5: #F25D50;
+
+$background-color: #fffdfc;
 
 @import "bootstrap";
 

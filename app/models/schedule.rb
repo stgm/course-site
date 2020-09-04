@@ -20,6 +20,9 @@ class Schedule < ApplicationRecord
 	# These are the staff that may have been assigned to grade this group
 	has_and_belongs_to_many :graders, class_name: "User"
 	
+	# The information page linked to this schedule
+	belongs_to :page, optional: true
+	
 	extend FriendlyId
 	friendly_id :name, use: :slugged
 	
@@ -27,28 +30,43 @@ class Schedule < ApplicationRecord
 		Schedule.where(self_register: true).first
 	end
 	
+	def default_span(only_public)
+		if only_public
+			self.schedule_spans.all_public.order(:rank).first
+		else
+			self.schedule_spans.order(:rank).first
+		end
+	end
+
 	def can_admin_set_module?
 		!self_service && schedule_spans.any?
 	end
 
-	def load(contents)
+	def load(contents, schedule_page=nil)
 		# this method accepts the yaml contents of a schedule file
 
 		# save the NAME of the current schedule item, to restore later
 		backup_position = current.name if current
 		
-		# delete al items
-		schedule_spans.delete_all
-		
 		# create all items
+		touched_spans = []
+		rank = 0
 		contents.each do |name, items|
 			span = schedule_spans.where(name: name).first_or_initialize
-			span.content = items.to_yaml
+			span.content = items
+			span.rank = rank
 			span.save
+			touched_spans << span.id
+			rank += 1
 		end
 		
+		# remove spans that were apparently deleted
+		schedule_spans.where.not(id:touched_spans).delete_all
+
 		# restore 'current' item
 		update_attribute(:current, backup_position && self.schedule_spans.find_by_name(backup_position))
+		
+		update(page: schedule_page) if schedule_page
 	end
 	
 	def generate_groups(number)

@@ -47,8 +47,10 @@ nl:
         posting_question: "Aanvraag wordt verstuurd..."
         you_are_number_1_in_line: "Je bent nummer %{number} in de wachtrij."
         wait_is_over: "Het wachten is voorbij!"
-        is_looking_to_help_you: "%{name} is op dit moment op zoek naar je om je te assisteren"
+        is_looking_to_help_you: "%{name} is op dit moment naar je op zoek om je te assisteren"
+        in_line: Je staat even in de wacht omdat je kort geleden geholpen bent!
         cancel_request: "Annuleren"
+        link: "Geef je Zoom-link"
 
     activerecord:
       errors:

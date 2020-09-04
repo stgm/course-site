@@ -1,6 +1,6 @@
 <% @results.each do |r| %>
 <% puts r.inspect; puts r.to_partial_path %>
-<%= link_to(r, class:"dropdown-item", onclick: "$('#modal-browser').modal('show');", remote: true) do %>
+<%= link_to(r, class:"dropdown-item  text-truncate", onclick: "$('#modal-browser').modal('show');", remote: true) do %>
 <%= r.name %>
 <% if r.schedule%>
 <span class="badge badge-info"><%= r.schedule.name %></span>

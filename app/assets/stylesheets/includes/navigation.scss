@@ -3,8 +3,17 @@
 #sidebar
 {
 	padding: 0;
-    overflow-y: auto;
 	width: 100%;
+	font-size: 0.9rem;
+	display:flex;
+	flex-wrap:nowrap;
+	background: linear-gradient(50deg, #FEF3BE 0%, #FDDED0 100%);
+}
+
+#sidebar-content
+{
+	padding:1rem;
+	padding-top:0;
 }
 
 #sidebar-tools
@@ -12,15 +21,29 @@
 	width: 100%;
 	padding: 0.5rem;
 
-    display:flex;
+	display:flex;
 	-webkit-box-pack: justify !important;
 	justify-content: space-between !important;
 }
 
+.sidebar-scroller
+{
+	overflow-y: scroll;
+//	border-top:1px solid #ccc;
+	padding-top:0.5rem;
+	padding-bottom:1rem;
+}
+
 .navbar-brand
 {
-    line-height:normal;
-	padding:0;
+	line-height:normal;
+	padding:0.5rem;
+	border-radius:0.25rem;
+}
+
+.navbar-brand:hover
+{
+//	background: linear-gradient(90deg, #D0B5EC 0%, #FEF00A 100%);
 }
 
 #course-title
@@ -37,7 +60,7 @@
 
 #course-name
 {
-    font-weight:bold;
+	font-weight:bold;
 	line-height:1.1;
 }
 
@@ -47,17 +70,36 @@
 	border-bottom:none;
 }
 
-#sidebar-content
+#sidebar #course-links
 {
-	padding: 1rem;
+	margin-left:0;
+	margin-right:0;
+	padding:0.35rem 0.35rem;
 }
 
+#sidebar #course-links div:first-child
+{
+	margin-left:auto;
+}
+
+#sidebar #course-links div:last-child
+{
+	margin-right:auto;
+}
+
+//****************************************************************************
 
 @media (max-width: 767.98px)
 {
-	#sidebar-tools
+	.navbar-brand
 	{
-		background-color:#C2CBD9;
+		padding:0.1rem;
+	}
+	
+	#sidebar-content
+	{
+		padding:0.5rem;
+		padding-top:0;
 	}
 	
 	#schedule-navbar-items
@@ -72,63 +114,60 @@
 	}
 }
 
-@media (min-width: 576px)
-{
-	#sidebar-tools
-	{
-	}
-}
-
 @media (min-width: 768px)
 {
-    #sidebar
-    {
+	#sidebar
+	{
 		display: block;
-        position: fixed;
-        top: 0;
-        bottom: 0;
+		position: fixed;
+		top: 0;
+		bottom: 0;
 		
 		-webkit-box-flex: 0;
 		flex: 0 0 33.3333333333%;
 		max-width: 33.3333333333%;
-    }
-    
-    #sidebar .sidebar-collapse
-    {
-        display:flex;
-        flex-direction:column;
-    }
-	
-	#sidebar-tools
+	}
+
+	#sidebar .sidebar-collapse
 	{
-		padding: 1rem;
 	}
 	
-    // can be in sidebar or in navbar (latter is in full-width layout)
-    .navbar-toggler
-    {
-        display: none;
-    }
+	#sidebar > .nav
+	{
+		padding-left:.75rem;
+		padding-right:.75rem;
+	}
+	
+	#sidebar-content
+	{
+		display:flex;
+		flex-direction:column;
+		padding-top:0.5rem;
+	}
+	
+	#course-links
+	{
+		display:flex;
+	}
+	
+	// can be in sidebar or in navbar (latter is in full-width layout)
+	.navbar-toggler
+	{
+		display: none;
+	}
 	
 	#schedule-navbar-items > *
 	{
 		margin-right:1rem;
 	}
-	
 }
 
 @media (min-width: 992px)
 {
-	#sidebar-tools
+	#sidesbar-tools, #sidebar > .nav > .nav
 	{
-		padding: 1.5rem;
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
-	}
-	
-	#sidebar-content
-	{
-		padding: 1rem 1.5rem;
+		padding-left:1rem;
+		padding-right:1rem;
 	}
 }
 
@@ -138,7 +177,6 @@
 	{
 		-webkit-box-flex: 0;
 		flex: 0 0 25%;
-		max-width: 25%;
 	}
 }
 
@@ -146,64 +184,91 @@
 
 #sidebar .nav
 {
-    // damn flexbox so flexible
-    flex-wrap: nowrap;
-    flex-shrink: 0;
-    width: 100%;
-    flex-direction: column;
+	// damn flexbox so flexible
+	flex-wrap: nowrap;
+	flex-shrink: 0;
+	width: 100%;
+	flex-direction: column;
 }
 
-#sidebar a.nav-link {
-    @extend .px-0;
+#sidebar a.nav-link
+{
+//	@extend .px-0;
 }
 
-#sidebar a.nav-link.disabled {
-    font-weight:600;
+#sidebar a.disabled
+{
+	font-weight:600;
 }
 
 #sidebar h2
 {
-    font-size:.7rem;
-    text-transform: uppercase;
-    color:gray;
+	font-size:.7rem;
+	text-transform: uppercase;
+	color:gray;
 }
 
 #sidebar .nav-text
 {
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 14px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 14px;
 }
 
 #sidebar p.nav-text, #sidebar ul a
 {
-    padding-top:0.35em;
-    padding-bottom:0.35em;
+	padding-top:0.35rem;
+	padding-bottom:0.35rem;
 }
 
-#sidebar p.nav-text, #sidebar a.dropdown-toggle {
-    margin:0;
-    color:#a5a5a5;
+#sidebar p.nav-text {
+	margin:0.15rem 0 0.15rem 0;
+	color:#a5a5a5;
 }
 
 #sidebar-content > ul
 {
-    margin-top:1.5rem;
+	margin-top:0.75rem;
+	padding-top:.75rem;
 }
 
 #sidebar-content > ul:first-child
 {
-	margin-top:0;
+	margin-top:0rem;
+	padding-top:0;
+	border-top:0;
 }
 
-#sidebar > * > .nav
+//****************************************************************************
+
+#sidebar .materials a
 {
-//    padding-bottom:2rem;
+	padding:0.4rem;
+	margin-left:-0.25rem;
+	margin-right:-0.25rem;
 }
 
-#sidebar ul.nav > li > ul.nav > li > ul.nav
+#sidebar .materials a a
 {
-    padding-left:1em;
+	margin-left:-1.25rem;
+	padding-left:0.25rem;
+}
+
+#sidebar .materials a [data-toggle="collapse"]
+{
+	margin-left:-1.25rem;
+	padding-left:0.25rem;
+	color:#343a40;
+}
+
+#sidebar .materials .nav-item
+{
+	margin-left:0.95rem;
+}
+
+#sidebar .materials ul.nav
+{
+	padding-left:1.5rem;
 }
 
 #sidebar ul#sections
@@ -219,80 +284,82 @@
 	}
 }
 
-#sidebar .nav .fa
+#sidebar .materials
 {
-	text-align:center;
-	margin-right:0.25em;
-    width:1.25rem;
-    height:1rem;
+	padding:0;
 }
 
-#sidebar .fa-chevron-circle-left, #sidebar .fa-chevron-circle-right
+#sidebar .materials .chevron
 {
-    text-align:right;
+	color:#aaa;
+	text-align:center;
+	margin-left:-0.25rem;
+	margin-right:0.15rem;
+	width:1rem;
+	height:1rem;
 }
 
 //****************************************************************************
 
 #icon-nav
 {
-    //    position:-webkit-sticky;
-        top:0;
-        z-index:1000;
+	//    position:-webkit-sticky;
+	top:0;
+	z-index:1000;
 }
 
 #icon-nav .nav-item
 {
-    margin-left:.5rem;
+	margin-left:.5rem;
 }
 
 #icon-nav .dropdown-item .fa
 {
-    width:1.5rem;
+	width:1.5rem;
 }
 
 #icon-nav .form-check
 {
-    padding-left:.25rem;
+	padding-left:.25rem;
 }
 
 #icon-nav .register-menu
 {
-    min-width:400px;
+	min-width:400px;
 }
 
 //****************************************************************************
 
 #ama-nav .dropdown-menu
 {
-    min-width:300px;
+	min-width:300px;
 }
 
 //****************************************************************************
 
 #search-nav .dropdown-menu
 {
-    width:500px;
-    background-color:#F2F8FF;
+	width:500px;
+	background-color:#F2F8FF;
 }
 
 #search-content img
 {
-    max-width:100%;
+	max-width:100%;
 }
 
 #search-menu
 {
-    border-color:#3B6999;
-    padding-top:2em;
+	border-color:#3B6999;
+	padding-top:2em;
 }
 
 @media (min-width: 768px)
 {
-    #search-bar
-    {
-        position: fixed;
-    }
+	#search-bar
+	{
+		position: fixed;
+	}
 }
 
 #user-menu a
@@ -302,5 +369,5 @@
 
 #user-menu-sidebar a
 {
-	@extend .nav-link;
+	//@extend .nav-link;
 }

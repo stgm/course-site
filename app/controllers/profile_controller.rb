@@ -1,7 +1,17 @@
 class ProfileController < ApplicationController
 
 	before_action :authorize
-		
+
+	include NavigationHelper
+
+	def index
+		if Schedule.none? || Schedule.default.present?
+			render layout: 'welcome'
+		else
+			render 'sorry', layout: 'welcome'
+		end
+	end
+
 	def show
 		@title = "Profile"
 	end
@@ -28,7 +38,7 @@ class ProfileController < ApplicationController
 	def prev
 		respond_to do |format|
 			format.js do
-				current_user.update(current_module: current_user.current_module.previous)
+				current_user.update(current_module: prev_module) if prev_module
 				render 'schedule'
 			end
 		end
@@ -37,10 +47,24 @@ class ProfileController < ApplicationController
 	def next
 		respond_to do |format|
 			format.js do
-				current_user.update(current_module: current_user.current_module.next)
+				current_user.update(current_module: next_module) if next_module
 				render 'schedule'
 			end
 		end
+	end
+	
+	#
+	# allows setting arbitrary settings in the settings model
+	#
+	def save_progress
+		if items = params["progress"]
+			items.each do |k,v|
+				v = v == "1" if v == "1" or v == "0"
+				current_user.progress[k] = v
+				current_user.save
+			end
+		end
+		head :ok
 	end
 	
 	def save # POST

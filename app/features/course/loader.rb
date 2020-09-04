@@ -20,19 +20,22 @@ class Course::Loader
 			# add course info pages
 			load_course_info(COURSE_DIR)
 			process_info(COURSE_DIR)
-			load_schedules(COURSE_DIR)
 		
-			# and all sections, recursively
+			# and all standard pages, recursively
 			if Course.submodule
-				process_sections("#{COURSE_DIR}/#{Course.submodule}")
+				raise "Not implemented (anymore)"
 			else
-				process_sections(COURSE_DIR)
+				Dir.chdir(COURSE_DIR) do
+					process_pages(Pathname.new('.'), '')
+					Settings.page_tree = traverse(Pathname.new('.'), '')
+				end
 			end
-				
+			
+			# load_schedules(COURSE_DIR)
+			
 			# remove old stuff
 			prune_untouched
 			prune_empty
-			recreate_all_slugs
 		
 			# put psets in order
 			Course::Tools.clean_psets
@@ -57,10 +60,6 @@ private
 		to_delete = Page.includes(:subpages).where(:subpages => { :id => nil }).pluck(:id)
 		Page.where("id in (?)", to_delete).delete_all
 
-		# remove all sections having no pages
-		to_delete = Section.includes(:pages).where(:pages => { :id => nil }).where(content_page:nil).pluck(:id)
-		Section.where("id in (?)", to_delete).delete_all
-		
 		# remove psetfiles for psets that have no parent page
 		# orphan_psets = Pset.includes(:page).where(:pages => { :id => nil })
 		#.each do |p|
@@ -70,15 +69,6 @@ private
 		# remove psets that have no submits and no parent page
 		# to_remove = Pset.where("psets.id in (?)", orphan_psets.map(&:id)).includes(:submits).where(:submits => { :id => nil }).pluck(:id)
 		# Pset.where("psets.id in (?)", to_remove).delete_all
-	end
-	
-	def recreate_all_slugs
-		Section.all.each do |p|
-			p.update(slug: nil)
-		end
-		Page.all.each do |p|
-			p.update(slug: nil)
-		end
 	end
 	
 	# Performs a git pull on the course repo. `Git.pull` has been
@@ -104,23 +94,21 @@ private
 		end
 	end
 	
-	def load_schedules(dir)
-		
-		# load the default schedule in schedule.yml, if available
-		if contents = read_config(File.join(dir, 'schedule.yml'))
-			schedule = Schedule.first || Schedule.where(name: 'Standard').first_or_create
-			schedule.load(contents)
-		end
-
-		# load all schedules in schedules.yml, if available
-		if contents = read_config(File.join(dir, 'schedules.yml'))
-			contents.each do |name, items|
-				schedule = Schedule.where(name: name).first_or_create
-				schedule.load(items)
-			end
-		end
-	end
-	
+	# def load_schedules(dir)
+	# 	# load the default schedule in schedule.yml, if available
+	# 	if contents = read_config(File.join(dir, 'schedule.yml'))
+	# 		schedule = Schedule.first || Schedule.where(name: 'Standard').first_or_create
+	# 		schedule.load(contents)
+	# 	end
+	#
+	# 	# load all schedules in schedules.yml, if available
+	# 	if contents = read_config(File.join(dir, 'schedules.yml'))
+	# 		contents.each do |name, items|
+	# 			schedule = Schedule.where(name: name).first_or_create
+	# 			schedule.load(items)
+	# 		end
+	# 	end
+	# end
 
 	# Reads the `info` directory in the course repo. It creates a
 	# page for it and fills it with the subpages. This special page
@@ -134,122 +122,134 @@ private
 			process_subpages(info_dir, info_page)
 		end
 	end
-	
-	# Reads the top-level sections from the course repo. Creates a
-	# section in the database and recursively reads pages in the section.
-	#
-	def process_sections(dir)
-		
-		# sections should be direct descendants of the root course dir
-		subdirs_of(dir) do |section|
-			
-			Rails.logger.debug "HEEEEEEEE {section}"
-			section_path = File.basename(section)
-			next if section_path == "info" # skip info directory
 
-			# if this directory name is parsable
-			section_info = split_info(section_path)
-			if section_info
-				# db_sec = Section.create(:title => section_info[2], :position => section_info[1], :path => section_path)
-				# Rails.logger.debug "BZZZ " + section_contents.to_s
-				
-				db_sec = Section.find_by_path(section_path) || Section.new(path: section_path)
-				db_sec.title = upcase_first_if_all_downcase(section_info[2])
-				db_sec.position = section_info[1]
-				content_file = files(section, "contents.md")
-				if File.exists?(content_file)
-					section_content_page  = IO.read(content_file)
-					db_sec.content_page = section_content_page
-				end
-				if section_content_links = read_config(files(section, "contents.yml"))
-					db_sec.content_links = section_content_links
-				end
-				db_sec.save
-				
-				process_pages(section, db_sec)
+	# Walk the directory structure, recursively:
+	#  - stores the structurs in a Hash to later render the table of contents (TOC)
+	#  - creates pages w/ subpages in the database
+	#
+	def traverse(curdir, path)
+		# this is the tree for the TOC
+		res={}
+
+		# get all subdirectories in alphanumerical order
+		subdirs = curdir.each_child.filter{|name| !name.to_s.start_with?('.') && name.directory?}.sort
+		
+		subdirs.each do |subdir|
+			# take the subfolder name and sluggify
+			curslug = split_info(subdir.basename.to_s)[2].parameterize
+
+			# first time, we start out with the subdir-slug
+			# if we would use File.join immediately, it would introduce a leading /
+			subslug = path.present? ? File.join(path,curslug) : curslug
+
+			# collect the subtree
+			subsubs = traverse(subdir, subslug)
+
+			# create a page at this position
+			page = process_pages(subdir, subslug)
+
+			if subsubs.any?
+				# if we found a subtree, we add that for the TOC, even if a page is also found here
+				# however, the page may still be found at the slugged URL
+				res[curslug] = subsubs
+			elsif page
+				# no subdirs, so add a link to this page
+				res[page.title] = page.slug
 			end
 		end
 
+		return res
 	end
-	
+
 	def upcase_first_if_all_downcase(s)
 		s == s.downcase && s.sub(/\S/, &:upcase) || s
 	end
-	
+
 	# Reads the second-level pages from the course repo. Creates a page
 	# in the database and recursively reads subpages in the page.
 	#
-	def process_pages(dir, parent_section)
+	def process_pages(page_path, parent_slug)
 		
-		# each page is a descendant of a section and contains one or more markdown subpages
-		subdirs_of(dir) do |page|
-			
-			page_path = File.basename(page)    # only the directory name
-			page_info = split_info(page_path)  # array of position and page name
+		# page_path=dir
+		page_info = split_info(File.basename(page_path))  # array of position and page name
+		page_title = upcase_first_if_all_downcase(page_info[2])
 
-			# if this directory name is parsable
-			if page_info
-				# create the page
-				# db_page = parent_section.pages.create(:title => page_info[2], :position => page_info[1], :path => page_path)
+		# if this directory contains any documents
+		if page_path.glob("*.{md,adoc}").any?
+			# create the page
+			db_page = Page.find_by_path(page_path.to_s) || Page.new(path: page_path.to_s)
+			db_page.title = page_title
+			db_page.slug = parent_slug
+			db_page.position = page_info[1]
+			db_page.save
+
+			# load submit info if available
+			submit_config = read_config(files(page_path, "submit.yml"))
+
+			# add pset to database
+			if submit_config
 				
-				db_page = parent_section.pages.find_by_path(page_path) || parent_section.pages.new(path: page_path)
-				db_page.title = upcase_first_if_all_downcase(page_info[2])
-				db_page.position = page_info[1]
-				db_page.save
+				db_pset = nil
+				
+				if submit_config['name']
+					# checks if pset already exists under name
+					db_pset = Pset.where(:name => submit_config['name']).first_or_initialize
+					db_pset.description = page_info[2]
+					db_pset.message = submit_config['message'] if submit_config['message']
+					db_pset.form = !!submit_config['form']
+					db_pset.url = !!submit_config['url']
+					db_pset.page = db_page  # restore link to owning page!
+					if submit_config['files']
+						db_pset.files = submit_config['files']
+					else
+						db_pset.files = nil
+					end
 
-				# load submit.yml config file which contains items to submit
-				submit_config = read_config(files(page, "submit.yml"))
-
-				# add pset to database
-				if submit_config
-					
-					db_pset = nil
-					
-					if submit_config['name']
-						# checks if pset already exists under name
-						db_pset = Pset.where(:name => submit_config['name']).first_or_initialize
-						db_pset.description = page_info[2]
-						db_pset.message = submit_config['message'] if submit_config['message']
-						db_pset.form = !!submit_config['form']
-						db_pset.url = !!submit_config['url']
-						db_pset.page = db_page  # restore link to owning page!
-						if submit_config['files']
-							db_pset.files = submit_config['files']
-						else
-							db_pset.files = nil
-						end
-
-						db_pset.config = submit_config
-						db_pset.save
+					db_pset.config = submit_config
+					db_pset.save
 						
-						Pset.where("id != ?", db_pset).where(page_id: db_page).update_all(page_id: nil)
+					Pset.where("id != ?", db_pset).where(page_id: db_page).update_all(page_id: nil)
 
-						# remove previous files
-						# db_pset.pset_files.delete_all
+					# remove previous files
+					# db_pset.pset_files.delete_all
 
-						# always recreate so it's possible to remove files from submit
-						# ['required', 'optional'].each do |modus|
-						# 	if submit_config[modus]
-						# 		submit_config[modus].each do |file|
-						# 			db_pset.pset_files.create(:filename => file, :required => modus == 'required')
-						# 		end
-						# 	end
-						# end
-					end
-					
-					if submit_config['dependent_grades']
-						submit_config['dependent_grades'].each do |grade|
-							pset = Pset.where(:name => grade).first_or_create
-							pset.update_attribute(:page_id, db_page.id)
-						end
-					end
-				else
-					Pset.where(page_id: db_page).update_all(page_id: nil)
+					# always recreate so it's possible to remove files from submit
+					# ['required', 'optional'].each do |modus|
+					# 	if submit_config[modus]
+					# 		submit_config[modus].each do |file|
+					# 			db_pset.pset_files.create(:filename => file, :required => modus == 'required')
+					# 		end
+					# 	end
+					# end
 				end
-				process_subpages(page, db_page)
+			else
+				Pset.where(page_id: db_page).update_all(page_id: nil)
 			end
-	
+			process_subpages(page_path, db_page)
+		else
+			db_page = nil
 		end
+
+		# load module info if available
+		if content_links = read_config(files(page_path, "module.yml"))
+			if content_links.class==Hash && content_links.has_key?('name')
+				name = content_links['name']
+				content = content_links['content']
+			else
+				name = page_info[2].parameterize
+				content = content_links
+			end
+			mod = SubModule.where(name: name).first_or_initialize.load(content, page_path)
+		end
+		
+		# load schedule if available
+		if schedule_contents = read_config(files(page_path, "schedule.yml"))
+			schedule_name = page_title != '.' ? page_title : 'Standard'
+			schedule = Schedule.where(name: schedule_name).first_or_create
+			schedule.load(schedule_contents, db_page)
+		end
+		
+		return db_page
 	end
 	
 	def add_to_index(keywords, subpage_id)
@@ -264,6 +264,7 @@ private
 	# subpage (tab) in the database for each.
 	#
 	def process_subpages(dir, parent_page)
+		
 		markdown_files_in(dir) do |subpage|
 
 			subpage_path = File.basename(subpage)
@@ -275,7 +276,7 @@ private
 				file = FrontMatterParser::Parser.parse_file(File.join(dir, subpage_path))
 				
 				# new_subpage = parent_page.subpages.create(:title => subpage_info[2], :position => subpage_info[1], :content => file)
-				title = file['title'].present? && "#{parent_page.section.title} / #{parent_page.title} / #{file['title']}"
+				title = file['title'].present? && "#{parent_page.title} / #{file['title']}"
 				
 				new_subpage = parent_page.subpages.find_by_title(title || subpage_info[2]) || parent_page.subpages.new(title: title || subpage_info[2])
 				new_subpage.position = subpage_info[1]

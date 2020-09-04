@@ -1,12 +1,17 @@
 module AutoCheck::Receiver
-	
+
 	extend ActiveSupport::Concern
 
 	def register_auto_check_results(json)
 		# save the raw results
 		self.check_token = nil
 		self.check_results = json
-		
+
+		create_auto_grade
+		self.save
+	end
+
+	def create_auto_grade(send_mail=true)
 		if self.pset.config['auto_publish']
 			# create a create if needed
 			grade = self.grade || self.build_grade
@@ -21,14 +26,12 @@ module AutoCheck::Receiver
 			grade.status = Grade.statuses[:published]
 			grade.grader = User.admin.first
 			grade.save
-		
+
 			# if the results do not appear OK, send an e-mail
-			if grade.calculated_grade == 0
+			if send_mail && grade.calculated_grade == 0
 				GradeMailer.bad_submit(self).deliver
 			end
 		end
-
-		self.save
 	end
-	
+
 end

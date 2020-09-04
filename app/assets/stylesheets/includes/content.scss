@@ -6,6 +6,9 @@
 	-webkit-hyphens:auto;
 	-moz-hyphens:none;
 	clear:both;
+	max-width:50rem;
+//	margin:0 auto;
+	
 }
 
 #content #markdown-toc
@@ -51,7 +54,7 @@ section dl
 	margin:1em 2em;
 }
 
-section ul li, section ol li, section ol a, section ul a
+section ul li, section ol li, section ol a, section ul a, section details
 {
 	margin-bottom:0.25em;
 }

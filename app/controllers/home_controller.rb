@@ -3,12 +3,13 @@ class HomeController < ApplicationController
 	include NavigationHelper
 
 	before_action :authorize, except: [ :homepage, :syllabus ]
+	before_action :validate_profile
 	before_action :register_attendance
 
 	def homepage
-		if User.admin.none? || Page.none?
+		if User.admin.none? # || Page.none?
 			redirect_to welcome_path
-		elsif Page.where(section_id: nil).none? || logged_in? && alerts_for_current_schedule.any?
+		elsif current_schedule.page.blank? || logged_in? && alerts_for_current_schedule.any?
 			# show announcements page if no syllabus in repo or if there are ann to show at all
 			redirect_to action: "announcements"
 		else
@@ -25,11 +26,13 @@ class HomeController < ApplicationController
 		@overview_config = Settings.overview_config
 		@grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).where(grades: { status: Grade.statuses[:published] }).to_h { |item| [item.pset.name, item.grade] }
 
+		@title = "#{t(:submissions)} - #{Course.long_name}"
+
 		render layout: 'boxes'
 	end
 	
 	def announcements
-		@title = "#{Course.short_name} #{t(:announcements)}"
+		@title = "#{t(:announcements)} - #{Course.long_name}"
 		render layout: 'boxes'
 	end
 	
@@ -53,11 +56,11 @@ class HomeController < ApplicationController
 	
 	def syllabus
 		# the normal homepage is the page without a parent section
-		@page = Page.where(section_id: nil).first
+		# TODO
+		@page = current_schedule && current_schedule.page || Page.find_by_slug('')
 		raise ActionController::RoutingError.new('Not Found') if !@page
-		# if there's a subpage titled with the name of the current schedule, display that, otherwise the subpage numbered 0
-		@subpages = [current_schedule && @page.subpages.where(title: current_schedule.name).first || @page.subpages.where(position: 0).first || @page.subpages.first]
-		@title = "#{Course.short_name}  #{t(:syllabus)}"
+		@subpages = @page.subpages
+		@title = "#{t(:syllabus)} - #{Course.long_name}"
 		render "page/index"
 	end
 	

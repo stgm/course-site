@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_31_125744) do
+ActiveRecord::Schema.define(version: 2020_09_02_194908) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -179,6 +179,8 @@ ActiveRecord::Schema.define(version: 2020_03_31_125744) do
     t.text "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "public", default: true
+    t.integer "rank"
     t.index ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
   end
 
@@ -191,6 +193,8 @@ ActiveRecord::Schema.define(version: 2020_03_31_125744) do
     t.boolean "self_register", default: false, null: false
     t.boolean "self_service", default: false, null: false
     t.string "slug"
+    t.integer "page_id"
+    t.index ["page_id"], name: "index_schedules_on_page_id"
     t.index ["slug"], name: "index_schedules_on_slug", unique: true
   end
 
@@ -222,6 +226,11 @@ ActiveRecord::Schema.define(version: 2020_03_31_125744) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
+  end
+
+  create_table "sub_modules", force: :cascade do |t|
+    t.string "name"
+    t.text "content_links"
   end
 
   create_table "submits", force: :cascade do |t|
@@ -283,8 +292,10 @@ ActiveRecord::Schema.define(version: 2020_03_31_125744) do
     t.datetime "started_at"
     t.text "grades_cache"
     t.integer "current_module_id"
+    t.text "progress"
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
   end
 
+  add_foreign_key "schedules", "pages"
 end

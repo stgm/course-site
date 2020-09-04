@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 			post 'set_git_repo'           #done
 			post 'generate_secret'        #done
 		end
-		
+
 		# dropbox linking
 		namespace :dropbox do
 			post "connect"
@@ -29,8 +29,9 @@ Rails.application.routes.draw do
 			patch 'schedule_registration' #done
 			patch 'schedule_self_service' #done
 			patch 'page_update'           #done
+			patch 'update_schedule_span'
 		end
-		
+
 		resources :users, only: [ :index, :new, :create ] do
 			post   'add_group_permission'
 			delete 'remove_group_permission'
@@ -39,37 +40,39 @@ Rails.application.routes.draw do
 			patch  'set_role'
 			put    'set_role'
 		end
-		
+
 		resource :update, only: [ :create ]
 	end
 
 	#--BULK OPS---------------------------------------------------------------------------------
 
-	resource :overview, module: 'schedules', as: 'schedule_overview', only: [ :show ]
+	resource :overview, only: [ :show ] do
+		get  "groups/:slug(/status/:status)",    action: :group, as: 'group',    defaults: { status: 'active' }
+		get  "schedules/:slug(/status/:status)", action: :schedule, as: 'schedule', defaults: { status: 'active' }
+	end
 
 	resources :schedules, module: 'schedules', param: 'slug', only: [] do
-
 		get  "(/status/:status)", action: :index, as: '', defaults: { status: 'active' }
-		
+
 		resource :current_module, only: [ :edit, :update ]
 		resource :export_final_grades, only: [ :new, :create ]
 		resource :import_groups, only: [ :new, :create ]
 		resource :generate_groups, only: [ :new, :create ]
-		
+
 		resources :grades, only: [] do
 			collection do
 				post "publish_finished"
 				post "publish_my"
 				post "publish_all"
 				post "publish"
-	
+
 				get  "form_for_publish_auto"
 				post "publish_auto"
-	
+
 				put  "assign_all_final"
 			end
 		end
-		
+
 		resources :submits, only: [] do
 			collection do
 				get  "form_for_late"
@@ -78,16 +81,16 @@ Rails.application.routes.draw do
 				post "notify_missing"
 			end
 		end
-		
+
 		resource :status, only: [ :show ]
 	end
-	
-	resources :groups, module: 'groups', only: [] do
-		post 'reopen_grades'
-	end
-	
+
+	# resources :groups, module: 'groups', only: [] do
+	# 	post 'reopen_grades'
+	# end
+
 	#--APPS-------------------------------------------------------------------------------------
-	
+
 	# test management
 	resources :tests, only: :index, shallow_prefix: 'tests', module: :tests do
 		resource :results, only: [ :show, :update ]
@@ -95,14 +98,14 @@ Rails.application.routes.draw do
 			resource :overview, as: 'test_overview', only: [ :show ]
 		end
 	end
-	
+
 	# grading interface
 	resources :grading, param: 'submit_id', only: [ :index, :show, :create ], path: "grading" do
 		get  "download"
 	end
 	# one button in the grading interface
 	post "grading/finish", as: "finish_grading"
-	
+
 	# question queuing
 	resources :hands, only: [ :index, :show, :new, :create, :update ], module: 'hands' do
 		collection do
@@ -121,7 +124,7 @@ Rails.application.routes.draw do
 			put "done"
 		end
 	end
-	
+
 	namespace :search do
 		resource :users, only: [ :show ]
 	end
@@ -147,7 +150,7 @@ Rails.application.routes.draw do
 				post 'recheck'
 			end
 		end
-		
+
 		resources :grades, except: [ :index ] do
 			member do
 				put  "templatize"
@@ -165,8 +168,9 @@ Rails.application.routes.draw do
 		get  'feedback/:submit_id', action: 'feedback', as: "feedback"
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
+		post 'save_progress'
 	end
-	
+
 
 	#--ONBOARDING-------------------------------------------------------------------------------
 	# for new web site instances
@@ -179,13 +183,13 @@ Rails.application.routes.draw do
 
 	post "api/reload", to: "api/api#reload"
 	get  "api/current_longest_waiting_time"
-	
+
 	post "api/check_result/do", to: "api/check_result#do"
-	
+
 	namespace :api do
 		resources :test_results, only: [ :create ]
 	end
-	
+
 	#--CONTENT----------------------------------------------------------------------------------
 
 	# homepage
@@ -203,8 +207,7 @@ Rails.application.routes.draw do
 	# pages
 	resource :submissions, only: [ :create ]
 	post "page/submit"
-	get  ":section/:page" => "page#index" # default route, for content pages (must be 2nd last!)
-	get  ":section" => "page#section"     # default route, for section pages (must be last!)
+	get  "*slug" => "page#index" # default route, for content pages (must be last!)
 
 	# legacy mobile app support
 	# namespace :tracking do

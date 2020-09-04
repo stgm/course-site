@@ -29,7 +29,7 @@ module SettingsHelper
 							checked: Settings[setting_name],
 							id: "settings_#{setting_name}_check",
 							class: "form-check-input",
-							onclick: "$('#settings_#{setting_name}_form').trigger('submit.rails');"
+							onclick: "Rails.fire(this.form, 'submit');"
 						}
 					))
 					concat(tag.label label, class:'form-check-label', for:"settings_#{setting_name}_check")
@@ -40,7 +40,7 @@ module SettingsHelper
 	end
 	
 	def settings_form(setting_name)
-		form_for(:settings, url: admin_site_settings_path(), remote: true, html: { id: "settings_#{setting_name}_form" }) do |form|
+		form_for(:settings, url: admin_site_settings_path(), remote: true) do |form|
 			yield form
 		end
 	end
