@@ -2,7 +2,7 @@
 
 	<%= hidden_field_tag :commit, :autosave %>
 	<%= f.hidden_field :submit_id %>
-	<%= f.hidden_field :grader_id %>
+	<%#= f.hidden_field :grader_id %>
 
 	<% if @grade.grader != current_user && @grade.updated_at && @grade.updated_at > 10.minutes.ago %>
 	<div class="alert alert-warning mx-n3 px-3 mb-3 small"><%= @grade.grader_name %> was editing this <%= time_ago_in_words(@grade.updated_at) %> <%= t(:ago) %></div>

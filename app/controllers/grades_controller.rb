@@ -12,7 +12,9 @@ class GradesController < ApplicationController
 	end
 
 	def create
-		@grade = Grade.create!(grade_params)
+		@grade = Grade.new(grade_params)
+		@grade.grader = current_user
+		@grade.save!
 
 		respond_to do |format|
 			format.js do
