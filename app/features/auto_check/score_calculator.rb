@@ -28,7 +28,7 @@ module AutoCheck::ScoreCalculator
 			when "check50v2"
 				return check_results[tool].count { |x| x["status"].present? } / check_results[tool].size.to_f
 			when "check50", "check50v3"
-				return nil if check_results[tool]["error"].present?
+				return 0 if check_results[tool]["error"].present?
 				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
 			when "checkpy"
 				if check_results[tool].is_a?(Array)
