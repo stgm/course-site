@@ -19,11 +19,12 @@ class ProfileController < ApplicationController
 	def feedback
 		submit = Submit.find(params[:submit_id])
 		@formatted_feedback = submit.formatted_auto_feedback
-		respond_to do |format|
-			format.js do
-				render 'feedback'
-			end
-		end
+		# respond_to do |format|
+		# 	format.js do
+		# 		render 'feedback'
+		# 	end
+		# end
+		render_to_modal header: 'Check results'
 	end
 	
 	def pair

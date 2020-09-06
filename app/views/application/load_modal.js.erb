@@ -1,10 +1,10 @@
 $('#modal-browser').modal('show');
 <% if @header %>
-$('#modal-browser-header').html("<%= j render 'modal_title', header: @header %>");
+document.getElementById('modal-browser-header').innerHTML = "<%= j render 'modal_title', header: @header %>";
 <% elsif @header_partial %>
-$('#modal-browser-header').html("<%= j(render @header_partial) %>");
+document.getElementById('modal-browser-header').innerHTML = "<%= j(render @header_partial) %>";
 <% end %>
-$('#modal-browser-body').html("<%= j(render @partial) %>");
+document.getElementById('modal-browser-body').innerHTML = "<%= j(render @partial) %>";
 <% if @tooltips %>
 $('[data-toggle="tooltip"]').tooltip();
 <% end %>

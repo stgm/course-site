@@ -15,33 +15,5 @@ URL: <%= link_to submit.url, submit.url %>
 </p>
 <% end %>
 <% if submit.has_auto_feedback? %>
-<%= link_to t("check_results"), profile_feedback_path(submit), class:"btn btn-secondary", data: { toggle:'modal', target:'#fb-modal', submit: submit.id } %>
+<%= link_to t("check_results"), profile_feedback_path(submit), class:"btn btn-secondary", remote: true %>
 <% end %>
-
-<div id="fb-modal" class="fade modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Automatic feedback</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-<pre id="fb">Hoi</pre>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-	$('#fb-modal').on('show.bs.modal', function (e) {
-		// clear modal upon loading
-		$('#fb').html("");
-
-		// load new data
-		elt = $(e.relatedTarget);
-		// $('#grade-modal-body').load('/grades/' + elt.data("submit"));
-		$.ajax("/profile/feedback/" + elt.data("submit"));
-	})
-</script>
