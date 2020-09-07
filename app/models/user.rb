@@ -152,7 +152,7 @@ class User < ApplicationRecord
 					files["(#{submit.correctness_score}) #{submit.pset.name}/#{filename}"] = contents
 				end
 			end
-			if submit.form_contents
+			if submit.form_contents.present?
 				files["#{submit.pset.name}/Form"] = submit.form_contents
 			end
 		end
