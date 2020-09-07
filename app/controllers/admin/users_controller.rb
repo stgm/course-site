@@ -11,7 +11,7 @@ class Admin::UsersController < ApplicationController
 	def index
 		@users = User.staff.order(:role, :name)
 		@schedules = Schedule.all
-		@groups = Group.all
+		@groups = Group.includes(:schedule).order('schedules.name').order('groups.name')
 
 		render_to_modal header: 'User permissions'
 	end
