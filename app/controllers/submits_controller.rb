@@ -25,9 +25,9 @@ class SubmitsController < ApplicationController
 	end
 
 	def update
-		if current_user.senior? || @submit.grade.blank? || @submit.grade.unfinished?
-			@submit = Submit.find(params[:id])
+		@submit = Submit.find(params[:id])
 
+		if current_user.senior? || @submit.grade.blank? || @submit.grade.unfinished?
 			# note: this includes params for the grade
 			@submit.update! params.require(:submit).permit!
 		end
