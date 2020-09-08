@@ -149,7 +149,7 @@ class User < ApplicationRecord
 		self.submits.where(pset: mod.psets).each do |submit|
 			if submit.file_contents
 				submit.file_contents.each do |filename, contents|
-					files["(#{submit.correctness_score}) #{submit.pset.name}/#{filename}"] = contents
+					files["<small>(#{(submit.correctness_score||0)*100}% #{submit.submitted_at.strftime('%a-%-d %R')})</small> #{submit.pset.name}/#{filename}"] = contents
 				end
 			end
 			if submit.form_contents.present?
