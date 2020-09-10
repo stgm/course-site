@@ -7,7 +7,7 @@
 <span class="badge float-right">done</span>
 <% end %>
 <br>
-<small><%= link_to_if Settings.hands_link, @hand.location, @hand.location || "no location" %>, <%= time_ago_in_words(@hand.created_at) %> ago</small>
+<small><%= link_to_if Settings.hands_link, @hand.location, @hand.location || "no location", target: :_blank %>, <%= time_ago_in_words(@hand.created_at) %> ago</small>
 </h4>
 
 <p><%= @hand.help_question or "No question was entered, even if this would be impossible." %></p>
