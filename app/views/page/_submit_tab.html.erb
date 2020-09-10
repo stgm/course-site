@@ -39,12 +39,6 @@
 <p>Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
 <% end %>
 
-<p class="mb-0 text-right"><%= submit_tag 'Submit for grading', class:'btn btn-primary' %></p>
-
-<script>
-$('#page_form').submit(function(){
-	$('input[type=submit]', this).attr('disabled', 'disabled');
-});
-</script>
+<p class="mb-0 text-right"><%= submit_tag 'Submit for grading', class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>
 
 <% end %>

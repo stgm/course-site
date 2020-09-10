@@ -13,12 +13,14 @@
 <% end %>
 
 <% content_for :footer do %>
+	<% if Settings.pages_enable_math %>
 	<script>
 		$(document).on('turbolinks:load', function() {
 			if(MathJax.typeset)
 				MathJax.typeset();
 		});
 	</script>
+	<% end %>
 	<%= render 'footer' %>
 <% end %>
 

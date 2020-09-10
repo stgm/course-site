@@ -11,16 +11,18 @@ function activate_button(button) {
 	button.addClass('active');
 }
 
-$(document).on('ready page:change', function () {
+$(document).on('ready turbolinks:load', function () {
 	$('button#pass-btn').click(function(e) {
 		$('#grade_grade').val(GRADE_PASS);
 		activate_button($(this));
+		Rails.fire(document.getElementById('grade-form'), 'submit')
 		e.preventDefault();
 	});
 
 	$('button#fail-btn').click(function(e) {
 		$('#grade_grade').val(GRADE_FAIL);
 		activate_button($(this));
+		Rails.fire(document.getElementById('grade-form'), 'submit')
 		e.preventDefault();
 	});
 

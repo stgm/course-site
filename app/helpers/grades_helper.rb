@@ -75,7 +75,7 @@ module GradesHelper
 				link_to make_label(pset.name, "S"), submit, remote: true, class: "btn btn-sm flex-fill btn-light", data: { trigger: 'modal' }
 			end
 		else
-			link_to make_label(pset.name, "--"), submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, remote: true, class: "btn btn-sm flex-fill btn-light auto-hide", data: { confirm: 'Would you like to enter a grade for this unsubmitted pset?', trigger: 'modal' }
+			link_to make_label(pset.name, "--"), submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, remote: true, class: "btn btn-sm flex-fill btn-light auto-hide", data: { trigger: 'modal', confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
 		end
 	end
 	

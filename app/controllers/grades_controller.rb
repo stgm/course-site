@@ -2,17 +2,19 @@ class GradesController < ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
-	
+
 	#todo check grading assignment for user
-	
+
 	layout false
 
 	def show
 		@grade = Grade.includes(submit: [ :user, :pset ]).find(params[:id])
 	end
-	
+
 	def create
-		@grade = Grade.create!(grade_params)
+		@grade = Grade.new(grade_params)
+		@grade.grader = current_user
+		@grade.save!
 
 		respond_to do |format|
 			format.js do
@@ -26,16 +28,16 @@ class GradesController < ApplicationController
 			end
 		end
 	end
-	
+
 	def update
 		@grade = Grade.find(params[:id])
+
+		# grades can only be edited if "open" or if user is admin
 		if current_user.senior? || @grade.unfinished?
-			# grades can only be edited if "open" or if user is admin
+			@grade.grader ||= current_user
 			@grade.update!(grade_params)
-		# elsif current_user.assistant? && @submit.grade.published? && params["grade"]["status"] == "discussed"
-		# 	@grade.update!(grade_params)
 		end
-		
+
 		respond_to do |format|
 			format.js do
 				logger.info params[:commit]
@@ -51,7 +53,7 @@ class GradesController < ApplicationController
 			format.html { redirect_back fallback_location:@grade }
 		end
 	end
-	
+
 	# DELETE /grades/:id
 	def destroy
 		@grade = Grade.find(params[:id])
@@ -76,11 +78,11 @@ class GradesController < ApplicationController
 		@grade.save
 		redirect_back fallback_location: '/'
 	end
-	
+
 	private
-	
+
 	def grade_params
 		params.require(:grade).permit!
 	end
-	
+
 end

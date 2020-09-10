@@ -22,3 +22,8 @@
 //= require chartkick
 //= require twitter/typeahead
 //= require_tree .
+
+
+document.addEventListener('ajax:before', () => {
+	Turbolinks.clearCache();
+})
