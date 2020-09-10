@@ -1,4 +1,6 @@
 class AttendanceRecord < ApplicationRecord
+	
+	# belongs_to :user, touch: true
 
 	def self.create_for_user(user, is_local)
 		# get current hour
