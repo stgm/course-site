@@ -1,11 +1,9 @@
 class Pset < ApplicationRecord
 
 	belongs_to :page, optional: true
-	has_one :mod
-	belongs_to :parent_mod, class_name: "Mod", foreign_key: "mod_id", optional: true
-	delegate :pset, to: :parent_mod, prefix: 'parent', allow_nil: true
-	# belongs_to :mod
-	# has_one :parent_mod, class_name: "Mod"
+	
+	belongs_to :parent_pset, :class_name => 'Pset', optional: true
+	has_many :child_psets, :class_name => 'Pset', :foreign_key => 'parent_pset_id'
 
 	has_many :pset_files
 	has_many :submits
