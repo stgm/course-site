@@ -37,7 +37,7 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @groups.each do |group| %>
-					<%= link_to group.name, admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, remote: true, class:"dropdown-item" %>
+					<%= link_to "#{group.schedule.name} - #{group.name}", admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, remote: true, class:"dropdown-item" %>
 					<% end %>
 				</ul>
 			</div>

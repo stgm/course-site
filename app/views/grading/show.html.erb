@@ -21,7 +21,7 @@
 	<%= render partial: 'grading_info' %>
 
 	<div id="grade" class="d-flex flex-column" style="min-height:100%">
-		<%= render @grade %>
+		<%= render @submit %>
 	</div>
 	
 	<% cache @grades do %>
@@ -50,7 +50,7 @@
 
 <div class="col-7" style="overflow-y:scroll; min-height:0; border-left:1px solid #eee; max-height:100%">
 	
-	<% if @files.present? || @submit.has_auto_feedback? %>
+	<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
 	<ul class="nav nav-tabs" id="files" role="tablist">
 		<%= render partial: 'file_tabs', locals: { first: true } %>
 	</ul>

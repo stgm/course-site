@@ -13,14 +13,14 @@ function activate_button(button) {
 
 $(document).on('ready turbolinks:load', function () {
 	$('button#pass-btn').click(function(e) {
-		$('#grade_grade').val(GRADE_PASS);
+		document.getElementById('submit_grade_attributes_grade').value = GRADE_PASS;
 		activate_button($(this));
 		Rails.fire(document.getElementById('grade-form'), 'submit')
 		e.preventDefault();
 	});
 
 	$('button#fail-btn').click(function(e) {
-		$('#grade_grade').val(GRADE_FAIL);
+		document.getElementById('submit_grade_attributes_grade').value = GRADE_FAIL;
 		activate_button($(this));
 		Rails.fire(document.getElementById('grade-form'), 'submit')
 		e.preventDefault();

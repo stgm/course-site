@@ -32,6 +32,7 @@ nl:
     you_submitted: "Je hebt %{name} ingezonden"
     you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
     see_submissions_page: "Zie de voortgangspagina voor een overzicht."
+    files_submitted: "Ingestuurde bestanden:"
     check_results: "Check-resultaten"
     overview: "Resultaten"
     weight: "weging"

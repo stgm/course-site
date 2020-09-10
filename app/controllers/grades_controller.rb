@@ -34,7 +34,6 @@ class GradesController < ApplicationController
 
 		# grades can only be edited if "open" or if user is admin
 		if current_user.senior? || @grade.unfinished?
-			@grade.grader ||= current_user
 			@grade.update!(grade_params)
 		end
 
