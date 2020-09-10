@@ -58,6 +58,8 @@ private
 	def prune_empty
 		# remove all pages having no subpages
 		to_delete = Page.includes(:subpages).where(:subpages => { :id => nil }).pluck(:id)
+		
+		# remove pages and disassociate any related psets
 		Page.where("id in (?)", to_delete).delete_all
 
 		# remove psetfiles for psets that have no parent page

@@ -12,6 +12,7 @@ class Submit < ApplicationRecord
 	delegate :name, to: :pset, prefix: true, allow_nil: true
 
 	has_one :grade, dependent: :destroy
+	accepts_nested_attributes_for :grade
 	delegate :status, to: :grade, prefix: true, allow_nil: true
 	delegate :first_graded, to: :grade, allow_nil: true
 	delegate :last_graded, to: :grade, allow_nil: true
@@ -37,11 +38,19 @@ class Submit < ApplicationRecord
 		where("psets.automatic = ? or submits.check_results is not null", false).
 		order('submits.created_at asc')
 	end
-	
+
+	def to_partial_path
+		# This very nice rails feature allows us to decide whether a form or
+		# a read-only presentation should be rendered. Simply use "render
+		# @grade_object" and this method will be consulted.
+		# unfinished? && 'submits/form' || 'submits/show'
+		(grade.blank? || grade.unfinished?) ? 'submits/form' : 'submits/show'
+	end
+
 	def sortable_date
 		submitted_at
 	end
-	
+
 	def record(used_login: nil, archive_folder_name: nil, url: nil, attachments: nil, check_token: nil, form_contents: nil)
 		# basic info
 		self.submitted_at = Time.now
