@@ -211,18 +211,4 @@ Rails.application.routes.draw do
 	post "page/submit"
 	get  "*slug" => "page#index" # default route, for content pages (must be last!)
 
-	# legacy mobile app support
-	# namespace :tracking do
-	# 	# for getting a token
-	# 	post "register"                           => "register#identify"
-	# 	# for getting info based on token id
-	# 	post "tokenized/identify(/:token)"        => "tokenized#identify"
-	# 	post "tokenized/ping(/:token)"            => "tokenized#ping"
-	# 	post "tokenized/gone(/:token)"            => "tokenized#gone"
-	# 	post "tokenized/help(/:token)"            => "tokenized#help"
-	# 	post "tokenized/clear/:user"              => "tokenized#clear"
-	# 	post "tokenized/list_assistants(/:token)" => "tokenized#list_assistants"
-	# 	post "tokenized/list_students(/:token)"   => "tokenized#list_students"
-	# end
-
 end

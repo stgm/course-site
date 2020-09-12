@@ -55,7 +55,6 @@ class HomeController < ApplicationController
 	end
 	
 	def syllabus
-		# the normal homepage is the page without a parent section
 		# TODO
 		@page = current_schedule && current_schedule.page || Page.find_by_slug('')
 		raise ActionController::RoutingError.new('Not Found') if !@page

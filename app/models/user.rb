@@ -23,8 +23,6 @@ class User < ApplicationRecord
 	has_many :authored_notes, class_name: "Note", foreign_key: "author_id"
 	has_many :authored_grades, class_name: "Grade", foreign_key: "grader_id"
 	
-	has_one :ping
-
 	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
 	scope :not_staff, -> { where.not(id: staff) }
 	
@@ -77,7 +75,8 @@ class User < ApplicationRecord
 
 	def items(with_private=false)
 		items = []
-		items += submits.includes({:pset => [:parent_mod, :mod]}).where("submitted_at is not null").where("psets.mod_id is not null or mods_psets.pset_id is null").references(:psets, :mods).to_a
+		# show all submits for psets that are _not_ a module
+		items += submits.includes({:pset => [:parent_pset, :child_psets]}).where("submitted_at is not null").where("child_psets_psets.id is null or parent_psets_psets.id is not null").references(:parent_pset, :child_psets).to_a
 		items += grades.includes(:pset, :submit, :grader).showable.to_a
 		items += hands.includes(:assist).to_a if with_private
 		items += notes.includes(:author).to_a if with_private
@@ -146,7 +145,7 @@ class User < ApplicationRecord
 	# retrieve all submitted file contents for all submits from a particular module (for this user)
 	def files_for_module(mod)
 		files = {}
-		self.submits.where(pset: mod.psets).each do |submit|
+		self.submits.where(pset: mod.child_psets).each do |submit|
 			if submit.file_contents
 				submit.file_contents.each do |filename, contents|
 					files["<small>(#{(submit.correctness_score||0)*100}% #{submit.submitted_at.strftime('%a-%-d %R')})</small> #{submit.pset.name}/#{filename}"] = contents
