@@ -29,8 +29,7 @@
 	<div class="form-group">
 		<div class="checkbox">
 			<label>
-				<%= hidden_field_tag "grade[subgrades[#{subgrade_name}]]", 0 %>
-				<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.humanize %>
+				<%= check_box_tag "grade[subgrades[#{subgrade_name}]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero?, disabled: true %> <%= subgrade_name.humanize %>
 			</label>
 		</div>
 	</div>
@@ -51,7 +50,7 @@
 <% end %>
 
 <% if current_user.senior? %>
-<div class="form-group d-flex mt-auto mb-0 flex-row-reverse">
+<div class="form-group d-flex mt-sauto mb-0 flex-row-reverse">
 	<%= link_to "Re-open", grade_path(id: @grade.id, grade: { status: :unfinished }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-secondary' %>
 </div>
 <% end %>

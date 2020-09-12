@@ -1,4 +1,4 @@
-<%= form_with model: @grade, html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
+<!-- <%= form_with model: @grade, html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
 
 	<%= f.hidden_field :submit_id %>
 	<%= f.hidden_field :grader_id %>
@@ -8,7 +8,7 @@
 	<% end %>
 
 	<%= render partial: 'grades/form', locals: { f: f } %>
-	
+
 	<div class="form-group d-flex mt-auto">
 		<% if current_user.admin? || @grade.unfinished? %>
 		<%= f.submit 'Save', class: 'btn btn-primary flex-fill' %>
@@ -27,4 +27,4 @@
 		<% end %>
 	</div>
 
-<% end %>
+<% end %> -->

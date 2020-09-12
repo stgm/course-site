@@ -27,7 +27,7 @@ class GradingController < ApplicationController
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
 
 		# load files submitted in child psets if we want to grade a parent module
-		@files_from_module = @submit.user.files_for_module(@submit.pset.parent_pset) if @submit.pset.parent_pset
+		@files_from_module = @submit.user.files_for_module(@submit.pset)
 
 		# take all submitted files for the individual submits and add those in the module submit
 		@files = @submit.file_contents.merge(@files_from_module||{})

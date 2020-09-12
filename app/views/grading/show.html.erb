@@ -14,14 +14,14 @@
 </div>
 <% end %>
 
-<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; border-left:1px solid #eee; max-height:100% ">
+<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; bordesr-left:1px solid #eee; max-height:100% ">
 	
 	<!-- TODO id=grade makes it auto-update but it doesn't quite work because it was made for a different page -->
 	
 	<%= render partial: 'grading_info' %>
 
 	<div id="grade" class="d-flex flex-column" style="min-height:100%">
-		<%= render @submit %>
+		<%= render @grade %>
 	</div>
 	
 	<% cache @grades do %>
