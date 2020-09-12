@@ -27,11 +27,6 @@ class ProfileController < ApplicationController
 		render_to_modal header: 'Check results'
 	end
 	
-	def pair
-		current_user.generate_pairing_code!
-		render text: "Pairing code is #{"%04d" % current_user.token}"
-	end
-	
 	def ping
 		head :ok
 	end

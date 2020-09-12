@@ -7,9 +7,9 @@ class HomeController < ApplicationController
 	before_action :register_attendance
 
 	def homepage
-		if User.admin.none? # || Page.none?
+		if User.admin.none?
 			redirect_to welcome_path
-		elsif current_schedule.page.blank? || logged_in? && alerts_for_current_schedule.any?
+		elsif logged_in? && alerts_for_current_schedule.any?
 			# show announcements page if no syllabus in repo or if there are ann to show at all
 			redirect_to action: "announcements"
 		else

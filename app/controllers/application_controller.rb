@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	before_action do # login by token
-		if params[:token].present?
+		if params[:token].present? && User.where(token: params[:token]).any?
 			# login via generated token
 			request.session['token'] = params[:token]
 		end
