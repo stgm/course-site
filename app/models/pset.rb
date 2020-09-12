@@ -29,7 +29,6 @@ class Pset < ApplicationRecord
 				mods_in_final_grade = Settings['grading']['calculation'].values.map{|x| x.keys}.flatten
 				psets_in_final_grade = mods_in_final_grade.map{|x| Settings['grading'][x]['submits']}.map{|y|y.keys}.flatten
 				other_psets = self.where.not(id: psets).where(name: psets_in_final_grade).order(:order)
-				puts other_psets
 				psets += other_psets
 			end
 			
