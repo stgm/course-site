@@ -6,8 +6,8 @@
 <div class="col-2 px-0 py-0 turbolinks-disable-scroll" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
 	<ul class="nav flex-column">
 		<% @to_grade.each do |submit| %>
-		<li class="nav-item <%= 'bg-secondary' if @submit == submit %>">
-			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'text-white' if @submit == submit}" %>
+		<li class="nav-item p-0 ">
+			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-secondary text-light' if @submit == submit}" %>
 		</li>
 		<% end %>
 	</ul>
@@ -21,7 +21,7 @@
 	<%= render partial: 'grading_info' %>
 
 	<div id="grade" class="d-flex flex-column" style="min-height:100%">
-		<%= render @grade %>
+		<%= render @submit %>
 	</div>
 	
 	<% cache @grades do %>
@@ -48,13 +48,13 @@
 	
 </div>
 
-<div class="col-7" style="overflow-y:scroll; min-height:0; border-left:1px solid #eee; max-height:100%">
+<div class="col-7 p-0" style="overflow-y:scroll; min-height:0; border-left:1px solid #eee; max-height:100%">
 	
 	<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
-	<ul class="nav nav-tabs" id="files" role="tablist">
+	<ul class="nav nav-pills p-2" id="files" role="tablist">
 		<%= render partial: 'file_tabs', locals: { first: true } %>
 	</ul>
-	<div class="tab-content">
+	<div class="tab-content p-3">
 		<%= render partial: 'file_panels', locals: { first: true } %>
 	</div>
 	<% end %>

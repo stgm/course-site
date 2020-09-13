@@ -52,7 +52,7 @@ class SubmitsController < ApplicationController
 		@submit.destroy
 		respond_to do |format|
 			format.js { redirect_js location: user_path(@submit.user) }
-			format.html { redirect_back fallback_location: root_path }
+			format.html { redirect_to grading_index_path }
 		end
 	end
 
