@@ -13,7 +13,7 @@ class Admin::UsersController < ApplicationController
 		@schedules = Schedule.order(:name)
 		@groups = Group.includes(:schedule).order('schedules.name').order('groups.name')
 
-		render_to_modal header: 'User permissions'
+		render_to_modal header: 'User permissions', in_place_editing: true
 	end
 	
 	def new
