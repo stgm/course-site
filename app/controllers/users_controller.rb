@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 		@items = @student.items(true)
 		@psets = Pset.order(Arel.sql("'order' IS NULL"), :order)
 
-		render_to_modal header_partial: 'title', action: 'show'
+		render_to_modal header_partial: 'title', action: 'show', in_place_editing: true
 	end
 	
 	# PATCH /manage/users/:id

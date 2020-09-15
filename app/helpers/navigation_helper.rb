@@ -10,8 +10,8 @@ module NavigationHelper
 	end
 
 	def current_schedule
-		# TODO lijkt niet nodig om hier een default aan te houden
-		return @current_schedule ||= current_user.schedule || Schedule.find_or_initialize_by(name: 'Standard', slug: 'standard')
+		# either current user's schedule or just a default for logged-out users
+		return @current_schedule ||= current_user.schedule || Schedule.first
 	end
 
 	def current_module

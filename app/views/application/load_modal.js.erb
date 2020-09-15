@@ -8,3 +8,6 @@ document.getElementById('modal-browser-body').innerHTML = "<%= j(render @partial
 <% if @tooltips %>
 $('[data-toggle="tooltip"]').tooltip();
 <% end %>
+<% if @in_place_editing %>
+$(".best_in_place").best_in_place();
+<% end %>

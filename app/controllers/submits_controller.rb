@@ -52,7 +52,7 @@ class SubmitsController < ApplicationController
 		@submit.destroy
 		respond_to do |format|
 			format.js { redirect_js location: user_path(@submit.user) }
-			format.html { redirect_back fallback_location: root_path }
+			format.html { redirect_to grading_index_path }
 		end
 	end
 
@@ -96,7 +96,7 @@ class SubmitsController < ApplicationController
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
 
 		# load files submitted in child psets if we want to grade a parent module
-		@files_from_module = @submit.user.files_for_module(@submit.pset.mod) if @submit.pset.mod
+		@files_from_module = @submit.user.files_for_module(@submit.pset)
 
 		# take all submitted files for the individual submits and add those in the module submit
 		@files = @submit.file_contents.merge(@files_from_module||{})

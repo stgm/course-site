@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_02_194908) do
+ActiveRecord::Schema.define(version: 2020_09_10_175025) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -27,14 +27,6 @@ ActiveRecord::Schema.define(version: 2020_09_02_194908) do
     t.datetime "cutoff"
     t.boolean "local", default: false
     t.index ["user_id"], name: "index_attendance_records_on_user_id"
-  end
-
-  create_table "categories", force: :cascade do |t|
-    t.string "title"
-    t.integer "position"
-    t.integer "subpage_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "grades", force: :cascade do |t|
@@ -103,12 +95,6 @@ ActiveRecord::Schema.define(version: 2020_09_02_194908) do
     t.index ["user_id"], name: "index_logins_on_user_id"
   end
 
-  create_table "mods", force: :cascade do |t|
-    t.string "name"
-    t.integer "pset_id"
-    t.index ["pset_id"], name: "index_mods_on_pset_id"
-  end
-
   create_table "notes", force: :cascade do |t|
     t.text "text"
     t.integer "student_id"
@@ -129,18 +115,6 @@ ActiveRecord::Schema.define(version: 2020_09_02_194908) do
     t.string "path"
     t.boolean "public", default: false
     t.index ["slug", "section_id"], name: "index_pages_on_slug_and_section_id", unique: true
-  end
-
-  create_table "pings", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "loca"
-    t.integer "locb"
-    t.boolean "help", default: false
-    t.boolean "active", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text "help_question"
-    t.index ["user_id"], name: "index_pings_on_user_id"
   end
 
   create_table "pset_files", force: :cascade do |t|
@@ -169,8 +143,10 @@ ActiveRecord::Schema.define(version: 2020_09_02_194908) do
     t.text "config"
     t.integer "mod_id"
     t.boolean "test", default: false
+    t.integer "parent_pset_id"
     t.index ["mod_id"], name: "index_psets_on_mod_id"
     t.index ["page_id"], name: "index_psets_on_page_id"
+    t.index ["parent_pset_id"], name: "index_psets_on_parent_pset_id"
   end
 
   create_table "schedule_spans", force: :cascade do |t|
@@ -203,19 +179,6 @@ ActiveRecord::Schema.define(version: 2020_09_02_194908) do
     t.integer "schedule_id"
     t.index ["schedule_id"], name: "index_schedules_users_on_schedule_id"
     t.index ["user_id"], name: "index_schedules_users_on_user_id"
-  end
-
-  create_table "sections", force: :cascade do |t|
-    t.string "title"
-    t.integer "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "slug"
-    t.string "path"
-    t.boolean "display", default: false
-    t.text "content_page"
-    t.text "content_links"
-    t.index ["slug"], name: "index_sections_on_slug", unique: true
   end
 
   create_table "settings", force: :cascade do |t|

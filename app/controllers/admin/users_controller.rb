@@ -13,7 +13,7 @@ class Admin::UsersController < ApplicationController
 		@schedules = Schedule.order(:name)
 		@groups = Group.includes(:schedule).order('schedules.name').order('groups.name')
 
-		render_to_modal header: 'User permissions'
+		render_to_modal header: 'User permissions', in_place_editing: true
 	end
 	
 	def new
@@ -25,7 +25,6 @@ class Admin::UsersController < ApplicationController
 		@u = User.new(params.require(:user).permit(:name, :mail, :schedule_id))
 		@u.student!
 		@u.generate_token!
-		@u.logins.create(login:@u.token)
 		@url = root_url(token: @u.token)
 		render_to_modal header: "User #{@u.name} added"
 	end

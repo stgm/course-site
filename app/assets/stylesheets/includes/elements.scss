@@ -98,3 +98,20 @@ span.bubble {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
+
+#files
+{
+	padding-top:0.35rem;
+	background-color:#F4F4F4;
+}
+
+#files .nav-item .nav-link
+{
+	padding:0.35rem;
+}
+
+#files .nav-item .nav-link.active
+{
+	background-color:#337BCF;
+}
+

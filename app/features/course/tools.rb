@@ -43,17 +43,14 @@ class Course::Tools
 		# check if any grades are "tests" (for easy data entry on exams), sets flag
 		Settings['tests_present'] = Pset.where(test:true).any?
 		
-		# MODULES
-		# check all module definitions, make mod objects and connect to psets
+		# PSET MODULES
+		# check all module definitions, connect psets to parent psets
 		if Settings['grading'] && Settings['grading']['modules']
 			Settings['grading']['modules'].each do |name, psets|
-				mod = Mod.where(name: name).first_or_create
-				mod_pset = Pset.where(name: name).first_or_create
-				# mod.update(pset: mod_pset)
-				mod_pset.update(mod: mod)
+				parent_pset = Pset.where(name: name).first_or_create
 				psets.each do |pset_name|
 					pset = Pset.find_by_name(pset_name)
-					pset.update(parent_mod: mod)
+					pset.update(parent_pset: parent_pset)
 				end
 			end
 		end

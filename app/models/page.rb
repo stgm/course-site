@@ -1,7 +1,5 @@
 class Page < ApplicationRecord
 
-	# belongs_to :section, optional: true
-	
 	has_many :subpages, dependent: :destroy
 	has_one  :pset, dependent: :nullify  # psets should never be destroyed, because may have submits
 
