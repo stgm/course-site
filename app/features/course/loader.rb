@@ -38,6 +38,7 @@ class Course::Loader
 			prune_empty
 		
 			# put psets in order
+			order_psets
 			Course::Tools.clean_psets
 		rescue SQLite3::BusyException
 			@errors << "A timeout occurred while loading the new course content. Just try again!"
@@ -374,6 +375,17 @@ private
 			end
 		else
 			return false
+		end
+	end
+	
+	def order_psets
+		# Assign order to the grades
+		counter = 1
+		Settings['grading']['grades'].keys.each do |pset|
+			if p = Pset.find_by(name:pset)
+				p.update_attribute(:order,counter)
+				counter += 1
+			end
 		end
 	end
 
