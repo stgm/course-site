@@ -40,6 +40,9 @@ class Course::Loader
 			# put psets in order
 			order_psets
 			Course::Tools.clean_psets
+			
+			# update
+			User.touch_all
 		rescue SQLite3::BusyException
 			@errors << "A timeout occurred while loading the new course content. Just try again!"
 		end
