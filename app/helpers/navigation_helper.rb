@@ -15,6 +15,7 @@ module NavigationHelper
 	end
 
 	def current_module
+		# only try to present a schedule if there actually is one available
 		if logged_in? && current_schedule.persisted?
 			# if user switched schedules, may lack current_module
 			if !valid_current_module?

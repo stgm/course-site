@@ -183,7 +183,7 @@ class User < ApplicationRecord
 	end
 	
 	def reset_current_module
-		if span = self.schedule.default_span(only_public: self.student?)
+		if span = self.schedule.default_span(self.student?)
 			self.current_module = span
 		else
 			self.current_module_id = nil
