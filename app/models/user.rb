@@ -178,10 +178,6 @@ class User < ApplicationRecord
 		self.save
 	end
 	
-	def log_changes_for(user)
-		@user = user
-	end
-	
 	def reset_current_module
 		if span = self.schedule.default_span(self.student?)
 			self.current_module = span
@@ -197,7 +193,7 @@ class User < ApplicationRecord
 	end
 
 	def log_changes
-		self.notes.create(text: self.previous_changes.reject{|k,v|k=='updated_at'}.collect{|k,v| "#{k}: #{v[1]}  "}.join, author_id: @user.id) if @user
+		self.notes.create(text: self.previous_changes.reject{|k,v|k=='updated_at'}.collect{|k,v| "#{k}: #{v[1]}  "}.join, author: Current.user)
 	end
 
 end

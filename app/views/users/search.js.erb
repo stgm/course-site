@@ -1,5 +1,5 @@
 <% if @results.any? %>
-document.getElementById('search-results').innerHTML = "<%= j(render 'show') %>";
+document.getElementById('search-results').innerHTML = "<%= j(render 'search') %>";
 document.getElementById('search-results').style.display = 'block';
 <% else %>
 document.getElementById('search-results').style.display = 'none';

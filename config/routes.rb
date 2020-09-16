@@ -125,22 +125,17 @@ Rails.application.routes.draw do
 		end
 	end
 
-	namespace :search do
-		resource :users, only: [ :show ]
-	end
-
 	#--RESOURCES--------------------------------------------------------------------------------
 
 	scope '/manage' do
 
 		resources :users, only: [ :show, :update ] do
-			member do
-				post  'group/:group_id', action: 'group', as: 'group'
-				post  'alarm/:alarm', action: 'alarm', as: 'alarm'
-				post  'calculate_final_grade'
-				post  'schedule/:schedule_id', action: 'schedule', as: 'schedule'
+			collection do
+				get  'search'
 			end
-			# resources :group_permissions, only: [ :index, :create, :destroy ]
+			member do
+				post  'calculate_final_grade'
+			end
 		end
 
 		resources :alerts

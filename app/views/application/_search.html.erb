@@ -1,10 +1,27 @@
 <div id="search" class="dropdown form-inline">
 	<input id="student-search" type="text" autocomplete="off" class="form-control form-control-sm w-100s" placeholder="Find student" aria-label="Find student">
-	<div id="search-results" class="dropdown-menu dropdown-menu-right"></div>
+	<div id="search-results" class="dropdown-menu dropdown-menu-right" role="menu"></div>
 </div>
 <script>
+	$('#student-search').on('focus', (e) => {
+		if($('#search-results').children().size() > 0)
+			document.getElementById('search-results').style.display = 'block';
+	});
 	$('#student-search').on('paste input', function(e) {
 		$.ajax('<%= search_users_path %>', { data: { text: $('#student-search').val() } });
 		true;
-	})
+	});
+	$('#student-search').keydown((kbd) => {
+		if(kbd.which == 40 || kbd.which == 38) {
+			$('#search-results').children().first().focus();
+		}
+	});
+	$('#search-results').keydown((kbd) => {
+		if(kbd.which == 40 && kbd.target != null) {
+			$(kbd.target).next().focus();
+		}
+		if(kbd.which == 38 && kbd.target != null) {
+			$(kbd.target).prev().focus();
+		}
+	});
 </script>
