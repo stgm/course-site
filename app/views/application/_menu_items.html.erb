@@ -11,7 +11,7 @@
 
 <% if current_user.accessible_schedules.many? %>
 <%= menu_group 'Your schedules' do %>
-	<% Schedule.all.each do |s| %>
+	<% current_user.accessible_schedules.all.each do |s| %>
 	<%= menu_link s.name, [current_user, user: {schedule_id: s.id}], method: :patch, icon: (s==current_schedule ? 'check' : nil) %>
 	<% end %>
 <% end%>
@@ -30,10 +30,18 @@
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
 <% end %>
 	
-<%= menu_group do %>
+<%= menu_group current_schedule.name do %>
 	<%= menu_link 'Overview', overview_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
 	<%= menu_link 'Tests...', tests_path, icon: 'check', remote: true, condition: Settings.tests_present %>
+<% end %>
+
+<% if current_user.accessible_schedules.many? %>
+<%= menu_group 'Your schedules' do %>
+	<% current_user.accessible_schedules.all.each do |s| %>
+	<%= menu_link s.name, [current_user, user: {schedule_id: s.id}], method: :patch, icon: (s==current_schedule ? 'check' : nil) %>
+	<% end %>
+<% end%>
 <% end %>
 
 <% elsif current_user.assistant? %>

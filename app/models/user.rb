@@ -60,9 +60,12 @@ class User < ApplicationRecord
 	end
 
 	def accessible_schedules
-		# ensure admins have access to all schedules at all times by overriding
-		return Schedule.all if self.admin?
-		self.schedules
+		if self.admin?
+			# ensure admins have access to all schedules at all times by overriding
+			Schedule.all
+		else
+			self.schedules
+		end
 	end
 
 	def self.find_by_login(login)
