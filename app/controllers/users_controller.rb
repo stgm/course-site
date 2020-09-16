@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 		@groups = @student.schedule && @student.schedule.groups.order(:name) || []
 		@note = Note.new(student_id: @student.id)
 		@items = @student.items(true)
-		@psets = Pset.order(Arel.sql("'order' IS NULL"), :order)
+		@psets = Pset.ordered_by_grading
 
 		render_to_modal header_partial: 'title', action: 'show', in_place_editing: true
 	end
