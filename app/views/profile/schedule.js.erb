@@ -1,5 +1,5 @@
 document.querySelector("#schedule_name").innerHTML = "<%= current_module && current_module.name || '' %>";
-<% if current_module.public? %>
+<% if current_module && current_module.public? %>
 document.querySelector("#schedule_name").classList.remove("text-danger");
 <% else %>
 document.querySelector("#schedule_name").classList.add("text-danger");

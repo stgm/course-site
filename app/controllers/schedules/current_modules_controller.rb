@@ -21,7 +21,11 @@ class Schedules::CurrentModulesController < ApplicationController
 		else
 			@schedule.update_attribute(:current, ScheduleSpan.find(params[:item]))
 		end
-		render 'profile/schedule'
+		respond_to do |format|
+			format.js do
+				render 'profile/schedule'
+			end
+		end
 	end
 	
 	#
