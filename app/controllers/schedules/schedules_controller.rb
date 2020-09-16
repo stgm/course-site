@@ -1,7 +1,7 @@
 class Schedules::SchedulesController < Schedules::ApplicationController
 
 	before_action :authorize
-	before_action :require_staff
+	before_action :require_senior
 	before_action :load_schedule # needed to verify access
 	before_action :verify_access
 
