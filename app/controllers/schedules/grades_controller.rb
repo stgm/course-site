@@ -14,8 +14,10 @@ class Schedules::GradesController < Schedules::ApplicationController
 	
 	# publish grades for single pset (TODO embed in menu)
 	def publish
-		pset = Pset.find_by_name(params[:pset])
-		Grade.joins(submit: :user).where("submits.pset_id = ? and users.schedule_id = ?", pset.id, @schedule.id).update_all(status: Grade.statuses[:published])
+		pset = Pset.find(params[:pset_id])
+		@schedule.grades.joins(submit: :user).where(submits: { pset_id: pset.id }).find_each do |grade|
+			grade.update(status: Grade.statuses[:published])
+		end
 		redirect_back fallback_location: '/'
 	end
 	

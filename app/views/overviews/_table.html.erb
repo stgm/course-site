@@ -13,6 +13,11 @@
 		<th class="rotate">Start date</th>
 		<% end %>
 		<th>Latest</th>
+		<% @psets.each do |pset| %>
+		<th>
+			<%= link_to_if current_user.admin?, pset.name[0..2], publish_schedule_grades_path(schedule_slug: current_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this submit?" }, title: pset.name %>
+		</th>
+		<% end %>
 	</tr>
 
 	<% users.each do |group, user_list|%>
