@@ -2,6 +2,7 @@ class OverviewsController < ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
+	before_action :require_senior, only: :schedule
 
 	layout 'schedules'
 
