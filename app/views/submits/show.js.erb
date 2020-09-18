@@ -1,2 +1,2 @@
 $('#modal-browser-header').html("<%= j(render 'title') %>");
-$('#modal-browser-body').html("<%= j(render 'show') %>");
+$('#modal-browser-body').html("<%= j(render object: @submit, partial: 'tabs') %>");

@@ -3,13 +3,7 @@ class GradesController < ApplicationController
 	before_action :authorize
 	before_action :require_staff
 
-	#todo check grading assignment for user
-
 	layout false
-
-	def show
-		@grade = Grade.includes(submit: [ :user, :pset ]).find(params[:id])
-	end
 
 	def create
 		@grade = Grade.new(grade_params)
@@ -43,10 +37,8 @@ class GradesController < ApplicationController
 				if params[:commit] == 'autosave'
 					head :ok
 				else
-					@user = @grade.user
-					@pset = @grade.pset
 					@submit = @grade.submit
-					render 'show'
+					redirect_js location: submit_path(@submit)
 				end
 			end
 			format.html { redirect_back fallback_location:@grade }
@@ -57,13 +49,15 @@ class GradesController < ApplicationController
 	def destroy
 		@grade = Grade.find(params[:id])
 		@submit = @grade.submit
-
 		@grade.destroy
-		@grade = @submit.build_grade({ grader: current_user })
 
 		respond_to do |format|
-			format.js { render 'show' }
-			format.html { redirect_back fallback_location:@submit }
+			format.js do
+				redirect_js location: submit_path(@submit)
+			end
+			format.html do
+				redirect_back fallback_location: @submit
+			end
 		end
 	end
 

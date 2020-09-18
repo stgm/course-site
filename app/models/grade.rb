@@ -46,13 +46,6 @@ class Grade < ApplicationRecord
 		published? or discussed? or exported?
 	end
 	
-	def to_partial_path
-		# This very nice rails feature allows us to decide whether a form or
-		# a read-only presentation should be rendered. Simply use "render
-		# @grade_object" and this method will be consulted.
-		unfinished? && 'grades/form' || 'grades/show'
-	end
-	
 	def last_graded
 		updated_at && updated_at.to_formatted_s(:short) || "not yet"
 	end

@@ -93,6 +93,7 @@
 			<%= form.submit 'Save', class: 'btn btn-primary flex-fill' %>
 			<% end %>
 
+			<% if current_user.senior? %>
 			<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Admin<span class="sr-only">Toggle Actions Dropdown</span>
 			</button>
@@ -110,6 +111,7 @@
 				<% end%>
 				<% end %>
 			</div>
+			<% end %>
 		</div>
 	</div>
 

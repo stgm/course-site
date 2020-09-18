@@ -43,8 +43,7 @@ class Submit < ApplicationRecord
 		# This very nice rails feature allows us to decide whether a form or
 		# a read-only presentation should be rendered. Simply use "render
 		# @grade_object" and this method will be consulted.
-		# unfinished? && 'submits/form' || 'submits/show'
-		(grade.blank? || grade.unfinished?) ? 'submits/form' : 'submits/show'
+		(grade.blank? || grade.unfinished?) ? 'submits/form' : 'submits/grade'
 	end
 
 	def sortable_date
