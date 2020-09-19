@@ -27,3 +27,7 @@
 document.addEventListener('ajax:before', () => {
 	Turbolinks.clearCache();
 })
+
+document.addEventListener("turbolinks:load", () => {
+	$('[data-persist=garlic]').garlic();
+})
