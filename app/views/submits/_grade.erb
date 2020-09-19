@@ -49,7 +49,7 @@
 </div>
 <% end %>
 
-<% if current_user.senior? %>
+<% if current_user.admin? || current_user.senior? && !@grade.published? %>
 <div class="form-group d-flex mt-sauto mb-0 flex-row-reverse">
 	<%= link_to "Re-open", grade_path(id: @grade.id, grade: { status: :unfinished }), method: :put, data: { confirm: "Sure?" }, class: 'btn btn-secondary' %>
 </div>
