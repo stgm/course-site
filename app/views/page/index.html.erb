@@ -1,19 +1,34 @@
 <%= form_tag_if(logged_in? && @page.pset, submissions_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
+
 <% @subpages.each_with_index do |subpage, index| %>
 <section class="markdown" id="<%= subpage.slug %>-content">
 	<%= markdown(subpage.content, @page) %>
 </section>
 <% end %>
 
-<% if current_user.can_submit? and @page.pset %>
+<% if !current_user.can_submit? %>
+<section id="submit-content" class="d-block">
+	<div class="alert alert-danger" role="alert">
+		You can't submit because you are not logged in.
+	</div>
+</section>
+<% elsif @page.pset && !@allow_submit %>
+<section id="submit-content" class="d-block">
+	<div class="alert alert-danger" role="alert">
+		You can't submit this problem, because a previous submission is currently being graded or has already been graded.
+	</div>
+</section>
+<% elsif @page.pset %>
 <section id="submit-content" class="d-none d-sm-block">
 	<%= render 'submit_tab' %>
 </section>
 <section id="submit-content" class="d-block d-sm-none">
-<div class="alert alert-danger" role="alert">
-  Your browser window is too small to show the submit form. If you're on desktop, increase your browser width to submit!
-</div>
+	<div class="alert alert-danger" role="alert">
+	  Your browser window is too small to show the submit form. If you're on desktop, increase your browser width to submit!
+	</div>
 </section>
 <% end %>
-<%= hidden_field_tag :pset_id, @page.pset.id if @page.pset %>
+
+<%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
+
 <% end %>

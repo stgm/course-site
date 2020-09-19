@@ -24,18 +24,16 @@ class SubmissionsController < ApplicationController
 	end
 	
 	def validate_attachment_size
-		request.content_length < 10000000
+		unless request.content_length < 10000000
+			redirect_back(
+				fallback_location: '/',
+				alert: "Your submission contains files that are too large! Please try again. ")
+		end
 	end
 	
 	def collect_attachments
 		@attachments = Attachments.new(params.permit(f: {})[:f].to_h)
 		@form_contents = params.permit(form: {})[:form].to_h
-		# params[:notes] is historically also interesting
-		# # compose info.txt file contents
-		# info = "student_login_id = " + user
-		# info += ("\nname = " + name) if name
-		# info += "\n\n"
-		# info += notes if notes
 	end
 	
 	def upload_attachments_to_dropbox

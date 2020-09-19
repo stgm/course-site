@@ -1,10 +1,3 @@
-<% if (@grading && !@grading.public?) || (@grading &&  @grading.any_final_grade.present? && @grading.any_final_grade > 0) %>
-
-<p>You can't submit this problem, because a previous submission is currently being graded or has been graded.</p>
-
-<% else %>
-
-
 <% if @page.pset.message %>
 <p><strong><%= @page.pset.message %></strong></p>
 <% end %>
@@ -40,5 +33,3 @@
 <% end %>
 
 <p class="mb-0 text-right"><%= submit_tag 'Submit for grading', class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>
-
-<% end %>

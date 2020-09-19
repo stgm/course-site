@@ -95,7 +95,7 @@ class Grade < ApplicationRecord
 	end
 	
 	def any_final_grade
-		# this function prefers hard-coded grades but can also provide the calculated grade
+		# this function prefers hard-coded grades but otherwise provides the calculated grade
 		self.grade || self.calculated_grade
 	end
 

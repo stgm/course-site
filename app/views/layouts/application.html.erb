@@ -30,9 +30,9 @@
 	
 				<%= render "alerts" %>
 				
-				<% if @page and @submitted and date = @page.pset.submit_from(current_user).submitted_at %>
+				<% if @submitted_at %>
 				<div id="submitted_pset" class="alert alert-success">
-					<%= t :you_submitted_ago, time: time_ago_in_words(date) %>
+					<%= t :you_submitted_ago, time: time_ago_in_words(@submitted_at) %>
 					<%= link_to t(:see_submissions_page), submissions_path %>
 				</div>
 				<% end %>

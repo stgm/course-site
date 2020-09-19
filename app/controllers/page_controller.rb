@@ -14,8 +14,10 @@ class PageController < ApplicationController
 		
 		if @page.pset && current_user.can_submit?
 			@has_form = @page.pset.form
-			@submitted = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
-			@grading = @submitted && @submitted.grade
+			if @submit = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
+				@submitted_at = @submit.submitted_at
+			end
+			@allow_submit = @submit.blank? || @submit.may_be_resubmitted?
 		end
 	end
 

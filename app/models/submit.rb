@@ -98,4 +98,8 @@ class Submit < ApplicationRecord
 		self.update(check_token: token)
 	end
 	
+	def may_be_resubmitted?
+		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
+	end
+	
 end
