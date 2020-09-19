@@ -2,7 +2,7 @@
 
 #timeline
 {
-//    margin-bottom:2em
+	//    margin-bottom:2em
 }
 
 #timeline ul#links
@@ -17,21 +17,30 @@
 
 #timeline h3
 {
-    margin-top:1.5em;
-    margin-left:.5em; margin-bottom:1em
+	margin-top:1.5em;
+	margin-left:.5em; margin-bottom:1em
 }
 
 #timeline .card
 {
-//    border:1px solid #FAFAFA;
-	border:none;
-	margin-bottom:30px;
-    box-shadow:none;
-	border-radius:0;
+	background-color:theme-color("darker-light");
+	border:0;
+	margin-bottom:1rem;
 }
 
-#timeline .card:last-child
+.timeline-item
 {
+	border:none;
+	border-bottom:1px solid #FAFAFA;
+	padding-bottom:1rem;
+	margin-bottom:1rem;
+	border-color:#f3f3f3;
+	
+}
+
+.timeline-item:last-child, #timeline .card:last-child
+{
+	border-bottom:0;
 	margin-bottom:0;
 }
 
@@ -44,21 +53,21 @@
 {
 	#timeline .card
 	{
-		border:none;
-//		box-shadow:;
+//		border:none;
+		//		box-shadow:;
 	}
 }
 
 
 #timeline .card-body, #timeline .list-group-item
 {
-    padding-left:2rem;
-    padding-right:2rem;
+//	padding-left:2rem;
+//	padding-right:2rem;
 }
 
 #timeline .list-group-item
 {
-    border-color:#E5E5E5;
+	border-color:#E5E5E5;
 }
 
 #timeline .card-highlight
@@ -73,15 +82,46 @@
 
 #timeline .btn .badge
 {
-    vertical-align:middle;
+	vertical-align:middle;
 }
 
 #timeline h5.card-title:last-child
 {
-    margin-bottom:0;
+	margin-bottom:0;
 }
 
 #timeline h5
 {
-    margin-top:0;
+	margin-top:0;
+}
+
+#timeline .card small
+{
+	color:#49A1F6;
+	text-transform: uppercase;
+	font-size:x-small;
+}
+
+#timeline .card small.author
+{
+	color:#8b9894;
+}
+
+// ensure that if we use columns in the timeline, and those collapse,
+// that there is still space between the card boxes
+#timeline div:not(:last-child) .card:last-child
+{
+	margin-bottom:30px;
+}
+
+// only horizontal th elements get centered, as well as td elements
+// the left-most th column is left-aligned
+#overview table th:not([scope=col]), #overview table td
+{
+	text-align: center;
+}
+
+#overview table th, #overview table td
+{
+	border-color:theme-color("light");
 }

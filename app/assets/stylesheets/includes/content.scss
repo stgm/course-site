@@ -1,6 +1,6 @@
 // CSS for the page content, especially originating from markdown sources
 
-#content
+body.page #content, body.home #content
 {
 	hyphens:auto;
 	-webkit-hyphens:auto;

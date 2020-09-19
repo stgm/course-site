@@ -2,12 +2,12 @@
 
 body
 {
-	background-color:var(--light);
+	background-color:theme-color("light");
 }
 
-body.boxes
+.navbar-brand
 {
-	background-color:var(--light);
+	color:theme-color("primary-dark");
 }
 
 .navbar-brand svg
@@ -15,14 +15,9 @@ body.boxes
 	background-color: #ffc28f;
 }
 
-.navbar-dark .brand
-{
-	color:#ffffff;
-}
-
 summary
 {
-	color: theme-color("primary");
+	color:theme-color("primary");
 }
 
 #sidebar
@@ -36,6 +31,11 @@ summary
 		{
 			background-color:transparent !important;
 		}
+	}
+	
+	a
+	{
+//		color:$dark;
 	}
 
 	a:hover
@@ -70,37 +70,6 @@ summary
 	margin:0;
 }
 
-#timeline .card
-{
-	border-color:#f3f3f3;
-	border-radius:0.5rem;
-}
-
-#timeline .card small
-{
-	color:#49A1F6;
-	text-transform: uppercase;
-	font-size:x-small;
-}
-
-#timeline .card small.author
-{
-	color:#8b9894;
-}
-
-// ensure that if we use columns in the timeline, and those collapse,
-// that there is still space between the card boxes
-#timeline div:not(:last-child) .card:last-child
-{
-	margin-bottom:30px;
-}
-
-// only horizontal th elements get centered, as well as td elements
-// the left-most th column is left-aligned
-#overview table th:not([scope=col]), #overview table td
-{
-	text-align: center;
-}
 
 
 .btn.btn-grayed

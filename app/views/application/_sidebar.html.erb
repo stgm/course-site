@@ -1,4 +1,4 @@
-<div id="sidebar-tools" class="navbar navbar-light navbar-expand flex-shrink-0" style="z-index:1000">
+<div id="sidebar-tools" class="navbar navbar-expand flex-shrink-0" style="z-index:1000">
 	<div class="container-fluid">
 		<%= render 'brand'%>
 		<% if !authenticated? %>
@@ -10,7 +10,7 @@
 		<% end %>
 	
 		<button class="navbar-toggler border-0 px-0 d-block d-md-none" type="button" data-toggle="collapse" data-target="#sidebar-content,#course-links" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
+			<span class="navbar-toggler-icon text-primary" style="vertical-align:-4px;"><%= bootstrap_icon 'list', width:32, height:32 %></span>
 		</button>
 	</div>
 </div>
