@@ -70,6 +70,7 @@ Rails.application.routes.draw do
 				post "publish_auto"
 
 				put  "assign_all_final"
+				post 'reopen', param: 'group_id'
 			end
 		end
 
@@ -84,10 +85,6 @@ Rails.application.routes.draw do
 
 		resource :status, only: [ :show ]
 	end
-
-	# resources :groups, module: 'groups', only: [] do
-	# 	post 'reopen_grades'
-	# end
 
 	#--APPS-------------------------------------------------------------------------------------
 

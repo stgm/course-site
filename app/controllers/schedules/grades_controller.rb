@@ -5,12 +5,12 @@ class Schedules::GradesController < Schedules::ApplicationController
 	before_action :load_schedule
 	before_action :verify_access
 
-	# todo concerns group, not schedule
-	# def reopen
-	# 	@group = Group.find(params[:group_id])
-	# 	@group.grades.finished.update_all(:status => Grade.statuses[:unfinished])
-	# 	redirect_back fallback_location: '/'
-	# end
+	# reopen all "finished" grades for some group + pset combo
+	def reopen
+		@group = Group.find(params[:group_id])
+		@group.grades.finished.where(submits: { pset_id: params[:pset_id] }).update_all(:status => Grade.statuses[:unfinished])
+		redirect_back fallback_location: '/'
+	end
 	
 	# publish grades for single pset (TODO embed in menu)
 	def publish
