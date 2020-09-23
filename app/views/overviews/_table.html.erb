@@ -9,9 +9,6 @@
 		<th>Total</th>
 		<% end %>
 		<th class="rotate">Spoken</th>
-		<% if params[:status] == 'registered' %>
-		<th class="rotate">Start date</th>
-		<% end %>
 		<th>Latest</th>
 		<% @psets.each do |pset| %>
 		<th>
@@ -22,12 +19,12 @@
 
 	<% users.each do |group, user_list|%>
 	<tr>
-		<td colspan="7"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td>
+		<td colspan="6"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td>
 		<% @psets.each do |pset| %>
 		<th>
 			<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: current_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
 		</th>
-		<% end %>
+		<% end if group %>
 	</tr>
 
 	<% user_list.each do |user| %>
@@ -55,10 +52,6 @@
 		<% end %>
 		
 		<td><%= user.hands.where(success:true).count %></td>
-		
-		<% if params[:status] == 'registered' %>
-		<td><%= user.started_at.strftime("%e %b") if user.started_at %></td>
-		<% end %>
 		
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
