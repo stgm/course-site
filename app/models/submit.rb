@@ -12,7 +12,7 @@ class Submit < ApplicationRecord
 	delegate :name, to: :pset, prefix: true, allow_nil: true
 
 	has_one :grade, dependent: :destroy
-	accepts_nested_attributes_for :grade
+	accepts_nested_attributes_for :grade, update_only: true
 	delegate :status, to: :grade, prefix: true, allow_nil: true
 	delegate :first_graded, to: :grade, allow_nil: true
 	delegate :last_graded, to: :grade, allow_nil: true
