@@ -1,0 +1,33 @@
+.ipynb
+{
+	h1, h2, h3
+	{
+		margin-bottom:1rem;
+	}
+
+	pre
+	{
+		margin-left:1.5rem;
+	}
+
+	pre.input
+	{
+		margin-top:2rem;
+		margin-bottom:2rem;
+
+		margin-left:0rem;
+		border:1px solid #56b056;
+		border-left:0.25rem solid #56b056;
+		padding:1.25rem;
+
+		code
+		{
+			word-wrap:normal;
+		}
+	}
+
+	pre.output
+	{
+		border-color:#C2CACC;
+	}
+}
