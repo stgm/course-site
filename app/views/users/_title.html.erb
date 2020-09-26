@@ -1,4 +1,4 @@
-<div class="flex-grow-1">
+<div class="flex-fill">
 	<% if @student.avatar.present? %>
 	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 	<% end %>
@@ -9,16 +9,16 @@
 	</div>
 </div>
 
-<div>
+<div class="flex-fill flex-shrink-0">
 	<% if @student.alarm %>
-	<%= button_to "Remove alarm", [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} %>
+	<%= link_to "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe, [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} %>
 	<% else %>
-	<%= button_to "Set alarm", [@student, user: {alarm: true}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} %>
+	<%= link_to "#{bootstrap_icon 'bell', width: 16} Set alarm".html_safe, [@student, user: {alarm: true}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} %>
 	<% end %>
 	
 	
 	<div class="btn-group">
-		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Group <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right">
@@ -35,7 +35,7 @@
 	</div>
 
 	<div class="btn-group">
-		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Schedule <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right">
@@ -46,8 +46,8 @@
 	</div>
 
 	<div class="btn-group">
-		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			Settings <span class="caret"></span>
+		<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Status <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right">
 			<% if @student.active? %>

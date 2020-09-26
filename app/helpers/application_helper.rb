@@ -180,7 +180,7 @@ module ApplicationHelper
 	
 	def bootstrap_icon(name, **options)
 		tag.svg({class:'bi', width:20, height:20, fill:'currentColor'}.merge(options)) do
-		  "<use xlink:href=\"/icons/bootstrap-icons.svg##{name}\"/>".html_safe
+			"<use xlink:href=\"/icons/bootstrap-icons.svg##{name}\"/>".html_safe
 		end
 	end
 	
