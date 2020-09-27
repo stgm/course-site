@@ -51,8 +51,8 @@
 	<% if current_module %>
 	<ul class="nav">
 		<li>
-			<p class="nav-text mx-1 text-dark">
-				<span id="schedule_name" class="<%= 'text-danger' if !current_module.public? %>"><%= current_module.name %></span>
+			<p class="nav-head mx-1 text-dark">
+				<span id="schedule_name" class="<%= 'unavailable' if !current_module.public? %>"><%= current_module.name %></span>
 				<% if current_schedule.self_service %>
 				<span class="float-right mr-n1 spr-1">
 					<%= link_to bootstrap_icon('chevron-left', class: 'rounded').html_safe, prev_module.present? ? profile_prev_path : '', method: :post, remote: true, id: 'schedule_prev_button', disabled:!prev_module.present? %>
@@ -72,7 +72,7 @@
 	<% if !current_module && @section.present? && @section.content_links.present? %>
 	<ul class="nav">
 		<li>
-			<p class="nav-text"><%= @section.title %></p>
+			<p class="nav-head"><%= @section.title %></p>
 		</li>
 		<li>
 			<%= links_to_ul(@section.content_links) %>
@@ -85,7 +85,7 @@
 	<% if current_schedule.blank? && current_sections.any? %>
 	<ul id="sections" class="nav">
 		<li>
-			<p class="nav-text"><%= current_module ? t(:other) : t(:materials) %></p>
+			<p class="nav-head"><%= current_module ? t(:other) : t(:materials) %></p>
 		</li>
 		<li>
 			<ul class="nav materials">

@@ -4,8 +4,6 @@ class OverviewsController < ApplicationController
 	before_action :require_staff
 	before_action :require_senior, only: :schedule
 
-	layout 'schedules'
-
 	def show
 		if current_user.assistant?
 			redirect_back(fallback_location: '/', alert: "You haven't been assigned a group yet!") and return if current_user.groups.empty?

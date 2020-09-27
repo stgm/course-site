@@ -66,11 +66,12 @@ module ApplicationHelper
 			list.each do |item, content|
 				if content.is_a?(Hash)
 					# a Hash means subitems, so create a caption and recurse
-					items << content_tag(:li, insert_badge(item), class: "nav-item small ml-1 mb-1 mt-2")
+					items << content_tag(:li, insert_badge(item), class: "nav-text")
 					items << content_tag(:li, links_to_ul(content), class: "nav-item")
 				elsif content.is_a?(String)
 					# a String means that we have a link with title
-					items << content_tag(:li, toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link py-2 flex-fill rounded-right", style: "padding-left: 0.25rem !important;", target: content =~ /^http/i ? '_blank' : nil), class: "nav-item bg-light p-0 rounded mb-1 d-flex align-items-center")
+					content = toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link", target: content =~ /^http/i ? '_blank' : nil)
+					items << content_tag(:li, content, class: "nav-link-item")
 				elsif content.is_a?(Array)
 					items << array_of_links_to_ul(content)
 				elsif content.nil?
@@ -82,7 +83,7 @@ module ApplicationHelper
 			items << array_of_links_to_ul(list)
 		end
 
-		content_tag :ul, items.join.html_safe, class: "nav p-0"
+		content_tag :ul, items.join.html_safe, class: "nav"
 	end
 	
 	def array_of_links_to_ul(content)
