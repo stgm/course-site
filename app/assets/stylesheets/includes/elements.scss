@@ -47,22 +47,17 @@
 
 //****************************************************************************
 
-form .btn
-{
-	margins-top:0;
-}
-
 .grade-form
 {
 	height:100%;
-    
+
 	label
 	{
 		margin-left:.15em;
 		margin-bottom:0;
 		font-size:small;
 	}
-    
+
 	#grade-boxes .form-group:not(:last-child)
 	{
 		margin-right:.5rem;
