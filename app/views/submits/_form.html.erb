@@ -72,25 +72,17 @@
 		<div class="input-group">
 			<%= grade_form.text_field :grade, class: 'form-control form-control-sm', value: @grade.grade %>
 			<span class="input-group-append">
-				<button class="btn btn-primary btn-sm" type="button" id="pass-btn"><small>PASS</small></button>
-				<button class="btn btn-primary btn-sm" type="button" id="fail-btn"><small>FAIL</small></button>
+				<button class="btn btn-secondary btn-sm" type="button" id="pass-btn"><small>PASS</small></button>
+				<button class="btn btn-secondary btn-sm" type="button" id="fail-btn"><small>FAIL</small></button>
 			</span>
 		</div>
 	</div>
 	<% end %>
 	
-	<% if Course.feedback_templates %>
-	<div class="form-group">
-		<% Course.feedback_templates.each do |f, c| %>
-		<%= link_to grade_form.humanize, templatize_grade_path(id: @submit.id, type: f), method: :put, class: "btn btn-light", data: { confirm: "This will insert automatic feedback, sure? \n\n" + c["explanation"] } %>
-		<% end %>
-	</div>
-	<% end %>
-
 	<div class="form-group d-flex mt-auto">
 		<div class="btn-group w-100">
 			<% if current_user.admin? || @grade.unfinished? %>
-			<%= form.submit 'Save', class: 'btn btn-primary flex-fill' %>
+			<%= form.submit 'Save', class: 'btn btn-secondary flex-fill' %>
 			<% end %>
 
 			<% if current_user.senior? %>

@@ -170,6 +170,11 @@
 
 //****************************************************************************
 
+#schedule_name.unavailable
+{
+	text-decoration:line-through;
+}
+
 #sidebar .nav
 {
 	// damn flexbox so flexible
@@ -177,11 +182,7 @@
 	flex-shrink: 0;
 	width: 100%;
 	flex-direction: column;
-}
-
-#sidebar a.nav-link
-{
-//	@extend .px-0;
+	padding:0;
 }
 
 #sidebar a.disabled
@@ -198,20 +199,47 @@
 
 #sidebar .nav-text
 {
+	font-size: smaller;
+	margin: 0.5rem 0 0.25rem 0.25rem;
+	color: theme-color('dark');
+}
+
+#sidebar .nav-head
+{
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	font-size: 14px;
 }
 
-#sidebar p.nav-text, #sidebar ul a
+#sidebar .nav-head, #sidebar ul a
 {
 	padding-top:0.35rem;
 	padding-bottom:0.35rem;
 }
 
-#sidebar p.nav-text {
+#sidebar .nav-head
+{
 	margin:0.15rem 0 0.15rem 0;
 	color:#a5a5a5;
+}
+
+#sidebar .nav-link-item
+{
+	background-color: theme-color('light');
+	padding: 0;
+	border-radius: 0.25rem !important;
+	margin-bottom: 0.25rem;
+	display: flex;
+	align-items: center !important;
+}
+
+#sidebar .nav-link
+{
+	padding: 0.5rem 0;
+	flex: 1 1 auto !important; // fill
+	border-top-right-radius: 0.25rem !important;
+	border-bottom-right-radius: 0.25rem !important;
+	padding-left: 0.25rem !important;
 }
 
 #sidebar-content > ul

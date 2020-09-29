@@ -2,12 +2,12 @@
 
 body
 {
-	background-color:theme-color("light");
+	background-color: #fffdfc;
 }
 
 .navbar-brand
 {
-	color:theme-color("primary-dark");
+	color:theme-color("dark");
 }
 
 .navbar-brand svg
@@ -33,9 +33,9 @@ summary
 		}
 	}
 	
-	a
+	.nav-link-item
 	{
-//		color:$dark;
+		background-color: #fffdfc,
 	}
 
 	a:hover

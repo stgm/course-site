@@ -140,18 +140,18 @@ Rails.application.routes.draw do
 
 		resources :grades, except: [ :index ] do
 			member do
-				put  "templatize"
+				patch 'reopen'
+				patch 'reject'
 			end
 		end
 
 	end
-	
+
 	resources :submits, only: [ :show, :create, :destroy, :update ] do
 		member do
 			post 'recheck'
 		end
 	end
-	
 
 	get  "profile" => "profile#index"
 	namespace :profile do
