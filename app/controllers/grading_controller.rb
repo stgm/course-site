@@ -8,10 +8,9 @@ class GradingController < ApplicationController
 	before_action :authorize
 	before_action :require_staff
 
-	before_action :load_grading_list, only: [ :index, :show ]
-
 	# GET /grading
 	def index
+		load_grading_list
 		# immediately redirect to first thing that might be graded
 		if g = @to_grade.first
 			redirect_to grading_path(g, params.permit(:pset, :group, :status))
@@ -22,8 +21,22 @@ class GradingController < ApplicationController
 	
 	# GET /grading/:submit_id
 	def show
-		# load the submit and any grade that might be attached
+		# get everything that user has access to
+		load_grading_list
+		
+		# extract all psets that are to be graded by user (before filtering)
+		@psets_to_grade = Pset.find(@to_grade.pluck(:pset_id))
+		
+		# apply filters to selection
+		filter_grading_list
+		
+		# load the selected submit and any grade that might be attached
 		@submit = Submit.includes(:grade, :user, :pset).find(params[:submit_id])
+		
+		# load a different submit if the current submit does not belong to the current selection
+		redirect_to grading_path(@to_grade.first, params.permit(:pset, :group, :status)) if not @to_grade.include?(@submit)
+		
+		# load the associated grade
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
 
 		# load files submitted in child psets if we want to grade a parent module
@@ -61,30 +74,13 @@ class GradingController < ApplicationController
 		elsif current_user.admin?
 			# admins get everything from their current schedule (they can switch schedules)
 			@to_grade = Submit.admin_to_grade.where("users.schedule_id" => current_user.schedule)
-			if params[:group]
-				@to_grade = @to_grade.where(users: { group_id: params[:group] })
-			end
-			if params[:status]
-				@to_grade = @to_grade.where(grades: { status: params[:status] })
-			end
-			if params[:pset]
-				@to_grade = @to_grade.where(psets: { id: params[:pset] })
-			end
 		elsif current_user.head? && current_user.schedules.any?
 			# heads get stuff from one schedule, but from all groups
 			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedules)
-			if params[:group]
-				@to_grade = @to_grade.where(users: { group_id: params[:group] })
-			end
-			if params[:status]
-				@to_grade = @to_grade.where(grades: { status: params[:status] })
-			end
-			if params[:pset]
-				@to_grade = @to_grade.where(psets: { id: params[:pset] })
-			end
 		elsif current_user.assistant? && (Group.any? || Schedule.any?) && (current_user.groups.any? || current_user.schedules.any?)
 			# other assistants get stuff only from their assigned group
-			@to_grade = Submit.to_grade.where(["users.group_id in (?) or users.schedule_id in (?)", current_user.groups.pluck(:id), current_user.schedules.pluck(:id)])
+			@to_grade = Submit.to_grade.where(
+				["users.group_id in (?) or users.schedule_id in (?)", current_user.groups.pluck(:id), current_user.schedules.pluck(:id)])
 		elsif current_user.assistant? && !(Group.any? || Schedule.any?)
 			# assistants get everything if there are no groups or schedules
 			# but nothing if there are groups and they haven't been assigned one yet
@@ -92,6 +88,18 @@ class GradingController < ApplicationController
 		end
 
 		redirect_back(fallback_location: '/', alert: "You haven't been assigned grading groups yet!") if not @to_grade
+	end
+	
+	def filter_grading_list
+		if params[:group]
+			@to_grade = @to_grade.where(users: { group_id: params[:group] })
+		end
+		if params[:status]
+			@to_grade = @to_grade.where(grades: { status: params[:status] })
+		end
+		if params[:pset]
+			@to_grade = @to_grade.where(psets: { name: params[:pset] })
+		end
 	end
 	
 end

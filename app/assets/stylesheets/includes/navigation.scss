@@ -387,3 +387,22 @@
 {
 	//@extend .nav-link;
 }
+
+//****************************************************************************
+
+#toolbar
+{
+	background-color: $light;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	
+	.nav-link
+	{
+		padding-left:0.5rem;
+	}
+	.nav-link.active
+	{
+		font-weight: bold;
+	}
+}

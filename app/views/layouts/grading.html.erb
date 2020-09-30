@@ -31,12 +31,15 @@
 			</button>
 			
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<%= yield :navbar_items %>
 				<%= render 'float_nav' %>
 			</div>
 		</div>
 
 		<%= render "alerts" %>
+
+		<div id="toolbar">
+			<%= yield :navbar_items %>
+		</div>
 	
 		<div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
 			<div class="row content h-100">
