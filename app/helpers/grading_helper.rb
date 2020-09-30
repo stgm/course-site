@@ -7,7 +7,11 @@ module GradingHelper
 			link_to 'd', grading_download_path(grading_submit_id: @submit.id, filename: filename), remote: false, class: 'float-right'
 			filetype = CodeRay::FileType.fetch(filename, :text)
 			if filename =~ /\.ipynb$/
-				tag.div simple_markdown(NBConverter.new(contents).run), class: 'ipynb'
+				begin
+					tag.div simple_markdown(NBConverter.new(contents).run), class: 'ipynb'
+				rescue
+					tag.div "No JSON found"
+				end
 			elsif filetype == :text
 				simple_format(contents.encode("UTF-8", undef: :replace, replace: '?'))
 			else
