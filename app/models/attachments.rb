@@ -43,7 +43,7 @@ class Attachments
 				if file.size < 60000
 					file.rewind and presentable_files[name] = file.read
 				else
-					presentable_files[name] = "Uploaded file was too large!"
+					presentable_files[name+".txt"] = "Uploaded file was too large!"
 				end
 			end
 		end
