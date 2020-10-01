@@ -15,7 +15,7 @@ module GradingHelper
 			elsif filetype == :text
 				simple_format(contents.encode("UTF-8", undef: :replace, replace: '?'))
 			elsif filetype == :html
-				tag.div contents.html_safe, class: 'ipynb'
+				tag.div sanitize(contents), class: 'ipynb'
 			else
 				CodeRay.scan(contents, filetype).div(:line_numbers => :inline).html_safe
 			end
