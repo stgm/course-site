@@ -45,9 +45,8 @@
 
 				<div id="content" class="pt-3 px-3 pb-3 px-sm-4 pb-sm-4 px-lg-5 pb-lg-5" <%= Settings.room_for_toc && "style=margin-right:17em;" || "" %>>
 					<%= yield %>
+					<%= yield :footer %>
 				</div>
-
-				<%= yield :footer %>
 			</div>
 			
 		</div>

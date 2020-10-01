@@ -9,7 +9,7 @@
 
 	<% if Settings.hands_allow && current_user.valid_profile? %>
 	<li class="nav-item dropdown" id="ama-nav">
-		<a href="#" id="ama-dd" class="nav-link bg-light rounded-pill d-block py-1 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 			<%= bootstrap_icon "question-circle-fill", size: '24x24', style: 'vertical-align:-0.255em;' %><%= tag.span(Hand.waiting.count, class:'ml-1') if current_user.staff? %></a>
 		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
 			<%= render 'ama' %>
@@ -18,8 +18,8 @@
 	<% end %>
 
 	<% if !authenticated? %>
-	<li><%= link_to("Sign in".html_safe, session_login_path, class:"bg-light rounded-pill px-2 py-1 d-inline-block", style:"background-color:#DBE6EC", data: { turbolinks: false })%></li>
-	<% else #if logged_in? %>
+	<li class="nav-item"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", style:"background-color:#DBE6EC", data: { turbolinks: false })%></li>
+	<% else %>
 	<%= render 'menu' %>
 	<% end %>
 </ul>

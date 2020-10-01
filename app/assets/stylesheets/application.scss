@@ -10,12 +10,10 @@
  *
  */
 
-$theme-colors: (
-  "primary": #0087d9,
-  "dark": adjust-color(#0074d9, $lightness: -10%),
-  "danger": #ff4136,
-  "darker-light": #f1efef
-);
+$primary: #0087d9;
+$danger: #ff4136;
+$dark: adjust-color(#0074d9, $lightness: -10%);
+$darker-light: #f1efef;
 
 $color1: #595959;
 $color2: #262626;
