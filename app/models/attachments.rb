@@ -13,6 +13,8 @@ end
 
 class Attachments
 	
+	include ApplicationHelper
+	
 	def initialize(files)
 		@files = files || {}
 		@other_files = {}
@@ -45,6 +47,11 @@ class Attachments
 				else
 					presentable_files[name+".txt"] = "Uploaded file was too large!"
 				end
+			elsif notebook_file?(name)
+				file.rewind
+				source = file.read
+				html = simple_markdown(GradingHelper::NBConverter.new(source).run)
+				presentable_files[name+".html"] = html
 			end
 		end
 		presentable_files
@@ -79,7 +86,11 @@ class Attachments
 	private
 	
 	def text_file?(name)
-		return [".py", ".c", ".txt", ".html", ".css", ".h", ".java", ".ipynb"].include?(File.extname(name)) || name == "Makefile"
+		return [".py", ".c", ".txt", ".html", ".css", ".h", ".java"].include?(File.extname(name)) || name == "Makefile"
+	end
+	
+	def notebook_file?(name)
+		return [".ipynb"].include?(File.extname(name))
 	end
 	
 end

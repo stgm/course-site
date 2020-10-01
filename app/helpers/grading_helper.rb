@@ -14,6 +14,8 @@ module GradingHelper
 				end
 			elsif filetype == :text
 				simple_format(contents.encode("UTF-8", undef: :replace, replace: '?'))
+			elsif filetype == :html
+				tag.div contents.html_safe, class: 'ipynb'
 			else
 				CodeRay.scan(contents, filetype).div(:line_numbers => :inline).html_safe
 			end
@@ -39,13 +41,14 @@ module GradingHelper
 					newline
 					write "{:.input}"
 					newline(2)
-					cell['outputs'].select{|o| o['name']=='stdout' }.each do |output|
-						output['text'].each do |line|
-							write indent(line)
-						end
-						write "{:.output}"
-						newline
-					end
+					# do not include outputs for now, because they might be huge
+					# cell['outputs'].select{|o| o['name']=='stdout' }.each do |output|
+					# 	output['text'].each do |line|
+					# 		write indent(line)
+					# 	end
+					# 	write "{:.output}"
+					# 	newline
+					# end
 					cell['outputs'].select{|o| o['output_type']=='error' }.each do |output|
 						write indent(output['ename'])
 						newline
