@@ -4,7 +4,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# give tables some bootstrap attributes
 	#
 	def convert_table(el, indent)
-		el.attr['class'] = 'kramdown-table'
+		el.attr['class'] += ' kramdown-table'
 		super
 	end
 	
