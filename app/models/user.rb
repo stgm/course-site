@@ -39,6 +39,7 @@ class User < ApplicationRecord
 	scope :not_started, -> { where('started_at > ?', DateTime.now).where(last_submitted_at: nil) }
 	scope :started, -> { where.not(last_submitted_at: nil) }
 	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
+	scope :who_did_not_submit, ->(pset_id) { where("not exists (?)", Submit.where("submits.user_id = users.id").where(pset_id:pset_id)) }
 	
 	enum role: [:guest, :student, :assistant, :head, :admin]
 	serialize :progress, Hash
