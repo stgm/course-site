@@ -4,6 +4,7 @@
 		<th>Name</th>
 		<th><%= bootstrap_icon 'document-text' %></th>
 		<th><%= bootstrap_icon 'alert-triangle-fill' %></th>
+		<th>Status</th>
 		<th>Days</th>
 		<% if params[:totals] == 'true' %>
 		<th>Total</th>
@@ -45,6 +46,8 @@
 			<% end %>
 		</td>
 		
+		<td class="px-3"><%= best_in_place user, :status, as: :input %></td>
+		
 		<td class="bar"><%= user.attendance %></td>
 		
 		<% if params[:totals] == 'true' %>
@@ -72,3 +75,7 @@
 	<% end %>
 
 </table>
+
+<script>
+	$(".best_in_place").best_in_place();
+</script>
