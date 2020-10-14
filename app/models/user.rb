@@ -200,7 +200,10 @@ class User < ApplicationRecord
 	end
 
 	def log_changes
-		self.notes.create(text: self.previous_changes.reject{|k,v|k=='updated_at'}.collect{|k,v| "#{k}: #{v[1]}  "}.join, author: Current.user)
+		changes = self.previous_changes.select{|k,v| ['current_module_id','status','current_schedule_id','alarm'].include?(k)}
+		if changes.any?
+			self.notes.create(text: changes.collect{|k,v| "#{k}: #{v[1]}  "}.join, author: Current.user)
+		end
 	end
 
 end
