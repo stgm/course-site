@@ -151,7 +151,7 @@ class User < ApplicationRecord
 			if h.closed_at.present? && h.claimed_at.present?
 				[h.id, h.claimed_at, (h.closed_at - h.claimed_at)/60, h.assist_name]
 			end
-		end
+		end.compact
 	end
 	
 	# retrieve all submitted file contents for all submits from a particular module (for this user)
