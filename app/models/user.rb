@@ -148,7 +148,7 @@ class User < ApplicationRecord
 	
 	def hands_overview
 		hands.where(success:true).map do |h|
-			[h.id, h.claimed_at, (h.closed_at - h.claimed_at)/60]
+			[h.id, h.claimed_at, (h.closed_at - h.claimed_at)/60, h.assist_name]
 		end
 	end
 	
