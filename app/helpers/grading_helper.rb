@@ -35,9 +35,13 @@ module GradingHelper
 				when 'markdown'
 					write cell['source'].join
 				when 'code'
+					write fence
+					newline
 					cell['source'].each do |line|
-						write indent(line)
+						write line
 					end
+					newline
+					write fence
 					newline
 					write "{:.input}"
 					newline(2)
@@ -67,6 +71,10 @@ module GradingHelper
 
 		def indent(s)
 			"    #{s}"
+		end
+		
+		def fence
+			"~~~"
 		end
 
 		def write(s)
