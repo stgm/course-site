@@ -404,10 +404,12 @@ private
 	def order_psets
 		# Assign order to the grades
 		counter = 1
-		Settings['grading']['grades'].keys.each do |pset|
-			if p = Pset.find_by(name:pset)
-				p.update_attribute(:order,counter)
-				counter += 1
+		if Settings['grading'] && Settings['grading']['grades']
+			Settings['grading']['grades'].keys.each do |pset|
+				if p = Pset.find_by(name:pset)
+					p.update_attribute(:order,counter)
+					counter += 1
+				end
 			end
 		end
 	end
