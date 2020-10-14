@@ -146,6 +146,12 @@ class User < ApplicationRecord
 		self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
 	end
 	
+	def hands_overview
+		hands.where(success:true).map do |h|
+			[h.id, h.claimed_at, (h.closed_at - h.claimed_at)/60]
+		end
+	end
+	
 	# retrieve all submitted file contents for all submits from a particular module (for this user)
 	def files_for_module(mod)
 		files = {}
