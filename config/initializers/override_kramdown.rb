@@ -5,7 +5,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_table(el, indent)
 		if el.attr['class']
-			el.attr['class'] += 'kramdown-table'
+			el.attr['class'] += ' kramdown-table'
 		else
 			el.attr['class'] = 'kramdown-table'
 		end
