@@ -392,8 +392,8 @@ private
 		if File.exists?(filename)
 			begin
 				return YAML.load_file(filename)
-			rescue
-				@errors << "#{filename} was in an unreadable format. Did you confuse tabs and spaces?"
+			rescue => e
+				@errors << "#{filename} was in an unreadable format. Error message: #{e.message}. Did you confuse tabs and spaces?"
 				return false
 			end
 		else
