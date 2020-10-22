@@ -393,7 +393,7 @@ private
 			begin
 				return YAML.load_file(filename)
 			rescue
-				@errors << "A yml was in an unreadable format. Did you confuse tabs and spaces?"
+				@errors << "#{filename} was in an unreadable format. Did you confuse tabs and spaces?"
 				return false
 			end
 		else
