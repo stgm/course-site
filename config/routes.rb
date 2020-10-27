@@ -201,6 +201,9 @@ Rails.application.routes.draw do
 	# pages
 	resource :submissions, only: [ :create ]
 	post "page/submit"
-	get  "*slug" => "page#index" # default route, for content pages (must be last!)
+
+	# default route, for content pages (must be last!)
+	# ..with an exception for the /rails routes
+	get  "*slug" => "page#index", constraints: lambda { |e| Rails.logger.debug e.fullpath; !e.fullpath.start_with?('/rails/') }
 
 end

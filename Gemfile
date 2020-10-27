@@ -87,3 +87,5 @@ gem 'rest-client'
 
 gem 'front_matter_parser'
 gem 'twitter-typeahead-rails'
+
+gem 'image_processing', '~> 1.2'

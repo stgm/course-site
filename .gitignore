@@ -13,6 +13,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/storage
 
 .DS_Store
 .dir-locals.el

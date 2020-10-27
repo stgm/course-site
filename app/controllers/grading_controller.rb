@@ -35,15 +35,10 @@ class GradingController < ApplicationController
 		
 		# load a different submit if the current submit does not belong to the current selection
 		redirect_to grading_path(@to_grade.first, params.permit(:pset, :group, :status)) if not @to_grade.include?(@submit)
-		
-		# load the associated grade
+
+		# load the associated grade and files
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
-
-		# load files submitted in child psets if we want to grade a parent module
-		@files_from_module = @submit.user.files_for_module(@submit.pset)
-
-		# take all submitted files for the individual submits and add those in the module submit
-		@files = @submit.file_contents.merge(@files_from_module||{})
+		@files = @submit.all_files
 
 		# load other grades for summarizing
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @submit.user.id).order('submits.created_at desc')
