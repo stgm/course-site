@@ -15,7 +15,7 @@ class GradingController < ApplicationController
 		if g = @to_grade.first
 			redirect_to grading_path(g, params.permit(:pset, :group, :status))
 		else
-			redirect_back fallback_location: '/', alert: "There's nothing to grade from your grading groups yet!"
+			redirect_back fallback_location: '/', alert: "There's nothing to grade from your grading groups!"
 		end
 	end
 	
@@ -23,12 +23,18 @@ class GradingController < ApplicationController
 	def show
 		# get everything that user has access to
 		load_grading_list
+
+		# get out if nothing to grade
+		redirect_back(fallback_location: '/', alert: "There's nothing to grade from your grading groups!") and return if @to_grade.first.blank?
 		
 		# extract all psets that are to be graded by user (before filtering)
 		@psets_to_grade = Pset.find(@to_grade.pluck(:pset_id))
 		
 		# apply filters to selection
 		filter_grading_list
+		
+		# reload without filters if nothing to grade with filters
+		redirect_to({ action: :index }) and return if @to_grade.first.blank?
 		
 		# load the selected submit and any grade that might be attached
 		@submit = Submit.includes(:grade, :user, :pset).find(params[:submit_id])
