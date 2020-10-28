@@ -37,9 +37,16 @@ class Hands::RaisesController < ApplicationController
 	end
 	
 	def create
+		# only create a new hand if no hands are still open
 		if Hand.where(user: current_user, done: false).count == 0
-			hand = Hand.create(user:current_user, help_question:params[:question], subject: params[:subject], location:params[:location])
-			current_user.update!(last_known_location: params[:location])
+			if hand = Hand.where(user: current_user, done: true, success: false).where("closed_at > ?", 30.minutes.ago).last
+				# there is a relatively recent hand that was closed and can now be re-used
+				hand.update(done: false, assist_id: nil, help_question: params[:question], subject: params[:subject], location: params[:location])
+			else
+				# create a completely new one
+				hand = Hand.create(user:current_user, help_question: params[:question], subject: params[:subject], location: params[:location])
+				current_user.update!(last_known_location: params[:location])
+			end
 		end
 
 		show

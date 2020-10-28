@@ -14,7 +14,7 @@
 
 
 	<% @hands.each do |hand| %>
-	<%= link_to(hand_path(hand), class: 'list-group-item') do %>
+	<%= link_to(hand_path(hand), class: "list-group-item #{'bg-warning' if hand.helpline}") do %>
 	<%= render partial: "hand", object: hand %>
 	<% end %>
 	<% end %>
