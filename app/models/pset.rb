@@ -32,9 +32,10 @@ class Pset < ApplicationRecord
 		
 		# in addition to the module assignments, we add any other assignments that are included in the final grade
 		if Settings['grading'] && Settings['grading']['calculation']
+			final_grades = Settings['grading']['calculation'].keys
 			mods_in_final_grade = Settings['grading']['calculation'].values.map{|x| x.keys}.flatten
 			psets_in_final_grade = mods_in_final_grade.map{|x| Settings['grading'][x]['submits']}.map{|y|y.keys}.flatten
-			other_psets = self.where.not(id: psets).where(name: psets_in_final_grade).order(:order)
+			other_psets = self.where.not(id: psets).where(name: psets_in_final_grade + final_grades).order(:order)
 			psets += other_psets
 		end
 
