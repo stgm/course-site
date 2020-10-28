@@ -138,10 +138,10 @@ private
 		res={}
 
 		# get all subdirectories in alphanumerical order
-		subdirs = curdir.each_child.filter{|name| !name.to_s.start_with?('.') && name.directory?}.sort
-		
+		subdirs = curdir.each_child.filter{|name| !name.basename.to_s.start_with?('.') && name.directory?}.sort
+
 		subdirs.each do |subdir|
-			# take the subfolder name and sluggify
+			# take the subfolder name and generate a slug
 			curslug = split_info(subdir.basename.to_s)[2].parameterize
 
 			# first time, we start out with the subdir-slug
@@ -181,7 +181,7 @@ private
 		page_title = upcase_first_if_all_downcase(page_info[2])
 
 		# if this directory contains any documents
-		if page_path.glob("*.{md,adoc}").any?
+		if page_path.glob("*.{md,adoc,ipynb}").any?
 			# create the page
 			db_page = Page.find_by_path(page_path.to_s) || Page.new(path: page_path.to_s)
 			db_page.title = page_title
@@ -278,12 +278,9 @@ private
 			
 			# if parsable file name
 			if subpage_info
-				# file = IO.read(File.join(dir, subpage_path))
 				file = FrontMatterParser::Parser.parse_file(File.join(dir, subpage_path))
-				
-				# new_subpage = parent_page.subpages.create(:title => subpage_info[2], :position => subpage_info[1], :content => file)
 				title = file['title'].present? && "#{parent_page.title} / #{file['title']}"
-				
+
 				new_subpage = parent_page.subpages.find_by_title(title || subpage_info[2]) || parent_page.subpages.new(title: title || subpage_info[2])
 				new_subpage.position = subpage_info[1]
 				new_subpage.content = file.content
@@ -314,6 +311,23 @@ private
 				@touched_subpages << new_subpage.id
 			end
 		end
+
+		notebook_files_in(dir) do |subpage|
+			subpage_path = File.basename(subpage)
+			subpage_info = split_info(subpage_path)
+
+			# if parsable file name
+			if subpage_info
+				file = IO.read(File.join(dir, subpage_path))
+				markdown = GradingHelper::NBConverter.new(file).run
+				new_subpage = parent_page.subpages.find_by_title(subpage_info[2]) || parent_page.subpages.new(title: subpage_info[2])
+				new_subpage.position = subpage_info[1]
+				new_subpage.content = markdown
+				new_subpage.save
+				@touched_subpages << new_subpage.id
+			end
+		end
+
 	end
 
 	# Returns a subdir glob pattern.
@@ -352,6 +366,12 @@ private
 		end
 	end
 
+	def notebook_files_in(*name)
+		files_in(name, "*.ipynb") do |file|
+			yield file
+		end
+	end
+	
 	def yaml_files_in(*name)
 		files_in(name, "*.yml") do |file|
 			yield file
@@ -372,8 +392,8 @@ private
 		if File.exists?(filename)
 			begin
 				return YAML.load_file(filename)
-			rescue
-				@errors << "A yml was in an unreadable format. Did you confuse tabs and spaces?"
+			rescue => e
+				@errors << "#{filename} was in an unreadable format. Error message: #{e.message}. Did you confuse tabs and spaces?"
 				return false
 			end
 		else
@@ -384,10 +404,12 @@ private
 	def order_psets
 		# Assign order to the grades
 		counter = 1
-		Settings['grading']['grades'].keys.each do |pset|
-			if p = Pset.find_by(name:pset)
-				p.update_attribute(:order,counter)
-				counter += 1
+		if Settings['grading'] && Settings['grading']['grades']
+			Settings['grading']['grades'].keys.each do |pset|
+				if p = Pset.find_by(name:pset)
+					p.update_attribute(:order,counter)
+					counter += 1
+				end
 			end
 		end
 	end

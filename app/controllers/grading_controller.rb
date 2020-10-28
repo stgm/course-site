@@ -15,7 +15,7 @@ class GradingController < ApplicationController
 		if g = @to_grade.first
 			redirect_to grading_path(g, params.permit(:pset, :group, :status))
 		else
-			redirect_back fallback_location: '/', alert: "There's nothing to grade from your grading groups yet!"
+			redirect_back fallback_location: '/', alert: "There's nothing to grade from your grading groups!"
 		end
 	end
 	
@@ -23,12 +23,18 @@ class GradingController < ApplicationController
 	def show
 		# get everything that user has access to
 		load_grading_list
+
+		# get out if nothing to grade
+		redirect_back(fallback_location: '/', alert: "There's nothing to grade from your grading groups!") and return if @to_grade.first.blank?
 		
 		# extract all psets that are to be graded by user (before filtering)
 		@psets_to_grade = Pset.find(@to_grade.pluck(:pset_id))
 		
 		# apply filters to selection
 		filter_grading_list
+		
+		# reload without filters if nothing to grade with filters
+		redirect_to({ action: :index }) and return if @to_grade.first.blank?
 		
 		# load the selected submit and any grade that might be attached
 		@submit = Submit.includes(:grade, :user, :pset).find(params[:submit_id])
@@ -71,7 +77,7 @@ class GradingController < ApplicationController
 			@to_grade = Submit.admin_to_grade.where("users.schedule_id" => current_user.schedule)
 		elsif current_user.head? && current_user.schedules.any?
 			# heads get stuff from one schedule, but from all groups
-			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedules)
+			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedule)
 		elsif current_user.assistant? && (Group.any? || Schedule.any?) && (current_user.groups.any? || current_user.schedules.any?)
 			# other assistants get stuff only from their assigned group
 			@to_grade = Submit.to_grade.where(

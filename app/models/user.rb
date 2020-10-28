@@ -146,6 +146,14 @@ class User < ApplicationRecord
 		self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
 	end
 	
+	def hands_overview
+		hands.where(success:true).map do |h|
+			if h.closed_at.present? && h.claimed_at.present?
+				[h.id, h.claimed_at, (h.closed_at - h.claimed_at)/60, h.assist_name || ""]
+			end
+		end.compact
+	end
+	
 	def take_attendance
 		symbols = "▁▂▃▄▅▆▇█"
 		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0, range: 7.days.ago...Time.now).count.values
@@ -178,7 +186,10 @@ class User < ApplicationRecord
 	end
 
 	def log_changes
-		self.notes.create(text: self.previous_changes.reject{|k,v|k=='updated_at'}.collect{|k,v| "#{k}: #{v[1]}  "}.join, author: Current.user)
+		changes = self.previous_changes.select{|k,v| ['current_module_id','status','current_schedule_id','alarm'].include?(k)}
+		if changes.any?
+			self.notes.create(text: changes.collect{|k,v| "#{k}: #{v[1]}  "}.join, author: Current.user)
+		end
 	end
 
 end

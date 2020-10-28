@@ -29,6 +29,7 @@
 	</div>
 	
 	<div class="col-sm-7">
+		<%= render partial: 'hands_overview', object: @student.hands_overview %>
 		<%= render partial: "items/item", collection: @items %>
 	</div>
 </div>

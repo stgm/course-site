@@ -2,9 +2,9 @@ class Hands::HandsController < ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
-	
+
 	layout 'hands'
-	
+
 	def index
 		redirect_to edit_hands_availability_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
 		
@@ -17,7 +17,7 @@ class Hands::HandsController < ApplicationController
 			@long_time_users = User.student.where("last_known_location is not null").where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 1.day.ago).order('last_spoken_at asc')
 		end
 	end
-	
+
 	# showing a hand automatically dibs/claims it, only for assistant users
 	def show
 		# catch erroneous GET requests for /hands/done
@@ -35,20 +35,20 @@ class Hands::HandsController < ApplicationController
 			end
 		end
 	end
-	
+
 	def new
 		load_user
 	end
-	
+
 	def create
 		load_user
 		create_hand
 		redirect_to action: 'index', only_path: true
 	end
-	
+
 	def search
 	end
-	
+
 	# manual dibs for admins & other situations
 	def dib
 		Hand.transaction do
@@ -65,26 +65,29 @@ class Hands::HandsController < ApplicationController
 
 	def done
 		h = Hand.find(params[:id])
-		h.update_attributes(done: true, success:params[:success], evaluation: params[:evaluation], note: params[:note], progress: params[:progress], closed_at: DateTime.now)
+		h.update(done: true, success: params[:success], evaluation: params[:evaluation], note: params[:note], progress: params[:progress], closed_at: DateTime.now)
+		if not h.success
+			Hands::HandsMailer.cancelled(h, current_user.name.split.first).deliver
+		end
 		redirect_to action: 'index', only_path: true
 	end
 
 	def helpline
 		h = Hand.find(params[:id])
-		h.update_attributes(helpline: true, assist: nil)
+		h.update(helpline: true, assist: nil)
 		redirect_to action: 'index', only_path: true
 	end
-	
+
 	private
-	
+
 	def load_user
 		@user = User.find(params[:user_id])
 	end
-	
+
 	def load_hand
 		@hand = Hand.find(params[:id])
 	end
-	
+
 	def auto_claim_hand
 		if @hand.assist.blank?
 			@hand.update(assist_id: current_user.id, claimed_at: DateTime.now)
@@ -93,7 +96,7 @@ class Hands::HandsController < ApplicationController
 	end
 
 	def create_hand
-		Hand.create(user_id: @user.id, evaluation: params[:evaluation], note: params[:note], done: true, success:true, assist: current_user, progress: params[:progress], closed_at: DateTime.now)
+		Hand.create(user_id: @user.id, evaluation: params[:evaluation], note: params[:note], done: true, success: true, assist: current_user, progress: params[:progress], closed_at: DateTime.now)
 	end
 
 end

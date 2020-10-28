@@ -9,7 +9,7 @@ class HomeController < ApplicationController
 	def homepage
 		if User.admin.none?
 			redirect_to welcome_path
-		elsif logged_in? && alerts_for_current_schedule.any?
+		elsif logged_in? && alerts_for_current_schedule.any? || !(current_schedule && current_schedule.page || Page.find_by_slug(''))
 			# show announcements page if no syllabus in repo or if there are ann to show at all
 			redirect_to action: "announcements"
 		else

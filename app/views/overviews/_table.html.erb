@@ -4,6 +4,7 @@
 		<th>Name</th>
 		<th><%= bootstrap_icon 'document-text' %></th>
 		<th><%= bootstrap_icon 'alert-triangle-fill' %></th>
+		<th>Status</th>
 		<th>Days</th>
 		<% if params[:totals] == 'true' %>
 		<th>Total</th>
@@ -12,17 +13,17 @@
 		<th>Latest</th>
 		<% @psets.each do |pset| %>
 		<th>
-			<%= link_to_if current_user.admin?, pset.name[0..2], publish_schedule_grades_path(schedule_slug: current_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, title: pset.name %>
+			<%= link_to_if current_user.admin?, pset.name[0..2], publish_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, title: pset.name %>
 		</th>
 		<% end %>
 	</tr>
 
 	<% users.each do |group, user_list|%>
 	<tr>
-		<td colspan="6"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td>
+		<td colspan="7"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td>
 		<% @psets.each do |pset| %>
 		<th>
-			<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: current_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
+			<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
 		</th>
 		<% end if group %>
 	</tr>
@@ -44,6 +45,8 @@
 			<%= bootstrap_icon 'alert-triangle-fill' %>
 			<% end %>
 		</td>
+		
+		<td class="px-3"><%= best_in_place user, :status, as: :input %></td>
 		
 		<td class="bar"><%= user.attendance %></td>
 		
@@ -72,3 +75,7 @@
 	<% end %>
 
 </table>
+
+<script>
+	$(".best_in_place").best_in_place();
+</script>

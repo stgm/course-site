@@ -15,6 +15,10 @@ class Pset < ApplicationRecord
 	serialize :config, Hash
 
 	def self.ordered_by_grading
+
+		psets = []
+
+		# modules are an explicit grouping of multiple assignments and may be available in grading.yml
 		if Settings['grading'] && Settings['grading']['modules']
 			done_psets = []
 			(Settings['grading']['modules'] || {}).each do |mod,psets|
@@ -23,19 +27,24 @@ class Pset < ApplicationRecord
 				end
 				done_psets << mod
 			end
-			psets = self.where(name: done_psets).sort_by{|m| done_psets.index(m.name)}
-			
-			if Settings['grading']['calculation']
-				mods_in_final_grade = Settings['grading']['calculation'].values.map{|x| x.keys}.flatten
-				psets_in_final_grade = mods_in_final_grade.map{|x| Settings['grading'][x]['submits']}.map{|y|y.keys}.flatten
-				other_psets = self.where.not(id: psets).where(name: psets_in_final_grade).order(:order)
-				psets += other_psets
-			end
-			
-			return psets
-		else
+			psets += self.where(name: done_psets).sort_by{|m| done_psets.index(m.name)}
+		end
+		
+		# in addition to the module assignments, we add any other assignments that are included in the final grade
+		if Settings['grading'] && Settings['grading']['calculation']
+			mods_in_final_grade = Settings['grading']['calculation'].values.map{|x| x.keys}.flatten
+			psets_in_final_grade = mods_in_final_grade.map{|x| Settings['grading'][x]['submits']}.map{|y|y.keys}.flatten
+			other_psets = self.where.not(id: psets).where(name: psets_in_final_grade).order(:order)
+			psets += other_psets
+		end
+
+		# if there is nothing to work with from grading.yml, show all grades in order of availability
+		if !Settings['grading'] || (!Settings['grading']['modules'] && !Settings['grading']['calculation'])
 			psets = self.order(:order)
 		end
+
+		return psets
+
 	end
 
 	def all_filenames
