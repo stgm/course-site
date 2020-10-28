@@ -27,8 +27,11 @@ module CourseSite
 		# -- all .rb files in that directory are automatically loaded after loading
 		# the framework and any gems in your application.
 		config.time_zone = 'Amsterdam'
-		config.active_job.queue_adapter = :inline
 		config.action_mailer.smtp_settings = { address: ENV["MAILER_ADDRESS"], domain: ENV["MAILER_DOMAIN"] }
 		config.active_storage.variant_processor = :vips
+		config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
+			min_threads: 1,
+			max_threads: 1,
+			idletime: 600.seconds
 	end
 end
