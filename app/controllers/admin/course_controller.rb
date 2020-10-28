@@ -6,7 +6,7 @@ class Admin::CourseController < ApplicationController
 	before_action :require_admin
 	
 	def index
-		@schedule_spans = current_schedule.schedule_spans.order(:rank)
+		@schedule_spans = current_schedule && current_schedule.schedule_spans.order(:rank) || []
 		
 		@geregistreerd = User.student.count
 		@gestart = User.student.joins(:submits).uniq.count
