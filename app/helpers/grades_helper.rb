@@ -35,9 +35,9 @@ module GradesHelper
 	end
 	
 	def translate_grade(grade)
-		return "error" if grade.nil? || grade < -1
-		return "pass" if grade == -1
-		return "fail" if grade == 0
+		return "fout" if grade.nil? || grade < -1
+		return "voldoende" if grade == -1
+		return "onvoldoende" if grade == 0
 		return grade.to_s
 	end
 
