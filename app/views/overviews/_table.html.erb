@@ -20,7 +20,10 @@
 
 	<% users.each do |group, user_list|%>
 	<tr>
-		<td colspan="7"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td>
+		<td colspan="7">
+			<%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %>
+			<small><%= group.grader_names if group %></small>
+		</td>
 		<% @psets.each do |pset| %>
 		<th>
 			<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
