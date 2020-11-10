@@ -21,8 +21,8 @@
 	<% users.each do |group, user_list|%>
 	<tr>
 		<td colspan="7">
-			<%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %>
-			<small><%= group.grader_names if group %></small>
+			<%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %> &ndash; 
+			<%= group.grader_names if group %>
 		</td>
 		<% @psets.each do |pset| %>
 		<th>
