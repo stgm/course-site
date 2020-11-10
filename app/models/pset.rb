@@ -43,7 +43,7 @@ class Pset < ApplicationRecord
 		if Settings['grading'] && Settings['grading']['grades']
 			grades = Settings['grading']['grades'].keys
 			graded_psets = self.where.not(id: psets).where(name: grades).order(:order)
-			psets += other_psets
+			psets += graded_psets
 		end
 
 		# if there is nothing to work with from grading.yml, show all grades in order of availability
