@@ -38,9 +38,16 @@ class Pset < ApplicationRecord
 			other_psets = self.where.not(id: psets).where(name: psets_in_final_grade + final_grades).order(:order)
 			psets += other_psets
 		end
+		
+		# and then maybe grades that are mentioned in the grades section?
+		if Settings['grading'] && Settings['grading']['grades']
+			grades = Settings['grading']['grades'].keys
+			graded_psets = self.where.not(id: psets).where(name: grades).order(:order)
+			psets += other_psets
+		end
 
 		# if there is nothing to work with from grading.yml, show all grades in order of availability
-		if !Settings['grading'] || (!Settings['grading']['modules'] && !Settings['grading']['calculation'])
+		if !Settings['grading'] || (!Settings['grading']['modules'] && !Settings['grading']['calculation'] && !Settings['grading']['grades'])
 			psets = self.order(:order)
 		end
 
