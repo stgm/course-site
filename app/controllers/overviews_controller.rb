@@ -25,12 +25,13 @@ class OverviewsController < ApplicationController
 	def group
 		# check which schedules this user is allowed to view
 		@accessible_schedules = current_user.groups
-		@selected_schedule = Group.friendly.find(params[:slug])
+		@selected_schedule = Gr oup.friendly.find(params[:slug])
 
 		# [["Problems", ["M1", "M2", "M3", ...]], ...]
 		@overview = Settings.grading.select { |c,v| v['show_progress'] }.map { |c,v| [c, v['submits'].map {|k,v| k}] }
 		@overview = Settings.grading['modules'].to_a + @overview if Settings.grading['modules']
 		load_data
+		@overview ||= @psets
 	end
 
 	def schedule
