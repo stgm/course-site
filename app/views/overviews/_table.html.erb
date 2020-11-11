@@ -10,6 +10,7 @@
 		<th>Total</th>
 		<% end %>
 		<th class="rotate">Spoken</th>
+		<th class="rotate">Mins</th>
 		<th>Latest</th>
 		<% @psets.each do |pset| %>
 		<th>
@@ -63,6 +64,8 @@
 		<% end %>
 		
 		<td><%= user.hands.where(success:true).count %></td>
+		
+		<td><%= user.hands.sum('(JulianDay(closed_at) - JulianDay(claimed_at)) * 60 * 24') %></td>
 		
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
