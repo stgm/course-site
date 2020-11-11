@@ -31,7 +31,7 @@ class OverviewsController < ApplicationController
 		@overview = Settings.grading.select { |c,v| v['show_progress'] }.map { |c,v| [c, v['submits'].map {|k,v| k}] }
 		@overview = Settings.grading['modules'].to_a + @overview if Settings.grading['modules']
 		load_data
-		@overview ||= [["Assignments", @psets.pluck(:name)]]
+		@overview = [["Assignments", @psets.pluck(:name)]] if @overview.blank?
 	end
 
 	def schedule
