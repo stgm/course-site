@@ -191,7 +191,6 @@ Rails.application.routes.draw do
 	get 'syllabus',      to: 'home#syllabus'
 	get 'announcements', to: 'home#announcements'
 	get 'submissions',   to: 'home#submissions'
-	get 'staff',         to: 'home#staff'
 
 	# search
 	get  "search/autocomplete"

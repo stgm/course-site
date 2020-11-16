@@ -1,15 +1,13 @@
 <div id="modal-browser" class="modal" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
-			<div id="modal-browser-header" class="modal-header">
+			<div id="modal-browser-header" class="modal-header align-items-start">
 				<h5 id="modal-browser-title" class="modal-title"></h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
+				<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div id="modal-browser-body" class="modal-body">
 				<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-				  <span class="sr-only">Loading...</span>
+				  <span class="visually-hidden">Loading...</span>
 				</div>
 			</div>
 		</div>
@@ -17,9 +15,11 @@
 </div>
 
 <script>
-	$('#modal-browser').on('show.bs.modal', function (e) {
+	modalBrowserElement = document.getElementById('modal-browser');
+	var modalBrowser = new bootstrap.Modal(modalBrowserElement);
+	modalBrowserElement.addEventListener('show.bs.modal', function (e) {
 		// clear modal upon load
 		document.getElementById('modal-browser-header').innerHTML = '';
-		document.getElementById('modal-browser-body').innerHTML = '<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only">Loading...</span></div>';
+		document.getElementById('modal-browser-body').innerHTML = '<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>';
 	})
 </script>

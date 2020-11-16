@@ -1,12 +1,12 @@
 <% @results.each do |r| %>
 <% puts r.inspect; puts r.to_partial_path %>
-<%= link_to(r, class:"dropdown-item text-truncate", onclick: "$('#modal-browser').modal('show'); document.getElementById('search-results').style.display = 'none';", remote: true) do %>
+<%= link_to(r, class:"dropdown-item text-truncate", onclick: "modalBrowser.show(); document.getElementById('search-results').style.display = 'none';", remote: true) do %>
 <%= r.name %>
 <% if r.schedule%>
-<span class="badge badge-info"><%= r.schedule.name %></span>
+<span class="badge bg-info"><%= r.schedule.name %></span>
 <% end %>
-<% if r.done %><span class="badge badge-success">done</span><% end %>
-<% if !r.active %><span class="badge badge-warning">inactive</span><% end %>
-<% if !r.student? %><span class="badge badge-secondary"><%= r.role %></span><% end %>
+<% if r.done %><span class="badge bg-success">done</span><% end %>
+<% if !r.active %><span class="badge bg-warning">inactive</span><% end %>
+<% if !r.student? %><span class="badge bg-secondary"><%= r.role %></span><% end %>
 <% end %>
 <% end if @results %>

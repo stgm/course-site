@@ -10,24 +10,33 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery.purr
 //= require turbolinks
 //= require rails-ujs
 //= require popper
 //= require bootstrap
-//= require best_in_place
-//= require garlic
 //= require Chart.bundle
 //= require chartkick
-//= require twitter/typeahead
 //= require_tree .
-
 
 document.addEventListener('ajax:before', () => {
 	Turbolinks.clearCache();
 })
 
-document.addEventListener("turbolinks:load", () => {
-	$('[data-persist=garlic]').garlic();
-})
+function save_in_place(element)
+{
+	element.nextSibling.classList.add('show')
+	params = element.dataset
+	Rails.ajax({
+		url: `${params.url}`,
+		type: 'put',
+		data: `id=${params.id}&${params.model}[${params.property}]=${element.innerHTML}`,
+		success: () => {
+			element.nextSibling.classList.remove('show')
+			element.blur()
+		},
+		error: () => {
+			element.nextSibling.classList.add('text-warning')
+		}
+	})
+	return false
+}

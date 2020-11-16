@@ -23,7 +23,6 @@
 #sidebar-tools
 {
 	width: 100%;
-	padding: 0.5rem;
 
 	display:flex;
 	-webkit-box-pack: justify !important;
@@ -179,7 +178,7 @@
 	text-decoration:line-through;
 }
 
-#sidebar .nav
+#sidebar .nav, .materials-nav
 {
 	// damn flexbox so flexible
 	flex-wrap: nowrap;
@@ -201,33 +200,33 @@
 	color:gray;
 }
 
-#sidebar .nav-text
+#sidebar .nav-text, .materials-nav .nav-text
 {
 	font-size: smaller;
 	margin: 0.5rem 0 0.25rem 0.25rem;
 	color: theme-color('dark');
 }
 
-#sidebar .nav-head
+#sidebar .nav-head, .materials-nav .nav-head
 {
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	font-size: 14px;
 }
 
-#sidebar .nav-head, #sidebar ul a
+#sidebar .nav-head, #sidebar ul a, .materials-nav .nav-head, .materials-nav ul a
 {
 	padding-top:0.35rem;
 	padding-bottom:0.35rem;
 }
 
-#sidebar .nav-head
+#sidebar .nav-head, .materials-nav .nav-head
 {
 	margin:0.15rem 0 0.15rem 0;
 	color:#a5a5a5;
 }
 
-#sidebar .nav-link-item
+#sidebar .nav-link-item, .materials-nav .nav-link-item
 {
 	background-color: theme-color('light');
 	padding: 0;
@@ -237,7 +236,7 @@
 	align-items: center !important;
 }
 
-#sidebar .nav-link
+#sidebar .nav-link, .materials-nav .nav-link
 {
 	padding: 0.5rem 0.25rem;
 	flex: 1 1 auto !important; // fill
@@ -364,31 +363,6 @@
 }
 
 //****************************************************************************
-
-#search-nav .dropdown-menu
-{
-	width:500px;
-	background-color:#F2F8FF;
-}
-
-#search-content img
-{
-	max-width:100%;
-}
-
-#search-menu
-{
-	border-color:#3B6999;
-	padding-top:2em;
-}
-
-@media (min-width: 768px)
-{
-	#search-bar
-	{
-		position: fixed;
-	}
-}
 
 #user-menu a
 {

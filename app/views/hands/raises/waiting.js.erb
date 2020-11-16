@@ -1,7 +1,7 @@
-$('#ama').html("<%= j(render 'waiting') %>");
+document.getElementById('ama').innerHTML = "<%= j(render 'waiting') %>";
 localStorage['waiting-gif'] = localStorage['waiting-gif'] || "https://fotos.mprog.nl/waiting-gifs/wait<%= Random.new.rand(0..9) %>.gif";
-$('#waiting-gif').attr("src", localStorage['waiting-gif']);
-$('[data-toggle="tooltip"]').tooltip()
+document.getElementById('waiting-gif').src = localStorage['waiting-gif'];
+enableTooltips();
 setTimeout(function(){
-	$.ajax('<%= hands_raise_path %>');
+	Rails.ajax({ type: 'get', url: '<%= hands_raise_path %>'});
 }, 60000 );

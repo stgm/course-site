@@ -3,25 +3,31 @@
 	<div id="search-results" class="dropdown-menu dropdown-menu-right" role="menu"></div>
 </div>
 <script>
-	$('#student-search').on('focus', (e) => {
-		if($('#search-results').children().size() > 0)
+	document.getElementById('student-search').addEventListener('focus', (e) => {
+		if(document.getElementById('search-results').childElementCount > 0)
 			document.getElementById('search-results').style.display = 'block';
 	});
-	$('#student-search').on('paste input', function(e) {
-		$.ajax('<%= search_users_path %>', { data: { text: $('#student-search').val() } });
+	x=function(e) {
+		Rails.ajax({
+			url: '<%= search_users_path %>',
+			type: 'get',
+			data: { text: document.getElementById('student-search').value }
+		});
 		true;
-	});
-	$('#student-search').keydown((kbd) => {
+	}
+	document.getElementById('student-search').addEventListener('paste', x);
+	document.getElementById('student-search').addEventListener('input', x);
+	document.getElementById('student-search').addEventListener('keydown', (kbd) => {
 		if(kbd.which == 40 || kbd.which == 38) {
-			$('#search-results').children().first().focus();
+			document.getElementById('search-results').children[0].focus();
 		}
 	});
-	$('#search-results').keydown((kbd) => {
+	document.getElementById('search-results').addEventListener('keydown', (kbd) => {
 		if(kbd.which == 40 && kbd.target != null) {
-			$(kbd.target).next().focus();
+			document.getElementById(kbd.target).nextSibling.focus();
 		}
 		if(kbd.which == 38 && kbd.target != null) {
-			$(kbd.target).prev().focus();
+			document.getElementById(kbd.target).previousSibling.focus();
 		}
 	});
 </script>

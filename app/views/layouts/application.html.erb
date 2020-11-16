@@ -55,26 +55,8 @@
 	<%= render partial: "modal_browser" if current_user.senior? %>
 </body>
 
-<% if !current_user.valid_profile? %>
-	<script type="text/javascript">
-	$(function () {
-        // popup is disabled
-        // $('#user-menu').dropdown('toggle');
-		// $('#user-menu').dropdown('update');
-        // return false;
-	});
-	
-	$('.profile-form').click(function(e) {
-	    e.stopPropagation();
-	});
-	
-	</script>
-<% end %>
-
 <script type="text/javascript">
-$(function () {
-	$('[data-toggle="tooltip"]').tooltip()
-});
+	enableTooltips();
 </script>
 
 </html>

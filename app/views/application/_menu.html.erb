@@ -1,7 +1,7 @@
 <li class="nav-item dropdown d-flex align-items-center">
 	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= bootstrap_icon 'person-fill', size: '24x24', style: 'vertical-align:-0.255em;' %></a>
 	<% if authenticated? %>
-	<div class="dropdown-menu dropdown-menu-right" id="user-menu">
+	<div class="dropdown-menu dropdown-menu-right shadow border-light" id="user-menu">
 		<%= render partial: 'menu_items' %>
 	</div>
 	<% end %>

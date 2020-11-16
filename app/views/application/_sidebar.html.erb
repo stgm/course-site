@@ -15,24 +15,9 @@
 	</div>
 </div>
 
-<% if Settings['keyword_index'].present? %>
-<div class="collapse multi-collapse" id="multiCollapseExample2">
-	<div class="d-flex align-items-center">
-		<form class="form-inline w-100">
-			<small class="ml-1">Find resources by keyword:</small>
-			<input id="keyword-search" type="search" autocomplete="off" class="w-100 form-control form-control-sm border-secondary" placeholder="" aria-label="Enter topic name">
-		</form>
-		<a class="ml-3" data-toggle="collapse" data-target=".multi-collapse" href="#" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-			x</a>
-		</div>
-				
-		<%= render 'search/search' %>
-	</div>
-	<% end %>
-
 <%# Main navigation%>
 
-<div id="sidebar-content" class="sidebar-collapse sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
+<div id="sidebar-content" data-turbolinks-permanent class="sidebar-collapse sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
 
 
 	<% if Course.modules.any? %>
@@ -110,7 +95,7 @@
 
 </div>
 
-<div id="course-links" class="flex-shrink-0 row sidebar-collapse collapse">
+<div id="course-links" class="flex-shrink-0 d-flex sidebar-collapse collapse">
 	<% if logged_in? && alerts_for_current_schedule.any? %>
 		<div style="flex:1 0 0; min-width:0"><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
 	<% end %>

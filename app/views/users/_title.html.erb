@@ -9,7 +9,7 @@
 	</div>
 </div>
 
-<div class="flex-fill flex-shrink-0 justify-content-end">
+<div class="flex-fisll flex-shrink-0 justify-content-end">
 	<% if @student.alarm %>
 	<%= link_to "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe, [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} %>
 	<% else %>

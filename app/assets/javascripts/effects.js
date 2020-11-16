@@ -7,3 +7,14 @@ Element.prototype.highlight_briefly = function ()
 	
 	this.classList.add("highlight-briefly")
 };
+
+function enableTooltips()
+{
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+	var tooltipList = tooltipTriggerList.map(
+		function (tooltipTriggerEl)
+		{
+			return new bootstrap.Tooltip(tooltipTriggerEl)
+		}
+	)
+}

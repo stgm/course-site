@@ -1,4 +1,4 @@
-$('#ama').html("<%= j(render 'line') %>");
-$('[data-toggle="tooltip"]').tooltip()
+document.getElementById('ama').innerHTML = "<%= j(render 'line') %>";
+enableTooltips();
 localStorage['waiting-gif'] = localStorage['waiting-gif'] || "https://fotos.mprog.nl/waiting-gifs/wait<%= Random.new.rand(0..9) %>.gif";
-$('#waiting-gif').attr("src", localStorage['waiting-gif']);
+document.getElementById('waiting-gif').src = localStorage['waiting-gif'];

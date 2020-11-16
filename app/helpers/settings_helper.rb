@@ -12,7 +12,7 @@ module SettingsHelper
 						id: "settings_#{setting_name}_input",
 						value:Settings[setting_name]
 					}))
-					concat(tag.div(class:'input-group-append') do tag.button 'Save', type:'submit', class:'btn btn-secondary' end)
+					concat(tag.button 'Save', type:'submit', class:'btn btn-primary')
 				end)
 			end
 		end

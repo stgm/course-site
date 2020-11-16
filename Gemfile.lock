@@ -59,14 +59,14 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     asciidoctor (2.0.10)
-    autoprefixer-rails (9.8.6.3)
+    autoprefixer-rails (10.0.2.0)
       execjs
     best_in_place (3.1.1)
       actionpack (>= 3.2)
       railties (>= 3.2)
     bootsnap (1.4.8)
       msgpack (~> 1.0)
-    bootstrap (4.5.2)
+    bootstrap (5.0.0.alpha2)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
@@ -112,8 +112,6 @@ GEM
     fugit (1.3.8)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.3)
-    garlicjs-rails (1.2.2)
-      railties (>= 3.1)
     git (1.7.0)
       rchardet (~> 1.8)
     globalid (0.4.2)
@@ -281,7 +279,7 @@ DEPENDENCIES
   asciidoctor
   best_in_place
   bootsnap (>= 1.1.0)
-  bootstrap
+  bootstrap (~> 5.0.0.alpha2)
   bugsnag
   caxlsx_rails
   chartkick
@@ -290,12 +288,10 @@ DEPENDENCIES
   dropbox_api
   friendly_id
   front_matter_parser
-  garlicjs-rails
   git
   groupdate
   hashids
   helpscout
-  jquery-rails
   kramdown
   listen
   quiet_safari

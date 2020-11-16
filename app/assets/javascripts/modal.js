@@ -1,3 +1,5 @@
+// data-trigger=model buttons are used in the grade overview
+
 function hookupModals()
 {
     // wait for user confirmation before showing modal for these buttons
@@ -6,7 +8,7 @@ function hookupModals()
             elt.addEventListener('confirm:complete',
                 (e, response) => {
                     if(e.detail[0]) {
-                        $('#modal-browser').modal('show');
+                        modalBrowser.show()
                     }
                 }
             )
@@ -14,10 +16,9 @@ function hookupModals()
     )
     
     // for buttons without confirmation, show the modal immediately
-    $('a[data-trigger=modal]:not([data-confirm])').on('click', function() {
-        $('#modal-browser').modal('show');
-    });
+    document.querySelectorAll('a[data-trigger=modal]:not([data-confirm])').forEach(
+        (elt) => { elt.addEventListener('click', () => modalBrowser.show()) }
+    );
 }
 
-// $(hookupModals);
-$(document).on('turbolinks:load', hookupModals);
+document.addEventListener('turbolinks:load', hookupModals);

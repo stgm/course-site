@@ -11,7 +11,7 @@
 	<li class="nav-item dropdown" id="ama-nav">
 		<a href="#" id="ama-dd" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 			<%= bootstrap_icon "question-circle-fill", size: '24x24', style: 'vertical-align:-0.255em;' %><%= tag.span(Hand.waiting.count, class:'ml-1') if current_user.staff? %></a>
-		<div class="dropdown-menu dropdown-menu-right" id="ama-menu">
+		<div class="dropdown-menu dropdown-menu-right shadow border-light" id="ama-menu">
 			<%= render 'ama' %>
 		</div>
 	</li>
@@ -33,7 +33,7 @@
 </script>
 <% else %>
 <script>
-	$('#ama-nav').one('show.bs.dropdown', function(e) {
+	document.getElementById('ama-nav').addEventListener('show.bs.dropdown', function(e) {
 		Rails.ajax({
 			url: '<%= hands_raise_path %>',
 			type: 'get'
