@@ -70,7 +70,7 @@ gem 'caxlsx_rails'
 # Front-end
 #
 gem 'uglifier'
-gem 'bootstrap', '~> 5.0.0.alpha2'
+gem 'bootstrap', '~> 5.0.0.alpha3'
 gem 'coffee-rails'
 gem 'turbolinks'
 gem 'coderay'
