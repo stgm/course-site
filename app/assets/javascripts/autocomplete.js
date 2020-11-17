@@ -32,6 +32,14 @@ function hookupAutocompletes()
 					kbd.preventDefault();
 				}
 			})
+			
+			autocompleteResults.addEventListener('keydown', (kbd) =>
+			{
+				if(kbd.key == 'Escape') {
+					autocompleteInput.focus()
+					autocompleteResults.classList.remove('show')
+				}
+			})
 		}
 	)
 }
