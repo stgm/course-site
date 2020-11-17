@@ -31,15 +31,13 @@ function hookupAutocompletes()
 					autocompleteResults.children[0].focus();
 					kbd.preventDefault();
 				}
-			})
-			
-			autocompleteResults.addEventListener('keydown', (kbd) =>
-			{
 				if(kbd.key == 'Escape') {
-					autocompleteInput.focus()
+					autocompleteInput.value = ""
 					autocompleteResults.classList.remove('show')
 				}
 			})
+			
+			// escape is not handled when the menu is focused, because bootstrap doesn't like menus without a button
 		}
 	)
 }
