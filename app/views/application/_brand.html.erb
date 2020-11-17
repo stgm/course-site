@@ -3,7 +3,7 @@
 	
 	<%= bootstrap_icon "terminal", class: "pull-left rounded mr-2 flex-shrink-0 p-1", width:32, height:32, style: 'vertical-align:bottom;' %>
 
-	<div id="course-title" class="d-flex flex-column font-weight-bold text-truncate">
+	<div id="course-title" class="d-flex flex-column text-truncate">
 		<span><%= Course.long_name %></span>
 
 		<% if logged_in? %>
