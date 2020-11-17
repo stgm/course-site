@@ -40,8 +40,6 @@ module AutoCheck::FeedbackFormatter
 					items = [check_results[tool]].collect {|f| f["results"]}.flatten
 				end
 			end
-		
-			# puts items
 		end
 	
 		return "" if items.nil?
@@ -50,12 +48,10 @@ module AutoCheck::FeedbackFormatter
 		result = ""
 		
 		items.each do |item|
-			# puts item
 			case v3 && item["passed"] || item["status"]
 			when true
 				result << ":)"
 			when false
-				# puts "FALSE"
 				result << ":("
 			when nil
 				result << ":|"
@@ -80,7 +76,6 @@ module AutoCheck::FeedbackFormatter
 		when true
 			result << "  :)"
 		when false
-			# puts "FALSE"
 			result << "  :("
 		when nil
 			result << "  :|"

@@ -75,8 +75,6 @@ class Grade < ApplicationRecord
 			end
 		end if val
 		
-		puts val.inspect
-
 		super OpenStruct.new val.to_h if val
 	end
 	

@@ -27,7 +27,6 @@ class Tests::ResultsController < Tests::TestsController
 			if subgrades.values.map(&:present?).any?
 				# logger.debug "#{user_id}  #{points}"
 				s = Submit.where(user_id: user_id, pset_id: pset_id).first_or_create
-				puts "That's submit #{s.id}"
 				if g = s.grade
 					subgrades.each do |name, value|
 						if value.present?
