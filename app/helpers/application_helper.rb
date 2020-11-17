@@ -145,9 +145,7 @@ module ApplicationHelper
 		# rescue Resolv::ResolvError
 		# 	location = "untraceable"
 		# end
-		# puts "loc" + location
 		# return location =~ /^(wcw|1x).*uva.nl$/ || location == 'localhost'
-		# puts request.remote_ip
 		return !!(request.remote_ip =~ /^145\.18\..*$/) ||
 		       !!(request.remote_ip =~ /^145\.109\..*$/) ||
 			   !!(request.remote_ip =~ /^195\.169\..*$/) ||

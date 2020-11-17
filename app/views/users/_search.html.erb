@@ -1,5 +1,4 @@
 <% @results.each do |r| %>
-<% puts r.inspect; puts r.to_partial_path %>
 <%= link_to(r, class:"dropdown-item text-truncate", onclick: "modalBrowser.show(); document.getElementById('search-results').style.display = 'none';", remote: true) do %>
 <%= r.name %>
 <% if r.schedule%>
