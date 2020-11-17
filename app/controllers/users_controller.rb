@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 	# GET /manage/users/search/users?text=.. for admins + heads
 	def search
 		if params[:text] != ""
-			@results = User.joins(:logins).where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").limit(10).order(:name)
+			@results = User.includes(:logins).where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").references(:logins).limit(10).order(:name)
 		else
 			@results = []
 		end

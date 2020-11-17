@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
 	include ModalRenderer
 	include AuthenticationHelper
 	
-	# layout 'application2'
-
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
 		flash[:alert] = "Warning: you were logged out since you last loaded this page. If you just submitted, please login and try again."
 		redirect_back fallback_location: '/'
