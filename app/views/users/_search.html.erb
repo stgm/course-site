@@ -1,5 +1,5 @@
 <% @results.each do |r| %>
-<%= link_to(r, class:"dropdown-item text-truncate", onclick: "modalBrowser.show(); document.getElementById('search-results').style.display = 'none';", remote: true) do %>
+<%= link_to(r, class:"dropdown-item text-truncate", onclick: "modalBrowser.show(); document.getElementById('search-results').style.display = 'none'; return(false);", remote: true) do %>
 <%= r.name %>
 <% if r.schedule%>
 <span class="badge bg-info"><%= r.schedule.name %></span>

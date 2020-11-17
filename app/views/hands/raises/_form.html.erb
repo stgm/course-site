@@ -12,6 +12,8 @@
 		<% elsif Settings.hands_location %>
 		<input type="text" name="location" class="form-control" required placeholder="<%= t "hands.location" %>" style="margin-top:0.5em" value="<%= current_user.last_known_location %>">
 		<% end %>
-		<button id="ask-button" data-loading-text="<%= t "hands.posting_question" %>" type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-default  btn-block btn-warning" name="how" value="hands"><%= t "hands.ask_for_assistance" %></button>
+		<div class="d-grid">
+		<button id="ask-button" data-loading-text="<%= t "hands.posting_question" %>" type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-warning" name="how" value="hands"><%= t "hands.ask_for_assistance" %></button>
+		</div>
 	<% end %>
 </li>
