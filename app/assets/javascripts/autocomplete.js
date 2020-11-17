@@ -29,6 +29,7 @@ function hookupAutocompletes()
 			{
 				if(kbd.key == 'ArrowDown' || kbd.key == 'ArrowUp') {
 					autocompleteResults.children[0].focus();
+					kbd.preventDefault();
 				}
 			})
 		}
