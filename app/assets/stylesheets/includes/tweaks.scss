@@ -61,3 +61,15 @@ span.line-numbers
 {
 	margin-right:0.5rem;
 }
+
+.dropdown-menu
+{
+	@extend .shadow;
+	@extend .border-light;
+}
+
+.modal-content
+{
+	@extend .shadow-lg;
+	@extend .border-light;
+}

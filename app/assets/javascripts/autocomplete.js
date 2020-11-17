@@ -36,7 +36,7 @@ function hookupAutocompletes()
 					autocompleteResults.classList.remove('show')
 				}
 			})
-			
+
 			// escape is not handled when the menu is focused, because bootstrap doesn't like menus without a button
 		}
 	)
