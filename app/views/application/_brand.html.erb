@@ -7,7 +7,7 @@
 		<span><%= Course.long_name %></span>
 
 		<% if logged_in? %>
-		<small class="fw-normal fs-6>
+		<small class="fw-normal fs-6">
 			<%= current_user && current_user.name || session[:cas_user] %>
 			<%= '&middot;'.html_safe if current_user && user_designation %>
 			<%= user_designation %>
