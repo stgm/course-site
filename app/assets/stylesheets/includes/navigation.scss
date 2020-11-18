@@ -29,6 +29,11 @@
 	justify-content: space-between !important;
 }
 
+#sidebar-tools > .container-fluid
+{
+	justify-content: start;
+}
+
 .sidebar-scroller
 {
 	overflow-y: auto;
@@ -119,10 +124,6 @@
 		max-width: 33.3333333333%;
 	}
 
-	#sidebar .sidebar-collapse
-	{
-	}
-	
 	#sidebar > .nav
 	{
 		padding-left:.75rem;
@@ -133,6 +134,7 @@
 	{
 		display:flex;
 		flex-direction:column;
+		padding:0.75rem;
 		padding-top:0.5rem;
 	}
 	
@@ -155,7 +157,7 @@
 
 @media (min-width: 992px)
 {
-	#sidesbar-tools, #sidebar > .nav > .nav
+	#sidebar > .nav > .nav
 	{
 		padding-left:1rem;
 		padding-right:1rem;
@@ -168,6 +170,10 @@
 	{
 		-webkit-box-flex: 0;
 		flex: 0 0 25%;
+	}
+	#sidebar-content
+	{
+		padding:1rem;
 	}
 }
 
@@ -236,7 +242,7 @@
 	align-items: center !important;
 }
 
-#sidebar .nav-link, .materials-nav .nav-link
+#sidebar-content .nav-link, .materials-nav .nav-link
 {
 	padding: 0.5rem 0.25rem;
 	flex: 1 1 auto !important; // fill

@@ -2,13 +2,8 @@
 	<div class="modal-dialog modal-dialog-scrollable modal-lg modal-fullscreen-sm-down" role="document">
 		<div class="modal-content">
 			<div id="modal-browser-header" class="modal-header align-items-start">
-				<h5 id="modal-browser-title" class="modal-title"></h5>
-				<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div id="modal-browser-body" class="modal-body">
-				<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-				  <span class="visually-hidden">Loading...</span>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -20,6 +15,6 @@
 	modalBrowserElement.addEventListener('show.bs.modal', function (e) {
 		// clear modal upon load
 		document.getElementById('modal-browser-header').innerHTML = '';
-		document.getElementById('modal-browser-body').innerHTML = '<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>';
+		document.getElementById('modal-browser-body').innerHTML = '<div class="text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 	})
 </script>

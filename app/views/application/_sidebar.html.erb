@@ -1,6 +1,9 @@
 <div id="sidebar-tools" class="navbar navbar-expand flex-shrink-0" style="z-index:1000">
 	<div class="container-fluid">
-		<%= render 'brand'%>
+		<button class="navbar-toggler border-0 px-0 d-block d-md-none mr-2" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon text-primary" style="vertical-align:-4px;"><%= bootstrap_icon 'list', width:32, height:32 %></span>
+		</button>
+		<%= render 'brand' %>
 		<% if !authenticated? %>
 		<li class="navbar-nav d-block d-md-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbolinks: false })%></li>
 		<% else #if logged_in? %>
@@ -8,10 +11,6 @@
 			<%= render 'menu' %>
 		</div>
 		<% end %>
-	
-		<button class="navbar-toggler border-0 px-0 d-block d-md-none" type="button" data-toggle="collapse" data-target="#sidebar-content,#course-links" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon text-primary" style="vertical-align:-4px;"><%= bootstrap_icon 'list', width:32, height:32 %></span>
-		</button>
 	</div>
 </div>
 
@@ -80,22 +79,9 @@
 	</ul>
 	<% end %>
 
-	<%# User menu items are shown in sidebar on small screens %>
-
-	<!-- <ul id="user-menu-sidebar" class="nav d-md-none">
-		<li>
-			<p class="nav-text">Menu</p>
-		</li>
-		<% if !authenticated? %>
-		<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link", data: { turbolinks: false })%></li>
-		<% elsif logged_in? %>
-		<%= render partial: 'menu_items' %>
-		<% end %>
-	</ul> -->
-
 </div>
 
-<div id="course-links" class="flex-shrink-0 d-flex sidebar-collapse collapse">
+<div id="course-links" class="flex-shrink-0 d-flex">
 	<% if logged_in? && alerts_for_current_schedule.any? %>
 		<div style="flex:1 0 0; min-width:0"><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
 	<% end %>
