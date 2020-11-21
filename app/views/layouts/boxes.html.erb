@@ -22,11 +22,11 @@
 	<div class="container-fluid">
 		<div class="row">
 			
-			<div id="sidebar" class="d-md-flex align-items-stretch flex-shrink-0 flex-column col-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-4">
+			<div id="sidebar" class="d-md-flex align-items-stretch flex-shrink-0 flex-column">
 				<%= render 'sidebar' %>
 			</div>
 			
-			<div id="row-content" class="col-md-<%= Settings.room_for_toc && 8 || 8 %> offset-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-8 offset-xl-4 p-0">
+			<div id="row-content" class="p-0">
 	
 				<%= render "alerts" %>
 				
@@ -43,7 +43,7 @@
 					</div>
 				</div>
 
-				<div id="content" class="pt-3 px-3 pb-3 px-sm-3 pb-sm-4 px-lg-4 pb-lg-4" <%= Settings.room_for_toc && "style=margin-right:17em;" || "" %>>
+				<div id="content" class="pt-4 px-3 pb-3 px-sm-3 pb-sm-4 px-lg-4 pb-lg-4">
 					<%= yield %>
 				</div>
 

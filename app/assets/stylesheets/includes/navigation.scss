@@ -123,6 +123,27 @@
 		flex: 0 0 33.3333333333%;
 		max-width: 33.3333333333%;
 	}
+	
+	#row-content
+	{
+		margin-left: 33.3333333333%;
+		flex: 0 0 auto;
+		width: 66.6666666667%;
+	}
+	
+	.room-for-toc
+	{
+		#sidebar
+		{
+			flex: 0 0 25%;
+			max-width: 25%;
+		}
+		#row-content
+		{
+			margin-left: 25%;
+			width: 75%;
+		}
+	}
 
 	#sidebar > .nav
 	{
@@ -162,6 +183,13 @@
 		padding-left:1rem;
 		padding-right:1rem;
 	}
+
+	.room-for-toc #content
+	{
+		margin-left: 0 !important;
+		margin-right: 15em !important;
+	}
+
 }
 
 @media (min-width: 1200px)
@@ -169,11 +197,20 @@
 	#sidebar
 	{
 		-webkit-box-flex: 0;
-		flex: 0 0 25%;
+		flex: 0 0 33.3333333333%;
+		max-width: 33.3333333333%;
 	}
+
 	#sidebar-content
 	{
 		padding:1rem;
+	}
+
+	#row-content
+	{
+		margin-left: 33.3333333333%;
+		flex: 0 0 auto;
+		width: 66.6666666667%;
 	}
 }
 
