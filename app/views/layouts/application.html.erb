@@ -11,8 +11,13 @@
 	<title><%= title %></title>
 
 	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= yield :math %>
 	<%= javascript_include_tag "application" %>
+
+	<% if controller_name == 'page' && Settings.pages_enable_math %>
+	<%= javascript_include_tag 'optional/math' %>
+	<%= javascript_include_tag 'https://polyfill.io/v3/polyfill.min.js?features=es6' %>
+	<%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', { async: true, id: 'MathJax-script' } %>
+	<% end %>
 
 	<link rel="icon" type="image/png" href="/images/minor.png" />
 </head>
@@ -45,7 +50,7 @@
 
 				<div id="content" class="pt-4 px-3 pb-3 px-sm-4 pb-sm-4 px-lg-5 pb-lg-5 mx-auto">
 					<%= yield %>
-					<%= yield :footer %>
+					<%= render 'footer' if controller_name == 'page' %>
 				</div>
 			</div>
 			
@@ -54,9 +59,5 @@
 
 	<%= render partial: "modal_browser" if current_user.senior? %>
 </body>
-
-<script type="text/javascript">
-	enableTooltips();
-</script>
 
 </html>

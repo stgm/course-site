@@ -32,13 +32,13 @@
 	<% end %>
 
 	<div class="mb-2">
-		<span class="float-right" data-toggle="tooltip" title="Use bullets * to separate points. Use `backticks` to insert code."><%= bootstrap_icon 'question-fill'%></span>
-		<label for="grade_comments" class="control-label">Focus points </label>
+		<span class="float-right" data-toggle="tooltip" title="Use * to create bullet lists. Use `backticks` to insert code."><%= bootstrap_icon 'question-circle-fill', width: '12px'%></span>
+		<label for="submit_grade_attributes_comments" class="control-label">Focus points </label>
 		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
 	</div>
 	
 	<div class="mb-2">
-		<label for="grade_notes" class="control-label">Internal notes </label>
+		<label for="submit_grade_attributes_notes" class="control-label">Internal notes </label>
 		<%= grade_form.text_area :notes, class: 'form-control', rows: 3 %>
 	</div>
 
@@ -110,27 +110,5 @@
 <% end %>
 
 <script>
-	var saveTimeout;
-	x = document.getElementById('grade-form').elements;
-	
-	for (item of x)
-	{
-		item.addEventListener("input", () =>
-		{
-			document.getElementById('grade-badge').innerHTML = 'unsaved'
-			clearTimeout(saveTimeout);  // typing delays autosaving
-			saveTimeout = setTimeout(
-				function()
-				{
-					Rails.fire(document.getElementById('grade-form'), 'submit')
-					document.getElementById('grade-badge').innerHTML = 'saved'
-				},
-				500  // this is the autosave interval
-			)
-		})
-	}
-
-	document.addEventListener('turbolinks:before-cache', function () {
-		document.querySelectorAll('[autofocus]').forEach(e => e.removeAttribute('autofocus'));
-	})
+	startAutosave();
 </script>

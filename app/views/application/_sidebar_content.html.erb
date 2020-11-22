@@ -1,0 +1,64 @@
+<div id="sidebar-content" data-turbolinks-permanent class="sidebar-collapse sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
+
+
+	<% if Course.modules.any? %>
+	<ul class="nav">
+		<li>
+			<p class="ml-1"><%= current_module ? t(:other) : t(:modules) %></p>
+		</li>
+		<% Course.modules.each do |title, url|  %>
+		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
+		<% end %>
+	</ul>
+	<% end %>
+
+	<%# Schedule-based navigation %>
+
+	<% if current_module %>
+	<ul class="nav">
+		<li>
+			<p class="nav-head mx-1 text-dark">
+				<span id="schedule_name" class="<%= 'unavailable' if !current_module.public? %>"><%= current_module.name %></span>
+				<% if current_schedule.self_service %>
+				<span class="float-right mr-n1 spr-1">
+					<%= link_to bootstrap_icon('chevron-left', class: 'rounded').html_safe, prev_module.present? ? profile_prev_path : '', method: :post, remote: true, id: 'schedule_prev_button', disabled:!prev_module.present? %>
+					<%= link_to bootstrap_icon('chevron-right', class: 'rounded').html_safe, next_module.present? ? profile_next_path : '', method: :post, remote: true, id: 'schedule_next_button', disabled:!next_module.present? %>
+				</span>
+				<% end %>
+			</p>
+		</li>
+		<li id="schedule">
+			<%= links_to_ul(current_module.content) %>
+		</li>
+	</ul>
+	<% end %>
+
+	<%# Navigation items from section that current page belongs to %>
+
+	<% if !current_module && @section.present? && @section.content_links.present? %>
+	<ul class="nav">
+		<li>
+			<p class="nav-head"><%= @section.title %></p>
+		</li>
+		<li>
+			<%= links_to_ul(@section.content_links) %>
+		</li>
+	</ul>
+	<% end %>
+
+	<%# All pages by section, but users only see "published" pages here %>
+
+	<% if current_schedule.blank? && current_sections.any? %>
+	<ul id="sections" class="nav">
+		<li>
+			<p class="nav-head"><%= current_module ? t(:other) : t(:materials) %></p>
+		</li>
+		<li>
+			<ul class="nav materials">
+				<%= material_links_to_li(current_sections) %>
+			</ul>
+		</li>
+	</ul>
+	<% end %>
+
+</div>

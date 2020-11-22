@@ -4,7 +4,6 @@ module ModalRenderer
 		@partial = options[:action] || action_name
 		@header = options[:header]
 		@header_partial = options[:header_partial]
-		@tooltips = options[:tooltips]
 		@in_place_editing = options[:in_place_editing]
 		render 'load_modal.js.erb'
 	end

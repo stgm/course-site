@@ -1,4 +1,3 @@
-<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 <%= hand.user.name %> / <strong><%= hand.subject %></strong>
 <% if should_show_groups_in_hands? && hand.user.group %>
 <span class="float-right badge bg-secondary" style="<%= get_colors_for_text(hand.user.group.name) %>"><%= hand.user.group.name %></span>

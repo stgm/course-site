@@ -1,13 +1,5 @@
 module ApplicationHelper
 
-	def page_done_icon(user, pset)
-		if user && pset && Submit.where(:user_id => user.id, :pset_id => pset.id).count > 0
-			" <span class='glyphicon glyphicon-thumbs-up'></span>".html_safe
-		else
-			""
-		end
-	end
-	
 	def date_span_with_title(date)
 		"<span title=\"#{date.strftime("%A %d %b %Y %R")}\">#{time_ago_in_words(date)} #{t(:ago)}</span>".html_safe
 	end

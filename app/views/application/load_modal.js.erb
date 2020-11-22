@@ -5,7 +5,4 @@ document.getElementById('modal-browser-header').innerHTML = "<%= j render 'modal
 document.getElementById('modal-browser-header').innerHTML = "<%= j(render @header_partial) %>";
 <% end %>
 document.getElementById('modal-browser-body').innerHTML = "<%= j(render @partial) %>";
-<% if @tooltips %>
-enableTooltips();
-<% end %>
 <%= @js %>

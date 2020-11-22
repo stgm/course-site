@@ -1,7 +1,6 @@
 <div class="my-3">
 
 <h4>
-<% if @hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 <%= @hand.user.name %><% if @hand.user.group %> (<%= @hand.user.group.name %>)<% end %>
 <% if @hand.done %>
 <span class="badge float-right">done</span>

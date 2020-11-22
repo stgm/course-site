@@ -1,7 +1,6 @@
 document.getElementById('ama').innerHTML = "<%= j(render 'waiting') %>";
 localStorage['waiting-gif'] = localStorage['waiting-gif'] || "https://fotos.mprog.nl/waiting-gifs/wait<%= Random.new.rand(0..9) %>.gif";
 document.getElementById('waiting-gif').src = localStorage['waiting-gif'];
-enableTooltips();
 setTimeout(function(){
 	Rails.ajax({ type: 'get', url: '<%= hands_raise_path %>'});
 }, 60000 );
