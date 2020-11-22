@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
 
 	include ModalRenderer
 	include AuthenticationHelper
-
+	
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
 		flash[:alert] = "Warning: you were logged out since you last loaded this page. If you just submitted, please login and try again."
 		redirect_back fallback_location: '/'
@@ -35,10 +35,6 @@ class ApplicationController < ActionController::Base
 			AttendanceRecord.create_for_user(current_user, request_from_local_network?)
 			session[:last_seen_at] = DateTime.now
 		end
-	end
-	
-	def go_location_bumper
-		redirect_to(location_path) if Settings.hands_bumper && request_from_local_network? && current_user.student? && current_user.last_known_location.blank?
 	end
 	
 	##

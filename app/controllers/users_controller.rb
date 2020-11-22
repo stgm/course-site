@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 	# GET /manage/users/search/users?text=.. for admins + heads
 	def search
 		if params[:text] != ""
-			@results = User.joins(:logins).where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").limit(10).order(:name)
+			@results = User.includes(:logins).where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").references(:logins).limit(10).order(:name)
 		else
 			@results = []
 		end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 		@user.update!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :group_id, :alarm))
 
 		respond_to do |format|
-			format.json { respond_with_bip(@user) }
+			format.json { @user }
 			format.html { redirect_back fallback_location: '/' }
 			format.js { redirect_js location: user_path(@user) }
 		end

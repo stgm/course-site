@@ -2,8 +2,5 @@
 <%= render partial: 'table', locals: { users: @users, psets: @psets } %>
 
 <script type="text/javascript" charset="utf-8">
-$(function()
-{
-	$('[data-toggle="tooltip"]').tooltip()
-})
+	enableTooltips();
 </script>

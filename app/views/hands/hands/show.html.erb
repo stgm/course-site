@@ -1,7 +1,6 @@
 <div class="my-3">
 
 <h4>
-<% if @hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 <%= @hand.user.name %><% if @hand.user.group %> (<%= @hand.user.group.name %>)<% end %>
 <% if @hand.done %>
 <span class="badge float-right">done</span>
@@ -16,9 +15,9 @@
 
 <p><%= button_to("I'll take the question", dib_hand_path(@hand), method: :put, class: 'btn btn-primary btn-block') %></p>
 			
-<p><%= button_to('Student has left, remove question', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-default btn-block', data: { confirm: 'Sure to delete?' })%></p>
+<p><%= button_to('Student has left, remove question', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-block', data: { confirm: 'Sure to delete?' })%></p>
 
-<p><%= button_to("Back to list", hands_path, method: :get, class: 'btn btn-default btn-block' ) %></p>
+<p><%= button_to("Back to list", hands_path, method: :get, class: 'btn btn-block' ) %></p>
 
 <% else %>
 

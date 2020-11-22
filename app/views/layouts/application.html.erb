@@ -11,22 +11,27 @@
 	<title><%= title %></title>
 
 	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= yield :math %>
 	<%= javascript_include_tag "application" %>
 
-    <link rel="icon" type="image/png" href="/images/minor.png" />
+	<% if controller_name == 'page' && Settings.pages_enable_math %>
+	<%= javascript_include_tag 'optional/math' %>
+	<%= javascript_include_tag 'https://polyfill.io/v3/polyfill.min.js?features=es6' %>
+	<%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', { async: true, id: 'MathJax-script' } %>
+	<% end %>
+
+	<link rel="icon" type="image/png" href="/images/minor.png" />
 </head>
 
 <body class="<%= @body_class || controller.controller_name %>">
 
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row <%= 'room-for-toc' if Settings.room_for_toc %>">
 			
-			<div id="sidebar" class="d-md-flex align-items-stretch flex-column flex-shrink-0 col-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-4 align-items-stretch" data-turbolinks-permanent>
+			<div id="sidebar" class="d-md-flex align-items-stretch flex-column flex-shrink-0 align-items-stretch shadow-sm" data-turbolinks-permanent>
 				<%= render 'sidebar' %>
 			</div>
 			
-			<div id="row-content" class="col-md-<%= Settings.room_for_toc && 8 || 8 %> offset-md-<%= Settings.room_for_toc && 4 || 4 %> col-xl-8 offset-xl-4 p-0">
+			<div id="row-content" class="p-0">
 	
 				<%= render "alerts" %>
 				
@@ -43,9 +48,9 @@
 					</div>
 				</div>
 
-				<div id="content" class="pt-3 px-3 pb-3 px-sm-4 pb-sm-4 px-lg-5 pb-lg-5" <%= Settings.room_for_toc && "style=margin-right:17em;" || "" %>>
+				<div id="content" class="pt-4 px-3 pb-3 px-sm-4 pb-sm-4 px-lg-5 pb-lg-5 mx-auto">
 					<%= yield %>
-					<%= yield :footer %>
+					<%= render 'footer' if controller_name == 'page' %>
 				</div>
 			</div>
 			
@@ -54,27 +59,5 @@
 
 	<%= render partial: "modal_browser" if current_user.senior? %>
 </body>
-
-<% if !current_user.valid_profile? %>
-	<script type="text/javascript">
-	$(function () {
-        // popup is disabled
-        // $('#user-menu').dropdown('toggle');
-		// $('#user-menu').dropdown('update');
-        // return false;
-	});
-	
-	$('.profile-form').click(function(e) {
-	    e.stopPropagation();
-	});
-	
-	</script>
-<% end %>
-
-<script type="text/javascript">
-$(function () {
-	$('[data-toggle="tooltip"]').tooltip()
-});
-</script>
 
 </html>

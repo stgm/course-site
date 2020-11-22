@@ -8,7 +8,6 @@ class Course::Loader
 	def initialize
 		@errors = []
 		@touched_subpages = []
-		@index = Hash.new { |hash, key| hash[key] = [] }
 	end
 	
 	# Re-read the course contents from the git repository.
@@ -46,8 +45,6 @@ class Course::Loader
 		rescue SQLite3::BusyException
 			@errors << "A timeout occurred while loading the new course content. Just try again!"
 		end
-		
-		Settings['keyword_index'] = @index
 		
 		return @errors
 	end
@@ -257,14 +254,6 @@ private
 		
 		return db_page
 	end
-	
-	def add_to_index(keywords, subpage_id)
-		if keywords.present?
-			keywords.each do |k|
-				@index[k] << subpage_id
-			end
-		end
-	end
 
 	# Reads the third-level subpages from the course repo. Creates a
 	# subpage (tab) in the database for each.
@@ -286,7 +275,6 @@ private
 				new_subpage.content = file.content
 				new_subpage.description = file.front_matter['description']
 				new_subpage.save
-				add_to_index(file.front_matter['keywords'], new_subpage.id)
 					
 				@touched_subpages << new_subpage.id
 			end

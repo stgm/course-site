@@ -1,7 +1,7 @@
 <% @alerts.each do |alert| %>
 <div class="card mb-3">
   <div class="card-body">
-    <h5 class="card-title"><%= alert.title %> <% if alert.published %><span class="badge badge-secondary">Published</span><% end %></h5>
+    <h5 class="card-title"><%= alert.title %> <% if alert.published %><span class="badge bg-secondary">Published</span><% end %></h5>
     <p class="card-text"><%= alert.body %></p>
 	<%= link_to 'Edit', edit_alert_path(alert), class: 'card-link' %>
 	<%= link_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' }, class: 'card-link' %>

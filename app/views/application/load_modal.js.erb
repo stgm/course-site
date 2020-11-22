@@ -1,14 +1,8 @@
-$('#modal-browser').modal('show');
+modalBrowser.show();
 <% if @header %>
 document.getElementById('modal-browser-header').innerHTML = "<%= j render 'modal_title', header: @header %>";
 <% elsif @header_partial %>
 document.getElementById('modal-browser-header').innerHTML = "<%= j(render @header_partial) %>";
 <% end %>
 document.getElementById('modal-browser-body').innerHTML = "<%= j(render @partial) %>";
-<% if @tooltips %>
-$('[data-toggle="tooltip"]').tooltip();
-<% end %>
-<% if @in_place_editing %>
-$(".best_in_place").best_in_place();
-<% end %>
 <%= @js %>

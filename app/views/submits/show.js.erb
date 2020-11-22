@@ -1,2 +1,4 @@
-$('#modal-browser-header').html("<%= j(render 'title') %>");
-$('#modal-browser-body').html("<%= j(render object: @submit, partial: 'tabs') %>");
+document.getElementById('modal-browser-header').innerHTML = "<%= j(render 'title') %>";
+document.getElementById('modal-browser-body').innerHTML = "<%= j(render object: @submit, partial: 'tabs') %>";
+enableTooltips();
+startAutosave();

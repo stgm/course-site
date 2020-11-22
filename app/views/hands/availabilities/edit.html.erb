@@ -2,10 +2,10 @@
 
 <% (0..3).each do |n| %>
 <p>
-<%= button_to("Set availability until #{(@option1 + n.hours).hour}h", hands_availability_path(until: @option1 + n.hours), method: :patch, class: 'btn btn-secondary') %>
+<%= button_to("Set availability until #{(@option1 + n.hours).hour}h", hands_availability_path(until: @option1 + n.hours), method: :patch, class: 'btn btn-primary') %>
 </p>
 <% end %>
 
 <p>
-<%= button_to("Set unavailable", hands_availability_path(until: @optionU), method: :patch, class: 'btn btn-secondary') %>
+<%= button_to("Set unavailable", hands_availability_path(until: @optionU), method: :patch, class: 'btn btn-primary') %>
 </p>

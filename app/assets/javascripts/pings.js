@@ -1,5 +1,5 @@
 function keepalive() {
-	$.ajax({
+	Rails.ajax({
 	   type: "GET",
 	   url: "/profile/ping"
 	 }); 
@@ -8,9 +8,8 @@ function keepalive() {
 	}, 1800000);
 }
 
-$(document).ready(function() {
+document.addEventListener('ready', function() {
 	setTimeout(function(){
 		keepalive();
 	}, 1800000);
 });
-

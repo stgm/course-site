@@ -22,7 +22,7 @@ summary
 
 #sidebar
 {
-	#sidebar-tools, #course-links
+	#sidebar-tools
 	{
 		-webkit-backdrop-filter: brightness(102%);
 		backdrop-filter: brightness(102%);
@@ -32,7 +32,18 @@ summary
 			background-color:transparent !important;
 		}
 	}
-	
+
+	#course-links
+	{
+		-webkit-backdrop-filter: brightness(103%);
+		backdrop-filter: brightness(103%);
+
+		.bg-light
+		{
+			background-color:transparent !important;
+		}
+	}
+
 	.nav-link-item
 	{
 		background-color: #fffdfc,

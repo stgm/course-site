@@ -23,7 +23,7 @@
 	<% end %>
 
 	<% if not @submit.url.blank? %>
-	<div class="form-group">
+	<div class="mb-2">
 		<label for="" class="control-label">Link</label>
 		<p class="form-control-static">
 			<%= link_to @submit.url, @submit.url %>
@@ -31,14 +31,14 @@
 	</div>
 	<% end %>
 
-	<div class="form-group">
-		<span class="float-right" data-toggle="tooltip" title="Use bullets * to separate points. Use `backticks` to insert code."><%= bootstrap_icon 'question-fill'%></span>
-		<label for="grade_comments" class="control-label">Focus points </label>
+	<div class="mb-2">
+		<span class="float-right" data-toggle="tooltip" title="Use * to create bullet lists. Use `backticks` to insert code."><%= bootstrap_icon 'question-circle-fill', width: '12px'%></span>
+		<label for="submit_grade_attributes_comments" class="control-label">Focus points </label>
 		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
 	</div>
 	
-	<div class="form-group">
-		<label for="grade_notes" class="control-label">Internal notes </label>
+	<div class="mb-2">
+		<label for="submit_grade_attributes_notes" class="control-label">Internal notes </label>
 		<%= grade_form.text_area :notes, class: 'form-control', rows: 3 %>
 	</div>
 
@@ -46,12 +46,12 @@
 		<% if @submit.pset.config && @submit.pset.config['subgrades'] %>
 		<% @submit.pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
 		<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
-		<div class="form-group flex-fill">
+		<div class="mb-2 flex-fill">
 			<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic_scores[subgrade_name] %>(<%= @submit.automatic_scores[subgrade_name] %>)<% end %></label>
 			<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="submit[grade_attributes[subgrades[<%= subgrade_name %>]]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
 		</div>
 		<% elsif subgrade_type == 'boolean' %>
-		<div class="form-group">
+		<div class="mb-2">
 			<div class="checkbox">
 				<label>
 					<%= hidden_field_tag "submit[grade_attributes[subgrades[#{subgrade_name}]]]", 0 %>
@@ -65,21 +65,19 @@
 	</div>
 			
 	<% if current_user.admin? || not(@submit.pset.config && @submit.pset.config['subgrades'] && @submit.pset.config['calculation']) %>
-	<div class="form-group">
-		<label for="grade_grade" class="control-label">Grade
+	<div class="mb-2">
+		<label for="submit_grade_attributes_grade" class="control-label ml-1 mb-0">Grade
 			<% if current_user.admin? && @grade.calculated_grade %>(<%= @grade.calculated_grade %>)<% end %>
 		</label>
 		<div class="input-group">
-			<%= grade_form.text_field :grade, class: 'form-control form-control-sm', value: @grade.grade %>
-			<span class="input-group-append">
-				<button class="btn btn-secondary btn-sm" type="button" id="pass-btn"><small>PASS</small></button>
-				<button class="btn btn-secondary btn-sm" type="button" id="fail-btn"><small>FAIL</small></button>
-			</span>
+			<%= grade_form.text_field :grade, class: 'form-control input-group form-control-sm', value: @grade.grade %>
+			<button class="btn btn-secondary btn-sm" type="button" id="pass-btn"><small>PASS</small></button>
+			<button class="btn btn-secondary btn-sm" type="button" id="fail-btn"><small>FAIL</small></button>
 		</div>
 	</div>
 	<% end %>
 	
-	<div class="form-group d-flex mt-auto">
+	<div class="mt-3 d-flex">
 		<div class="btn-group w-100">
 			<% if current_user.admin? || @grade.unfinished? %>
 			<%= form.submit 'Save', class: 'btn btn-secondary flex-fill' %>
@@ -87,7 +85,7 @@
 
 			<% if current_user.senior? %>
 			<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Admin<span class="sr-only">Toggle Actions Dropdown</span>
+				Admin<span class="visually-hidden">Toggle Actions Dropdown</span>
 			</button>
 			<div class="dropdown-menu">
 				<% if current_user.admin? %>
@@ -112,27 +110,5 @@
 <% end %>
 
 <script>
-	var saveTimeout;
-	x = document.getElementById('grade-form').elements;
-	
-	for (item of x)
-	{
-		item.addEventListener("input", () =>
-		{
-			document.getElementById('grade-badge').innerHTML = 'unsaved'
-			clearTimeout(saveTimeout);  // typing delays autosaving
-			saveTimeout = setTimeout(
-				function()
-				{
-					Rails.fire(document.getElementById('grade-form'), 'submit')
-					document.getElementById('grade-badge').innerHTML = 'saved'
-				},
-				500  // this is the autosave interval
-			)
-		})
-	}
-
-	$(document).on('turbolinks:before-cache', function () {
-		$('[autofocus]').removeAttr('autofocus')
-	})
+	startAutosave();
 </script>
