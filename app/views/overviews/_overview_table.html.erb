@@ -1,4 +1,4 @@
-<table id="grade-table" class="table table table-responsive">
+<table id="grade-table" class="table table table-striped table-responsive">
 	<% users.each do |group, user_list|%>
 
 		<tr><td colspan="20"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td></tr>

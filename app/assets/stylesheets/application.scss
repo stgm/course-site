@@ -44,3 +44,8 @@ $link-decoration: none;
 
 @import "includes/effects";
 @import "includes/inplace";
+
+.table>:not(caption)>*>*
+{
+	background-image:none;
+}
