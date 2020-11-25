@@ -1,4 +1,4 @@
-<% content_for :navbar_items do %>
+<div id="toolbar" class="small">
 	<nav class="nav">
 		<li class="nav-item">
 			<%= link_to '(show all)', { pset: nil }, class: "nav-link #{'active' if params[:pset]==nil}" %>
@@ -9,8 +9,11 @@
 			</li>
 		<% end %>
 	</nav>
-	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm', form_class: 'ml-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
-<% end %>
+	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm p-1', form_class: 'ml-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
+</div>
+
+<div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
+	<div class="row content h-100">
 
 <% cache [ @to_grade, @submit ] do %>
 <div class="col-2 px-0 py-0 turbolinks-disable-scroll" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
@@ -71,7 +74,9 @@
 	
 </div>
 
-	
+	</div>
+</div>
+
 <script>
 	enableTooltips();
 </script>

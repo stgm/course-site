@@ -1,47 +1,19 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<%= csrf_meta_tags %>
-
-	<title><%= title %></title>
-
-	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= yield :math %>
-	<%= javascript_include_tag "application" %>
-
-	<link rel="icon" type="image/png" href="/images/minor.png" />
-</head>
-
-<body style="height:100vh">
-
-	<div class="d-flex flex-column h-100">
-
-		<%= render "alerts" %>
-	
-		<div class="container-fluid">
-			<div class="row content">
-				<div class="col-12">
-					<%= form_tag(hands_path, method: 'get', class: 'form mt-3') do %>
-					<div class="input-group">
-						<div class="input-group">
-							<a class="btn btn-secondary" href="<%= hands_path %>"><%= bootstrap_icon 'chevron-left' %></a>
-							<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
-							<button class="btn btn-primary" type="submit"><%= bootstrap_icon 'search' %></button>
-						</div>
-					</div>
-					<% end %>
-					<%= yield %>
+<% content_for :content do %>
+<div class="container-fluid">
+	<div class="row content">
+		<div class="col-12">
+			<%= form_tag(hands_path, method: 'get', class: 'form mt-3') do %>
+			<div class="input-group">
+				<div class="input-group">
+					<a class="btn btn-secondary" href="<%= hands_path %>"><%= bootstrap_icon 'chevron-left' %></a>
+					<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
+					<button class="btn btn-primary" type="submit"><%= bootstrap_icon 'search' %></button>
 				</div>
 			</div>
+			<% end %>
+			<%= yield %>
 		</div>
-	
 	</div>
-
-</body>
-
-</html>
+</div>
+<% end %>
+<%= render template: "layouts/navbar" %>

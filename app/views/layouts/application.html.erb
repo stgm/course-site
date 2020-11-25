@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html <%= "lang=\"#{Course.language}\"".html_safe if Course.language %>>
+<%= html_tag_with_language do %>
 
 <head>
 	<meta charset="UTF-8">
@@ -10,8 +10,8 @@
 
 	<title><%= title %></title>
 
-	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= javascript_include_tag "application" %>
+	<%= stylesheet_link_tag    'application', :media => 'all' %>
+	<%= javascript_include_tag 'application' %>
 
 	<% if controller_name == 'page' && Settings.pages_enable_math %>
 	<%= javascript_include_tag 'optional/math' %>
@@ -20,44 +20,13 @@
 	<% end %>
 
 	<link rel="icon" type="image/png" href="/images/minor.png" />
+
+	<%= yield(:meta) %>
 </head>
 
 <body class="<%= @body_class || controller.controller_name %>">
-
-	<div class="container-fluid">
-		<div class="row <%= 'room-for-toc' if Settings.room_for_toc %>">
-			
-			<div id="sidebar" class="d-md-flex align-items-stretch flex-column flex-shrink-0 align-items-stretch shadow-sm" data-turbolinks-permanent>
-				<%= render 'sidebar' %>
-			</div>
-			
-			<div id="row-content" class="p-0">
-	
-				<%= render "alerts" %>
-				
-				<% if @submitted_at %>
-				<div id="submitted_pset" class="alert alert-success">
-					<%= t :you_submitted_ago, time: time_ago_in_words(@submitted_at) %>
-					<%= link_to t(:see_submissions_page), submissions_path %>
-				</div>
-				<% end %>
-
-				<div id="float-nav" class="clearfix d-none d-md-block navbar-expand sticky-top p-3">
-					<div class="float-md-right">
-					<%= render 'float_nav' %>
-					</div>
-				</div>
-
-				<div id="content" class="pt-4 px-3 pb-3 px-sm-4 pb-sm-4 px-lg-5 pb-lg-5 mx-auto">
-					<%= yield %>
-					<%= render 'footer' if controller_name == 'page' %>
-				</div>
-			</div>
-			
-		</div>
-	</div>
-
+	<%= content_for?(:body) ? yield(:body) : yield %>
 	<%= render partial: "modal_browser" if current_user.senior? %>
 </body>
 
-</html>
+<% end %>

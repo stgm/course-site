@@ -8,6 +8,7 @@ class Hands::HandsController < ApplicationController
 	def index
 		redirect_to edit_hands_availability_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
 		
+		@title = 'Hands'
 		if params[:term]
 			@users = User.where("name like ?", "%#{params[:term]}%").student
 			render 'search'
@@ -34,10 +35,13 @@ class Hands::HandsController < ApplicationController
 				end
 			end
 		end
+
+		@title = 'Hand'
 	end
 
 	def new
 		load_user
+		@title = 'Hands'
 	end
 
 	def create

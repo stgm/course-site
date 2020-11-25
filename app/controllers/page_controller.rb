@@ -18,6 +18,8 @@ class PageController < ApplicationController
 			end
 			@allow_submit = @submit.blank? || @submit.may_be_resubmitted?
 		end
+
+		@title = @page.title
 	end
 
 end

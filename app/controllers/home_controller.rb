@@ -5,6 +5,8 @@ class HomeController < ApplicationController
 	before_action :authorize, except: [ :homepage, :syllabus ]
 	before_action :validate_profile
 	before_action :register_attendance
+	
+	layout 'sidebar'
 
 	def homepage
 		if User.admin.none?
@@ -26,14 +28,11 @@ class HomeController < ApplicationController
 		@overview_config = Settings.overview_config
 		@grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).where(grades: { status: Grade.statuses[:published] }).to_h { |item| [item.pset.name, item.grade] }
 
-		@title = "#{t(:submissions)} - #{Course.long_name}"
-
-		render layout: 'boxes'
+		@title = t(:submissions)
 	end
 
 	def announcements
-		@title = "#{t(:announcements)} - #{Course.long_name}"
-		render layout: 'boxes'
+		@title = t(:announcements)
 	end
 
 	def syllabus
@@ -41,7 +40,7 @@ class HomeController < ApplicationController
 		@page = current_schedule && current_schedule.page || Page.find_by_slug('')
 		raise ActionController::RoutingError.new('Not Found') if !@page
 		@subpages = @page.subpages
-		@title = "#{t(:syllabus)} - #{Course.long_name}"
+		@title = t(:syllabus)
 		render "page/index"
 	end
 
