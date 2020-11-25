@@ -4,6 +4,10 @@ class Hands::HandsController < ApplicationController
 	before_action :require_staff
 
 	layout 'hands'
+	
+	before_action do
+		I18n.locale = :en
+	end	
 
 	def index
 		redirect_to edit_hands_availability_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
@@ -28,7 +32,7 @@ class Hands::HandsController < ApplicationController
 			load_hand
 			if current_user.assistant? && @hand.assist != current_user && !@hand.helpline
 				if auto_claim_hand
-					flash[:notice] = "Taken, it's yours!"
+					flash[:notice] = "Go and help this one!"
 				else
 					flash[:alert] = "Someone was ahead of you!"
 					redirect_to hands_path and return
@@ -58,7 +62,7 @@ class Hands::HandsController < ApplicationController
 		Hand.transaction do
 			load_hand
 			if auto_claim_hand
-				flash[:notice] = "Taken, it's yours!"
+				flash[:notice] = "Go and help this one!"
 				redirect_back fallback_location: '/'
 			else
 				flash[:alert] = "Someone was ahead of you!"
