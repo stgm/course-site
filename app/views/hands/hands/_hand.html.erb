@@ -5,4 +5,4 @@
 <span class="float-right badge bg-secondary" style="<%= get_colors_for_text(hand.user.schedule.name) %>"><%= hand.user.schedule.name %></span>
 <% end %>
 <br>
-<small>in line since <%= time_ago_in_words(hand.created_at) %><% if Settings.hands_location %> @ <%= hand.location %><% end %></small>
+<small>in line since <%= minutes_ago(hand.created_at) %> minutes <% if Settings.hands_location && !Settings.hands_link %> @ <%= hand.location %><% end %></small>

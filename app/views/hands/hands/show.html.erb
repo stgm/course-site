@@ -6,7 +6,7 @@
 <span class="badge float-right">done</span>
 <% end %>
 <br>
-<small><%= time_ago_in_words(@hand.created_at) %> <%= t(:ago) %></small>
+<small><%= minutes_ago(@hand.created_at) %> minutes <%= t(:ago) %></small>
 </h4>
 
 <% if Settings.hands_link && @hand.location.present? %>
