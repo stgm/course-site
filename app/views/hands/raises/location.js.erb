@@ -1,3 +1,2 @@
-$('#ama').html("<%= j(render 'location') %>");
-$('#ama-dd').dropdown('toggle');
-$('[data-toggle="tooltip"]').tooltip();
+document.getElementById('ama').innerHTML = "<%= j(render 'location') %>";
+bootstrap.Dropdown.getInstance(document.getElementById('ama-dd')).toggle();

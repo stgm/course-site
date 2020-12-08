@@ -7,6 +7,8 @@ class GradingController < ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
+	
+	layout 'navbar'
 
 	# GET /grading
 	def index
@@ -48,6 +50,8 @@ class GradingController < ApplicationController
 
 		# load other grades for summarizing
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @submit.user.id).order('submits.created_at desc')
+		
+		@title = "Grading"
 	end
 	
 	# GET /grading/:submit_id/download

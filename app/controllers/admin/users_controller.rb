@@ -35,7 +35,7 @@ class Admin::UsersController < ApplicationController
 		p.update!(params.require(:user).permit(:role))
 
 		respond_to do |format|
-			format.json { respond_with_bip(p) }
+			format.json { p }
 			format.html { redirect_back fallback_location: '/' }
 			format.js { redirect_js location: user_path(p) }
 		end

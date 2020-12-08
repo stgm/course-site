@@ -2,31 +2,39 @@ var GRADE_PASS = -1;
 var GRADE_FAIL =  0;
 
 function deactivate_buttons() {
-	$('button#pass-btn').removeClass('active');
-	$('button#fail-btn').removeClass('active');
+	document.getElementById('pass-btn').classList.remove('active');
+	document.getElementById('fail-btn').classList.remove('active');
 }
 
 function activate_button(button) {
 	deactivate_buttons();
-	button.addClass('active');
+	button.classList.add('active');
 }
 
-$(document).on('ready turbolinks:load', function () {
-	$('button#pass-btn').click(function(e) {
-		document.getElementById('submit_grade_attributes_grade').value = GRADE_PASS;
-		activate_button($(this));
-		Rails.fire(document.getElementById('grade-form'), 'submit')
-		e.preventDefault();
-	});
+function activate_grade_buttons()
+{
+	passButton = document.getElementById('pass-btn');
+	failButton = document.getElementById('fail-btn');
 
-	$('button#fail-btn').click(function(e) {
-		document.getElementById('submit_grade_attributes_grade').value = GRADE_FAIL;
-		activate_button($(this));
-		Rails.fire(document.getElementById('grade-form'), 'submit')
-		e.preventDefault();
-	});
+	if(passButton)
+	{
+		passButton.addEventListener('click', function(e) {
+			document.getElementById('submit_grade_attributes_grade').value = GRADE_PASS;
+			activate_button(this);
+			Rails.fire(document.getElementById('grade-form'), 'submit');
+			e.preventDefault();
+		});
 
-	$('#grade_grade').change(function(e) {
-		deactivate_buttons();
-	});
-});
+		failButton.addEventListener('click', function(e) {
+			document.getElementById('submit_grade_attributes_grade').value = GRADE_FAIL;
+			activate_button(this);
+			Rails.fire(document.getElementById('grade-form'), 'submit');
+			e.preventDefault();
+		});
+
+		document.getElementById('submit_grade_attributes_grade').addEventListener('change', deactivate_buttons);
+	}
+}
+
+document.addEventListener('ready', activate_grade_buttons);
+document.addEventListener('turbolinks:load', activate_grade_buttons);

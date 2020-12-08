@@ -1,7 +1,5 @@
-<% content_for :math do %>
 <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" %>
-<% end %>
 
 <%= timeline @chart_data, height: "500px" %>
 
@@ -77,7 +75,7 @@
 			<% elsif entry.done && !entry.success %>
 			<span class="text-danger">x</span>
 			<% end %>
-		<td><% if entry.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %></td>
+		<td><% if entry.helpline %><span class="btn-close text-danger"></span><% end %></td>
 		<td><%= entry.assist.name if entry.assist %></td>
 		<td><%= entry.user.name %></td>
 		<td>
@@ -102,7 +100,5 @@
 </table>
 
 <script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+	enableTooltips();
 </script>

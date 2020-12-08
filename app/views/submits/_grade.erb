@@ -55,7 +55,7 @@
 <% end %>
 
 <% if current_user.senior? %>
-<div class="form-group d-flex mb-0 justify-content-end">
+<div class="form-group d-flex mt-3 mb-0 justify-content-end">
 	<%= link_to "Reject", reject_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to assign 0 grade and publish?" }, class: 'btn btn-secondary ml-2' %>
 	<% if current_user.admin? || current_user.senior? && !@grade.published? %>
 		<%= link_to "Re-open", reopen_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to re-open for editing?" }, class: 'btn btn-secondary ml-2' %>

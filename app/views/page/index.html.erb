@@ -22,13 +22,8 @@
 		</div>
 	</section>
 	<% elsif @page.pset %>
-	<section id="submit-content" class="d-none d-sm-block">
+	<section id="submit-content">
 		<%= render 'submit_tab' %>
-	</section>
-	<section id="submit-content" class="d-block d-sm-none">
-		<div class="alert alert-danger" role="alert">
-		  Your browser window is too small to show the submit form. If you're on desktop, increase your browser width to submit!
-		</div>
 	</section>
 	<% end %>
 <% end %>

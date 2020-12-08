@@ -29,6 +29,7 @@ nl:
     materials: "materialen"
     modules: "modules"
     other: "overig"
+    submit: "Insturen"
     you_submitted: "Je hebt %{name} ingezonden"
     you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
     see_submissions_page: "Zie de voortgangspagina voor een overzicht."

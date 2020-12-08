@@ -10,5 +10,9 @@ module HandsHelper
 		foreground = (brightness > 160) ? "000" : "fff"
 		return "color: \##{foreground}; background-color: \##{background}"
 	end
+	
+	def minutes_ago(datetime)
+		((DateTime.now - datetime.to_datetime) * 25 * 60).to_i
+	end
 
 end

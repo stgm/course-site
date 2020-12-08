@@ -29,6 +29,7 @@ en:
     materials: "materials"
     modules: "modules"
     other: "other"
+    submit: "Submit"
     you_submitted: "You submitted %{name}"
     you_submitted_ago: "You have submitted this problem set %{time} ago."
     see_submissions_page: "See the progress page for an overview."

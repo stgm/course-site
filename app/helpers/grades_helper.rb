@@ -35,9 +35,9 @@ module GradesHelper
 	end
 	
 	def translate_grade(grade)
-		return "error" if grade.nil? || grade < -1
-		return "pass" if grade == -1
-		return "fail" if grade == 0
+		return "fout" if grade.nil? || grade < -1
+		return "voldoende" if grade == -1
+		return "onvoldoende" if grade == 0
 		return grade.to_s
 	end
 
@@ -53,15 +53,15 @@ module GradesHelper
 		if subs[pset.id] && submit = subs[pset.id][0]
 			if grade = submit.grade
 				type = grade_button_type(grade.any_final_grade, grade.public?)
-				link_to make_label(pset.name, grade.any_final_grade), submit, remote: true, class: "btn btn-sm flex-fill #{type}", data: { trigger: 'modal' }
+				link_to make_label(pset.name, grade.any_final_grade), submit, remote: true, class: "btn btn-sm #{type}", data: { trigger: 'modal' }
 			else
-				link_to make_label(pset.name, "S"), submit, remote: true, class: "btn btn-sm flex-fill btn-light", data: { trigger: 'modal' }
+				link_to make_label(pset.name, "S"), submit, remote: true, class: "btn btn-sm btn-light", data: { trigger: 'modal' }
 			end
 		else
 			if current_user.senior?
-				link_to make_label(pset.name, "--"), submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, remote: true, class: "btn btn-sm flex-fill btn-light auto-hide", data: { trigger: 'modal', confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
+				link_to make_label(pset.name, "--"), submits_path(submit: { pset_id: pset.id, user_id: user.id }), method: :post, remote: true, class: "btn btn-sm btn-light auto-hide", data: { trigger: 'modal', confirm: 'Would you like to enter a grade for this unsubmitted pset?' }
 			else
-				tag.div(class: "btn btn-sm flex-fill #{type}") do
+				tag.div(class: "btn btn-sm #{type}") do
 					make_label(pset.name, "--")
 				end
 			end

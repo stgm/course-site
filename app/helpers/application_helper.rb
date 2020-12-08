@@ -1,13 +1,13 @@
 module ApplicationHelper
 
-	def page_done_icon(user, pset)
-		if user && pset && Submit.where(:user_id => user.id, :pset_id => pset.id).count > 0
-			" <span class='glyphicon glyphicon-thumbs-up'></span>".html_safe
+	def html_tag_with_language(&block)
+		if Course.language
+			tag.html(lang: Course.language, &block)
 		else
-			""
+			tag.html(&block)
 		end
 	end
-	
+
 	def date_span_with_title(date)
 		"<span title=\"#{date.strftime("%A %d %b %Y %R")}\">#{time_ago_in_words(date)} #{t(:ago)}</span>".html_safe
 	end
@@ -36,11 +36,11 @@ module ApplicationHelper
 		                       :enable_coderay => true,
 		                       :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
-	
-	def title()
-		@title || (@page && @page.title)
+
+	def title
+		"#{@title} - #{Course.long_name}"
 	end
-	
+
 	def class_if(condition, classes)
 		condition ? " " + classes : ""
 	end
@@ -145,9 +145,7 @@ module ApplicationHelper
 		# rescue Resolv::ResolvError
 		# 	location = "untraceable"
 		# end
-		# puts "loc" + location
 		# return location =~ /^(wcw|1x).*uva.nl$/ || location == 'localhost'
-		# puts request.remote_ip
 		return !!(request.remote_ip =~ /^145\.18\..*$/) ||
 		       !!(request.remote_ip =~ /^145\.109\..*$/) ||
 			   !!(request.remote_ip =~ /^195\.169\..*$/) ||

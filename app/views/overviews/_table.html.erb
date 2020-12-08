@@ -10,6 +10,7 @@
 		<th>Total</th>
 		<% end %>
 		<th class="rotate">Spoken</th>
+		<th class="rotate">Mins</th>
 		<th>Latest</th>
 		<% @psets.each do |pset| %>
 		<th>
@@ -20,7 +21,15 @@
 
 	<% users.each do |group, user_list|%>
 	<tr>
-		<td colspan="7"><%= group ? "#{group.name} (#{user_list.size})" : "Groupless" %></td>
+		<td colspan="7">
+			<% if group %>
+				<%= group.name %> &ndash;
+				<%= group.grader_names %>
+			<% else %>
+				Groupless
+			<% end %>
+			(<%= user_list.size %>)
+		</td>
 		<% @psets.each do |pset| %>
 		<th>
 			<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
@@ -56,6 +65,8 @@
 		
 		<td><%= user.hands.where(success:true).count %></td>
 		
+		<td><%= user.hands.sum('(JulianDay(closed_at) - JulianDay(claimed_at)) * 60 * 24').round %></td>
+		
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
 		<% 
@@ -75,7 +86,3 @@
 	<% end %>
 
 </table>
-
-<script>
-	$(".best_in_place").best_in_place();
-</script>

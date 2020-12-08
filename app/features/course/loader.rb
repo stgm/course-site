@@ -8,7 +8,6 @@ class Course::Loader
 	def initialize
 		@errors = []
 		@touched_subpages = []
-		@index = Hash.new { |hash, key| hash[key] = [] }
 	end
 	
 	# Re-read the course contents from the git repository.
@@ -46,8 +45,6 @@ class Course::Loader
 		rescue SQLite3::BusyException
 			@errors << "A timeout occurred while loading the new course content. Just try again!"
 		end
-		
-		Settings['keyword_index'] = @index
 		
 		return @errors
 	end
@@ -97,6 +94,23 @@ private
 
 		if grading = read_config(File.join(dir, 'grading.yml'))
 			Settings['grading'] = grading
+			validate_grading(grading)
+		end
+	end
+	
+	def validate_grading(grading_config)
+		progress_categories = grading_config.select { |category, value| value['show_progress'] }
+		if progress_categories.any?
+			if grading_config['grades'].blank?
+				@errors << "Problem loading grading.yml. There are grading categories like #{progress_categories.first.first} but no grades section is present specifying how to calculate grades."
+				return
+			end
+			all_submit_names = progress_categories.map { |k,v| [k,v['submits'].keys] }
+			invalid_grade_names = all_submit_names.map { |k,v| [k,v.select { |name| !grading_config['grades'].include?(name) }] }.select { |k,v| v.any? }.map{|k,v| "#{k}->#{v.join(',')}"}
+			if invalid_grade_names.any?
+				@errors << "Problem loading grading.yml. Some grades were specified as part of the final grade, but could not be found in the grades section: #{invalid_grade_names.join('; ')}."
+				return
+			end
 		end
 	end
 	
@@ -257,14 +271,6 @@ private
 		
 		return db_page
 	end
-	
-	def add_to_index(keywords, subpage_id)
-		if keywords.present?
-			keywords.each do |k|
-				@index[k] << subpage_id
-			end
-		end
-	end
 
 	# Reads the third-level subpages from the course repo. Creates a
 	# subpage (tab) in the database for each.
@@ -286,7 +292,6 @@ private
 				new_subpage.content = file.content
 				new_subpage.description = file.front_matter['description']
 				new_subpage.save
-				add_to_index(file.front_matter['keywords'], new_subpage.id)
 					
 				@touched_subpages << new_subpage.id
 			end

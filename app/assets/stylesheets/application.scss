@@ -23,6 +23,10 @@ $color5: #F25D50;
 
 $background-color: #fffdfc;
 
+$min-contrast-ratio: 3;
+$enable-negative-margins: true;
+$link-decoration: none;
+
 @import "bootstrap";
 
 @import "includes/framework";
@@ -38,6 +42,10 @@ $background-color: #fffdfc;
 @import "includes/tweaks";
 @import "includes/print";
 
-@import "includes/typeahead";
-
 @import "includes/effects";
+@import "includes/inplace";
+
+.table>:not(caption)>*>*
+{
+	background-image:none;
+}

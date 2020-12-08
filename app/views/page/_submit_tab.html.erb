@@ -3,7 +3,7 @@
 <% end %>
 
 <% if @page.pset.form || @page.pset.files %>
-<table class="table table-bordered">
+<table class="table table-bosrdered">
 
 	<% if @page.pset.form %>
 	<tr>
@@ -19,8 +19,8 @@
 	</tr>
 	<% files.each do |file| %>
 	<tr>
-		<td><%= file %></td>
-		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file), required: header == 'required' %></td>
+		<td class="align-middle"><%= file %></td>
+		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file), required: header == 'required', class: 'form-control' %></td>
 	</tr>
 	<% end   if files %>
 	<% end %>
@@ -32,4 +32,4 @@
 <p>Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
 <% end %>
 
-<p class="mb-0 text-right"><%= submit_tag 'Submit for grading', class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>
+<p class="mb-0 text-right"><%= submit_tag t(:submit), class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>

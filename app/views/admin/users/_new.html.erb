@@ -1,11 +1,11 @@
 <%= form_with model: [:admin, @user] do |f| %>
 
-<div class="form-group">
+<div class="mb-3">
 	<label for="user_name">Full name</label>
 	<%= f.text_field :name, placeholder: 'Name', class: 'form-control', required: true %>
 </div>
 		
-<div class="form-group">
+<div class="mb-3">
 	<label for="user_mail">E-mail address</label>
 	<%= f.text_field :mail, placeholder: 'E-mail', class: 'form-control', required: true %>
 </div>

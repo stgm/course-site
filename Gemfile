@@ -44,9 +44,6 @@ gem 'rack-cas'
 # manages settings in database
 gem 'rails-settings-cached', '~>0.4.1'
 
-# in-place editing for grade table
-gem 'best_in_place'
-
 # scheduled email sending for grades
 gem 'rufus-scheduler'
 
@@ -72,11 +69,9 @@ gem 'caxlsx_rails'
 ##
 # Front-end
 #
-gem 'jquery-rails'
 gem 'uglifier'
-gem 'bootstrap'
+gem 'bootstrap', '~> 5.0.0.alpha3'
 gem 'coffee-rails'
-gem 'garlicjs-rails'
 gem 'turbolinks'
 gem 'coderay'
 
@@ -86,6 +81,5 @@ gem 'quiet_safari', group: :development
 gem 'rest-client'
 
 gem 'front_matter_parser'
-gem 'twitter-typeahead-rails'
 
 gem 'image_processing', '~> 1.2'
