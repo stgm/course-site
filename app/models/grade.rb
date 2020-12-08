@@ -1,5 +1,5 @@
 class Grade < ApplicationRecord
-	
+
 	include Grading::GradeCalculator
 
 	belongs_to :submit, touch: true
@@ -17,12 +17,12 @@ class Grade < ApplicationRecord
 	# this is an OpenStruct to make sure that subgrades can be referenced as a method
 	# for use in the grade calculation formulae in grading.yml
 	serialize :subgrades, OpenStruct
-	
+
 	scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
-	
+
 	enum status: [:unfinished, :finished, :published, :discussed, :exported]
-	before_save :unpublicize_if_undone 
-	
+	before_save :unpublicize_if_undone
+
 	after_initialize do
 		# this adds automatic grades to the subgrades quite aggressively
 		if !self.persisted?
@@ -32,28 +32,28 @@ class Grade < ApplicationRecord
 			end
 		end
 	end
-	
+
 	before_validation do |grade|
 		# assistants always take ownership of the grade when editing
-		grade.grader = Current.user if grade.grader.blank? || (Current.user.present? && Current.user != grade.grader && grade.grader.senior?)
+		grade.grader = @current_user if grade.grader.blank? || (@current_user.present? && @current_user != grade.grader && grade.grader.senior?)
 	end
-	
+
 	def sortable_date
 		updated_at
 	end
-	
+
 	def public?
 		published? or discussed? or exported?
 	end
-	
+
 	def last_graded
 		updated_at && updated_at.to_formatted_s(:short) || "not yet"
 	end
-	
+
 	def first_graded
 		created_at && created_at.to_formatted_s(:short) || "not yet"
 	end
-	
+
 	def subgrades=(val)
 		# we would like this to be stored as an OpenStruct
 		#return super if val.is_a? OpenStruct
@@ -66,7 +66,7 @@ class Grade < ApplicationRecord
 			rescue
 				grade_type = "integer"
 			end
-			
+
 			case grade_type
 			when "integer", "pass", "boolean"
 				val[k] = v.to_i unless v == ""
@@ -74,24 +74,24 @@ class Grade < ApplicationRecord
 				val[k] = v.sub(",", ".").to_f unless v == ""
 			end
 		end if val
-		
+
 		super OpenStruct.new val.to_h if val
 	end
-	
+
 	def grade
 		g = read_attribute(:grade)
 		return nil if !g
 		g = (g/10.0).round(1)
 		return g
 	end
-	
+
 	def calculated_grade
 		g = read_attribute(:calculated_grade)
 		return nil if !g
 		g = (g/10.0).round(1)
 		return g
 	end
-	
+
 	def any_final_grade
 		# this function prefers hard-coded grades but otherwise provides the calculated grade
 		self.grade || self.calculated_grade
@@ -117,12 +117,12 @@ class Grade < ApplicationRecord
 			end
 		end
 	end
-	
+
 	private
-	
+
 	def unpublicize_if_undone
 		self.status = Grade.statuses[:unfinished] if self.any_final_grade.blank?
 		true
 	end
-	
+
 end

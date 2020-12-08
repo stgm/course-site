@@ -25,7 +25,7 @@ class Admin::UsersController < ApplicationController
 		@u = User.new(params.require(:user).permit(:name, :mail, :schedule_id))
 		@u.student!
 		@u.generate_token!
-		@url = root_url(token: @u.token)
+		@url = tokenize_url(token: @u.token)
 		render_to_modal header: "User #{@u.name} added"
 	end
 	

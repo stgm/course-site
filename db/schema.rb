@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_10_175025) do
+ActiveRecord::Schema.define(version: 2020_12_04_190752) do
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -256,6 +256,10 @@ ActiveRecord::Schema.define(version: 2020_09_10_175025) do
     t.text "grades_cache"
     t.integer "current_module_id"
     t.text "progress"
+    t.string "login"
+    t.string "student_number"
+    t.string "affiliation"
+    t.string "organization"
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
   end
