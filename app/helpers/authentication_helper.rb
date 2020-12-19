@@ -15,7 +15,11 @@ module AuthenticationHelper
 	private
 	
 	def load_current_user
-		if authenticated? && login = Login.where(login: (request.session['cas']['user']).downcase).first
+		if request.session['token'].present?
+			if user = User.where(token: request.session['token']).first
+				@current_user = user
+			end
+		elsif request.session['cas'].present? && login = Login.where(login: (request.session['cas']['user']).downcase).first
 			@current_user = login.user
 		else
 			# use an empty user object in case of no login
