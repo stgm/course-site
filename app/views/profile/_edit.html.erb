@@ -2,11 +2,11 @@
 
 <p>Please register! This will allow you to submit problems and otherwise participate in the course. If you're just browsing around, feel free to ignore.</p>
 
-<div class="form-group">
+<div class="form-group mb-3">
 	<label for="user_name">First and last name</label>
 	<%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
 </div>
-<div class="form-group">
+<div class="form-group mb-3">
 	<label for="user_mail">E-mail</label>
 	<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 </div>

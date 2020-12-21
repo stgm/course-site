@@ -12,17 +12,13 @@ gem 'sqlite3'
 # sass
 gem 'sass-rails'
 
-group :doc do
-	# bundle exec rake doc:rails generates the API under doc/api.
-	gem 'sdoc', require: false
-end
-
 group :development do
 	gem 'listen'
+  gem 'thin'
 end
 
-# faster local server
-gem 'thin'
+# shut up icon requests
+gem 'quiet_safari', group: :development
 
 # slug generator
 gem "friendly_id"
@@ -30,12 +26,7 @@ gem "friendly_id"
 # git integration
 gem 'git'
 
-gem 'groupdate'
-gem 'chartkick'
-
-##
 # APIs
-#
 gem 'dropbox_api'
 gem 'helpscout'
 gem 'bugsnag'
@@ -50,36 +41,26 @@ gem 'rufus-scheduler'
 # generate hash tokens for mobile app
 gem 'hashids'
 
-# remove assets logging in development mode
-# gem 'quiet_assets', group: :development
-
 # for delayed mailers
 gem 'sucker_punch'
 
-##
-# Content
-#
+# content
 gem 'kramdown'
 gem 'asciidoctor'
+gem 'front_matter_parser'
 
 # XLSX generation
 gem 'rubyzip', require: 'zip'
 gem 'caxlsx_rails'
 
-##
-# Front-end
-#
-gem 'uglifier'
+# front-end
 gem 'bootstrap', '~> 5.0.0.alpha3'
-gem 'coffee-rails'
 gem 'turbolinks'
 gem 'coderay'
+gem 'groupdate'
+gem 'chartkick'
 
-# shut up safari
-gem 'quiet_safari', group: :development
-
+# for sending submits to the autocheck server
 gem 'rest-client'
-
-gem 'front_matter_parser'
 
 gem 'image_processing', '~> 1.2'
