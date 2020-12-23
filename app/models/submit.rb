@@ -128,4 +128,14 @@ class Submit < ApplicationRecord
 		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
 	end
 	
+	# kill auto-analysis by ActiveStorage
+	ActiveStorage::Blob::Analyzable.module_eval do
+		def analyze_later
+		end
+
+		def analyzed?
+			true
+		end
+	end
+
 end

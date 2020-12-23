@@ -15,7 +15,11 @@ module GradingHelper
 					end
 				when 'application/pdf'
 					# tag.embed src: rails_blob_path(contents, disposition: 'inline'), type: 'application/pdf', class: 'w-100'
-					image_tag contents.preview(resize_to_limit: [600,1800])
+					if contents.previewable?
+						image_tag contents.preview(resize_to_limit: [600,1800]) 
+					else
+						tag.div "Not previewable"
+					end
 				when 'text/html'
 					tag.div sanitize(contents.download), class: 'ipynb'
 				when 'text/plain'
