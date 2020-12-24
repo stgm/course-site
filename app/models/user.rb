@@ -166,11 +166,6 @@ class User < ApplicationRecord
 		self.save
 	end
 	
-	def generate_pairing_code!
-		self.token = SecureRandom.random_number(10000)
-		self.save
-	end
-	
 	def reset_current_module
 		if span = self.schedule.default_span(self.student?)
 			self.current_module = span
