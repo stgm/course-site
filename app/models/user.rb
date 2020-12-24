@@ -174,7 +174,9 @@ class User < ApplicationRecord
 		check_current_schedule!
 		reset_current_module and save! if !valid_current_module?
 	
-		if schedule.try(:self_service)
+		if schedule.blank?
+			nil
+		elsif schedule.self_service
 			@current_module = current_module || schedule.current
 		else
 			@current_module = schedule.current
