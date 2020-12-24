@@ -41,7 +41,7 @@ class User < ApplicationRecord
 	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
 	scope :who_did_not_submit, ->(pset_id) { where("not exists (?)", Submit.where("submits.user_id = users.id").where(pset_id:pset_id)) }
 	
-	enum role: [:guest, :student, :assistant, :head, :admin]
+	enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
 	serialize :progress, Hash
 	
 	before_save :reset_group, if: :schedule_id_changed?
@@ -53,7 +53,6 @@ class User < ApplicationRecord
 		raise unless User.none? || Schedule.none? || Schedule.default
 
 		self.assign_attributes(params)
-		self.role = :student
 		self.schedule ||= Schedule.default
 		self.save!
 	
@@ -166,8 +165,31 @@ class User < ApplicationRecord
 		self.save
 	end
 	
+	def check_current_schedule!
+		update!(schedule: Schedule.default) if schedule.blank?
+		schedule
+	end
+	
+	def check_current_module!
+		check_current_schedule!
+		reset_current_module and save! if !valid_current_module?
+	
+		if schedule.self_service
+			@current_module = current_module || schedule.current
+		else
+			@current_module = schedule.current
+		end
+	end
+
+	def valid_current_module?
+		return false if !schedule.present?
+		return false if current_module.nil?
+		return false if !staff? && !current_module.public?
+		return true
+	end
+
 	def reset_current_module
-		if span = self.schedule.default_span(self.student?)
+		if self.schedule && span = self.schedule.default_span(self.student?)
 			self.current_module = span
 		else
 			self.current_module_id = nil

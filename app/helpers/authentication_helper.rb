@@ -23,7 +23,7 @@ module AuthenticationHelper
 			@current_user = login.user
 		else
 			# use an empty user object in case of no login
-			@current_user = User.new
+			@current_user = User.new(schedule: Schedule.default)
 		end
 		
 		return @current_user

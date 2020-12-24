@@ -10,31 +10,11 @@ module NavigationHelper
 	end
 
 	def current_schedule
-		# either current user's schedule or just a default for logged-out users
-		return @current_schedule ||= current_user.schedule || Schedule.first
+		@current_schedule ||= current_user.check_current_schedule!
 	end
 
 	def current_module
-		# only try to present a schedule if there actually is one available
-		if logged_in? && current_schedule && current_schedule.persisted?
-			# if user switched schedules, may lack current_module
-			if !valid_current_module?
-				current_user.reset_current_module && current_user.save
-				@current_module = nil
-			end
-			return @current_module ||= if current_schedule.self_service
-					current_user.current_module || current_schedule.current
-				else
-					current_schedule.current
-				end
-		end
-	end
-
-	def valid_current_module?
-		return false if !current_user.schedule.present?
-		return false if current_user.current_module.nil?
-		return false if !current_user.staff? && !current_user.current_module.public?
-		return true
+		@current_module ||= current_user.check_current_module!
 	end
 
 	def prev_module
