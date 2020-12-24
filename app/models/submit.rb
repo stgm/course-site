@@ -1,5 +1,5 @@
 class Submit < ApplicationRecord
-	
+
 	include AutoCheck::Receiver
 	include AutoCheck::ScoreCalculator
 	include AutoCheck::FeedbackFormatter
@@ -17,8 +17,10 @@ class Submit < ApplicationRecord
 	delegate :first_graded, to: :grade, allow_nil: true
 	delegate :last_graded, to: :grade, allow_nil: true
 
-	serialize :submitted_files
-	serialize :file_contents
+	has_many_attached :files
+
+	serialize :submitted_files, Array  # deprecated for move to active_storage
+	serialize :file_contents, Hash     # deprecated for move to active_storage
 	serialize :form_contents
 	serialize :check_results
 
@@ -58,17 +60,19 @@ class Submit < ApplicationRecord
 
 		# attachments
 		self.url = url
-		self.submitted_files = attachments.file_names
-		self.file_contents = attachments.presentable_file_contents
+
+		# remove old attachments
+		self.submitted_files = nil # TODO deprecated for migration to activestorage
+		self.file_contents = nil   # TODO deprecated for migration to activestorage
 		self.form_contents = form_contents
-		
+
 		# reset auto checks
 		self.check_token = check_token
 		self.check_results = nil
 		self.auto_graded = false
 
 		self.save
-		
+
 		user.update(last_submitted_at: self.submitted_at)
 
 		# update the submission for the parent module, if there is one
@@ -78,28 +82,61 @@ class Submit < ApplicationRecord
 
 		# reset and unpublish grade
 		self.grade.update_columns(grade: nil, status: Grade.statuses[:unfinished]) if self.grade
+
+		self.files.purge
+		self.files.attach(attachments.all.values)
+
 	end
-	
-	def file_contents
-		super || {}
+
+	def all_files
+		result = []
+		result << ['Form', form_contents] if form_contents.present?   # form answers
+		result += file_contents.to_a                                  # files from old submit system
+		result += files_for_module                                    # any files specified in module
+		result += files.map{ |f| [f.filename.sanitized+'.', f] }      # files from new submit system
 	end
-	
+
+	# retrieve all submitted file contents for all submits from a particular module (for this user)
+	def files_for_module
+		user.submits.where(pset: pset.child_psets).map do |submit|
+			submit.all_files.map do |f|
+				# prefix the filename with some of the submit info, for display purposes
+				["<small>(#{(submit.correctness_score||0)*100}% #{submit.submitted_at.strftime('%a-%-d %R')})</small> #{submit.pset.name}/#{f[0]}", f[1]]
+			end
+		end.flatten(1)
+	end
+
+	def filenames
+		# combine filesnames for submitted files in old and new system
+		submitted_files + files.map(&:filename)
+	end
+
 	def has_form_response?
 		form_contents.present?
 	end
-	
+
 	def checkable?
 		pset.check_config.present?
 	end
-	
+
 	def recheck(host)
 		zip = Attachments.new(self.file_contents).zipped
 		token = AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
 		self.update(check_token: token)
 	end
-	
+
 	def may_be_resubmitted?
 		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
 	end
-	
+
+	# kill auto-analysis by ActiveStorage
+	ActiveStorage::Blob::Analyzable.module_eval do
+		def analyze_later
+		end
+
+		def analyzed?
+			true
+		end
+	end
+
 end

@@ -1,13 +1,9 @@
-<% if @submit.has_form_response? %>
-<li class="nav-item">
-	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#form-contents" role="tab">Form</a>
-</li>
-<% end %>
-<% @files.each_key do |filename| %>
+<% @files.each do |filename, contents| %>
 <li class="nav-item">
 	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-<%= filename.parameterize %>" role="tab"><%= filename.html_safe %></a>
 </li>
-<% end if @files.present? %>
+<% end %>
+
 <% if @submit.has_auto_feedback? %>
 <li class="nav-item">
 	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-toggle="tab" href="#file-check" role="tab">Check</a>

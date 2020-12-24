@@ -154,22 +154,6 @@ class User < ApplicationRecord
 		end.compact
 	end
 	
-	# retrieve all submitted file contents for all submits from a particular module (for this user)
-	def files_for_module(mod)
-		files = {}
-		self.submits.where(pset: mod.child_psets).each do |submit|
-			if submit.file_contents
-				submit.file_contents.each do |filename, contents|
-					files["<small>(#{(submit.correctness_score||0)*100}% #{submit.submitted_at.strftime('%a-%-d %R')})</small> #{submit.pset.name}/#{filename}"] = contents
-				end
-			end
-			if submit.form_contents.present?
-				files["#{submit.pset.name}/Form"] = submit.form_contents
-			end
-		end
-		return files
-	end
-	
 	def take_attendance
 		symbols = "▁▂▃▄▅▆▇█"
 		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0, range: 7.days.ago...Time.now).count.values

@@ -14,7 +14,7 @@ gem 'sass-rails'
 
 group :development do
 	gem 'listen'
-  gem 'thin'
+	gem 'thin'
 end
 
 # shut up icon requests
@@ -62,3 +62,6 @@ gem 'chartkick'
 
 # for sending submits to the autocheck server
 gem 'rest-client'
+
+# used by ActiveStorage to get image previews
+gem 'image_processing', '~> 1.2'
