@@ -1,5 +1,5 @@
 class Submit < ApplicationRecord
-	
+
 	include AutoCheck::Receiver
 	include AutoCheck::ScoreCalculator
 	include AutoCheck::FeedbackFormatter
@@ -16,7 +16,7 @@ class Submit < ApplicationRecord
 	delegate :status, to: :grade, prefix: true, allow_nil: true
 	delegate :first_graded, to: :grade, allow_nil: true
 	delegate :last_graded, to: :grade, allow_nil: true
-	
+
 	has_many_attached :files
 
 	serialize :submitted_files, Array  # deprecated for move to active_storage
@@ -60,7 +60,7 @@ class Submit < ApplicationRecord
 
 		# attachments
 		self.url = url
-		
+
 		# remove old attachments
 		self.submitted_files = nil # TODO deprecated for migration to activestorage
 		self.file_contents = nil   # TODO deprecated for migration to activestorage
@@ -90,12 +90,12 @@ class Submit < ApplicationRecord
 
 	def all_files
 		result = []
-		result << ['Form', form_contents] if form_contents.present?
-		result += file_contents.to_a
-		result += files_for_module
-		result += files.map{ |f| [f.filename.sanitized+'.', f] }
+		result << ['Form', form_contents] if form_contents.present?   # form answers
+		result += file_contents.to_a                                  # files from old submit system
+		result += files_for_module                                    # any files specified in module
+		result += files.map{ |f| [f.filename.sanitized+'.', f] }      # files from new submit system
 	end
-	
+
 	# retrieve all submitted file contents for all submits from a particular module (for this user)
 	def files_for_module
 		user.submits.where(pset: pset.child_psets).map do |submit|
@@ -107,27 +107,28 @@ class Submit < ApplicationRecord
 	end
 
 	def filenames
+		# combine filesnames for submitted files in old and new system
 		submitted_files + files.map(&:filename)
 	end
 
 	def has_form_response?
 		form_contents.present?
 	end
-	
+
 	def checkable?
 		pset.check_config.present?
 	end
-	
+
 	def recheck(host)
 		zip = Attachments.new(self.file_contents).zipped
 		token = AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
 		self.update(check_token: token)
 	end
-	
+
 	def may_be_resubmitted?
 		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
 	end
-	
+
 	# kill auto-analysis by ActiveStorage
 	ActiveStorage::Blob::Analyzable.module_eval do
 		def analyze_later
