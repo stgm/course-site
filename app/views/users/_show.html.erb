@@ -15,7 +15,7 @@
 	<div class="col-sm-5">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<%= form_with model: @note do |f| %>
+				<%= form_with model: @note, local: false do |f| %>
 				<%= f.hidden_field :student_id %>
 				<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
 				<p>

@@ -1,4 +1,4 @@
-<%= form_with url: test_results_path(@pset), method: :patch do |f| %>
+<%= form_with url: test_results_path(@pset), method: :patch, local: false do |f| %>
 <table class="table table-borderless" class="w-100">
 	<tr>
 		<th class="p-1">Name</th>

@@ -1,4 +1,4 @@
-<%= form_with model: [:admin, @user] do |f| %>
+<%= form_with model: [:admin, @user], local: false do |f| %>
 
 <div class="mb-3">
 	<label for="user_name">Full name</label>

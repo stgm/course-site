@@ -1,5 +1,5 @@
 <% schedule = current_user.schedule %>
-<%= form_with url: schedule_current_module_path(schedule), method: :put do |form| %>
+<%= form_with url: schedule_current_module_path(schedule), method: :put, local: false do |form| %>
 <% schedule.schedule_spans.each do |item| %>
 <%= form.radio_button(:item, item.id, checked: item == schedule.current, id: "#{schedule.name}#{item.id}", class: 'set-schedule', onclick: 'Rails.fire(form, "submit");') %>
 <%= label_tag "#{item.id}", item.name, for: "#{schedule.name}#{item.id}" %><br>

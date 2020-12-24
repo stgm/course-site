@@ -1,4 +1,4 @@
-<%= form_with model: @submit, html: { id: 'grade-form', class: 'grade-form', style: 'min-height:100%' } do |form| %>
+<%= form_with model: @submit, local: false, html: { id: 'grade-form', class: 'grade-form', style: 'min-height:100%' } do |form| %>
 
 <%= form.fields_for :grade do |grade_form| %>
 

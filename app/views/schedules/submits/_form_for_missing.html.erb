@@ -1,4 +1,4 @@
-<%= form_with url:notify_missing_schedule_submits_path(schedule_id: params[:schedule_id]), :method => :post, local:true do %>
+<%= form_with url: notify_missing_schedule_submits_path(schedule_id: params[:schedule_id]), method: :post do %>
 <div class="form-group">
 	<label for="exampleInputEmail1">Notify those who did not submit this pset yet:</label>
 	<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
