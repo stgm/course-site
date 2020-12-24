@@ -108,7 +108,6 @@ GEM
       activesupport (>= 4.2.0)
     groupdate (5.2.1)
       activesupport (>= 5)
-    hashids (1.0.5)
     helpscout (0.0.5)
       httparty
     htmlentities (4.3.4)
@@ -271,7 +270,6 @@ DEPENDENCIES
   front_matter_parser
   git
   groupdate
-  hashids
   helpscout
   image_processing (~> 1.2)
   kramdown

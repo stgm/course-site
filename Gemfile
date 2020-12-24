@@ -38,9 +38,6 @@ gem 'rails-settings-cached', '~>0.4.1'
 # scheduled email sending for grades
 gem 'rufus-scheduler'
 
-# generate hash tokens for mobile app
-gem 'hashids'
-
 # for delayed mailers
 gem 'sucker_punch'
 

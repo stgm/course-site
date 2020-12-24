@@ -12,7 +12,7 @@ unless self.private_methods.include? 'irb_binding'
 			ActiveRecord::Base.connection_pool.release_connection
 		end
 	end
-		
+
 	scheduler = Rufus::Scheduler.new
 
 	unless (defined?(Rails::Console) || File.split($0).last == 'rake')
@@ -35,7 +35,7 @@ unless self.private_methods.include? 'irb_binding'
 
 		scheduler.every '135m' do
 			safely do
-			    ActiveRecord::Base.transaction do
+				ActiveRecord::Base.transaction do
 					User.all.each do |u|
 						u.take_attendance
 					end
@@ -43,19 +43,9 @@ unless self.private_methods.include? 'irb_binding'
 			end
 		end
 
-		scheduler.cron '30 06 * * *' do
-			safely do
-			    ActiveRecord::Base.transaction do
-					User.all.each do |u|
-						u.update_attribute(:questions_count_cache, u.hands.count)
-					end
-				end
-			end
-		end
-	
 		scheduler.cron '00 05 * * *' do
 			safely do
-			    ActiveRecord::Base.transaction do
+				ActiveRecord::Base.transaction do
 					# reset locations
 					User.update_all(last_known_location: nil)
 					# reset hands that were never released
@@ -65,5 +55,5 @@ unless self.private_methods.include? 'irb_binding'
 		end
 
 	end
-	
+
 end
