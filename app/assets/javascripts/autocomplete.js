@@ -42,4 +42,4 @@ function hookupAutocompletes()
 	)
 }
 
-document.addEventListener('turbolinks:load', hookupAutocompletes);
+document.addEventListener('turbo:load', hookupAutocompletes);

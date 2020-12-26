@@ -26,9 +26,9 @@ function hookupModals()
 	modalBrowser = new bootstrap.Modal(modalBrowserElement);
 	modalBrowserElement.addEventListener('show.bs.modal', function (e) {
 		// clear modal upon load
-		document.getElementById('modal-browser-header').innerHTML = '';
-		document.getElementById('modal-browser-body').innerHTML = '<div class="text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+		// document.getElementById('modal-browser-header').innerHTML = '';
+		// document.getElementById('modal-browser-body').innerHTML = '<div class="text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 	})
 }
 
-document.addEventListener('turbolinks:load', hookupModals);
+document.addEventListener('turbo:load', hookupModals);

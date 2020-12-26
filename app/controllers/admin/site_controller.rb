@@ -1,4 +1,4 @@
-class Admin::SiteController < ApplicationController
+class Admin::SiteController < ModalController
 
 	before_action :authorize
 	before_action :require_admin
@@ -7,7 +7,7 @@ class Admin::SiteController < ApplicationController
 		@dropbox_linked = Dropbox::Client.connected?
 		@secret = Settings.webhook_secret
 
-		render_to_modal header: 'Site configuration'
+		# render_to_modal header: 'Site configuration'
 	end
 	
 	#
@@ -44,7 +44,7 @@ class Admin::SiteController < ApplicationController
 	def generate_secret
 		secret = SecureRandom.hex(20)
 		Settings.webhook_secret = secret
-		redirect_js location:admin_site_path
+		redirect_to admin_site_path
 	end
 
 end

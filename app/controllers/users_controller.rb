@@ -27,7 +27,8 @@ class UsersController < ApplicationController
 		@items = @student.items(true)
 		@psets = Pset.ordered_by_grading
 
-		render_to_modal header_partial: 'title', action: 'show', in_place_editing: true
+		render layout: 'modal'
+		# render_to_modal header_partial: 'title', action: 'show', in_place_editing: true
 	end
 
 	# PATCH /manage/users/:id

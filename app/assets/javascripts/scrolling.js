@@ -6,7 +6,7 @@ var elementsWithPersistentScrolls, persistentScrollsPositions;
 elementsWithPersistentScrolls = [];
 persistentScrollsPositions = [];
 
-document.addEventListener('turbolinks:before-visit', () => {
+document.addEventListener('turbo:before-visit', () => {
 	elementsWithPersistentScrolls = document.querySelectorAll('.turbolinks-disable-scroll');
 	persistentScrollsPositions = [];
 	for (i = 0, len = elementsWithPersistentScrolls.length; i < len; i++)
@@ -16,7 +16,7 @@ document.addEventListener('turbolinks:before-visit', () => {
 	}
 })
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
 	results = [];
 	for (i = 0, len = elementsWithPersistentScrolls.length; i < len; i++)
 	{

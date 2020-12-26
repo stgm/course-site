@@ -1,4 +1,4 @@
-class Admin::UsersController < ApplicationController
+class Admin::UsersController < ModalController
 	
 	include ApplicationHelper
 	
@@ -13,12 +13,12 @@ class Admin::UsersController < ApplicationController
 		@schedules = Schedule.order(:name)
 		@groups = Group.includes(:schedule).order('schedules.name').order('groups.name')
 
-		render_to_modal header: 'User permissions', in_place_editing: true
+		# render_to_modal header: 'User permissions', in_place_editing: true
 	end
 	
 	def new
 		@user = User.new
-		render_to_modal header: 'Add user'
+		# render_to_modal header: 'Add user'
 	end
 	
 	def create
@@ -26,7 +26,7 @@ class Admin::UsersController < ApplicationController
 		@u.student!
 		@u.generate_token!
 		@url = root_url(token: @u.token)
-		render_to_modal header: "User #{@u.name} added"
+		# render_to_modal header: "User #{@u.name} added"
 	end
 	
 	# PUT /user/:user_id/admin

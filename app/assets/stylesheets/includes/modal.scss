@@ -1,12 +1,15 @@
-#modal-browser h6
+#modal-browser
 {
-	font-size:110%;
-	padding-bottom:0.5em;
-	border-bottom:1px solid gray;
-	margin-bottom:1em;
-}
+	h1
+	{
+		font-size:130%;
+		padding-bottom:0.5em;
+		border-bottom:1px solid gray;
+		margin-bottom:1em;
+	}
 
-#modal-browser-body
-{
-	padding:1.5rem;
+	.modal-body
+	{
+		padding:1.5rem;
+	}
 }

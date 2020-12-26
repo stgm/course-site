@@ -15,14 +15,6 @@
 			<%= render 'ama' %>
 		</div>
 	</li>
-	<% end %>
-
-	<% if !authenticated? %>
-	<li class="nav-item"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block px-2", style:"background-color:#DBE6EC", data: { turbolinks: false })%></li>
-	<% else %>
-	<%= render 'menu' %>
-	<% end %>
-</ul>
 
 <% if is_local_ip? && current_user.student? && current_user.last_known_location.blank? %>
 <script>
@@ -41,3 +33,13 @@
 	})
 </script>
 <% end %>
+
+	<% end %>
+
+	<% if !authenticated? %>
+	<li class="nav-item"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block px-2", style:"background-color:#DBE6EC", data: { turbolinks: false })%></li>
+	<% else %>
+	<%= render 'menu' %>
+	<% end %>
+</ul>
+

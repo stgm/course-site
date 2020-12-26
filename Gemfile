@@ -17,11 +17,15 @@ group :development do
 	gem 'thin'
 end
 
+group :production do
+	gem 'bugsnag'
+end
+
 # shut up icon requests
 gem 'quiet_safari', group: :development
 
 # slug generator
-gem "friendly_id"
+gem 'friendly_id'
 
 # git integration
 gem 'git'
@@ -29,7 +33,6 @@ gem 'git'
 # APIs
 gem 'dropbox_api'
 gem 'helpscout'
-gem 'bugsnag'
 gem 'rack-cas'
 
 # manages settings in database
@@ -52,10 +55,11 @@ gem 'caxlsx_rails'
 
 # front-end
 gem 'bootstrap', '~> 5.0.0.alpha3'
-gem 'turbolinks'
+# gem 'turbolinks'
 gem 'coderay'
 gem 'groupdate'
 gem 'chartkick'
+gem 'turbo-rails'
 
 # for sending submits to the autocheck server
 gem 'rest-client'

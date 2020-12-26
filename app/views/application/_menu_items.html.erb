@@ -5,7 +5,7 @@
 	<%= menu_link 'Overview', overview_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
-	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', remote: true %>
+	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', onclick: 'modalBrowser.show();', data: { 'turbo-frame' => 'modal' } %>
 	<%= menu_link 'Tests...', tests_path, icon: 'check', remote: true, condition: Settings.tests_present %>
 	<%= menu_link 'Set module...', edit_schedule_current_module_path(current_schedule), icon: 'calendar', remote: true, condition: current_schedule.can_admin_set_module? %>
 <% end %>
@@ -20,9 +20,9 @@
 <% end %>
 
 <%= menu_group 'Course' do %>
-	<%= menu_link 'Course administration...', admin_course_path, icon: 'inboxes', remote: true %>
-	<%= menu_link 'Site configuration...', admin_site_path, icon: 'wrench', remote: true %>
-	<%= menu_link 'Edit permissions...', admin_users_path, icon: 'unlock', remote: true %>
+	<%= menu_link 'Course administration...', admin_course_path, icon: 'inboxes', onclick: 'modalBrowser.show();', data: { 'turbo-frame' => 'modal' } %>
+	<%= menu_link 'Site configuration...', admin_site_path, icon: 'wrench', onclick: 'modalBrowser.show();', data: { 'turbo-frame' => 'modal' } %>
+	<%= menu_link 'Edit permissions...', admin_users_path, icon: 'unlock', onclick: 'modalBrowser.show();', data: { 'turbo-frame' => 'modal' } %>
 	<%= menu_link 'Update courseware', admin_update_path, icon: 'download', method: :post %>
 <% end %>
 
@@ -59,3 +59,5 @@
 <% end%>
 
 <%= menu_link 'Logout', session_logout_path, icon: 'box-arrow-right' %>
+
+</turbo-frame>
