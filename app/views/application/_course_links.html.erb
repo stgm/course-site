@@ -2,7 +2,7 @@
 	<% if logged_in? && alerts_for_current_schedule.any? %>
 		<div style="flex:1 0 0; min-width:0"><a href="/announcements" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'bell-fill' %><br><small><%= t(:announcements) %></small></a></div>
 	<% end %>
-	<% if logged_in? && current_user.submits.any? %>
+	<% if logged_in? && current_user.submits.where("submitted_at is not null").any? %>
 		<div style="flex:1 0 0; min-width:0"><a href="/submissions" class="d-block w-100 text-center text-truncate p-1 rounded"><%= bootstrap_icon 'kanban' %><br><small><%= t(:submissions) %></small></a></div>
 	<% end %>
 	<% if current_schedule && current_schedule.page %>

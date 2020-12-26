@@ -1,0 +1,37 @@
+<%= render 'title' %>
+
+<div>
+	<% 
+		subs = @student.submits.includes(:grade).group_by(&:pset_id)
+	%>
+
+	<% @psets.each do |pset| %>
+	<%= grade_button(@student, pset, subs)%>
+	<% end %>
+</div>
+
+<div id="chart-1" style="height: 150px;"></div>
+<% @js = "new Chartkick.ColumnChart('chart-1', #{JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count)})".html_safe %>
+
+<div id="timeline" class="row">
+	<div class="col-sm-5">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<%= form_with model: @note, local: false do |f| %>
+				<%= f.hidden_field :student_id %>
+				<p><%= f.text_area :text, size: "x3", class: "form-control" %></p>
+				<p>
+					<span class="float-right">
+					<%= f.submit "Add note", class: "btn btn-primary" %>
+					</span>
+				</p>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-sm-7">
+		<%= render partial: 'hands_overview', object: @student.hands_overview %>
+		<%= render partial: "items/item", collection: @items %>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<%= render 'title' %>
+<div class="tab-content" id="submit_tab_content">
+	<div class="tab-pane show active" id="submit-grading" role="tabpanel" aria-labelledby="submit-grading-tab">
+		<%= render partial: 'submits/summary' %>
+		<div id="grade">
+			<%= render @submit %>
+		</div>
+	</div>
+	<%= render partial: 'grading/file_panels', locals: { first: false } %>
+</div>
