@@ -164,9 +164,16 @@ module ApplicationHelper
 	end
 	
 
-	def menu_link(title, path, icon: '', context: :menu, condition: true, **options)
+	def menu_link(title, path, icon: '', context: :menu, condition: true, target: nil, **options)
 		return nil if !condition
-		link_to bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
+		options.merge! data: { 'turbo-frame' => target } if target
+		if options[:method].present?
+			button_to path, options.merge(class: 'dropdown-item') do
+				bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title
+			end
+		else
+			link_to bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
+		end
 	end
 
 	def icon(name, **options)

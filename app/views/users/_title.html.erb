@@ -1,3 +1,5 @@
+<div class="d-flex">
+
 <div class="flex-fill">
 	<% if @student.avatar.present? %>
 	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
@@ -11,9 +13,9 @@
 
 <div class="flex-fisll flex-shrink-0 justify-content-end">
 	<% if @student.alarm %>
-	<%= link_to "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe, [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} %>
+	<%= button_to [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} do %><%= "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe %><% end %>
 	<% else %>
-	<%= link_to "#{bootstrap_icon 'bell', width: 16} Set alarm".html_safe, [@student, user: {alarm: true}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} %>
+	<%= button_to [@student, user: {alarm: true}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} do %><%= "#{bootstrap_icon 'bell', width: 16} Set alarm".html_safe %><% end %>
 	<% end %>
 	
 	
@@ -51,29 +53,31 @@
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right">
 			<% if @student.active? %>
-			<%= link_to 'Mark as inactive', [@student, user: { active: false }], method: :put, class: 'dropdown-item' %>
+			<%= button_to [@student, user: { active: false }], method: :put, class: 'dropdown-item' do 'Mark as inactive' end %>
 			<% else %>
-			<%= link_to 'Mark as active', [@student, user: { active: true }], method: :put, class: 'dropdown-item' %>
+			<%= button_to [@student, user: { active: true }], method: :put, class: 'dropdown-item' do 'Mark as active' end %>
 			<% end %>
 			<% if @student.done? %>
-			<%= link_to 'Mark as not done', [@student, user: { done: false }], method: :put, class: 'dropdown-item' %>
+			<%= button_to [@student, user: { done: false }], method: :put, class: 'dropdown-item' do 'Mark as not done' end %>
 			<% else %>
-			<%= link_to 'Mark as done', [@student, user: { done: true }], method: :put, class: 'dropdown-item' %>
+			<%= button_to [@student, user: { done: true }], method: :put, class: 'dropdown-item' do 'Mark as done' end %>
 			<% end %>
 			<% if current_user.admin? %>
 				<div class="dropdown-divider"></div>
-				<%= link_to 'Make assistant', admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, remote: true, class: 'dropdown-item' %>
-				<%= link_to 'Make head', admin_user_set_role_path(@student, user: { role: :head }), method: :patch, remote: true, class: 'dropdown-item' %>
-				<%= link_to 'Make admin', admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, remote: true, class: 'dropdown-item' %>
-				<%= link_to 'Undo admin', admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, remote: true, class: 'dropdown-item' %>
+				<%= button_to admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, remote: true, class: 'dropdown-item' do 'Make assistant' end %>
+				<%= button_to admin_user_set_role_path(@student, user: { role: :head }), method: :patch, remote: true, class: 'dropdown-item' do 'Make head' end %>
+				<%= button_to admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, remote: true, class: 'dropdown-item' do 'Make admin' end %>
+				<%= button_to admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, remote: true, class: 'dropdown-item' do 'Undo admin' end %>
 				<% if Grading::FinalGradeAssigner.available? %>
 					<div class="dropdown-divider"></div>
-					<%= link_to 'Calculate any final grade', calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' %>
+					<%= button_to calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' do 'Calculate any final grade' end %>
 					<% Grading.final_grade_names.each do |grade_name| %>
-						<%= link_to "Calculate #{grade_name.humanize}", calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' %>
+						<%= button_to calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' do "Calculate #{grade_name.humanize}" end %>
 					<% end %>
 				<% end %>
 			<% end %>
 		</ul>
 	</div>
+</div>
+
 </div>

@@ -1,3 +1,5 @@
+<h1>Set current module for <%= current_user.schedule.name %></h1>
+
 <% schedule = current_user.schedule %>
 <%= form_with url: schedule_current_module_path(schedule), method: :put, local: false do |form| %>
 <% schedule.schedule_spans.each do |item| %>

@@ -1,8 +1,10 @@
-class AlertsController < ModalController
+class AlertsController < ApplicationController
 
 	before_action :authorize
 	before_action :require_senior
-	
+
+	layout 'modal'
+
 	# GET /alerts
 	def index
 		@alerts = Alert.all
@@ -62,12 +64,10 @@ class AlertsController < ModalController
 
 	private
 
-	# Use callbacks to share common setup or constraints between actions.
 	def set_alert
 		@alert = Alert.find(params[:id])
 	end
 
-	# Only allow a trusted parameter "white list" through.
 	def alert_params
 		params.require(:alert).permit(:title, :body, :published, :schedule_id)
 	end

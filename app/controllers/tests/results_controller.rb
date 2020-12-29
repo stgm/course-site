@@ -3,16 +3,16 @@ class Tests::ResultsController < Tests::TestsController
 	before_action :authorize
 	before_action :require_senior
 	
+	layout 'modal'
+	
 	def index
 		@psets = Pset.where(test: true).order(:order)
-		render_to_modal header: 'Test administration'
 	end
 
 	def show
 		@pset = Pset.find_by_id(params[:test_id])
 		@psets = Pset.all
 		@students = User.student.order('lower(name)')
-		render_to_modal header: @pset.name.titleize
 	end
 
 	def update

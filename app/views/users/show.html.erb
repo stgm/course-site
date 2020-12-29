@@ -11,7 +11,9 @@
 </div>
 
 <div id="chart-1" style="height: 150px;"></div>
-<% @js = "new Chartkick.ColumnChart('chart-1', #{JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count)})".html_safe %>
+<script>
+	new Chartkick.ColumnChart('chart-1', <%= JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count).html_safe %>)
+</script>
 
 <div id="timeline" class="row">
 	<div class="col-sm-5">

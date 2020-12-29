@@ -1,9 +1,11 @@
-class Admin::CourseController < ModalController
+class Admin::CourseController < ApplicationController
 
 	include NavigationHelper
 
 	before_action :authorize
 	before_action :require_admin
+
+	layout 'modal'
 
 	def index
 		@schedule_spans = current_schedule && current_schedule.schedule_spans.order(:rank) || []
@@ -14,10 +16,6 @@ class Admin::CourseController < ModalController
 		@bezig = @gestart - @gestopt
 		final = Pset.find_by_name('final')
 		@gehaald = User.student.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count
-
-		# render_to_modal header: 'Course administration'
-
-		render layout: 'modal'
 	end
 
 	#
@@ -25,7 +23,6 @@ class Admin::CourseController < ModalController
 	#
 	def import
 		errors = Course::Loader.new.run
-		logger.debug errors.join('<br>').inspect
 		if errors.size > 0
 			redirect_back fallback_location: '/', alert: errors.join('<br>')
 		else
@@ -62,7 +59,6 @@ class Admin::CourseController < ModalController
 	def schedule_registration
 		p = Schedule.find(params[:id])
 		p.update!(params.require(:schedule).permit(:self_register))
-		# render json: p
 		head :ok
 	end
 

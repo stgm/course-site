@@ -12,9 +12,10 @@
 	<tr>
 		<td><%= link_to user.name, user %></td>
 		<td>
-			<%= best_in_place user, :role, as: :select, url: admin_user_set_role_path(user_id: user.id), collection: User.roles.keys.map {|w| [w,w]} %>
+			<%= user.role %>
 		</td>
 		<td>
+			<%= turbo_frame_tag "user_#{user.id}_schedule_permissions" do %>
 			<div id="schedule_permissions_<%= user.id %>">
 			<%= render partial: 'schedule_permissions', locals: { schedules: user.schedules, user: user } %>
 			</div>
@@ -24,12 +25,14 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @schedules.each do |schedule| %>
-					<%= link_to schedule.name, admin_user_add_schedule_permission_path(user_id: user.id, schedule_id: schedule.id), method: :post, remote: true, class:"dropdown-item" %>
+					<%= button_to admin_user_add_schedule_permission_path(user_id: user.id, schedule_id: schedule.id), method: :post, remote: true, class:"dropdown-item" do schedule.name end %>
 					<% end %>
 				</ul>
 			</div>
+			<% end %>
 		</td>
 		<td>
+			<%= turbo_frame_tag "user_#{user.id}_group_permissions" do %>
 			<div id="group_permissions_<%= user.id %>">
 			<%= render partial: 'group_permissions', locals: { groups: user.groups, user: user } %>
 			</div>
@@ -39,10 +42,11 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @groups.each do |group| %>
-					<%= link_to "#{group.schedule.name} - #{group.name}", admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, remote: true, class:"dropdown-item" %>
+					<%= button_to admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, remote: true, class:"dropdown-item" do "#{group.schedule.name} - #{group.name}" end %>
 					<% end %>
 				</ul>
 			</div>
+			<% end %>
 		</td>
 	</tr>
 <% end %>

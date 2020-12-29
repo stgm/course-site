@@ -15,43 +15,33 @@ class ProfileController < ApplicationController
 	def show
 		@title = "Profile"
 	end
-	
+
 	def feedback
 		submit = Submit.find(params[:submit_id])
 		@formatted_feedback = submit.formatted_auto_feedback
-		# respond_to do |format|
-		# 	format.js do
-		# 		render 'feedback'
-		# 	end
-		# end
-		render_to_modal header: 'Check results'
+		render layout: 'modal'
 	end
-	
+
 	def ping
 		head :ok
 	end
-	
+
 	def prev
-		respond_to do |format|
-			format.js do
-				current_user.update(current_module: prev_module) if prev_module
-				render 'schedule'
-			end
-		end
+		current_user.update(current_module: prev_module) if prev_module
+		render partial: 'sidebar_content'
 	end
-	
+
 	def next
-		respond_to do |format|
-			format.js do
-				current_user.update(current_module: next_module) if next_module
-				render 'schedule'
-			end
-		end
+		current_user.update(current_module: next_module) if next_module
+		render partial: 'sidebar_content'
 	end
-	
-	#
-	# allows setting arbitrary settings in the settings model
-	#
+
+	def set_schedule
+		current_user.update(schedule_id: params[:schedule_id])
+		redirect_back fallback_location: '/'
+	end
+
+	# 
 	def save_progress
 		if items = params["progress"]
 			items.each do |k,v|
@@ -62,12 +52,12 @@ class ProfileController < ApplicationController
 		end
 		head :ok
 	end
-	
+
 	def save # POST
 		# remove leading and trailing space to give the user some slack
 		params[:user][:name].strip!
 		params[:user][:mail].strip!
-		
+
 		# be explicit, but not so nice
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
 			render plain: 'Will not work! Enter a valid name.'
@@ -87,7 +77,7 @@ class ProfileController < ApplicationController
 
 		redirect_to :root
 	end
-	
+
 	def ask
 		if params[:how]
 			if params[:how] == 'email'
@@ -123,5 +113,5 @@ class ProfileController < ApplicationController
 		end
 		redirect_back fallback_location: '/'
 	end
-	
+
 end

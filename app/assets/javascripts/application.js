@@ -17,6 +17,6 @@
 //= require chartkick
 //= require_directory .
 
-// document.addEventListener('ajax:before', () => {
-// 	Turbo.clearCache();
-// })
+document.addEventListener('ajax:before', () => {
+	Turbo.clearCache();
+})

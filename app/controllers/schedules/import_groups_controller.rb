@@ -1,17 +1,15 @@
-#
-# import group assignments from a CSV paste
-#
+# Import student group assignments from a CSV paste.
 class Schedules::ImportGroupsController < Schedules::ApplicationController
 
 	before_action :authorize
 	before_action :require_admin
-	
+
 	def new
 		load_schedule
 		@paste = Settings.cached_user_paste
-		render_to_modal header: 'Import groups'
+		render layout: 'modal'
 	end
-	
+
 	def create
 		load_schedule
 		# this is very dependent on datanose export format: ids in col 0 and 1, group name in 7

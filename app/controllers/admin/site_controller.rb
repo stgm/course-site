@@ -1,18 +1,17 @@
-class Admin::SiteController < ModalController
+class Admin::SiteController < ApplicationController
 
 	before_action :authorize
 	before_action :require_admin
 
+	layout 'modal'
+
+	# Show all available site configuration options.
 	def index
 		@dropbox_linked = Dropbox::Client.connected?
 		@secret = Settings.webhook_secret
-
-		# render_to_modal header: 'Site configuration'
 	end
-	
-	#
-	# allows setting arbitrary settings in the settings model
-	#
+
+	# Allows changing arbitrary settings in the settings model.
 	def settings
 		if setting = params["settings"]
 			setting.each do |k,v|
@@ -22,10 +21,8 @@ class Admin::SiteController < ModalController
 		end
 		head :ok
 	end
-	
-	#
-	# set git repository, cloning if needed
-	#
+
+	# Set git repository, cloning if needed.
 	def set_git_repo
 		if Settings.git_repo.present?
 			# refuse to set new repo if already present (because we don't have delete/replace functionality)
@@ -38,9 +35,8 @@ class Admin::SiteController < ModalController
 		end
 	end
 
-	#
-	# create random secret to attach a webhook from github
-	#
+	# Create random secret to attach a webhook from github, which will be
+	# displayed in the settings from then on.
 	def generate_secret
 		secret = SecureRandom.hex(20)
 		Settings.webhook_secret = secret

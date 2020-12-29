@@ -163,6 +163,7 @@ Rails.application.routes.draw do
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
 		post 'save_progress'
+		patch 'set_schedule'
 	end
 
 
