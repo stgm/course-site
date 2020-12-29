@@ -13,5 +13,5 @@ URL: <%= link_to submit.url, submit.url %>
 </ul>
 <% end %>
 <% if submit.has_auto_feedback? %>
-<%= link_to t("check_results"), profile_feedback_path(submit), class:"btn btn-secondary", remote: true %>
+<%= link_to t("check_results"), submission_feedback_path(submit), class:"btn btn-secondary", target: 'modal' %>
 <% end %>

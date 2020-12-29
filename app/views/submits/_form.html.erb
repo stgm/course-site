@@ -105,7 +105,7 @@
 			<% end %>
 			<% if current_user.senior? %>
 			<% if @grade.persisted? %>
-			<%= button_to grade_path(id: @grade.id, grade: { status: :published }), method: :put, data: { confirm: "Sure?" }, class: 'dropdown-item' do "Publish" end %>
+			<%= button_to publish_grade_path(@grade), method: :patch, data: { confirm: "Sure?" }, class: 'dropdown-item' do "Publish" end %>
 			<% end%>
 			<% end %>
 		</div>

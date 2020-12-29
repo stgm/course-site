@@ -32,7 +32,7 @@ class AlertsController < ApplicationController
 		if @alert.save
 			send_mail if params[:send_mail]
 			respond_to do |format|
-				format.html { redirect_to alerts_path, notice: 'Alert was successfully created.' }
+				format.html { redirect_to alerts_path }
 			end
 		else
 			render :new
@@ -45,7 +45,7 @@ class AlertsController < ApplicationController
 		if @alert.update(alert_params)
 			send_mail if params[:send_mail]
 			respond_to do |format|
-				format.html { redirect_to alerts_path, notice: 'Alert was successfully updated.' }
+				format.html { redirect_to alerts_path }
 			end
 		else
 			render :edit
@@ -58,7 +58,7 @@ class AlertsController < ApplicationController
 		@alert.destroy
 
 		respond_to do |format|
-			format.html { redirect_to alerts_path, notice: 'Alert was successfully destroyed.' }
+			format.html { redirect_to alerts_path }
 		end
 	end
 

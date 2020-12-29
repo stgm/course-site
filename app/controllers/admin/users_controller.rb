@@ -26,15 +26,15 @@ class Admin::UsersController < ApplicationController
 	end
 
 	# Unused at this point, because we haven't implemented a dropdown role choice.
-	# def set_role
-	# 	p = User.find(params[:user_id])
-	# 	p.update!(params.require(:user).permit(:role))
-	#
-	# 	respond_to do |format|
-	# 		format.json { p }
-	# 		format.html { redirect_to p }
-	# 	end
-	# end
+	def set_role
+		p = User.find(params[:user_id])
+		p.update!(params.require(:user).permit(:role))
+
+		respond_to do |format|
+			format.json { p }
+			format.html { redirect_to p }
+		end
+	end
 
 	def add_group_permission
 		load_user

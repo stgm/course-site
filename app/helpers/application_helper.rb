@@ -70,13 +70,13 @@ module ApplicationHelper
 					items << content_tag(:li, links_to_ul(content), class: "nav-item")
 				elsif content.is_a?(String)
 					# a String means that we have a link with title
-					content = toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link", target: content =~ /^http/i ? '_blank' : nil)
+					content = toggle_progress_form(content) + link_to(insert_badge(item), content, class: "nav-link", target: content =~ /^http/i ? '_blank' : nil)
 					items << content_tag(:li, content, class: "nav-link-item")
 				elsif content.is_a?(Array)
 					items << array_of_links_to_ul(content)
 				elsif content.nil?
 					# a nil means a caption without a link
-					items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
+					items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
 				end
 			end
 		elsif list.is_a?(Array)
@@ -106,10 +106,10 @@ module ApplicationHelper
 				# items << content_tag(:li,   , class: "nav p-0", class: "nav-item")
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
-				items << content_tag(:li, link_to(insert_badge(item), "/#{content}", remote: false, class: "nav-link"), class: "nav-item")
+				items << content_tag(:li, link_to(insert_badge(item), "/#{content}", class: "nav-link"), class: "nav-item")
 			elsif content.nil?
 				# a nil means a caption without a link
-				items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
+				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
 			end
 				
 		end

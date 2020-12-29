@@ -138,8 +138,9 @@ Rails.application.routes.draw do
 		resources :alerts
 		resources :notes, only: [ :create ]
 
-		resources :grades, except: [ :index ] do
+		resources :grades, only: [ :destroy ] do
 			member do
+				patch 'publish'
 				patch 'reopen'
 				patch 'reject'
 			end
@@ -159,7 +160,6 @@ Rails.application.routes.draw do
 		get  'pair'
 		post 'ask'
 		get  'ping'
-		get  'feedback/:submit_id', action: 'feedback', as: "feedback"
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
 		post 'save_progress'
@@ -191,7 +191,6 @@ Rails.application.routes.draw do
 	root to: "home#homepage"
 	get 'syllabus',      to: 'home#syllabus'
 	get 'announcements', to: 'home#announcements'
-	get 'submissions',   to: 'home#submissions'
 
 	# search
 	get  "search/autocomplete"
@@ -199,8 +198,9 @@ Rails.application.routes.draw do
 	get  "search/subpage"
 
 	# pages
-	resource :submissions, only: [ :create ]
-	post "page/submit"
+	resources :submissions, only: [ :index, :create ] do
+		get 'feedback'
+	end
 
 	# default route, for content pages (must be last!)
 	# ..with an exception for the /rails routes

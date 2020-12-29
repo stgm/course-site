@@ -1,6 +1,6 @@
 // CSS that changes some bootstrap layout basics
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
+@media screen and (-webkit-min-device-pixel-ratio:0) {
 
 	#content > .list-group {
 		margin-bottom: 0;
@@ -13,7 +13,7 @@
 	}
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
+@media screen and (-webkit-min-device-pixel-ratio:0) {
   select,
   textarea,
   input {
@@ -48,7 +48,7 @@ textarea#notes
 //			content: url('/icons/box-arrow-up-right.svg');
 //			margin-left:3px;
 		}
-	}	
+	}
 }
 
 #schedule_prev_button[href=''], #schedule_next_button[href=''],
@@ -60,18 +60,6 @@ textarea#notes
 span.line-numbers
 {
 	margin-right:0.5rem;
-}
-
-.dropdown-menu
-{
-	@extend .shadow;
-	@extend .border-light;
-}
-
-.modal-content
-{
-	@extend .shadow-lg;
-	@extend .border-light;
 }
 
 .button_to

@@ -5,8 +5,6 @@ class Schedules::GradesController < Schedules::ApplicationController
 	before_action :load_schedule
 	before_action :verify_access
 
-	layout 'modal'
-
 	# Reopen all "finished" grades for some group + pset combo.
 	def reopen
 		@group = Group.find(params[:group_id])

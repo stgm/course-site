@@ -4,10 +4,11 @@ class Schedules::ImportGroupsController < Schedules::ApplicationController
 	before_action :authorize
 	before_action :require_admin
 
+	layout 'modal'
+
 	def new
 		load_schedule
 		@paste = Settings.cached_user_paste
-		render layout: 'modal'
 	end
 
 	def create

@@ -1,11 +1,23 @@
+.modal-content
+{
+	border:0;
+	border-radius:0;
+}
+
 #modal-browser
 {
 	h1
 	{
 		font-size:130%;
 		padding-bottom:0.5em;
-		border-bottom:1px solid gray;
-		margin-bottom:1em;
+		background: rgb(108,145,237);
+		background: linear-gradient(90deg, rgba(108,145,237,1) 0%, rgba(0,212,255,1) 100%);
+		color:white;
+		margin-top:-1.5rem;
+		margin-left:-1.5rem;
+		margin-right:-1.5rem;
+		padding:1rem 1.5rem;
+		margin-bottom:1.5rem;
 	}
 
 	.modal-body

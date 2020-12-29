@@ -1,3 +1,5 @@
+<h1><%= best_in_place @student, :name, as: :input %></h1>
+
 <div class="d-flex">
 
 <div class="flex-fill">
@@ -5,7 +7,6 @@
 	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 	<% end %>
 	<div>
-	<h5><%= best_in_place @student, :name, as: :input %></h5>
 	<%= best_in_place @student, :mail, as: :input %> <%= link_to bootstrap_icon("envelope"), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new", remote: false %> (<%= @student.login_id %>)<br>
 	Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %>
 	</div>
@@ -13,12 +14,15 @@
 
 <div class="flex-fisll flex-shrink-0 justify-content-end">
 	<% if @student.alarm %>
-	<%= button_to [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} do %><%= "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe %><% end %>
+		<%= button_to [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning" do %>
+			<%= "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe %>
+		<% end %>
 	<% else %>
-	<%= button_to [@student, user: {alarm: true}], method: :patch, class: "btn btn-sm btn-warning", form: { style: 'display:inline;'} do %><%= "#{bootstrap_icon 'bell', width: 16} Set alarm".html_safe %><% end %>
+		<%= button_to [@student, user: {alarm: true}], method: :patch, class: "btn btn-sm btn-warning" do %>
+			<%= "#{bootstrap_icon 'bell', width: 16} Set alarm".html_safe %>
+		<% end %>
 	<% end %>
-	
-	
+
 	<div class="btn-group">
 		<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Group <span class="caret"></span>
@@ -26,7 +30,7 @@
 		<ul class="dropdown-menu dropdown-menu-right">
 			<% if @groups.any? %>
 			<% @groups.each do |group| %>
-			<%= link_to "Move to #{group.name}".html_safe, [@student, user: {group_id: group.id}], method: :patch, class: 'dropdown-item' + class_if(@student.group_id == group.id, 'disabled') %>
+			<%= button_to [@student, user: {group_id: group.id}], method: :patch, class: 'dropdown-item' + class_if(@student.group_id == group.id, 'disabled') do "Move to #{group.name}".html_safe end %>
 			<% end %>
 			<% elsif @student.schedule_name.present? %>
 			<%= link_to "No groups for #{@student.schedule_name}", '', class: 'dropdown-item disabled' %>
@@ -42,7 +46,7 @@
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right">
 			<% @schedules.each do |schedule| %>
-			<%= link_to "Assign to #{schedule.name}".html_safe, [@student, user: {schedule_id: schedule.id}], method: :patch, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') %>
+			<%= button_to [@student, user: {schedule_id: schedule.id}], method: :patch, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') do "Assign to #{schedule.name}".html_safe end %>
 			<% end %>
 		</ul>
 	</div>
@@ -62,19 +66,20 @@
 			<% else %>
 			<%= button_to [@student, user: { done: true }], method: :put, class: 'dropdown-item' do 'Mark as done' end %>
 			<% end %>
+
 			<% if current_user.admin? %>
+			<div class="dropdown-divider"></div>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, class: 'dropdown-item' do 'Make assistant' end %>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :head }), method: :patch, class: 'dropdown-item' do 'Make head' end %>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, class: 'dropdown-item' do 'Make admin' end %>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, class: 'dropdown-item' do 'Undo admin' end %>
+			<% if Grading::FinalGradeAssigner.available? %>
 				<div class="dropdown-divider"></div>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, remote: true, class: 'dropdown-item' do 'Make assistant' end %>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :head }), method: :patch, remote: true, class: 'dropdown-item' do 'Make head' end %>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, remote: true, class: 'dropdown-item' do 'Make admin' end %>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, remote: true, class: 'dropdown-item' do 'Undo admin' end %>
-				<% if Grading::FinalGradeAssigner.available? %>
-					<div class="dropdown-divider"></div>
-					<%= button_to calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' do 'Calculate any final grade' end %>
-					<% Grading.final_grade_names.each do |grade_name| %>
-						<%= button_to calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' do "Calculate #{grade_name.humanize}" end %>
-					<% end %>
+				<%= button_to calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' do 'Calculate any final grade' end %>
+				<% Grading.final_grade_names.each do |grade_name| %>
+					<%= button_to calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' do "Calculate #{grade_name.humanize}" end %>
 				<% end %>
+			<% end %>
 			<% end %>
 		</ul>
 	</div>

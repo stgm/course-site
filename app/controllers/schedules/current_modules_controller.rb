@@ -8,6 +8,7 @@ class Schedules::CurrentModulesController < ApplicationController
 
 	# Show all modules from the current schedule.
 	def edit
+		@schedule = current_user.schedule
 	end
 
 	# Set "current" schedule that is displayed to users.
