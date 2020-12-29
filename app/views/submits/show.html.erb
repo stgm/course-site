@@ -1,8 +1,17 @@
-<%= render 'title' %>
-<div class="tab-content" id="submit_tab_content">
-	<div class="tab-pane show active" id="submit-grading" role="tabpanel" aria-labelledby="submit-grading-tab">
-		<%= render partial: 'submits/summary' %>
-		<%= render @submit %>
+<div class="modal-content">
+
+	<div id="modal-browser-header" class="modal-header align-items-start">
+		<%= render 'title' %>
 	</div>
-	<%= render partial: 'grading/file_panels', locals: { first: false } %>
+
+	<div id="modal-browser-body" class="modal-body">
+		<div class="tab-content" id="submit_tab_content">
+			<div class="tab-pane show active" id="submit-grading" role="tabpanel" aria-labelledby="submit-grading-tab">
+				<%= render partial: 'submits/summary' %>
+				<%= render @submit %>
+			</div>
+			<%= render partial: 'grading/file_panels', locals: { first: false } %>
+		</div>
+	</div>
+
 </div>

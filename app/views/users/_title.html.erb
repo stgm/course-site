@@ -1,8 +1,8 @@
-<h1><%= best_in_place @student, :name, as: :input %></h1>
-
-<div class="d-flex">
+<div class="d-flex w-100">
 
 <div class="flex-fill">
+	<h1><%= best_in_place @student, :name, as: :input %></h1>
+
 	<% if @student.avatar.present? %>
 	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 	<% end %>
@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<div class="flex-fisll flex-shrink-0 justify-content-end">
+<div class="flex-shrink-0 justify-content-end">
 	<% if @student.alarm %>
 		<%= button_to [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning" do %>
 			<%= "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe %>

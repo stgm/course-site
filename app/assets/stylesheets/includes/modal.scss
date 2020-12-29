@@ -1,7 +1,28 @@
 .modal-content
 {
 	border:0;
-	border-radius:0;
+	border-radius:0.5rem;
+}
+
+#modal-browser-header
+{
+	@extend .modal-header;
+	@extend .align-items-start;
+	
+	background: rgb(108,145,237);
+	background: linear-gradient(90deg, rgba(108,145,237,1) 0%, rgba(0,212,255,1) 100%);
+	color:white;
+	border-radius:0.5rem 0.5rem 0 0;
+}
+
+#modal-browser-body
+{
+	@extend .modal-body;
+}
+
+#modal-browser-footer
+{
+	@extend .modal-footer;
 }
 
 #modal-browser
@@ -9,15 +30,7 @@
 	h1
 	{
 		font-size:130%;
-		padding-bottom:0.5em;
-		background: rgb(108,145,237);
-		background: linear-gradient(90deg, rgba(108,145,237,1) 0%, rgba(0,212,255,1) 100%);
-		color:white;
-		margin-top:-1.5rem;
-		margin-left:-1.5rem;
-		margin-right:-1.5rem;
-		padding:1rem 1.5rem;
-		margin-bottom:1.5rem;
+		margin-bottom:0;
 	}
 
 	.modal-body

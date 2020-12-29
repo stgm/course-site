@@ -1,15 +1,23 @@
-<h1>Course administration</h1>
+<div class="modal-content">
 
-<%= render partial: 'stats', layout: 'modal_card', locals: { title: 'Statistics', subtitle: nil }%>
+	<div id="modal-browser-header">
+		<h1>Course administration</h1>
+	</div>
 
-<%= render partial: 'new_user', layout: 'modal_card', locals: { title: 'Create a temporary user', subtitle: nil }%>
+	<div id="modal-browser-body">
+		<%= render partial: 'stats', layout: 'modal_card', locals: { title: 'Statistics', subtitle: nil }%>
 
-<% if Schedule.any? %>
-<%= render partial: 'registration', layout: 'modal_card', locals: { title: 'Schedule registration', subtitle: 'Allow students to register for the following schedules' } %>
-<% end %>
+		<%= render partial: 'new_user', layout: 'modal_card', locals: { title: 'Create a temporary user', subtitle: nil }%>
 
-<% if @schedule_spans.any? %>
-<%= render partial: 'pages', layout: 'modal_card', locals: { title: 'Published modules', subtitle: 'Check all the modules that should be visible to students and guests' } %>
-<% end %>
+		<% if Schedule.any? %>
+		<%= render partial: 'registration', layout: 'modal_card', locals: { title: 'Schedule registration', subtitle: 'Allow students to register for the following schedules' } %>
+		<% end %>
 
-<%= render partial: 'export', layout: 'modal_card', locals: { title: 'Export results', subtitle: 'Download student results from all schedules for archival' }%>
+		<% if @schedule_spans.any? %>
+		<%= render partial: 'pages', layout: 'modal_card', locals: { title: 'Published modules', subtitle: 'Check all the modules that should be visible to students and guests' } %>
+		<% end %>
+
+		<%= render partial: 'export', layout: 'modal_card', locals: { title: 'Export results', subtitle: 'Download student results from all schedules for archival' }%>
+	</div>
+
+</div>

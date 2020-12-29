@@ -5,7 +5,7 @@
 		</button>
 		<%= render 'brand' %>
 		<% if !authenticated? %>
-		<li class="navbar-nav d-block d-md-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbolinks: false })%></li>
+		<li class="navbar-nav d-block d-md-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbo: false })%></li>
 		<% else #if logged_in? %>
 		<div class="navbar-nav d-flex d-md-none ">
 			<%= render 'menu' %>

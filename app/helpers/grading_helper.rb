@@ -5,7 +5,7 @@ module GradingHelper
 			format_form_contents(contents)
 		else
 			if contents.kind_of? ActiveStorage::Attachment
-				concat link_to 'Download', rails_blob_path(contents, disposition: 'attachment'), remote: false, class: 'btn btn-small btn-light float-right', data: { turbolinks: false }
+				concat link_to 'Download', rails_blob_path(contents, disposition: 'attachment'), remote: false, class: 'btn btn-small btn-light float-right', data: { turbo: false }
 				case contents.content_type
 				when 'application/x-ipynb+json'
 					begin
@@ -31,7 +31,7 @@ module GradingHelper
 					tag.div "#{contents.content_type} can't be shown"
 				end
 			else
-				concat link_to 'Download', grading_download_path(grading_submit_id: @submit.id, filename: filename), remote: false, class: 'btn btn-small btn-light float-right', data: { turbolinks: false }
+				concat link_to 'Download', grading_download_path(grading_submit_id: @submit.id, filename: filename), remote: false, class: 'btn btn-small btn-light float-right', data: { turbo: false }
 				filetype = CodeRay::FileType.fetch(filename, :text)
 				if filename =~ /\.ipynb$/
 					begin
