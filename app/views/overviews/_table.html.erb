@@ -41,7 +41,7 @@
 	<% cache [user, :head_overview] do %>
 	<tr <%= 'class=table-warning' if user.stagnated? %>>
 		<td>
-			<%= link_to user.name, user, remote: true, data: { toggle: "modal", target: "#modal-browser" } %>
+			<%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
 			<% if user.last_known_location %>
 			<span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
 			<% end %>
