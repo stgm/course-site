@@ -17,6 +17,10 @@ group :development do
 	gem 'thin'
 end
 
+group :production do
+	gem 'bugsnag'
+end
+
 # shut up icon requests
 gem 'quiet_safari', group: :development
 
@@ -29,7 +33,6 @@ gem 'git'
 # APIs
 gem 'dropbox_api'
 gem 'helpscout'
-gem 'bugsnag'
 gem 'rack-cas'
 
 # manages settings in database
