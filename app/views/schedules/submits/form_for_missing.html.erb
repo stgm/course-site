@@ -1,12 +1,25 @@
-<%= form_with url: notify_missing_schedule_submits_path(schedule_id: params[:schedule_id]), method: :post, data: { 'turbo-frame' => '_top' } do %>
-<div class="form-group">
-	<label for="exampleInputEmail1">Notify those who did not submit this pset yet:</label>
-	<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
+<div class="modal-content">
+
+	<div id="modal-browser-header">
+		<h1>Send e-mail to non-submitters</h1>
+	</div>
+
+	<div id="modal-browser-body">
+		<%= form_with url: notify_missing_schedule_submits_path(schedule_id: params[:schedule_id]), method: :post, data: { 'turbo-frame' => '_top' }, id: 'missing_form' do %>
+		<div class="form-group mb-3">
+			<label for="pset_id">Notify those who did not submit this pset yet:</label>
+			<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
+		</div>
+		<div class="form-group">
+			<label for="text">Send this message:</label>
+			<textarea name="text" class="form-control" rows="10">Let op: je hebt nog niets ingestuurd voor deze opdracht! Geen probleem,
+		maar vergeet niet om vóór de deadline te submitten!</textarea>
+		</div>
+		<% end %>
+	</div>
+
+	<div id="modal-browser-footer">
+		<input type="submit" class="btn btn-primary" form="missing_form">
+	</div>
+
 </div>
-<div class="form-group">
-	<label for="exampleInputEmail1">Send this message:</label>
-	<textarea name="text" class="form-control">Let op: je hebt nog niets ingestuurd voor deze opdracht! Geen probleem,
-maar vergeet niet om vóór de deadline te submitten!</textarea>
-</div>
-<input type="submit" class="btn btn-primary">
-<% end %>

@@ -1,16 +1,24 @@
-<h1>Publish auto grades</h1>
+<div class="modal-content">
 
-<%= form_for :publish, url: publish_auto_schedule_grades_path, :method => :post do %>
+	<div id="modal-browser-header">
+		<h1>Publish auto grades</h1>
+	</div>
 
-  <div class="form-group">
-<% @psets.each do |p| %>
-<div class="form-check">
-<%= check_box_tag p.name, true, nil, { name: "psets[#{p.name}]", class:"form-check-input" } %>
-<%= label_tag p.name, nil, class:"form-check-label" %>
+	<div id="modal-browser-body">
+		<%= form_for :publish, url: publish_auto_schedule_grades_path, :method => :post do %>
+
+		  <div class="form-group">
+		<% @psets.each do |p| %>
+		<div class="form-check">
+		<%= check_box_tag p.name, true, nil, { name: "psets[#{p.name}]", class:"form-check-input" } %>
+		<%= label_tag p.name, nil, class:"form-check-label" %>
+		</div>
+		<% end %>
+		</div>
+
+		<input type="submit" class="btn btn-primary">
+
+		<% end %>
+	</div>
+
 </div>
-<% end %>
-</div>
-
-<input type="submit" class="btn btn-primary">
-
-<% end %>

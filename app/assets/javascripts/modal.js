@@ -27,7 +27,7 @@ function hookupModals()
 	modalBrowserElement.addEventListener('show.bs.modal', function (e) {
 		// clear modal upon load
 		// document.getElementById('modal-browser-header').innerHTML = '';
-		document.getElementById('modal-browser-body').innerHTML = '<turbo-frame id="modal"><div class="text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div></div></turbo-frame>';
+		document.getElementById('modal-browser-dialog').innerHTML = '<turbo-frame id="modal"><div class="modal-content"><div id="modal-browser-body"><div class="text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div></div></div></div></turbo-frame>';
 	})
 }
 
