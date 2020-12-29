@@ -27,7 +27,7 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @schedules.each do |schedule| %>
-					<%= button_to admin_user_add_schedule_permission_path(user_id: user.id, schedule_id: schedule.id), method: :post, remote: true, class:"dropdown-item" do schedule.name end %>
+					<%= button_to schedule.name, admin_user_add_schedule_permission_path(user_id: user.id, schedule_id: schedule.id), method: :post, class:"dropdown-item" %>
 					<% end %>
 				</ul>
 			</div>
@@ -44,7 +44,7 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<% @groups.each do |group| %>
-					<%= button_to admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, remote: true, class:"dropdown-item" do "#{group.schedule.name} - #{group.name}" end %>
+					<%= button_to "#{group.schedule.name} - #{group.name}", admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, class:"dropdown-item" %>
 					<% end %>
 				</ul>
 			</div>
