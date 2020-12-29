@@ -116,10 +116,3 @@ Rails.application.configure do
   config.force_ssl = true
   config.rack_cas.server_url = ENV['CAS_BASE_URL']
 end
-
-Bugsnag.configure do |config|
-	config.api_key = ENV['BUGSNAG_ID']
-	config.notify_release_stages = ['production']
-	config.ignore_classes << ActionController::RoutingError
-	config.ignore_classes << ActiveRecord::RecordNotFound
-end

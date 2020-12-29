@@ -1,6 +1,6 @@
-# Bugsnag.configure do |config|
-# 	config.api_key = ENV['BUGSNAG_ID']
-# 	config.notify_release_stages = ['production']
-# 	config.ignore_classes << ActionController::RoutingError
-# 	config.ignore_classes << ActiveRecord::RecordNotFound
-# end
+Bugsnag.configure do |config|
+	config.api_key = ENV['BUGSNAG_ID']
+	config.notify_release_stages = ['production']
+	config.ignore_classes << ActionController::RoutingError
+	config.ignore_classes << ActiveRecord::RecordNotFound
+end
