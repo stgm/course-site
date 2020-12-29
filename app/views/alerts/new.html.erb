@@ -1,11 +1,5 @@
-<div class="modal-content">
+<% content_for :title do %>
+<h1>New announcement</h1>
+<% end %>
 
-	<div id="modal-browser-header">
-		<h1>New announcement</h1>
-	</div>
-
-	<div id="modal-browser-body">
-		<%= render 'form' %>
-	</div>
-
-</div>
+<%= render 'form' %>

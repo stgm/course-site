@@ -1,13 +1,7 @@
-<div class="modal-content">
+<% content_for :title do %>
+<h1>Add user</h1>
+<% end %>
 
-	<div id="modal-browser-header">
-		<h1>Add user</h1>
-	</div>
+<p>Your new student can now login using this URL:</p>
 
-	<div id="modal-browser-body">
-		<p>Your new student can now login using this URL:</p>
-
-		<p><%= @url %></p>
-	</div>
-
-</div>
+<p><%= @url %></p>

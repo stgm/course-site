@@ -1,27 +1,21 @@
-<div class="modal-content">
+<% content_for :title do %>
+<h1>Close assignment</h1>
+<% end %>
 
-	<div id="modal-browser-header">
-		<h1>Close assignment</h1>
-	</div>
+<%= form_tag close_and_mail_late_schedule_submits_path(schedule_id: params[:schedule_id]), :method => :post do %>
 
-	<div id="modal-browser-body">
-		<%= form_tag close_and_mail_late_schedule_submits_path(schedule_id: params[:schedule_id]), :method => :post do %>
-
-		<div class="form-group">
-			<label for="exampleInputEmail1">Close this pset:</label>
-			<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
-		</div>
-		<div class="form-group">
-			<label for="exampleInputEmail1">For this group of students:</label>
-			<%= select_tag :schedule_id, options_from_collection_for_select(@schedules, "id", "name"), class: 'form-control' %>
-		</div>
-		<div class="form-group">
-			<label for="exampleInputEmail1">Send this message:</label>
-			<textarea name="text" class="form-control">Let op: je hebt niets ingestuurd voor deze opdracht! Neem zo snel mogelijk contact op met je docent.</textarea>
-		</div>
-		<input type="submit" class="btn btn-primary">
-
-		<% end %>
-	</div>
-
+<div class="form-group">
+	<label for="exampleInputEmail1">Close this pset:</label>
+	<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
 </div>
+<div class="form-group">
+	<label for="exampleInputEmail1">For this group of students:</label>
+	<%= select_tag :schedule_id, options_from_collection_for_select(@schedules, "id", "name"), class: 'form-control' %>
+</div>
+<div class="form-group">
+	<label for="exampleInputEmail1">Send this message:</label>
+	<textarea name="text" class="form-control">Let op: je hebt niets ingestuurd voor deze opdracht! Neem zo snel mogelijk contact op met je docent.</textarea>
+</div>
+<input type="submit" class="btn btn-primary">
+
+<% end %>

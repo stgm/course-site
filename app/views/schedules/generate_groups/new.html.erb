@@ -1,21 +1,15 @@
-<div class="modal-content">
+<% content_for :title do %>
+<h1>Generate groups</h1>
+<% end %>
 
-	<div id="modal-browser-header">
-		<h1>Generate groups</h1>
-	</div>
+<p>How many groups need to be generated for schedule <%= @schedule.name %>?</p>
 
-	<div id="modal-browser-body">
-		<p>How many groups need to be generated for schedule <%= @schedule.name %>?</p>
+<p><strong>Do not use if groups have been generated before and TAs are/have been grading!!</strong></p>
 
-		<p><strong>Do not use if groups have been generated before and TAs are/have been grading!!</strong></p>
+<%= form_tag schedule_generate_groups_path(schedule_id: params[:schedule_id]), method: :post, data: { 'turbo-frame' => '_top' }, id: 'generate_groups_form' do %>
+	<p class="mb-3"><input type="number" name="number" min="1" required></p>
+<% end %>
 
-		<%= form_tag schedule_generate_groups_path(schedule_id: params[:schedule_id]), method: :post, data: { 'turbo-frame' => '_top' }, id: 'generate_groups_form' do %>
-		<p class="mb-3"><input type="number" name="number" min="1" required></p>
-		<% end %>
-	</div>
-
-	<div id="modal-browser-footer">
-		<input type="submit" class="btn btn-primary" form="generate_groups_form">
-	</div>
-
-</div>
+<% content_for :footer do %>
+<input type="submit" class="btn btn-primary" form="generate_groups_form">
+<% end %>

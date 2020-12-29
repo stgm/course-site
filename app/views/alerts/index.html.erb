@@ -1,27 +1,21 @@
-<div class="modal-content">
+<% content_for :title do %>
+<h1>Announcements</h1>
+<% end %>
 
-	<div id="modal-browser-header">
-		<h1>Announcements</h1>
+<% @alerts.each do |alert| %>
+<div class="card mb-3">
+	<div class="card-body">
+		<h5 class="card-title">
+			<%= alert.title %>
+			<% if alert.published %><span class="badge bg-secondary">Published</span><% end %>
+		</h5>
+		<p class="card-text"><%= alert.body %></p>
+		<%= link_to 'Edit', edit_alert_path(alert), class: 'btn btn-light' %>
+		<%= button_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-light' %>
 	</div>
-
-	<div id="modal-browser-body">
-		<% @alerts.each do |alert| %>
-		<div class="card mb-3">
-			<div class="card-body">
-				<h5 class="card-title">
-					<%= alert.title %>
-					<% if alert.published %><span class="badge bg-secondary">Published</span><% end %>
-				</h5>
-				<p class="card-text"><%= alert.body %></p>
-				<%= link_to 'Edit', edit_alert_path(alert), class: 'btn btn-light' %>
-				<%= button_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-light' %>
-			</div>
-		</div>
-		<% end %>
-	</div>
-
-	<div id="modal-browser-footer">
-		<%= link_to 'New announcement', new_alert_path, class: 'btn btn-light ml-auto' %>
-	</div>
-
 </div>
+<% end %>
+
+<% content_for :footer do %>
+<%= link_to 'New announcement', new_alert_path, class: 'btn btn-light ml-auto' %>
+<% end %>

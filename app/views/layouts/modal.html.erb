@@ -1,3 +1,17 @@
 <turbo-frame id="modal">
-<%= yield %>
+<div class="modal-content">
+	<% if content_for?(:title) %>
+	<div id="modal-browser-header">
+		<%= yield(:title) %>
+	</div>
+	<% end %>
+	<div id="modal-browser-body">
+		<%= yield %>
+	</div>
+	<% if content_for?(:footer) %>
+	<div id="modal-browser-footer">
+		<%= yield(:footer) %>
+	</div>
+	<% end %>
+</div>
 </turbo-frame>

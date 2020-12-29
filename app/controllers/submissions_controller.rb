@@ -38,6 +38,7 @@ class SubmissionsController < ApplicationController
 	def feedback
 		submit = Submit.find(params[:submission_id])
 		@formatted_feedback = submit.formatted_auto_feedback
+		@formatted_feedback = '(no data)' if @formatted_feedback.blank?
 		render layout: 'modal'
 	end
 

@@ -25,15 +25,11 @@ class Admin::UsersController < ApplicationController
 		@url = root_url(token: @u.token)
 	end
 
-	# Unused at this point, because we haven't implemented a dropdown role choice.
+	# Sets or unsets user role.
 	def set_role
-		p = User.find(params[:user_id])
-		p.update!(params.require(:user).permit(:role))
-
-		respond_to do |format|
-			format.json { p }
-			format.html { redirect_to p }
-		end
+		user = User.find(params[:user_id])
+		user.update!(params.require(:user).permit(:role))
+		redirect_to user
 	end
 
 	def add_group_permission

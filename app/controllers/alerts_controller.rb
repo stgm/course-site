@@ -31,9 +31,7 @@ class AlertsController < ApplicationController
 
 		if @alert.save
 			send_mail if params[:send_mail]
-			respond_to do |format|
-				format.html { redirect_to alerts_path }
-			end
+			redirect_to alerts_path
 		else
 			render :new
 		end
@@ -44,9 +42,7 @@ class AlertsController < ApplicationController
 		set_alert
 		if @alert.update(alert_params)
 			send_mail if params[:send_mail]
-			respond_to do |format|
-				format.html { redirect_to alerts_path }
-			end
+			redirect_to alerts_path
 		else
 			render :edit
 		end
@@ -56,10 +52,7 @@ class AlertsController < ApplicationController
 	def destroy
 		set_alert
 		@alert.destroy
-
-		respond_to do |format|
-			format.html { redirect_to alerts_path }
-		end
+		redirect_to alerts_path
 	end
 
 	private

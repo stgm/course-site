@@ -1,43 +1,37 @@
-<div class="modal-content">
+<% content_for :title do %>
+<%= render 'title' %>
+<% end %>
 
-	<div id="modal-browser-header">
-		<%= render 'title' %>
-	</div>
+<div>
+	<%
+	subs = @student.submits.includes(:grade).group_by(&:pset_id)
+	%>
 
-	<div id="modal-browser-body">
-		<div>
-			<%
-			subs = @student.submits.includes(:grade).group_by(&:pset_id)
-			%>
-
-			<% @psets.each do |pset| %>
-			<%= grade_button(@student, pset, subs)%>
-			<% end %>
-		</div>
-
-		<div id="chart-1" style="height: 150px;"></div>
-		<script>
-			new Chartkick.ColumnChart('chart-1', <%= JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count).html_safe %>)
-		</script>
-
-		<div id="timeline">
-			<%= render partial: 'hands_overview', object: @student.hands_overview %>
-			<%= render partial: "items/item", collection: @items %>
-		</div>
-	</div>
-
-	<div id="modal-browser-footer">
-		<%= form_with model: @note, local: false, html: { class: 'w-100' } do |f| %>
-			<%= f.hidden_field :student_id %>
-			<div class="d-flex flex-row">
-				<div class="flex-fill">
-					<%= f.text_area :text, size: "x3", class: "form-control flex-fill" %>
-				</div>
-				<div class="ml-3">
-					<%= f.submit "Add note", class: "btn btn-primary" %>
-				</div>
-			</div>
-		<% end %>
-	</div>
-
+	<% @psets.each do |pset| %>
+	<%= grade_button(@student, pset, subs)%>
+	<% end %>
 </div>
+
+<div id="chart-1" style="height: 150px;"></div>
+<script>
+	new Chartkick.ColumnChart('chart-1', <%= JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count).html_safe %>)
+</script>
+
+<div id="timeline">
+	<%= render partial: 'hands_overview', object: @student.hands_overview %>
+	<%= render partial: "items/item", collection: @items %>
+</div>
+
+<% content_for :footer do %>
+	<%= form_with model: @note, local: false, html: { class: 'w-100' } do |f| %>
+		<%= f.hidden_field :student_id %>
+		<div class="d-flex flex-row">
+			<div class="flex-fill">
+				<%= f.text_area :text, size: "x3", class: "form-control flex-fill" %>
+			</div>
+			<div class="ml-3">
+				<%= f.submit "Add note", class: "btn btn-primary" %>
+			</div>
+		</div>
+	<% end %>
+<% end %>

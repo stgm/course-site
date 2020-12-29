@@ -1,11 +1,5 @@
-<div class="modal-content">
+<% content_for :title do %>
+<h1>Automatic check results</h1>
+<% end %>
 
-	<div id="modal-browser-header">
-		<h1>Automatic check results</h1>
-	</div>
-
-	<div id="modal-browser-body">
-		<pre><%= @formatted_feedback %></pre>
-	</div>
-
-</div>
+<pre><%= @formatted_feedback %></pre>
