@@ -37,7 +37,12 @@ class Grade < ApplicationRecord
 		# assistants always take ownership of the grade when editing
 		grade.grader = Current.user if grade.grader.blank? || (Current.user.present? && Current.user != grade.grader && grade.grader.senior?)
 	end
-	
+
+	def reject!
+		self.grade = 0
+		published!
+	end
+
 	def sortable_date
 		updated_at
 	end

@@ -53,8 +53,7 @@ class GradesController < ApplicationController
 	end
 	
 	def reject
-		@grade.update(grade:0)
-		@grade.published!
+		@grade.reject!
 		@submit = @grade.submit
 		redirect_js location: submit_path(@submit)
 	end
