@@ -9,8 +9,9 @@
 	@extend .modal-header;
 	@extend .align-items-start;
 	
-	background: rgb(108,145,237);
-	background: linear-gradient(90deg, rgba(108,145,237,1) 0%, rgba(0,212,255,1) 100%);
+	background: rgb(91,186,232);
+	background: linear-gradient(90deg, rgba(91,186,232,1) 0%, rgba(0,212,255,1) 100%);
+
 	color:white;
 	border-radius:0.5rem 0.5rem 0 0;
 }

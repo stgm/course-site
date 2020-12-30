@@ -18,11 +18,9 @@ class Schedules::CurrentModulesController < ApplicationController
 		else
 			@schedule.update_attribute(:current, ScheduleSpan.find(params[:item]))
 		end
-		respond_to do |format|
-			format.js do
-				render 'profile/schedule'
-			end
-		end
+
+		# immediately show change in actual sidebar
+		render partial: 'sidebar'
 	end
 
 	# Show final grades to be exported as official results.
