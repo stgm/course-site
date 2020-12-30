@@ -205,7 +205,6 @@ class User < ApplicationRecord
 	end
 
 	def log_changes
-		logger.info previous_changes.inspect
 		changes = self.previous_changes.select{|k,v| ['active', 'done', 'status','schedule_id','alarm'].include?(k)}
 		if changes.any?
 			self.notes.create(text: changes.collect{|k,v| "#{k}: #{v[1]}  "}.join, author: Current.user)
