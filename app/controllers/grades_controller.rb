@@ -15,8 +15,10 @@ class GradesController < ApplicationController
 	end
 
 	def reject
-		@grade.reject!
-		redirect_to @grade.submit
+		@grade.update(grade:0)
+		@grade.published!
+		@submit = @grade.submit
+		redirect_js location: submit_path(@submit)
 	end
 
 	def destroy
