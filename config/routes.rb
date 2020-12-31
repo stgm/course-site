@@ -124,9 +124,9 @@ Rails.application.routes.draw do
 
 	#--RESOURCES--------------------------------------------------------------------------------
 
-	scope '/manage' do
+	scope path: '/manage' do
 
-		resources :users, only: [ :show, :update ] do
+		resources :users, only: [ :index, :show, :edit, :update ] do
 			collection do
 				get  'search'
 			end

@@ -1,15 +1,19 @@
 <div class="d-flex w-100">
 
 <div class="flex-fill">
-	<h1><%= best_in_place @student, :name, as: :input %></h1>
+	<%= turbo_frame_tag :user_form do %>
+		<h1><%= @student.name %><%= link_to bootstrap_icon('pencil', width: 20), edit_user_path(@student) %></h1>
 
-	<% if @student.avatar.present? %>
-	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
+		<% if @student.avatar.present? %>
+		<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
+		<% end %>
+
+		<div>
+			<%= @student.login_id %><br>
+
+			<%= @student.mail %> <%= link_to bootstrap_icon('envelope', width: 20), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new" %><br>
+		</div>
 	<% end %>
-	<div>
-	<%= best_in_place @student, :mail, as: :input %> <%= link_to bootstrap_icon("envelope"), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new" %> (<%= @student.login_id %>)<br>
-	Photo URL: <%= best_in_place @student, :avatar, as: :input, url: user_path(id: @student.id) %>
-	</div>
 </div>
 
 <div class="flex-shrink-0 justify-content-end">

@@ -26,14 +26,15 @@ class UsersController < ApplicationController
 		@psets = Pset.ordered_by_grading
 	end
 
+	def edit
+		@student = User.find(params[:id])
+		
+	end
+
 	def update
 		@user = User.find(params[:id])
 		@user.update!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :group_id, :alarm))
 		redirect_to @user
-		# respond_to do |format|
-		# 	# TODO ??
-		# 	format.json { @user }
-		# end
 	end
 
 	def calculate_final_grade

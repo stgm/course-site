@@ -1,0 +1,22 @@
+<div class="flex-fill">
+	<%= turbo_frame_tag :user_form do %>
+		<%= form_with model: @student do |f| %>
+			<p>
+				<%= f.label :name %><br>
+				<%= f.text_field :name %>
+			</p>
+			<p>
+				<%= f.label :mail %><br>
+				<%= f.text_field :mail %>
+			</p>
+			<p>
+				<%= f.label :avatar %><br>
+				<%= f.text_field :avatar %>
+			</p>
+			<p>
+				<%= f.submit 'Save', class: 'btn btn-secondary' %>
+				<%= link_to 'Cancel', @student, class: 'btn btn-secondary' %>
+			</p>
+		<% end %>
+	<% end %>
+</div>
