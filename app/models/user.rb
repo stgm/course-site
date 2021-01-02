@@ -20,6 +20,8 @@ class User < ApplicationRecord
 	has_many :authored_notes, class_name: "Note", foreign_key: "author_id"
 	has_many :authored_grades, class_name: "Grade", foreign_key: "grader_id"
 	
+	has_secure_token
+
 	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
 	scope :not_staff, -> { where.not(id: staff) }
 	
@@ -153,11 +155,6 @@ class User < ApplicationRecord
 		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0, range: 7.days.ago...Time.now).count.values
 		graph = user_attendance.map { |v| symbols[[v,7].min] }.join("")
 		self.update_attribute(:attendance, graph)
-	end
-	
-	def generate_token!
-		self.token = SecureRandom.hex(16)
-		self.save
 	end
 	
 	private

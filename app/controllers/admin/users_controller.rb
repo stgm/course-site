@@ -20,15 +20,15 @@ class Admin::UsersController < ApplicationController
 		@user = User.new
 		render_to_modal header: 'Add user'
 	end
-	
+
+	# Create a new user with a login token.
 	def create
 		@u = User.new(params.require(:user).permit(:name, :mail, :schedule_id))
 		@u.student!
-		@u.generate_token!
 		@url = root_url(token: @u.token)
 		render_to_modal header: "User #{@u.name} added"
 	end
-	
+
 	# PUT /user/:user_id/admin
 	def set_role
 		p = User.find(params[:user_id])
