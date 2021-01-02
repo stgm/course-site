@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 	
-	include Scheduleizable
+	include Schedulizable
 	
 	# normal users
 	belongs_to :group, optional: true
@@ -22,25 +22,19 @@ class User < ApplicationRecord
 	
 	has_secure_token
 
+	enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
+
 	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
 	scope :not_staff, -> { where.not(id: staff) }
 	
-	scope :not_inactive,    -> { where(active: true) }
-	
 	scope :active, -> { where('users.active != ? and users.done != ? and (users.started_at < ? or last_submitted_at is not null)', false, true, DateTime.now) }
 	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now).where(active: true) }
-	
 	scope :inactive,  -> { where(active: false) }
+	scope :not_inactive,    -> { where(active: true) }
 	scope :done, -> { where(done:true) }
 	scope :groupless,  -> { where(group_id: nil) }
-	scope :but_not,   -> users { where("users.id not in (?)", users) }
-	scope :with_login, -> login { joins(:logins).where("logins.login = ?", login)}
-	scope :not_started, -> { where('started_at > ?', DateTime.now).where(last_submitted_at: nil) }
-	scope :started, -> { where.not(last_submitted_at: nil) }
-	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
 	scope :who_did_not_submit, ->(pset_id) { where("not exists (?)", Submit.where("submits.user_id = users.id").where(pset_id:pset_id)) }
 	
-	enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
 	serialize :progress, Hash
 	
 	after_save :log_changes
@@ -128,12 +122,6 @@ class User < ApplicationRecord
 		end
 	end
 	
-	def update_last_submitted_at
-		if last = submits.order("submitted_at").last
-			update(last_submitted_at: last.submitted_at)
-		end
-	end
-
 	def final_grade
 		'N/A'
 	end
