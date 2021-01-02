@@ -18,10 +18,10 @@ class Admin::UsersController < ApplicationController
 		@user = User.new
 	end
 
+	# Create a new user with a login token.
 	def create
 		@u = User.new(params.require(:user).permit(:name, :mail, :schedule_id))
 		@u.student!
-		@u.generate_token!
 		@url = root_url(token: @u.token)
 	end
 
