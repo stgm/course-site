@@ -56,7 +56,9 @@ Rails.application.routes.draw do
 
 		resource :current_module, only: [ :edit, :update ]
 		resource :export_final_grades, only: [ :new, :create ]
-		resource :import_groups, only: [ :new, :create ]
+		resource :import_groups, only: [ :new, :create ] do
+			post 'propose'
+		end
 		resource :generate_groups, only: [ :new, :create ]
 
 		resources :grades, only: [] do

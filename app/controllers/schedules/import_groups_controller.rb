@@ -1,4 +1,4 @@
-# Import student group assignments from a CSV paste.
+# Import group assignments from a CSV paste.
 class Schedules::ImportGroupsController < Schedules::ApplicationController
 
 	before_action :authorize
@@ -11,11 +11,17 @@ class Schedules::ImportGroupsController < Schedules::ApplicationController
 		@paste = Settings.cached_user_paste
 	end
 
+	def propose
+		load_schedule
+		if @paste = params[:paste]
+			Settings.cached_user_paste = @paste
+			@result = @schedule.propose_groups(@paste)
+		end
+	end
+
 	def create
 		load_schedule
-		# this is very dependent on datanose export format: ids in col 0 and 1, group name in 7
 		if source = params[:paste]
-			Settings.cached_user_paste = source
 			@schedule.import_groups(source)
 		end
 		redirect_to schedule_overview_path(@schedule), notice: 'Student groups were successfully imported.'
