@@ -1,0 +1,29 @@
+<h1>Import groups</h1>
+
+<p>Review group assignments and confirm below.</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Group</th>
+            <th scope="col">Name</th>
+            <th scope="col">Mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @result.each do |user| %>
+        <tr>
+            <td><%= user[0].join(',') %></td>
+            <td><%= user[1] || '(no group)' %></td>
+            <td><%= user[2] %></td>
+            <td><%= user[3] %></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<%= form_with url:schedule_import_groups_path(schedule_id: params[:schedule_id]), method: :post do %>
+<textarea name="paste" class="form-control"><%= @paste %></textarea>
+<p><input type="submit" class="btn btn-primary"></p>
+<% end %>
