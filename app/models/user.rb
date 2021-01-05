@@ -44,9 +44,9 @@ class User < ApplicationRecord
 		raise unless User.none? || Schedule.none? || Schedule.default
 
 		self.assign_attributes(params)
-		self.schedule ||= Schedule.default
+		# TODO ugly: default user has "empty" schedule, which we recognize here
+		self.schedule = Schedule.default if self.schedule.blank? || !self.schedule.persisted?
 		self.save!
-	
 		self.logins.create(login: login) unless self.logins.any?
 	end
 

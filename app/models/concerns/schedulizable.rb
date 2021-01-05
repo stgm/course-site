@@ -9,36 +9,38 @@ module Schedulizable
 		delegate :name, to: :schedule, prefix: true, allow_nil: true
 
 		before_save :reset_group, if: :schedule_id_changed?
-		before_save :reset_current_module, if: :schedule_id_changed?
+		before_save :set_current_module, if: :schedule_id_changed?
 	end
 
 	def check_current_schedule!
-		update!(schedule: Schedule.default) if persisted? && schedule.blank?
-		schedule
+		if schedule.blank?
+			set_current_schedule
+			save! if persisted?
+		end
+		self.schedule
+	end
+
+	def set_current_schedule
+		self.schedule = Schedule.default
 	end
 
 	def check_current_module!
 		check_current_schedule!
-		reset_current_module if !valid_current_module?
-		save! if persisted? && !valid_current_module?
-
-		if schedule.blank?
-			nil
-		elsif schedule.self_service
-			@current_module = current_module || schedule.current
-		else
-			@current_module = schedule.current
+		if !valid_current_module?
+			set_current_module
+			save! if persisted?
 		end
+		self.current_module
 	end
 
 	def valid_current_module?
-		return false if !schedule.present?
-		return false if current_module.nil?
-		return false if !staff? && !current_module.public?
+		return false if !schedule.present?                 # there is no schedule
+		return false if current_module.nil?                # there is a schedule, but no module
+		return false if !staff? && !current_module.public? # there is something, but access is currently denied
 		return true
 	end
 
-	def reset_current_module
+	def set_current_module
 		if self.schedule && span = self.schedule.default_span(self.student?)
 			self.current_module = span
 		else
