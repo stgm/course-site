@@ -22,9 +22,9 @@ module GradingHelper
 					end
 				when 'text/html'
 					tag.div sanitize(contents.download), class: 'ipynb'
-				when 'text/plain', 'application/sql'
+				when 'text/plain'
 					simple_format(contents.download.encode("UTF-8", undef: :replace, replace: '?'))
-				when /text\/.*/
+				when /text\/.*/, 'application/sql'
 					filetype = CodeRay::FileType.fetch(contents.filename.sanitized, :text)
 					CodeRay.scan(contents.download, filetype).div(:line_numbers => :inline).html_safe
 				else
