@@ -14,7 +14,11 @@ module NavigationHelper
 	end
 
 	def current_module
-		@current_module ||= current_user.check_current_module!
+		@current_module ||= if current_schedule.self_service
+			current_user.check_current_module!
+		else
+			current_schedule.current
+		end
 	end
 
 	def prev_module
