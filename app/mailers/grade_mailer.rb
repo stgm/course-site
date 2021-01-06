@@ -13,7 +13,6 @@ class GradeMailer < ApplicationMailer
 		end
 		@login = grade.submit.used_login if grade.submit
 		@header = File.read("#{Rails.root}/public/course/mail/grade.txt") if File.exists?("#{Rails.root}/public/course/mail/grade.txt")
-		Rails.logger.debug ENV["MAILER_ADDRESS"]
 		mail(to: grade.user.mail, subject: "#{Course.short_name}: feedback for #{@grade_name}")
 	end
 	

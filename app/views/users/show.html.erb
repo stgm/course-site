@@ -23,11 +23,11 @@
 </div>
 
 <% content_for :footer do %>
-	<%= form_with model: @note, local: false, html: { class: 'w-100' } do |f| %>
+	<%= form_with model: @note, html: { class: 'w-100' } do |f| %>
 		<%= f.hidden_field :student_id %>
 		<div class="d-flex flex-row">
 			<div class="flex-fill">
-				<%= f.text_area :text, size: "x3", class: "form-control flex-fill" %>
+				<%= f.text_area :text, size: "x3", class: "form-control flex-fill", required: true %>
 			</div>
 			<div class="ml-3">
 				<%= f.submit "Add note", class: "btn btn-primary" %>

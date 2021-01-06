@@ -25,7 +25,6 @@ class Tests::ResultsController < Tests::TestsController
 			subgrades = info[:subgrades]
 			# check if any of the subgrades has been filled
 			if subgrades.values.map(&:present?).any?
-				# logger.debug "#{user_id}  #{points}"
 				s = Submit.where(user_id: user_id, pset_id: pset_id).first_or_create
 				if g = s.grade
 					subgrades.each do |name, value|

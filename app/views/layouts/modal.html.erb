@@ -3,6 +3,7 @@
 	<% if content_for?(:title) %>
 	<div id="modal-browser-header">
 		<%= yield(:title) %>
+		<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
 	</div>
 	<% end %>
 	<div id="modal-browser-body">

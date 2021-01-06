@@ -8,12 +8,7 @@
 {
 	@extend .modal-header;
 	@extend .align-items-start;
-	
-	background: rgb(91,186,232);
-	background: linear-gradient(90deg, rgba(91,186,232,1) 0%, rgba(0,212,255,1) 100%);
-
-	color:white;
-	border-radius:0.5rem 0.5rem 0 0;
+	border-radius: 0.5rem 0.5rem 0 0;
 }
 
 #modal-browser-body
@@ -38,4 +33,10 @@
 	{
 		padding:1.5rem;
 	}
+}
+
+#modal-browser-header .btn-close
+{
+	margin: 0;
+	padding: 0;
 }
