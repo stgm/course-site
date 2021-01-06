@@ -4,7 +4,11 @@
 
 <p>Paste all data lines from a .xls datanose user export.</p>
 
-<%= form_tag propose_schedule_import_groups_path(schedule_id: params[:schedule_id]), :method => :post, data: { 'turbo-frame' => '_top' }, id: 'import_groups_form' do %>
+<%= form_tag propose_schedule_import_groups_path(
+		schedule_id: params[:schedule_id]),
+		:method => :post,
+		data: { 'turbo-frame' => '_top' },
+		id: 'import_groups_form' do %>
 	<textarea name="paste" class="form-control" rows="10"><%= @paste %></textarea>
 <% end %>
 
