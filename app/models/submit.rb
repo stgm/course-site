@@ -1,5 +1,5 @@
 class Submit < ApplicationRecord
-	
+
 	include AutoCheck::Receiver
 	include AutoCheck::ScoreCalculator
 	include AutoCheck::FeedbackFormatter
@@ -61,45 +61,40 @@ class Submit < ApplicationRecord
 		self.submitted_files = attachments.file_names
 		self.file_contents = attachments.presentable_file_contents
 		self.form_contents = form_contents
-		
+
 		# reset auto checks
 		self.check_token = check_token
 		self.check_results = nil
 		self.auto_graded = false
 
 		self.save
-		
-		user.update(last_submitted_at: self.submitted_at)
 
-		# update the submission for the parent module, if there is one
-		if pset.parent_pset
-			Submit.where(user: self.user, pset: pset.parent_pset).first_or_initialize.update(submitted_at:Time.now)
-		end
+		user.update(last_submitted_at: self.submitted_at)
 
 		# reset and unpublish grade
 		self.grade.update_columns(grade: nil, status: Grade.statuses[:unfinished]) if self.grade
 	end
-	
+
 	def file_contents
 		super || {}
 	end
-	
+
 	def has_form_response?
 		form_contents.present?
 	end
-	
+
 	def checkable?
 		pset.check_config.present?
 	end
-	
+
 	def recheck(host)
 		zip = Attachments.new(self.file_contents).zipped
 		token = AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
 		self.update(check_token: token)
 	end
-	
+
 	def may_be_resubmitted?
 		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
 	end
-	
+
 end
