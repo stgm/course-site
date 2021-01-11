@@ -6,6 +6,8 @@ class Hand < ApplicationRecord
 	delegate :name, to: :assist, prefix: true, allow_nil: true
 	
 	scope :waiting, -> { where(assist_id: nil).where.not(done: true) }
+	scope :successfully_helped, -> { where(success: true) }
+	scope :total_helping_time, -> { sum('(JulianDay(closed_at) - JulianDay(claimed_at)) * 60 * 24').round }
 	
 	after_validation do |hand|
 		if hand.done

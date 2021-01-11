@@ -63,9 +63,9 @@
 		<td><%= user.attendance_records.count %></td>
 		<% end %>
 		
-		<td><%= user.hands.where(success:true).count %></td>
+		<td><%= user.hands.successfully_helped.count %></td>
 		
-		<td><%= user.hands.sum('(JulianDay(closed_at) - JulianDay(claimed_at)) * 60 * 24').round %></td>
+		<td><%= user.hands.successfully_helped.total_helping_time %></td>
 		
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
