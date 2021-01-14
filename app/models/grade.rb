@@ -46,7 +46,7 @@ class Grade < ApplicationRecord
 	end
 	
 	def sufficient?
-		self.grade >= 5.5
+		self.grade && self.grade >= 5.5
 	end
 
 	def reject!
