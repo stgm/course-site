@@ -67,4 +67,8 @@ class Pset < ApplicationRecord
 		config && config['check']
 	end
 
+	def is_final_grade?
+		self.name.in? Grading.final_grade_names
+	end
+
 end
