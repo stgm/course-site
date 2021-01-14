@@ -37,6 +37,17 @@ class Grade < ApplicationRecord
 		# assistants always take ownership of the grade when editing
 		grade.grader = Current.user if grade.grader.blank? || (Current.user.present? && Current.user != grade.grader && grade.grader.senior?)
 	end
+	
+	after_save do |grade|
+		# set user to done if sufficient final grade has been entered
+		if published? && sufficient? && Current.user.admin? && pset.is_final_grade?
+			user.update! done: true
+		end
+	end
+	
+	def sufficient?
+		self.grade && self.grade >= 5.5
+	end
 
 	def reject!
 		self.grade = 0

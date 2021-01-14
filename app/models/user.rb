@@ -28,7 +28,7 @@ class User < ApplicationRecord
 	scope :not_staff, -> { where.not(id: staff) }
 	
 	scope :active, -> { where('users.active != ? and users.done != ? and (users.started_at < ? or last_submitted_at is not null)', false, true, DateTime.now) }
-	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now).where(active: true) }
+	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now).where(active: true).where(done:false) }
 	scope :inactive,  -> { where(active: false) }
 	scope :not_inactive,    -> { where(active: true) }
 	scope :done, -> { where(done:true) }
