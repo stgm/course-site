@@ -16,7 +16,7 @@
 	<div class="row content h-100">
 
 <% cache [ @to_grade, @submit ] do %>
-<div class="col-2 px-0 py-0 turbolinks-disable-scroll" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
+<div class="col-2 px-0 py-0 restore-scroll-position" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
 	<ul class="nav flex-column">
 		<% @to_grade.each do |submit| %>
 		<li class="nav-item p-0 ">

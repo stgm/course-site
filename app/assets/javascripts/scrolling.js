@@ -1,27 +1,31 @@
-// persist scrolls
+// Persist scroll positions for selected elements when navigating between pages
 // from https://github.com/turbolinks/turbolinks-classic/issues/205
-var elementsWithPersistentScrolls, persistentScrollsPositions;
+// To use, assign restore-scroll-position to any scrollable element
 
-// assign this class to a scrollable element to have it remain in position on page navigation
-elementsWithPersistentScrolls = [];
-persistentScrollsPositions = [];
+var persistentScrollsPositions = []
 
 document.addEventListener('turbolinks:before-visit', () => {
-	elementsWithPersistentScrolls = document.querySelectorAll('.turbolinks-disable-scroll');
-	persistentScrollsPositions = [];
+
+	elementsWithPersistentScrolls = document.querySelectorAll('.restore-scroll-position')
+	persistentScrollsPositions = []
+
 	for (i = 0, len = elementsWithPersistentScrolls.length; i < len; i++)
 	{
-		element = elementsWithPersistentScrolls[i];
-		persistentScrollsPositions.push(element.scrollTop);
+		element = elementsWithPersistentScrolls[i]
+		persistentScrollsPositions.push(element.scrollTop)
 	}
+
 })
 
 document.addEventListener('turbolinks:load', () => {
-	results = [];
+
+	elementsWithPersistentScrolls = document.querySelectorAll('.restore-scroll-position')
+
 	for (i = 0, len = elementsWithPersistentScrolls.length; i < len; i++)
 	{
-		element = elementsWithPersistentScrolls[i];
-		scrollTop = persistentScrollsPositions[i];
-		element.scrollTop = scrollTop;
+		element = elementsWithPersistentScrolls[i]
+		scrollTop = persistentScrollsPositions[i]
+		element.scrollTop = scrollTop
 	}
+
 })
