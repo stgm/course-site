@@ -6,7 +6,7 @@
 	</button>
 
 	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		<% current_schedule.schedule_spans.accessible.each do |mod| %>
+		<% current_schedule.schedule_spans.accessible.order(:rank).each do |mod| %>
 		<li class="d-flex align-items-center">
 			<% if current_user.admin? %>
 			<%= checkbox_for(mod, :public, mod.public,
