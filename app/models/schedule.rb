@@ -29,6 +29,10 @@ class Schedule < ApplicationRecord
 		Schedule.where(self_register: true).first
 	end
 	
+	def self.find_open
+		Schedule.where(id: Settings.public_schedule).first
+	end
+	
 	def default_span(only_public)
 		if only_public
 			self.schedule_spans.all_public.order(:rank).first

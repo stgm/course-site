@@ -1,0 +1,30 @@
+<% if current_user.admin? || current_schedule.schedule_spans.accessible.many? %>
+
+<div class="dropdown">
+	<button class="btn btn-link nav-head text-dark m-0 p-0 dropdown-toggle <%= 'unavailable' if !current_module.public? %>" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+		<%= current_module.name %>
+	</button>
+
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<% current_schedule.schedule_spans.accessible.each do |mod| %>
+		<li class="d-flex align-items-center">
+			<% if current_user.admin? %>
+			<%= checkbox_for(mod, :public, mod.public,
+				admin_course_update_schedule_span_path(id: mod.id),
+				form: { html: { class: 'ml-3' } } ) do end %>
+			<% end %>
+			<%= link_to mod.name, profile_set_path(module: mod.id), 
+			    method: :post, remote: true,
+			    class: "dropdown-item #{'unavailable' if !mod.public?}" %>
+		</li>
+		<% end %>
+	</ul>
+</div>
+
+<% else %>
+
+<span class="nav-head text-dark m-0 p-0">
+	<%= current_module.name %>
+</span>
+
+<% end %>

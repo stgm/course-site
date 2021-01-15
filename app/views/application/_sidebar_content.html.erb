@@ -18,18 +18,7 @@
 		<li>
 			<div class="nav-head mx-1 text-dark d-flex justify-content-between">
 				<div id="schedule_name" class="<%= 'unavailable' if !current_module.public? %>">
-					<%#= current_module.name %>
-					<div class="dropdown">
-						<button class="btn btn-link nav-head text-dark m-0 p-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-							<%= current_module.name %>
-						</button>
-
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<% current_schedule.schedule_spans.accessible.each do |mod| %>
-							<li><%= link_to mod.name, profile_set_path(module: mod.id), method: :post, remote: true, class: 'dropdown-item' %></li>
-							<% end %>
-						</ul>
-					</div>
+					<%= render 'schedule_dropdown' %>
 				</div>
 				<% if current_schedule.self_service %>
 				<span class="float-rsight mr-n1 spr-1">
