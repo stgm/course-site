@@ -13,7 +13,7 @@ class Hands::RaisesController < ApplicationController
 					else
 						helping
 					end
-				elsif Settings.hands_location && is_local_ip? && current_user.student? && current_user.last_known_location.blank?
+				elsif Settings.hands_location && !Settings.hands_link && is_local_ip? && current_user.student? && current_user.last_known_location.blank?
 					location_small
 				elsif current_user.hands.where("closed_at > ?", 20.minutes.ago).where(success:true).any?
 					line
