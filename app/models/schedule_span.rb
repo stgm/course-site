@@ -4,6 +4,7 @@ class ScheduleSpan < ApplicationRecord
 	serialize :content
 	
 	scope :all_public, -> { where(public: true) }
+	scope :accessible, -> { Current.user.staff? && all || all_public }
 
 	def previous(only_public=true)
 		spans = schedule.schedule_spans

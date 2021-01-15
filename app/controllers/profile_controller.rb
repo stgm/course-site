@@ -30,12 +30,22 @@ class ProfileController < ApplicationController
 		render partial: 'sidebar_content'
 	end
 
+	def set_module
+		current_user
+		if mod = ScheduleSpan.accessible.where(id: params[:module]).first
+			current_user.update(current_module: mod)
+		end
+		render partial: 'sidebar_content'
+	end
+
 	def set_schedule
 		current_user.update(schedule_id: params[:schedule_id])
 		redirect_back fallback_location: '/'
 	end
 
-	# 
+	#
+	# allows setting arbitrary settings in the settings model
+	#
 	def save_progress
 		if items = params["progress"]
 			items.each do |k,v|

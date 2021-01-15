@@ -1,4 +1,3 @@
-<div id="sidebar-content" data-turbo-permanent class="sidebar-collapse sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
 <turbo-frame id="sidebar-frame" target="_top">
 
 	<% if Course.modules.any? %>
@@ -17,9 +16,9 @@
 	<% if current_module %>
 	<ul class="nav">
 		<li>
-			<div class="nav-head mx-1 text-dark d-flex align-items-center flex-row">
+			<div class="nav-head mx-1 text-dark d-flex justify-content-between">
 				<div id="schedule_name" class="<%= 'unavailable' if !current_module.public? %>">
-					<%= current_module.name %>
+					<%= render 'schedule_dropdown' %>
 				</div>
 				<% if current_schedule.self_service %>
 				<div class="ml-auto mr-n1 spr-1">
@@ -64,4 +63,3 @@
 	<% end %>
 
 </turbo-frame>
-</div>

@@ -164,6 +164,7 @@ Rails.application.routes.draw do
 		get  'ping'
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
+		post 'set_module'
 		post 'save_progress'
 		patch 'set_schedule'
 	end
