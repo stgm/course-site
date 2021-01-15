@@ -164,6 +164,7 @@ Rails.application.routes.draw do
 		get  'feedback/:submit_id', action: 'feedback', as: "feedback"
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
+		post 'set'
 		post 'save_progress'
 	end
 

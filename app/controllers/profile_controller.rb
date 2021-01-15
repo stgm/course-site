@@ -49,6 +49,18 @@ class ProfileController < ApplicationController
 		end
 	end
 	
+	def set
+		current_user
+		if mod = ScheduleSpan.accessible.where(id: params[:module]).first
+			current_user.update(current_module: mod)
+		end
+		respond_to do |format|
+			format.js do
+				render 'schedule'
+			end
+		end
+	end
+	
 	#
 	# allows setting arbitrary settings in the settings model
 	#

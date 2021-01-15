@@ -16,7 +16,9 @@
 
 <%# Main navigation%>
 
-<%= render 'sidebar_content' %>
+<div id="sidebar-content" data-turbolinks-permanent class="sidebar-collapse sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
+	<%= render 'sidebar_content' %>
+</div>
 
 <%= render 'course_links' %>
 
