@@ -1,70 +1,40 @@
 <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
-<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" %>
 
 <%= timeline @chart_data, height: "500px" %>
 
-<canvas id="myChart" width="400" height="400"></canvas>
-	
-<script>
-	var ctx = "myChart";
-	// var myBubbleChart = new Chart(ctx,{
-	//     type: 'bubble',
-	//     data: { datasets: { data: <%=raw @week_data.to_json %> } }
-	// });
-	
-	
-	new Chart(ctx, {
-	    type: 'bubble',
-	    data: {
-			labels: "Africa",
-			datasets: [
-				{
-					label: ["Questions"],
-					backgroundColor: "rgba(255,221,50,0.2)",
-					borderColor: "#FC5D41",
-					data: <%=raw @week_data.to_json %>
-				}, 
-			]
-	    },
-	    options: {
-	      title: {
-	        display: true,
-	        text: ''
-	      },
-		  scales: {
-	        yAxes: [{ 
-				ticks: {
-					max:20,
-					min:7,
-					stepSize: 1
-				},
-	          scaleLabel: {
-	            display: true,
-	            labelString: "Hour"
-	          }
-	        }],
-	        xAxes: [{ 
-	          scaleLabel: {
-	            display: true,
-	            labelString: "Date"
-	          }
-	        }]
-	      }
-	    }
-	});
-</script>
-	
 
-<table class="table">
+<table class="table caption-top">
+	<caption>Questions per hour</caption>
+	<thead>
+		<tr>
+			<th>hour</th>
+			<% @week_data.map{|datum| datum[:x]}.uniq.each do |day| %>
+			<th scope="col"><%= day %></th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody>
+		<% (8..23).each  do |hour| %>
+		<tr>
+			<th><%= hour %></th>
+			<% @week_data.map{|datum| datum[:x]}.uniq.each do |day| %>
+			<td><%= @week_data.select{|datum| datum[:x]==day && datum[:y]==hour}.first.try(:[], :r)||0 %></td>
+			<% end %>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<table class="table caption-top">
+	<caption>Recent questions</caption>
 	<tr>
 		<th>created</th>
 		<th>closed</th>
-		<th>hulplijn</th>
+		<th>put back</th>
 		<th>assistent</th>
 		<th>student</th>
 		<th>waiting</th>
 		<th>helping</th>
-		<th>mood</th>
 	</tr>
 	<% @today.each do |entry| %>
 	<tr>
@@ -94,7 +64,6 @@
 			<%= distance_of_time_in_words(DateTime.now, entry.claimed_at) %></button>...
 			<% end %>
 		</td>
-		<td><%= entry.evaluation %></td>
 	</tr>
 	<% end %>
 </table>
