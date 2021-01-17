@@ -2,14 +2,15 @@
 <h1>Import groups</h1>
 <% end %>
 
-<p>Paste all data lines from a .xls datanose user export.</p>
-
-<%= form_tag propose_schedule_import_groups_path(
-		schedule_id: params[:schedule_id]),
-		:method => :post,
-		data: { 'turbo-frame' => '_top' },
-		id: 'import_groups_form' do %>
-	<textarea name="paste" class="form-control" rows="10"><%= @paste %></textarea>
+<%= form_with url: propose_schedule_import_groups_path(schedule_id: params[:schedule_id]),
+			  method: :post,
+			  id: 'import_groups_form' do %>
+	<p>
+		<label for="import-groups-paste">
+			Copy-paste all lines from a .xls user export:
+		</label>
+	</p>
+	<textarea id="import-groups-paste" name="paste" class="form-control" rows="10" autofocus><%= @paste %></textarea>
 <% end %>
 
 <% content_for :footer do %>

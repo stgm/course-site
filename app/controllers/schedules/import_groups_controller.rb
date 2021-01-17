@@ -6,6 +6,10 @@ class Schedules::ImportGroupsController < Schedules::ApplicationController
 
 	layout 'modal'
 
+	before_action do
+		I18n.locale = :en
+	end	
+
 	def new
 		load_schedule
 		@paste = Settings.cached_user_paste
@@ -16,7 +20,9 @@ class Schedules::ImportGroupsController < Schedules::ApplicationController
 		if @paste = params[:paste]
 			Settings.cached_user_paste = @paste
 			@result = @schedule.propose_groups(@paste)
+			@groups = @result.map(&:second).uniq.compact.count
 		end
+		render status: :unprocessable_entity
 	end
 
 	def create

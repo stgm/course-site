@@ -1,6 +1,19 @@
+<% content_for :title do %>
 <h1>Import groups</h1>
+<% end %>
 
-<p>Review group assignments and confirm below.</p>
+<p>
+	<%= pluralize(@result.count, 'student') %> found and <%= pluralize(@groups, 'group') %>.
+	<% if @groups==0 %>
+	All group assignments will be removed.
+	<% else %>
+	Review group assignments and confirm below. Note that any existing group assignments will be removed.
+	<% end %>
+</p>
+
+<p>
+	Although names and e-mail addresses may be listed below, these will not be changed for existing users, nor will any users be added.
+</p>
 
 <table class="table table-bordered">
     <thead>
@@ -23,7 +36,14 @@
     </tbody>
 </table>
 
-<%= form_with url:schedule_import_groups_path(schedule_id: params[:schedule_id]), method: :post do %>
-<textarea name="paste" class="form-control"><%= @paste %></textarea>
-<p><input type="submit" class="btn btn-primary"></p>
+<%= form_with url: schedule_import_groups_path(
+			  schedule_id: params[:schedule_id]),
+			  method: :post,
+			  id: 'import_groups_form',
+			  data: { 'turbo-frame' => '_top' } do %>
+	<textarea name="paste" class="form-control"><%= @paste %></textarea>
+<% end %>
+
+<% content_for :footer do %>
+<input type="submit" class="btn btn-primary" form="import_groups_form" data-confirm="Are you sure you want to overwrite all group assignments?">
 <% end %>
