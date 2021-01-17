@@ -1,13 +1,11 @@
 <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
-
 <%= timeline @chart_data, height: "500px" %>
 
-
 <table class="table caption-top">
-	<caption>Questions per hour</caption>
+	<caption class="text-center">Questions per hour</caption>
 	<thead>
 		<tr>
-			<th>hour</th>
+			<th>hour/date</th>
 			<% @week_data.map{|datum| datum[:x]}.uniq.each do |day| %>
 			<th scope="col"><%= day %></th>
 			<% end %>
@@ -26,7 +24,7 @@
 </table>
 
 <table class="table caption-top">
-	<caption>Recent questions</caption>
+	<caption class="text-center">Recent questions</caption>
 	<tr>
 		<th>created</th>
 		<th>closed</th>
