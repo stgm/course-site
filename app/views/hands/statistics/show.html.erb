@@ -4,6 +4,7 @@
 
 <h3 class="mb-3">Today</h3>
 
+<% if @chart_start && @chart_end %>
 <table class="table caption-top">
 	<thead>
 		<tr>
@@ -40,6 +41,7 @@
 		<% end %>
 	</tbody>
 </table>
+<% end %>
 
 <h3 class="mt-5 mb-3">Questions per hour over the past week</h3>
 
