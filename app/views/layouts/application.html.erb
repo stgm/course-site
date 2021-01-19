@@ -27,7 +27,7 @@
 
 <body class="<%= @body_class || controller.controller_name %>">
 	<%= content_for?(:body) ? yield(:body) : yield %>
-	<%= render partial: "modal_browser" if current_user.senior? || ['overviews', 'home'].include?(controller.controller_name) %>
+	<%= render partial: "modal_browser" if current_user.senior? || ['overviews', 'home', 'submissions'].include?(controller.controller_name) %>
 </body>
 
 <% end %>
