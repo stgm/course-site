@@ -16,9 +16,6 @@ class Hand < ApplicationRecord
 		if hand.success
 			AttendanceRecord.create_for_user(hand.user, true)
 		end
-		if hand.note.present?
-			user.notes.create(text: hand.note, author: hand.assist)
-		end
 	end
 
 	def user_last_seen
