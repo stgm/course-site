@@ -1,0 +1,9 @@
+<li class="nav-item dropdown d-flex align-items-center">
+	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= bootstrap_icon 'eye', size: '24x24', style: 'vertical-align:-0.255em;' %></a>
+	<% if authenticated? %>
+	<ul class="dropdown-menu dropdown-menu-right" id="watch-menu">
+		<li><h6 class="dropdown-header">Watching</h6></li>
+		<%= turbo_frame_tag :watch_list, src: watch_list_todo_path %>
+	</ul>
+	<% end %>
+</li>

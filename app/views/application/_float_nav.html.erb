@@ -5,6 +5,12 @@
 	</div>
 	<% end %>
 
+	<% if current_user.admin? && User.watching.any? %>
+	<div>
+		<%= render partial: 'watches' %>
+	</div>
+	<% end %>
+
 	<%# Admin user search%>
 
 	<% if Settings.hands_allow && current_user.valid_profile? %>

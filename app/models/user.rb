@@ -24,6 +24,8 @@ class User < ApplicationRecord
 
 	enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
 
+	scope :watching, -> { where(alarm: true) }
+
 	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
 	scope :not_staff, -> { where.not(id: staff) }
 	

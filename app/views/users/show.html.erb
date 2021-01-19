@@ -2,24 +2,30 @@
 <%= render 'title' %>
 <% end %>
 
-<div>
-	<%
-	subs = @student.submits.includes(:grade).group_by(&:pset_id)
-	%>
+<div class="tab-content" id="submit_tab_content">
+	<div class="tab-pane show active" id="submit-notes" role="tabpanel" aria-labelledby="submit-notes-tab">
+		<div>
+			<%
+			subs = @student.submits.includes(:grade).group_by(&:pset_id)
+			%>
 
-	<% @psets.each do |pset| %>
-	<%= grade_button(@student, pset, subs)%>
-	<% end %>
-</div>
-
-<div id="chart-1" style="height: 150px;"></div>
-<script>
-	new Chartkick.ColumnChart('chart-1', <%= JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count).html_safe %>)
-</script>
-
-<div id="timeline">
-	<%= render partial: 'hands_overview', object: @student.hands_overview %>
-	<%= render partial: "items/item", collection: @items %>
+			<% @psets.each do |pset| %>
+			<%= grade_button(@student, pset, subs)%>
+			<% end %>
+		</div>
+		<div id="timeline">
+			<%= render partial: "items/item", collection: @items %>
+		</div>
+	</div>
+	<div class="tab-pane show" id="submit-attendance" role="tabpanel" aria-labelledby="submit-attendance-tab">
+		<div id="chart-1" style="height: 150px;"></div>
+		<script>
+			new Chartkick.ColumnChart('chart-1', <%= JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count).html_safe %>)
+		</script>
+	</div>
+	<div class="tab-pane show" id="submit-hands" role="tabpanel" aria-labelledby="submit-hands-tab">
+		<%= render partial: 'hands_overview', object: @student.hands_overview %>
+	</div>
 </div>
 
 <% content_for :footer do %>

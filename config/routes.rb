@@ -169,6 +169,10 @@ Rails.application.routes.draw do
 		patch 'set_schedule'
 	end
 
+	resource :todo do
+		get 'watch_list'
+		get 'show'
+	end
 
 	#--ONBOARDING-------------------------------------------------------------------------------
 	# for new web site instances
