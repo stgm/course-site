@@ -1,90 +1,16 @@
 <div class="flex-fill">
 	<%= turbo_frame_tag :user_form do %>
-		<h1><%= @student.name %><%= link_to bootstrap_icon('pencil', width: 20), edit_user_path(@student) %></h1>
+		<%= render 'toolbar' %>
 
 		<% if @student.avatar.present? %>
 		<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 		<% end %>
 
 		<div>
-			<%= @student.login_id %><br>
-
-			<%= @student.mail %> <%= link_to bootstrap_icon('envelope', width: 20), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new" %><br>
+			<%= @student.login_id %> - <%= @student.mail %>
 		</div>
 	<% end %>
 
-	<div class="mt-3">
-		<% if @student.alarm %>
-			<%= button_to [@student, user: {alarm: :false}], method: :patch, class: "btn btn-sm btn-warning" do %>
-				<%= "#{bootstrap_icon 'bell', width: 16} Remove alarm".html_safe %>
-			<% end %>
-		<% else %>
-			<%= button_to [@student, user: {alarm: true}], method: :patch, class: "btn btn-sm btn-warning" do %>
-				<%= "#{bootstrap_icon 'bell', width: 16} Set alarm".html_safe %>
-			<% end %>
-		<% end %>
-
-		<div class="btn-group">
-			<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Group <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<% if @groups.any? %>
-				<% @groups.each do |group| %>
-				<%= button_to [@student, user: {group_id: group.id}], method: :patch, class: 'dropdown-item' + class_if(@student.group_id == group.id, 'disabled') do "Move to #{group.name}".html_safe end %>
-				<% end %>
-				<% elsif @student.schedule_name.present? %>
-				<%= link_to "No groups for #{@student.schedule_name}", '', class: 'dropdown-item disabled' %>
-				<% else %>
-				<%= link_to "No schedule selected", '', class: 'dropdown-item disabled' %>
-				<% end %>
-			</ul>
-		</div>
-
-		<div class="btn-group">
-			<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Schedule <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<% @schedules.each do |schedule| %>
-				<%= button_to [@student, user: {schedule_id: schedule.id}], method: :patch, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') do "Assign to #{schedule.name}".html_safe end %>
-				<% end %>
-			</ul>
-		</div>
-
-		<div class="btn-group">
-			<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Status <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<% if @student.active? %>
-				<%= button_to [@student, user: { active: false }], method: :put, class: 'dropdown-item' do 'Mark as inactive' end %>
-				<% else %>
-				<%= button_to [@student, user: { active: true }], method: :put, class: 'dropdown-item' do 'Mark as active' end %>
-				<% end %>
-				<% if @student.done? %>
-				<%= button_to [@student, user: { done: false }], method: :put, class: 'dropdown-item' do 'Mark as not done' end %>
-				<% else %>
-				<%= button_to [@student, user: { done: true }], method: :put, class: 'dropdown-item' do 'Mark as done' end %>
-				<% end %>
-
-				<% if current_user.admin? %>
-				<div class="dropdown-divider"></div>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, class: 'dropdown-item' do 'Make assistant' end %>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :head }), method: :patch, class: 'dropdown-item' do 'Make head' end %>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, class: 'dropdown-item' do 'Make admin' end %>
-				<%= button_to admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, class: 'dropdown-item' do 'Undo admin' end %>
-				<% if Grading::FinalGradeAssigner.available? %>
-					<div class="dropdown-divider"></div>
-					<%= button_to calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' do 'Calculate any final grade' end %>
-					<% Grading.final_grade_names.each do |grade_name| %>
-						<%= button_to calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' do "Calculate #{grade_name.humanize}" end %>
-					<% end %>
-				<% end %>
-				<% end %>
-			</ul>
-		</div>
-	</div>
 
 	<ul class="nav nav-tabs mt-3 mb-n3 border-bottom-0" id="submit_tab" role="tablist">
 		<li class="nav-item">
