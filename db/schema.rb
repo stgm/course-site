@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_24_085128) do
+ActiveRecord::Schema.define(version: 2021_01_19_081204) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -129,6 +129,9 @@ ActiveRecord::Schema.define(version: 2020_12_24_085128) do
     t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "done"
+    t.integer "assignee_id"
+    t.index ["assignee_id"], name: "index_notes_on_assignee_id"
     t.index ["author_id"], name: "index_notes_on_author_id"
     t.index ["student_id"], name: "index_notes_on_student_id"
   end
@@ -290,5 +293,6 @@ ActiveRecord::Schema.define(version: 2020_12_24_085128) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "notes", "users", column: "assignee_id"
   add_foreign_key "schedules", "pages"
 end

@@ -1,3 +1,12 @@
-<small><%= date_span_with_title(note.created_at)%></small>
-<%= simple_markdown(note.text) %>
-<small class="author"><%= note.author_name %></small>
+<%= turbo_frame_tag "note-#{note.id}" do %>
+<div class="float-right"><%= link_to bootstrap_icon('pen'), edit_note_path(note) %></div>
+<div class="d-flex">
+	<% if note.assignee.present? %>
+	<%= button_to [note, note: {done: !note.done} ], method: :patch, class: 'btn btn-link btn-lg' do bootstrap_icon(note.done && 'check-square' || 'square', width: 32, height: 32) end %>
+	<% end %>
+	<div class=" bg-light rounded-3 p-3">
+		<%= simple_markdown(note.text) %>
+		<div class="text-dark"><small class="author"><%= note.author_name %></small><br><small><%= date_span_with_title(note.created_at)%></small></div>
+	</div>
+</div>
+<% end %>

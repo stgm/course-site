@@ -138,7 +138,7 @@ Rails.application.routes.draw do
 		end
 
 		resources :alerts
-		resources :notes, only: [ :create ]
+		resources :notes, only: [ :show, :create, :edit, :update ]
 
 		resources :grades, only: [ :destroy ] do
 			member do
@@ -207,6 +207,6 @@ Rails.application.routes.draw do
 
 	# default route, for content pages (must be last!)
 	# ..with an exception for the /rails routes
-	get  "*slug" => "page#index", constraints: lambda { |e| Rails.logger.debug e.fullpath; !e.fullpath.start_with?('/rails/') }
+	get  "*slug" => "page#index", constraints: lambda { |e| !e.fullpath.start_with?('/rails/') }
 
 end
