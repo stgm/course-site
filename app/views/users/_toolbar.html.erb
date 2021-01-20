@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center">
+<div class="d-s align-items-center p-2 d-inline-flex" style="background: linear-gradient(60.98deg, rgba(105, 219, 181, 0.37) 0%, rgba(48, 199, 223, 0.66) 100%); border-radius:1rem">
 	<%= link_to bootstrap_icon('pencil', width: 20), edit_user_path(@student), class: 'px-2', style: 'display:inline-flex;' %>
 	<%= link_to bootstrap_icon('envelope', width: 20), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new", class: 'px-2', style: 'display:inline-flex;' %>
 	<% if @student.alarm %>
