@@ -16,7 +16,7 @@
 	<%= f.text_area :text, class: 'form-control', rows: 3, required:true %>
 </div>
 
-<div class="form-check pl-1 pb-1">
+<div class="pl-1 pb-1">
 	<%= f.label :assignee_id, 'Assigned to:', class: 'mr-1' %>
 	<%= f.select :assignee_id, User.staff.order(:name).pluck(:name, :id), include_blank: true %>
 </div>

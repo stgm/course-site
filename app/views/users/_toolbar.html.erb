@@ -10,6 +10,18 @@
 	<%= "#{bootstrap_icon 'bell', width: 20}".html_safe %>
 	<% end %>
 	<% end %>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-link p-0 px-2 d-inline-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<%= @student.schedule_name %></span>
+		</button>
+		<ul class="dropdown-menu">
+			<% @schedules.each do |schedule| %>
+			<%= button_to [@student, user: {schedule_id: schedule.id}], method: :patch, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') do "Assign to #{schedule.name}".html_safe end %>
+			<% end %>
+		</ul>
+	</div>
+
 	<div class="btn-group">
 		<button type="button" class="btn btn-link p-0 px-2 d-inline-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<%= "#{bootstrap_icon 'people', width: 20}".html_safe %></span>
@@ -23,17 +35,6 @@
 			<%= link_to "No groups for #{@student.schedule_name}", '', class: 'dropdown-item disabled' %>
 			<% else %>
 			<%= link_to "No schedule selected", '', class: 'dropdown-item disabled' %>
-			<% end %>
-		</ul>
-	</div>
-
-	<div class="btn-group">
-		<button type="button" class="btn btn-link p-0 px-2 d-inline-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			<%= "#{bootstrap_icon 'calendar-date', width: 20}".html_safe %></span>
-		</button>
-		<ul class="dropdown-menu">
-			<% @schedules.each do |schedule| %>
-			<%= button_to [@student, user: {schedule_id: schedule.id}], method: :patch, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') do "Assign to #{schedule.name}".html_safe end %>
 			<% end %>
 		</ul>
 	</div>
