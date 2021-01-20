@@ -1,16 +1,14 @@
 <div class="flex-fill">
 	<%= turbo_frame_tag :user_form do %>
-		<%= render 'toolbar' %>
 
-		<% if @student.avatar.present? %>
-		<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
-		<% end %>
-
-		<div>
-			<%= @student.login_id %> - <%= @student.mail %>
-		</div>
+	<% if @student.avatar.present? %>
+	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 	<% end %>
 
+	<h1 class="mb-3"><%= @student.name %> <small class="ml-3"><%= @student.login_id %> - <%= @student.mail %></small></h1>
+	<%= render 'toolbar' %>
+
+	<% end %>
 
 	<ul class="nav nav-tabs mt-3 mb-n3 border-bottom-0" id="submit_tab" role="tablist">
 		<li class="nav-item">
