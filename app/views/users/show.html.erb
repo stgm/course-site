@@ -4,7 +4,7 @@
 
 <div class="tab-content" id="submit_tab_content">
 	<div class="tab-pane show active" id="submit-notes" role="tabpanel" aria-labelledby="submit-notes-tab">
-		<div>
+		<div class="small pb-3">
 			<%
 			subs = @student.submits.includes(:grade).group_by(&:pset_id)
 			%>

@@ -5,7 +5,10 @@
 	<img src="<%= @student.avatar %>" style="max-width:70px; margin-right:1em;" class="pull-left">
 	<% end %>
 
-	<h1 class="mb-3"><%= @student.name %> <small class="ml-3"><%= @student.login_id %> - <%= @student.mail %></small></h1>
+	<h1 class="mb-1"><%= @student.name %> <small class="ml-3"><%= @student.login_id %> - <%= @student.mail %></small></h1>
+	<% if @student.status.present? %>
+	<p class="m-0"><%= @student.status %></p>
+	<% end %>
 	<%= render 'toolbar' %>
 
 	<% end %>
