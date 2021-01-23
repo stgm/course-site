@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "note-#{note.id}" do %>
 <% if note.log %>
-<div class=" small">
-	<%= note.text %> by
+<div class="small">
+	<strong><%= note.text %></strong> by
 	<%= note.author_name %> (<%= date_span_with_title(note.created_at)%>)
 </div>
 <% else %>
