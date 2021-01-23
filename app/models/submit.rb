@@ -22,7 +22,7 @@ class Submit < ApplicationRecord
 	serialize :submitted_files, Array  # deprecated for move to active_storage
 	serialize :file_contents, Hash     # deprecated for move to active_storage
 	serialize :form_contents
-	serialize :check_results, Hash
+	serialize :check_results, default: {}
 
 	# TODO only hide stuff that's not been autograded if autograding is actually enabled
 	scope :to_grade,  -> do

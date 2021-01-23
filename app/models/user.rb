@@ -73,7 +73,7 @@ class User < ApplicationRecord
 		# show all submits for psets that are _not_ a module
 		items += submits.includes({:pset => [:parent_pset, :child_psets]}).where("submitted_at is not null").where("child_psets_psets.id is null or parent_psets_psets.id is not null").references(:parent_pset, :child_psets).to_a
 		items += grades.includes(:pset, :submit, :grader).showable.to_a
-		items += hands.includes(:assist).to_a if with_private
+		# items += hands.includes(:assist).to_a if with_private
 		items += notes.includes(:author).to_a if with_private
 		items = items.sort { |a,b| b.sortable_date <=> a.sortable_date }
 	end

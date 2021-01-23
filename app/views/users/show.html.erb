@@ -25,6 +25,9 @@
 	</div>
 	<div class="tab-pane show" id="submit-hands" role="tabpanel" aria-labelledby="submit-hands-tab">
 		<%= render partial: 'hands_overview', object: @student.hands_overview %>
+		<div id="timeline">
+			<%= render partial: "items/item", collection: @student.hands %>
+		</div>
 	</div>
 </div>
 
