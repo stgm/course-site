@@ -86,7 +86,7 @@ module GradesHelper
 		case grade
 		when 10.0001..20
 			'btn-dark'
-		when -1, 6.5..10.0
+		when 6.5..10.0
 			'btn-success'
 		when 0..5.4
 			'btn-danger'
@@ -94,7 +94,7 @@ module GradesHelper
 			'btn-success'
 		when "--", "S"
 			'btn-light'
-		else
+		else # -1
 			'btn-warning'
 		end
 	end
