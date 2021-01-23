@@ -98,3 +98,28 @@ span.bubble {
 	background-color:#337BCF;
 }
 
+//****************************************************************************
+
+.grade-button
+{
+	padding: 0.15rem;
+	border: none;
+}
+
+.grade-button.btn-success
+{
+	color: var(--bs-light);
+	background-color: #40916c;
+}
+
+.grade-button.btn-danger
+{
+	color: var(--bs-dark);
+	background-color: #d8f3dc;
+}
+
+.grade-button.btn-warning
+{
+	color: var(--bs-dark);
+	background-color: #95d5b2;
+}
