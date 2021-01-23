@@ -2,9 +2,7 @@
 
 	<tr>
 		<th>Name</th>
-		<th><%= bootstrap_icon 'document-text' %></th>
-		<th><%= bootstrap_icon 'alert-triangle-fill' %></th>
-		<th>Status</th>
+		<th><%= bootstrap_icon 'exclamation-triangle-fill' %></th>
 		<th>Days</th>
 		<% if params[:totals] == 'true' %>
 		<th>Total</th>
@@ -21,7 +19,7 @@
 
 	<% users.each do |group, user_list|%>
 	<tr>
-		<td colspan="8">
+		<td colspan="6">
 			<% if group %>
 				<%= group.name %> &ndash;
 				<%= group.grader_names %>
@@ -44,32 +42,31 @@
 			<%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
 			<% if user.last_known_location %>
 			<span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
-			<% end %>
+			<% end %><br>
+			<%= best_in_place user, :status, as: :input %>
 		</td>
-		
-		<td></td>
-		
+
 		<td>
 			<% if user.alarm %>
-			<%= bootstrap_icon 'alert-triangle-fill' %>
+			<%= bootstrap_icon 'exclamation-triangle-fill' %>
 			<% end %>
 		</td>
-		
-		<td class="px-3"><%= best_in_place user, :status, as: :input %></td>
-		
+
+		<!-- <td class="px-3"></td> -->
+
 		<td class="bar"><%= user.attendance %></td>
-		
+
 		<% if params[:totals] == 'true' %>
 		<td><%= user.attendance_records.count %></td>
 		<% end %>
-		
+
 		<td><%= user.hands.successfully_helped.count %></td>
-		
+
 		<td><%= user.hands.successfully_helped.total_helping_time %></td>
-		
+
 		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
 
-		<% 
+		<%
 		subs = user.submits.group_by(&:pset_id)
 		%>
 
