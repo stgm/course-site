@@ -15,7 +15,7 @@
 
 	<% users.each do |group, user_list|%>
 		<tr>
-			<td colspan="<% params[:status] != 'registered' ? 2 : 1 %>">
+			<td colspan="<% params[:status] != 'registered' ? 3 : 2 %>">
 				<% if group %>
 					<%= group.name %> &ndash;
 					<%= group.grader_names %>
