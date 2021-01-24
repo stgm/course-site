@@ -5,18 +5,19 @@
 #grade-table
 {
 	font-size:small;
+	width:auto;
 }
 
-#grade-table td
+#grade-table td, #grade-table th
 {
 	vertical-align:middle;
-	padding:1px;
+	padding:2px;
 	white-space:nowrap;
 }
 
 #grade-table .btn-sm
 {
-	font-size:xx-small;
+	font-size:small;
 }
 
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
@@ -103,7 +104,7 @@ span.bubble {
 .grade-button
 {
 	line-height: 1.1;
-	font-size: x-small;
+	font-size: small;
 	padding: 0.2rem;
 	border: none;
 }
