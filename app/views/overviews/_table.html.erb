@@ -56,11 +56,12 @@
 					<% end %>
 
 					<%
-					subs = user.submits.group_by(&:pset_id)
+					subs = user.submits.includes(:grade).group_by(&:pset_id)
 					%>
 
 					<% @psets.each do |pset| %>
-					<td>
+					<% grade = subs && subs[pset.id] && subs[pset.id][0].grade %>
+					<td class="<%= grade_bg_type(grade.grade, grade.public?) if grade %>">
 						<%= grade_button(user, pset, subs)%>
 					</td>
 					<% end %>

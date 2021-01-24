@@ -52,7 +52,8 @@ module GradesHelper
 	def grade_button(user, pset, subs, change=true)
 		if subs[pset.id] && submit = subs[pset.id][0]
 			if grade = submit.grade
-				type = grade_button_type(grade.any_final_grade, grade.public?)
+				# type = grade_button_type(grade.any_final_grade, grade.public?)
+				type=''
 				link_to make_label(pset.name, grade.format), submit, class: "grade-button btn btn-sm #{type}", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			else
 				link_to make_label(pset.name, "S"), submit, class: "grade-button btn btn-sm btn-light", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
@@ -78,6 +79,7 @@ module GradesHelper
 	def make_label(name, grade)
 		retlabel = name[0,3]
 		retlabel += "<br>" + grade || 'S'
+		retlabel = grade || 'S'
 		return retlabel.html_safe
 	end
 
@@ -96,6 +98,24 @@ module GradesHelper
 			'btn-light'
 		else # -1
 			'btn-warning'
+		end
+	end
+
+	def grade_bg_type(grade, is_public)
+		return 'bg-light' if not is_public
+		case grade
+		when 10.0001..20
+			'bg-dark'
+		when 6.5..10.0
+			'bg-success'
+		when 0..5.4
+			'bg-danger'
+		when "P"
+			'bg-success'
+		when "--", "S"
+			'bg-light'
+		else # -1
+			'bg-warning'
 		end
 	end
 

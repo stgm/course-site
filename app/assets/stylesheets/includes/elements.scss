@@ -107,22 +107,23 @@ span.bubble {
 	font-size: 12px;
 	padding: 0.25rem;
 	border: none;
+	height:100%;
 }
 
-.grade-button.btn-success
+.grade-button.btn-success, #grade-table td.bg-success
 {
-	color: var(--bs-light);
-	background-color: #40916c;
+	color: var(--bs-light) !important;
+	background-color: #40916c !important;
 }
 
-.grade-button.btn-danger
+.grade-button.btn-danger, #grade-table td.bg-danger
 {
-	color: var(--bs-dark);
-	background-color: #d8f3dc;
+	color: var(--bs-dark) !important;
+	background-color: #d8f3dc !important;
 }
 
-.grade-button.btn-warning
+.grade-button.btn-warning, #grade-table td.bg-warning
 {
-	color: var(--bs-dark);
-	background-color: #95d5b2;
+	color: var(--bs-dark) !important;
+	background-color: #95d5b2 !important;
 }
