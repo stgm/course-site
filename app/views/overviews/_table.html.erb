@@ -61,7 +61,7 @@
 
 					<% @psets.each do |pset| %>
 					<% grade = subs && subs[pset.id] && subs[pset.id][0].grade %>
-					<td class="<%= grade_bg_type(grade.grade, grade.public?) if grade %>">
+					<td class="<%= grade_bg_type(grade.any_final_grade, grade.public?) if grade %>">
 						<%= grade_button(user, pset, subs)%>
 					</td>
 					<% end %>
