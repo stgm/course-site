@@ -4,7 +4,6 @@
 
 		<% if params[:status] != 'registered' %>
 		<th>Participation</th>
-		<th>Submit</th>
 		<% end %>
 
 		<% @psets.each do |pset| %>
@@ -16,7 +15,7 @@
 
 	<% users.each do |group, user_list|%>
 		<tr>
-			<td colspan="<% params[:status] != 'registered' ? 3 : 1 %>">
+			<td colspan="<% params[:status] != 'registered' ? 2 : 1 %>">
 				<% if group %>
 					<%= group.name %> &ndash;
 					<%= group.grader_names %>
@@ -48,12 +47,8 @@
 					<% if params[:status] != 'registered' %>
 					<td class="bar">
 						<%= user.attendance %><br>
-						<%= user.hands.successfully_helped.count %> times,
+						<%= user.hands.successfully_helped.count %> hands,
 						<%= user.hands.successfully_helped.total_helping_time %> mins
-					</td>
-
-					<td>
-						<%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %>
 					</td>
 					<% end %>
 
