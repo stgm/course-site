@@ -1,15 +1,12 @@
 <table id="grade-table" class="table table-sm table-striped table-responsive">
-
 	<tr>
 		<th>Name</th>
-		<th><%= bootstrap_icon 'exclamation-triangle-fill' %></th>
-		<th>Days</th>
-		<% if params[:totals] == 'true' %>
-		<th>Total</th>
+
+		<% if params[:status] != 'registered' %>
+		<th>Participation</th>
+		<th>Submit</th>
 		<% end %>
-		<th class="rotate">Spoken</th>
-		<th class="rotate">Mins</th>
-		<th>Latest</th>
+
 		<% @psets.each do |pset| %>
 		<th>
 			<%= link_to_if current_user.admin?, pset.name[0..2], publish_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, title: pset.name %>
@@ -18,66 +15,59 @@
 	</tr>
 
 	<% users.each do |group, user_list|%>
-	<tr>
-		<td colspan="6">
-			<% if group %>
-				<%= group.name %> &ndash;
-				<%= group.grader_names %>
-			<% else %>
-				Groupless
+		<tr>
+			<td colspan="<% params[:status] != 'registered' ? 3 : 1 %>">
+				<% if group %>
+					<%= group.name %> &ndash;
+					<%= group.grader_names %>
+				<% else %>
+					Groupless
+				<% end %>
+				(<%= user_list.size %>)
+			</td>
+			<% @psets.each do |pset| %>
+			<th>
+				<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
+			</th>
+			<% end if group %>
+		</tr>
+		<% user_list.each do |user| %>
+			<% cache [user, :head_overview] do %>
+				<tr <%= 'class=table-warning' if @show_inactive && user.stagnated? %>>
+					<td>
+						<%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
+						<% if user.alarm %>
+						<%= bootstrap_icon 'exclamation-triangle-fill', width: 12, height: 12 %>
+						<% end %>
+						<% if user.last_known_location %>
+						<span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
+						<% end %><br>
+						<%= best_in_place user, :status, as: :input %>
+					</td>
+
+					<% if params[:status] != 'registered' %>
+					<td class="bar">
+						<%= user.attendance %><br>
+						<%= user.hands.successfully_helped.count %> times,
+						<%= user.hands.successfully_helped.total_helping_time %> mins
+					</td>
+
+					<td>
+						<%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %>
+					</td>
+					<% end %>
+
+					<%
+					subs = user.submits.group_by(&:pset_id)
+					%>
+
+					<% @psets.each do |pset| %>
+					<td>
+						<%= grade_button(user, pset, subs)%>
+					</td>
+					<% end %>
+				</tr>
 			<% end %>
-			(<%= user_list.size %>)
-		</td>
-		<% @psets.each do |pset| %>
-		<th>
-			<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
-		</th>
-		<% end if group %>
-	</tr>
-
-	<% user_list.each do |user| %>
-	<% cache [user, :head_overview] do %>
-	<tr <%= 'class=table-warning' if @show_inactive && user.stagnated? %>>
-		<td>
-			<%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
-			<% if user.last_known_location %>
-			<span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
-			<% end %><br>
-			<%= best_in_place user, :status, as: :input %>
-		</td>
-
-		<td>
-			<% if user.alarm %>
-			<%= bootstrap_icon 'exclamation-triangle-fill' %>
-			<% end %>
-		</td>
-
-		<td class="bar"><%= user.attendance %></td>
-
-		<% if params[:totals] == 'true' %>
-		<td><%= user.attendance_records.count %></td>
 		<% end %>
-
-		<td><%= user.hands.successfully_helped.count %></td>
-
-		<td><%= user.hands.successfully_helped.total_helping_time %></td>
-
-		<td><%= time_ago_in_words(user.last_submitted_at) if user.last_submitted_at %></td>
-
-		<%
-		subs = user.submits.group_by(&:pset_id)
-		%>
-
-		<% @psets.each do |pset| %>
-		<td>
-			<%= grade_button(user, pset, subs)%>
-		</td>
-		<% end %>
-
-	</tr>
 	<% end %>
-	<% end%>
-
-	<% end %>
-
 </table>
