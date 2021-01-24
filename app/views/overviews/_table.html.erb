@@ -15,7 +15,7 @@
 
 	<% users.each do |group, user_list|%>
 		<tr>
-			<th colspan="<%= (params[:status] != 'registered') ? '2' : '1' %>">
+			<th class="py-2" colspan="<%= (params[:status] != 'registered') ? '2' : '1' %>">
 				<% if group %>
 					<%= group.name %> &ndash;
 					<%= group.grader_names %>
@@ -26,9 +26,12 @@
 			</th>
 			<% @psets.each do |pset| %>
 			<th>
-				<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, class: 'text-light' %>
+				<% if group %>
+				<%= link_to_if current_user.admin?, pset.name[0..2], reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, title: pset.name, classs: 'text-light' %>
+				<% else %>
+				<% end %>
 			</th>
-			<% end if group %>
+			<% end %>
 		</tr>
 		<% user_list.each do |user| %>
 			<% cache [user, :head_overview] do %>
