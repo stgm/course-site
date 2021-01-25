@@ -4,15 +4,6 @@
 
 <div class="tab-content" id="submit_tab_content">
 	<div class="tab-pane show active" id="submit-notes" role="tabpanel" aria-labelledby="submit-notes-tab">
-		<div class="small pb-3">
-			<%
-			subs = @student.submits.includes(:grade).group_by(&:pset_id)
-			%>
-
-			<% @psets.each do |pset| %>
-			<%= grade_button(@student, pset, subs)%>
-			<% end %>
-		</div>
 		<div id="timeline">
 			<%= render partial: "items/item", collection: @items %>
 		</div>

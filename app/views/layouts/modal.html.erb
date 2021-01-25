@@ -1,7 +1,7 @@
 <turbo-frame id="modal">
 <div class="modal-content">
 	<% if content_for?(:title) %>
-	<div id="modal-browser-header"  style="background: linear-gradient(60.98deg, rgba(105, 219, 181, 0.37) 0%, rgba(48, 199, 223, 0.66) 100%);">
+	<div id="modal-browser-header">
 		<%= yield(:title) %>
 		<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
 	</div>
