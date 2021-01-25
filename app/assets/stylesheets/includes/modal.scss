@@ -28,6 +28,16 @@
 			white-space: nowrap;
 		}
 	}
+	
+	.nav-tabs-container
+	{
+		margin-bottom: -1.2rem;
+		
+		.nav-tabs
+		{
+			margin-bottom: 0;
+		}
+	}
 
 	.btn-close
 	{
@@ -47,7 +57,14 @@
 {
 	@extend .modal-footer;
 
-	padding: 1rem !important;
+	background: linear-gradient(60.98deg, rgba(105, 219, 181, 0.37) 0%, rgba(48, 199, 223, 0.66) 100%);
+	border: 0;
+	padding: 0.5rem !important;
+	
+	textarea
+	{
+		border: 0;
+	}
 }
 
 #modal-browser
