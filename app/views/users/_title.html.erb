@@ -15,15 +15,6 @@
 	<p class="mt-2 mb-0"><%= @student.status %></p>
 	<% end %>
 	<% end %>
-	<div class="small py-2">
-		<%
-		subs = @student.submits.includes(:grade).group_by(&:pset_id)
-		%>
-
-		<% @psets.each do |pset| %>
-		<%= grade_button(@student, pset, subs)%>
-		<% end %>
-	</div>
 
 	<div class="nav-tabs-container d-flex mt-3 align-items-center">
 		<ul class="nav nav-tabs" id="submit_tab" role="tablist">

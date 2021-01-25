@@ -2,6 +2,17 @@
 <%= render 'title' %>
 <% end %>
 
+
+	<div class="small mx-n3 mb-3 bg-light p-1" style="margin-top:-1.7rem">
+		<%
+		subs = @student.submits.includes(:grade).group_by(&:pset_id)
+		%>
+
+		<% @psets.each do |pset| %>
+		<%= grade_button(@student, pset, subs)%>
+		<% end %>
+	</div>
+    
 <div class="tab-content" id="submit_tab_content">
 	<div class="tab-pane show active" id="submit-notes" role="tabpanel" aria-labelledby="submit-notes-tab">
 		<div id="timeline">

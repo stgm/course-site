@@ -285,6 +285,23 @@
 	flex: 1 1 auto !important; // fill
 	border-top-right-radius: 0.25rem !important;
 	border-bottom-right-radius: 0.25rem !important;
+	display: flex;
+	
+	.badge
+	{
+		// align to the right
+		margin-left: auto;
+		margin-right: 0.25rem;
+
+		background-color: #0966BB;
+		color: white;
+		font-weight: normal;
+		text-transform: uppercase;
+
+		// ensure correct vertical alignment
+		display: inline-flex;
+		align-items: center;
+	}
 }
 
 #sidebar-content > ul

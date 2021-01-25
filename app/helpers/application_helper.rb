@@ -136,7 +136,7 @@ module ApplicationHelper
 	# convert [markup] in a string into a bootstrap badge span
 	#
 	def insert_badge(description)
-		description.sub('[', '<span class="badge bg-secondary">').sub(']', '</span>').html_safe
+		description.sub('[', '<span class="badge">').sub(']', '</span>').html_safe
 	end
 	
 	def is_local_ip?
