@@ -53,7 +53,7 @@ private
 
 	def prune_untouched
 		# remove any subpage that was apparently not in the repo anymore
-		Subpage.where("id not in (?)", @touched_subpages).delete_all
+		Subpage.where("id not in (?)", @touched_subpages).destroy_all
 	end
 	
 	def prune_empty
@@ -61,7 +61,7 @@ private
 		to_delete = Page.includes(:subpages).where(:subpages => { :id => nil }).pluck(:id)
 		
 		# remove pages and disassociate any related psets
-		Page.where("id in (?)", to_delete).delete_all
+		Page.where("id in (?)", to_delete).destroy_all
 
 		# remove psetfiles for psets that have no parent page
 		# orphan_psets = Pset.includes(:page).where(:pages => { :id => nil })

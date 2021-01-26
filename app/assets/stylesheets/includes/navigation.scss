@@ -117,8 +117,11 @@
 		display: block;
 		position: fixed;
 		top: 0;
-		bottom: 0;
-		
+		height:100vh;
+
+		// prevents backdrop-filter blocking out text when scrolling
+		transform: translate3d(0,0,0);
+
 		-webkit-box-flex: 0;
 		flex: 0 0 33.3333333333%;
 		max-width: 33.3333333333%;
