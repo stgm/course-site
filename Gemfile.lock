@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/stgm/turbo-rails.git
-  revision: d8ce2543a3746e24abdae2adc145685c9de6601e
+  revision: 799a32fb1bf74bdc876bff90767d2f2548a71d86
   branch: main
   specs:
     turbo-rails (0.5.4)
