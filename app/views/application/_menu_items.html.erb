@@ -18,9 +18,11 @@
 <% end%>
 <% end %>
 
+<% if Settings.hands_allow %>
 <%= menu_group 'Hands' do %>
-	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
+	<%= menu_link 'Hands', hands_path, icon: 'people-fill' %>
 	<%= menu_link 'Hands statistics...', hands_statistics_path, icon: 'hand', target: 'modal' %>
+<% end %>
 <% end %>
 
 <%= menu_group 'Course' do %>
