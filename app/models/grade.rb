@@ -142,6 +142,7 @@ class Grade < ApplicationRecord
 	def format
 		grading_config = config
 		current_grade = any_final_grade
+		return '--' if current_grade.blank?
 		case grading_config && grading_config['type'] || 'float'
 		when 'integer'
 			return current_grade.to_i.to_s
