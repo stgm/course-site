@@ -62,9 +62,21 @@ section dl
 	margin:1em 2em;
 }
 
+section > ol, section > ul
+{
+	padding-left: 0;
+	
+}
+
 section ul li, section ol li, section ol a, section ul a, section details
 {
-	margin-bottom:0.25em;
+	margin-bottom:0.5rem;
+}
+
+section ul li > ul
+{
+	padding-left: 1.2rem;
+	margin-top: 0.5rem;
 }
 
 section ul p, section ol p /* all paragraphs IN all lists get this */
@@ -79,18 +91,24 @@ section ul p + p, section ol p + p
 
 section blockquote
 {
-	border:0;
-	border-left:0.3rem solid #ffc107;
-	padding:0.5em 1em;
-	margin-top:2em;
-	margin-bottom:2em;
-	font-size:inherit;
+	margin: 2rem -1.5rem;
+	border: 0;
+	padding: 1em 1.5rem;
+	font-size: inherit;
+	background-image: linear-gradient(120deg, rgba(132,250,176, 0.3) 0%, #8fd3f4 100%);
 }
 
 section blockquote p
 {
-	margin-top:0;
-	margin-bottom:0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+section li > blockquote
+{
+	margin-left: 0;
+	margin-top: .75rem;
+	margin-bottom: .75rem;
 }
 
 section hr
@@ -149,20 +167,25 @@ section code, section pre, section kbd
 
 section kbd
 {
-	color:black;
+	color: #836F79;
 	font-size:90%;
 }
 
-section p code
+section p > code, section li > code
 {
-	color:black;
+	color: #836F79;
+	background-color:#F5F1F1;
+	padding:0.25rem;
+	
 }
 
 section pre
 {
-	padding:0em 2em;
-	scolor:#dd2c22;
-	margin:1.5em 0;
+	color: #6D5C66;
+	padding:1rem 1.5rem;
+	margin:1.5em -1.5rem;
+//	border-radius:0.25rem;
+	background-color:#F5F1F1;
 }
 
 section pre code
