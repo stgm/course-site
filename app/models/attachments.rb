@@ -72,6 +72,10 @@ class Attachments
 					zio.put_next_entry(filename)
 					if file.class == String
 						zio.write file
+					elsif file.class == ActiveStorage::Attachment
+						file.open do |f|
+							zio.write file.read
+						end
 					else
 						file.rewind
 						zio.write file.read

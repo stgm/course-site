@@ -93,7 +93,7 @@ class Submit < ApplicationRecord
 		result << ['Form', form_contents] if form_contents.present?   # form answers
 		result += file_contents.to_a                                  # files from old submit system
 		result += files_for_module                                    # any files specified in module
-		result += files.map{ |f| [f.filename.sanitized+'.', f] }      # files from new submit system
+		result += files.map{ |f| [f.filename.sanitized, f] }      # files from new submit system
 	end
 
 	# retrieve all submitted file contents for all submits from a particular module (for this user)
