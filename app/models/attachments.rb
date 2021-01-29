@@ -74,7 +74,7 @@ class Attachments
 						zio.write file
 					elsif file.class == ActiveStorage::Attachment
 						file.open do |f|
-							zio.write file.read
+							zio.write f.read
 						end
 					else
 						file.rewind
