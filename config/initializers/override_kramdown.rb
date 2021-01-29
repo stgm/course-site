@@ -31,11 +31,18 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		if @options[:cdn_prefix]
 			el.attr['href'] = cdn_url(el.attr['href'])
 		end
+
 		# any hrefs not starting with proto: or / or # are relative and 
 		# will be prefixed
-		if el.attr['href'] && el.attr['href'] !~ /(^[\w]*:|^\/|^\#)/
+		if el.attr['href'] && el.attr['href'] !~ /(^[\w]+:|^\/|^\#)/
 			el.attr['href'] = File.join(@options[:asset_prefix], el.attr['href'])
 		end
+
+		# ensure that external links are opened in a new tab or window
+		if el.attr['href'] && el.attr['href'] =~ /(^https?:)/
+			el.attr['target'] = '_blank'
+		end
+
 		super
 	end
 	
