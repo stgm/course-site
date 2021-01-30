@@ -9,23 +9,26 @@
 <% end %>
 
 <% if @page.pset %>
-	<% if !current_user.can_submit? %>
-	<section id="submit-content" class="d-block">
-		<div class="alert alert-danger" role="alert">
-			You can't submit because you are not logged in.
-		</div>
-	</section>
-	<% elsif !@allow_submit %>
-	<section id="submit-content" class="d-block">
-		<div class="alert alert-danger" role="alert">
-			You can't submit this problem, because a previous submission is currently being graded or has already been graded.
-		</div>
-	</section>
-	<% elsif @page.pset %>
-	<section id="submit-content">
-		<%= render 'submit_tab' %>
-	</section>
+<section id="submit-content" class="py-4 my-4">
+	<% if @submitted_at %>
+	<div id="submitted_pset" class="alert alert-success">
+		<%= t :you_submitted_ago, time: time_ago_in_words(@submitted_at) %>
+		<%= link_to t(:see_submissions_page), submissions_path %>
+	</div>
 	<% end %>
+
+	<% if !current_user.can_submit? %>
+	<div class="alert alert-danger" role="alert">
+		You can't submit because you are not logged in.
+	</div>
+	<% elsif !@allow_submit %>
+	<div class="alert alert-danger" role="alert">
+		You can't submit this problem, because a previous submission is currently being graded or has already been graded.
+	</div>
+	<% elsif @page.pset %>
+	<%= render 'submit_tab' %>
+	<% end %>
+</section>
 <% end %>
 
 <% end %>

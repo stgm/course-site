@@ -2,7 +2,7 @@
 
 body
 {
-	background-color: #fffdfc;
+	background-color: #fdf9f5;
 }
 
 .navbar-brand
@@ -17,7 +17,7 @@ body
 
 summary
 {
-	color:theme-color("primary");
+	color:var(--bs-primary);
 }
 
 #sidebar
@@ -52,7 +52,8 @@ summary
 	a:hover
 	{
 		color:#235A9E;
-		background: linear-gradient(50deg, rgba(193, 206, 211, 0.2) 0%, rgba(193, 206, 211, 0.5) 100%);
+//		background: linear-gradient(50deg, rgba(193, 206, 211, 0.2) 0%, rgba(193, 206, 211, 0.5) 100%);
+background-color: #e5e1dd;
 		text-decoration:none;
 	}
 }
@@ -116,5 +117,59 @@ summary
 {
 	@extend .shadow-lg;
 	@extend .border-light;
+}
+
+#toolbar
+{
+	background-color: #EFF2F6;
+}
+
+.grading-panes
+{
+	.grading-submits
+	{
+		background-color: #F9FCFF;
+	}
+	.grading-form
+	{
+		background-color: white;
+	}
+	.grading-files
+	{
+		border-left: 1px solid #eee;
+		
+		#files
+		{
+			background-color:#F4F4F4;
+		}
+	}
+}
+
+#timeline
+{
+	.card-body
+	{
+		display: inline-block;
+		background-color: white;
+		border-radius: 0.3rem;
+		box-shadow: 0px 4px 6px -1px rgba(0,0,0,0.1) , 0px 2px 4px -1px rgba(0,0,0,0.06);
+		margin-bottom: 2rem;
+	}
+}
+
+
+section pre .comment
+{
+	color:#363;
+}
+
+.red
+{
+	color: red;
+}
+
+.green
+{
+	color: green;
 }
 

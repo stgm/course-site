@@ -1,10 +1,5 @@
 // CSS for the timeline feature
 
-#timeline
-{
-	//    margin-bottom:2em
-}
-
 #timeline ul#links
 {
 	padding-left:0;
@@ -28,41 +23,9 @@
 	margin-bottom:1rem;
 }
 
-.timeline-item
-{
-	border:none;
-//    border-bottom:1px solid #FAFAFA;
-//    padding-bottom:1rem;
-	margin-bottom:1rem;
-	border-color:#f3f3f3;
-	
-}
-
-.timeline-item:last-child, #timeline .card:last-child
-{
-	border-bottom:0;
-	margin-bottom:0;
-}
-
 #timeline .card *:last-child
 {
 	margin-bottom:0;
-}
-
-@media (max-width: 768px)
-{
-	#timeline .card
-	{
-//		border:none;
-		//		box-shadow:;
-	}
-}
-
-
-#timeline .card-body, #timeline .list-group-item
-{
-//	padding-left:2rem;
-//	padding-right:2rem;
 }
 
 #timeline .list-group-item

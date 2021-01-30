@@ -441,7 +441,8 @@
 
 #toolbar
 {
-	background-color: $light;
+	@extend .align-items-center;
+
 	padding: 0.5rem;
 	display: flex;
 	flex-direction: row;

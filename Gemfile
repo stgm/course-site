@@ -58,7 +58,7 @@ gem 'bootstrap', '~> 5.0.0.alpha3'
 gem 'coderay'
 gem 'groupdate'
 gem 'chartkick'
-gem 'turbo-rails', git: 'https://github.com/stgm/turbo-rails.git', branch: 'main'
+gem 'turbo-rails'
 
 # for sending submits to the autocheck server
 gem 'rest-client'

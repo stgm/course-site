@@ -1,11 +1,3 @@
-GIT
-  remote: https://github.com/stgm/turbo-rails.git
-  revision: 799a32fb1bf74bdc876bff90767d2f2548a71d86
-  branch: main
-  specs:
-    turbo-rails (0.5.4)
-      rails (>= 6.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -254,6 +246,8 @@ GEM
       rack (>= 1, < 3)
     thor (1.0.1)
     tilt (2.0.10)
+    turbo-rails (0.5.9)
+      rails (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
@@ -295,7 +289,7 @@ DEPENDENCIES
   sqlite3
   sucker_punch
   thin
-  turbo-rails!
+  turbo-rails
 
 BUNDLED WITH
    1.17.2

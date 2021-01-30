@@ -3,7 +3,7 @@
 <% end %>
 
 <% if @page.pset.form || @page.pset.files %>
-<table class="table table-bosrdered">
+<table class="table p-0 m-0 border-0">
 
 	<% if @page.pset.form %>
 	<tr>
@@ -15,7 +15,7 @@
 
 	<% @page.pset.files.each do |header, files| %>
 	<tr>
-		<th colspan="2"><%= header.humanize %></th>
+		<th colspan="2" class="fs-5"><%= header.humanize %></th>
 	</tr>
 	<% files.each do |file| %>
 	<tr>
@@ -29,7 +29,7 @@
 <% end %>
 
 <% if @page.pset.url %>
-<p>Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
+<p class="mt-4">Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
 <% end %>
 
-<p class="mb-0 text-right"><%= submit_tag t(:submit), class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>
+<p class="mt-4 mb-0 text-right"><%= submit_tag t(:submit), class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>
