@@ -20,7 +20,7 @@
 	<% files.each do |file| %>
 	<tr>
 		<td class="align-middle"><%= file %></td>
-		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file), required: header == 'required', class: 'form-control' %></td>
+		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file), required: header == 'required', class: 'form-control form-control-sm' %></td>
 	</tr>
 	<% end   if files %>
 	<% end %>

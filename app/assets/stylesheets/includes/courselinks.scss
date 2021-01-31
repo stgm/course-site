@@ -1,0 +1,65 @@
+#sidebar #course-links
+{
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0.35rem 0.35rem;
+}
+
+#sidebar #course-links a
+{
+	display: flex;
+	padding: 0.35rem;
+	border-radius: 0.25rem;
+	flex: 1 0 0;
+	min-width: 0;
+	flex-direction: column;
+	align-items: center;
+	overflow: hidden;
+
+	svg
+	{
+		flex-shrink: 0;
+	}
+
+	small
+	{
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+#sidebar #course-links div:first-child
+{
+	margin-left: auto;
+}
+
+#sidebar #course-links div:last-child
+{
+	margin-right: auto;
+}
+
+@media (max-width: 767.98px)
+{
+	#sidebar #course-links
+	{
+		display: block;
+		overflow-x: scroll;
+	}
+
+	#sidebar #course-links a
+	{
+		padding: 0.35rem 0.45rem;
+		display: inline-block;
+		flex-direction: row;
+
+		svg
+		{
+			margin-right: 0.35rem;
+		}
+	}
+}

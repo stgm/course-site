@@ -11,15 +11,8 @@ body.page #content, body.home #content, body.submissions #content
 
 section#submit-content
 {
-	@extend .mx-n3;
-	@extend .mx-sm-n4;
-	@extend .mx-lg-n5;
-	@extend .mx-xl-n4;
-
-	@extend .px-3;
-	@extend .px-sm-4;
-	@extend .px-lg-5;
-	@extend .px-xl-4;
+	@extend .mx-n4;
+	@extend .px-4;
 }
 
 section, .sectionbody .content
@@ -31,18 +24,12 @@ section, .sectionbody .content
 
 	> .extend, > blockquote, > pre, > .embed, > .videoblock
 	{
-		@extend .mx-n3;
-		@extend .mx-sm-n4;
-		@extend .mx-lg-n5;
-		@extend .mx-xl-n4;
+		@extend .mx-n4;
 	}
-	
+
 	> blockquote, > pre
 	{
-		@extend .px-3;
-		@extend .px-sm-4;
-		@extend .px-lg-5;
-		@extend .px-xl-4;
+		@extend .px-4;
 	}
 
 	/*
@@ -57,11 +44,6 @@ section, .sectionbody .content
 	dl
 	{
 		margin:1em 2em;
-	}
-
-	ul li, ol li, ol a, ul a, details
-	{
-		margin-bottom: 0.35rem;
 	}
 
 	ul li > ul
@@ -102,8 +84,8 @@ section, .sectionbody .content
 
 	blockquote
 	{
-		margin-top: 1rem;
-		margin-bottom: 1rem;
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
 		border: 0;
 		padding: 1em 1.5rem;
 		font-size: inherit;
@@ -248,22 +230,24 @@ section, .sectionbody .content
 
 	table td, table th
 	{
-		padding: 0.5rem 0.5rem;
+		padding: 0.2rem 0.5rem;
 	}
 
 	/*
 	 * VIDEO
 	 */
 
-	.embed
+	.embed, .extend
 	{
-		margin-top:2em;
-		margin-bottom:2em;
+		margin-top:2rem;
+		margin-bottom:2rem;
 	}
 
 	div.embed-float
 	{
-		width: 40%; float:right; margin-left: 2em;
+		width: 40%;
+		float:right;
+		margin-left: 2em;
 	}
 
 	div.embed-float .embed

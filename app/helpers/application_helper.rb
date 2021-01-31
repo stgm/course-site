@@ -203,7 +203,7 @@ module ApplicationHelper
 	end
 	
 	def icon_with_label(icon, label)
-		"#{icon}<br><small>#{label}</small>".html_safe
+		"#{icon}<small>#{label}</small>".html_safe
 	end
 	
 end
