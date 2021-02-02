@@ -17,6 +17,11 @@ section#submit-content
 
 section, .sectionbody .content
 {
+	details
+	{
+		margin-bottom: 0.35rem;
+	}
+	
 	blockquote, pre
 	{
 		@extend .px-3;
@@ -36,6 +41,11 @@ section, .sectionbody .content
 	 * LISTS
 	 */
 
+	ol li, ul li
+	{
+		margin-bottom: 0.35rem;
+	}
+
 	dd
 	{
 		margin: 0.5em 1em;
@@ -43,13 +53,13 @@ section, .sectionbody .content
 
 	dl
 	{
-		margin:1em 2em;
+		margin: 1em 2em;
 	}
 
 	ul li > ul
 	{
 		padding-left: 1.2rem;
-		margin-top: 0.5rem;
+		margin-top: 0.35rem;
 	}
 
 	ul p, ol p
