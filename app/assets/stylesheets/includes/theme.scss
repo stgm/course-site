@@ -22,6 +22,8 @@ summary
 
 #sidebar
 {
+	border-color: #F9EAE6;
+	
 	#sidebar-tools
 	{
 		-webkit-backdrop-filter: brightness(102%);
@@ -46,14 +48,13 @@ summary
 
 	.nav-link-item
 	{
-		background-color: #fffdfc,
+		background-color: #fffdfc;
 	}
 
 	a:hover
 	{
 		color:#235A9E;
-//		background: linear-gradient(50deg, rgba(193, 206, 211, 0.2) 0%, rgba(193, 206, 211, 0.5) 100%);
-background-color: #e5e1dd;
+		background-color: #e5e1dd;
 		text-decoration:none;
 	}
 }
@@ -61,14 +62,6 @@ background-color: #e5e1dd;
 #row-content .bg-light
 {
 	background-color:#f1efee !important;
-}
-
-@media (max-width: 767.98px)
-{
-	.brand
-	{
-		border-bottom:1px solid #D3D7DA;
-	}
 }
 
 #icon-nav .nav-link

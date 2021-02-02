@@ -70,6 +70,11 @@
 
 @media (max-width: 767.98px)
 {
+	#sidebar
+	{
+		border-bottom: 1px solid;
+	}
+
 	.navbar-brand
 	{
 		padding:0.1rem;
@@ -78,7 +83,6 @@
 	#sidebar-content
 	{
 		padding:0.5rem;
-		padding-top:0;
 	}
 
 	#schedule-navbar-items
@@ -101,6 +105,7 @@
 		position: fixed;
 		top: 0;
 		height:100vh;
+		border-right: 1px solid;
 
 		// prevents backdrop-filter blocking out text when scrolling
 		transform: translate3d(0,0,0);
@@ -233,15 +238,11 @@
 
 #sidebar .nav-head, .materials-nav .nav-head
 {
+	padding-left: 0.15rem;
+	padding-right: 0.15rem;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	font-size: 14px;
-}
-
-#sidebar .nav-head, #sidebar ul a, .materials-nav .nav-head, .materials-nav ul a
-{
-	padding-top:0.35rem;
-	padding-bottom:0.35rem;
 }
 
 #sidebar .nav-head, .materials-nav .nav-head
@@ -274,7 +275,7 @@
 		margin-left: auto;
 		margin-right: 0.25rem;
 
-		background-color: #0966BB;
+		background-color: #B1D8FF;
 		color: white;
 		font-weight: normal;
 		text-transform: uppercase;
@@ -282,6 +283,14 @@
 		// ensure correct vertical alignment
 		display: inline-flex;
 		align-items: center;
+	}
+}
+
+#sidebar-content .nav-link:hover, .materials-nav .nav-link:hover
+{
+	.badge
+	{
+		background-color: #0966BB;
 	}
 }
 
