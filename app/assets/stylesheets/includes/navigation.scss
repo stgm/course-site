@@ -99,12 +99,22 @@
 
 @media (min-width: 768px)
 {
+	#sidebar-content
+	{
+		padding:0.75rem;
+		padding-top:0.5rem;
+		
+	}
+}
+
+@media (min-width: 992px)
+{
 	#sidebar
 	{
 		display: block;
 		position: fixed;
 		top: 0;
-		height:100vh;
+		height:100%;
 		border-right: 1px solid;
 
 		// prevents backdrop-filter blocking out text when scrolling

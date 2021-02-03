@@ -3,7 +3,7 @@ class SubmissionsController < ApplicationController
 	before_action :authorize
 	before_action :load_pset, :validate_attachment_size, only: [ :create ]
 
-	layout 'sidebar'
+	layout 'home'
 
 	# Presents an overview of all submissions for the current user.
 	def index

@@ -1,13 +1,13 @@
 <div id="sidebar-tools" class="navbar navbar-expand flex-shrink-0" style="z-index:1000">
 	<div class="container-fluid px-2">
-		<button class="navbar-toggler border-0 px-0 d-block d-md-none mr-2" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler border-0 px-0 d-block d-lg-none mr-2" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon text-primary" style="vertical-align:-4px;"><%= bootstrap_icon 'list', width:32, height:32 %></span>
 		</button>
 		<%= render 'brand' %>
 		<% if !authenticated? %>
-		<li class="navbar-nav d-block d-md-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbo: false })%></li>
+		<li class="navbar-nav d-block d-lg-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbo: false })%></li>
 		<% else #if logged_in? %>
-		<div class="navbar-nav d-flex d-md-none ">
+		<div class="navbar-nav d-flex d-lg-none ">
 			<%= render 'menu' %>
 		</div>
 		<% end %>

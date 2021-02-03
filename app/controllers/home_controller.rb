@@ -6,7 +6,7 @@ class HomeController < ApplicationController
 	before_action :validate_profile
 	before_action :register_attendance
 	
-	layout 'sidebar'
+	layout 'home'
 
 	def homepage
 		if User.admin.none?
@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 		raise ActionController::RoutingError.new('Not Found') if !@page
 		@subpages = @page.subpages
 		@title = t(:syllabus)
-		render "page/index"
+		render "page/index", layout: 'sidebar'
 	end
 
 end

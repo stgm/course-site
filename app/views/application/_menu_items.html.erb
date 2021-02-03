@@ -13,7 +13,7 @@
 <% if current_user.accessible_schedules.many? %>
 <%= menu_group 'Your schedules' do %>
 	<% current_user.accessible_schedules.all.each do |s| %>
-	<%= menu_link s.name, profile_set_schedule_path(schedule_id: s.id), method: :patch, icon: (s==current_schedule ? 'check' : nil) %>
+	<%= menu_link s.name, profile_set_schedule_path(schedule_id: s.id), method: :patch, icon: (s==current_schedule ? 'check' : nil), data: { turbo: "false" } %>
 	<% end %>
 <% end%>
 <% end %>
