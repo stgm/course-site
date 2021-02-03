@@ -1,4 +1,4 @@
-#sidebar #course-links
+#course-links
 {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
@@ -8,7 +8,7 @@
 	padding: 0.35rem 0.35rem;
 }
 
-#sidebar #course-links a
+#course-links a
 {
 	display: flex;
 	padding: 0.35rem;
@@ -33,25 +33,25 @@
 	}
 }
 
-#sidebar #course-links div:first-child
+#course-links div:first-child
 {
 	margin-left: auto;
 }
 
-#sidebar #course-links div:last-child
+#course-links div:last-child
 {
 	margin-right: auto;
 }
 
 @media (max-width: 991.98px)
 {
-	#sidebar #course-links
+	#course-links
 	{
 		display: block;
 		overflow-x: scroll;
 	}
 
-	#sidebar #course-links a
+	#course-links a
 	{
 		padding: 0.35rem 0.45rem;
 		display: inline-block;
