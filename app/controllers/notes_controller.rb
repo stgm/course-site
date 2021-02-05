@@ -3,60 +3,37 @@ class NotesController < ApplicationController
 	before_action :authorize
 	before_action :require_senior
 
-	# before_action :set_note, only: [:show, :edit, :update, :destroy]
-
-	# # GET /notes
-	# def index
-	# 	@notes = Note.all
-	# end
-
-	# # GET /notes/1
-	# def show
-	# 	if request.xhr?
-	# 		render :popup, layout: false
-	# 	end
-	# end
-	
-	# # GET /notes/new
-	# def new
-	# 	@note = Note.new
-	# end
-
-	# # GET /notes/1/edit
-	# def edit
-	# end
-
-	# POST /notes
-	def create
-		@note = Note.create(note_params.merge({ author_id: current_user.id }))
-		
-		redirect_js location: user_path(@note.student)
+	def show
+		set_note
+		# render 'items/note'
 	end
 
-	# # PATCH/PUT /notes/1
-	# def update
-	# 	if @note.update(note_params)
-	# 		redirect_to @note, notice: 'Note was successfully updated.'
-	# 	else
-	# 		render :edit
-	# 	end
-	# end
+	def create
+		@note = Note.create(note_params.merge({ author_id: current_user.id }))
+		redirect_to user_path(@note.student)
+	end
 
-	# # DELETE /notes/1
-	# def destroy
-	# 	@note.destroy
-	# 	redirect_to notes_path, notice: 'Note was successfully destroyed.'
-	# end
+	def edit
+		set_note
+	end
 
-	# private
-	# # Use callbacks to share common setup or constraints between actions.
-	# def set_note
-	# 	@note = Note.find(params[:id])
-	# end
+	def update
+		set_note
+		if @note.update(note_params)
+			redirect_to @note
+		else
+			render :edit
+		end
+	end
 
-	# Only allow a trusted parameter "white list" through.
+	private
+
+	def set_note
+		@note = Note.find(params[:id])
+	end
+
 	def note_params
-		params.require(:note).permit(:text, :author_id, :student_id)
+		params.require(:note).permit(:text, :author_id, :student_id, :done, :assignee_id)
 	end
 
 end

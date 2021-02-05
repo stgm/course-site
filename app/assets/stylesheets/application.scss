@@ -21,7 +21,9 @@ $color3: #F2D8CE;
 $color4: #F2785C;
 $color5: #F25D50;
 
-$background-color: #fffdfc;
+$background-color: #faf7f3;
+
+$enable-transitions: false;
 
 $min-contrast-ratio: 3;
 $enable-negative-margins: true;
@@ -31,11 +33,13 @@ $link-decoration: none;
 
 @import "includes/framework";
 @import "includes/navigation";
+@import "includes/courselinks";
 @import "includes/content";
 @import "includes/elements";
 @import "includes/timeline";
 @import "includes/modal";
 @import "includes/grading";
+@import "includes/toc";
 
 @import "includes/theme";
 @import "includes/fonts";

@@ -1,4 +1,6 @@
+<% content_for :title do %>
 <h1>Close assignment</h1>
+<% end %>
 
 <%= form_tag close_and_mail_late_schedule_submits_path(schedule_id: params[:schedule_id]), :method => :post do %>
 

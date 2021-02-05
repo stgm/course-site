@@ -20,7 +20,7 @@ function startAutosave()
 		})
 	}
 
-	document.addEventListener('turbolinks:before-cache', function () {
+	document.addEventListener('turbo:before-cache', function () {
 		document.querySelectorAll('[autofocus]').forEach(e => e.removeAttribute('autofocus'));
 	})
 }

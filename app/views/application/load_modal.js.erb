@@ -1,8 +1,0 @@
-modalBrowser.show();
-<% if @header %>
-document.getElementById('modal-browser-header').innerHTML = "<%= j render 'modal_title', header: @header %>";
-<% elsif @header_partial %>
-document.getElementById('modal-browser-header').innerHTML = "<%= j(render @header_partial) %>";
-<% end %>
-document.getElementById('modal-browser-body').innerHTML = "<%= j(render @partial) %>";
-<%= @js %>

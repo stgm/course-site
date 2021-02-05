@@ -1,12 +1,82 @@
-#modal-browser h6
+.modal-content
 {
-	font-size:110%;
-	padding-bottom:0.5em;
-	border-bottom:1px solid gray;
-	margin-bottom:1em;
+	border:0;
+	border-radius:0.5rem;
+}
+
+#modal-browser-header
+{
+	@extend .modal-header;
+	@extend .align-items-start;
+
+	border: 0;
+	border-radius: 0.5rem 0.5rem 0 0;
+	background: linear-gradient(60.98deg, rgba(105, 219, 181, 0.37) 0%, rgba(48, 199, 223, 0.66) 100%);
+	padding: 1.2rem;
+
+	.nav-tabs
+	{
+		border-bottom: 0;
+		overflow-x: scroll;
+		flex-wrap: nowrap;
+		margin-bottom: -1.2rem;
+
+		.nav-link
+		{
+			border: 0;
+			margin-bottom: 0;
+			white-space: nowrap;
+		}
+	}
+	
+	.nav-tabs-container
+	{
+		margin-bottom: -1.2rem;
+		
+		.nav-tabs
+		{
+			margin-bottom: 0;
+		}
+	}
+
+	.btn-close
+	{
+		margin: 0;
+		padding: 0;
+	}
 }
 
 #modal-browser-body
 {
-	padding:1.5rem;
+	@extend .modal-body;
+	
+	padding: 1.7rem 1.2rem !important;
+}
+
+#modal-browser-footer
+{
+	@extend .modal-footer;
+
+//	background: linear-gradient(60.98deg, rgba(105, 219, 181, 0.37) 0%, rgba(48, 199, 223, 0.66) 100%);
+//	border: 0;
+	padding: 0.5rem !important;
+	
+	textarea
+	{
+//		border: 0;
+	}
+}
+
+#modal-browser
+{
+	h1
+	{
+		font-size:130%;
+		margin-bottom:0;
+	}
+
+	.modal-body
+	{
+		padding:1.5rem;
+	}
 }

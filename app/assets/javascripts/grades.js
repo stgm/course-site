@@ -37,4 +37,4 @@ function activate_grade_buttons()
 }
 
 document.addEventListener('ready', activate_grade_buttons);
-document.addEventListener('turbolinks:load', activate_grade_buttons);
+document.addEventListener('turbo:load', activate_grade_buttons);

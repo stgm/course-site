@@ -13,9 +13,10 @@
 				admin_course_update_schedule_span_path(id: mod.id),
 				form: { html: { class: 'ml-3' } } ) do end %>
 			<% end %>
-			<%= link_to mod.name, profile_set_path(module: mod.id), 
-			    method: :post, remote: true,
-			    class: "dropdown-item #{'unavailable' if !mod.public?}" %>
+			<%= button_to mod.name, profile_set_module_path(module: mod.id), 
+				method: :post, remote: true,
+				class: "w-100 dropdown-item #{'unavailable' if !mod.public?}",
+				form: { data: {'turbo-frame': 'sidebar-frame'}, class: 'w-100' } %>
 		</li>
 		<% end %>
 	</ul>

@@ -25,7 +25,7 @@ end
 gem 'quiet_safari', group: :development
 
 # slug generator
-gem "friendly_id"
+gem 'friendly_id'
 
 # git integration
 gem 'git'
@@ -55,10 +55,10 @@ gem 'caxlsx_rails'
 
 # front-end
 gem 'bootstrap', '~> 5.0.0.alpha3'
-gem 'turbolinks'
 gem 'coderay'
 gem 'groupdate'
 gem 'chartkick'
+gem 'turbo-rails'
 
 # for sending submits to the autocheck server
 gem 'rest-client'

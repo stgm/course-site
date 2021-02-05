@@ -1,4 +1,4 @@
-
+<turbo-frame id="sidebar-frame" target="_top">
 
 	<% if Course.modules.any? %>
 	<ul class="nav">
@@ -16,15 +16,15 @@
 	<% if current_module %>
 	<ul class="nav">
 		<li>
-			<div class="nav-head mx-1 text-dark d-flex justify-content-between">
+			<div class="nav-head text-dark d-flex justify-content-between">
 				<div id="schedule_name" class="<%= 'unavailable' if !current_module.public? %>">
 					<%= render 'schedule_dropdown' %>
 				</div>
 				<% if current_schedule.self_service %>
-				<span class="float-rsight mr-n1 spr-1">
-					<%= link_to bootstrap_icon('chevron-left', class: 'rounded').html_safe, prev_module.present? ? profile_prev_path : '', method: :post, remote: true, id: 'schedule_prev_button', disabled:!prev_module.present? %>
-					<%= link_to bootstrap_icon('chevron-right', class: 'rounded').html_safe, next_module.present? ? profile_next_path : '', method: :post, remote: true, id: 'schedule_next_button', disabled:!next_module.present? %>
-				</span>
+				<div class="ml-auto mr-n1 spr-1">
+					<%= button_to prev_module.present? ? profile_prev_path : '', method: :post, id: 'schedule_prev_button', disabled:!prev_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do bootstrap_icon('chevron-left', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
+					<%= button_to next_module.present? ? profile_next_path : '', method: :post, id: 'schedule_next_button', disabled:!next_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do bootstrap_icon('chevron-right', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
+				</div>
 				<% end %>
 			</div>
 		</li>
@@ -61,3 +61,5 @@
 		</li>
 	</ul>
 	<% end %>
+
+</turbo-frame>

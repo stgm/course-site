@@ -4,7 +4,7 @@
 
 var persistentScrollsPositions = []
 
-document.addEventListener('turbolinks:before-visit', () => {
+document.addEventListener('turbo:before-visit', () => {
 
 	elementsWithPersistentScrolls = document.querySelectorAll('.restore-scroll-position')
 	persistentScrollsPositions = []
@@ -17,7 +17,7 @@ document.addEventListener('turbolinks:before-visit', () => {
 
 })
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
 
 	elementsWithPersistentScrolls = document.querySelectorAll('.restore-scroll-position')
 

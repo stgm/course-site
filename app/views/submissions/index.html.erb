@@ -1,0 +1,21 @@
+<% if @overview_config.present? %>
+
+<div id="timeline" class="row flex-xl-row-reverse">
+	<div class="col-12 col-xl-6">
+		<%= render partial: "grades_overview" %>
+	</div>
+	<div class="col-xl-6">
+		<%= render partial: "items/item", collection: @items %>
+	</div>
+</div>
+
+<% else %>
+
+<div id="timeline" class="row flex-xl-row-reverse">
+	<div class="col">
+		<%= render partial: "items/item", collection: @items %>
+	</div>
+</div>
+
+<% end %>
+

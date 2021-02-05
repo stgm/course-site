@@ -22,7 +22,7 @@ class Submit < ApplicationRecord
 	serialize :submitted_files, Array  # deprecated for move to active_storage
 	serialize :file_contents, Hash     # deprecated for move to active_storage
 	serialize :form_contents
-	serialize :check_results, Hash
+	serialize :check_results, default: {}
 
 	# TODO only hide stuff that's not been autograded if autograding is actually enabled
 	scope :to_grade,  -> do
@@ -93,7 +93,7 @@ class Submit < ApplicationRecord
 		result << ['Form', form_contents] if form_contents.present?   # form answers
 		result += file_contents.to_a                                  # files from old submit system
 		result += files_for_module                                    # any files specified in module
-		result += files.map{ |f| [f.filename.sanitized+'.', f] }      # files from new submit system
+		result += files.map{ |f| [f.filename.sanitized, f] }      # files from new submit system
 	end
 
 	# retrieve all submitted file contents for all submits from a particular module (for this user)
@@ -120,7 +120,7 @@ class Submit < ApplicationRecord
 	end
 
 	def recheck(host)
-		zip = Attachments.new(self.file_contents).zipped
+		zip = Attachments.new(self.all_files.to_h).zipped
 		token = AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
 		self.update(check_token: token)
 	end

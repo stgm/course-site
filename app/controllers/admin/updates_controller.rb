@@ -8,7 +8,6 @@ class Admin::UpdatesController < ApplicationController
 	#
 	def create
 		errors = Course::Loader.new.run
-		logger.debug errors.join('<br>').inspect
 		if errors.size > 0
 			redirect_back fallback_location: '/', alert: errors.join('<br>')
 		else

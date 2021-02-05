@@ -58,6 +58,7 @@ class OverviewsController < ApplicationController
 		case params[:status]
 		when 'active'
 			@users = @users.active
+			@show_inactive = true
 		when 'registered'
 			@users = @users.registered
 		when 'inactive'

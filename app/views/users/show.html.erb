@@ -1,0 +1,52 @@
+<% content_for :title do %>
+<%= render 'title' %>
+<% end %>
+
+
+	<div class="small mx-n3 mb-3 bg-light p-1" style="margin-top:-1.7rem">
+		<%
+		subs = @student.submits.includes(:grade).group_by(&:pset_id)
+		%>
+
+		<% @psets.each do |pset| %>
+		<%= grade_button(@student, pset, subs)%>
+		<% end %>
+	</div>
+    
+<div class="tab-content" id="submit_tab_content">
+	<div class="tab-pane show active" id="submit-notes" role="tabpanel" aria-labelledby="submit-notes-tab">
+		<div id="timeline">
+			<%= render partial: "items/item", collection: @items %>
+		</div>
+	</div>
+	<div class="tab-pane show" id="submit-attendance" role="tabpanel" aria-labelledby="submit-attendance-tab">
+		<div id="chart-1" style="height: 150px;"></div>
+		<script>
+			new Chartkick.ColumnChart('chart-1', <%= JSON(@student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count).html_safe %>)
+		</script>
+	</div>
+	<div class="tab-pane show" id="submit-hands" role="tabpanel" aria-labelledby="submit-hands-tab">
+		<%= render partial: 'hands_overview', object: @student.hands_overview %>
+		<div id="timeline">
+			<%= render partial: "items/item", collection: @student.hands %>
+		</div>
+	</div>
+</div>
+
+<% content_for :footer do %>
+	<%= form_with model: @note, html: { class: 'w-100' } do |f| %>
+		<%= f.hidden_field :student_id %>
+		<div class="d-flex flex-row">
+			<div class="flex-fill">
+				<%= f.text_area :text, size: "x2", class: "form-control flex-fill", required: true %>
+			</div>
+			<div class="ml-3">
+				<%= f.submit "Add note", class: "btn btn-primary" %>
+			</div>
+		</div>
+		<div class="small mt-2">
+			<%= f.label :assignee_id, 'Assigned to:', class: 'mr-1' %>
+			<%= f.select :assignee_id, User.staff.order(:name).pluck(:name, :id), include_blank: true %>
+		</div>
+	<% end %>
+<% end %>

@@ -1,6 +1,0 @@
-<p>Paste all data lines from a .xls datanose user export.</p>
-
-<%= form_with url:propose_schedule_import_groups_path(schedule_id: params[:schedule_id]), method: :post do %>
-<textarea name="paste" class="form-control"><%= @paste %></textarea>
-<p><input type="submit" class="btn btn-primary"></p>
-<% end %>

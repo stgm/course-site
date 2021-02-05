@@ -70,13 +70,13 @@ module ApplicationHelper
 					items << content_tag(:li, links_to_ul(content), class: "nav-item")
 				elsif content.is_a?(String)
 					# a String means that we have a link with title
-					content = toggle_progress_form(content) + link_to(insert_badge(item), content, remote: false, class: "nav-link", target: content =~ /^http/i ? '_blank' : nil)
+					content = toggle_progress_form(content) + link_to(insert_badge(item), content, class: "nav-link", target: content =~ /^http/i ? '_blank' : nil)
 					items << content_tag(:li, content, class: "nav-link-item")
 				elsif content.is_a?(Array)
 					items << array_of_links_to_ul(content)
 				elsif content.nil?
 					# a nil means a caption without a link
-					items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
+					items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
 				end
 			end
 		elsif list.is_a?(Array)
@@ -106,10 +106,10 @@ module ApplicationHelper
 				# items << content_tag(:li,   , class: "nav p-0", class: "nav-item")
 			elsif content.is_a?(String)
 				# a String means that we have a link with title
-				items << content_tag(:li, link_to(insert_badge(item), "/#{content}", remote: false, class: "nav-link"), class: "nav-item")
+				items << content_tag(:li, link_to(insert_badge(item), "/#{content}", class: "nav-link"), class: "nav-item")
 			elsif content.nil?
 				# a nil means a caption without a link
-				items << content_tag(:li, link_to(insert_badge(item), '#', remote: false, class:"nav-link disabled"), class: "nav-item")
+				items << content_tag(:li, link_to(insert_badge(item), '#', class:"nav-link disabled"), class: "nav-item")
 			end
 				
 		end
@@ -164,9 +164,16 @@ module ApplicationHelper
 	end
 	
 
-	def menu_link(title, path, icon: '', context: :menu, condition: true, **options)
+	def menu_link(title, path, icon: '', context: :menu, condition: true, target: nil, **options)
 		return nil if !condition
-		link_to bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
+		options.merge! data: { 'turbo-frame' => target } if target
+		if options[:method].present?
+			button_to path, options.merge(class: 'dropdown-item') do
+				bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title
+			end
+		else
+			link_to bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
+		end
 	end
 
 	def icon(name, **options)
@@ -196,7 +203,7 @@ module ApplicationHelper
 	end
 	
 	def icon_with_label(icon, label)
-		"#{icon}<br><small>#{label}</small>".html_safe
+		"#{icon}<small>#{label}</small>".html_safe
 	end
 	
 end

@@ -1,10 +1,5 @@
 // CSS for the timeline feature
 
-#timeline
-{
-	//    margin-bottom:2em
-}
-
 #timeline ul#links
 {
 	padding-left:0;
@@ -28,41 +23,9 @@
 	margin-bottom:1rem;
 }
 
-.timeline-item
-{
-	border:none;
-	border-bottom:1px solid #FAFAFA;
-	padding-bottom:1rem;
-	margin-bottom:1rem;
-	border-color:#f3f3f3;
-	
-}
-
-.timeline-item:last-child, #timeline .card:last-child
-{
-	border-bottom:0;
-	margin-bottom:0;
-}
-
 #timeline .card *:last-child
 {
 	margin-bottom:0;
-}
-
-@media (max-width: 768px)
-{
-	#timeline .card
-	{
-//		border:none;
-		//		box-shadow:;
-	}
-}
-
-
-#timeline .card-body, #timeline .list-group-item
-{
-//	padding-left:2rem;
-//	padding-right:2rem;
 }
 
 #timeline .list-group-item
@@ -97,21 +60,16 @@
 
 #timeline .card small
 {
+	display: block;
 	color:#49A1F6;
 	text-transform: uppercase;
 	font-size:x-small;
+	margin-bottom:0.25rem;
 }
 
 #timeline .card small.author
 {
 	color:#8b9894;
-}
-
-// ensure that if we use columns in the timeline, and those collapse,
-// that there is still space between the card boxes
-#timeline div:not(:last-child) .card:last-child
-{
-	margin-bottom:30px;
 }
 
 // only horizontal th elements get centered, as well as td elements

@@ -18,6 +18,7 @@
 	<%= javascript_include_tag 'https://polyfill.io/v3/polyfill.min.js?features=es6' %>
 	<%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', { async: true, id: 'MathJax-script' } %>
 	<% end %>
+	<%= turbo_include_tags %>
 
 	<link rel="icon" type="image/png" href="/images/minor.png" />
 
@@ -26,7 +27,7 @@
 
 <body class="<%= @body_class || controller.controller_name %>">
 	<%= content_for?(:body) ? yield(:body) : yield %>
-	<%= render partial: "modal_browser" if current_user.senior? || ['overviews', 'home'].include?(controller.controller_name) %>
+	<%= render partial: "modal_browser" if current_user.senior? || ['overviews', 'home', 'submissions'].include?(controller.controller_name) %>
 </body>
 
 <% end %>

@@ -1,0 +1,31 @@
+.room-for-toc #content #markdown-toc
+{
+	margin-top:3em;
+	width:12rem;
+	float:right;
+	margin-right:-15rem;
+	padding:1rem;
+	padding-top:7rem;
+	border-left:1px solid #64A2C0;
+	position:sticky;
+	position:-webkit-sticky;
+	top:1em;
+	list-style-type: none;
+	
+	section ul a, section ol a
+	{
+		display:block;
+	}
+}
+
+@media (max-width: 992.98px)
+{
+	.room-for-toc #content #markdown-toc
+	{
+		float:none;
+		position:static;
+		padding:0;
+		border-left:none;
+		width:auto;
+	}
+}
