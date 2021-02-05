@@ -1,7 +1,7 @@
 Course website
 ==============
 
-This site serves courses that reside in a git repo consisting of mostly Markdown-formatted text files and any other source files that should be served to the students. Ruby 1.9 with Rails 4.0 is required.
+This site serves courses that reside in a git repo consisting of mostly Markdown-formatted text files and any other source files that should be served to the students. The code is targeted towards Rails 6.1.
 
 How to install
 --------------
@@ -10,7 +10,7 @@ Clone the application:
 
 	git clone git@github.com:uva/course-site.git
 	bundle install
-	rake db:schema:load
+	rails db:schema:load
 
 You can now claim the site by authenticating, and then load the initial content by specifiying a git repository URL that can be cloned.
 
@@ -22,7 +22,7 @@ Alternatively, you can clone the course contents yourself, into the `public/cour
 On the source format
 --------------------
 
-* Have a look at https://github.com/uva/uva-prog-physics for information on
+* Have a look at https://github.com/minprog/platforms for information on
   how to organize your course repository. At the very least, you need a
   `course.yml` and a `info` directory containing subpages for the homepage.
 
@@ -44,7 +44,7 @@ Formatting your pages
 
 * All pages are to be formatted with [Markdown] and the [Kramdown] extensions.
 
-* You can use [AsciiMath] or LaTeX if enclosed within pairs of dollar signs (`$sin(x)$$`, or `$sin(x)$` for inlined math). Check the [AsciiMath syntax].
+* You can use [AsciiMath] or LaTeX if enclosed within pairs of dollar signs (`$$sin(x)$$`, or `$sin(x)$` for inlined math). Check the [AsciiMath syntax].
 
 * Add a table of contents to a page using:
 
@@ -54,16 +54,8 @@ Formatting your pages
     This single bullet item is then replaced with a full table of contents of
     level 1 and 2 headings.
 
-* Add a content delivery network server by adding a link to it in
-  `course.yml`:
-
-		cdn: http://cdn.mprog.nl/uva-prog-physics
-
-    Then, any link starting with `cdn://` will be rewritten to start with
-    that exact cdn url.
-
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
-[Kramdown]: http://kramdown.rubyforge.org/syntax.html
+[Kramdown]: https://kramdown.gettalong.org/syntax.html
 [AsciiMath]: http://www.wjagray.co.uk/maths/ASCIIMathTutorial.html
 [AsciiMath syntax]: http://www.intmath.com/help/send-math-email-syntax.php
 
