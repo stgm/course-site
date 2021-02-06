@@ -49,14 +49,14 @@ module GradesHelper
 		return grade.to_s
 	end
 
-	def grade_button(user, pset, subs, change=true)
+	def grade_button(user, pset, subs, change=true, include_name=false)
 		if subs[pset.id] && submit = subs[pset.id][0]
 			if grade = submit.grade
 				# type = grade_button_type(grade.any_final_grade, grade.public?)
 				type=''
-				link_to make_label(pset.name, grade.format), submit, class: "grade-button btn btn-sm #{type}", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
+				link_to make_label(pset.name, grade.format, include_name), submit, class: "grade-button btn btn-sm #{type}", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			else
-				link_to make_label(pset.name, "S"), submit, class: "grade-button btn btn-sm btn-light", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
+				link_to make_label(pset.name, "S", include_name), submit, class: "grade-button btn btn-sm btn-light", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			end
 		else
 			if current_user.senior?
@@ -66,20 +66,23 @@ module GradesHelper
 					class: "grade-button btn btn-sm btn-light auto-hide",
 					data: { trigger: 'modal', confirm: 'Would you like to enter a grade for this unsubmitted pset?' },
 					form: { class: 'd-inline', data: { 'turbo-frame' => 'modal' } } do
-						make_label(pset.name, "--")
+						make_label(pset.name, "--", include_name)
 					end
 			else
 				tag.div(class: "grade-button btn btn-sm #{type}") do
-					make_label(pset.name, "--")
+					make_label(pset.name, "--", include_name)
 				end
 			end
 		end
 	end
 
-	def make_label(name, grade)
-		retlabel = name[0,3]
-		retlabel += "<br>" + grade || 'S'
-		retlabel = grade || 'S'
+	def make_label(name, grade, include_name)
+		if include_name
+			retlabel = name[0,3]
+			retlabel += "<br>" + grade || 'S'
+		else
+			retlabel = grade || 'S'
+		end
 		return retlabel.html_safe
 	end
 

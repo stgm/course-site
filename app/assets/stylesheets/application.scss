@@ -10,8 +10,14 @@
  *
  */
 
+$background-color: #fdf9f5;
+
 $primary: #0087d9;
+$secondary: #71B1D9;
+
 $danger: #ff4136;
+
+$light: #B6CBD9;
 $dark: adjust-color(#0074d9, $lightness: -10%);
 $darker-light: #f1efef;
 
@@ -20,8 +26,6 @@ $color2: #262626;
 $color3: #F2D8CE;
 $color4: #F2785C;
 $color5: #F25D50;
-
-$background-color: #faf7f3;
 
 $enable-transitions: false;
 

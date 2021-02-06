@@ -2,20 +2,27 @@
 <h1>Announcements</h1>
 <% end %>
 
-<% @alerts.each do |alert| %>
-<div class="card mb-3">
-	<div class="card-body">
-		<h5 class="card-title">
-			<%= alert.title %>
-			<% if alert.published %><span class="badge bg-secondary">Published</span><% end %>
-		</h5>
-		<p class="card-text"><%= alert.body %></p>
-		<%= link_to 'Edit', edit_alert_path(alert), class: 'btn btn-light' %>
-		<%= button_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-light' %>
+<% if @alerts.any? %>
+	<% @alerts.each do |alert| %>
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">
+				<%= alert.title %>
+				<% if alert.published %><span class="badge bg-secondary">Published</span><% end %>
+			</h5>
+			<p class="card-text"><%= alert.body %></p>
+			<%= link_to 'Edit', edit_alert_path(alert), class: 'btn btn-outline-primary' %>
+			<%= button_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-primary' %>
+		</div>
 	</div>
-</div>
+	<% end %>
+<% else %>
+	<div class="d-flex justify-content-center align-items-center flex-column text-light" style="min-height: 300px;">
+		<%= bootstrap_icon 'bell', height: 100, width: 100 %>
+		<div class="mt-4 fs-3 ">No announcements</div>
+	</div>
 <% end %>
 
 <% content_for :footer do %>
-<%= link_to 'New announcement', new_alert_path, class: 'btn btn-light ml-auto' %>
+<%= link_to 'New announcement', new_alert_path, class: 'btn btn-outline-primary ml-auto' %>
 <% end %>

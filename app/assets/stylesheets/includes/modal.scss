@@ -2,6 +2,15 @@
 {
 	border:0;
 	border-radius:0.5rem;
+	background-color: $background-color;
+}
+
+@media (min-width: 768px)
+{
+	.modal-content
+	{
+		min-height: 400px;
+	}
 }
 
 #modal-browser-header
@@ -27,6 +36,11 @@
 			margin-bottom: 0;
 			white-space: nowrap;
 		}
+		
+		.nav-link.active
+		{
+			background-color: $background-color;
+		}
 	}
 	
 	.nav-tabs-container
@@ -41,30 +55,57 @@
 
 	.btn-close
 	{
+		display: none;
 		margin: 0;
 		padding: 0;
 	}
 }
 
+@media (max-width: 767.98px)
+{
+	.btn-close
+	{
+		display: block;
+	}
+}
+
+
 #modal-browser-body
 {
 	@extend .modal-body;
 	
-	padding: 1.7rem 1.2rem !important;
+	background-color: $background-color;
+
+	> .card
+	{
+		margin-bottom: 1rem;
+		margin-left: -1rem;
+		margin-right: -1rem;
+		padding-left: 0.25rem;
+		padding-right: 0.25rem;
+		border: 0;
+	}
+	
+	> .card:first-child
+	{
+		margin-top: 0;
+	}
+
+	> .card:last-child
+	{
+		margin-bottom: 0;
+	}
 }
 
 #modal-browser-footer
 {
 	@extend .modal-footer;
 
-//	background: linear-gradient(60.98deg, rgba(105, 219, 181, 0.37) 0%, rgba(48, 199, 223, 0.66) 100%);
-//	border: 0;
+	border-top: 0;
 	padding: 0.5rem !important;
-	
-	textarea
-	{
-//		border: 0;
-	}
+
+	-webkit-backdrop-filter: brightness(102%);
+	backdrop-filter: brightness(102%);
 }
 
 #modal-browser
@@ -73,10 +114,5 @@
 	{
 		font-size:130%;
 		margin-bottom:0;
-	}
-
-	.modal-body
-	{
-		padding:1.5rem;
 	}
 }

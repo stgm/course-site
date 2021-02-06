@@ -82,7 +82,6 @@ GEM
     caxlsx_rails (0.6.2)
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
-    chartkick (3.4.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.7)
     crass (1.0.6)
@@ -267,7 +266,6 @@ DEPENDENCIES
   bootstrap (~> 5.0.0.alpha3)
   bugsnag
   caxlsx_rails
-  chartkick
   coderay
   dropbox_api
   friendly_id

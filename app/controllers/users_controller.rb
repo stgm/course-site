@@ -24,6 +24,8 @@ class UsersController < ApplicationController
 		@note = Note.new(student_id: @student.id)
 		@items = @student.items(true)
 		@psets = Pset.ordered_by_grading
+		
+		@attend = @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
 	end
 
 	def edit

@@ -13,8 +13,6 @@
 //= require rails-ujs
 //= require popper
 //= require bootstrap
-//= require Chart.bundle
-//= require chartkick
 //
 // Note: the below requires only the files in the javascripts directory, and skips stuff in the
 // javascripts/optional directory.

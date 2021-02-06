@@ -89,10 +89,10 @@
 <div class="mt-3 d-flex">
 	<div class="btn-group w-100">
 		<% if current_user.admin? || @grade.unfinished? %>
-		<%= submit_tag 'Save', class: 'btn btn-secondary flex-fill', form: 'grade-form' %>
+		<%= submit_tag 'Save', class: 'btn btn-primary flex-fill', form: 'grade-form' %>
 		<% end %>
 		<% if current_user.senior? %>
-		<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Admin<span class="visually-hidden">Toggle Actions Dropdown</span>
 		</button>
 		<div class="dropdown-menu">

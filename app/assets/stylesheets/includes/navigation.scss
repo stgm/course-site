@@ -285,7 +285,7 @@
 		margin-left: auto;
 		margin-right: 0.25rem;
 
-		background-color: #B1D8FF;
+		background-color: $secondary;
 		color: white;
 		font-weight: normal;
 		text-transform: uppercase;
@@ -293,14 +293,6 @@
 		// ensure correct vertical alignment
 		display: inline-flex;
 		align-items: center;
-	}
-}
-
-#sidebar-content .nav-link:hover, .materials-nav .nav-link:hover
-{
-	.badge
-	{
-		background-color: #0966BB;
 	}
 }
 
@@ -393,11 +385,12 @@
 
 #icon-nav .nav-item > a
 {
-	background-color: $light;
+	@extend .btn;
+	@extend .btn-outline-secondary;
+	background-color: white;
 	border-radius: 50rem !important;
 	display: block;
-	padding-bottom: 0.25rem !important;
-	padding-top: 0.25rem !important;
+	padding: 0.25rem 0.5rem !important;
 }
 
 #icon-nav .dropdown-item .fa

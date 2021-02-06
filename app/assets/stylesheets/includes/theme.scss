@@ -2,7 +2,7 @@
 
 body
 {
-	background-color: #fdf9f5;
+	background-color: $background-color;
 }
 
 .navbar-brand
@@ -103,13 +103,13 @@ summary
 .dropdown-menu
 {
 	@extend .shadow;
-	@extend .border-light;
+	@extend .border-0;
 }
 
 .modal-content
 {
 	@extend .shadow-lg;
-	@extend .border-light;
+	@extend .border-0;
 }
 
 #toolbar
