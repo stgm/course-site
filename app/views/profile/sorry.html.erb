@@ -9,7 +9,7 @@
 			<p>You can't currently register for this course. Contact your teacher if you think this is in error.</p>
 		</div>
 		<div class="modal-footer">
-			<%= link_to 'Logout', session_logout_path, class: 'btn btn-primary' %>
+			<%= link_to 'Logout', session_logout_path, class: 'btn btn-primary', data: { turbo: "false" } %>
 		</div>
 	</div>
 </div>

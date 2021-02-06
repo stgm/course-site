@@ -36,7 +36,7 @@
 			
 		</div>
 		<div class="modal-footer">
-			<%= link_to 'Cancel', session_logout_path, class: 'btn' %>
+			<%= link_to 'Cancel', session_logout_path, class: 'btn', data: { turbo: "false" } %>
 			<%= submit_tag 'Create Profile', class:'btn btn-primary' %>
 		</div>
 	</div>
