@@ -56,7 +56,7 @@
 					<% end %>
 
 					<%
-					subs = user.submits.includes(:grade).group_by(&:pset_id)
+					subs = user.submits.group_by(&:pset_id)
 					%>
 
 					<% @psets.each do |pset| %>
