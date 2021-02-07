@@ -41,7 +41,7 @@ class Grade < ApplicationRecord
 	after_save do |grade|
 		# set user to done if sufficient final grade has been entered
 		if published? && sufficient? && Current.user.admin? && pset.is_final_grade?
-			user.update! done: true
+			user.status_done!
 		end
 	end
 

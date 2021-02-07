@@ -65,7 +65,7 @@ class GradingController < ApplicationController
 	def finish
 		# allow grader to mark as finished so the grades may be published later
 		# TODO some of the constraints can be moved to model
-		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).unfinished.where(users: { active: true }).where(grader: current_user)
+		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).unfinished.where(users: { status: 'active' }).where(grader: current_user)
 		@grades.update(status: Grade.statuses[:finished])#, updated_at: DateTime.now)
 		redirect_back fallback_location: '/'
 	end

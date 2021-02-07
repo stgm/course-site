@@ -18,7 +18,7 @@ class Group < ApplicationRecord
 		graders.map{|g|g.name.split.first}.join ", "
 	end
 
-	has_many :submits, -> { where(users: {active: true}) } , through: :users
-	has_many :grades, -> { where(users: {active: true}) }, through: :submits
+	has_many :submits, -> { where(users: {status: 'active'}) } , through: :users
+	has_many :grades, -> { where(users: {status: 'active'}) }, through: :submits
 
 end

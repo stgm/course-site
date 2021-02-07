@@ -25,9 +25,7 @@ class User < ApplicationRecord
 	has_secure_token
 
 	enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
-
 	enum status: [:active, :registered, :inactive, :done], _default: 'registered', _prefix: 'status'
-	scope :not_inactive,    -> { where(active: true) }
 
 	scope :staff, -> { where(role: [:admin, :assistant, :head]) }
 	scope :not_staff, -> { where.not(role: [:admin, :assistant, :head]) }

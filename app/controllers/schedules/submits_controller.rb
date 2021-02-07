@@ -15,7 +15,7 @@ class Schedules::SubmitsController < Schedules::ApplicationController
 	def notify_missing
 		load_schedule
 		@pset = Pset.find(params[:pset_id])
-		@users = @schedule.users.not_staff.not_inactive.who_did_not_submit(@pset)
+		@users = @schedule.users.not_staff.where(status: [:active, :registered]).who_did_not_submit(@pset)
 		@users.each do |u|
 			NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver_later
 		end
