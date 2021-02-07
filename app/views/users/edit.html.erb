@@ -2,9 +2,9 @@
 	<%= turbo_frame_tag :user_form do %>
 		<%= form_with model: @student do |f| %>
 		<p>
-			<%= f.text_field :name,   placeholder: 'Full name', autocomplete: 'off' %>
-			<%= f.text_field :mail,   placeholder: 'E-mail',    autocomplete: 'off' %><br>
-			<%= f.text_field :status, placeholder: 'Status',    autocomplete: 'off' %>
+			<%= f.text_field :name,               placeholder: 'Full name', autocomplete: 'off' %>
+			<%= f.text_field :mail,               placeholder: 'E-mail',    autocomplete: 'off' %><br>
+			<%= f.text_field :status_description, placeholder: 'Status',    autocomplete: 'off' %>
 		</p>
 		<p>
 			<%= f.label :avatar %>:

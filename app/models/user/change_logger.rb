@@ -8,15 +8,19 @@ module User::ChangeLogger
 	private
 
 	def log_changes
-		changes = self.previous_changes.slice('active', 'done', 'status', 'schedule_id', 'alarm', 'group_id', 'role')
+		changes = self.previous_changes.slice(
+			'status',
+			'status_description',
+			'schedule_id',
+			'alarm',
+			'group_id', 
+			'role')
 
 		changes.each do |k,new_value|
 			text = case k
-				when 'active'
-					new_value[1] ? "Marked as active" : "Marked as inactive"
-				when 'done'
-					new_value[1] ? "Marked as done" : "Marked as not done"
 				when 'status'
+					"Marked as #{new_value[1]}"
+				when 'status_description'
 					new_value[1].present? ? "Status set to '#{new_value[1]}'" : "Status cleared"
 				when 'schedule_id'
 					"Schedule changed to #{self.schedule_name}"

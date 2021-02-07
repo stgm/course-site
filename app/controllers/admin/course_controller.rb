@@ -12,7 +12,7 @@ class Admin::CourseController < ApplicationController
 
 		@geregistreerd = User.student.count
 		@gestart = User.student.joins(:submits).uniq.count
-		@gestopt = User.student.inactive.joins(:submits).uniq.count
+		@gestopt = User.student.status_inactive.joins(:submits).uniq.count
 		@bezig = @gestart - @gestopt
 		final = Pset.find_by_name('final')
 		@gehaald = User.student.joins(:grades => :submit).where('submits.pset_id = ?', final).uniq.count

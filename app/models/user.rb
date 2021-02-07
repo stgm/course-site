@@ -6,6 +6,7 @@ class User < ApplicationRecord
 	# normal users
 	belongs_to :group, optional: true
 	delegate :name, to: :group, prefix: true, allow_nil: true
+	scope :groupless,  -> { where(group_id: nil) }
 
 	# permissions for heads/tas
 	has_and_belongs_to_many :groups
@@ -25,18 +26,17 @@ class User < ApplicationRecord
 
 	enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
 
+	enum status: [:active, :registered, :inactive, :done], _default: 'registered', _prefix: 'status'
+	scope :not_inactive,    -> { where(active: true) }
+
+	scope :staff, -> { where(role: [:admin, :assistant, :head]) }
+	scope :not_staff, -> { where.not(role: [:admin, :assistant, :head]) }
+
 	scope :watching, -> { where(alarm: true) }
 
-	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
-	scope :not_staff, -> { where.not(id: staff) }
-
-	scope :active, -> { where('users.active != ? and users.done != ? and (users.started_at < ? or last_submitted_at is not null)', false, true, DateTime.now) }
-	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now).where(active: true).where(done:false) }
-	scope :inactive,  -> { where(active: false) }
-	scope :not_inactive,    -> { where(active: true) }
-	scope :done, -> { where(done:true) }
-	scope :groupless,  -> { where(group_id: nil) }
-	scope :who_did_not_submit, ->(pset_id) { where("not exists (?)", Submit.where("submits.user_id = users.id").where(pset_id:pset_id)) }
+	scope :who_did_not_submit, ->(pset_id) do
+		where("not exists (?)", Submit.where("submits.user_id = users.id").where(pset_id:pset_id))
+	end
 
 	serialize :progress, Hash
 
@@ -89,10 +89,6 @@ class User < ApplicationRecord
 
 	def submit(pset)
 		submits.where(:pset_id => pset.id).first
-	end
-
-	def activate
-		update_attribute :active, true
 	end
 
 	def login_id

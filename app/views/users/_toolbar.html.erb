@@ -43,15 +43,8 @@
 			<%= "#{bootstrap_icon 'list-check', width: 20}".html_safe %></span>
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right">
-			<% if @student.active? %>
-			<%= button_to [@student, user: { active: false }], method: :put, class: 'dropdown-item' do 'Mark as inactive' end %>
-			<% else %>
-			<%= button_to [@student, user: { active: true }], method: :put, class: 'dropdown-item' do 'Mark as active' end %>
-			<% end %>
-			<% if @student.done? %>
-			<%= button_to [@student, user: { done: false }], method: :put, class: 'dropdown-item' do 'Mark as not done' end %>
-			<% else %>
-			<%= button_to [@student, user: { done: true }], method: :put, class: 'dropdown-item' do 'Mark as done' end %>
+			<% User.statuses.each do |status, status_value| %>
+				<%= button_to [@student, user: {status: status}], method: :put, class: 'dropdown-item' do "Mark as #{status}" end %>
 			<% end %>
 
 			<% if current_user.admin? %>

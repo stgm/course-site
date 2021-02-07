@@ -20,18 +20,18 @@ class SubmissionsController < ApplicationController
 
 	# Accepts a submission coming from a course page.
 	def create
-		begin
+		# begin
 			collect_attachments
 			upload_attachments_to_dropbox if should_upload_to_dropbox?
 			upload_files_to_check_server if should_perform_auto_check?
 			record_submission
 			redirect_back fallback_location: '/'
-		rescue
-			redirect_back(
-				fallback_location: '/',
-				alert: "There was a problem uploading your submission! Please try again. " \
-				       "If the problem persists, contact your teacher.".html_safe)
-		end
+		# rescue
+# 			redirect_back(
+# 				fallback_location: '/',
+# 				alert: "There was a problem uploading your submission! Please try again. " \
+# 				       "If the problem persists, contact your teacher.".html_safe)
+# 		end
 	end
 
 	# Shows automatic check feedback for a single submission.

@@ -11,8 +11,8 @@
 		<%= link_to bootstrap_icon('pencil', width: 16), edit_user_path(@student), class: 'px-2' %>
 	</h1>
 
-	<% if @student.status.present? %>
-	<p class="mt-2 mb-0"><%= @student.status %></p>
+	<% if @student.status_description.present? %>
+	<p class="mt-2 mb-0"><%= @student.status_description %></p>
 	<% end %>
 	<% end %>
 

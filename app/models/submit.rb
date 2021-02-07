@@ -7,6 +7,7 @@ class Submit < ApplicationRecord
 	belongs_to :user, touch: true
 	delegate :name, to: :user, prefix: true, allow_nil: true
 	delegate :suspect_name, to: :user, prefix: true, allow_nil: true
+	after_create { user.status_active! }
 
 	belongs_to :pset
 	delegate :name, to: :pset, prefix: true, allow_nil: true
