@@ -44,7 +44,7 @@
 						<% if user.last_known_location %>
 						<span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
 						<% end %><br>
-						<%= best_in_place user, :status, as: :input %>
+						<%= best_in_place user, :status_description, as: :input %>
 					</td>
 
 					<% if params[:status] != 'registered' %>

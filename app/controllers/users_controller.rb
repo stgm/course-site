@@ -45,7 +45,10 @@ class UsersController < ApplicationController
 			:notes,
 			:schedule_id,
 			:group_id))
-		redirect_to @user
+		respond_to do |format|
+			format.js { head :ok }
+			format.html { redirect_to @user }
+		end
 	end
 
 	def calculate_final_grade
