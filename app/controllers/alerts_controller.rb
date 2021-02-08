@@ -7,7 +7,7 @@ class AlertsController < ApplicationController
 
 	# GET /alerts
 	def index
-		@alerts = Alert.all
+		@alerts = Alert.order(created_at: :desc)
 	end
 
 	# GET /alerts/1

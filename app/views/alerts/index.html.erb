@@ -8,7 +8,8 @@
 		<div class="card-body">
 			<h5 class="card-title">
 				<%= alert.title %>
-				<% if alert.published %><span class="badge bg-secondary">Published</span><% end %>
+				<% if alert.schedule %><span class="badge rounded-pill bg-secondary"><%= alert.schedule_name %></span><% end %>
+				<% if alert.published %><span class="badge rounded-pill bg-secondary">Published</span><% end %>
 			</h5>
 			<p class="card-text"><%= alert.body %></p>
 			<%= link_to 'Edit', edit_alert_path(alert), class: 'btn btn-outline-primary' %>
