@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_07_134925) do
+ActiveRecord::Schema.define(version: 2021_02_08_191625) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -278,7 +278,6 @@ ActiveRecord::Schema.define(version: 2021_02_07_134925) do
     t.datetime "available"
     t.string "avatar"
     t.text "notes"
-    t.integer "questions_count_cache", default: 0, null: false
     t.integer "role", default: 0, null: false
     t.integer "schedule_id"
     t.string "last_known_location"
@@ -289,6 +288,8 @@ ActiveRecord::Schema.define(version: 2021_02_07_134925) do
     t.integer "current_module_id"
     t.text "progress"
     t.integer "status"
+    t.integer "hands_count", default: 0, null: false
+    t.integer "hands_duration_count", default: 0, null: false
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
     t.index ["status"], name: "index_users_on_status"

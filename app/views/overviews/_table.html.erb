@@ -50,8 +50,8 @@
 					<% if params[:status] != 'registered' %>
 					<td class="bar">
 						<%= user.attendance %><br>
-						<%= user.hands.successfully_helped.count %> hands,
-						<%= user.hands.successfully_helped.total_helping_time %> mins
+						<%= user.hands_count %> hands,
+						<%= user.hands_duration_count %> mins
 					</td>
 					<% end %>
 
