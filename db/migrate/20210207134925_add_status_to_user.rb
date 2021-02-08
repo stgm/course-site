@@ -4,8 +4,8 @@ class AddStatusToUser < ActiveRecord::Migration[6.1]
 		add_column :users, :status, :integer
 		add_index :users, :status
 		User.update_all(status: 'registered')
+		User.includes(:submits).where.not(submits: { id: nil }).update_all(status: 'active')
 		User.where(done:true).update_all(status: 'done')
 		User.where(active:false).update_all(status: 'inactive')
-		User.includes(:submits).where.not(submits: { id: nil }).update_all(status: 'active')
 	end
 end
