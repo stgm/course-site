@@ -37,7 +37,7 @@ module EditInPlaceHelper
 				display_value, {
 					contenteditable: true,
 					data: { url: url_for(real_object), id: real_object.id, model: real_object.class.name.downcase, property: property },
-					onkeypress: 'if(event.keyCode==13) { save_in_place(this); return false }',
+					onkeypress: 'if(event.keyCode==13) { this.blur(); return false }',
 					onfocus: 'window.setTimeout(() => document.execCommand("selectAll", false, null))',
 					onblur: 'save_in_place(this)',
 					class: 'in_place_editable'

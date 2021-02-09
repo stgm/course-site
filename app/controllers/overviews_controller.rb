@@ -47,24 +47,29 @@ class OverviewsController < ApplicationController
 		@psets = Pset.ordered_by_grading
 		@grouped_psets = @psets.group_by &:name
 
-		@users = @selected_schedule.users.not_staff.includes(:group, { submits: [:pset, :grade] }).order("groups.name").order(:name)
+		@users = @selected_schedule.users.not_staff
 		@title = 'List users'
 
-		@active_count = @users.active.count
-		@registered_count = @users.registered.count
-		@inactive_count = @users.inactive.count
-		@done_count = @users.done.count
+		@active_count = @users.status_active.count
+		@registered_count = @users.status_registered.count
+		@inactive_count = @users.status_inactive.count
+		@done_count = @users.status_done.count
+
+		@users = @users.
+			includes(:group, { submits: [:pset, :grade] }).
+			order("groups.name").
+			order(:name)
 
 		case params[:status]
 		when 'active'
-			@users = @users.active
+			@users = @users.status_active
 			@show_inactive = true
 		when 'registered'
-			@users = @users.registered
+			@users = @users.status_registered
 		when 'inactive'
-			@users = @users.inactive
+			@users = @users.status_inactive
 		when 'done'
-			@users = @users.done
+			@users = @users.status_done
 		end
 
 		@users = @users.group_by(&:group)

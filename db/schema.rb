@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_165226) do
+ActiveRecord::Schema.define(version: 2021_02_08_191625) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_165226) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -270,7 +270,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_165226) do
     t.boolean "done", default: false
     t.boolean "active", default: true
     t.string "term"
-    t.string "status"
+    t.string "status_description"
     t.string "token"
     t.string "attendance", default: "", null: false
     t.datetime "last_seen_at"
@@ -278,7 +278,6 @@ ActiveRecord::Schema.define(version: 2021_01_22_165226) do
     t.datetime "available"
     t.string "avatar"
     t.text "notes"
-    t.integer "questions_count_cache", default: 0, null: false
     t.integer "role", default: 0, null: false
     t.integer "schedule_id"
     t.string "last_known_location"
@@ -288,8 +287,12 @@ ActiveRecord::Schema.define(version: 2021_01_22_165226) do
     t.text "grades_cache"
     t.integer "current_module_id"
     t.text "progress"
+    t.integer "status"
+    t.integer "hands_count", default: 0, null: false
+    t.integer "hands_duration_count", default: 0, null: false
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
+    t.index ["status"], name: "index_users_on_status"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

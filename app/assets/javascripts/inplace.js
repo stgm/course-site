@@ -5,7 +5,7 @@ function save_in_place(element)
 	Rails.ajax({
 		url: `${params.url}`,
 		type: 'put',
-		data: `id=${params.id}&${params.model}[${params.property}]=${element.innerHTML}`,
+		data: `id=${params.id}&${params.model}[${params.property}]=${element.textContent}`,
 		success: () => {
 			element.nextSibling.classList.remove('show')
 			element.blur()
