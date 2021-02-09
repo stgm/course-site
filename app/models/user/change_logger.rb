@@ -14,14 +14,17 @@ module User::ChangeLogger
 			'schedule_id',
 			'alarm',
 			'group_id', 
-			'role')
+			'role'
+		)
 
-		changes.each do |k,new_value|
+		changes.each do |k,value|
 			text = case k
 				when 'status'
-					"Marked as #{new_value[1]}"
+					"Marked as #{value[1]}"
 				when 'status_description'
-					new_value[1].present? ? "Status set to '#{new_value[1]}'" : "Status cleared"
+					# don't log if it was empty and is still empty
+					next if !value[0].present? && !value[1].present?
+					value[1].present? ? "Status set to '#{value[1]}'" : "Status cleared"
 				when 'schedule_id'
 					"Schedule changed to #{self.schedule_name}"
 				when 'group_id'
@@ -29,7 +32,7 @@ module User::ChangeLogger
 				when 'alarm'
 					new_value[1] ? "Alarm set" : "Alarm unset"
 				when 'role'
-					"Activated as #{new_value[1]}"
+					"Activated as #{value[1]}"
 				end
 
 			self.notes.create(
