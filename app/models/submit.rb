@@ -75,11 +75,6 @@ class Submit < ApplicationRecord
 
 		user.update(last_submitted_at: self.submitted_at)
 
-		# update the submission for the parent module, if there is one
-		if pset.parent_pset
-			Submit.where(user: self.user, pset: pset.parent_pset).first_or_initialize.update(submitted_at:Time.now)
-		end
-
 		# reset and unpublish grade
 		self.grade.update_columns(grade: nil, status: Grade.statuses[:unfinished]) if self.grade
 
