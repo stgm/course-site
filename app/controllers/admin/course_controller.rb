@@ -37,7 +37,10 @@ class Admin::CourseController < ApplicationController
 		@users = User.student.joins(:submits).uniq
 		@psets = Pset.order(:order)
 		@title = "Export grades"
-		@students = User.order(:name)
+
+		# all users who ever submitted something
+		@students = User.joins(:submits).distinct.order(:name)
+
 		respond_to do |format|
 			format.xlsx
 			format.html { render layout: false }
