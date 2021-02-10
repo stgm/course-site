@@ -1,5 +1,5 @@
 <%= turbo_frame_tag :watch_list do %>
 <% @watch_list.each do |user| %>
-<li><%= link_to "#{user.name}<br><small class='text-muted'>Last submit #{user.last_submitted_at && time_ago_in_words(user.last_submitted_at)}</small>".html_safe, user, class: 'dropdown-item py-2', data: { 'turbo-frame': 'modal' }, onclick: 'modalBrowser.show();' %></li>
+<li><%= link_to "#{user.name}".html_safe, user, class: 'dropdown-item py-2', data: { 'turbo-frame': 'modal' }, onclick: 'modalBrowser.show();' %></li>
 <% end %>
 <% end %>

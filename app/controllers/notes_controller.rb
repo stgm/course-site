@@ -1,11 +1,11 @@
 class NotesController < ApplicationController
-
 	before_action :authorize
-	before_action :require_senior
+	before_action :require_staff
+
+	before_action :set_note, only: [:show, :edit, :update]
+	before_action :check_permission, only: [:show, :edit, :update]
 
 	def show
-		set_note
-		# render 'items/note'
 	end
 
 	def create
@@ -14,11 +14,9 @@ class NotesController < ApplicationController
 	end
 
 	def edit
-		set_note
 	end
 
 	def update
-		set_note
 		if @note.update(note_params)
 			redirect_to @note
 		else
@@ -32,8 +30,13 @@ class NotesController < ApplicationController
 		@note = Note.find(params[:id])
 	end
 
+	def check_permission
+		current_user.admin? ||
+			@note.author == current_user ||
+			current_user.students.find(@note.student)
+	end
+
 	def note_params
 		params.require(:note).permit(:text, :author_id, :student_id, :done, :assignee_id)
 	end
-
 end

@@ -2,7 +2,8 @@
 class UsersController < ApplicationController
 
 	before_action :authorize
-	before_action :require_senior
+	before_action :require_senior, except: :show
+	before_action :require_staff, only: :show
 	
 	layout 'modal'
 
@@ -18,14 +19,21 @@ class UsersController < ApplicationController
 	end
 
 	def show
-		@student = User.includes(:hands, :notes).find(params[:id])
-		@schedules = Schedule.all
-		@groups = @student.schedule && @student.schedule.groups.order(:name) || []
-		@note = Note.new(student_id: @student.id)
-		@items = @student.items(true)
-		@psets = Pset.ordered_by_grading
+		head :forbidden and return if not current_user.admin? and not current_user.students.find(params[:id])
 		
-		@attend = @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
+		@student = User.includes(:hands, :notes).find(params[:id])
+		@note = Note.new(student_id: @student.id)
+		
+		if current_user.senior?
+			@schedules = Schedule.all
+			@groups = @student.schedule && @student.schedule.groups.order(:name) || []
+			@psets = Pset.ordered_by_grading
+			@attend = @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
+			@items = @student.items(true)
+		else
+			@items = @student.notes.includes(:author).order(created_at: :desc)
+			render 'notes'
+		end
 	end
 
 	def edit

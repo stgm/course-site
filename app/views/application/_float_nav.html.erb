@@ -5,7 +5,7 @@
 	</div>
 	<% end %>
 
-	<% if current_user.admin? && User.watching.any? %>
+	<% if current_user.staff? %>
 	<div>
 		<%= render partial: 'watches' %>
 	</div>
@@ -48,4 +48,3 @@
 	<%= render 'menu' %>
 	<% end %>
 </ul>
-

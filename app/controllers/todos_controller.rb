@@ -1,7 +1,11 @@
 class TodosController < ApplicationController
 
 	def watch_list
-		@watch_list = User.watching
+		if current_user.admin?
+			@watch_list = User.watching
+		else
+			@watch_list = current_user.students
+		end
 	end
 
 end
