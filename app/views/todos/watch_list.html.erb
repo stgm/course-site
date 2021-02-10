@@ -1,5 +1,9 @@
 <%= turbo_frame_tag :watch_list do %>
-<% @watch_list.each do |user| %>
-<li><%= link_to "#{user.name}".html_safe, user, class: 'dropdown-item py-2', data: { 'turbo-frame': 'modal' }, onclick: 'modalBrowser.show();' %></li>
+<% if @watch_list.empty? %>
+	<div class="p-3">Not watching any students</div>
+<% else %>
+	<% @watch_list.each do |user| %>
+	<li><%= link_to "#{user.name}".html_safe, user, class: 'dropdown-item py-2', data: { 'turbo-frame': 'modal' }, onclick: 'modalBrowser.show();' %></li>
+	<% end %>
 <% end %>
 <% end %>
