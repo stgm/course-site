@@ -30,7 +30,7 @@ module User::ChangeLogger
 				when 'group_id'
 					"Group assignment changed to #{self.group_name}"
 				when 'alarm'
-					new_value[1] ? "Alarm set" : "Alarm unset"
+					value[1] ? "Alarm set" : "Alarm unset"
 				when 'role'
 					"Activated as #{value[1]}"
 				end
