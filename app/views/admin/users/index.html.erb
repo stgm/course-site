@@ -25,9 +25,9 @@
 				<button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<%= bootstrap_icon 'plus' %>
 				</button>
-				<ul class="dropdown-menu dropdown-menu-right">
+				<ul class="dropdown-menu">
 					<% @schedules.each do |schedule| %>
-					<%= button_to schedule.name, admin_user_add_schedule_permission_path(user_id: user.id, schedule_id: schedule.id), method: :post, class:"dropdown-item" %>
+					<%= button_to schedule.name, admin_user_add_schedule_permission_path(user_id: user.id, schedule_id: schedule.id), method: :post, class:"dropdown-item", style: "font-size: smaller !important;" %>
 					<% end %>
 				</ul>
 			</div>
@@ -42,9 +42,9 @@
 				<button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<%= bootstrap_icon 'plus' %>
 				</button>
-				<ul class="dropdown-menu dropdown-menu-right">
+				<ul class="dropdown-menu">
 					<% @groups.each do |group| %>
-					<%= button_to "#{group.schedule.name} - #{group.name}", admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, class:"dropdown-item" %>
+					<%= button_to "#{group.schedule.name} - #{group.name}", admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, class:"dropdown-item", style: "font-size: smaller !important;" %>
 					<% end %>
 				</ul>
 			</div>
