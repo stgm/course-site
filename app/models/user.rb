@@ -19,7 +19,7 @@ class User < ApplicationRecord
 	has_many :grades, through: :submits
 	has_many :psets, through: :submits
 	has_many :attendance_records
-	has_many :notes, foreign_key: "student_id"
+	has_many :notes, foreign_key: "student_id" # with counter cache
 	has_many :authored_notes, class_name: "Note", foreign_key: "author_id"
 	has_many :authored_grades, class_name: "Grade", foreign_key: "grader_id"
 
