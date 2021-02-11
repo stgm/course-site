@@ -7,7 +7,7 @@ class NotesController < ApplicationController
 	before_action :check_permission, only: [:show, :edit, :update]
 
 	def index
-		@notes = Note.includes(:student).order(created_at: :desc).limit(30)
+		@notes = Note.includes(:student).where(log: false).order(created_at: :desc).limit(30)
 		render layout: 'navbar'
 	end
 
