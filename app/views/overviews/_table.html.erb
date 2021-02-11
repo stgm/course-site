@@ -2,9 +2,7 @@
 	<tr>
 		<th></th>
 
-		<% if params[:status] != 'registered' %>
 		<th>Participation</th>
-		<% end %>
 
 		<% @psets.each do |pset| %>
 		<th>
@@ -15,7 +13,7 @@
 
 	<% users.each do |group, user_list|%>
 		<tr>
-			<th class="py-2" colspan="<%= (params[:status] != 'registered') ? '2' : '1' %>">
+			<th class="py-2" colspan="2">
 				<% if group %>
 					<%= group.name %> &ndash;
 					<%= group.grader_names %>
@@ -47,13 +45,11 @@
 						<%= best_in_place user, :status_description, as: :input %>
 					</td>
 
-					<% if params[:status] != 'registered' %>
 					<td class="bar">
 						<%= user.attendance %><br>
 						<%= user.hands_count %> hands,
 						<%= user.hands_duration_count %> mins
 					</td>
-					<% end %>
 
 					<%
 					subs = user.submits.group_by(&:pset_id)
