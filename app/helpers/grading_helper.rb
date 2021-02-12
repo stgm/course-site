@@ -13,13 +13,6 @@ module GradingHelper
 					rescue
 						tag.div "No JSON found"
 					end
-				when 'application/pdf'
-					# tag.embed src: rails_blob_path(contents, disposition: 'inline'), type: 'application/pdf', class: 'w-100'
-					if contents.previewable?
-						image_tag contents.preview(resize_to_limit: [600,1800]) 
-					else
-						tag.div "Not previewable"
-					end
 				when 'text/html'
 					tag.div sanitize(contents.download), class: 'ipynb'
 				when 'text/plain'
@@ -28,7 +21,11 @@ module GradingHelper
 					filetype = CodeRay::FileType.fetch(contents.filename.sanitized, :text)
 					CodeRay.scan(contents.download, filetype).div(:line_numbers => :inline).html_safe
 				else
-					tag.div "#{contents.content_type} can't be shown"
+					if contents.previewable?
+						image_tag contents.preview(resize_to_limit: [600,1800]) 
+					else
+						tag.div "Attachment is not previewable"
+					end
 				end
 			else
 				concat link_to 'Download', grading_download_path(grading_submit_id: @submit.id, filename: filename), class: 'btn btn-small btn-light float-right', data: { turbo: false }
