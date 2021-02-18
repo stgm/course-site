@@ -57,6 +57,7 @@ gem 'caxlsx_rails'
 gem 'bootstrap', '~> 5.0.0.alpha3'
 gem 'coderay'
 gem 'groupdate'
+gem 'stimulus-rails'
 gem 'turbo-rails'
 
 # for sending submits to the autocheck server

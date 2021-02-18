@@ -21,8 +21,10 @@ module GradingHelper
 					filetype = CodeRay::FileType.fetch(contents.filename.sanitized, :text)
 					CodeRay.scan(contents.download, filetype).div(:line_numbers => :inline).html_safe
 				else
-					if contents.previewable?
-						image_tag contents.preview(resize_to_limit: [600,1800]) 
+					if contents.representable?
+						image_tag contents.representation(resize_to_limit: [600,1800])
+					elsif contents.previewable?
+						image_tag contents.preview(resize_to_limit: [600,1800])
 					else
 						tag.div "Attachment is not previewable"
 					end
