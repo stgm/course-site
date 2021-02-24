@@ -36,7 +36,7 @@
 	<div class="mb-2">
 		<span class="float-right" data-toggle="tooltip" title="Use * to create bullet lists. Use `backticks` to insert code."><%= bootstrap_icon 'question-circle-fill', width: '12px'%></span>
 		<label for="submit_grade_attributes_comments" class="control-label">Focus points </label>
-		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
+		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true, onfocus: 'startAutosave();' %>
 	</div>
 	
 	<div class="mb-2">
@@ -112,9 +112,5 @@
 		<% end %>
 	</div>
 </div>
-
-<script>
-	startAutosave();
-</script>
 
 </turbo-frame>
