@@ -1,4 +1,17 @@
-<%= form_tag_if(logged_in? && @page.pset, submissions_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
+<%= form_tag_if(
+		logged_in? && @page.pset,
+		submissions_path,
+		{
+			multipart: true,
+			id: "page_form",
+			data:
+			{
+				controller: "auto-save",
+				auto_save_target: "form",
+				action: "change->auto-save#saveToLocalStorage submit->auto save#clearLocalStorage"
+			}
+		}
+	) do %>
 
 <%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
 
