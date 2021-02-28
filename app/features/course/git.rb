@@ -113,6 +113,10 @@ class Course::Git
         def parent_title
             upcase_first_if_all_downcase(split_info(@path.dirname.basename.to_s)[2])
         end
+        
+        def parent_position
+            split_info(@path.dirname.basename.to_s).captures[0]
+        end
 
         def change_type
             @flag

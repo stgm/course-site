@@ -114,7 +114,7 @@ class Course::Loader
         page.title = file.parent_title
         page.slug = file.parent_slug
         page.path = file.parent_path
-        page.position = file.position
+        page.position = file.parent_position
         page.save
         puts page.inspect
         page
