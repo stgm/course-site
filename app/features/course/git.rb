@@ -115,7 +115,8 @@ class Course::Git
         end
         
         def parent_position
-            split_info(@path.dirname.basename.to_s).captures[0]
+            pos = split_info(@path.dirname.basename.to_s).captures[0]
+            pos.present? && pos || 0
         end
 
         def change_type
