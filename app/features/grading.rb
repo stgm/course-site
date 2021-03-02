@@ -3,7 +3,11 @@ module Grading
     def self.settings
         Settings.grading
     end
-    
+
+    def self.grades
+        settings['grades'] || []
+    end
+
     def self.load(new_settings)
         Settings.grading = new_settings
     end

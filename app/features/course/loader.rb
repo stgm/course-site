@@ -173,27 +173,31 @@ class Course::Loader
     def load_submit(file)
         page = load_page(file.parent_path)
         if submit_config = read_config(file)
-            if submit_config['name']
+            if name = submit_config['name']
                 # checks if pset already exists under name
-                pset = Pset.where(name: submit_config['name']).first_or_initialize
+                pset = Pset.where(name: name).first_or_initialize
                 pset.description = file.parent_path.title.parameterize
                 pset.message = submit_config['message'] if submit_config['message']
                 pset.form = !!submit_config['form']
                 pset.url = !!submit_config['url']
                 pset.page = page  # restore link to owning page!
+
                 if submit_config['files']
                     pset.files = submit_config['files']
                 else
                     pset.files = nil
                 end
 
+                submit_config.merge! Grading.grades[name].to_h
                 pset.config = submit_config
                 pset.save
 
-                Pset.where("id != ?", pset).where(page_id: page).update_all(page_id: nil)
+                if Pset.where("id != ?", pset).where(page_id: page).any?
+                    Pset.where("id != ?", pset).where(page_id: page).update_all(page_id: nil)
+                end
             end
         else
-            Pset.where(page_id: page).update_all(page_i,d: nil)
+            Pset.where(page_id: page).update_all(page_id: nil)
         end
     end
 
