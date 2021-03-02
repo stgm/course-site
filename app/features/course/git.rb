@@ -124,10 +124,6 @@ class Course::Git
             @path.extname
         end
 
-        def position
-            @position
-        end
-
         private
 
         # Splits a path name of the form "nn textextextext" into two parts.
