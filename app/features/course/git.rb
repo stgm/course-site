@@ -5,6 +5,7 @@ class Course::Git
     def initialize(base, repo)
         @basedir = Pathname.new(base)
         @repodir = Pathname.new(repo)
+
         Dir.chdir @basedir do
             @git = Git.open(@repodir)
         end
@@ -62,17 +63,57 @@ class Course::Git
         return remote_branch
     end
 
-    class Course::Git::Change
+    class Change
         def initialize(base, path, flag)
             @base = base
             @path = path
             @flag = flag
-            @position, @name = split_info(filename).captures
-            @position = 0 if @position.blank?
         end
 
         def path
-            @path
+            Path.new @path
+        end
+
+        def parent_path
+            Path.new @path.dirname
+        end
+
+        def change_type
+            @flag
+        end
+
+        def read
+            file.read
+        end
+
+        def file
+            @base + @path
+        end
+    end
+
+    class Path
+        def initialize(path)
+            @path = path
+        end
+
+        def to_s
+            @path.to_s
+        end
+
+        def slug
+            @path.to_s
+            .split('/')
+            .map{|c| split_info(c)[2].parameterize}
+            .join('/')
+        end
+
+        def title
+            upcase_first_if_all_downcase(split_info(@path.basename.to_s)[2])
+        end
+
+        def position
+            pos = split_info(@path.basename.to_s).captures[0]
+            pos.present? && pos || 0
         end
 
         def filename
@@ -83,63 +124,19 @@ class Course::Git
             @path.extname
         end
 
-        def pathname
-            @path.dirname
-        end
-
         def position
             @position
         end
 
-        def title
-            upcase_first_if_all_downcase(@name)
-        end
-
-        def slug
-            @path.to_s
-        end
-
-        def parent_path
-            @path.dirname.to_s
-        end
-        
-        def parent_slug
-            @path.dirname.to_s
-                .split('/')
-                .map{|c| split_info(c)[2].parameterize}
-                .join('/')
-        end
-        
-        def parent_title
-            upcase_first_if_all_downcase(split_info(@path.dirname.basename.to_s)[2])
-        end
-        
-        def parent_position
-            pos = split_info(@path.dirname.basename.to_s).captures[0]
-            pos.present? && pos || 0
-        end
-
-        def change_type
-            @flag
-        end
-        
-        def file_path
-            @base + @path
-        end
-
-        def read
-            file_path.read
-        end
-
         private
 
-    	# Splits a path name of the form "nn textextextext" into two parts.
-    	# Only accepts paths where the first characters are numbers and
-    	# followed by white space.
-    	#
-    	def split_info(object)
-    		return object.match('(\d*)\s*(.*).md$') || object.match('(\d*)\s*(.*)$')
-    	end
+        # Splits a path name of the form "nn textextextext" into two parts.
+        # Only accepts paths where the first characters are numbers and
+        # followed by white space.
+        #
+        def split_info(object)
+            return object.match('(\d*)\s*(.*).md$') || object.match('(\d*)\s*(.*)$')
+        end
 
         def upcase_first_if_all_downcase(s)
             s == s.downcase && s.sub(/\S/, &:upcase) || s
