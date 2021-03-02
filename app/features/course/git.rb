@@ -45,16 +45,6 @@ class Course::Git
         @git.object('HEAD').sha
     end
 
-    # def previous_version
-    #     # last saved version number OR the git root hash value
-    #     # the latter can be used to get a diff since the beginning of time
-    #
-    # end
-    #
-    # def store_version
-    #     Settings.git_version = current_version
-    # end
-
     private
 
     def get_remote_branch
