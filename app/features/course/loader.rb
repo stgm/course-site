@@ -13,21 +13,22 @@ class Course::Loader
     #
     def run
         begin
+            # main load event
             load_changes_from_git
 
-            Settings.page_tree = generate_page_tree
-
-            if Settings.course.blank?
-                @errors << "You do not have a course.yml, consider making one!"
-            end
-
+            # finishing touches
             Course::Tools.prune_empty_pages
             Course::Tools.clean_psets
+            Course::Tools.regenerate_page_tree
 
             # allow user overview to update itself
             User.touch_all
         rescue SQLite3::BusyException
             @errors << "A timeout occurred while loading the new course content. Just try again!"
+        end
+
+        if Settings.course.blank?
+            @errors << "You do not have a course.yml, consider making one!"
         end
         return @errors
     end
@@ -38,7 +39,7 @@ class Course::Loader
         repo_dir = '.'
         git = Course::Git.new(COURSE_DIR, repo_dir)
 
-        if not git.update!
+        if !git.update!
             @errors << "Repo #{repo_dir} could not be updated. You can simply try again."
             return
         end
@@ -157,7 +158,9 @@ class Course::Loader
                 name = file.parent_path.title.parameterize
                 content = content_links
             end
-            mod = SubModule.where(name: name).first_or_initialize.load(content, file.parent_path.to_s)
+
+            mod = SubModule.where(name: name).first_or_initialize
+            mod.load(content, file.parent_path.to_s)
         end
     end
 
@@ -189,33 +192,6 @@ class Course::Loader
         else
             Pset.where(page_id: page).update_all(page_id: nil)
         end
-    end
-
-    # generate a tree of (nested) sections and pages
-    #
-    def generate_page_tree
-        ps = Page.all
-        res = {}
-
-        ps.each do |p|
-            hash = hashify_path(p.slug.split('/'), p.slug, p.title)
-            res.deep_merge! hash
-        end
-
-        return res
-    end
-
-    # generate nested hash for array of path segments
-    #
-    def hashify_path(path, full, title)
-        first, *rest = path
-        if rest.empty?
-            # leaf node
-            entry = { title => full }
-        else
-            entry = { first => hashify_path(rest, full, title) }
-        end
-        entry
     end
 
     # reads the config file and returns the contents

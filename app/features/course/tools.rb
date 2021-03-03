@@ -60,4 +60,32 @@ class Course::Tools
             end
         end
     end
+
+    # Generate a tree of (nested) sections and pages
+    #
+    def self.regenerate_page_tree
+        ps = Page.all
+        res = {}
+
+        ps.each do |p|
+            hash = hashify_path(p.slug.split('/'), p.slug, p.title)
+            res.deep_merge! hash
+        end
+
+        Settings.page_tree = res
+    end
+
+    # Generate nested hash for array of path segments
+    #
+    def self.hashify_path(path, full, title)
+        first, *rest = path
+        if rest.empty?
+            # leaf node
+            entry = { title => full }
+        else
+            entry = { first => hashify_path(rest, full, title) }
+        end
+        entry
+    end
+
 end
