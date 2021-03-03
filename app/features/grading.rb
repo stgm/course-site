@@ -1,11 +1,11 @@
 module Grading
 
     def self.settings
-        Settings.grading
+        Settings.grading || {}
     end
 
     def self.grades
-        settings['grades'] || []
+        settings['grades'] || {}
     end
 
     def self.load(new_settings)

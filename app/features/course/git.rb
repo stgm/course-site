@@ -1,5 +1,5 @@
 #
-#  Get remote git data, either by pulling existing, or cloning anew.
+# Get remote git data, either by pulling existing, or cloning anew.
 #
 class Course::Git
     def initialize(base, repo)
@@ -8,15 +8,18 @@ class Course::Git
 
         Dir.chdir @basedir do
             @git = Git.open(@repodir)
+            if !@git && Settings.git_repo.present?
+                @git = clone
+            end
         end
-
-        if !@git && Settings.git_repo.present?
-            @git = Git.clone(
+    end
+    
+    def clone
+        Git.clone(
             Settings.git_repo,
             @repodir.to_s,
             branch: self.get_remote_branch,
             depth: 1)
-        end
     end
 
     def each_change(&block)
@@ -119,7 +122,6 @@ class Course::Git
         # Splits a path name of the form "nn textextextext" into two parts.
         # Only accepts paths where the first characters are numbers and
         # followed by white space.
-        #
         def split_info(object)
             return object.match('(\d*)\s*(.*).md$') || object.match('(\d*)\s*(.*)$')
         end

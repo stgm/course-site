@@ -1,15 +1,14 @@
+# This class is responsible for importing course information from
+# the source into the database.
+#
 class Course::Loader
-
-    # This class is responsible for importing course information from
-    # the source into the database.
-
     COURSE_DIR = "public/course"
 
     def initialize
         @errors = []
         @touched_subpages = []
     end
-    
+
     # Re-read the course contents from the git repository.
     def run
         begin
@@ -35,7 +34,7 @@ class Course::Loader
     end
 
     private
-    
+
     def load_changes_from_git
         repo_dir = '.'
         git = Course::Git.new(COURSE_DIR, repo_dir)
@@ -49,7 +48,7 @@ class Course::Loader
             previous_version = Settings.git_version
         else
             # set to git magic root hash to get all changes, ever
-            previous_version = '4b825dc642cb6eb9a060e54bf8d69288fbee4904' 
+            previous_version = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
             # on first git import, reset al page content, because the identifiers may not match
             Subpage.delete_all
         end
@@ -58,7 +57,6 @@ class Course::Loader
             if change.path.extension.in? ['.md', '.adoc', '.ipynb']
                 load_content change
             else
-                puts "Trying #{change.file.inspect}"
                 case change.path.filename
                 when 'course.yml'
                     load_course_info change
@@ -78,8 +76,6 @@ class Course::Loader
     end
 
     def load_content(file)
-        puts "Loading #{file.inspect}"
-
         page = load_page(file.parent_path)
         subpage = page.subpages.find_or_initialize_by(slug: file.path.slug)
 
@@ -88,12 +84,17 @@ class Course::Loader
             subpage.destroy
         else
             # content was added or modified
-            title = extract_title(file)
-            content = case file.path.extension
+            case file.path.extension
             when '.md'
-                file.read
+                FrontMatterParser::Parser.parse_file(file.file)
+                fm = FrontMatterParser::Parser.parse_file(file.file)
+                title = fm['title'].present? && "#{file.parent_path.title} / #{fm['title']}"
+                title ||= file.path.title
+                content = fm.content
             when '.adoc'
-                document = Asciidoctor.load(file,
+                title = file.path.title
+                document = Asciidoctor.load(
+                    file,
                     safe: :safe,
                     attributes: {
                         'showtitle' => true,
@@ -101,9 +102,10 @@ class Course::Loader
                         'skip-front-matter' => true,
                         'stem' => true
                     })
-                html = document.convert
+                content = document.convert
             when '.ipynb'
-                GradingHelper::NBConverter.new(file).run
+                title = file.path.title
+                content = GradingHelper::NBConverter.new(file).run
             end
 
             subpage.position = file.path.position
@@ -121,17 +123,7 @@ class Course::Loader
         page.path = parent.to_s
         page.position = parent.position
         page.save
-        puts page.inspect
         page
-    end
-
-    def extract_title(change)
-        if change.path.extension == '.md'
-            puts change.path
-            fm = FrontMatterParser::Parser.parse_file(change.file)
-            title = fm['title'].present? && "#{change.parent_path.title} / #{fm['title']}"
-        end
-        title ||= change.path.title
     end
 
     def load_course_info(file)
@@ -165,7 +157,6 @@ class Course::Loader
                 name = file.parent_path.title.parameterize
                 content = content_links
             end
-            puts "MODULE #{name} #{file.parent_path}"
             mod = SubModule.where(name: name).first_or_initialize.load(content, file.parent_path.to_s)
         end
     end
@@ -174,8 +165,8 @@ class Course::Loader
         page = load_page(file.parent_path)
         if submit_config = read_config(file)
             if name = submit_config['name']
-                # checks if pset already exists under name
                 pset = Pset.where(name: name).first_or_initialize
+
                 pset.description = file.parent_path.title.parameterize
                 pset.message = submit_config['message'] if submit_config['message']
                 pset.form = !!submit_config['form']
@@ -187,7 +178,6 @@ class Course::Loader
                 else
                     pset.files = nil
                 end
-
                 submit_config.merge! Grading.grades[name].to_h
                 pset.config = submit_config
                 pset.save
@@ -202,10 +192,10 @@ class Course::Loader
     end
 
     def prune_empty
-        # remove all pages having no subpages
+        # find all pages having no subpages
         to_delete = Page.includes(:subpages).where(:subpages => { :id => nil }).pluck(:id)
 
-        # remove pages and disassociate any related psets
+        # remove those pages and disassociate any related psets
         Page.where("id in (?)", to_delete).destroy_all
     end
 
@@ -219,10 +209,10 @@ class Course::Loader
             hash = hashify_path(p.slug.split('/'), p.slug, p.title)
             res.deep_merge! hash
         end
-        
+
         return res
     end
-    
+
     # generate nested hash for array of path segments
     #
     def hashify_path(path, full, title)
@@ -242,7 +232,7 @@ class Course::Loader
         begin
             return YAML.load(file.read)
         rescue => e
-            @errors << "#{file.path} was in an unreadable format. Error message: #{e.message}. Did you confuse tabs and spaces?"
+            @errors << "#{file.path} was in an unreadable format. Error message: #{e.message}."
             return nil
         end
     end
