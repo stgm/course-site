@@ -14,16 +14,14 @@ class Course::Loader
     def run
         begin
             load_changes_from_git
+
             Settings.page_tree = generate_page_tree
+
             if Settings.course.blank?
-                @errors << "You do not have a course.yml!"
+                @errors << "You do not have a course.yml, consider making one!"
             end
 
-            # remove old stuff
-            prune_empty
-
-            # put psets in order
-            order_psets
+            Course::Tools.prune_empty_pages
             Course::Tools.clean_psets
 
             # allow user overview to update itself
@@ -193,14 +191,6 @@ class Course::Loader
         end
     end
 
-    def prune_empty
-        # find all pages having no subpages
-        to_delete = Page.includes(:subpages).where(:subpages => { :id => nil }).pluck(:id)
-
-        # remove those pages and disassociate any related psets
-        Page.where("id in (?)", to_delete).destroy_all
-    end
-
     # generate a tree of (nested) sections and pages
     #
     def generate_page_tree
@@ -236,19 +226,6 @@ class Course::Loader
         rescue => e
             @errors << "#{file.path} was in an unreadable format. Error message: #{e.message}."
             return nil
-        end
-    end
-
-    def order_psets
-        # Assign order to the grades
-        counter = 1
-        if Settings['grading'] && Settings['grading']['grades']
-            Settings['grading']['grades'].keys.each do |pset|
-                if p = Pset.find_by(name:pset)
-                    p.update(order: counter)
-                    counter += 1
-                end
-            end
         end
     end
 end

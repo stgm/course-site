@@ -8,6 +8,10 @@ module Grading
         settings['grades'] || {}
     end
 
+    def self.calculation
+        settings['calculation'] || {}
+    end
+
     def self.load(new_settings)
         Settings.grading = new_settings
     end
