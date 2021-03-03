@@ -100,6 +100,14 @@ class Course::Git
         def file
             LOCAL_DIR + @base + @repo + @path
         end
+
+        def basename
+            @path.basename.to_s
+        end
+
+        def extension
+            @path.extname
+        end
     end
 
     class Path
@@ -127,14 +135,6 @@ class Course::Git
         def position
             pos = split_info(@path.basename.to_s).captures[0]
             pos.present? && pos || 0
-        end
-
-        def filename
-            @path.basename.to_s
-        end
-
-        def extension
-            @path.extname
         end
 
         private

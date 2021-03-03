@@ -79,10 +79,10 @@ class Course::Loader
         end
 
         git.each_change do |change|
-            if change.path.extension.in? ['.md', '.adoc', '.ipynb']
+            if change.extension.in? ['.md', '.adoc', '.ipynb']
                 load_content change
             else
-                case change.path.filename
+                case change.basename
                 when 'course.yml'
                     load_course_info change
                 when 'grading.yml'
@@ -109,7 +109,7 @@ class Course::Loader
             subpage.destroy
         else
             # content was added or modified
-            case change.path.extension
+            case change.extension
             when '.md'
                 fm = FrontMatterParser::Parser.parse_file(change.file)
                 title = fm['title'].present? && "#{change.parent_path.title} / #{fm['title']}"
