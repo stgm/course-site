@@ -71,7 +71,7 @@ class Course::Git
             Path.new @path.dirname
         end
 
-        def change_type
+        def type
             @flag
         end
 

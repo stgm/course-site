@@ -9,7 +9,8 @@ class Course::Loader
         @touched_subpages = []
     end
 
-    # Re-read the course contents from the git repository.
+    # Re-read the course contents from the git repository
+    #
     def run
         begin
             load_changes_from_git
@@ -75,26 +76,24 @@ class Course::Loader
         Settings.git_version = git.current_version
     end
 
-    def load_content(file)
-        page = load_page(file.parent_path)
-        subpage = page.subpages.find_or_initialize_by(slug: file.path.slug)
+    def load_content(change)
+        page = load_page(change.parent_path)
+        subpage = page.subpages.find_or_initialize_by(slug: change.path.slug)
 
-        if file.change_type == 'D'
+        if change.type == 'D'
             # content was deleted
             subpage.destroy
         else
             # content was added or modified
-            case file.path.extension
+            case change.path.extension
             when '.md'
-                FrontMatterParser::Parser.parse_file(file.file)
-                fm = FrontMatterParser::Parser.parse_file(file.file)
-                title = fm['title'].present? && "#{file.parent_path.title} / #{fm['title']}"
-                title ||= file.path.title
+                fm = FrontMatterParser::Parser.parse_file(change.file)
+                title = fm['title'].present? && "#{change.parent_path.title} / #{fm['title']}"
                 content = fm.content
+                description = fm['description']
             when '.adoc'
-                title = file.path.title
                 document = Asciidoctor.load(
-                    file,
+                    change,
                     safe: :safe,
                     attributes: {
                         'showtitle' => true,
@@ -104,13 +103,16 @@ class Course::Loader
                     })
                 content = document.convert
             when '.ipynb'
-                title = file.path.title
                 content = GradingHelper::NBConverter.new(file).run
             end
 
-            subpage.position = file.path.position
+            title ||= change.path.title
+            description ||= nil
+
+            subpage.title = title
+            subpage.position = change.path.position
             subpage.content = content
-            # subpage.description = file.front_matter['description']
+            subpage.description = description
             subpage.save
             @touched_subpages << subpage.id
         end
