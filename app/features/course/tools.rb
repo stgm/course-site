@@ -1,6 +1,5 @@
 class Course::Tools
-
-    # Remove any pages that remain without content
+    # Removes any pages that remain without content
     #
     def self.prune_empty_pages
         # find all pages having no subpages
@@ -87,5 +86,4 @@ class Course::Tools
         end
         entry
     end
-
 end

@@ -23,5 +23,5 @@ class Settings < RailsSettings::CachedSettings
 		
 		return overview
 	end
-	
+
 end

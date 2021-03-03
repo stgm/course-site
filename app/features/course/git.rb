@@ -1,32 +1,29 @@
-#
 # Get remote git data, either by pulling existing, or cloning anew.
 #
 class Course::Git
-    def initialize(base, repo)
+    LOCAL_DIR = Pathname.new('public')
+    def initialize(base, repo, remote, branch='main')
         @basedir = Pathname.new(base)
         @repodir = Pathname.new(repo)
 
-        Dir.chdir @basedir do
-            @git = Git.open(@repodir)
-            if !@git && Settings.git_repo.present?
-                @git = clone
+        target = LOCAL_DIR + @basedir
+        target.mkdir unless target.exist?
+
+        Dir.chdir target do
+            begin
+                @git = Git.open(repo)
+            rescue ArgumentError
+                @git = Git.clone(
+                    remote,
+                    repo,
+                    branch: branch,
+                    depth: 1)
             end
         end
     end
-    
-    def clone
-        Git.clone(
-            Settings.git_repo,
-            @repodir.to_s,
-            branch: self.get_remote_branch,
-            depth: 1)
-    end
 
-    def each_change(&block)
-        changes_since(previous_version).each do |change|
-            yield(change)
-        end
-        store_version
+    def new?
+        Settings["git_version_#{@repodir}"].blank?
     end
 
     def update!
@@ -38,17 +35,31 @@ class Course::Git
         return true
     end
 
-    def changes_since(hash)
-        @git.diff(hash).name_status.map do |path,flag|
-            Change.new(@basedir, @repodir + path, flag)
+    def each_change(&block)
+        changes_since(previous_version).each do |change|
+            yield(change)
         end
+        store_version
     end
+
+    private
 
     def current_version
         @git.object('HEAD').sha
     end
 
-    private
+    def previous_version
+        if new?
+            # git magic root hash to get all changes, ever
+            '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
+        else
+            Settings["git_version_#{@repodir}"]
+        end
+    end
+
+    def store_version
+        Settings["git_version_#{@repodir}"] = current_version
+    end
 
     def get_remote_branch
         remote_branch = Settings.git_branch
@@ -56,19 +67,26 @@ class Course::Git
         return remote_branch
     end
 
+    def changes_since(hash)
+        @git.diff(hash).name_status.map do |path,flag|
+            Change.new(@basedir, @repodir, Pathname.new(path), flag)
+        end
+    end
+
     class Change
-        def initialize(base, path, flag)
+        def initialize(base, repo, path, flag)
             @base = base
+            @repo = repo
             @path = path
             @flag = flag
         end
 
         def path
-            Path.new @path
+            Path.new @base, @repo, @path
         end
 
         def parent_path
-            Path.new @path.dirname
+            Path.new @base, @repo, @path.dirname
         end
 
         def type
@@ -80,21 +98,23 @@ class Course::Git
         end
 
         def file
-            @base + @path
+            LOCAL_DIR + @base + @repo + @path
         end
     end
 
     class Path
-        def initialize(path)
+        def initialize(base, repo, path)
+            @base = base
+            @repo = repo
             @path = path
         end
 
         def to_s
-            @path.to_s
+            (@base + @repo + @path).to_s
         end
 
         def slug
-            @path.to_s
+            (@repo + @path).to_s
             .split('/')
             .map{|c| split_info(c)[2].parameterize}
             .join('/')

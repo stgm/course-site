@@ -3,26 +3,34 @@
 #
 class Course::Loader
     COURSE_DIR = "public/course"
+    MATERIALS_DIR = "materials"
 
     def initialize
         @errors = []
         @touched_subpages = []
     end
 
-    # Re-read the course contents from the git repository
+    # Re-reads the course contents from the git repository
     #
-    def run
+    def run(reset=false)
+        # if requested, reset all page content, because the identifiers may not match
+        # when upgrading from the previous import system
+        if reset
+            Settings.where("var like 'git_version%'").destroy_all
+            Subpage.delete_all
+        end
+
         begin
             # main load event
-            load_changes_from_git
+            load_all_changes
 
             # finishing touches
             Course::Tools.prune_empty_pages
-            Course::Tools.clean_psets
+            Course::Tools.clean_psets if @grading_changed
             Course::Tools.regenerate_page_tree
 
             # allow user overview to update itself
-            User.touch_all
+            User.touch_all if @grading_changed
         rescue SQLite3::BusyException
             @errors << "A timeout occurred while loading the new course content. Just try again!"
         end
@@ -35,25 +43,42 @@ class Course::Loader
 
     private
 
-    def load_changes_from_git
-        repo_dir = '.'
-        git = Course::Git.new(COURSE_DIR, repo_dir)
+    def load_all_changes
+        # load the repo as set in the front-end
+        load_changes_from_git({
+            dir: '.',
+            remote: Settings.git_repo,
+            branch: Settings.git_branch
+        }, 'course')
+
+        other_repos = [
+            {
+                dir: 'hoi',
+                remote: 'https://github.com/minprog/modules.git',
+                branch: 'main'
+            },
+            {
+                dir: 'haai',
+                remote: 'https://github.com/minprog/modules.git',
+                branch: 'main'
+            }
+        ]
+
+        other_repos.each do |repo|
+            load_changes_from_git(repo, MATERIALS_DIR)
+        end
+    end
+
+    def load_changes_from_git(repo, base_dir)
+        Rails.logger.info "Updating course from #{repo[:remote]}"
+        git = Course::Git.new(base_dir, repo[:dir], repo[:remote], repo[:branch])
 
         if !git.update!
             @errors << "Repo #{repo_dir} could not be updated. You can simply try again."
             return
         end
 
-        if Settings.git_version
-            previous_version = Settings.git_version
-        else
-            # set to git magic root hash to get all changes, ever
-            previous_version = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
-            # on first git import, reset al page content, because the identifiers may not match
-            Subpage.delete_all
-        end
-
-        git.changes_since(previous_version).each do |change|
+        git.each_change do |change|
             if change.path.extension.in? ['.md', '.adoc', '.ipynb']
                 load_content change
             else
@@ -62,17 +87,17 @@ class Course::Loader
                     load_course_info change
                 when 'grading.yml'
                     load_grading_info change
+                    @grading_changed = true
                 when 'schedule.yml'
                     load_schedule change
                 when 'module.yml'
                     load_module change
                 when 'submit.yml'
                     load_submit change
+                    @grading_changed = true
                 end
             end
         end
-
-        Settings.git_version = git.current_version
     end
 
     def load_content(change)
@@ -117,12 +142,12 @@ class Course::Loader
         end
     end
 
-    def load_page(parent)
-        page = Page.find_or_initialize_by(slug: parent.slug)
-        page.title = parent.title
-        page.slug = parent.slug
-        page.path = parent.to_s
-        page.position = parent.position
+    def load_page(path)
+        page = Page.find_or_initialize_by(slug: path.slug)
+        page.title = path.title
+        page.slug = path.slug
+        page.path = path
+        page.position = path.position
         page.save
         page
     end
@@ -160,7 +185,7 @@ class Course::Loader
             end
 
             mod = SubModule.where(name: name).first_or_initialize
-            mod.load(content, file.parent_path.to_s)
+            mod.load(content, file.parent_path.slug)
         end
     end
 
@@ -194,7 +219,7 @@ class Course::Loader
         end
     end
 
-    # reads the config file and returns the contents
+    # Reads the config file and returns the contents
     #
     def read_config(file)
         begin
