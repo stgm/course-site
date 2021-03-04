@@ -20,6 +20,7 @@
 
 # The course contents should not be included in this source code
 /public/course
+/public/materials
 /public/assets
 /public/dev-assets
 

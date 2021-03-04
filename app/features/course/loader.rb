@@ -1,99 +1,123 @@
+# This class is responsible for importing course information from
+# the source into the database.
+#
 class Course::Loader
-
-    # This class is responsible for importing course information from
-    # the source into the database.
-
     COURSE_DIR = "public/course"
+    MATERIALS_DIR = "materials"
 
     def initialize
         @errors = []
         @touched_subpages = []
     end
-    
-    # Re-read the course contents from the git repository.
-    def run
+
+    # Re-reads the course contents from the git repository
+    #
+    def run(reset=false)
+        # if requested, reset all page content, because the identifiers may not match
+        # when upgrading from the previous import system
+        if reset
+            Settings.where("var like 'git_version%'").destroy_all
+            Subpage.delete_all
+        end
+
         begin
-            load_changes_from_git
-            Settings.page_tree = generate_page_tree
-            if Settings.course.blank?
-                @errors << "You do not have a course.yml!"
-            end
+            # main load event
+            load_all_changes
 
-            # remove old stuff
-            prune_empty
-
-            # put psets in order
-            order_psets
-            Course::Tools.clean_psets
+            # finishing touches
+            Course::Tools.prune_empty_pages
+            Course::Tools.clean_psets if @grading_changed
+            Course::Tools.regenerate_page_tree
 
             # allow user overview to update itself
-            User.touch_all
+            User.touch_all if @grading_changed
         rescue SQLite3::BusyException
             @errors << "A timeout occurred while loading the new course content. Just try again!"
+        end
+
+        if Settings.course.blank?
+            @errors << "You do not have a course.yml, consider making one!"
         end
         return @errors
     end
 
     private
-    
-    def load_changes_from_git
-        repo_dir = '.'
-        git = Course::Git.new(COURSE_DIR, repo_dir)
 
-        if not git.update!
+    def load_all_changes
+        # load the repo as set in the front-end
+        load_changes_from_git({
+            dir: '.',
+            remote: Settings.git_repo,
+            branch: Settings.git_branch
+        }, 'course')
+
+        other_repos = [
+            {
+                dir: 'hoi',
+                remote: 'https://github.com/minprog/modules.git',
+                branch: 'main'
+            },
+            {
+                dir: 'haai',
+                remote: 'https://github.com/minprog/modules.git',
+                branch: 'main'
+            }
+        ]
+
+        other_repos.each do |repo|
+            load_changes_from_git(repo, MATERIALS_DIR)
+        end
+    end
+
+    def load_changes_from_git(repo, base_dir)
+        Rails.logger.info "Updating course from #{repo[:remote]}"
+        git = Course::Git.new(base_dir, repo[:dir], repo[:remote], repo[:branch])
+
+        if !git.update!
             @errors << "Repo #{repo_dir} could not be updated. You can simply try again."
             return
         end
 
-        if Settings.git_version
-            previous_version = Settings.git_version
-        else
-            # set to git magic root hash to get all changes, ever
-            previous_version = '4b825dc642cb6eb9a060e54bf8d69288fbee4904' 
-            # on first git import, reset al page content, because the identifiers may not match
-            Subpage.delete_all
-        end
-
-        git.changes_since(previous_version).each do |change|
-            if change.path.extension.in? ['.md', '.adoc', '.ipynb']
+        git.each_change do |change|
+            if change.extension.in? ['.md', '.adoc', '.ipynb']
                 load_content change
             else
-                puts "Trying #{change.file.inspect}"
-                case change.path.filename
+                case change.basename
                 when 'course.yml'
                     load_course_info change
                 when 'grading.yml'
                     load_grading_info change
+                    @grading_changed = true
                 when 'schedule.yml'
                     load_schedule change
                 when 'module.yml'
                     load_module change
                 when 'submit.yml'
                     load_submit change
+                    @grading_changed = true
                 end
             end
         end
-
-        Settings.git_version = git.current_version
     end
 
-    def load_content(file)
-        puts "Loading #{file.inspect}"
+    def load_content(change)
+        page = load_page(change.parent_path)
+        subpage = page.subpages.find_or_initialize_by(slug: change.path.slug)
 
-        page = load_page(file.parent_path)
-        subpage = page.subpages.find_or_initialize_by(slug: file.path.slug)
-
-        if file.change_type == 'D'
+        if change.type == 'D'
             # content was deleted
             subpage.destroy
         else
             # content was added or modified
-            title = extract_title(file)
-            content = case file.path.extension
+            case change.extension
             when '.md'
-                file.read
+                fm = FrontMatterParser::Parser.parse_file(change.file)
+                title = fm['title'].present? && "#{change.parent_path.title} / #{fm['title']}"
+                content = fm.content
+                description = fm['description']
             when '.adoc'
-                document = Asciidoctor.load(file,
+                document = Asciidoctor.load(
+                    change,
                     safe: :safe,
                     attributes: {
                         'showtitle' => true,
@@ -101,37 +125,31 @@ class Course::Loader
                         'skip-front-matter' => true,
                         'stem' => true
                     })
-                html = document.convert
+                content = document.convert
             when '.ipynb'
-                GradingHelper::NBConverter.new(file).run
+                content = GradingHelper::NBConverter.new(file).run
             end
 
-            subpage.position = file.path.position
+            title ||= change.path.title
+            description ||= nil
+
+            subpage.title = title
+            subpage.position = change.path.position
             subpage.content = content
-            # subpage.description = file.front_matter['description']
+            subpage.description = description
             subpage.save
             @touched_subpages << subpage.id
         end
     end
 
-    def load_page(parent)
-        page = Page.find_or_initialize_by(slug: parent.slug)
-        page.title = parent.title
-        page.slug = parent.slug
-        page.path = parent.to_s
-        page.position = parent.position
+    def load_page(path)
+        page = Page.find_or_initialize_by(slug: path.slug)
+        page.title = path.title
+        page.slug = path.slug
+        page.path = path
+        page.position = path.position
         page.save
-        puts page.inspect
         page
-    end
-
-    def extract_title(change)
-        if change.path.extension == '.md'
-            puts change.path
-            fm = FrontMatterParser::Parser.parse_file(change.file)
-            title = fm['title'].present? && "#{change.parent_path.title} / #{fm['title']}"
-        end
-        title ||= change.path.title
     end
 
     def load_course_info(file)
@@ -165,8 +183,9 @@ class Course::Loader
                 name = file.parent_path.title.parameterize
                 content = content_links
             end
-            puts "MODULE #{name} #{file.parent_path}"
-            mod = SubModule.where(name: name).first_or_initialize.load(content, file.parent_path.to_s)
+
+            mod = SubModule.where(name: name).first_or_initialize
+            mod.load(content, file.parent_path.slug)
         end
     end
 
@@ -174,8 +193,8 @@ class Course::Loader
         page = load_page(file.parent_path)
         if submit_config = read_config(file)
             if name = submit_config['name']
-                # checks if pset already exists under name
                 pset = Pset.where(name: name).first_or_initialize
+
                 pset.description = file.parent_path.title.parameterize
                 pset.message = submit_config['message'] if submit_config['message']
                 pset.form = !!submit_config['form']
@@ -187,7 +206,6 @@ class Course::Loader
                 else
                     pset.files = nil
                 end
-
                 submit_config.merge! Grading.grades[name].to_h
                 pset.config = submit_config
                 pset.save
@@ -201,62 +219,14 @@ class Course::Loader
         end
     end
 
-    def prune_empty
-        # remove all pages having no subpages
-        to_delete = Page.includes(:subpages).where(:subpages => { :id => nil }).pluck(:id)
-
-        # remove pages and disassociate any related psets
-        Page.where("id in (?)", to_delete).destroy_all
-    end
-
-    # generate a tree of (nested) sections and pages
-    #
-    def generate_page_tree
-        ps = Page.all
-        res = {}
-
-        ps.each do |p|
-            hash = hashify_path(p.slug.split('/'), p.slug, p.title)
-            res.deep_merge! hash
-        end
-        
-        return res
-    end
-    
-    # generate nested hash for array of path segments
-    #
-    def hashify_path(path, full, title)
-        first, *rest = path
-        if rest.empty?
-            # leaf node
-            entry = { title => full }
-        else
-            entry = { first => hashify_path(rest, full, title) }
-        end
-        entry
-    end
-
-    # reads the config file and returns the contents
+    # Reads the config file and returns the contents
     #
     def read_config(file)
         begin
             return YAML.load(file.read)
         rescue => e
-            @errors << "#{file.path} was in an unreadable format. Error message: #{e.message}. Did you confuse tabs and spaces?"
+            @errors << "#{file.path} was in an unreadable format. Error message: #{e.message}."
             return nil
-        end
-    end
-
-    def order_psets
-        # Assign order to the grades
-        counter = 1
-        if Settings['grading'] && Settings['grading']['grades']
-            Settings['grading']['grades'].keys.each do |pset|
-                if p = Pset.find_by(name:pset)
-                    p.update(order: counter)
-                    counter += 1
-                end
-            end
         end
     end
 end
