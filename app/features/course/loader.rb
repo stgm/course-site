@@ -2,7 +2,7 @@
 # the source into the database.
 #
 class Course::Loader
-    COURSE_DIR = "public/course"
+    COURSE_DIR = "course"
     MATERIALS_DIR = "materials"
 
     def initialize
@@ -46,32 +46,19 @@ class Course::Loader
     def load_all_changes
         # load the repo as set in the front-end
         load_changes_from_git({
-            dir: '.',
             remote: Settings.git_repo,
             branch: Settings.git_branch
-        }, 'course')
+        }, COURSE_DIR, '.')
 
-        other_repos = [
-            {
-                dir: 'hoi',
-                remote: 'https://github.com/minprog/modules.git',
-                branch: 'main'
-            },
-            {
-                dir: 'haai',
-                remote: 'https://github.com/minprog/modules.git',
-                branch: 'main'
-            }
-        ]
-
-        other_repos.each do |repo|
-            load_changes_from_git(repo, MATERIALS_DIR)
+        other_repos = Settings["materials"] || {}
+        other_repos.each do |dir, repo|
+            load_changes_from_git(repo, MATERIALS_DIR, dir)
         end
     end
 
-    def load_changes_from_git(repo, base_dir)
-        Rails.logger.info "Updating course from #{repo[:remote]}"
-        git = Course::Git.new(base_dir, repo[:dir], repo[:remote], repo[:branch])
+    def load_changes_from_git(repo, base_dir, repo_dir)
+        Rails.logger.info "Updating course from #{repo['remote']}"
+        git = Course::Git.new(base_dir, repo_dir, repo['remote'], repo['branch'])
 
         if !git.update!
             @errors << "Repo #{repo_dir} could not be updated. You can simply try again."
@@ -85,6 +72,8 @@ class Course::Loader
                 case change.basename
                 when 'course.yml'
                     load_course_info change
+                when 'materials.yml'
+                    load_materials_info change
                 when 'grading.yml'
                     load_grading_info change
                     @grading_changed = true
@@ -155,6 +144,12 @@ class Course::Loader
     def load_course_info(file)
         if config = read_config(file)
             Settings["course"] = config
+        end
+    end
+
+    def load_materials_info(file)
+        if config = read_config(file)
+            Settings["materials"] = config
         end
     end
 
