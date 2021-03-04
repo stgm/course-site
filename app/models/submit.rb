@@ -29,7 +29,7 @@ class Submit < ApplicationRecord
 	scope :to_grade,  -> do
 		includes(:user, :pset, :grade).
 		where(grades: { status: [nil, Grade.statuses[:unfinished]] }).
-		where(users: { active: true }).
+		where(users: { status: :active }).
 		where("psets.automatic = ? or submits.check_results is not null", false).
 		order('submits.created_at asc')
 	end
@@ -37,7 +37,7 @@ class Submit < ApplicationRecord
 	scope :admin_to_grade,  -> do
 		includes(:user, :pset, :grade).
 		where(grades: { status: [nil, Grade.statuses[:unfinished], Grade.statuses[:finished]] }).
-		where(users: { active: true }).
+		where(users: { status: :active }).
 		where("psets.automatic = ? or submits.check_results is not null", false).
 		order('submits.created_at asc')
 	end
