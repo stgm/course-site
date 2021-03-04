@@ -4,8 +4,8 @@
 <% if r.schedule%>
 <span class="badge bg-info"><%= r.schedule.name %></span>
 <% end %>
-<% if r.done %><span class="badge bg-success">done</span><% end %>
-<% if !r.active %><span class="badge bg-warning">inactive</span><% end %>
+<% if r.status_done? %><span class="badge bg-success">done</span><% end %>
+<% if r.status_inactive? %><span class="badge bg-warning">inactive</span><% end %>
 <% if !r.student? %><span class="badge bg-secondary"><%= r.role %></span><% end %>
 <% end %>
 <% end if @results %>
