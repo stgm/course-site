@@ -7,7 +7,7 @@ unless self.private_methods.include? 'irb_binding'
 			end
 			yield
 		rescue => e
-			status e.inspect
+			puts e.inspect
 		ensure
 			ActiveRecord::Base.connection_pool.release_connection
 		end
