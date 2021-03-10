@@ -14,10 +14,10 @@ class Course::Tools
     def self.clean_psets
         # GRADES
         # checks all grades defined in grading.yml, adds them with config
-        if Grading.grades.any?
+        if GradingConfig.grades.any?
             Pset.update_all(order: nil)
             counter = 1
-            Grading.grades.each do |name, definition|
+            GradingConfig.grades.each do |name, definition|
                 p = Pset.where(name: name).first_or_create
 
                 # set order
@@ -34,7 +34,7 @@ class Course::Tools
                 p.save
             end
 
-            Grading.calculation.each do |name, formula|
+            GradingConfig.calculation.each do |name, formula|
                 p = Pset.where(name: name).first_or_create
                 p.order = counter
                 counter += 1
