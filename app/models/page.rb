@@ -1,23 +1,18 @@
 class Page < ApplicationRecord
-	has_many :subpages, dependent: :destroy
-	has_one  :pset, dependent: :nullify  # psets should never be destroyed, because may have submits
+    has_many :subpages, dependent: :destroy
+    has_one  :pset, dependent: :nullify  # psets should never be destroyed, because may have submits
 
-	# Make sure the subpages are always ordered
-	default_scope { order(:position, :title) }
-	
-	def normalize_friendly_id(string)
-		string.
-		downcase.
-		gsub(" ", "-").
-		gsub("problem-sets", "psets")
-	end
+    # Make sure the subpages are always ordered
+    default_scope { order(:position, :title) }
 
-	def public_url
-        the_path = ["/"]
-        # the_path << Course.submodule if Course.submodule
-        the_path << path
+    def normalize_friendly_id(string)
+        string.
+        downcase.
+        gsub(" ", "-").
+        gsub("problem-sets", "psets")
+    end
 
-        return File.join(the_path)
-        # path
-	end
+    def public_url
+        return File.join("/", path)
+    end
 end

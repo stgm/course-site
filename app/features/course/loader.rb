@@ -155,8 +155,8 @@ class Course::Loader
 
     def load_grading_info(file)
         if config = read_config(file)
-            Grading.load config
-            Grading.validate
+            GradingConfig.load config
+            GradingConfig.validate
         end
     end
 
@@ -201,7 +201,7 @@ class Course::Loader
                 else
                     pset.files = nil
                 end
-                submit_config.merge! Grading.grades[name].to_h
+                submit_config.merge! GradingConfig.grades[name].to_h
                 pset.config = submit_config
                 pset.save
 
