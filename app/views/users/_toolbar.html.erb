@@ -56,7 +56,7 @@
 			<% if Grading::FinalGradeAssigner.available? %>
 			<div class="dropdown-divider"></div>
 			<%= button_to calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' do 'Calculate any final grade' end %>
-			<% Grading.final_grade_names.each do |grade_name| %>
+			<% GradingConfig.final_grade_names.each do |grade_name| %>
 			<%= button_to calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' do "Calculate #{grade_name.humanize}" end %>
 			<% end %>
 			<% end %>
