@@ -36,17 +36,17 @@
 			margin-bottom: 0;
 			white-space: nowrap;
 		}
-		
+
 		.nav-link.active
 		{
 			background-color: $background-color;
 		}
 	}
-	
+
 	.nav-tabs-container
 	{
 		margin-bottom: -1.2rem;
-		
+
 		.nav-tabs
 		{
 			margin-bottom: 0;
@@ -58,6 +58,12 @@
 		display: none;
 		margin: 0;
 		padding: 0;
+	}
+
+	h1
+	{
+		font-size:130%;
+		margin-bottom:0;
 	}
 }
 
@@ -73,7 +79,7 @@
 #modal-browser-body
 {
 	@extend .modal-body;
-	
+
 	background-color: $background-color;
 
 	> .card
@@ -85,7 +91,7 @@
 		padding-right: 0.25rem;
 		border: 0;
 	}
-	
+
 	> .card:first-child
 	{
 		margin-top: 0;
@@ -106,13 +112,4 @@
 
 	-webkit-backdrop-filter: brightness(102%);
 	backdrop-filter: brightness(102%);
-}
-
-#modal-browser
-{
-	h1
-	{
-		font-size:130%;
-		margin-bottom:0;
-	}
 }

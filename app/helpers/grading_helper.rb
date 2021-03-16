@@ -18,6 +18,8 @@ module GradingHelper
                     rescue
                         tag.div "No JSON found"
                     end
+                when 'text/markdown'
+                    simple_markdown(contents.download)
                 when 'text/html'
                     tag.div sanitize(contents.download), class: 'ipynb'
                 when /text\/.*/, 'application/sql'
