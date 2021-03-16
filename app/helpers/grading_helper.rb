@@ -19,7 +19,7 @@ module GradingHelper
                         tag.div "No JSON found"
                     end
                 when 'text/markdown'
-                    simple_markdown(contents.download).bytes.pack("c*").force_encoding("UTF-8")
+                    simple_markdown(contents.download.bytes.pack("c*").force_encoding("UTF-8"))
                 when 'text/html'
                     tag.div sanitize(contents.download), class: 'ipynb'
                 when /text\/.*/, 'application/sql'
