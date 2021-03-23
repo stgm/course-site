@@ -46,8 +46,8 @@ class Course::Loader
     def load_all_changes
         # load the repo as set in the front-end
         load_changes_from_git({
-            remote: Settings.git_repo,
-            branch: Settings.git_branch
+            'remote' => Settings.git_repo,
+            'branch' => Settings.git_branch
         }, COURSE_DIR, '.')
 
         other_repos = Settings["materials"] || {}
