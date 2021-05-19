@@ -116,7 +116,7 @@ class Course::Loader
                     })
                 content = document.convert
             when '.ipynb'
-                content = GradingHelper::NBConverter.new(change.file).run
+                content = GradingHelper::NBConverter.new(change).run
             end
 
             title ||= change.path.title
