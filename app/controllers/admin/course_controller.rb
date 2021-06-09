@@ -35,7 +35,7 @@ class Admin::CourseController < ApplicationController
 	#
 	def export_grades
 		@users = User.student.joins(:submits).uniq
-		@psets = Pset.order(:order)
+		@psets = Pset.joins(:submits).distinct.order(:order)
 		@title = "Export grades"
 
 		# all users who ever submitted something
