@@ -6,9 +6,6 @@ wb.add_worksheet(name: "Grades") do |sheet|
 	labels << "status"
 	@psets.each do |pset|
 		labels << pset.name
-		pset.config['subgrades'].keys.each do |subgrade|
-			labels << "#{pset.name}-#{subgrade}"
-		end if pset.config && pset.config['subgrades']
 	end
 	sheet.add_row labels
 
