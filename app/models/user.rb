@@ -91,7 +91,7 @@ class User < ApplicationRecord
 	end
 
 	def login_id
-		return self.logins.first.try(:login)
+		return self.logins.first.try(:login) || self.token
 	end
 
 	def valid_profile?

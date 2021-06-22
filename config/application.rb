@@ -30,7 +30,10 @@ module CourseSite
         config.action_mailer.smtp_settings = {
             address: ENV["MAILER_ADDRESS"],
             domain: ENV["MAILER_DOMAIN"],
-            port: 587
+            port: 465,
+            ssl: true,
+            user_name: ENV["MAILER_USER"],
+            password: ENV["MAILER_PASS"]
         }
         config.active_storage.variant_processor = :vips
         config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
