@@ -50,7 +50,7 @@ gem 'asciidoctor'
 gem 'front_matter_parser'
 
 # XLSX generation
-gem 'rubyzip', require: 'zip'
+gem 'rubyzip', '~> 2.3.0', require: 'zip'
 gem 'caxlsx_rails'
 
 # front-end
