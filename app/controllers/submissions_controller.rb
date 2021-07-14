@@ -12,7 +12,7 @@ class SubmissionsController < ApplicationController
 		raise ActionController::RoutingError.new('Not Found') if @items.empty?
 
 		# overview table
-		@overview_config = Settings.overview_config
+		@overview_config = GradingConfig.overview_config
 		@grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).where(grades: { status: Grade.statuses[:published] }).to_h { |item| [item.pset.name, item.grade] }
 
 		@title = t(:submissions)
