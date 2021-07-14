@@ -1,0 +1,21 @@
+<% content_for :title do %>
+<h1><%= @student.name %></h1>
+<% end %>
+
+<div id="timeline">
+	<%= render partial: "items/item", collection: @items %>
+</div>
+
+<% content_for :footer do %>
+	<%= form_with model: @note, html: { class: 'w-100' } do |f| %>
+		<%= f.hidden_field :student_id %>
+		<div class="d-flex flex-row">
+			<div class="flex-fill">
+				<%= f.text_area :text, size: "x2", class: "form-control flex-fill", required: true %>
+			</div>
+			<div class="ml-3">
+				<%= f.submit "Add note", class: "btn btn-primary" %>
+			</div>
+		</div>
+	<% end %>
+<% end %>

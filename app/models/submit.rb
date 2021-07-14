@@ -4,7 +4,7 @@ class Submit < ApplicationRecord
 	include AutoCheck::ScoreCalculator
 	include AutoCheck::FeedbackFormatter
 
-	belongs_to :user, touch: true
+	belongs_to :user, touch: true, counter_cache: true
 	delegate :name, to: :user, prefix: true, allow_nil: true
 	delegate :suspect_name, to: :user, prefix: true, allow_nil: true
 	after_create { user.status_active! }

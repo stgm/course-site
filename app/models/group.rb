@@ -11,6 +11,7 @@ class Group < ApplicationRecord
 	
 	# these are the students
 	has_many :users
+	has_many :students, class_name: "User"
 	
 	# these are the staff that has been assigned to grade this group
 	has_and_belongs_to_many :graders, class_name: "User"

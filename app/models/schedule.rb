@@ -9,13 +9,14 @@ class Schedule < ApplicationRecord
 
 	# A schedule can have grading groups defined
 	has_many :groups, dependent: :destroy
-	
+
 	# These are the students in the schedule
 	has_many :users
+	has_many :students, -> { student }, class_name: "User"
 	has_many :submits, through: :users
 	has_many :grades, through: :users
 	has_many :hands, through: :users
-	
+
 	# These are the staff that may have been assigned to grade this group
 	has_and_belongs_to_many :graders, class_name: "User"
 	
