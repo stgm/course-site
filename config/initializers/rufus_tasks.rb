@@ -22,9 +22,9 @@ unless self.private_methods.include? 'irb_binding'
 		# and one for making sure only grades of a certain age are emailed, to allow
 		# for corrections within that timeframe.
 
-		scheduler.every '1m' do
+		scheduler.every '55m' do
 			if GradeMailer.available?
-				Grade.where("grades.mailed_at is null").published.where("grades.updated_at > ?", 1.day.ago).joins([:submit]).find_each do |g|
+				Grade.where("grades.mailed_at is null").published.where("grades.updated_at > ?", 1.day.ago).where("grades.updated_at < ?", 2.hours.ago).joins([:submit]).find_each do |g|
 					if g.comments.present?
 						GradeMailer.new_mail(g).deliver
 						ActiveRecord::Base.transaction do
