@@ -21,7 +21,7 @@ module GradingConfig
     end
 
     def self.final_grade_names
-        all['calculation'].keys
+        self.calculation.keys
     end
 
     def self.validate
