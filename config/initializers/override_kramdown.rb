@@ -28,10 +28,6 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# prefixes all local links with the right directory in /public/course
 	#
 	def convert_a(el, indent)
-		if @options[:cdn_prefix]
-			el.attr['href'] = cdn_url(el.attr['href'])
-		end
-
 		# any hrefs not starting with proto: or / or # are relative and 
 		# will be prefixed
 		if el.attr['href'] && el.attr['href'] !~ /(^[\w]+:|^\/|^\#)/
@@ -70,12 +66,6 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		else
 			super
 		end
-	end
-	
-	private
-	
-	def cdn_url(source)
-		source.sub(/^cdn:\//, @options[:cdn_prefix])
 	end
 	
 end

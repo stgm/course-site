@@ -16,7 +16,6 @@ module ApplicationHelper
 		Kramdown::Document.new(text,
 		                       :auto_ids => true,
 		                       :asset_prefix => page_context.public_url,
-		                       :cdn_prefix => Course.cdn_prefix,
 		                       :parse_block_html => true,
 		                       :toc_levels => 2..3,
 		                       :math_engine => nil,
