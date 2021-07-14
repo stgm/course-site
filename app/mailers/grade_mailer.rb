@@ -20,7 +20,7 @@ class GradeMailer < ApplicationMailer
         @course_name = Course.short_name
         @grade_name = submit.pset_name
         @login = submit.used_login
-        mail(to: submit.user.mail, subject: "#{@course_name}: warning about failed check")
+        mail(to: submit.user.mail, subject: "#{@course_name}: failed check for #{@grade_name}")
     end
 
     def self.available?
