@@ -28,8 +28,8 @@ class OverviewsController < ApplicationController
 		@selected_schedule = Group.friendly.find(params[:slug])
 
 		# [["Problems", ["M1", "M2", "M3", ...]], ...]
-		@overview = Settings.grading.select { |c,v| v['show_progress'] }.map { |c,v| [c, v['submits'].map {|k,v| k}] }
-		@overview = Settings.grading['modules'].to_a + @overview if Settings.grading['modules']
+		@overview = GradingConfig.all.select { |c,v| v['show_progress'] }.map { |c,v| [c, v['submits'].map {|k,v| k}] }
+		@overview = GradingConfig.modules.to_a + @overview if Settings.grading['modules']
 		load_data
 		@overview = [["Assignments", @psets.pluck(:name)]] if @overview.blank?
 	end

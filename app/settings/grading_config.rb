@@ -12,6 +12,10 @@ module GradingConfig
         all['calculation'] || {}
     end
 
+    def self.modules
+        all['modules'] || {}
+    end
+
     def self.load(new_settings)
         Settings.grading = new_settings
     end
