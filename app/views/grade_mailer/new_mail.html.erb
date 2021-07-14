@@ -1,0 +1,12 @@
+<%= simple_markdown(@header) %>
+
+<% if @grade %>
+<p>Assigned grade: <%= translate_grade(@grade) %></p>
+<% end %>
+
+<%= simple_markdown(@feedback) %>
+
+<% if @login %>
+<hr>
+
+<small><%= @login %></small><% end %>
