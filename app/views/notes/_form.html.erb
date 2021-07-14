@@ -16,11 +16,6 @@
 	<%= f.text_area :text, class: 'form-control', rows: 3, required:true %>
 </div>
 
-<div class="pl-1 pb-1">
-	<%= f.label :assignee_id, 'Assigned to:', class: 'mr-1' %>
-	<%= f.select :assignee_id, User.staff.order(:name).pluck(:name, :id), include_blank: true %>
-</div>
-
 <div class="mt-3 actions clearfix">
 	<%= link_to 'Cancel', @note, class: 'btn btn-sm btn-secondary'%>
 	<%= f.submit class: 'btn btn-sm btn-primary float-right' %>

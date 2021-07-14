@@ -8,6 +8,12 @@ class NotesController < ApplicationController
 
     def index
         @notes = Note.includes(:student).where(log: false).order(created_at: :desc).limit(30)
+        @max_submits = 30
+        @students = User.student.not_status_inactive.
+            includes(:group, { submits: [:pset, :grade] }).
+            order("groups.name").
+            order(:id).
+            group_by(&:group)
         render layout: 'navbar'
     end
 
@@ -43,6 +49,6 @@ class NotesController < ApplicationController
     end
 
     def note_params
-        params.require(:note).permit(:text, :author_id, :student_id, :done, :assignee_id)
+        params.require(:note).permit(:text, :author_id, :student_id, :done)
     end
 end
