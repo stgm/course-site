@@ -4,8 +4,6 @@ Rails.application.routes.draw do
 	get 'session/login', to: 'session#new'
 	get 'session/logout', to: 'session#destroy'
 
-	get 'dashboard', to: 'notes#index'
-
 	#--ADMIN------------------------------------------------------------------------------------
 
 	namespace :admin do
