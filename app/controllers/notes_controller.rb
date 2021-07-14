@@ -1,39 +1,54 @@
 class NotesController < ApplicationController
+    before_action :authorize
+    before_action :require_staff
+    before_action :require_admin, only: :index
 
-	before_action :authorize
-	before_action :require_senior
+    before_action :set_note, only: [:show, :edit, :update]
+    before_action :check_permission, only: [:show, :edit, :update]
 
-	def show
-		set_note
-		# render 'items/note'
-	end
+    def index
+        @notes = Note.includes(:student).where(log: false).order(created_at: :desc).limit(30)
+        @max_submits = 30
+        @students = User.student.not_status_inactive.
+            includes(:group, { submits: [:pset, :grade] }).
+            order("groups.name").
+            order(:id).
+            group_by(&:group)
+        render layout: 'navbar'
+    end
 
-	def create
-		@note = Note.create(note_params.merge({ author_id: current_user.id }))
-		redirect_to user_path(@note.student)
-	end
+    def show
+    end
 
-	def edit
-		set_note
-	end
+    def create
+        @note = Note.create(note_params.merge({ author_id: current_user.id }))
+        redirect_to user_path(@note.student)
+    end
 
-	def update
-		set_note
-		if @note.update(note_params)
-			redirect_to @note
-		else
-			render :edit
-		end
-	end
+    def edit
+    end
 
-	private
+    def update
+        if @note.update(note_params)
+            redirect_to @note
+        else
+            render :edit
+        end
+    end
 
-	def set_note
-		@note = Note.find(params[:id])
-	end
+    private
 
-	def note_params
-		params.require(:note).permit(:text, :author_id, :student_id, :done, :assignee_id)
-	end
+    def set_note
+        @note = Note.find(params[:id])
+    end
 
+    def check_permission
+        current_user.admin? ||
+        @note.author == current_user ||
+        current_user.students.find(@note.student)
+    end
+
+    def note_params
+        params.require(:note).permit(:text, :author_id, :student_id, :done)
+    end
 end

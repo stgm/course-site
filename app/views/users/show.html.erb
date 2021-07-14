@@ -52,9 +52,5 @@
 				<%= f.submit "Add note", class: "btn btn-primary" %>
 			</div>
 		</div>
-		<div class="small mt-2">
-			<%= f.label :assignee_id, 'Assigned to:', class: 'mr-1' %>
-			<%= f.select :assignee_id, User.staff.order(:name).pluck(:name, :id), include_blank: true %>
-		</div>
 	<% end %>
 <% end %>
