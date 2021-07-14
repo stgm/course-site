@@ -25,9 +25,11 @@ unless self.private_methods.include? 'irb_binding'
 		scheduler.every '1m' do
 			if GradeMailer.available?
 				Grade.where("grades.mailed_at is null").published.where("grades.updated_at > ?", 1.day.ago).joins([:submit]).find_each do |g|
-					GradeMailer.new_mail(g).deliver
-					ActiveRecord::Base.transaction do
-						g.touch(:mailed_at)
+					if g.comments.present?
+						GradeMailer.new_mail(g).deliver
+						ActiveRecord::Base.transaction do
+							g.touch(:mailed_at)
+						end
 					end
 				end
 			end
