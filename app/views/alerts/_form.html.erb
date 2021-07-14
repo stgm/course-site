@@ -24,7 +24,11 @@
 	<label><%= f.check_box :published %> Publish in announcements</label>
 </div>
 <div class="form-check pl-1 mb-3">
+	<% if AlertMailer.available? %>
 	<label><%= check_box_tag :send_mail %> Send an e-mail with the current text (now!)</label>
+	<% else %>
+	<label class="text-warning"><%= check_box_tag :send_mail, '0', false, disabled: true %> Can't send e-mails because an address hasn't been configured in the site config</label>
+	<% end %>
 </div>
 
 <div class="form-check pl-1 pb-1">
