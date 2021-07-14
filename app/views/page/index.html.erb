@@ -1,5 +1,11 @@
+<% if !Settings.site_enabled %>
+<div class="alert alert-danger sticky-top mx-n4 mb-5">
+    <strong>Note:</strong> this site is currently not enabled for submissions.
+</div>
+<% end %>
+
 <%= form_tag_if(
-		logged_in? && @page.pset,
+		Settings.site_enabled && logged_in? && @page.pset,
 		submissions_path,
 		{
 			multipart: true,
@@ -21,7 +27,7 @@
 </section>
 <% end %>
 
-<% if @page.pset %>
+<% if Settings.site_enabled && @page.pset %>
 <section id="submit-content" class="py-4 my-4 mt-5">
 
 	<% if @submitted_at %>

@@ -1,0 +1,44 @@
+<div class="row">
+	<div class="col m-3">
+		<table>
+			<% @students.each do |group, students| %>
+			<tr>
+				<td class="text-nowrap">
+						<%= group && group.name || '(no group)' %>
+				</td>
+				<td>
+					<div class="bars d-flex align-items-end">
+						<% students.each do |student| %>
+						<%= link_to(student, class: '', onclick: 'modalBrowser.show();', data: { 'turbo-frame': 'modal', toggle: "tooltip", placement: "top" }, title: "#{student.name} #{student.submits_count}") do %>
+						<div class="bar" style="background-color: #059999; width: 1rem; height:<%= student.submits_count.to_f/@max_submits %>rem;"></div>
+						<% end %>
+						<% end %>
+					</div>
+				</td>
+			</tr>
+		<% end %>
+		</table>
+	</div>
+	<div class="col m-3">
+		<div class="list-group my-3">
+			<% if @notes.any? %>
+			<% @notes.each do |note| %>
+	
+			<%= link_to(note.student, class: 'list-group-item', data: { 'turbo-frame': 'modal' }, onclick: 'modalBrowser.show();') do %>
+			<%#= render partial: "note", object: note %>
+			<%= note.student.name %>
+			<span class="float-right badge bg-secondary">bla</span>
+			<br>
+			<%= note.text %>
+			<br>
+			<small><%= time_ago_in_words(note.created_at) %> <%= t 'ago' %> by <%= note.author_name %></small>
+			<% end %>
+			<% end %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script>
+	enableTooltips();
+</script>

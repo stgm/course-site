@@ -6,7 +6,7 @@ class PageController < ApplicationController
 
 	def index
 		# find page by url and bail out if not found
-		@page = Page.where(:slug => params[:slug]).first		
+		@page = Page.where(slug: params[:slug]).first		
 		raise ActionController::RoutingError.new('Not Found') if !@page
 
 		@subpages = @page.subpages

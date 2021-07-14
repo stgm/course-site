@@ -138,7 +138,7 @@ Rails.application.routes.draw do
 		end
 
 		resources :alerts
-		resources :notes, only: [ :show, :create, :edit, :update ]
+		resources :notes, only: [ :index, :show, :create, :edit, :update ]
 
 		resources :grades, only: [ :destroy ] do
 			member do

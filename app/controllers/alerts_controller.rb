@@ -66,14 +66,13 @@ class AlertsController < ApplicationController
 	end
 
 	def send_mail
-		from = Settings.mailer_from
 		if not alert_params[:schedule_id].blank?
 			recipients = (Schedule.find(alert_params[:schedule_id]).users.where(status: [:active, :registered]) + Schedule.find(alert_params[:schedule_id]).users.staff).uniq
 		else
 			recipients = (User.where(status: [:active, :registered]) + User.staff).uniq
 		end
 		recipients.each do |user|
-			AlertMailer.alert_message(user, @alert, from).deliver_later
+			AlertMailer.alert_message(user, @alert).deliver_later
 		end
 	end
 

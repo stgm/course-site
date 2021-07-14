@@ -50,11 +50,11 @@ gem 'asciidoctor'
 gem 'front_matter_parser'
 
 # XLSX generation
-gem 'rubyzip', require: 'zip'
+gem 'rubyzip', '~> 2.3.0', require: 'zip'
 gem 'caxlsx_rails'
 
 # front-end
-gem 'bootstrap', '~> 5.0.0.alpha3'
+gem 'bootstrap', '5.0.0.alpha3'
 gem 'coderay'
 gem 'groupdate'
 gem 'stimulus-rails'

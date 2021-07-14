@@ -1,21 +1,7 @@
 class Hand < ApplicationRecord
 
 	belongs_to :user, touch: true
-	after_create do
-		user.increment! :hands_count
-		user.increment! :hands_duration_count, self.duration
-	end
-	before_update do
-		if self.success_changed?
-			duration = self.duration
-			duration *= -1 if not self.success
-			user.increment! :hands_duration_count, duration
-		end
-	end
-	after_destroy do
-		user.decrement! :hands_count
-		user.decrement! :hands_duration_count, self.duration
-	end
+	after_save :update_hands_count
 
 	belongs_to :assist, class_name: "User", optional: true
 	delegate :name, to: :assist, prefix: true, allow_nil: true
@@ -47,6 +33,20 @@ class Hand < ApplicationRecord
 
 	def duration
 		closed_at.present? ? ((closed_at - claimed_at)/60.0).round : 0
+	end
+
+	private
+
+	def update_hands_count
+		if success_previously_changed? || (previously_new_record? && success)
+			if success
+				user.increment! :hands_count
+				user.increment! :hands_duration_count, duration
+			else
+				user.decrement! :hands_count
+				user.decrement! :hands_duration_count, duration
+			end
+		end
 	end
 
 end

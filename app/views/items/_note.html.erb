@@ -16,9 +16,6 @@
 		</small>
 	</div>
 	<div class="d-flex">
-		<% if note.assignee.present? %>
-		<%= button_to [note, note: {done: !note.done} ], method: :patch, class: 'btn btn-link btn-lg p-1 pr-2' do bootstrap_icon(note.done && 'check-square' || 'square', width: 32, height: 32) end %>
-		<% end %>
 		<%= simple_markdown(note.text) %>
 	</div>
 </div>

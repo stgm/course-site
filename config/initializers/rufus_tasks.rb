@@ -7,7 +7,7 @@ unless self.private_methods.include? 'irb_binding'
 			end
 			yield
 		rescue => e
-			status e.inspect
+			puts e.inspect
 		ensure
 			ActiveRecord::Base.connection_pool.release_connection
 		end
@@ -23,11 +23,13 @@ unless self.private_methods.include? 'irb_binding'
 		# for corrections within that timeframe.
 
 		scheduler.every '55m' do
-			if Settings.send_grade_mails && Settings.mailer_from.present?
-				Grade.where("grades.mailed_at is null").published.joins([:submit]).find_each do |g|
-					GradeMailer.new_mail(g).deliver
-					ActiveRecord::Base.transaction do
-						g.touch(:mailed_at)
+			if GradeMailer.available?
+				Grade.where("grades.mailed_at is null").published.where("grades.updated_at > ?", 1.day.ago).where("grades.updated_at < ?", 2.hours.ago).joins([:submit]).find_each do |g|
+					if g.comments.present?
+						GradeMailer.new_mail(g).deliver
+						ActiveRecord::Base.transaction do
+							g.touch(:mailed_at)
+						end
 					end
 				end
 			end
