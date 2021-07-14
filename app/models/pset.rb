@@ -2,9 +2,6 @@ class Pset < ApplicationRecord
 
 	belongs_to :page, optional: true
 	
-	belongs_to :parent_pset, :class_name => 'Pset', optional: true
-	has_many :child_psets, :class_name => 'Pset', :foreign_key => 'parent_pset_id'
-
 	has_many :pset_files
 	has_many :submits
 	has_many :grades, through: :submits

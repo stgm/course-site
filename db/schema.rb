@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_14_082347) do
+ActiveRecord::Schema.define(version: 2021_07_14_150308) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -173,10 +173,8 @@ ActiveRecord::Schema.define(version: 2021_07_14_082347) do
     t.text "config"
     t.integer "mod_id"
     t.boolean "test", default: false
-    t.integer "parent_pset_id"
     t.index ["mod_id"], name: "index_psets_on_mod_id"
     t.index ["page_id"], name: "index_psets_on_page_id"
-    t.index ["parent_pset_id"], name: "index_psets_on_parent_pset_id"
   end
 
   create_table "schedule_spans", force: :cascade do |t|
