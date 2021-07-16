@@ -1,14 +1,12 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Grades") do |sheet|
-	labels = ["ID", "Name"]
-	@psets.each do |pset|
-		labels << pset.name
-		pset.config['subgrades'].keys.each do |subgrade|
-			labels << "#{pset.name}-#{subgrade}"
-		end if pset.config && pset.config['subgrades']
-	end
+	labels = ["ID", "Name","Attendance","Spoken"]
 	labels << "schedule"
 	labels << "group"
+	labels << "status"
+	@psets.each do |pset|
+		labels << pset.name
+	end
 	sheet.add_row labels
 
 	@users.each do |user|
@@ -17,6 +15,11 @@ wb.add_worksheet(name: "Grades") do |sheet|
 		data = []
 		data << user.login_id
 		data << user.name
+		data << user.attendance_records.count
+		data << user.hands.where(success:true).count
+		data << (user.schedule && user.schedule.name || "")
+		data << (user.group && user.group.name || "")
+		data << user.status.to_s
 		@psets.each do |pset|
 			if (g = grade_for(subs[pset.id])) == ""
 				data << ""
@@ -27,12 +30,7 @@ wb.add_worksheet(name: "Grades") do |sheet|
 			else
 				data << grade_for(subs[pset.id])
 			end
-			pset.config['subgrades'].keys.each do |subgrade|
-				data << subgrade_for(subs[pset.id], subgrade)
-			end if pset.config && pset.config['subgrades']
 		end
-		data << user.schedule.name if user.schedule
-		data << user.group.name if user.group
 		sheet.add_row data
 	end
 end

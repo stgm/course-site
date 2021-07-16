@@ -13,8 +13,10 @@ class Hands::RaisesController < ApplicationController
 					else
 						helping
 					end
-				elsif Settings.hands_location && is_local_ip? && current_user.student? && current_user.last_known_location.blank?
+				elsif Settings.hands_location && !Settings.hands_link && is_local_ip? && current_user.student? && current_user.last_known_location.blank?
 					location_small
+				elsif current_user.hands.where("closed_at > ?", 20.minutes.ago).where(success:true).any?
+					line
 				else
 					form
 				end
@@ -35,9 +37,16 @@ class Hands::RaisesController < ApplicationController
 	end
 	
 	def create
+		# only create a new hand if no hands are still open
 		if Hand.where(user: current_user, done: false).count == 0
-			hand = Hand.create(user:current_user, help_question:params[:question], subject: params[:subject], location:params[:location])
-			current_user.update!(last_known_location: params[:location])
+			if hand = Hand.where(user: current_user, done: true, success: false).where("closed_at > ?", 30.minutes.ago).last
+				# there is a relatively recent hand that was closed and can now be re-used
+				hand.update(done: false, assist_id: nil, help_question: params[:question], subject: params[:subject], location: params[:location])
+			else
+				# create a completely new one
+				hand = Hand.create(user:current_user, help_question: params[:question], subject: params[:subject], location: params[:location])
+				current_user.update!(last_known_location: params[:location])
+			end
 		end
 
 		show
@@ -105,6 +114,10 @@ class Hands::RaisesController < ApplicationController
 	
 	def form
 		render 'form'
+	end
+	
+	def line
+		render 'line'
 	end
 	
 	def waiting

@@ -1,28 +1,42 @@
 <%= form_tag '/profile/save', class:'form-horizontal' do |f| %>
 
-<div class="modal-dialog">
+<div id="profile-dialog" class="modal-dialog">
 	<div class="modal-content">
 		<div class="modal-header">
 			<h2 class="modal-title">Please register</h2>
 		</div>
-		<div class="modal-body" style="padding:4em;">
+		<div class="modal-body">
 
+			<p>This will allow you to submit problems and otherwise participate in the course. If you're not going to do the course at this time, feel free to cancel and logout.</p>
 			<div class="form-group">
-				<label class="col-sm-4 control-label" for="user_name">First and last name</label>
-				<div class="col-sm-8">
-					<%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
-				</div>
+				<label for="user_name">First and last name</label>
+				<%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label" for="user_mail">E-mail</label>
-				<div class="col-sm-8">
-					<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
-				</div>
+				<label for="user_mail">E-mail</label>
+				<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 			</div>
+			
+			<% if Schedule.where(self_register: true).count > 1 %>
+			<div class="form-group">
+				<label>Your schedule</label>
+
+				<% Schedule.where(self_register: true).each do |schedule| %>
+				<div class="form-check">
+					<input type="radio" name="user[schedule_id]" required id="optionsRadios<%= schedule.id %>" value="<%= schedule.id %>" <%= 'checked' if current_user && current_user.schedule && current_user.schedule.id == schedule.id %>>
+					<label for="optionsRadios<%= schedule.id %>">
+						<%= schedule.description || schedule.name %>
+					</label>
+				</div>
+				<% end %>
+			</div>
+			<% elsif Schedule.count == 1 %>
+			<%= hidden_field_tag "user[schedule_id]", Schedule.first.id %>
+			<% end %>
 			
 		</div>
 		<div class="modal-footer">
-			<%= link_to 'Cancel', session_logout_path, class: 'btn btn-default' %>
+			<%= link_to 'Cancel', session_logout_path, class: 'btn', data: { turbo: "false" } %>
 			<%= submit_tag 'Create Profile', class:'btn btn-primary' %>
 		</div>
 	</div>

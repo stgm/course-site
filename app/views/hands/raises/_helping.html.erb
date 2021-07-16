@@ -1,6 +1,6 @@
 <div style="text-align: center; padding:1em;">
-	<div style="position:absolute; left:2px; top:0;"><%= link_to '<span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="Cancel your help request!"></span>'.html_safe, hands_raise_path, method: :delete, remote: true %></div>
 	<h3 style="margin-bottom:0.75em;"><%= t "hands.wait_is_over" %></h3>
 	<img src="<%= @assist.avatar %>" style="max-width: 200px; max-height: 150px;">
 	<p class="mb-0 mt-3"><%= t "hands.is_looking_to_help_you", name: @assist.name.split[0] %></p>
+	<%= link_to(t("hands.cancel_request"), hands_raise_path, method: :delete, remote: true, class: 'btn btn-warning mt-3') if @question.claimed_at < 60.minutes.ago %>
 </div>

@@ -1,21 +1,21 @@
 class Hand < ApplicationRecord
 
 	belongs_to :user, touch: true
+	after_save :update_hands_count
 
 	belongs_to :assist, class_name: "User", optional: true
 	delegate :name, to: :assist, prefix: true, allow_nil: true
-	
+
 	scope :waiting, -> { where(assist_id: nil).where.not(done: true) }
-	
+	scope :successfully_helped, -> { where(success: true) }
+	scope :total_duration, -> { sum('(JulianDay(closed_at) - JulianDay(claimed_at)) * 60 * 24').round }
+
 	after_validation do |hand|
 		if hand.done
 			hand.user.update_attribute(:last_spoken_at, DateTime.now)
 		end
 		if hand.success
 			AttendanceRecord.create_for_user(hand.user, true)
-		end
-		if hand.note.present?
-			user.notes.create(text: hand.note, author: hand.assist)
 		end
 	end
 
@@ -29,6 +29,28 @@ class Hand < ApplicationRecord
 	
 	def short_description
 		"1 question asked and answered"
+	end
+
+	def sortable_date
+		updated_at
+	end
+
+	def duration
+		closed_at.present? ? ((closed_at - claimed_at)/60.0).round : 0
+	end
+
+	private
+
+	def update_hands_count
+		if success_previously_changed? || (previously_new_record? && success)
+			if success
+				user.increment! :hands_count
+				user.increment! :hands_duration_count, duration
+			else
+				user.decrement! :hands_count
+				user.decrement! :hands_duration_count, duration
+			end
+		end
 	end
 
 end

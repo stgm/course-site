@@ -1,28 +1,25 @@
-class Schedules::SubmitsController < ApplicationController
+class Schedules::SubmitsController < Schedules::ApplicationController
 
 	before_action :authorize
 	before_action :require_senior
 
-	# GET /schedules/.../submits/form_for_missing
+	layout 'modal'
+
+	# GET /schedules/<slug>/submits/form_for_missing
 	def form_for_missing
-		@schedule = current_user.schedule
-		# @users = @schedule.users.not_staff.not_inactive
-		@psets = Pset.all
-		render_to_modal header: 'Notify non-submitters'
+		load_schedule
+		@psets = Pset.all.order(:name)
 	end
 
-	# POST /schedules/.../submits/notify_missing
+	# POST /schedules/<slug>/submits/notify_missing
 	def notify_missing
-		@schedule = current_user.schedule
+		load_schedule
 		@pset = Pset.find(params[:pset_id])
-		@users = @schedule.users.not_staff.not_inactive
-
+		@users = @schedule.users.not_staff.where(status: [:active, :registered]).who_did_not_submit(@pset)
 		@users.each do |u|
-			if !@pset.submit_from(u)
-				NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver_later
-			end
+			NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver_later
 		end
-		redirect_to @schedule, notice: 'E-mails are being sent.'
+		redirect_to schedule_overview_path(@schedule), notice: "E-mails are being sent to #{@users.count} students from #{@schedule.name}."
 	end
-	
+
 end

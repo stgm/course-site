@@ -10,7 +10,7 @@ module ProgressHelper
 	
 	def progress_bar(user, items, **args)
 		@grouped_items = items.group_by_day{ |i| i.class==Submit && i.submitted_at || i.updated_at }
-		@xtra = user.submits.includes({:pset => [:parent_mod, :mod]}).where("submitted_at is not null").where("psets.mod_id is not null or mods_psets.pset_id is null").references(:psets, :mods).to_a.group_by_day{|i| i.created_at}
+		@xtra = user.submits.where("submitted_at is not null").to_a.group_by_day{|i| i.created_at}
 		# @xtra.each { |k,v| puts k; puts v }
 		# puts "---"
 		

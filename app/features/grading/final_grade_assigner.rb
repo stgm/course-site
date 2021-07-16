@@ -4,8 +4,16 @@ module Grading::FinalGradeAssigner
 		!!Settings['grading'] && !!Settings['grading']['calculation']
 	end
 
-	def self.assign_final_grade(student, grader)
+	def self.assign_final_grade(student, grader, *args)
+		# calculate all possible grades
 		grades = Grading::FinalGradeCalculator.run_for(student.all_submits)
+
+		# extract only requested grades if needed
+		options = args.extract_options!
+		only_these = options[:only]
+		grades.slice!(*only_these) if only_these
+
+		# assign where possible
 		grades.each do |name, grade|
 			grade = number_grade(grade)
 			if grade.present? # there really is an assignable grade
@@ -32,11 +40,11 @@ module Grading::FinalGradeAssigner
 	def self.number_grade(grade)
 		case grade
 		when :not_attempted
-			# something that must have been attempted wasn't
+			# something like an exam hadn't been attempted
 			return nil
 		when :missing_data
 			# anything that must have been attempted, was, but something else is missing
-			return 0
+			return nil
 		when :insufficient
 			# some tests have been failed
 			return 0

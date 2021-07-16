@@ -1,25 +1,34 @@
 class ApplicationController < ActionController::Base
 
-	include ModalRenderer
 	include AuthenticationHelper
-
+	
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
-		flash[:alert] = "<strong>Warning:</strong> you were logged out since you last loaded this page. If you just submitted, please login and try again.".html_safe
+		flash[:alert] = "Warning: you were logged out since you last loaded this page. If you just submitted, please login and try again."
 		redirect_back fallback_location: '/'
 	end
 	
 	before_action do # set_locale
-		I18n.locale = (Settings.course["language"] if Settings.course) || I18n.default_locale
+		I18n.locale = Course.language || I18n.default_locale
+	end
+	
+	before_action do # login by token
+		if params[:token].present? && User.where(token: params[:token]).any?
+			# login via generated token
+			request.session['token'] = params[:token]
+		end
 	end
 	
 	##
 	## Before-actions
 
 	def authorize
-		# defer login to rack-cas
-		head :unauthorized unless request.session['cas'].present?
+		head :unauthorized unless authenticated?
 	end
- 
+	
+	def validate_profile
+		redirect_to profile_path if authenticated? && !current_user.valid_profile?
+	end
+	
 	def register_attendance
 		if (!session[:last_seen_at] || session[:last_seen_at] && session[:last_seen_at] < 15.minutes.ago) && current_user.persisted?
 			AttendanceRecord.create_for_user(current_user, request_from_local_network?)
@@ -27,23 +36,19 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	
-	def go_location_bumper
-		redirect_to(location_path) if Settings.hands_bumper && request_from_local_network? && current_user.student? && current_user.last_known_location.blank?
-	end
-	
 	##
 	## Role-based permissions
 
 	def require_admin
-		redirect_to :root unless current_user.admin?
+		head :forbidden unless current_user.admin?
 	end
 	
 	def require_senior
-		redirect_to :root unless current_user.head? or current_user.admin?
+		head :forbidden unless current_user.senior?
 	end
 	
 	def require_staff
-		redirect_to :root unless current_user.admin? or current_user.assistant? or current_user.head?
+		head :forbidden unless current_user.staff?
 	end
 	
 	private

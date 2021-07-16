@@ -1,23 +1,18 @@
 class Page < ApplicationRecord
+    has_many :subpages, dependent: :destroy
+    has_one  :pset, dependent: :nullify  # psets should never be destroyed, because may have submits
 
-	# this generates a url friendly part for the page
-	extend FriendlyId
-	friendly_id :title, use: [ :slugged, :scoped ], scope: :section
+    # Make sure the subpages are always ordered
+    default_scope { order(:position, :title) }
 
-	belongs_to :section, optional: true  # parent section
-	has_many :subpages                   # content tabs
-	has_one :pset                        # linked pset if available
+    def normalize_friendly_id(string)
+        string.
+        downcase.
+        gsub(" ", "-").
+        gsub("problem-sets", "psets")
+    end
 
-	# Make sure the subpages are always ordered
-	default_scope { order(:position, :title) }
-	
-	def public_url
-		the_path = ["/course"]
-		the_path << Settings.submodule if Settings.submodule
-		the_path << section.path if section
-		the_path << path
-		
-		return File.join(the_path)
-	end
-	
+    def public_url
+        return File.join("/", path)
+    end
 end

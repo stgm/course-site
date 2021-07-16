@@ -1,83 +1,60 @@
+# Manages submits in admin interfaces like /students and the student search
+# -only course heads need access.
 class SubmitsController < ApplicationController
 
-	#
-	# Manages submits in admin interfaces like /students and the student search
-	# -only course heads need access
-	#
-
 	before_action :authorize
-	before_action :require_senior
+	before_action :require_senior, except: [:show, :update]
+	before_action :require_staff, only: [:show, :update]
 
-	# GET /submits/:id
-	# sends javascript to fill a modal-browser
+	layout 'modal'
+
+	# Submit and grade editor.
 	def show
 		load_submit(params[:id])
 	end
-	
-	# POST /submits with :pset_id, :user_id
-	# sends javascript to fill a modal-browser
+
+	# Create a completely new submit (without student interaction).
 	def create
 		submit = Submit.where(params[:submit].permit([:pset_id, :user_id])).first_or_create
-		logger.info "HIER #{submit.inspect}"
-		load_submit(submit.id)
-		render 'show'
+		redirect_to submit
 	end
-	
-	# DELETE /submits/:id
-	# does not send javascript, instead refreshes full view via redirect_back
-	def destroy
-		@submit = Submit.find(params[:id])
-		@submit.destroy
-		respond_to do |format|
-			format.js { redirect_js location: user_path(@submit.user) }
-			format.html { redirect_back fallback_location: root_path }
+
+	def update
+		@submit = Submit.includes(:grade).find(params[:id])
+
+		if current_user.senior? || @submit.grade.blank? || @submit.grade.unfinished?
+			# update submit but also the linked grade
+			@submit.update! params.require(:submit).permit!
+		end
+
+		if params[:commit] == 'autosave'
+			head :ok
+		else
+			redirect_to @submit
 		end
 	end
-	
+
+	# Deletes submit and redirects to the previously associated student.
+	def destroy
+		@submit = Submit.find(params[:id])
+		@user = @submit.user
+		@submit.destroy
+		redirect_to @user
+	end
+
+	# Sends files to check server and redirects to the previously associated student.
 	def recheck
 		@submit = Submit.find(params[:id])
 		@submit.recheck(request.host)
-		
-		respond_to do |format|
-			format.js { redirect_js location: submit_path(@submit) }
-			format.html { redirect_back fallback_location: root_path }
-		end
-	end
-	
-	# GET /submits/form_for_missing
-	def form_for_missing
-		@schedule = current_user.schedule
-		@users = @schedule.users.not_staff.not_inactive
-		@psets = Pset.all
-		render layout: "application"
+		redirect_to user_path(@submit.user)
 	end
 
-	# POST /submits/notify_missing
-	def notify_missing
-		@schedule = current_user.schedule
-		@pset = Pset.find(params[:pset_id])
-		@users = @schedule.users.not_staff.not_inactive
-
-		@users.each do |u|
-			if !@pset.submit_from(u)
-				NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver
-			end
-		end
-		redirect_to({ action: "index" }, notice: 'E-mails are being sent.')
-	end
-	
 	private
-	
+
 	def load_submit(id)
-		# load the submit and any grade that might be attached
 		@submit = Submit.includes(:grade, :user, :pset).find(id)
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
-
-		# load files submitted in child psets if we want to grade a parent module
-		@files_from_module = @submit.user.files_for_module(@submit.pset.mod) if @submit.pset.mod
-
-		# either use the files attached to this specific submit, or all gathered from the module
-		@files = @submit.file_contents || @files_from_module
+		@files = @submit.all_files
 	end
 
 end

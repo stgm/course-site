@@ -27,10 +27,13 @@ nl:
     by: "door"
     was_graded: "is nagekeken"
     materials: "materialen"
+    modules: "modules"
     other: "overig"
     you_submitted: "Je hebt %{name} ingestuurd"
+    submit: "Insturen"
     you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
     see_submissions_page: "Zie de voortgangspagina voor een overzicht."
+    files_submitted: "Ingestuurde bestanden:"
     check_results: "Check-resultaten"
     overview: "Resultaten"
     weight: "weging"
@@ -46,8 +49,10 @@ nl:
         posting_question: "Aanvraag wordt verstuurd..."
         you_are_number_1_in_line: "Je bent nummer %{number} in de wachtrij."
         wait_is_over: "Het wachten is voorbij!"
-        is_looking_to_help_you: "%{name} is op dit moment op zoek naar je om je te assisteren"
+        is_looking_to_help_you: "%{name} is op dit moment naar je op zoek om je te assisteren"
+        in_line: Je staat even in de wacht omdat je kort geleden geholpen bent!
         cancel_request: "Annuleren"
+        link: "Geef je Zoom-link"
 
     activerecord:
       errors:

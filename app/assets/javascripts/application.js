@@ -10,14 +10,11 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery_ujs
-//= require jquery.purr
+//= require rails-ujs
 //= require popper
 //= require bootstrap
-//= require best_in_place
-//= require garlic
-//= require Chart.bundle
-//= require chartkick
-//= require twitter/typeahead
-//= require_tree .
+//
+// Note: the below requires only the files in the javascripts directory, and skips stuff in the
+// javascripts/optional directory.
+//
+//= require_directory .

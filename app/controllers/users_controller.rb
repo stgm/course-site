@@ -1,44 +1,88 @@
+# TODO factor out search
 class UsersController < ApplicationController
-	
-	# include ApplicationHelper
-	
-	before_action :authorize
-	before_action :require_senior
 
-	# GET /manage/users/:id.js
-	def show
-		@student = User.includes(:hands, :notes).find(params[:id])
-		@schedules = Schedule.all
-		@groups = @student.schedule.groups.order(:name) if @student.schedule
-		@note = Note.new(student_id: @student.id)
-		@items = @student.items(true)
-		@psets = Pset.order(Arel.sql("'order' IS NULL"), :order)
-	end
-	
-	# PATCH /manage/users/:id
-	def update
-		@user = User.find(params[:id])
-		@user.log_changes_for(current_user)
-		@user.update_attributes!(params.require(:user).permit(:name, :active, :done, :status, :mail, :avatar, :notes, :schedule_id, :group_id, :alarm))
+    before_action :authorize
+    before_action :require_senior, except: :show
+    before_action :require_staff, only: :show
+    before_action :set_user_scope
 
-		respond_to do |format|
-			format.json { respond_with_bip(p) }
-			format.html { redirect_back fallback_location: '/' }
-			format.js { redirect_js location: user_path(@user) }
-		end
-	end
-	
-	# PATCH /manage/users/:id/calculate_final_grade
-	def calculate_final_grade
-		# feature has to be enabled by supplying a grading.yml
-		raise ActionController::RoutingError.new('Not Found') if not Grading::FinalGradeAssigner.available?
-		@user = User.find(params[:id])
-		result = Grading::FinalGradeAssigner.assign_final_grade(@user, current_user)
+    layout 'modal'
 
-		respond_to do |format|
-			format.html { redirect_back fallback_location: '/' }
-			format.js { redirect_js location: user_path(@user) }
-		end
-	end
-	
+    def search
+        if params[:text] != ""
+            @results = @user_scope.
+                includes(:logins).
+                where("users.name like ? or logins.login like ?", "%#{params[:text]}%", "%#{params[:text]}%").
+                references(:logins).
+                limit(10).
+                order(:name)
+        else
+            @results = []
+        end
+        respond_to do |format|
+            format.js
+        end
+    end
+
+    def show
+        @student = @user_scope.includes(:hands, :notes).find(params[:id])
+        @note = Note.new(student_id: @student.id)
+
+        if current_user.senior?
+            @schedules = Schedule.all
+            @groups = @student.schedule && @student.schedule.groups.order(:name) || []
+            @psets = Pset.ordered_by_grading
+            @attend = @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
+            @items = @student.items(true)
+        else
+            @items = @student.notes.includes(:author).order(created_at: :desc)
+            render 'notes'
+        end
+    end
+
+    def edit
+        @student = @user_scope.find(params[:id])
+
+    end
+
+    def update
+        @user = @user_scope.find(params[:id])
+        @user.update!(params.require(:user).permit(
+            :name,
+            :status,
+            :alarm,
+            :status_description,
+            :mail,
+            :avatar,
+            :notes,
+            :schedule_id,
+            :group_id))
+        respond_to do |format|
+            format.js { head :ok }
+            format.html { redirect_to @user }
+        end
+    end
+
+    def calculate_final_grade
+        # feature has to be enabled by supplying a grading.yml
+        raise ActionController::RoutingError.new('Not Found') if not Grading::FinalGradeAssigner.available?
+        @user = @user_scope.find(params[:id])
+        result = Grading::FinalGradeAssigner.assign_final_grade(@user, current_user, only: params[:grades])
+        redirect_to @user
+    end
+
+    private
+
+    # limits user operations to the scope allowed for the current user
+    def set_user_scope
+        @user_scope = case current_user.role
+        when 'assistant'
+            current_user.students
+        when 'head'
+            current_user.schedule.students
+        when 'admin'
+            User
+        end
+    end
+
 end

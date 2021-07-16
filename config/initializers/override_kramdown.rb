@@ -4,7 +4,11 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# give tables some bootstrap attributes
 	#
 	def convert_table(el, indent)
-		el.attr['class'] = 'kramdown-table'
+		if el.attr['class']
+			el.attr['class'] += ' kramdown-table'
+		else
+			el.attr['class'] = 'kramdown-table'
+		end
 		super
 	end
 	
@@ -13,7 +17,7 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	#
 	def convert_img(el, indent)
 		if el.attr['alt'] == 'embed'
-			return "<div class='embed'><div class='embed-responsive embed-responsive-16by9'><iframe allowfullscreen class='embed-responsive-item' src='#{el.attr['src']}'></iframe></div></div>"
+			return "<div class='embed' #{html_attributes(el.attr.reject{|k,v|k=='src'})}><div class='ratio ratio-16x9'><iframe allowfullscreen src='#{el.attr['src']}'></iframe></div></div>"
 		elsif el.attr['src'] && el.attr['src'] !~ /(^[\w]*:|^\/)/
 			el.attr['src'] = File.join(@options[:asset_prefix], el.attr['src'])
 		end
@@ -24,14 +28,17 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 	# prefixes all local links with the right directory in /public/course
 	#
 	def convert_a(el, indent)
-		if @options[:cdn_prefix]
-			el.attr['href'] = cdn_url(el.attr['href'])
-		end
 		# any hrefs not starting with proto: or / or # are relative and 
 		# will be prefixed
-		if el.attr['href'] && el.attr['href'] !~ /(^[\w]*:|^\/|^\#)/
+		if el.attr['href'] && el.attr['href'] !~ /(^[\w]+:|^\/|^\#)/
 			el.attr['href'] = File.join(@options[:asset_prefix], el.attr['href'])
 		end
+
+		# ensure that external links are opened in a new tab or window
+		if el.attr['href'] && el.attr['href'] =~ /(^https?:)/
+			el.attr['target'] = '_blank'
+		end
+
 		super
 	end
 	
@@ -59,12 +66,6 @@ class Kramdown::Converter::CustomHtml < Kramdown::Converter::Html
 		else
 			super
 		end
-	end
-	
-	private
-	
-	def cdn_url(source)
-		source.sub(/^cdn:\//, @options[:cdn_prefix])
 	end
 	
 end

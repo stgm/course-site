@@ -2,7 +2,7 @@
 
 <h4>
 	<%= @user.name %><% if @user.group %> <%= @user.group.name %><% end %><br>
-	<small>was seen on this site <%= @user.last_seen_at ? time_ago_in_words(@user.last_seen_at) : 'never??' %> ago</small>
+	<small>was seen on this site <%= @user.last_seen_at ? time_ago_in_words(@user.last_seen_at) : 'never??' %> <%= t(:ago) %></small>
 </h4>
 
 <p>
@@ -16,7 +16,9 @@
 
 <%= render partial: 'form' %>
 		
-<p><button type="submit" class="btn btn-primary btn-block">Mark as done</button></p>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+	<button type="submit" class="btn btn-primary btn-block">Mark as done</button>
+</div>
 
 <% end %>
 

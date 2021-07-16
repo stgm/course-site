@@ -1,3 +1,10 @@
-<h1>Editing Alert</h1>
+<% content_for :title do %>
+<h1>Edit announcement</h1>
+<% end %>
 
 <%= render 'form' %>
+
+<% content_for :footer do %>
+	<%= render partial: 'alerts/back' %>
+	<%= submit_tag 'Save announcement', form: 'alert_form', class: 'ml-auto btn btn-primary' %>
+<% end %>

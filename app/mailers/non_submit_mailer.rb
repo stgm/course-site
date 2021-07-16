@@ -5,7 +5,7 @@ class NonSubmitMailer < ApplicationMailer
 		login = user.login_id
 		mail(
 			to: user.mail,
-			subject: "#{Settings.short_course_name}: submit #{grade_name}!",
+			subject: "#{Course.short_name}: submit #{grade_name}!",
 			body: "#{notice}\n\n\n#{login}"
 		)
 	end

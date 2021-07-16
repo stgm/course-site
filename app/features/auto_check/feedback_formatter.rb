@@ -40,8 +40,6 @@ module AutoCheck::FeedbackFormatter
 					items = [check_results[tool]].collect {|f| f["results"]}.flatten
 				end
 			end
-		
-			# puts items
 		end
 	
 		return "" if items.nil?
@@ -50,12 +48,10 @@ module AutoCheck::FeedbackFormatter
 		result = ""
 		
 		items.each do |item|
-			# puts item
 			case v3 && item["passed"] || item["status"]
 			when true
 				result << ":)"
 			when false
-				# puts "FALSE"
 				result << ":("
 			when nil
 				result << ":|"
@@ -71,7 +67,7 @@ module AutoCheck::FeedbackFormatter
 	
 	def format_checkpy_feedback(part)
 		"- #{part['name']}\n" +
-		part['results'].collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
+		(part['results'] || {}).collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
 	end
 	
 	def format_line(success, description, explanation)
@@ -80,7 +76,6 @@ module AutoCheck::FeedbackFormatter
 		when true
 			result << "  :)"
 		when false
-			# puts "FALSE"
 			result << "  :("
 		when nil
 			result << "  :|"

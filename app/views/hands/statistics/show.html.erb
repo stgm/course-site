@@ -1,83 +1,93 @@
-<% content_for :math do %>
-<%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
-<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" %>
+<% content_for :title do %>
+<h1>Hands statistics</h1>
 <% end %>
 
-<%= timeline @chart_data, height: "500px" %>
+<h3 class="mb-3">Today</h3>
 
-<canvas id="myChart" width="400" height="400"></canvas>
-	
-<script>
-	var ctx = "myChart";
-	// var myBubbleChart = new Chart(ctx,{
-	//     type: 'bubble',
-	//     data: { datasets: { data: <%=raw @week_data.to_json %> } }
-	// });
-	
-	
-	new Chart(ctx, {
-	    type: 'bubble',
-	    data: {
-			labels: "Africa",
-			datasets: [
-				{
-					label: ["Questions"],
-					backgroundColor: "rgba(255,221,50,0.2)",
-					borderColor: "#FC5D41",
-					data: <%=raw @week_data.to_json %>
-				}, 
-			]
-	    },
-	    options: {
-	      title: {
-	        display: true,
-	        text: ''
-	      },
-		  scales: {
-	        yAxes: [{ 
-				ticks: {
-					max:20,
-					min:7,
-					stepSize: 1
-				},
-	          scaleLabel: {
-	            display: true,
-	            labelString: "Hour"
-	          }
-	        }],
-	        xAxes: [{ 
-	          scaleLabel: {
-	            display: true,
-	            labelString: "Date"
-	          }
-	        }]
-	      }
-	    }
-	});
-</script>
-	
+<% if @chart_start && @chart_end %>
+<table class="table caption-top">
+	<thead>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Hands (<%= @chart_start.strftime('%H:%M') %>&ndash;<%= @chart_end.strftime('%H:%M') %>)</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @chart_groups.each do |u,items| %>
+		<tr>
+			<td class="text-nowrap"><%= u %></td>
+			<td class="w-100 align-middle">
+				<div class="progress">
+					<% prev=@chart_start %>
+					<% items.each do |i|%>
+					<% this_start = i.second
+					   this_end = i.third
+					   margin = (this_start-prev).to_i.to_f/(@chart_end-@chart_start).to_i*100
+					   width = (this_end-this_start).to_i.to_f/(@chart_end-@chart_start).to_i*100
+					   minutes = (this_end-this_start).to_i/60
+					   %>
+					<div class="progress-bar border-right"
+						data-toggle="tooltip" data-placement="top" title="<%= pluralize minutes, "minute" %>"
+						role="progressbar"
+						style="margin-left:<%= margin %>%; width: <%= width %>%"
+						aria-valuenow="15"
+						aria-valuemin="0"
+						aria-valuemax="100"></div>
+						<% prev=this_end %>
+					<% end %>
+				</div>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+<% end %>
 
-<table class="table">
+<h3 class="mt-5 mb-3">Questions per hour over the past week</h3>
+
+<table class="table caption-top">
+	<thead>
+		<tr>
+			<th>hour/date</th>
+			<% @week_data.map{|datum| datum[:x]}.uniq.each do |day| %>
+			<th scope="col"><%= day %></th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody>
+		<% (8..23).each  do |hour| %>
+		<tr>
+			<th><%= hour %></th>
+			<% @week_data.map{|datum| datum[:x]}.uniq.each do |day| %>
+			<td><%= @week_data.select{|datum| datum[:x]==day && datum[:y]==hour}.first.try(:[], :r)||0 %></td>
+			<% end %>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<h3 class="mt-5 mb-3">Recent questions</h3>
+
+<table class="table caption-top">
 	<tr>
 		<th>created</th>
 		<th>closed</th>
-		<th>hulplijn</th>
+		<th>put back</th>
 		<th>assistent</th>
 		<th>student</th>
 		<th>waiting</th>
 		<th>helping</th>
-		<th>mood</th>
 	</tr>
 	<% @today.each do |entry| %>
 	<tr>
-		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%H:%M") %></span></td>
+		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%a %H:%M") %></span></td>
 		<td>
 			<% if entry.done && entry.success %>
 			<span class="text-success">v</span>
 			<% elsif entry.done && !entry.success %>
 			<span class="text-danger">x</span>
 			<% end %>
-		<td><% if entry.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %></td>
+		<td><% if entry.helpline %><span class="btn-close text-danger"></span><% end %></td>
 		<td><%= entry.assist.name if entry.assist %></td>
 		<td><%= entry.user.name %></td>
 		<td>
@@ -96,13 +106,10 @@
 			<%= distance_of_time_in_words(DateTime.now, entry.claimed_at) %></button>...
 			<% end %>
 		</td>
-		<td><%= entry.evaluation %></td>
 	</tr>
 	<% end %>
 </table>
 
 <script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+	enableTooltips();
 </script>

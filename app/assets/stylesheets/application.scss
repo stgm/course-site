@@ -10,11 +10,16 @@
  *
  */
 
-$theme-colors: (
-  "primary": #0074d9,
-  "secondary": #4091d9,
-  "danger": #ff4136
-);
+$background-color: #fdf9f5;
+
+$primary: #0087d9;
+$secondary: #71B1D9;
+
+$danger: #ff4136;
+
+$light: #B6CBD9;
+$dark: adjust-color(#0074d9, $lightness: -10%);
+$darker-light: #f1efef;
 
 $color1: #595959;
 $color2: #262626;
@@ -22,20 +27,33 @@ $color3: #F2D8CE;
 $color4: #F2785C;
 $color5: #F25D50;
 
+$enable-transitions: false;
+
+$min-contrast-ratio: 3;
+$enable-negative-margins: true;
+$link-decoration: none;
+
 @import "bootstrap";
 
 @import "includes/framework";
 @import "includes/navigation";
+@import "includes/courselinks";
 @import "includes/content";
 @import "includes/elements";
 @import "includes/timeline";
 @import "includes/modal";
+@import "includes/grading";
+@import "includes/toc";
 
 @import "includes/theme";
 @import "includes/fonts";
 @import "includes/tweaks";
 @import "includes/print";
 
-@import "includes/typeahead";
-
 @import "includes/effects";
+@import "includes/inplace";
+
+.table>:not(caption)>*>*
+{
+	background-image:none;
+}

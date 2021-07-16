@@ -1,66 +1,78 @@
-<% content_for :navbar_items do %>
-<% end %>
-
-<div class="col-2 px-0 py-0" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
-	<ul class="nav flex-column">
-		<%= button_to 'Mark as finished', finish_grading_path, class: 'btn btn-secondary m-3 btn-sm', form: { style: 'text-align:center' }, data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those after.' } %>
-		<% @to_grade.each do |submit| %>
+<div id="toolbar" class="small">
+	<nav class="nav">
 		<li class="nav-item">
-			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='badge badge-secondary pull-right'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: 'nav-link' %>
+			<%= link_to '(show all)', { pset: nil }, class: "nav-link #{'active' if params[:pset]==nil}" %>
 		</li>
+		<% @psets_to_grade.each do |pset| %>
+			<li class="nav-item">
+				<%= link_to pset.name, { pset: pset.name }, class: "nav-link #{'active' if params[:pset]==pset.name}" %>
+			</li>
 		<% end %>
-	</ul>
+	</nav>
+	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm p-1', form_class: 'ml-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
 </div>
 
-<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset; max-height:100% ">
-	
-	<div class="d-flex flex-column" style="min-height:100%">
-	
-	<%= render partial: 'submits/grading_info' %>
-	<%= form_with model: @grade, local: true, html: { class: 'grade-form', style: 'min-height:100%' } do |f| %>
-	<%= f.hidden_field :submit_id %>
-	<%= f.hidden_field :grader_id %>
-	<%= render @grade, no_ajax: true, summary: false %>
-	<% end %>
-	
-	</div>
-	
-	<% @grades.each do |grade| %>
-	<hr>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<%= grade.submit.pset.name %>
-			<div class="pull-right">
-				<% grade.subgrades.each_pair do |k,v| %>
-				<%= v %> /
+<div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
+	<div class="grading-panes row content h-100">
+
+		<% cache [ @to_grade, @submit ] do %>
+		<div class="grading-submits col-2 px-0 py-0 restore-scroll-position" style="overflow-y:scroll; min-height:0; max-height:100%">
+			<ul class="nav flex-column">
+				<% @to_grade.each do |submit| %>
+				<li class="nav-item p-0 ">
+					<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-primary text-light' if @submit == submit}" %>
+				</li>
 				<% end %>
-				<% if current_user.admin? %>
-				<strong><%= translate_grade(grade.any_final_grade) %></strong>
-				<% end %>
+			</ul>
+		</div>
+		<% end %>
+
+		<div class="grading-form col-3 pt-2" style="overflow-y:scroll; min-height:0; max-height:100%;">
+			<!-- TODO id=grade makes it auto-update but it doesn't quite work because it was made for a different page -->
+
+			<%= render partial: 'grading_info' %>
+
+			<div id="grade" class="d-flex flex-column" style="min-height:100%">
+				<%= render @submit %>
 			</div>
+
+			<% cache @grades do %>
+			<% @grades.each do |grade| %>
+			<hr>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<%= grade.submit.pset.name %>
+					<div class="float-right">
+						<% grade.subgrades.each_pair do |k,v| %>
+						<%= v %> /
+						<% end %>
+						<% if current_user.admin? %>
+						<strong><%= translate_grade(grade.any_final_grade) %></strong>
+						<% end %>
+					</div>
+				</div>
+				<div class="panel-body">
+					<%= simple_markdown(grade.comments) %>
+				</div>
+			</div>
+			<% end %>
+			<% end %>
 		</div>
-		<div class="panel-body">
-			<%= simple_markdown(grade.comments) %>
+
+		<div class="grading-files col-7 p-0" style="overflow-y:scroll; min-height:0; max-height:100%">
+			<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
+			<ul class="nav nav-pills p-2" id="files" role="tablist">
+				<%= render partial: 'file_tabs', locals: { first: true } %>
+			</ul>
+			<div class="tab-content p-3">
+				<%= render partial: 'file_panels', locals: { first: true } %>
+			</div>
+			<% end %>
 		</div>
+
 	</div>
-	<% end %>
-	
 </div>
 
-<div class="col-7" style="overflow-y:scroll; min-height:0; box-shadow:#cccccc 2px 0px 5px inset;max-height:100%">
-	
-	<% if @files.present? || @submit.has_auto_feedback? %>
-	<ul class="nav nav-tabs" id="files" role="tablist">
-		<%= render partial: 'file_tabs', locals: { first: true } %>
-	</ul>
-	<div class="tab-content">
-		<%= render partial: 'file_panels', locals: { first: true } %>
-	</div>
-	<% end %>
-	
-</div>
-
-	
 <script>
-	$('[data-toggle="tooltip"]').tooltip();
+	enableTooltips();
 </script>

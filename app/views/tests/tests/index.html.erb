@@ -1,0 +1,7 @@
+<div class="list-group">
+	<% @psets.each do |p| %>
+	<%= link_to p.name.titleize, test_results_path(p.id), class: 'list-group-item list-group-item-action' %>
+	<% end %>
+</div>
+
+<%= link_to "Overview", test_overview_path, target: '_top', class: 'btn btn-light mt-3' %>

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 			post 'set_git_repo'           #done
 			post 'generate_secret'        #done
 		end
-		
+
 		# dropbox linking
 		namespace :dropbox do
 			post "connect"
@@ -29,46 +29,53 @@ Rails.application.routes.draw do
 			patch 'schedule_registration' #done
 			patch 'schedule_self_service' #done
 			patch 'page_update'           #done
+			patch 'update_schedule_span'
 		end
-		
-		resources :users, only: [ :index ] do
+
+		resources :users, only: [ :index, :new, :create ] do
 			post   'add_group_permission'
 			delete 'remove_group_permission'
 			post   'add_schedule_permission'
 			delete 'remove_schedule_permission'
 			patch  'set_role'
+			put    'set_role'
 		end
-		
+
 		resource :update, only: [ :create ]
 	end
 
 	#--BULK OPS---------------------------------------------------------------------------------
 
-	resource :overview, module: 'schedules', as: 'schedule_overview', only: [ :show ]
+	resource :overview, only: [ :show ] do
+		get  "groups/:slug(/status/:status)",    action: :group, as: 'group',    defaults: { status: 'active' }
+		get  "schedules/:slug(/status/:status)", action: :schedule, as: 'schedule', defaults: { status: 'active' }
+	end
 
 	resources :schedules, module: 'schedules', param: 'slug', only: [] do
-
 		get  "(/status/:status)", action: :index, as: '', defaults: { status: 'active' }
-		
+
 		resource :current_module, only: [ :edit, :update ]
 		resource :export_final_grades, only: [ :new, :create ]
-		resource :import_groups, only: [ :new, :create ]
+		resource :import_groups, only: [ :new, :create ] do
+			post 'propose'
+		end
 		resource :generate_groups, only: [ :new, :create ]
-		
+
 		resources :grades, only: [] do
 			collection do
 				post "publish_finished"
 				post "publish_my"
 				post "publish_all"
 				post "publish"
-	
+
 				get  "form_for_publish_auto"
 				post "publish_auto"
-	
+
 				put  "assign_all_final"
+				post 'reopen', param: 'group_id'
 			end
 		end
-		
+
 		resources :submits, only: [] do
 			collection do
 				get  "form_for_late"
@@ -77,16 +84,12 @@ Rails.application.routes.draw do
 				post "notify_missing"
 			end
 		end
-		
+
 		resource :status, only: [ :show ]
 	end
-	
-	resources :groups, module: 'groups', only: [] do
-		post 'reopen_grades'
-	end
-	
+
 	#--APPS-------------------------------------------------------------------------------------
-	
+
 	# test management
 	resources :tests, only: :index, shallow_prefix: 'tests', module: :tests do
 		resource :results, only: [ :show, :update ]
@@ -94,14 +97,14 @@ Rails.application.routes.draw do
 			resource :overview, as: 'test_overview', only: [ :show ]
 		end
 	end
-	
+
 	# grading interface
 	resources :grading, param: 'submit_id', only: [ :index, :show, :create ], path: "grading" do
 		get  "download"
 	end
 	# one button in the grading interface
 	post "grading/finish", as: "finish_grading"
-	
+
 	# question queuing
 	resources :hands, only: [ :index, :show, :new, :create, :update ], module: 'hands' do
 		collection do
@@ -120,39 +123,37 @@ Rails.application.routes.draw do
 			put "done"
 		end
 	end
-	
-	namespace :search do
-		resource :users, only: [ :show ]
-	end
 
 	#--RESOURCES--------------------------------------------------------------------------------
 
-	scope '/manage' do
+	scope path: '/manage' do
 
-		resources :users, only: [ :show, :update ] do
-			member do
-				post  'group/:group_id', action: 'group', as: 'group'
-				post  'alarm/:alarm', action: 'alarm', as: 'alarm'
-				post  'calculate_final_grade'
-				post  'schedule/:schedule_id', action: 'schedule', as: 'schedule'
+		resources :users, only: [ :index, :show, :edit, :update ] do
+			collection do
+				get  'search'
 			end
-			# resources :group_permissions, only: [ :index, :create, :destroy ]
+			member do
+				post  'calculate_final_grade'
+			end
 		end
 
 		resources :alerts
-		resources :notes, only: [ :create ]
-		resources :submits, only: [ :show, :create, :destroy ] do
+		resources :notes, only: [ :index, :show, :create, :edit, :update ]
+
+		resources :grades, only: [ :destroy ] do
 			member do
-				post 'recheck'
-			end
-		end
-		
-		resources :grades, except: [ :index ] do
-			member do
-				put  "templatize"
+				patch 'publish'
+				patch 'reopen'
+				patch 'reject'
 			end
 		end
 
+	end
+
+	resources :submits, only: [ :show, :create, :destroy, :update ] do
+		member do
+			post 'recheck'
+		end
 	end
 
 	get  "profile" => "profile#index"
@@ -161,11 +162,17 @@ Rails.application.routes.draw do
 		get  'pair'
 		post 'ask'
 		get  'ping'
-		get  'feedback/:submit_id', action: 'feedback', as: "feedback"
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
+		post 'set_module'
+		post 'save_progress'
+		patch 'set_schedule'
 	end
-	
+
+	resource :todo do
+		get 'watch_list'
+		get 'show'
+	end
 
 	#--ONBOARDING-------------------------------------------------------------------------------
 	# for new web site instances
@@ -178,17 +185,19 @@ Rails.application.routes.draw do
 
 	post "api/reload", to: "api/api#reload"
 	get  "api/current_longest_waiting_time"
-	
+
 	post "api/check_result/do", to: "api/check_result#do"
-	
+
+	namespace :api do
+		resources :test_results, only: [ :create ]
+	end
+
 	#--CONTENT----------------------------------------------------------------------------------
 
 	# homepage
 	root to: "home#homepage"
 	get 'syllabus',      to: 'home#syllabus'
 	get 'announcements', to: 'home#announcements'
-	get 'submissions',   to: 'home#submissions'
-	get 'staff',         to: 'home#staff'
 
 	# search
 	get  "search/autocomplete"
@@ -196,23 +205,12 @@ Rails.application.routes.draw do
 	get  "search/subpage"
 
 	# pages
-	resource :submissions, only: [ :create ]
-	post "page/submit"
-	get  ":section/:page" => "page#index" # default route, for content pages (must be 2nd last!)
-	get  ":section" => "page#section"     # default route, for section pages (must be last!)
+	resources :submissions, only: [ :index, :create ] do
+		get 'feedback'
+	end
 
-	# legacy mobile app support
-	# namespace :tracking do
-	# 	# for getting a token
-	# 	post "register"                           => "register#identify"
-	# 	# for getting info based on token id
-	# 	post "tokenized/identify(/:token)"        => "tokenized#identify"
-	# 	post "tokenized/ping(/:token)"            => "tokenized#ping"
-	# 	post "tokenized/gone(/:token)"            => "tokenized#gone"
-	# 	post "tokenized/help(/:token)"            => "tokenized#help"
-	# 	post "tokenized/clear/:user"              => "tokenized#clear"
-	# 	post "tokenized/list_assistants(/:token)" => "tokenized#list_assistants"
-	# 	post "tokenized/list_students(/:token)"   => "tokenized#list_students"
-	# end
+	# default route, for content pages (must be last!)
+	# ..with an exception for the /rails routes
+	get  "*slug" => "page#index", constraints: lambda { |e| !e.fullpath.start_with?('/rails/') }
 
 end

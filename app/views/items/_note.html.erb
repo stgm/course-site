@@ -1,3 +1,23 @@
-<small><%= date_span_with_title(note.created_at)%></small>
-<%= simple_markdown(note.text) %>
-<small class="author"><%= note.author_name %></small>
+<%= turbo_frame_tag "note-#{note.id}" do %>
+<% if note.log %>
+<div class="small">
+	<strong><%= note.text %></strong> by
+	<%= note.author_name %> (<%= date_span_with_title(note.created_at)%>)
+</div>
+<% else %>
+<div class=" ">
+	<div class="text-dark d-flex justify-content-between pb-2">
+		<small class="author fw-bold"><%= note.author_name %></small>
+		<small class="ml-3">
+			<%= date_span_with_title(note.created_at)%>
+			<% if !note.log %>
+			<%= link_to bootstrap_icon('pen', height: 16, width: 16, style: 'vertical-align: sub;'), edit_note_path(note) %>
+			<% end %>
+		</small>
+	</div>
+	<div class="d-flex">
+		<%= simple_markdown(note.text) %>
+	</div>
+</div>
+<% end %>
+<% end %>

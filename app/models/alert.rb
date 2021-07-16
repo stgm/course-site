@@ -1,5 +1,13 @@
 class Alert < ApplicationRecord
 
-	scope :having_schedule_or_nil, ->(schedule) { Alert.unscoped.where(schedule_id: [nil] << schedule.id).order("created_at desc") }
+	belongs_to :schedule
+	delegate :name, to: :schedule, prefix: true
+
+	scope :having_schedule_or_nil, ->(schedule) do
+		Alert.
+			unscoped.
+			where(schedule_id: [nil] << (schedule && schedule.id)).
+			order("created_at desc")
+	end
 
 end

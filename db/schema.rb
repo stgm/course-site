@@ -2,15 +2,43 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_31_161305) do
+ActiveRecord::Schema.define(version: 2021_07_14_150308) do
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.integer "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.string "service_name", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "alerts", force: :cascade do |t|
     t.string "title"
@@ -27,14 +55,6 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.datetime "cutoff"
     t.boolean "local", default: false
     t.index ["user_id"], name: "index_attendance_records_on_user_id"
-  end
-
-  create_table "categories", force: :cascade do |t|
-    t.string "title"
-    t.integer "position"
-    t.integer "subpage_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "grades", force: :cascade do |t|
@@ -103,18 +123,14 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.index ["user_id"], name: "index_logins_on_user_id"
   end
 
-  create_table "mods", force: :cascade do |t|
-    t.string "name"
-    t.integer "pset_id"
-    t.index ["pset_id"], name: "index_mods_on_pset_id"
-  end
-
   create_table "notes", force: :cascade do |t|
     t.text "text"
     t.integer "student_id"
     t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "done"
+    t.boolean "log", default: false
     t.index ["author_id"], name: "index_notes_on_author_id"
     t.index ["student_id"], name: "index_notes_on_student_id"
   end
@@ -129,18 +145,6 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.string "path"
     t.boolean "public", default: false
     t.index ["slug", "section_id"], name: "index_pages_on_slug_and_section_id", unique: true
-  end
-
-  create_table "pings", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "loca"
-    t.integer "locb"
-    t.boolean "help", default: false
-    t.boolean "active", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text "help_question"
-    t.index ["user_id"], name: "index_pings_on_user_id"
   end
 
   create_table "pset_files", force: :cascade do |t|
@@ -179,6 +183,8 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.text "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "public", default: true
+    t.integer "rank"
     t.index ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
   end
 
@@ -191,6 +197,8 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.boolean "self_register", default: false, null: false
     t.boolean "self_service", default: false, null: false
     t.string "slug"
+    t.integer "page_id"
+    t.index ["page_id"], name: "index_schedules_on_page_id"
     t.index ["slug"], name: "index_schedules_on_slug", unique: true
   end
 
@@ -201,19 +209,6 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.index ["user_id"], name: "index_schedules_users_on_user_id"
   end
 
-  create_table "sections", force: :cascade do |t|
-    t.string "title"
-    t.integer "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "slug"
-    t.string "path"
-    t.boolean "display", default: false
-    t.text "content_page"
-    t.text "content_links"
-    t.index ["slug"], name: "index_sections_on_slug", unique: true
-  end
-
   create_table "settings", force: :cascade do |t|
     t.string "var", null: false
     t.text "value"
@@ -222,6 +217,11 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
+  end
+
+  create_table "sub_modules", force: :cascade do |t|
+    t.string "name"
+    t.text "content_links"
   end
 
   create_table "submits", force: :cascade do |t|
@@ -240,6 +240,7 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.boolean "auto_graded", default: false, null: false
     t.text "check_results"
     t.string "check_token"
+    t.text "form_contents"
     t.index ["pset_id"], name: "index_submits_on_pset_id"
     t.index ["user_id"], name: "index_submits_on_user_id"
   end
@@ -265,7 +266,7 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.boolean "done", default: false
     t.boolean "active", default: true
     t.string "term"
-    t.string "status"
+    t.string "status_description"
     t.string "token"
     t.string "attendance", default: "", null: false
     t.datetime "last_seen_at"
@@ -273,7 +274,6 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.datetime "available"
     t.string "avatar"
     t.text "notes"
-    t.integer "questions_count_cache", default: 0, null: false
     t.integer "role", default: 0, null: false
     t.integer "schedule_id"
     t.string "last_known_location"
@@ -282,8 +282,18 @@ ActiveRecord::Schema.define(version: 2019_12_31_161305) do
     t.datetime "started_at"
     t.text "grades_cache"
     t.integer "current_module_id"
+    t.text "progress"
+    t.integer "status"
+    t.integer "hands_count", default: 0, null: false
+    t.integer "hands_duration_count", default: 0, null: false
+    t.integer "notes_count", default: 0, null: false
+    t.integer "submits_count", default: 0, null: false
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
+    t.index ["status"], name: "index_users_on_status"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "schedules", "pages"
 end

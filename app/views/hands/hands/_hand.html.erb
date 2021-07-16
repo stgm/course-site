@@ -1,9 +1,8 @@
-<% if hand.helpline %><span class="glyphicon glyphicon-phone-alt text-danger"></span><% end %>
 <%= hand.user.name %> / <strong><%= hand.subject %></strong>
 <% if should_show_groups_in_hands? && hand.user.group %>
-<span class="pull-right badge badge-secondary" style="<%= get_colors_for_text(hand.user.group.name) %>"><%= hand.user.group.name %></span>
+<span class="float-right badge bg-secondary" style="<%= get_colors_for_text(hand.user.group.name) %>"><%= hand.user.group.name %></span>
 <% elsif hand.user.schedule %>
-<span class="pull-right badge badge-secondary" style="<%= get_colors_for_text(hand.user.schedule.name) %>"><%= hand.user.schedule.name %></span>
+<span class="float-right badge bg-secondary" style="<%= get_colors_for_text(hand.user.schedule.name) %>"><%= hand.user.schedule.name %></span>
 <% end %>
 <br>
-<small>in line since <%= time_ago_in_words(hand.created_at) %><% if Settings.hands_location %> @ <%= hand.location %><% end %></small>
+<small>in line since <%= minutes_ago(hand.created_at) %> minutes <% if Settings.hands_location && !Settings.hands_link %> @ <%= hand.location %><% end %></small>

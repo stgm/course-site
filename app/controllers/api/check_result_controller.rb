@@ -6,7 +6,9 @@ class Api::CheckResultController < ApplicationController
 		submit = Submit.find_by_check_token(params["id"])
 		if submit
 			results = params["result"]
-			submit.register_auto_check_results(results)
+			# TODO insert validator
+			results.permit!
+			submit.register_auto_check_results(results.to_h)
 			head :ok
 		end
 	end

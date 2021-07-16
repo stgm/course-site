@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>6.0.0'
+gem 'rails', '~>6.1.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -12,78 +12,56 @@ gem 'sqlite3'
 # sass
 gem 'sass-rails'
 
-group :doc do
-	# bundle exec rake doc:rails generates the API under doc/api.
-	gem 'sdoc', require: false
-end
-
 group :development do
 	gem 'listen'
+	gem 'thin'
 end
 
-# faster local server
-gem 'thin'
+group :production do
+	gem 'bugsnag'
+end
+
+# shut up icon requests
+gem 'quiet_safari', group: :development
 
 # slug generator
-gem "friendly_id"
+gem 'friendly_id'
 
 # git integration
 gem 'git'
 
-gem 'groupdate'
-gem 'chartkick'
-
-##
 # APIs
-#
 gem 'dropbox_api'
 gem 'helpscout'
-gem 'bugsnag'
 gem 'rack-cas'
 
 # manages settings in database
 gem 'rails-settings-cached', '~>0.4.1'
 
-# in-place editing for grade table
-gem 'best_in_place'
-
 # scheduled email sending for grades
 gem 'rufus-scheduler'
-
-# generate hash tokens for mobile app
-gem 'hashids'
-
-# remove assets logging in development mode
-# gem 'quiet_assets', group: :development
 
 # for delayed mailers
 gem 'sucker_punch'
 
-##
-# Content
-#
+# content
 gem 'kramdown'
 gem 'asciidoctor'
+gem 'front_matter_parser'
 
 # XLSX generation
-gem 'rubyzip', require: 'zip'
+gem 'rubyzip', '~> 2.3.0', require: 'zip'
 gem 'caxlsx_rails'
 
-##
-# Front-end
-#
-gem 'jquery-rails'
-gem 'uglifier'
-gem 'bootstrap'
-gem 'coffee-rails'
-gem 'garlicjs-rails'
-gem 'turbolinks'
+# front-end
+gem 'bootstrap', '5.0.0.alpha3'
 gem 'coderay'
+gem 'groupdate'
+gem 'stimulus-rails'
+gem 'turbo-rails'
 
-# shut up safari
-gem 'quiet_safari', group: :development
-
+# for sending submits to the autocheck server
 gem 'rest-client'
 
-gem 'front_matter_parser'
-gem 'twitter-typeahead-rails'
+# used by ActiveStorage to get image previews
+gem 'image_processing', '~> 1.2'

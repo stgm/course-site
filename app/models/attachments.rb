@@ -13,6 +13,8 @@ end
 
 class Attachments
 	
+	include ApplicationHelper
+	
 	def initialize(files)
 		@files = files || {}
 		@other_files = {}
@@ -43,8 +45,13 @@ class Attachments
 				if file.size < 60000
 					file.rewind and presentable_files[name] = file.read
 				else
-					presentable_files[name] = "Uploaded file was too large!"
+					presentable_files[name+".txt"] = "Uploaded file was too large!"
 				end
+			elsif notebook_file?(name)
+				file.rewind
+				source = file.read
+				html = simple_markdown(GradingHelper::NBConverter.new(source).run)
+				presentable_files[name+".html"] = html
 			end
 		end
 		presentable_files
@@ -65,6 +72,10 @@ class Attachments
 					zio.put_next_entry(filename)
 					if file.class == String
 						zio.write file
+					elsif file.class == ActiveStorage::Attachment
+						file.open do |f|
+							zio.write f.read
+						end
 					else
 						file.rewind
 						zio.write file.read
@@ -80,6 +91,10 @@ class Attachments
 	
 	def text_file?(name)
 		return [".py", ".c", ".txt", ".html", ".css", ".h", ".java"].include?(File.extname(name)) || name == "Makefile"
+	end
+	
+	def notebook_file?(name)
+		return [".ipynb"].include?(File.extname(name))
 	end
 	
 end

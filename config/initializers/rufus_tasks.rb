@@ -7,12 +7,12 @@ unless self.private_methods.include? 'irb_binding'
 			end
 			yield
 		rescue => e
-			status e.inspect
+			puts e.inspect
 		ensure
 			ActiveRecord::Base.connection_pool.release_connection
 		end
 	end
-		
+
 	scheduler = Rufus::Scheduler.new
 
 	unless (defined?(Rails::Console) || File.split($0).last == 'rake')
@@ -23,11 +23,13 @@ unless self.private_methods.include? 'irb_binding'
 		# for corrections within that timeframe.
 
 		scheduler.every '55m' do
-			if Settings.send_grade_mails && Settings.mailer_from.present?
-				Grade.where("grades.mailed_at is null").published.joins([:submit]).find_each do |g|
-					GradeMailer.new_mail(g).deliver
-					ActiveRecord::Base.transaction do
-						g.touch(:mailed_at)
+			if GradeMailer.available?
+				Grade.where("grades.mailed_at is null").published.where("grades.updated_at > ?", 1.day.ago).where("grades.updated_at < ?", 2.hours.ago).joins([:submit]).find_each do |g|
+					if g.comments.present?
+						GradeMailer.new_mail(g).deliver
+						ActiveRecord::Base.transaction do
+							g.touch(:mailed_at)
+						end
 					end
 				end
 			end
@@ -35,7 +37,7 @@ unless self.private_methods.include? 'irb_binding'
 
 		scheduler.every '135m' do
 			safely do
-			    ActiveRecord::Base.transaction do
+				ActiveRecord::Base.transaction do
 					User.all.each do |u|
 						u.take_attendance
 					end
@@ -43,19 +45,9 @@ unless self.private_methods.include? 'irb_binding'
 			end
 		end
 
-		scheduler.cron '30 06 * * *' do
-			safely do
-			    ActiveRecord::Base.transaction do
-					User.all.each do |u|
-						u.update_attribute(:questions_count_cache, u.hands.count)
-					end
-				end
-			end
-		end
-	
 		scheduler.cron '00 05 * * *' do
 			safely do
-			    ActiveRecord::Base.transaction do
+				ActiveRecord::Base.transaction do
 					# reset locations
 					User.update_all(last_known_location: nil)
 					# reset hands that were never released
@@ -65,5 +57,5 @@ unless self.private_methods.include? 'irb_binding'
 		end
 
 	end
-	
+
 end

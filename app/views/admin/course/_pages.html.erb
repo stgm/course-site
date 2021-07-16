@@ -1,10 +1,9 @@
-<% @all_sections.each do |section| %>
-<p><strong><%= section.title %></strong></p>
-<p>
-	<% section.pages.each do |page| %>
-	<%= checkbox_for(page, :public, page.public, admin_course_page_update_path(id: page.id)) do %>
-	<%= page.title %>
+<ul class="list-unstyled">
+	<% @schedule_spans.each do |span| %>
+	<li>
+	<%= checkbox_for(span, :public, span.public, admin_course_update_schedule_span_path(id: span.id)) do %>
+	<%= span.name %>
 	<% end %>
+	</li>
 	<% end %>
-</p>
-<% end %>
+</ul>

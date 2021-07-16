@@ -5,6 +5,7 @@ body
 	-webkit-font-smoothing: subpixel-antialiased;
 	background-size:cover;
 	background-attachment: fixed;
+	overscroll-behavior: none;
 }
 
 //****************************************************************************
@@ -18,6 +19,10 @@ body
 	border-right:none;
 }
 
+#submitted_pset
+{
+	border-radius:0;
+}
 
 //****************************************************************************
 
@@ -25,15 +30,6 @@ body
 {
 	padding-left:30px;
 	padding-right:30px;
-}
-
-@media (max-width: 768px)
-{
-	.container
-	{
-		//padding-left:15px;
-		//padding-right:15px;
-	}
 }
 
 .container-fluid
@@ -49,50 +45,22 @@ body
 
 //****************************************************************************
 
-#content section, #content header
-{
-	margin-bottom:1.5em;
-}
-
 #content section:first-child
 {
 	padding-top: 0;
-}
-	
-#submit-content
-{
-	table-layout:fixed;
-	margin-bottom:0 !important;
-	padding-bottom:2em;
-	border-radius:0.25em;
-	border:1px solid gray;
-	background-color:whitesmoke;
-	padding:2em;
-}
-
-#submit-content h2
-{
-	margin-top:0 !important;
 }
 
 //****************************************************************************
 
 footer
 {
-	padding:1.5em;
-	text-align:center;
-	background-color: $color1;
-	color:white;
-	font-size:x-small;
-}
-
-footer a
-{
-	color:white;
+	line-height: 2;
+	margin-top: 8rem;
+	font-size: x-small;
 }
 
 footer img
 {
-	vertical-align:-4px;
-	margin-right:1em;
+	vertical-align: -4px;
+	margin-right: 1em;
 }

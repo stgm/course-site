@@ -1,98 +1,23 @@
-<div id="sidebar-content" class="collapse sidebar-collapse navbar-collapse">
-
-	<%# User registration form %>
-	
-	<% if !logged_in? && authenticated? %>
-	<div class="card mt-3">
-		<%= render 'profile/edit' %>
-	</div>
-	<% end %>
-
-	<%# Admin user search%>
-
-	<% if current_user.senior? %>
-	<div class="w-100">
-		<%= render partial: 'search' %>
-	</div>
-	<% end %>
-	
-	<%# Main navigation%>
-
-	<ul class="nav">
-		<% if logged_in? && alerts_for_current_schedule.any? %>
-		<li><a href="/announcements" class="nav-link"><%= icon 'bell-fill' %> <%= t(:announcements) %></a></li>
-		<% end %>
-		<% if logged_in? && current_user.submits.any? %>
-		<li><a href="/submissions" class="nav-link"><%= icon 'kanban' %> <%= t(:submissions) %></a></li>
-		<% end %>
-		<li><a href="/syllabus" class="nav-link"><%= icon 'calendar' %> <%= t(:syllabus) %></a></li>
-		<% if Settings['links'] %>
-		<% Settings['links'].each do |title, url|  %>
-		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
-		<% end %>
-		<% end %>
-	</ul>
-	
-	<%# Schedule-based navigation %>
-
-	<% if current_module %>
-	<ul class="nav">
-		<li>
-			<p class="nav-text">
-				<span id="schedule_name"><%= @current_module.name %></span>
-				<% if current_schedule.self_service %>
-				<span class="pull-right">
-					<%= link_to icon('chevron-left').html_safe, profile_prev_path, method: :post, remote: true %>
-					<%= link_to icon('chevron-right').html_safe, profile_next_path, method: :post, remote: true %>
-				</span>
-				<% end %>
-			</p>
-		</li>
-		<li id="schedule">
-			<%= links_to_ul(@current_module.content) %>
-		</li>
-	</ul>
-	<% end %>
-
-	<%# Navigation items from section that current page belongs to %>
-
-	<% if @section.present? && @section.content_links.present? %>
-	<ul class="nav">
-		<li>
-			<p class="nav-text"><%= @section.title %></p>
-		</li>
-		<li>
-			<%= links_to_ul(@section.content_links) %>
-		</li>
-	</ul>
-	<% end %>
-
-	<%# All pages by section, but users only see "published" pages here %>
-
-	<% if current_sections.length > 0 %>
-	<ul id="sections" class="nav">
-		<li>
-			<p class="nav-text"><%= @current_module ? t(:other) : t(:materials) %></p>
-		</li>
-		<li>
-			<ul class="nav">
-				<%= render 'sections' %>
-			</ul>
-		</li>
-	</ul>
-	<% end %>
-
-	<%# User menu items are shown in sidebar on small screens %>
-
-	<ul id="user-menu-sidebar" class="nav d-md-none">
-		<li>
-			<p class="nav-text">Menu</p>
-		</li>
+<div id="sidebar-tools" class="navbar navbar-expand flex-shrink-0" style="z-index:1000">
+	<div class="container-fluid px-2">
+		<button class="navbar-toggler border-0 px-0 d-block d-lg-none mr-2" type="button" data-toggle="collapse" data-target="#sidebar-content" aria-controls="sidebar-content" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon text-primary" style="vertical-align:-4px;"><%= bootstrap_icon 'list', width:32, height:32 %></span>
+		</button>
+		<%= render 'brand' %>
 		<% if !authenticated? %>
-		<li><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link")%></li>
-		<% elsif logged_in? %>
-		<%= render partial: 'menu_items' %>
+		<li class="navbar-nav d-block d-lg-none"><%= link_to("Sign in".html_safe, session_login_path, class:"d-inline-block", data: { turbo: false })%></li>
+		<% else #if logged_in? %>
+		<div class="navbar-nav d-flex d-lg-none ">
+			<%= render 'menu' %>
+		</div>
 		<% end %>
-	</ul>
-
+	</div>
 </div>
+
+<%# Main navigation%>
+
+<div id="sidebar-content" data-turbo-permanent class="sidebar-collapse sidebar-scroller flex-grow-1 turbolinks-disable-scroll collapse">
+	<%= render 'sidebar_content' %>
+</div>
+
+<%= render 'course_links' %>

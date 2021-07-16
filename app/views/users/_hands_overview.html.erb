@@ -1,0 +1,9 @@
+<table class="table">
+	<% hands_overview.each do |h| %>
+	<tr>
+		<td><%= h[1].to_s(:short) %></td>
+		<td><%= h[2].round %> min</td>
+		<td><%= h[3].split.first %></td>
+	</tr>
+	<% end %>
+</table>
