@@ -10,14 +10,11 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require turbolinks
 //= require rails-ujs
 //= require popper
 //= require bootstrap
-//= require Chart.bundle
-//= require chartkick
+//
+// Note: the below requires only the files in the javascripts directory, and skips stuff in the
+// javascripts/optional directory.
+//
 //= require_directory .
-
-document.addEventListener('ajax:before', () => {
-	Turbolinks.clearCache();
-})

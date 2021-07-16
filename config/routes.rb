@@ -58,7 +58,9 @@ Rails.application.routes.draw do
 
 		resource :current_module, only: [ :edit, :update ]
 		resource :export_final_grades, only: [ :new, :create ]
-		resource :import_groups, only: [ :new, :create ]
+		resource :import_groups, only: [ :new, :create ] do
+			post 'propose'
+		end
 		resource :generate_groups, only: [ :new, :create ]
 
 		resources :grades, only: [] do
@@ -126,9 +128,9 @@ Rails.application.routes.draw do
 
 	#--RESOURCES--------------------------------------------------------------------------------
 
-	scope '/manage' do
+	scope path: '/manage' do
 
-		resources :users, only: [ :show, :update ] do
+		resources :users, only: [ :index, :show, :edit, :update ] do
 			collection do
 				get  'search'
 			end
@@ -138,10 +140,11 @@ Rails.application.routes.draw do
 		end
 
 		resources :alerts
-		resources :notes, only: [ :create ]
+		resources :notes, only: [ :index, :show, :create, :edit, :update ]
 
-		resources :grades, except: [ :index ] do
+		resources :grades, only: [ :destroy ] do
 			member do
+				patch 'publish'
 				patch 'reopen'
 				patch 'reject'
 			end
@@ -161,12 +164,17 @@ Rails.application.routes.draw do
 		get  'pair'
 		post 'ask'
 		get  'ping'
-		get  'feedback/:submit_id', action: 'feedback', as: "feedback"
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
+		post 'set_module'
 		post 'save_progress'
+		patch 'set_schedule'
 	end
 
+	resource :todo do
+		get 'watch_list'
+		get 'show'
+	end
 
 	#--ONBOARDING-------------------------------------------------------------------------------
 	# for new web site instances
@@ -192,7 +200,6 @@ Rails.application.routes.draw do
 	root to: "home#homepage"
 	get 'syllabus',      to: 'home#syllabus'
 	get 'announcements', to: 'home#announcements'
-	get 'submissions',   to: 'home#submissions'
 
 	# search
 	get  "search/autocomplete"
@@ -200,8 +207,12 @@ Rails.application.routes.draw do
 	get  "search/subpage"
 
 	# pages
-	resource :submissions, only: [ :create ]
-	post "page/submit"
-	get  "*slug" => "page#index" # default route, for content pages (must be last!)
+	resources :submissions, only: [ :index, :create ] do
+		get 'feedback'
+	end
+
+	# default route, for content pages (must be last!)
+	# ..with an exception for the /rails routes
+	get  "*slug" => "page#index", constraints: lambda { |e| !e.fullpath.start_with?('/rails/') }
 
 end

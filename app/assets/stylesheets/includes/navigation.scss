@@ -6,7 +6,7 @@
 	width: 100%;
 	display:flex;
 	flex-wrap:nowrap;
-	background: linear-gradient(50deg, #FEF3BE 0%, #FDDED0 100%);
+	background: linear-gradient(50deg, #FEF3BE 0%, #FFDEDE 100%);
 }
 
 #sidebar
@@ -66,43 +66,30 @@
 	line-height:1.1;
 }
 
-#sidebar #course-links
-{
-	margin-left:0;
-	margin-right:0;
-	padding:0.35rem 0.35rem;
-}
-
-#sidebar #course-links div:first-child
-{
-	margin-left:auto;
-}
-
-#sidebar #course-links div:last-child
-{
-	margin-right:auto;
-}
-
 //****************************************************************************
 
 @media (max-width: 767.98px)
 {
+	#sidebar
+	{
+		border-bottom: 1px solid;
+	}
+
 	.navbar-brand
 	{
 		padding:0.1rem;
 	}
-	
+
 	#sidebar-content
 	{
 		padding:0.5rem;
-		padding-top:0;
 	}
-	
+
 	#schedule-navbar-items
 	{
 		margin-top:1rem;
 	}
-	
+
 	#schedule-navbar-items > *
 	{
 		margin-right:0;
@@ -112,25 +99,39 @@
 
 @media (min-width: 768px)
 {
+	#sidebar-content
+	{
+		padding:0.75rem;
+		padding-top:0.5rem;
+		
+	}
+}
+
+@media (min-width: 992px)
+{
 	#sidebar
 	{
 		display: block;
 		position: fixed;
 		top: 0;
-		bottom: 0;
-		
+		height:100%;
+		border-right: 1px solid;
+
+		// prevents backdrop-filter blocking out text when scrolling
+		transform: translate3d(0,0,0);
+
 		-webkit-box-flex: 0;
 		flex: 0 0 33.3333333333%;
 		max-width: 33.3333333333%;
 	}
-	
+
 	#row-content
 	{
 		margin-left: 33.3333333333%;
 		flex: 0 0 auto;
 		width: 66.6666666667%;
 	}
-	
+
 	.room-for-toc
 	{
 		#sidebar
@@ -150,7 +151,7 @@
 		padding-left:.75rem;
 		padding-right:.75rem;
 	}
-	
+
 	#sidebar-content
 	{
 		display:flex;
@@ -158,18 +159,13 @@
 		padding:0.75rem;
 		padding-top:0.5rem;
 	}
-	
-	#course-links
-	{
-		display:flex;
-	}
-	
+
 	// can be in sidebar or in navbar (latter is in full-width layout)
 	.navbar-toggler
 	{
 		display: none;
 	}
-	
+
 	#schedule-navbar-items > *
 	{
 		margin-right:1rem;
@@ -216,7 +212,7 @@
 
 //****************************************************************************
 
-#schedule_name.unavailable
+.unavailable
 {
 	text-decoration:line-through;
 }
@@ -252,15 +248,11 @@
 
 #sidebar .nav-head, .materials-nav .nav-head
 {
+	padding-left: 0.15rem;
+	padding-right: 0.15rem;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	font-size: 14px;
-}
-
-#sidebar .nav-head, #sidebar ul a, .materials-nav .nav-head, .materials-nav ul a
-{
-	padding-top:0.35rem;
-	padding-bottom:0.35rem;
 }
 
 #sidebar .nav-head, .materials-nav .nav-head
@@ -285,6 +277,23 @@
 	flex: 1 1 auto !important; // fill
 	border-top-right-radius: 0.25rem !important;
 	border-bottom-right-radius: 0.25rem !important;
+	display: flex;
+
+	.badge
+	{
+		// align to the right
+		margin-left: auto;
+		margin-right: 0.25rem;
+
+		background-color: $secondary;
+		color: white;
+		font-weight: normal;
+		text-transform: uppercase;
+
+		// ensure correct vertical alignment
+		display: inline-flex;
+		align-items: center;
+	}
 }
 
 #sidebar-content > ul
@@ -376,11 +385,12 @@
 
 #icon-nav .nav-item > a
 {
-	background-color: $light;
+	@extend .btn;
+	@extend .btn-outline-secondary;
+	background-color: white;
 	border-radius: 50rem !important;
 	display: block;
-	padding-bottom: 0.25rem !important;
-	padding-top: 0.25rem !important;
+	padding: 0.25rem 0.5rem !important;
 }
 
 #icon-nav .dropdown-item .fa
@@ -421,11 +431,12 @@
 
 #toolbar
 {
-	background-color: $light;
+	@extend .align-items-center;
+
 	padding: 0.5rem;
 	display: flex;
 	flex-direction: row;
-	
+
 	.nav-link
 	{
 		padding-left:0.5rem;

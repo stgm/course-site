@@ -4,7 +4,7 @@
 	<% if @dropbox_linked %>
 	Dropbox is connected.
 	<% else %>
-	<%= link_to 'Link to your account', admin_dropbox_connect_path, remote: false, method: :post, class:'btn btn-primary' %>
+	<%= button_to 'Link to your account', admin_dropbox_connect_path, class:'btn btn-primary', form: { data: { turbo: false } } %>
 	<% end %>
 </p>
 

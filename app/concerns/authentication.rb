@@ -23,15 +23,15 @@ module Authentication
 
 	# role-based permissions
 	def require_admin
-		redirect_to :root unless current_user.admin?
+		head :forbidden unless current_user.admin?
 	end
 
 	def require_senior
-		redirect_to :root unless current_user.head? or current_user.admin?
+		head :forbidden unless current_user.head? or current_user.admin?
 	end
 
 	def require_staff
-		redirect_to :root unless current_user.admin? or current_user.assistant? or current_user.head?
+		head :forbidden unless current_user.admin? or current_user.assistant? or current_user.head?
 	end
 
 end

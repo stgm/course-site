@@ -1,3 +1,5 @@
+<turbo-frame id="grade">
+
 <%= form_with model: @submit, html: { id: 'grade-form', class: 'grade-form', style: 'min-height:100%' } do |form| %>
 
 <%= form.fields_for :grade do |grade_form| %>
@@ -34,7 +36,7 @@
 	<div class="mb-2">
 		<span class="float-right" data-toggle="tooltip" title="Use * to create bullet lists. Use `backticks` to insert code."><%= bootstrap_icon 'question-circle-fill', width: '12px'%></span>
 		<label for="submit_grade_attributes_comments" class="control-label">Focus points </label>
-		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
+		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true, onfocus: 'startAutosave();' %>
 	</div>
 	
 	<div class="mb-2">
@@ -77,38 +79,38 @@
 	</div>
 	<% end %>
 	
-	<div class="mt-3 d-flex">
-		<div class="btn-group w-100">
-			<% if current_user.admin? || @grade.unfinished? %>
-			<%= form.submit 'Save', class: 'btn btn-secondary flex-fill' %>
-			<% end %>
+<% end %>
 
+<% end %>
+
+<%# Below are all buttons. The first is a submit button for the form above,
+    the other buttons have their own forms %>
+
+<div class="mt-3 d-flex">
+	<div class="btn-group w-100">
+		<% if current_user.admin? || @grade.unfinished? %>
+		<%= submit_tag 'Save', class: 'btn btn-primary flex-fill', form: 'grade-form' %>
+		<% end %>
+		<% if current_user.senior? %>
+		<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Admin<span class="visually-hidden">Toggle Actions Dropdown</span>
+		</button>
+		<div class="dropdown-menu">
+			<% if current_user.admin? %>
+			<%= button_to grade_path(id: @grade.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This deletes the grade completely, including internal info." }, class: 'dropdown-item' do "Destroy Grade" end if @grade.persisted? %>
+			<%= button_to submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty the text field and save the grade." }, class: 'dropdown-item', form: { "data-turbo-frame" => "modal" } do "Destroy Submit" end if @submit %>
+			<% end %>
+			<% if current_user.admin? && @submit.checkable? %>
+			<%= button_to recheck_submit_path(id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'dropdown-item' do "Re-check" end if @submit %>
+			<% end %>
 			<% if current_user.senior? %>
-			<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Admin<span class="visually-hidden">Toggle Actions Dropdown</span>
-			</button>
-			<div class="dropdown-menu">
-				<% if current_user.admin? %>
-				<%= link_to "Destroy Grade", grade_path(id: @grade.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This deletes the grade completely, including internal info." }, class: 'dropdown-item' if @grade.persisted? %>
-				<%= link_to "Destroy Submit", submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty text field and save the grade." }, class: 'dropdown-item' if @submit %>
-				<% end %>
-				<% if current_user.admin? && @submit.checkable? %>
-				<%= link_to "Re-check", recheck_submit_path(id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'dropdown-item' if @submit %>
-				<% end %>
-				<% if current_user.senior? %>
-				<% if @grade.persisted? %>
-				<%= link_to "Publish", grade_path(id: @grade.id, grade: { status: :published }), method: :put, data: { confirm: "Sure?" }, class: 'dropdown-item' %>
-				<% end%>
-				<% end %>
-			</div>
+			<% if @grade.persisted? %>
+			<%= button_to publish_grade_path(@grade), method: :patch, data: { confirm: "Sure?" }, class: 'dropdown-item' do "Publish" end %>
+			<% end%>
 			<% end %>
 		</div>
+		<% end %>
 	</div>
+</div>
 
-<% end %>
-
-<% end %>
-
-<script>
-	startAutosave();
-</script>
+</turbo-frame>

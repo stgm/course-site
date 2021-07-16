@@ -2,7 +2,7 @@ require_relative 'boot'
 
 # require 'rails/all'
 require 'active_record/railtie'
-# require 'active_storage/engine'
+require 'active_storage/engine'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'action_mailer/railtie'
@@ -18,15 +18,27 @@ require 'sprockets/railtie'
 Bundler.require(*Rails.groups)
 
 module CourseSite
-	class Application < Rails::Application
-		# Initialize configuration defaults for originally generated Rails version.
-		config.load_defaults 6.0
+    class Application < Rails::Application
+        # Initialize configuration defaults for originally generated Rails version.
+        config.load_defaults 6.1
 
-		# Settings in config/environments/* take precedence over those specified here.
-		# Application configuration can go into files in config/initializers
-		# -- all .rb files in that directory are automatically loaded after loading
-		# the framework and any gems in your application.
-		config.time_zone = 'Amsterdam'
-		config.action_mailer.smtp_settings = { address: ENV["MAILER_ADDRESS"], domain: ENV["MAILER_DOMAIN"] }
-	end
+        # Settings in config/environments/* take precedence over those specified here.
+        # Application configuration can go into files in config/initializers
+        # -- all .rb files in that directory are automatically loaded after loading
+        # the framework and any gems in your application.
+        config.time_zone = 'Amsterdam'
+        config.action_mailer.smtp_settings = {
+            address: ENV["MAILER_ADDRESS"],
+            domain: ENV["MAILER_DOMAIN"],
+            port: 465,
+            ssl: true,
+            user_name: ENV["MAILER_USER"],
+            password: ENV["MAILER_PASS"]
+        }
+        config.active_storage.variant_processor = :vips
+        config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
+            min_threads: 1,
+            max_threads: 1,
+            idletime: 600.seconds
+    end
 end

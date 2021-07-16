@@ -3,13 +3,9 @@ wb.add_worksheet(name: "Grades") do |sheet|
 	labels = ["ID", "Name","Attendance","Spoken"]
 	labels << "schedule"
 	labels << "group"
-	labels << "active"
-	labels << "done"
+	labels << "status"
 	@psets.each do |pset|
 		labels << pset.name
-		pset.config['subgrades'].keys.each do |subgrade|
-			labels << "#{pset.name}-#{subgrade}"
-		end if pset.config && pset.config['subgrades']
 	end
 	sheet.add_row labels
 
@@ -23,8 +19,7 @@ wb.add_worksheet(name: "Grades") do |sheet|
 		data << user.hands.where(success:true).count
 		data << (user.schedule && user.schedule.name || "")
 		data << (user.group && user.group.name || "")
-		data << user.active
-		data << user.done
+		data << user.status.to_s
 		@psets.each do |pset|
 			if (g = grade_for(subs[pset.id])) == ""
 				data << ""
@@ -35,9 +30,6 @@ wb.add_worksheet(name: "Grades") do |sheet|
 			else
 				data << grade_for(subs[pset.id])
 			end
-			pset.config['subgrades'].keys.each do |subgrade|
-				data << subgrade_for(subs[pset.id], subgrade)
-			end if pset.config && pset.config['subgrades']
 		end
 		sheet.add_row data
 	end

@@ -1,35 +1,33 @@
+<h3 class="mt-0">Submit</h3>
+
 <% if @page.pset.message %>
 <p><strong><%= @page.pset.message %></strong></p>
 <% end %>
 
 <% if @page.pset.form || @page.pset.files %>
-<table class="table table-bosrdered">
 
 	<% if @page.pset.form %>
-	<tr>
-		<td>form.txt</td>
-		<td>Automatically generated from your answers.</td>
-		<td></td>
-	</tr>
+	<div class="mb-3">
+		Your answers to the questions above will be submitted.
+	</div>
 	<% end %>
 
 	<% @page.pset.files.each do |header, files| %>
-	<tr>
-		<th colspan="2"><%= header.humanize %></th>
-	</tr>
+	<div class="mb-3 fw-bold"><%= header.humanize %></div>
 	<% files.each do |file| %>
-	<tr>
-		<td class="align-middle"><%= file %></td>
-		<td><%= file_field_tag "f[#{file}]", :accept => File.extname(file), required: header == 'required', class: 'form-control' %></td>
-	</tr>
+	<div class="row mb-3">
+		<label for="<%= "file-#{file.parameterize}" %>" class="col-sm-3 col-form-label col-form-label-sm"><%= file %></label>
+		<div class="col-sm-9">
+			<%= file_field_tag "f[#{file}]", :accept => File.extname(file), required: header == 'required', class: 'form-control form-control-sm', id: "file-#{file.parameterize}" %>
+		</div>
+	</div>
 	<% end   if files %>
 	<% end %>
 
-</table>
 <% end %>
 
 <% if @page.pset.url %>
-<p>Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
+<p class="mt-4">Paste URL of your project here: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
 <% end %>
 
-<p class="mb-0 text-right"><%= submit_tag t(:submit), class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>
+<p class="mt-4 mb-0 text-right"><%= submit_tag t(:submit), class:'btn btn-primary', data: { "disable-with": "Processing..." } %></p>

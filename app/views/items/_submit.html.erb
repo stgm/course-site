@@ -4,14 +4,14 @@
 <% if submit.url %>
 URL: <%= link_to submit.url, submit.url %>
 <% end %>
-<% if submit.submitted_files && submit.submitted_files.any? %>
+<% if submit.filenames.any? %>
 <p class="mb-1"><%= t "files_submitted" %></p>
 <ul class="pl-4">
-	<% submit.submitted_files.each do |name| %>
+	<% submit.filenames.each do |name| %>
 	<li><code class="text-body"><%= name %></code></li>
 	<% end %>
 </ul>
 <% end %>
 <% if submit.has_auto_feedback? %>
-<%= link_to t("check_results"), profile_feedback_path(submit), class:"btn btn-secondary", remote: true %>
+<%= link_to t("check_results"), submission_feedback_path(submit), class:"btn btn-secondary", target: 'modal' %>
 <% end %>

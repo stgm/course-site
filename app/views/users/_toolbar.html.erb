@@ -1,0 +1,66 @@
+<div class="ml-auto align-items-center d-inline-flex">
+	<%= link_to bootstrap_icon('envelope', width: 20), "https://secure.helpscout.net/search/?query=#{@student.mail}", target:"_new", class: 'px-2', style: 'display:inline-flex;' %>
+	<% if @student.alarm %>
+	<%= button_to [@student, user: {alarm: :false}], method: :patch, class: "btn btn-link text-danger p-0 px-2", style: 'display:inline-flex;', form: { class: 'd-inline-flex' } do %>
+	<%= "#{bootstrap_icon 'bell', width: 20}".html_safe %>
+	<% end %>
+	<% else %>
+	<%= button_to [@student, user: {alarm: true}], method: :patch, class: "btn btn-link p-0 px-2", style: 'display:inline-flex;', form: { class: 'd-inline-flex' } do %>
+	<%= "#{bootstrap_icon 'bell', width: 20}".html_safe %>
+	<% end %>
+	<% end %>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-link p-0 px-2 d-inline-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<%= @student.schedule_name %></span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<% @schedules.each do |schedule| %>
+			<%= button_to [@student, user: {schedule_id: schedule.id}], method: :patch, class: 'dropdown-item' + class_if(@student.schedule_id == schedule.id, 'disabled') do "Assign to #{schedule.name}".html_safe end %>
+			<% end %>
+		</ul>
+	</div>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-link p-0 px-2 d-inline-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<%= "#{bootstrap_icon 'people', width: 20}".html_safe %></span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<% if @groups.any? %>
+			<% @groups.each do |group| %>
+			<%= button_to [@student, user: {group_id: group.id}], method: :patch, class: 'dropdown-item' + class_if(@student.group_id == group.id, 'disabled') do "Move to #{group.name}".html_safe end %>
+			<% end %>
+			<% elsif @student.schedule_name.present? %>
+			<%= link_to "No groups for #{@student.schedule_name}", '', class: 'dropdown-item disabled' %>
+			<% else %>
+			<%= link_to "No schedule selected", '', class: 'dropdown-item disabled' %>
+			<% end %>
+		</ul>
+	</div>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-link p-0 px-2 d-inline-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<%= "#{bootstrap_icon 'list-check', width: 20}".html_safe %></span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<% User.statuses.each do |status, status_value| %>
+				<%= button_to [@student, user: {status: status}], method: :put, class: 'dropdown-item' do "Mark as #{status}" end %>
+			<% end %>
+
+			<% if current_user.admin? %>
+			<div class="dropdown-divider"></div>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :assistant }), method: :patch, class: 'dropdown-item' do 'Make assistant' end %>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :head }), method: :patch, class: 'dropdown-item' do 'Make head' end %>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, class: 'dropdown-item' do 'Make admin' end %>
+			<%= button_to admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, class: 'dropdown-item' do 'Undo admin' end %>
+			<% if Grading::FinalGradeAssigner.available? %>
+			<div class="dropdown-divider"></div>
+			<%= button_to calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' do 'Calculate any final grade' end %>
+			<% GradingConfig.final_grade_names.each do |grade_name| %>
+			<%= button_to calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' do "Calculate #{grade_name.humanize}" end %>
+			<% end %>
+			<% end %>
+			<% end %>
+		</ul>
+	</div>
+</div>

@@ -1,4 +1,11 @@
-<%= form_tag_if(logged_in? && @page.pset, submissions_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
+<% if !Settings.site_enabled %>
+<div class="alert alert-danger sticky-top mx-n4 mb-5">
+    <strong>Note:</strong> this site is currently not enabled for submissions.
+</div>
+<% end %>
+
+
+<%= form_tag_if(Settings.site_enabled && logged_in? && @page.pset, submissions_path, { :multipart => true, :id => "page_form", data: { persist: 'garlic', destroy: false } }) do %>
 
 <%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
 
@@ -8,24 +15,28 @@
 </section>
 <% end %>
 
-<% if @page.pset %>
-	<% if !current_user.can_submit? %>
-	<section id="submit-content" class="d-block">
-		<div class="alert alert-danger" role="alert">
-			You can't submit because you are not logged in.
-		</div>
-	</section>
-	<% elsif !@allow_submit %>
-	<section id="submit-content" class="d-block">
-		<div class="alert alert-danger" role="alert">
-			You can't submit this problem, because a previous submission is currently being graded or has already been graded.
-		</div>
-	</section>
-	<% elsif @page.pset %>
-	<section id="submit-content">
-		<%= render 'submit_tab' %>
-	</section>
+<% if Settings.site_enabled && @page.pset %>
+<section id="submit-content" class="py-4 my-4 mt-5">
+
+	<% if @submitted_at %>
+	<div id="submitted_pset" class="alert alert-success mt-n4 mx-n4 mb-4 px-4 border-0">
+		<%= t :you_submitted_ago, time: time_ago_in_words(@submitted_at) %>
+		<%= link_to t(:see_submissions_page), submissions_path %>
+	</div>
 	<% end %>
+
+	<% if !current_user.can_submit? %>
+	<div class="alert alert-danger" role="alert">
+		You can't submit because you are not logged in.
+	</div>
+	<% elsif !@allow_submit %>
+	<div class="text-danger border-0" role="alert">
+		You can't currently submit this problem, because a previous submission is currently being graded or has already been graded.
+	</div>
+	<% elsif @page.pset %>
+	<%= render 'submit_tab' %>
+	<% end %>
+</section>
 <% end %>
 
 <% end %>

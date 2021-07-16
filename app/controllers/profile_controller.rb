@@ -16,32 +16,31 @@ class ProfileController < ApplicationController
 		@title = "Profile"
 	end
 
-	def feedback
-		submit = Submit.find(params[:submit_id])
-		@formatted_feedback = submit.formatted_auto_feedback
-		render_to_modal header: 'Check results'
-	end
-
 	def ping
 		head :ok
 	end
 
 	def prev
-		respond_to do |format|
-			format.js do
-				current_user.update(current_module: prev_module) if prev_module
-				render 'schedule'
-			end
-		end
+		current_user.update(current_module: prev_module) if prev_module
+		render partial: 'sidebar_content'
 	end
 
 	def next
-		respond_to do |format|
-			format.js do
-				current_user.update(current_module: next_module) if next_module
-				render 'schedule'
-			end
+		current_user.update(current_module: next_module) if next_module
+		render partial: 'sidebar_content'
+	end
+
+	def set_module
+		current_user
+		if mod = ScheduleSpan.accessible.where(id: params[:module]).first
+			current_user.update(current_module: mod)
 		end
+		render partial: 'sidebar_content'
+	end
+
+	def set_schedule
+		current_user.update(schedule_id: params[:schedule_id])
+		redirect_back fallback_location: '/'
 	end
 
 	#

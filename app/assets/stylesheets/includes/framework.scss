@@ -5,6 +5,7 @@ body
 	-webkit-font-smoothing: subpixel-antialiased;
 	background-size:cover;
 	background-attachment: fixed;
+	overscroll-behavior: none;
 }
 
 //****************************************************************************
@@ -18,6 +19,10 @@ body
 	border-right:none;
 }
 
+#submitted_pset
+{
+	border-radius:0;
+}
 
 //****************************************************************************
 

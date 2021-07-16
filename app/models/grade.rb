@@ -38,6 +38,22 @@ class Grade < ApplicationRecord
 		grade.grader = @current_user if grade.grader.blank? || (@current_user.present? && @current_user != grade.grader && grade.grader.senior?)
 	end
 
+	after_save do |grade|
+		# set user to done if sufficient final grade has been entered
+		if published? && sufficient? && Current.user.admin? && pset.is_final_grade?
+			user.status_done!
+		end
+	end
+
+	def sufficient?
+		self.grade && self.grade >= 5.5
+	end
+
+	def reject!
+		self.grade = 0
+		published!
+	end
+
 	def sortable_date
 		updated_at
 	end
@@ -115,6 +131,29 @@ class Grade < ApplicationRecord
 			else # integer, pass
 				super(10.0 * new_grade.to_i)
 			end
+		end
+	end
+
+	def config
+		grading_config = Settings['grading']
+		return grading_config && grading_config['grades'] && grading_config['grades'][self.pset_name]
+	end
+
+	def format
+		grading_config = config
+		current_grade = any_final_grade
+		return '--' if current_grade.blank?
+		case grading_config && grading_config['type'] || 'float'
+		when 'integer'
+			return current_grade.to_i.to_s
+		when 'pass'
+			if current_grade.between?(-1,0)
+				return (current_grade==-1 && 'v' || 'x')
+			else
+				return current_grade.to_s
+			end
+		else # float
+			return current_grade.to_s
 		end
 	end
 

@@ -1,17 +1,17 @@
 class User < ApplicationRecord
 
+	include Schedulizable
+	include ChangeLogger
+
 	# normal users
 	belongs_to :group, optional: true
 	delegate :name, to: :group, prefix: true, allow_nil: true
-
-	belongs_to :schedule, optional: true
-	delegate :name, to: :schedule, prefix: true, allow_nil: true
-
-	belongs_to :current_module, class_name: "ScheduleSpan", optional: true
+	scope :groupless,  -> { where(group_id: nil) }
 
 	# permissions for heads/tas
 	has_and_belongs_to_many :groups
 	has_and_belongs_to_many :schedules
+	has_many :students, through: :groups
 
 	has_many :logins
 	has_many :hands
@@ -19,44 +19,34 @@ class User < ApplicationRecord
 	has_many :grades, through: :submits
 	has_many :psets, through: :submits
 	has_many :attendance_records
-	has_many :notes, foreign_key: "student_id"
+	has_many :notes, foreign_key: "student_id" # with counter cache
 	has_many :authored_notes, class_name: "Note", foreign_key: "author_id"
 	has_many :authored_grades, class_name: "Grade", foreign_key: "grader_id"
 
-	scope :staff, -> { where(role: [User.roles[:admin], User.roles[:assistant], User.roles[:head]]) }
-	scope :not_staff, -> { where.not(id: staff) }
+	has_secure_token
 
-	scope :not_inactive,    -> { where(active: true) }
+	enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
+	enum status: [:active, :registered, :inactive, :done], _default: 'registered', _prefix: 'status'
 
-	scope :active, -> { where('users.active != ? and users.done != ? and (users.started_at < ? or last_submitted_at is not null)', false, true, DateTime.now) }
-	scope :registered, -> { where('users.last_submitted_at is null and (users.started_at is null or users.started_at > ?)', DateTime.now).where(active: true) }
+	scope :staff, -> { where(role: [:admin, :assistant, :head]) }
+	scope :not_staff, -> { where.not(role: [:admin, :assistant, :head]) }
 
-	scope :inactive,  -> { where(active: false) }
-	scope :done, -> { where(done:true) }
-	scope :groupless,  -> { where(group_id: nil) }
-	scope :but_not,   -> users { where("users.id not in (?)", users) }
-	scope :with_login, -> login { joins(:logins).where("logins.login = ?", login)}
-	scope :not_started, -> { where('started_at > ?', DateTime.now).where(last_submitted_at: nil) }
-	scope :started, -> { where.not(last_submitted_at: nil) }
-	scope :stagnated, -> { where("last_submitted_at < ?", 1.month.ago) }
-	scope :who_did_not_submit, ->(pset_id) { where("not exists (?)", Submit.where("submits.user_id = users.id").where(pset_id:pset_id)) }
+	scope :watching, -> { where(alarm: true) }
 
-	enum role: [:guest, :student, :assistant, :head, :admin]
+	scope :who_did_not_submit, ->(pset_id) do
+		where("not exists (?)", Submit.where("submits.user_id = users.id").where(pset_id:pset_id))
+	end
+
 	serialize :progress, Hash
-
-	before_save :reset_group, if: :schedule_id_changed?
-	before_save :reset_current_module, if: :schedule_id_changed?
-	after_save :log_changes
 
 	def create_profile(params, login)
 		# cancel this thing if registration is not open (but not if first user)
 		raise unless User.none? || Schedule.none? || Schedule.default
 
 		self.assign_attributes(params)
-		self.role = :student
-		self.schedule ||= Schedule.default
+		# TODO ugly: default user has "empty" schedule, which we recognize here
+		self.schedule = Schedule.default if self.schedule.blank? || !self.schedule.persisted?
 		self.save!
-
 		self.logins.create(login: login) unless self.logins.any?
 	end
 
@@ -88,9 +78,9 @@ class User < ApplicationRecord
 	def items(with_private=false)
 		items = []
 		# show all submits for psets that are _not_ a module
-		items += submits.includes({:pset => [:parent_pset, :child_psets]}).where("submitted_at is not null").where("child_psets_psets.id is null or parent_psets_psets.id is not null").references(:parent_pset, :child_psets).to_a
+		items += submits.includes(:pset).where("submitted_at is not null").to_a
 		items += grades.includes(:pset, :submit, :grader).showable.to_a
-		items += hands.includes(:assist).to_a if with_private
+		# items += hands.includes(:assist).to_a if with_private
 		items += notes.includes(:author).to_a if with_private
 		items = items.sort { |a,b| b.sortable_date <=> a.sortable_date }
 	end
@@ -108,12 +98,8 @@ class User < ApplicationRecord
 		submits.where(:pset_id => pset.id).first
 	end
 
-	def activate
-		update_attribute :active, true
-	end
-
 	def login_id
-		return self.logins.first.login
+		return self.logins.first.try(:login) || self.token
 	end
 
 	def valid_profile?
@@ -140,12 +126,6 @@ class User < ApplicationRecord
 		end
 	end
 
-	def update_last_submitted_at
-		if last = submits.order("submitted_at").last
-			update(last_submitted_at: last.submitted_at)
-		end
-	end
-
 	def final_grade
 		'N/A'
 	end
@@ -162,58 +142,11 @@ class User < ApplicationRecord
 		end.compact
 	end
 
-	# retrieve all submitted file contents for all submits from a particular module (for this user)
-	def files_for_module(mod)
-		files = {}
-		self.submits.where(pset: mod.child_psets).each do |submit|
-			if submit.file_contents
-				submit.file_contents.each do |filename, contents|
-					files["<small>(#{(submit.correctness_score||0)*100}% #{submit.submitted_at.strftime('%a-%-d %R')})</small> #{submit.pset.name}/#{filename}"] = contents
-				end
-			end
-			if submit.form_contents.present?
-				files["#{submit.pset.name}/Form"] = submit.form_contents
-			end
-		end
-		return files
-	end
-
 	def take_attendance
 		symbols = "▁▂▃▄▅▆▇█"
 		user_attendance = self.attendance_records.group_by_day(:cutoff, default_value: 0, range: 7.days.ago...Time.now).count.values
 		graph = user_attendance.map { |v| symbols[[v,7].min] }.join("")
 		self.update_attribute(:attendance, graph)
-	end
-
-	def generate_token!
-		self.token = SecureRandom.hex(16)
-		self.save
-	end
-
-	def generate_pairing_code!
-		self.token = SecureRandom.random_number(10000)
-		self.save
-	end
-
-	def reset_current_module
-		if span = self.schedule.default_span(self.student?)
-			self.current_module = span
-		else
-			self.current_module_id = nil
-		end
-	end
-
-	private
-
-	def reset_group
-		self.group_id = nil
-	end
-
-	def log_changes
-		changes = self.previous_changes.select{|k,v| ['current_module_id','status','current_schedule_id','alarm'].include?(k)}
-		if changes.any?
-			self.notes.create(text: changes.collect{|k,v| "#{k}: #{v[1]}  "}.join, author: Current.user)
-		end
 	end
 
 end

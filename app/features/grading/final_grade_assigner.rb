@@ -13,9 +13,7 @@ module Grading::FinalGradeAssigner
 		only_these = options[:only]
 		grades.slice!(*only_these) if only_these
 
-		Rails.logger.debug "HIER #{grades.inspect}"
-
-		# assisgn where possible
+		# assign where possible
 		grades.each do |name, grade|
 			grade = number_grade(grade)
 			if grade.present? # there really is an assignable grade

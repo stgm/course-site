@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 	before_action :authorize, except: [ :homepage, :syllabus ]
 	before_action :register_attendance, except: [ :homepage, :syllabus ]
 
-	layout 'sidebar'
+	layout 'home'
 
 	def homepage
 		if User.admin.none?
@@ -18,18 +18,6 @@ class HomeController < ApplicationController
 		end
 	end
 
-	def submissions
-		@student = User.includes(:hands, :notes).find(current_user.id)
-		@items = @student.items
-		raise ActionController::RoutingError.new('Not Found') if @items.empty?
-
-		# overview table
-		@overview_config = Settings.overview_config
-		@grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).where(grades: { status: Grade.statuses[:published] }).to_h { |item| [item.pset.name, item.grade] }
-
-		@title = t(:submissions)
-	end
-
 	def announcements
 		@title = t(:announcements)
 	end
@@ -40,7 +28,7 @@ class HomeController < ApplicationController
 		raise ActionController::RoutingError.new('Not Found') if !@page
 		@subpages = @page.subpages
 		@title = t(:syllabus)
-		render "page/index"
+		render "page/index", layout: 'sidebar'
 	end
 
 end

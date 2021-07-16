@@ -13,66 +13,62 @@
 </div>
 
 <div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
-	<div class="row content h-100">
+	<div class="grading-panes row content h-100">
 
-<% cache [ @to_grade, @submit ] do %>
-<div class="col-2 px-0 py-0 turbolinks-disable-scroll" style="background-color:#F9FCFF; overflow-y:scroll; min-height:0; max-height:100%">
-	<ul class="nav flex-column">
-		<% @to_grade.each do |submit| %>
-		<li class="nav-item p-0 ">
-			<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-primary text-light' if @submit == submit}" %>
-		</li>
+		<% cache [ @to_grade, @submit ] do %>
+		<div class="grading-submits col-2 px-0 py-0 restore-scroll-position" style="overflow-y:scroll; min-height:0; max-height:100%">
+			<ul class="nav flex-column">
+				<% @to_grade.each do |submit| %>
+				<li class="nav-item p-0 ">
+					<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-primary text-light' if @submit == submit}" %>
+				</li>
+				<% end %>
+			</ul>
+		</div>
 		<% end %>
-	</ul>
-</div>
-<% end %>
 
-<div class="col-3 pt-2" style="background-color:white; overflow-y:scroll; min-height:0; bordesr-left:1px solid #eee; max-height:100% ">
-	
-	<!-- TODO id=grade makes it auto-update but it doesn't quite work because it was made for a different page -->
-	
-	<%= render partial: 'grading_info' %>
+		<div class="grading-form col-3 pt-2" style="overflow-y:scroll; min-height:0; max-height:100%;">
+			<!-- TODO id=grade makes it auto-update but it doesn't quite work because it was made for a different page -->
 
-	<div id="grade" class="d-flex flex-column" style="min-height:100%">
-		<%= render @submit %>
-	</div>
-	
-	<% cache @grades do %>
-	<% @grades.each do |grade| %>
-	<hr>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<%= grade.submit.pset.name %>
-			<div class="float-right">
-				<% grade.subgrades.each_pair do |k,v| %>
-				<%= v %> /
-				<% end %>
-				<% if current_user.admin? %>
-				<strong><%= translate_grade(grade.any_final_grade) %></strong>
-				<% end %>
+			<%= render partial: 'grading_info' %>
+
+			<div id="grade" class="d-flex flex-column" style="min-height:100%">
+				<%= render @submit %>
 			</div>
-		</div>
-		<div class="panel-body">
-			<%= simple_markdown(grade.comments) %>
-		</div>
-	</div>
-	<% end %>
-	<% end %>
-	
-</div>
 
-<div class="col-7 p-0" style="overflow-y:scroll; min-height:0; border-left:1px solid #eee; max-height:100%">
-	
-	<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
-	<ul class="nav nav-pills p-2" id="files" role="tablist">
-		<%= render partial: 'file_tabs', locals: { first: true } %>
-	</ul>
-	<div class="tab-content p-3">
-		<%= render partial: 'file_panels', locals: { first: true } %>
-	</div>
-	<% end %>
-	
-</div>
+			<% cache @grades do %>
+			<% @grades.each do |grade| %>
+			<hr>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<%= grade.submit.pset.name %>
+					<div class="float-right">
+						<% grade.subgrades.each_pair do |k,v| %>
+						<%= v %> /
+						<% end %>
+						<% if current_user.admin? %>
+						<strong><%= translate_grade(grade.any_final_grade) %></strong>
+						<% end %>
+					</div>
+				</div>
+				<div class="panel-body">
+					<%= simple_markdown(grade.comments) %>
+				</div>
+			</div>
+			<% end %>
+			<% end %>
+		</div>
+
+		<div class="grading-files col-7 p-0" style="overflow-y:scroll; min-height:0; max-height:100%">
+			<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
+			<ul class="nav nav-pills p-2" id="files" role="tablist">
+				<%= render partial: 'file_tabs', locals: { first: true } %>
+			</ul>
+			<div class="tab-content p-3">
+				<%= render partial: 'file_panels', locals: { first: true } %>
+			</div>
+			<% end %>
+		</div>
 
 	</div>
 </div>

@@ -1,13 +1,9 @@
-<% if @submit.has_form_response? %>
-<div class="tab-pane <%= (first = false) || 'show active' if first %>" id="form-contents" role="tabpanel" aria-labelledby="home-tab">
-	<%= format_form_contents(@submit.form_contents) %>
-</div>
-<% end %>
 <% @files.each do |filename, contents| %>
 <div class="tab-pane <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">
 	<%= present_file_contents(filename, contents) %>
 </div>
-<% end if @files.present? %>
+<% end %>
+
 <% if @submit.has_auto_feedback? %>
 <div class="tab-pane <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab">
 	<code><pre><%= @submit.formatted_auto_feedback %></code></pre>

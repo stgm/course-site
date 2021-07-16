@@ -1,3 +1,5 @@
+<turbo-frame id="grade">
+
 <% if not @submit.url.blank? %>
 <div class="form-group">
 	<label for="" class="control-label">Link</label>
@@ -56,9 +58,11 @@
 
 <% if current_user.senior? %>
 <div class="form-group d-flex mt-3 mb-0 justify-content-end">
-	<%= link_to "Reject", reject_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to assign 0 grade and publish?" }, class: 'btn btn-secondary ml-2' %>
+	<%= button_to reject_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to assign 0 grade and publish?" }, class: 'btn btn-secondary ml-2' do "Reject" end %>
 	<% if current_user.admin? || current_user.senior? && !@grade.published? %>
-		<%= link_to "Re-open", reopen_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to re-open for editing?" }, class: 'btn btn-secondary ml-2' %>
+		<%= button_to reopen_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to re-open for editing?" }, class: 'btn btn-secondary ml-2' do "Re-open" end %>
 	<% end %>
 </div>
 <% end %>
+
+</turbo-frame>

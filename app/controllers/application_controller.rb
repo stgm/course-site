@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
 
-	include ModalRenderer
 	include Authentication
 	
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|

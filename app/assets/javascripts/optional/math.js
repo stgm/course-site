@@ -4,7 +4,7 @@ window.MathJax = {
   }
 };
 
-document.addEventListener('turbolinks:load', function() {
+document.addEventListener('turbo:load', function() {
 	if(MathJax.typeset)
 		MathJax.typeset();
 });

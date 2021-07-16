@@ -5,19 +5,26 @@
 #grade-table
 {
 	font-size:small;
+	width:auto;
 }
 
-#grade-table td
+#grade-table td, #grade-table th
 {
 	vertical-align:middle;
-	padding:1px;
+	padding:2px;
 	white-space:nowrap;
+	width:1.7rem;
 }
 
-#grade-table .btn-sm
+#grade-table th a
 {
-	font-size:xx-small;
+	color: #AFAEB0;
 }
+
+//#grade-table .btn-sm
+//{
+//	font-size:small;
+//}
 
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
 {
@@ -69,21 +76,6 @@
 
 //****************************************************************************
 
-.dropdown-menu .modal-dialog
-{
-	margin:0;
-	box-shadow:none;
-}
-
-.dropdown-menu .modal-dialog .modal-content
-{
-	margin:0;
-	box-shadow:none;
-	border:none;
-}
-
-//****************************************************************************
-
 span.bubble {
 	display: inline-block;
 	vertical-align:top;
@@ -100,7 +92,6 @@ span.bubble {
 #files
 {
 	padding-top:0.35rem;
-	background-color:#F4F4F4;
 }
 
 #files .nav-item .nav-link
@@ -113,3 +104,47 @@ span.bubble {
 	background-color:#337BCF;
 }
 
+//****************************************************************************
+
+.grade-button
+{
+	line-height: 1.1;
+	font-size: 12px;
+	padding: 0.25rem;
+	border: none;
+	height:100%;
+}
+
+.grade-button.btn-light, #grade-table td.bg-light
+{
+	color: var(--bs-light) !important;
+	background-color: transparent !important;
+}
+
+.grade-button.btn-success, #grade-table td.bg-success
+{
+	color: var(--bs-light) !important;
+	background-color: #40916c !important;
+}
+
+.grade-button.btn-danger, #grade-table td.bg-danger
+{
+	color: var(--bs-dark) !important;
+	background-color: #d8f3dc !important;
+}
+
+.grade-button.btn-warning, #grade-table td.bg-warning
+{
+	color: var(--bs-dark) !important;
+	background-color: #95d5b2 !important;
+}
+
+#submit-content
+{
+	background-color: #F1EDE7;
+	
+	table
+	{
+		border: hidden
+	}
+}

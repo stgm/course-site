@@ -2,9 +2,6 @@ class Pset < ApplicationRecord
 
 	belongs_to :page, optional: true
 	
-	belongs_to :parent_pset, :class_name => 'Pset', optional: true
-	has_many :child_psets, :class_name => 'Pset', :foreign_key => 'parent_pset_id'
-
 	has_many :pset_files
 	has_many :submits
 	has_many :grades, through: :submits
@@ -33,10 +30,10 @@ class Pset < ApplicationRecord
 		# in addition to the module assignments, we add any other assignments that are included in the final grade
 		if Settings['grading'] && Settings['grading']['calculation']
 			final_grades = Settings['grading']['calculation'].keys
-			mods_in_final_grade = Settings['grading']['calculation'].values.map{|x| x.keys}.flatten
+			mods_in_final_grade = Settings['grading']['calculation'].values.map{|x| x.keys}.flatten.uniq
 			psets_in_final_grade = mods_in_final_grade.map{|x| Settings['grading'][x]['submits']}.map{|y|y.keys}.flatten
-			other_psets = self.where.not(id: psets).where(name: psets_in_final_grade + final_grades).order(:order)
-			psets += other_psets
+			other_psets = self.where.not(id: psets).where(name: psets_in_final_grade + final_grades)
+			psets += other_psets.sort_by{|x| (psets_in_final_grade+final_grades).index(x.name) }
 		end
 		
 		# and then maybe grades that are mentioned in the grades section?
@@ -65,6 +62,10 @@ class Pset < ApplicationRecord
 	
 	def check_config
 		config && config['check']
+	end
+
+	def is_final_grade?
+		self.name.in? GradingConfig.final_grade_names
 	end
 
 end
