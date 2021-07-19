@@ -12,9 +12,9 @@
 			id: "page_form",
 			data:
 			{
-				controller: "auto-save",
-				auto_save_target: "form",
-				action: "change->auto-save#saveToLocalStorage submit->auto save#clearLocalStorage"
+				controller: "form-cache",
+				form_cache_target: "form",
+				action: "change->form-cache#saveToLocalStorage submit->form-cache#clearLocalStorage"
 			}
 		}
 	) do %>
