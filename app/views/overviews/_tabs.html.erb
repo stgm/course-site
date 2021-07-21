@@ -9,7 +9,7 @@
 		</button>
 		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 			<% @accessible_schedules.each do |schedule| %>
-			<%= link_to schedule.name, schedule_overview_path(schedule), class: "dropdown-item" + class_if(schedule == @selected_schedule, "active") %> 
+			<%= link_to schedule.name, overview_path(schedule), class: "dropdown-item" + class_if(schedule == @selected_schedule, "active") %>
 			<% end %>
 		</div>
 	</div>
@@ -58,8 +58,8 @@
 			</button>
 
 			<ul class="dropdown-menu dropdown-menu-right">
-				<%= link_to 'Import Groups'.html_safe, new_schedule_import_groups_path(schedule_slug: params[:slug]), target: 'modal', class:"dropdown-item" %>
-				<%= link_to 'Generate Groups'.html_safe, new_schedule_generate_groups_path(schedule_slug: params[:slug]), target: 'modal', class:"dropdown-item" %>
+				<%= link_to 'Import Groups'.html_safe, new_schedule_import_groups_path(schedule_slug: @selected_schedule), target: 'modal', class:"dropdown-item" %>
+				<%= link_to 'Generate Groups'.html_safe, new_schedule_generate_groups_path(schedule_slug: @selected_schedule), target: 'modal', class:"dropdown-item" %>
 			</ul>
 		</div>
 		<% end %>

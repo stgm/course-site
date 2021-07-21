@@ -6,21 +6,31 @@
 
 	<div class="tab-pane show active" id="submit-notes" role="tabpanel" aria-labelledby="submit-notes-tab">
 		<div id="timeline">
-
-			<div class="card">
-				<div class="card-body">
-					<div class="small mb-3 p-1">
-						<%
-						subs = @student.submits.includes(:grade).group_by(&:pset_id)
-						%>
-						<% @psets.each do |pset| %>
-						<%= grade_button(@student, pset, subs, true, true)%>
-						<% end %>
+			<div class="row">
+				<div class="col-md">
+					<div class="card">
+						<div class="card-body">
+							<div class="p-1">
+								<% @overview.each do |name, psets| %>
+								<p class="mb-1">
+									<strong><%= name.humanize %></strong>
+								</p>
+								<div class="mb-3">
+									<% psets.each do |pset, submit| %>
+									<div class="d-inline-block rounded <%= grade_bg_type(@subs[[pset.id, @student.id]].grade) if @subs[[pset.id, @student.id]].present? %>">
+										<%= grade_button(@student, pset, @subs[[pset.id, @student.id]], true, true) %>
+									</div>
+									<% end %>
+								</div>
+								<% end %>
+							</div>
+						</div>
 					</div>
 				</div>
+				<div class="col-md">
+					<%= render partial: "items/item", collection: @items %>
+				</div>
 			</div>
-			
-			<%= render partial: "items/item", collection: @items %>
 		</div>
 	</div>
 

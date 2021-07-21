@@ -46,9 +46,10 @@ Rails.application.routes.draw do
 
 	#--BULK OPS---------------------------------------------------------------------------------
 
-	resource :overview, only: [ :show ] do
-		get  "groups/:slug(/status/:status)",    action: :group, as: 'group',    defaults: { status: 'active' }
-		get  "schedules/:slug(/status/:status)", action: :schedule, as: 'schedule', defaults: { status: 'active' }
+	resources :overviews, only: [ :index ] do
+		member do
+			get '/status/:status', to: 'overviews#show', as: '', defaults: { status: 'active' }
+		end
 	end
 
 	resources :schedules, module: 'schedules', param: 'slug', only: [] do

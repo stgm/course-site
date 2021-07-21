@@ -1,0 +1,8 @@
+<% template.each do |name, psets| %>
+	<% psets.each_with_index do |(pset, submit), index| %>
+		<td class="<%= grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present? %>"
+			style="<%= 'border-left: 1.5px solid black;' if index==0 %>">
+			<%= grade_button(user, pset, @subs[[pset.id, user.id]], true, true) %>
+		</td>
+	<% end %>
+<% end %>
