@@ -43,7 +43,7 @@ module GradingConfig
         # include all final grades at the end
         r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
         # if nothing's there, include all assignments
-        r = [["Assignments", psets]] if r.blank?
+        r = [["Assignments", Pset.order(:order)]] if r.blank?
         return r
     end
 
