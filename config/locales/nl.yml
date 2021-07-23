@@ -3,40 +3,52 @@
 # than English, add the necessary files in this directory.
 #
 # To use the locales, use `I18n.t`:
-#
 #     I18n.t 'hello'
 #
 # In views, this is aliased to just `t`:
-#
 #     <%= t('hello') %>
 #
 # To use a different locale, set it with `I18n.locale`:
-#
 #     I18n.locale = :es
-#
 # This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
 
 nl:
     syllabus: "Studiewijzer"
     announcements: "Mededelingen"
     submissions: "Voortgang"
+
     ago: "geleden"
     by: "door"
     was_graded: "is nagekeken"
     materials: "materialen"
     modules: "modules"
     other: "overig"
-    submit: "Insturen"
-    you_submitted: "Je hebt %{name} ingezonden"
-    you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
-    see_submissions_page: "Zie de voortgangspagina voor een overzicht."
-    files_submitted: "Ingestuurde bestanden:"
-    check_results: "Check-resultaten"
-    overview: "Resultaten"
-    weight: "weging"
+    
+    sign_in: "Inloggen"
+
+    submit:
+        instructions: Stuur je hier oplossing in. Sommige oplossingen kunnen meteen automatisch gecheckt worden, en andere oplossingen worden handmatig nagekeken.
+        url_field: Geef de URL van je project
+        button: "Insturen"
+        answers_will_be_submitted: De antwoorden die je in het formulier hierboven hebt ingevuld worden ingestuurd.
+        you_submitted: "Je hebt %{name} ingezonden"
+        you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
+        see_submissions_page: "Zie de voortgangspagina voor een overzicht van al je inzendingen."
+        check_feedback: "Bekijk je feedback op de voortgangspagina."
+        until_deadline_new_version: 'Normaal kun je tot de deadline nog een nieuwe versie van je oplossing insturen.'
+        files_submitted: "Ingestuurde bestanden:"
+        check_results: "Check-resultaten"
+        overview: "Resultaten"
+        weight: "weging"
+        at_the_end_of_page: 'Stuur je oplossing onderaan deze pagina in'
+        cant_not_logged_in: "Je kunt geen oplossing insturen omdat je niet ingelogd bent."
+        cant_resubmit: "Je kunt op dit moment niet opnieuw insturen."
+        cant_resubmit_explainer: "Je oplossing staat in de rij voor beoordeling, dus je kunt nu geen nieuwe oplossing insturen. Check later nog eens om de resultaten te zien of opnieuw in te sturen. Als je denkt dat je op dit moment al zou moeten kunnen insturen, laat het dan gerust weten!"
+        files: bestanden
+        file_groups:
+            required: Vereiste
+            optional: Optionele
+
     hands:
         staff_are_currently_available:
             one: Eén medewerker beschikbaar
@@ -118,23 +130,23 @@ nl:
       distance_in_words:
         about_x_hours:
           one: ongeveer een uur
-          other: ongeveer %{count} uur
+          other: "zo'n %{count} uur"
         about_x_months:
           one: ongeveer een maand
-          other: ongeveer %{count} maanden
+          other: "zo'n %{count} maanden"
         about_x_years:
           one: ongeveer een jaar
-          other: ongeveer %{count} jaar
+          other: "iets van %{count} jaar"
         almost_x_years:
           one: bijna een jaar
           other: bijna %{count} jaar
         half_a_minute: een halve minuut
         less_than_x_minutes:
-          one: minder dan een minuut
-          other: minder dan %{count} minuten
+          one: nog geen minuut
+          other: nog geen %{count} minuten
         less_than_x_seconds:
-          one: minder dan een seconde
-          other: minder dan %{count} seconden
+          one: nog geen seconde
+          other: nog geen %{count} seconden
         over_x_years:
           one: meer dan een jaar
           other: meer dan %{count} jaar

@@ -17,6 +17,7 @@ class Submit < ApplicationRecord
 	delegate :status, to: :grade, prefix: true, allow_nil: true
 	delegate :first_graded, to: :grade, allow_nil: true
 	delegate :last_graded, to: :grade, allow_nil: true
+	delegate :public?, to: :grade, prefix: true, allow_nil: true
 
 	has_many_attached :files
 

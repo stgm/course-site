@@ -1,6 +1,6 @@
-<ul id="icon-nav" class="navbar-nav align-items-center ml-auto">
+<ul id="icon-nav" class="navbar-nav align-items-center flex-fill">
 	<% if current_user.senior? %>
-	<div>
+	<div class="flex-fill">
 		<%= render partial: 'search' %>
 	</div>
 	<% end %>
@@ -36,9 +36,4 @@
 
 	<% end %>
 
-	<% if !authenticated? %>
-	<li class="nav-item"><%= link_to("Sign in".html_safe, session_login_path, class:"nav-link", data: { turbo: false })%></li>
-	<% else %>
-	<%= render 'menu' %>
-	<% end %>
 </ul>

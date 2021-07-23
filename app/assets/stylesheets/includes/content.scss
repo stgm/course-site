@@ -9,12 +9,6 @@ body.page #content, body.home #content, body.submissions #content
 	max-width:50rem;
 }
 
-section#submit-content
-{
-	@extend .mx-n4;
-	@extend .px-4;
-}
-
 section, .sectionbody .content
 {
 	details

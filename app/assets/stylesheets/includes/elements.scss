@@ -147,10 +147,43 @@ span.bubble {
 
 #submit-content
 {
-	background-color: #F1EDE7;
-	
+	// ensure that the box covers the "click to scroll down" submit button
+	position: relative;
+	z-index: 1040;
+	min-height:10rem;
+	width: 100%;
+
+	background-color: #cce7f7;
+	color: #005182;
+
 	table
 	{
 		border: hidden
+	}
+
+	hr
+	{
+		margin-left:0; margin-right:0;
+	}
+}
+
+#submit-button
+{
+	@extend .shadow-lg;
+
+	z-index:1000;
+	position:fixed;
+	bottom:0;
+	right:0;
+
+	margin-bottom:1.5rem;
+	margin-right:1.5rem;
+
+	border-radius: 1.5rem;
+
+	button
+	{
+		max-width:10rem;
+		border-radius:1rem;
 	}
 }

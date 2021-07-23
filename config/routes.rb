@@ -197,7 +197,7 @@ Rails.application.routes.draw do
 
 	# homepage
 	root to: "home#homepage"
-	get 'syllabus',      to: 'home#syllabus'
+	get 'syllabus',      to: 'page#syllabus'
 	get 'announcements', to: 'home#announcements'
 
 	# search

@@ -1,11 +1,11 @@
 <small><%= date_span_with_title(submit.submitted_at)%></small>
-<h5 class="card-title"><%= t "you_submitted", name: submit.pset.name %></h5>
+<h5 class="card-title"><%= t "submit.you_submitted", name: submit.pset.name %></h5>
 
 <% if submit.url %>
 URL: <%= link_to submit.url, submit.url %>
 <% end %>
 <% if submit.filenames.any? %>
-<p class="mb-1"><%= t "files_submitted" %></p>
+<p class="mb-1"><%= t "submit.files_submitted" %></p>
 <ul class="pl-4">
 	<% submit.filenames.each do |name| %>
 	<li><code class="text-body"><%= name %></code></li>

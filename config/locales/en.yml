@@ -3,40 +3,52 @@
 # than English, add the necessary files in this directory.
 #
 # To use the locales, use `I18n.t`:
-#
 #     I18n.t 'hello'
 #
 # In views, this is aliased to just `t`:
-#
 #     <%= t('hello') %>
 #
 # To use a different locale, set it with `I18n.locale`:
-#
 #     I18n.locale = :es
-#
 # This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
 
 en:
     syllabus: "Syllabus"
     announcements: "Announcements"
     submissions: "Progress"
+
     ago: "ago"
     by: "by"
     was_graded: "was graded"
     materials: "materials"
     modules: "modules"
     other: "other"
-    submit: "Submit"
-    you_submitted: "You submitted %{name}"
-    you_submitted_ago: "You have submitted this problem set %{time} ago."
-    see_submissions_page: "See the progress page for an overview."
-    files_submitted: "Submitted files:"
-    check_results: "Check results"
-    overview: "Results"
-    weight: "weight"
+
+    sign_in: "Sign in"
+
+    submit:
+        instructions: Submit your solution here. Some solutions may be automatically checked for correctness, other solutions will be assessed manually.
+        url_field: Paste URL of your project here
+        button: "Submit"
+        answers_will_be_submitted: Your answers to the questions in the form above will be submitted.
+        you_submitted: "You submitted %{name}"
+        you_submitted_ago: "You have submitted this problem set %{time} ago."
+        see_submissions_page: "See the progress page for an overview of your previous submissions."
+        check_feedback: "Check your feedback on the progress page."
+        until_deadline_new_version: 'Usually, you can submit another version until the deadline the passes.'
+        files_submitted: "Submitted files:"
+        check_results: "Check results"
+        overview: "Results"
+        weight: "weight"
+        at_the_end_of_page: 'Submit your solution at the end of the page'
+        cant_not_logged_in: "You can't submit a solution because you are not logged in."
+        cant_resubmit: "You can't currently re-submit."
+        cant_resubmit_explainer: "Your solution is queued for assessment, so you can't submit a new solution now. Check back later to see the results or to re-submit. If you think you should be able to submit, feel free to contact the course's staff!"
+        files: files
+        file_groups:
+            required: Required
+            optional: Optional
+
     hands:
         staff_are_currently_available:
             one: One member of staff is available

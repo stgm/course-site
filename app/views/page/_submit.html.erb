@@ -1,0 +1,45 @@
+<% if Settings.site_enabled && @page.pset %>
+
+<section id="submit-content">
+    <h2 class="mt-0">Submit</h2>
+    <p>
+        <% if @submit %>
+        <%= bootstrap_icon 'check2-all' %><strong><%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %></strong>
+        <% if @submit.grade_public? && !@submit.may_be_resubmitted? %>
+        <%= link_to t('submit.check_feedback'), submissions_path %>
+        <% else %>
+        <%= t 'submit.until_deadline_new_version' %>
+        <%= link_to t('submit.see_submissions_page'), submissions_path %>
+        <% end %>
+        <% elsif @allow_submit %>
+        <%= t 'submit.instructions' %>
+        <% end %>
+    </p>
+
+    <% if !current_user.can_submit? %>
+    <p><strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.cant_not_logged_in' %></strong></p>
+    <% elsif !@allow_submit %>
+    <% if !@submit.grade_public?%>
+    <p>
+        <strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.cant_resubmit' %></strong>
+        <%= t 'submit.cant_resubmit_explainer' %>
+    </p>
+    <% end %>
+    <% elsif @page.pset %>
+    <%= render 'submit_form' %>
+    <% end %>
+</section>
+
+<% if @submit || @page.pset %>
+<div id="submit-button">
+    <button class="btn btn-primary" type="button" onclick="window.scrollTo(0,document.body.scrollHeight);">
+    <% if @submit %>
+        <%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %> <%= bootstrap_icon 'arrow-down' %>
+    <% elsif @page.pset %>
+        <%= t 'submit.at_the_end_of_page' %> <%= bootstrap_icon 'arrow-down' %>
+    <% end %>
+    </button>
+</div>
+<% end %>
+
+<% end %>

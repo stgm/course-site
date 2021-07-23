@@ -45,6 +45,39 @@ body
 
 //****************************************************************************
 
+body.home #content, body.submissions #content
+{
+	@extend .px-3;
+	@extend .py-3;
+
+	@extend .px-sm-4;
+	@extend .py-sm-4;
+
+	@extend .mt-xl-4;
+
+	@extend .px-lg-5;
+	@extend .py-lg-5;
+
+	@extend .mx-auto;
+}
+
+body.page #content, #submit-content
+{
+	@extend .pt-4;
+	@extend .pb-4;
+	@extend .px-4;
+
+	@extend .px-sm-4;
+	@extend .pb-sm-4;
+
+	@extend .pt-md-5;
+	@extend .mt-md-5;
+	@extend .pb-md-5;
+	@extend .px-md-5;
+
+	@extend .mx-auto;
+}
+
 #content section:first-child
 {
 	padding-top: 0;
@@ -55,7 +88,7 @@ body
 footer
 {
 	line-height: 2;
-	margin-top: 8rem;
+	margin-top: 2rem;
 	font-size: x-small;
 }
 
