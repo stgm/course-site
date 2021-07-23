@@ -16,6 +16,7 @@ nl:
     syllabus: "Studiewijzer"
     announcements: "Mededelingen"
     submissions: "Voortgang"
+    submissions_page: "voortgangspagina"
 
     ago: "geleden"
     by: "door"
@@ -27,20 +28,20 @@ nl:
     sign_in: "Inloggen"
 
     submit:
-        instructions: Stuur je hier oplossing in. Sommige oplossingen kunnen meteen automatisch gecheckt worden, en andere oplossingen worden handmatig nagekeken.
+        instructions: Stuur je hier oplossing in. Sommige opdrachten kunnen meteen automatisch gecheckt worden, en andere worden handmatig nagekeken.
         url_field: Geef de URL van je project
         button: "Insturen"
         answers_will_be_submitted: De antwoorden die je in het formulier hierboven hebt ingevuld worden ingestuurd.
         you_submitted: "Je hebt %{name} ingezonden"
         you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
-        see_submissions_page: "Zie de voortgangspagina voor een overzicht van al je inzendingen."
-        check_feedback: "Bekijk je feedback op de voortgangspagina."
+        see_submissions_page: "Bekijk je inzendingen en feedback op de %{submissions_page}."
         until_deadline_new_version: 'Normaal kun je tot de deadline nog een nieuwe versie van je oplossing insturen.'
         files_submitted: "Ingestuurde bestanden:"
         check_results: "Check-resultaten"
         overview: "Resultaten"
         weight: "weging"
-        at_the_end_of_page: 'Stuur je oplossing onderaan deze pagina in'
+        at_the_end_of_page: 'Verstuur je oplossing onderaan deze pagina'
+        course_not_open: 'Deze cursus is op dit moment niet geopend voor inzendingen.'
         cant_not_logged_in: "Je kunt geen oplossing insturen omdat je niet ingelogd bent."
         cant_resubmit: "Je kunt op dit moment niet opnieuw insturen."
         cant_resubmit_explainer: "Je oplossing staat in de rij voor beoordeling, dus je kunt nu geen nieuwe oplossing insturen. Check later nog eens om de resultaten te zien of opnieuw in te sturen. Als je denkt dat je op dit moment al zou moeten kunnen insturen, laat het dan gerust weten!"
