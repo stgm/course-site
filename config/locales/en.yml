@@ -31,7 +31,7 @@ en:
         instructions: Submit your solution here. Some assignments may be automatically checked for correctness, others will be assessed manually.
         url_field: Paste URL of your project here
         button: "Submit"
-        answers_will_be_submitted: Your answers to the questions in the form above will be submitted.
+        answers_will_be_submitted: Your answers in the form above will be submitted.
         you_submitted: "You submitted %{name}"
         you_submitted_ago: "You have submitted this problem set %{time} ago."
         see_submissions_page: "Check your submissions and feedback on the %{submissions_page}."
@@ -40,6 +40,7 @@ en:
         check_results: "Check results"
         overview: "Results"
         weight: "weight"
+        submit_is_graded: "Your submission was graded, so you can't submit any new versions."
         at_the_end_of_page: 'Submit your solution at the end of the page'
         course_not_open: 'This course does not currently accept submissions.'
         cant_not_logged_in: "You can't submit a solution because you are not logged in."
