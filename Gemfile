@@ -31,9 +31,8 @@ gem 'friendly_id'
 gem 'git'
 
 # APIs
-gem 'dropbox_api'
-gem 'helpscout'
 gem 'rack-cas'
+gem 'curb'
 
 # manages settings in database
 gem 'rails-settings-cached', '~>0.4.1'

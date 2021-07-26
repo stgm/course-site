@@ -22,8 +22,8 @@ class SubmissionsController < ApplicationController
 	def create
 		begin
 			collect_attachments
-			upload_attachments_to_dropbox if should_upload_to_dropbox?
-			upload_files_to_check_server if should_perform_auto_check?
+			upload_attachments_to_webdav  if should_upload_to_webdav?
+			upload_files_to_check_server  if should_perform_auto_check?
 			record_submission
 			redirect_back fallback_location: '/'
 		rescue
@@ -61,23 +61,22 @@ class SubmissionsController < ApplicationController
 		@form_contents = params.permit(form: {})[:form].to_h
 	end
 
-	def upload_attachments_to_dropbox
-		@submit_folder_name = @pset.name + "__" + Time.now.to_i.to_s
+	def upload_attachments_to_webdav
+		@submit_folder_name ||= @pset.name + "__" + Time.now.to_i.to_s
 
 		submission_path = File.join(
-			'/',
-			Settings.dropbox_base_folder,    # /Submit
-			Settings.dropbox_course_folder,  # /course name
-			current_user.login_id,           # /student ID
-			@submit_folder_name)             # /mario__21981289
+		'/',
+		Settings.archive_base_folder,    # /Submit
+		Settings.archive_course_folder,  # /course name
+		current_user.login_id,           # /student ID
+		@submit_folder_name)             # /mario__21981289
 
-		uploader = Dropbox::Uploader.new(submission_path)
+		uploader = Webdav::Uploader.new(submission_path)
 		uploader.upload(@attachments.all)
 	end
 
-	def should_upload_to_dropbox?
-		# dropbox is generally skipped in development mode!
-		Rails.env.production? && Dropbox::Client.available?
+	def should_upload_to_webdav?
+		Webdav::Client.available?
 	end
 
 	def should_perform_auto_check?
