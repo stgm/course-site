@@ -83,6 +83,7 @@
 	#sidebar-content
 	{
 		padding:0.5rem;
+		padding-bottom:0.25rem;
 	}
 
 	#schedule-navbar-items
@@ -373,9 +374,7 @@
 
 #icon-nav
 {
-	//    position:-webkit-sticky;
 	top:0;
-	z-index:1000;
 }
 
 #icon-nav .nav-item

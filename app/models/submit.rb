@@ -17,6 +17,7 @@ class Submit < ApplicationRecord
 	delegate :status, to: :grade, prefix: true, allow_nil: true
 	delegate :first_graded, to: :grade, allow_nil: true
 	delegate :last_graded, to: :grade, allow_nil: true
+	delegate :public?, to: :grade, prefix: true, allow_nil: true
 
 	has_many_attached :files
 
@@ -88,18 +89,7 @@ class Submit < ApplicationRecord
 		result = []
 		result << ['Form', form_contents] if form_contents.present?   # form answers
 		result += file_contents.to_a                                  # files from old submit system
-		result += files_for_module                                    # any files specified in module
 		result += files.map{ |f| [f.filename.sanitized, f] }      # files from new submit system
-	end
-
-	# retrieve all submitted file contents for all submits from a particular module (for this user)
-	def files_for_module
-		user.submits.where(pset: pset.child_psets).map do |submit|
-			submit.all_files.map do |f|
-				# prefix the filename with some of the submit info, for display purposes
-				["<small>(#{(submit.correctness_score||0)*100}% #{submit.submitted_at.strftime('%a-%-d %R')})</small> #{submit.pset.name}/#{f[0]}", f[1]]
-			end
-		end.flatten(1)
 	end
 
 	def filenames

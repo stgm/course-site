@@ -1,0 +1,57 @@
+<% if @page.pset.present? %>
+
+<section id="submit-content">
+    <h2 class="mt-0">Submit</h2>
+    <% if @submit.present? %>
+        <% if @submit.submitted_at # student did actually submit herself %>
+        <p><%= bootstrap_icon 'check2-all' %> <strong><%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %></strong></p>
+        <% end %>
+
+        <% if @submit.grade_public? && !@submit.may_be_resubmitted? # grade has been published %>
+        <p><%= bootstrap_icon 'check2-all' %> <%= t 'submit.submit_is_graded' %></p>
+        <% elsif Settings.site_enabled && Webdav::Client.available? %>
+        <p><%= bootstrap_icon 'check2-all' %> <%= t 'submit.until_deadline_new_version' %></p>
+        <% end %>
+    <% elsif Settings.site_enabled %>
+        <p><%= t 'submit.instructions' %></p>
+    <% end %>
+
+    <% if !Settings.site_enabled || !Webdav::Client.available? %>
+    <p><strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.course_not_open' %></strong></p>
+    <% elsif not current_user.can_submit? %>
+    <p><strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.cant_not_logged_in' %></strong></p>
+    <% elsif not @allow_submit %>
+    <% if !@submit.grade_public?%>
+    <p>
+        <strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.cant_resubmit' %></strong>
+        <%= t 'submit.cant_resubmit_explainer' %>
+    </p>
+    <% end %>
+    <% elsif @page.pset %>
+    <div class="card" id="submit-form">
+        <div class="card-body">
+            <%= render 'submit_form' %>
+        </div>
+    </div>
+    <% end %>
+    
+    <p>
+        <%= bootstrap_icon('kanban') %>
+        <%= t('submit.see_submissions_page', submissions_page: link_to(t('submissions_page'), submissions_path)).html_safe %>
+    </p>
+    
+</section>
+
+<% if @submit || Settings.site_enabled %>
+<div id="submit-button">
+    <button class="btn btn-primary" type="button" onclick="window.scrollTo(0,document.body.scrollHeight);">
+    <% if @submit && @submit.submitted_at %>
+        <%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %> <%= bootstrap_icon 'arrow-down' %>
+    <% else %>
+        <%= t 'submit.at_the_end_of_page' %> <%= bootstrap_icon 'arrow-down' %>
+    <% end %>
+    </button>
+</div>
+<% end %>
+
+<% end %>

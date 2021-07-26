@@ -1,6 +1,6 @@
-<div id="search" class="dropdown autocomplete">
+<div id="search" class="flex-fill dropdown autocomplete">
 	<form id="student-search-form" action="<%= search_users_path %>" method="get" data-remote="true">
 		<input id="student-search" name="text" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
 	</form>
-	<div id="search-results" class="dropdown-menu dropdown-menu-right autocomplete-results" role="menu"></div>
+	<div id="search-results" class="dropdown-menu autocomplete-results w-100" role="menu"></div>
 </div>

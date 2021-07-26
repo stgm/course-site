@@ -33,7 +33,12 @@ class UsersController < ApplicationController
             @groups = @student.schedule && @student.schedule.groups.order(:name) || []
             @psets = Pset.ordered_by_grading
             @attend = @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
-            @items = @student.items(true)
+            @items = @student.notes.includes(:author).order(created_at: :desc)
+
+            @subs = @student.submits.includes(:grade).index_by{|i| [i.pset_id, i.user_id]}
+            @indexed_psets = @psets.index_by(&:name)
+
+            @overview = GradingConfig.overview
         else
             @items = @student.notes.includes(:author).order(created_at: :desc)
             render 'notes'
@@ -42,7 +47,6 @@ class UsersController < ApplicationController
 
     def edit
         @student = @user_scope.find(params[:id])
-
     end
 
     def update
@@ -79,7 +83,7 @@ class UsersController < ApplicationController
         when 'assistant'
             current_user.students
         when 'head'
-            current_user.schedule.students
+            User.where(schedule: current_user.accessible_schedules)
         when 'admin'
             User
         end

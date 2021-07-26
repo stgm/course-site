@@ -24,6 +24,29 @@ module GradingConfig
         self.calculation.keys
     end
 
+    def self.categories
+        calculation.map{|final_grade,cat| cat.keys}.flatten.sort.uniq
+    end
+
+    def self.categories_with_psets
+        categories.map{|cat| [cat, all[cat]['submits'].keys]}
+    end
+
+    def self.overview
+        psets = Pset.order(:order).index_by &:name
+        # include final grade components that were marked as "show progress"
+        r = all.select { |c,v| v['show_progress'] }.
+            map { |c,v| [c, v['submits'].map {|k,v| psets[k]}] }
+        # include modules
+        r = modules.
+            map { |c,v| [c, v.map {|k,v| psets[k]}] } + r if GradingConfig.modules
+        # include all final grades at the end
+        r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
+        # if nothing's there, include all assignments
+        r = [["Assignments", Pset.order(:order)]] if r.blank?
+        return r
+    end
+
     def self.validate
         grading_config = self.all
         progress_categories = grading_config.select { |category, value| value['show_progress'] }

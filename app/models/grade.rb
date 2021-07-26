@@ -135,8 +135,7 @@ class Grade < ApplicationRecord
 	end
 
 	def config
-		grading_config = Settings['grading']
-		return grading_config && grading_config['grades'] && grading_config['grades'][self.pset_name]
+		pset.config
 	end
 
 	def format

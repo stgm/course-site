@@ -1,8 +1,11 @@
 <turbo-frame id="grade">
 
-<%= form_with model: @submit, html: { id: 'grade-form', class: 'grade-form', style: 'min-height:100%' } do |form| %>
+<%= form_with model: @submit, html: { id: 'grade-form', class: 'grade-form', style: 'min-height:100%' },
+	 data: { controller: 'auto-save', 'auto-save-target': 'form' } do |form| %>
 
 <%= form.fields_for :grade do |grade_form| %>
+
+	<div class="badge bg-secondary" data-auto-save-target="badge"></div>
 
 	<%= hidden_field_tag :commit, :autosave %>
 	<%= grade_form.hidden_field :submit_id %>
@@ -36,7 +39,7 @@
 	<div class="mb-2">
 		<span class="float-right" data-toggle="tooltip" title="Use * to create bullet lists. Use `backticks` to insert code."><%= bootstrap_icon 'question-circle-fill', width: '12px'%></span>
 		<label for="submit_grade_attributes_comments" class="control-label">Focus points </label>
-		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true, onfocus: 'startAutosave();' %>
+		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
 	</div>
 	
 	<div class="mb-2">
@@ -71,10 +74,10 @@
 		<label for="submit_grade_attributes_grade" class="control-label ml-1 mb-0">Grade
 			<% if current_user.admin? && @grade.calculated_grade %>(<%= @grade.calculated_grade %>)<% end %>
 		</label>
-		<div class="input-group">
-			<%= grade_form.text_field :grade, class: 'form-control input-group form-control-sm', value: @grade.grade %>
-			<button class="btn btn-secondary btn-sm" type="button" id="pass-btn"><small>PASS</small></button>
-			<button class="btn btn-secondary btn-sm" type="button" id="fail-btn"><small>FAIL</small></button>
+		<div class="input-group" data-controller="input-buttons">
+			<%= grade_form.text_field :grade, class: 'form-control input-group form-control-sm', value: @grade.grade, data: { 'input-buttons-target': 'input' } %>
+			<button class="btn btn-secondary btn-sm small" type="button" data-input-buttons-target="button" data-action="input-buttons#change" data-value="-1">PASS</button>
+			<button class="btn btn-secondary btn-sm small" type="button" data-input-buttons-target="button" data-action="input-buttons#change" data-value="0" >FAIL</button>
 		</div>
 	</div>
 	<% end %>

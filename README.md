@@ -62,11 +62,6 @@ Formatting your pages
 Admin configuration options
 ---------------------------
 
-* Setting a `DROPBOX_KEY` and `DROPBOX_SECRET` will allow the admin user to
-  connect their Dropbox account to the course site.
-
-* Setting an `COURSESITE_API_TOKEN` will allow another website to import some data from a special endpoint.
-
 * Setting a `CAS_BASE_URL` is needed for authentication using CAS (the only option). In development, a "fake" login screen is used which accepts any username.
 
 * Setting a `MAILER_ADDRESS` and `MAILER_DOMAIN` will allow mails to be sent to users.
@@ -74,5 +69,4 @@ Admin configuration options
 Some stuff we still want
 ------------------------
 
-* Allow the course to be hosted in dropbox.
 * Support some other authentication mechanism than CAS only.

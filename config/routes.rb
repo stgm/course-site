@@ -18,12 +18,6 @@ Rails.application.routes.draw do
 			post 'generate_secret'        #done
 		end
 
-		# dropbox linking
-		namespace :dropbox do
-			post "connect"
-			get  "oauth"
-		end
-
 		# course settings, not often used
 		get 'course', to: 'course#index'
 		namespace :course do
@@ -48,9 +42,10 @@ Rails.application.routes.draw do
 
 	#--BULK OPS---------------------------------------------------------------------------------
 
-	resource :overview, only: [ :show ] do
-		get  "groups/:slug(/status/:status)",    action: :group, as: 'group',    defaults: { status: 'active' }
-		get  "schedules/:slug(/status/:status)", action: :schedule, as: 'schedule', defaults: { status: 'active' }
+	resources :overviews, only: [ :index ] do
+		member do
+			get '/status/:status', to: 'overviews#show', as: '', defaults: { status: 'active' }
+		end
 	end
 
 	resources :schedules, module: 'schedules', param: 'slug', only: [] do
@@ -198,7 +193,7 @@ Rails.application.routes.draw do
 
 	# homepage
 	root to: "home#homepage"
-	get 'syllabus',      to: 'home#syllabus'
+	get 'syllabus',      to: 'page#syllabus'
 	get 'announcements', to: 'home#announcements'
 
 	# search

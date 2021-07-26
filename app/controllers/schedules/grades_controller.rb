@@ -8,7 +8,7 @@ class Schedules::GradesController < Schedules::ApplicationController
 	# Reopen all "finished" grades for some group + pset combo.
 	def reopen
 		@group = Group.find(params[:group_id])
-		@group.grades.finished.where(submits: { pset_id: params[:pset_id] }).update_all(:status => Grade.statuses[:unfinished])
+		@group.grades.where(submits: { pset_id: params[:pset_id] }).update_all(:status => Grade.statuses[:unfinished])
 		redirect_back fallback_location: '/'
 	end
 

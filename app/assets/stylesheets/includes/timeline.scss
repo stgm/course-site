@@ -23,7 +23,7 @@
 	margin-bottom:1rem;
 }
 
-#timeline .card *:last-child
+#timeline .card:last-child, #timeline .card *:last-child
 {
 	margin-bottom:0;
 }

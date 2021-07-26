@@ -16,16 +16,6 @@
 	width:1.7rem;
 }
 
-#grade-table th a
-{
-	color: #AFAEB0;
-}
-
-//#grade-table .btn-sm
-//{
-//	font-size:small;
-//}
-
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
 {
 	text-align:center;
@@ -50,6 +40,22 @@
 {
 	min-width:30px;
 	padding:2px;
+}
+
+#grade-table tr.sticky-1 th
+{
+	background-color: #FBF7F1;
+	position: sticky;
+	top:0;
+	z-index:2;
+}
+
+#grade-table tr.sticky-2 th
+{
+	background-color: #FBF7F1;
+	position: sticky;
+	top:1.5rem;
+	z-index:1;
 }
 
 //****************************************************************************
@@ -124,27 +130,78 @@ span.bubble {
 .grade-button.btn-success, #grade-table td.bg-success
 {
 	color: var(--bs-light) !important;
-	background-color: #40916c !important;
+	background-color: #5dd49d !important;
 }
 
 .grade-button.btn-danger, #grade-table td.bg-danger
 {
 	color: var(--bs-dark) !important;
-	background-color: #d8f3dc !important;
+	background-color: #dffbe4 !important;
 }
 
 .grade-button.btn-warning, #grade-table td.bg-warning
 {
 	color: var(--bs-dark) !important;
-	background-color: #95d5b2 !important;
+	background-color: #a2e8c2 !important;
 }
 
 #submit-content
 {
-	background-color: #F1EDE7;
-	
+	// ensure that the box covers the "click to scroll down" submit button
+	position: relative;
+	z-index: 1040;
+	min-height:10rem;
+	width: 100%;
+
+	background-color: #cce7f7;
+	color: #005182;
+
 	table
 	{
 		border: hidden
+	}
+
+	hr
+	{
+		margin-left:0; margin-right:0;
+	}
+}
+
+#submit-button
+{
+	@extend .shadow-lg;
+
+	z-index:1000;
+	position:fixed;
+	bottom:0;
+	right:0;
+
+	margin-bottom:1.5rem;
+	margin-right:1.5rem;
+
+	border-radius: 1.5rem;
+
+	button
+	{
+		max-width:10rem;
+		border-radius:1rem;
+	}
+}
+
+#submit-form
+{
+	background-color: #D6EBFA;
+	border:none;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	border-radius:0;
+	padding: 0.5rem;
+
+	margin-top:2rem;
+	margin-bottom:2rem;
+
+	h6:first-child
+	{
+		margin-top:0 !important;
 	}
 }

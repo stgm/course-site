@@ -4,10 +4,6 @@ module GradesHelper
 		time && time.to_formatted_s(:short) || "never"
 	end
 
-	# def color_for_filename(filename, potential)
-	# 	potential.include?(filename) && 'text-success' || 'text-danger'
-	# end
-
 	def grade_for(submit)
 		if submit
 			submitted = submit[0]
@@ -15,7 +11,6 @@ module GradesHelper
 				return submitted.grade.calculated_grade || submitted.grade.grade
 			end
 		end
-
 		return ""
 	end
 
@@ -49,14 +44,20 @@ module GradesHelper
 		return grade.to_s
 	end
 
-	def grade_button(user, pset, subs, change=true, include_name=false)
-		if subs[pset.id] && submit = subs[pset.id][0]
+	def grade_button(user, pset, submit, change=true, include_name=false)
+		if submit
 			if grade = submit.grade
-				# type = grade_button_type(grade.any_final_grade, grade.public?)
-				type=''
-				link_to make_label(pset.name, grade.format, include_name), submit, class: "grade-button btn btn-sm #{type}", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
+				link_to \
+					make_label(pset.name, grade.format, include_name),
+					submit,
+					class: "grade-button btn btn-sm",
+					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			else
-				link_to make_label(pset.name, "S", include_name), submit, class: "grade-button btn btn-sm btn-light", data: { trigger: 'modal', 'turbo-frame' => 'modal' }
+				link_to \
+					make_label(pset.name, "S", include_name),
+					submit,
+					class: "grade-button btn btn-sm btn-light",
+					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			end
 		else
 			if current_user.senior?
@@ -69,7 +70,7 @@ module GradesHelper
 						make_label(pset.name, "--", include_name)
 					end
 			else
-				tag.div(class: "grade-button btn btn-sm #{type}") do
+				tag.div(class: "grade-button btn btn-sm") do
 					make_label(pset.name, "--", include_name)
 				end
 			end
@@ -86,30 +87,10 @@ module GradesHelper
 		return retlabel.html_safe
 	end
 
-	def grade_button_type(grade, is_public)
-		return 'btn-light' if not is_public
-		case grade
-		when 10.0001..20
-			'btn-dark'
-		when 6.5..10.0
-			'btn-success'
-		when 0..5.4
-			'btn-danger'
-		when "P"
-			'btn-success'
-		when "--", "S"
-			'btn-light'
-		else # -1
-			'btn-warning'
-		end
-	end
-
-	def grade_bg_type(grade, is_public)
-		return 'bg-light' if not is_public
-		case grade
-		when 10.0001..20
-			'bg-dark'
-		when 6.5..10.0
+	def grade_bg_type(grade)
+		return 'bg-light' if grade.blank? or !grade.public?
+		case grade.any_final_grade
+		when 6.5..20.0, -1
 			'bg-success'
 		when 0..5.4
 			'bg-danger'

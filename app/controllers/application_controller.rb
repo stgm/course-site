@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
 
 	include Authentication
-	
+
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
 		flash[:alert] = "Warning: you were logged out since you last loaded this page. If you just submitted, please login and try again."
 		redirect_back fallback_location: '/'
@@ -10,6 +10,19 @@ class ApplicationController < ActionController::Base
 	before_action do # set_locale
 		I18n.locale = Course.language || I18n.default_locale
 	end
+
+	before_action do
+		if current_user.admin?
+			if !Settings.site_enabled
+				flash[:alert] = "Warning: submit is disabled in settings."
+			elsif Settings.site_enabled && !Webdav::Client.available?
+				flash[:alert] = "Warning: submit is enabled, but archival config is missing."
+			end
+		end
+	end
+
+	##
+	## Before-actions
 
 	def register_attendance
 		if (!session[:last_seen_at] || session[:last_seen_at] && session[:last_seen_at] < 15.minutes.ago) && current_user.persisted?
