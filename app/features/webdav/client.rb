@@ -1,22 +1,17 @@
 class Webdav::Client
 
-    @@webdav_base = ENV['COURSE_SITE_WEBDAV_BASE']
-    @@webdav_user = ENV['COURSE_SITE_WEBDAV_USER']
-    @@webdav_pass = ENV['COURSE_SITE_WEBDAV_PASS']
-
     # check if the env variables are filled for this API to function
     def self.available?
-        return @@webdav_base.present? && @@webdav_user.present? && @@webdav_pass.present?
-    end
-
-    def self.configured?
-        Settings.archive_base_folder.present? && Settings.archive_course_folder
+        return Settings.webdav_base.present? &&
+               Settings.webdav_user.present? &&
+               Settings.webdav_pass.present? &&
+               Settings.archive_course_folder.present?
     end
 
     def initialize
-        @base = @@webdav_base
-        @user = @@webdav_user
-        @pass = @@webdav_pass
+        @base = Settings.webdav_base
+        @user = Settings.webdav_user
+        @pass = Settings.webdav_pass
 
         @c = Curl::Easy.new(@base)
         @c.http_auth_types = :basic

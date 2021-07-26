@@ -16,12 +16,6 @@ Rails.application.routes.draw do
 			post 'generate_secret'        #done
 		end
 
-		# dropbox linking
-		namespace :dropbox do
-			post "connect"
-			get  "oauth"
-		end
-
 		# course settings, not often used
 		get 'course', to: 'course#index'
 		namespace :course do

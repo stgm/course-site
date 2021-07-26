@@ -7,7 +7,6 @@ class Admin::SiteController < ApplicationController
 
 	# Show all available site configuration options.
 	def index
-		@dropbox_linked = Dropbox::Client.connected?
 		@secret = Settings.webhook_secret
 	end
 
