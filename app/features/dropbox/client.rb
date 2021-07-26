@@ -18,7 +18,7 @@ class Dropbox::Client
 	end
 	
 	def self.configured?
-		Settings.dropbox_base_folder.present? && Settings.dropbox_course_folder
+		Settings.archive_base_folder.present? && Settings.archive_course_folder
 	end
 
 	# get a reference to a client object
@@ -27,7 +27,7 @@ class Dropbox::Client
 	end
 	
 	def self.root_folder
-		Settings['dropbox_base_folder']
+		Settings['archive_base_folder']
 	end
 	
 	# is able to download a (small?) file by path; only returns contents, no metadata
