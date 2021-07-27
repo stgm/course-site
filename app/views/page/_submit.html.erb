@@ -12,7 +12,7 @@
         <% elsif Settings.site_enabled && Webdav::Client.available? %>
         <p><%= bootstrap_icon 'check2-all' %> <%= t 'submit.until_deadline_new_version' %></p>
         <% end %>
-    <% elsif Settings.site_enabled %>
+    <% elsif Settings.site_enabled && logged_in? %>
         <p><%= t 'submit.instructions' %></p>
     <% end %>
 
@@ -35,14 +35,16 @@
     </div>
     <% end %>
     
+    <% if logged_in? %>
     <p>
         <%= bootstrap_icon('kanban') %>
         <%= t('submit.see_submissions_page', submissions_page: link_to(t('submissions_page'), submissions_path)).html_safe %>
     </p>
+    <% end %>
     
 </section>
 
-<% if @submit || Settings.site_enabled %>
+<% if @submit || (Settings.site_enabled && logged_in?) %>
 <div id="submit-button">
     <button class="btn btn-primary" type="button" onclick="window.scrollTo(0,document.body.scrollHeight);">
     <% if @submit && @submit.submitted_at %>
