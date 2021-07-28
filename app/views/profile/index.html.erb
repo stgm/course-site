@@ -8,17 +8,17 @@
 		<div class="modal-body">
 
 			<p>This will allow you to submit problems and otherwise participate in the course. If you're not going to do the course at this time, feel free to cancel and logout.</p>
-			<div class="form-group">
+			<div class="">
 				<label for="user_name">First and last name</label>
 				<%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
 			</div>
-			<div class="form-group">
+			<div class="">
 				<label for="user_mail">E-mail</label>
 				<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 			</div>
 			
 			<% if Schedule.where(self_register: true).count > 1 %>
-			<div class="form-group">
+			<div class="">
 				<label>Your schedule</label>
 
 				<% Schedule.where(self_register: true).each do |schedule| %>

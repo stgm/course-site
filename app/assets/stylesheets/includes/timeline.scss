@@ -81,5 +81,5 @@
 
 #overview table th, #overview table td
 {
-	border-color:theme-color("light");
+	border-color:map-get($theme-colors, "light");
 }

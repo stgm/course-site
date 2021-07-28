@@ -6,7 +6,7 @@ module GradingHelper
             if contents.kind_of? ActiveStorage::Attachment
                 concat link_to 'Download', 
                     rails_blob_path(contents, disposition: 'attachment'),
-                    class: 'btn btn-small btn-light float-right',
+                    class: 'btn btn-small btn-light float-end',
                     data: { turbo: false }
                 case contents.content_type
                 when 'application/x-ipynb+json'
@@ -42,7 +42,7 @@ module GradingHelper
                     end
                 end
             else
-                concat link_to 'Download', grading_download_path(grading_submit_id: @submit.id, filename: filename), class: 'btn btn-small btn-light float-right', data: { turbo: false }
+                concat link_to 'Download', grading_download_path(grading_submit_id: @submit.id, filename: filename), class: 'btn btn-small btn-light float-end', data: { turbo: false }
                 filetype = CodeRay::FileType.fetch(filename, :text)
                 if filename =~ /\.ipynb$/
                     begin

@@ -10,7 +10,7 @@ Element.prototype.highlight_briefly = function ()
 
 function enableTooltips()
 {
-	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 	var tooltipList = tooltipTriggerList.map(
 		function (tooltipTriggerEl)
 		{

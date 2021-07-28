@@ -3,7 +3,7 @@ module SettingsHelper
 	# create a remote form for saving a text setting in the Settings model
 	def change_setting_form(setting_name, label)
 		settings_form(setting_name) do |form|
-			tag.div class:'form-group mb-2' do
+			tag.div class:' mb-2' do
 				concat(tag.label label, for:"settings_#{setting_name}_input", class:'small')
 				concat(tag.div(class:'input-group') do
 					concat(form.text_field(setting_name, {
@@ -21,7 +21,7 @@ module SettingsHelper
 	# create a remote form for toggling a setting in the Settings model
 	def toggle_setting_form(setting_name, label)
 		settings_form(setting_name) do |form|
-			tag.div class:'form-group mb-1' do
+			tag.div class:' mb-1' do
 				tag.div class:'form-check' do
 					concat(form.check_box(setting_name,
 						{

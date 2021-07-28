@@ -168,18 +168,18 @@ module ApplicationHelper
 		options.merge! data: { 'turbo-frame' => target } if target
 		if options[:method].present?
 			button_to path, options.merge(class: 'dropdown-item') do
-				bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title
+				bootstrap_icon(icon, class: 'me-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title
 			end
 		else
-			link_to bootstrap_icon(icon, class: 'mr-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
+			link_to bootstrap_icon(icon, class: 'me-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
 		end
 	end
 
 	def icon(name, **options)
 		if name
-			image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'mr-1', style: 'vertical-align: -4px;' }.merge(options)
+			image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'me-1', style: 'vertical-align: -4px;' }.merge(options)
 		else
-			tag.span('', class: 'mr-2', style: 'display: inline-block; width:20px; height:20px')
+			tag.span('', class: 'me-2', style: 'display: inline-block; width:20px; height:20px')
 		end
 	end
 	

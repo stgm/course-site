@@ -7,7 +7,7 @@
 
 	<h1>
 		<%= @student.name %>
-		<small class="ml-3"><%= @student.login_id %> - <%= @student.mail %></small>
+		<small class="ms-3"><%= @student.login_id %> - <%= @student.mail %></small>
 		<%= link_to bootstrap_icon('pencil', width: 16), edit_user_path(@student), class: 'px-2' %>
 	</h1>
 
@@ -19,13 +19,13 @@
 	<div class="nav-tabs-container d-flex mt-3 align-items-center">
 		<ul class="nav nav-tabs" id="submit_tab" role="tablist">
 			<li class="nav-item">
-				<a class="nav-link active" id="submit-notes-tab" data-toggle="tab" href="#submit-notes" role="tab" aria-controls="home" aria-selected="true">Timeline</a>
+				<a class="nav-link active" id="submit-notes-tab" data-bs-toggle="tab" href="#submit-notes" role="tab" aria-controls="home" aria-selected="true">Timeline</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" id="submit-attendance-tab" data-toggle="tab" href="#submit-attendance" role="tab" aria-controls="home" aria-selected="true">Attendance</a>
+				<a class="nav-link" id="submit-attendance-tab" data-bs-toggle="tab" href="#submit-attendance" role="tab" aria-controls="home" aria-selected="true">Attendance</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" id="submit-hands-tab" data-toggle="tab" href="#submit-hands" role="tab" aria-controls="home" aria-selected="true">Hands</a>
+				<a class="nav-link" id="submit-hands-tab" data-bs-toggle="tab" href="#submit-hands" role="tab" aria-controls="home" aria-selected="true">Hands</a>
 			</li>
 		</ul>
 		<%= render 'toolbar' %>

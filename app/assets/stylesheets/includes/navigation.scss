@@ -6,7 +6,7 @@
 	width: 100%;
 	display:flex;
 	flex-wrap:nowrap;
-	background: linear-gradient(50deg, #FEF3BE 0%, #FFDEDE 100%);
+	background: linear-gradient(50deg, #FEF3BE 0%, #FDDDCB 100%);
 }
 
 #sidebar
@@ -244,7 +244,7 @@
 {
 	font-size: smaller;
 	margin: 0.5rem 0 0.25rem 0.25rem;
-	color: theme-color('dark');
+	color: map-get($theme-colors, 'dark');
 }
 
 #sidebar .nav-head, .materials-nav .nav-head
@@ -264,7 +264,7 @@
 
 #sidebar .nav-link-item, .materials-nav .nav-link-item
 {
-	background-color: theme-color('light');
+	background-color: map-get($theme-colors, 'light');
 	padding: 0;
 	border-radius: 0.25rem !important;
 	margin-bottom: 0.25rem;
@@ -324,7 +324,7 @@
 	padding-left:0.25rem;
 }
 
-#sidebar .materials a [data-toggle="collapse"]
+#sidebar .materials a [data-bs-toggle="collapse"]
 {
 	margin-left:-1.25rem;
 	padding-left:0.25rem;

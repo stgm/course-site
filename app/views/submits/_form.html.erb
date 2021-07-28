@@ -37,7 +37,7 @@
 	<% end %>
 
 	<div class="mb-2">
-		<span class="float-right" data-toggle="tooltip" title="Use * to create bullet lists. Use `backticks` to insert code."><%= bootstrap_icon 'question-circle-fill', width: '12px'%></span>
+		<span class="float-end" data-bs-toggle="tooltip" title="Use * to create bullet lists. Use `backticks` to insert code."><%= bootstrap_icon 'question-circle-fill', width: '12px'%></span>
 		<label for="submit_grade_attributes_comments" class="control-label">Focus points </label>
 		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
 	</div>
@@ -52,7 +52,7 @@
 		<% @submit.pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
 		<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
 		<div class="mb-2 flex-fill">
-			<label for="input_<%= subgrade_name %>" class="control-label ml-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic_scores[subgrade_name] %>(<%= @submit.automatic_scores[subgrade_name] %>)<% end %></label>
+			<label for="input_<%= subgrade_name %>" class="control-label ms-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic_scores[subgrade_name] %>(<%= @submit.automatic_scores[subgrade_name] %>)<% end %></label>
 			<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="submit[grade_attributes[subgrades[<%= subgrade_name %>]]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
 		</div>
 		<% elsif subgrade_type == 'boolean' %>
@@ -71,7 +71,7 @@
 			
 	<% if current_user.admin? || not(@submit.pset.config && @submit.pset.config['subgrades'] && @submit.pset.config['calculation']) %>
 	<div class="mb-2">
-		<label for="submit_grade_attributes_grade" class="control-label ml-1 mb-0">Grade
+		<label for="submit_grade_attributes_grade" class="control-label ms-1 mb-0">Grade
 			<% if current_user.admin? && @grade.calculated_grade %>(<%= @grade.calculated_grade %>)<% end %>
 		</label>
 		<div class="input-group" data-controller="input-buttons">
@@ -95,7 +95,7 @@
 		<%= submit_tag 'Save', class: 'btn btn-primary flex-fill', form: 'grade-form' %>
 		<% end %>
 		<% if current_user.senior? %>
-		<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Admin<span class="visually-hidden">Toggle Actions Dropdown</span>
 		</button>
 		<div class="dropdown-menu">

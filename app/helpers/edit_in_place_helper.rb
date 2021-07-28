@@ -43,7 +43,7 @@ module EditInPlaceHelper
 					class: 'in_place_editable'
 				}
 			) +
-			tag.div(class: "spinner-grow spinner-grow-sm collapse ml-1", role:"status") do
+			tag.div(class: "spinner-grow spinner-grow-sm collapse ms-1", role:"status") do
 				tag.span('Saving...', class: "visually-hidden")
 			end
 		end
