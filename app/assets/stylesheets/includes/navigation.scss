@@ -6,18 +6,11 @@
 	width: 100%;
 	display:flex;
 	flex-wrap:nowrap;
-	background: linear-gradient(50deg, #FEF3BE 0%, #FDDDCB 100%);
 }
 
 #sidebar
 {
 	font-size: 0.9rem;
-}
-
-#sidebar-content
-{
-	padding:1rem;
-	padding-top:0;
 }
 
 #sidebar-tools
@@ -32,6 +25,12 @@
 #sidebar-tools > .container-fluid
 {
 	justify-content: start;
+}
+
+#sidebar-content
+{
+	padding:1rem;
+	padding-top:0;
 }
 
 .sidebar-scroller
@@ -80,6 +79,10 @@
 		padding:0.1rem;
 	}
 
+	#sidebar-tools
+	{
+		padding:0.5rem;
+	}
 	#sidebar-content
 	{
 		padding:0.5rem;
@@ -100,11 +103,14 @@
 
 @media (min-width: 768px)
 {
+	#sidebar-tools
+	{
+		padding:0.75rem;
+	}
 	#sidebar-content
 	{
 		padding:0.75rem;
 		padding-top:0.5rem;
-		
 	}
 }
 
@@ -198,7 +204,7 @@
 		max-width: 33.3333333333%;
 	}
 
-	#sidebar-content
+	#sidebar-tools, #sidebar-content
 	{
 		padding:1rem;
 	}

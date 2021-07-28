@@ -20,6 +20,11 @@ summary
 	color:var(--bs-primary);
 }
 
+#sidebar, #navbar
+{
+	background: linear-gradient(50deg, #FEF3BE 0%, #FDDDCB 100%);
+}
+
 #sidebar
 {
 	border-color: #F9EAE6;
