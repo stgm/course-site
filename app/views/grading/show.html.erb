@@ -1,70 +1,68 @@
-<div id="toolbar" class="small">
-	<nav class="nav">
-		<li class="nav-item">
-			<%= link_to '(show all)', { pset: nil }, class: "nav-link #{'active' if params[:pset]==nil}" %>
-		</li>
-		<% @psets_to_grade.each do |pset| %>
-			<li class="nav-item">
-				<%= link_to pset.name, { pset: pset.name }, class: "nav-link #{'active' if params[:pset]==pset.name}" %>
-			</li>
-		<% end %>
-	</nav>
-	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm p-1', form_class: 'ml-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
-</div>
-
+<div class="d-flex flex-column h-100">
 <div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
 	<div class="grading-panes row content h-100">
 
 		<% cache [ @to_grade, @submit ] do %>
-		<div class="grading-submits col-2 px-0 py-0 restore-scroll-position" style="overflow-y:scroll; min-height:0; max-height:100%">
+		<div class="grading-submits col-lg-3 col-xl-2 px-0 py-0 restore-scroll-position" style="overflow-y:scroll; min-height:0; max-height:100%">
+			<nav id="toolbar" class="nav small">
+				<div class="nav-item dropdown">
+					<button class="btn btn-link dropdown-toggle px-1" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+						<% if params[:pset]==nil %>
+						(show all)
+						<% else %>
+						<%= params[:pset] %>
+						<% end %>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
+						<li class="dropdown-item">
+							<%= link_to '(show all)', { pset: nil }, class: "nav-link #{'active' if params[:pset]==nil}" %>
+						</li>
+						<% @psets_to_grade.each do |pset| %>
+						<li class="dropdown-item">
+							<%= link_to pset.name, { pset: pset.name }, class: "nav-link #{'active' if params[:pset]==pset.name}" %>
+						</li>
+						<% end %>
+					</ul>
+				</div>
+				<li class="nav-item ml-auto">
+					<%= link_to bootstrap_icon('check2-all'), finish_grading_path, method: :post, class: 'nav-link p-2', title: 'Mark my feedback as done', data: { toggle: 'tooltip', confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
+				</li>
+				<li class="nav-item">
+					<%= link_to bootstrap_icon('arrow-return-left'), root_path, class: 'nav-link p-2', data: { toggle: 'tooltip' }, title: 'Return to site' %>
+				</li>
+			</nav>
+
 			<ul class="nav flex-column">
 				<% @to_grade.each do |submit| %>
 				<li class="nav-item p-0 ">
-					<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-primary text-light' if @submit == submit}" %>
+					<%= link_to grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-primary text-white' if @submit == submit}" do %>
+					<span class='status'><%= submit.grade_status %></span>
+					<span class="small">
+					<span class="student"><%= submit.user_name %></span><br>
+					<%= submit.pset_name %>
+					<% end %>
+					</span>
 				</li>
 				<% end %>
 			</ul>
 		</div>
 		<% end %>
 
-		<div class="grading-form col-3 pt-2" style="overflow-y:scroll; min-height:0; max-height:100%;">
-			<!-- TODO id=grade makes it auto-update but it doesn't quite work because it was made for a different page -->
-
+		<div class="grading-form col-lg-4 col-xl-3 pt-2 d-flex flex-column overflow-scroll" style="">
 			<%= render partial: 'grading_info' %>
 
-			<div id="grade" class="d-flex flex-column" style="min-height:100%">
+			<div id="grade" class="d-flex flex-column flex-grow-1" style="">
 				<%= render @submit %>
 			</div>
 
-			<% cache @grades do %>
-			<% @grades.each do |grade| %>
-			<hr>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<%= grade.submit.pset.name %>
-					<div class="float-right">
-						<% grade.subgrades.each_pair do |k,v| %>
-						<%= v %> /
-						<% end %>
-						<% if current_user.admin? %>
-						<strong><%= translate_grade(grade.any_final_grade) %></strong>
-						<% end %>
-					</div>
-				</div>
-				<div class="panel-body">
-					<%= simple_markdown(grade.comments) %>
-				</div>
-			</div>
-			<% end %>
-			<% end %>
 		</div>
 
-		<div class="grading-files col-7 p-0" style="overflow-y:scroll; min-height:0; max-height:100%">
+		<div class="grading-files col-lg-5 col-xl-7 p-0 d-flex flex-column h-100" style="max-height:100%">
 			<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
 			<ul class="nav nav-pills p-2" id="files" role="tablist">
 				<%= render partial: 'file_tabs', locals: { first: true } %>
 			</ul>
-			<div class="tab-content p-3">
+			<div class="tab-content p-0 flex-grow-1 overflow-scroll">
 				<%= render partial: 'file_panels', locals: { first: true } %>
 			</div>
 			<% end %>
@@ -76,3 +74,4 @@
 <script>
 	enableTooltips();
 </script>
+</div>

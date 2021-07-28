@@ -10,8 +10,8 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require rails-ujs
 //= require popper
+//= require rails-ujs
 //= require bootstrap
 //
 // Note: the below requires only the files in the javascripts directory, and skips stuff in the

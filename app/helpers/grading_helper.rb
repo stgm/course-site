@@ -6,7 +6,8 @@ module GradingHelper
             if contents.kind_of? ActiveStorage::Attachment
                 concat link_to 'Download', 
                     rails_blob_path(contents, disposition: 'attachment'),
-                    class: 'btn btn-small btn-light float-right',
+                    class: 'btn btn-small btn-light float-right position-absolute',
+                    style: 'right: 1rem',
                     data: { turbo: false }
                 case contents.content_type
                 when 'application/x-ipynb+json'
@@ -29,8 +30,15 @@ module GradingHelper
                         )
                     else
                         filetype = CodeRay::FileType.fetch(contents.filename.sanitized, :text)
-                        CodeRay.scan(contents.download, filetype)
-                            .div(:line_numbers => :inline).html_safe
+                        tag.div id: contents.filename.sanitized, class: 'highlight p-3' do
+                            tag.pre do
+                                formatter = Rouge::Formatters::HTMLLinewise.new(
+                                    Rouge::Formatters::HTML.new(css_class: 'highlight'),
+                                    class: "line-%i")
+                                lexer = Rouge::Lexers::C.new
+                                formatter.format(lexer.lex(contents.download)).html_safe
+                            end
+                        end
                     end
                 else
                     if contents.representable?

@@ -64,3 +64,4 @@ gem 'rest-client'
 
 # used by ActiveStorage to get image previews
 gem 'image_processing', '~> 1.2'
+gem 'rouge'

@@ -121,10 +121,36 @@ summary
 {
 	.grading-submits
 	{
-		background-color: #F9FCFF;
+		background-color: white;
+		
+		ul li
+		{
+			border-bottom:1px solid #eef;
+			
+			.status
+			{
+				float:right;
+				@extend .badge;
+				@extend .bg-secondary;
+				padding: 0.25rem;
+				font-weight: normal;
+			}
+			.student
+			{
+				font-weight:bold;
+			}
+			.nav-link
+			{
+				padding:0.5rem;
+				margin:0.25rem;
+				border-radius:0.25rem;
+			}
+		}
 	}
 	.grading-form
 	{
+		border-left: 1px solid #eee;
+		
 		background-color: white;
 	}
 	.grading-files

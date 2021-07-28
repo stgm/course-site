@@ -1,5 +1,5 @@
 <% @files.each do |filename, contents| %>
-<div class="tab-pane <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">
+<div class="osverflow-scroll h-100 tab-pane <%= (first = false) || 'show active' if first %>" id="file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">
 	<%= present_file_contents(filename, contents) %>
 </div>
 <% end %>
@@ -9,3 +9,35 @@
 	<code><pre><%= @submit.formatted_auto_feedback %></code></pre>
 </div>
 <% end %>
+
+<script>
+	function codeLineClick (e)
+	{
+		const title = e.currentTarget.className;
+		document.getElementById("submit_grade_attributes_comments").value += "\n" + title + "\n: feedback\n";
+	}
+
+	document.querySelectorAll(".highlight").forEach( (ray) => {
+		ray.querySelectorAll("div").forEach( (line) => {
+			line.addEventListener('click', codeLineClick)
+		})
+	})
+
+</script>
+
+<script type="module">
+// import { createPopper } from './popper/core';
+// const popcorn = document.querySelector("div[title='greedy.c'] a[name='n1']");
+// const tooltip = document.querySelector('#tooltip');
+// new Popper(popcorn, tooltip, { placement: 'top' });
+
+</script>
+
+<style>
+	<%= Rouge::Themes::Gruvbox.render(scope: '.highlight') %>
+	.highlight div:hover
+	{
+		border:0.5px solid #FFEE5F;
+/*		background-color: #FFEE5F;*/
+	}
+</style>
