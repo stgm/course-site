@@ -3,7 +3,7 @@
 <h4>
 <%= @hand.user.name %><% if @hand.user.group %> (<%= @hand.user.group.name %>)<% end %>
 <% if @hand.done %>
-<span class="badge float-right">done</span>
+<span class="badge float-end">done</span>
 <% end %>
 <br>
 <small><%= minutes_ago(@hand.created_at) %> minutes <%= t(:ago) %></small>
@@ -29,8 +29,8 @@
 <%= render partial: 'form' %>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-	<button type="submit" class="btn btn-primary mr-md-2">Mark as done</button>
-	<%= link_to('Put back in list', helpline_hand_path(@hand), method: :put, class: 'btn btn-secondary mr-md-2', data: { confirm: 'Are you sure that someone is available for extra help?' })%>
+	<button type="submit" class="btn btn-primary me-md-2">Mark as done</button>
+	<%= link_to('Put back in list', helpline_hand_path(@hand), method: :put, class: 'btn btn-secondary me-md-2', data: { confirm: 'Are you sure that someone is available for extra help?' })%>
 	<%= link_to('Delete and mail', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-secondary', data: { confirm: 'Sure to delete?' })%>
 </div>
 

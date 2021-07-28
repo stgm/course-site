@@ -9,8 +9,8 @@
         <% psets.each_with_index do |(pset, submit), index| %>
         <th style="<%= 'border-left: 1.5px solid black;' if index==0 %>">
             <div class="dropdown">
-                <button class="btn px-1 py-0 btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"></button>
-                <ul class="dropdown-menu dropdown-menu-right">
+                <button class="btn px-1 py-0 btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                         <%= link_to "Publish all", publish_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, class: 'small dropdown-item' %>
                     </li>
@@ -60,7 +60,7 @@
             <%= bootstrap_icon 'exclamation-triangle-fill', width: 12, height: 12 %>
             <% end %>
             <% if user.last_known_location %>
-            <span aria-hidden="true" data-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
+            <span aria-hidden="true" data-bs-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
             <% end %><br>
             <% if current_user.senior? %>
                 <%= best_in_place user, :status_description, as: :input %>

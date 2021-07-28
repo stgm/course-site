@@ -1,9 +1,0 @@
-<ul class="list-unstyled">
-	<% @schedule_spans.each do |span| %>
-	<li>
-	<%= checkbox_for(span, :public, span.public, admin_course_update_schedule_span_path(id: span.id)) do %>
-	<%= span.name %>
-	<% end %>
-	</li>
-	<% end %>
-</ul>

@@ -2,17 +2,17 @@
 
 <p>Please register! This will allow you to submit problems and otherwise participate in the course. If you're just browsing around, feel free to ignore.</p>
 
-<div class="form-group mb-3">
+<div class=" mb-3">
 	<label for="user_name">First and last name</label>
 	<%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
 </div>
-<div class="form-group mb-3">
+<div class=" mb-3">
 	<label for="user_mail">E-mail</label>
 	<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
 </div>
 			
 <% if Schedule.where(self_register: true).count > 1 %>
-<div class="form-group">
+<div class="">
 	<label>Your schedule</label>
 
 	<% Schedule.where(self_register: true).each do |schedule| %>
@@ -28,6 +28,6 @@
 <%= hidden_field_tag "user[schedule_id]", Schedule.first.id %>
 <% end %>
 
-<p><%= submit_tag 'Create Profile', class:'btn btn-primary' %> <%= link_to 'Logout', session_logout_path, class: 'btn btn-primary float-right', data: { turbo: "false" } %></p>
+<p><%= submit_tag 'Create Profile', class:'btn btn-primary' %> <%= link_to 'Logout', session_logout_path, class: 'btn btn-primary float-end', data: { turbo: "false" } %></p>
 
 <% end %>

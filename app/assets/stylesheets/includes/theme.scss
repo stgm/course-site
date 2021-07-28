@@ -7,7 +7,7 @@ body
 
 .navbar-brand
 {
-	color:theme-color("dark");
+	color:map-get($theme-colors, "dark");
 }
 
 .navbar-brand svg
@@ -26,8 +26,7 @@ summary
 	
 	#sidebar-tools
 	{
-		-webkit-backdrop-filter: saturate(130%);
-		backdrop-filter: saturate(130%);
+		background: linear-gradient(50deg, #FBE5BF 0%, #FCD6BC 100%);
 
 		.bg-light
 		{
@@ -37,8 +36,8 @@ summary
 
 	#course-links
 	{
-		-webkit-backdrop-filter: brightness(101%);
-		backdrop-filter: brightness(101%);
+		-webkit-backdrop-filter: brightness(102%);
+		backdrop-filter: brightness(102%);
 
 		.bg-light
 		{

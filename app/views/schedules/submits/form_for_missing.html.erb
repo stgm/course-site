@@ -3,11 +3,11 @@
 <% end %>
 
 <%= form_with url: notify_missing_schedule_submits_path(schedule_id: params[:schedule_id]), method: :post, data: { 'turbo-frame' => '_top' }, id: 'missing_form' do %>
-<div class="form-group mb-3">
+<div class=" mb-3">
 	<label for="pset_id">Notify those who did not submit this pset yet:</label>
 	<%= select_tag :pset_id, options_from_collection_for_select(@psets, "id", "name"), class: 'form-control' %>
 </div>
-<div class="form-group">
+<div class="">
 	<label for="text">Send this message:</label>
 	<textarea name="text" class="form-control" rows="10">Let op: je hebt nog niets ingestuurd voor deze opdracht! Geen probleem,
 maar vergeet niet om vóór de deadline te submitten!</textarea>

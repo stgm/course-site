@@ -26,8 +26,8 @@
 					   width = (this_end-this_start).to_i.to_f/(@chart_end-@chart_start).to_i*100
 					   minutes = (this_end-this_start).to_i/60
 					   %>
-					<div class="progress-bar border-right"
-						data-toggle="tooltip" data-placement="top" title="<%= pluralize minutes, "minute" %>"
+					<div class="progress-bar border-end"
+						data-bs-toggle="tooltip" data-bs-placement="top" title="<%= pluralize minutes, "minute" %>"
 						role="progressbar"
 						style="margin-left:<%= margin %>%; width: <%= width %>%"
 						aria-valuenow="15"
@@ -80,7 +80,7 @@
 	</tr>
 	<% @today.each do |entry| %>
 	<tr>
-		<td><span data-placement="bottom" data-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%a %H:%M") %></span></td>
+		<td><span data-bs-placement="bottom" data-bs-toggle="tooltip" title="<%= entry.help_question %>"><%= entry.created_at.strftime("%a %H:%M") %></span></td>
 		<td>
 			<% if entry.done && entry.success %>
 			<span class="text-success">v</span>
@@ -92,7 +92,7 @@
 		<td><%= entry.user.name %></td>
 		<td>
 			<% if entry.claimed_at %>
-			<span data-placement="bottom" data-toggle="tooltip" title="<%= entry.note %>"><%= distance_of_time_in_words(entry.claimed_at - entry.created_at) %></span>
+			<span data-bs-placement="bottom" data-bs-toggle="tooltip" title="<%= entry.note %>"><%= distance_of_time_in_words(entry.claimed_at - entry.created_at) %></span>
 			<% elsif entry.closed_at %>
 			<%= distance_of_time_in_words(entry.closed_at, entry.created_at) %></button>
 			<% else %>

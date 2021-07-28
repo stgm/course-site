@@ -32,8 +32,8 @@ textarea#notes
     box-sizing: content-box;
 }
 
-.alert-dismissable .close,
-.alert-dismissible .close {
+.alert-dismissable .btn-close,
+.alert-dismissible .btn-close {
   top: 0;
   right: 0;
 }

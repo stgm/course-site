@@ -9,7 +9,7 @@
 			</li>
 		<% end %>
 	</nav>
-	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm p-1', form_class: 'ml-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
+	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm p-1', form_class: 'ms-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
 </div>
 
 <div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
@@ -20,7 +20,7 @@
 			<ul class="nav flex-column">
 				<% @to_grade.each do |submit| %>
 				<li class="nav-item p-0 ">
-					<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-right' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-primary text-light' if @submit == submit}" %>
+					<%= link_to "#{submit.user_name}<br>#{submit.pset_name} <span class='small float-end' style='font-weight:bold'>#{submit.grade_status || 'ungraded'}</span>".html_safe, grading_path(submit.id, params.except(:submit_id).permit(:pset, :group, :status)), class: "nav-link #{'bg-primary text-light' if @submit == submit}" %>
 				</li>
 				<% end %>
 			</ul>
@@ -42,7 +42,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<%= grade.submit.pset.name %>
-					<div class="float-right">
+					<div class="float-end">
 						<% grade.subgrades.each_pair do |k,v| %>
 						<%= v %> /
 						<% end %>

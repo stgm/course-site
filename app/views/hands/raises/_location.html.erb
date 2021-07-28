@@ -4,6 +4,6 @@
 	<p>Entering your location details ensures that we can find you if we'd like to discuss something.</p>
 	<%= form_tag(set_location_hands_raise_path, method: :patch, remote: true) do %>
 		<input type="text" name="location" class="form-control" required placeholder="" style="margin-top:0.5em">
-		<button id="loc-button" data-loading-text="Just a sec..." type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-sm btn-block btn-warning" name="how" value="hands">That's my location!</button>
+		<button id="loc-button" data-loading-text="Just a sec..." type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-sm btn-warning" name="how" value="hands">That's my location!</button>
 	<% end %>
 </div>

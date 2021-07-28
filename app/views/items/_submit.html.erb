@@ -6,7 +6,7 @@ URL: <%= link_to submit.url, submit.url %>
 <% end %>
 <% if submit.filenames.any? %>
 <p class="mb-1"><%= t "submit.files_submitted" %></p>
-<ul class="pl-4">
+<ul class="ps-4">
 	<% submit.filenames.each do |name| %>
 	<li><code class="text-body"><%= name %></code></li>
 	<% end %>

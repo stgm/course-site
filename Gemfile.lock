@@ -68,11 +68,11 @@ GEM
     autoprefixer-rails (10.2.5.1)
       execjs (> 0)
     bindata (2.4.10)
-    bootsnap (1.7.5)
+    bootsnap (1.7.6)
       msgpack (~> 1.0)
-    bootstrap (5.0.0.alpha3)
+    bootstrap (5.0.1)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
+      popper_js (>= 2.9.2, < 3)
       sassc-rails (>= 2.0.0)
     bugsnag (6.21.0)
       concurrent-ruby (~> 1.0)
@@ -106,8 +106,8 @@ GEM
       raabro (~> 1.4)
     git (1.9.1)
       rchardet (~> 1.8)
-    globalid (0.4.2)
-      activesupport (>= 4.2.0)
+    globalid (0.5.1)
+      activesupport (>= 5.0)
     groupdate (5.2.2)
       activesupport (>= 5)
     htmlentities (4.3.4)
@@ -159,7 +159,7 @@ GEM
       validate_email
       validate_url
       webfinger (>= 1.0.1)
-    popper_js (1.16.0)
+    popper_js (2.9.2)
     public_suffix (4.0.6)
     quiet_safari (1.0.0)
       railties (>= 3.1.0)
@@ -281,7 +281,7 @@ PLATFORMS
 DEPENDENCIES
   asciidoctor
   bootsnap (>= 1.1.0)
-  bootstrap (= 5.0.0.alpha3)
+  bootstrap (~> 5.0.0)
   bugsnag
   caxlsx_rails
   coderay
@@ -309,4 +309,4 @@ DEPENDENCIES
   turbo-rails
 
 BUNDLED WITH
-   1.17.2
+   2.1.4
