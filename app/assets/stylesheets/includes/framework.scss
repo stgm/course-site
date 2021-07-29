@@ -68,6 +68,12 @@ section
 		margin-left: -1rem;
 		margin-right: -1rem;
 	}
+
+	> blockquote, > pre
+	{
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 }
 
 @media only screen and (min-width: 576px) // small
@@ -102,7 +108,7 @@ section
 {
 	body.page #content, #submit-content
 	{
-		padding: 3rem;
+		padding: 4rem;
 	}
 
 	section
