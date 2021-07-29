@@ -127,7 +127,7 @@ section
 
 @media only screen and (min-width: 1200px) // x-large
 {
-	body.page #content, #submit-content
+	body.page #content
 	{
 		margin-top: 3rem;
 		margin-bottom: 3rem;
@@ -144,15 +144,42 @@ section
 
 @media only screen and (min-width: 1366px) // xxl
 {
+	#submit-button
+	{
+		max-width: 62rem;
+		position: static;
+
+		margin-left: auto;
+		margin-right: auto;
+
+		margin-bottom:0;
+
+		box-shadow: none !important;
+		border:0;
+
+		button
+		{
+			max-width: 100%;
+			width: 100%;
+			border-radius:0;
+		}
+	}
+
+	body.page #content
+	{
+		background-color: #FEFCFA;
+	}
+
 	body.page #content, #submit-content
 	{
-		max-width:54rem !important;
+		margin-bottom: 3rem;
 
-		padding-left: 4rem !important;
-		padding-right: 4rem !important;
+		max-width:54rem;
 
-		box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.04) !important;
-		background-color: #FEFCFA;
+		padding-left: 4rem;
+		padding-right: 4rem;
+
+		box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.04);
 	}
 
 	section

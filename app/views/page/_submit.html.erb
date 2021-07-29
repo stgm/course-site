@@ -44,16 +44,4 @@
     
 </section>
 
-<% if @submit || (Settings.site_enabled && logged_in?) %>
-<div id="submit-button">
-    <button class="btn btn-primary" type="button" onclick="window.scrollTo(0,document.body.scrollHeight);">
-    <% if @submit && @submit.submitted_at %>
-        <%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %> <%= bootstrap_icon 'arrow-down' %>
-    <% else %>
-        <%= t 'submit.at_the_end_of_page' %> <%= bootstrap_icon 'arrow-down' %>
-    <% end %>
-    </button>
-</div>
-<% end %>
-
 <% end %>
