@@ -78,6 +78,16 @@ body.page #content, #submit-content
 	@extend .mx-auto;
 }
 
+@media only screen and (min-width: 1365px)
+{
+	#content
+	{
+		box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.02) !important;
+		background-color: #FEFCFA;
+	}
+}
+
+
 #content section:first-child
 {
 	padding-top: 0;
