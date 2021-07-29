@@ -3,9 +3,6 @@ module NavigationHelper
 	def current_sections
 		if current_user.staff?
 			Settings.page_tree || {}
-		else
-			# TODO hide hidden pages
-			Settings.page_tree || {}
 		end
 	end
 

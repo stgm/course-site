@@ -14,7 +14,10 @@ class Course
 	def self.links
 		instance.settings['links'] || {}
 	end
-	
+
+	# course.yml may contain a key called "modules" that is a hash of
+	# descriptions and links to content, functioning as a main table of
+	# contents
 	def self.modules
 		instance.settings['modules'] || {}
 	end

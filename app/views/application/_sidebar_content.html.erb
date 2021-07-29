@@ -1,5 +1,7 @@
 <turbo-frame id="sidebar-frame" target="_top">
 
+	<%# course.yml hardcoded navigation %>
+
 	<% if Course.modules.any? %>
 	<ul class="nav">
 		<li>
@@ -11,7 +13,7 @@
 	</ul>
 	<% end %>
 
-	<%# Schedule-based navigation %>
+	<%# schedule-based navigation %>
 
 	<% if current_module %>
 	<ul class="nav">
@@ -34,25 +36,12 @@
 	</ul>
 	<% end %>
 
-	<%# Navigation items from section that current page belongs to %>
+	<%# the full page hierarchy %>
 
-	<% if !current_module && @section.present? && @section.content_links.present? %>
-	<ul class="nav">
+	<% if current_user.admin? && current_sections.any? %>
+	<ul id="sections" class="nav mt-3">
 		<li>
-			<p class="nav-head"><%= @section.title %></p>
-		</li>
-		<li>
-			<%= links_to_ul(@section.content_links) %>
-		</li>
-	</ul>
-	<% end %>
-
-	<%# All pages by section, but users only see "published" pages here %>
-
-	<% if current_schedule.blank? && current_sections.any? %>
-	<ul id="sections" class="nav">
-		<li>
-			<p class="nav-head"><%= current_module ? t(:other) : t(:materials) %></p>
+			<p class="nav-head"><%= t(:materials) %> (Admin only)</p>
 		</li>
 		<li>
 			<ul class="nav materials">
