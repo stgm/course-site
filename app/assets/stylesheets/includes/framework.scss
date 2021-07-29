@@ -61,6 +61,15 @@ body.page #content, #submit-content
 	padding: 1rem;
 }
 
+section
+{
+	> .extend, > blockquote, > pre, > .embed, > .videoblock
+	{
+		margin-left: -1rem;
+		margin-right: -1rem;
+	}
+}
+
 @media only screen and (min-width: 576px) // small
 {
 	body.home #content, body.submissions #content
@@ -72,44 +81,93 @@ body.page #content, #submit-content
 	{
 		padding: 1.5rem;
 	}
+
+	section
+	{
+		> .extend, > blockquote, > pre, > .embed, > .videoblock
+		{
+			margin-left: -1.5rem;
+			margin-right: -1.5rem;
+		}
+
+		> blockquote, > pre
+		{
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
+	}
 }
 
-@media only screen and (min-width: 768px) // medium
+@media only screen and (min-width: 768px) // medium, vertical iPad
 {
 	body.page #content, #submit-content
 	{
 		padding: 3rem;
-//		margin-top: 3rem;
+	}
+
+	section
+	{
+		> .extend, > blockquote, > pre, > .embed, > .videoblock
+		{
+			margin-left: -1.5rem;
+			margin-right: -1.5rem;
+		}
+
+		> blockquote, > pre
+		{
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
 	}
 }
 
-@media only screen and (min-width: 992px) // large
+@media only screen and (min-width: 992px) // large, standard iPad screen
 {
 }
 
 @media only screen and (min-width: 1200px) // x-large
 {
+	body.page #content, #submit-content
+	{
+		margin-top: 3rem;
+		margin-bottom: 3rem;
+	}
+
 	body.home #content, body.submissions #content
 	{
 		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+
 		padding: 3rem;
 	}
 }
 
 @media only screen and (min-width: 1366px) // xxl
 {
-	#content
+	body.page #content, #submit-content
 	{
 		max-width:54rem !important;
-
-		margin-top: 3rem;
-		margin-bottom: 3rem;
 
 		padding-left: 4rem !important;
 		padding-right: 4rem !important;
 
-		box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.02) !important;
+		box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.04) !important;
 		background-color: #FEFCFA;
+	}
+
+	section
+	{
+		> .extend, > blockquote, > pre, > .embed, > .videoblock
+		{
+			margin-left: -4rem;
+			margin-right: -4rem;
+		}
+
+		> blockquote, > pre
+		{
+			padding-left: 4rem;
+			padding-right: 4rem;
+		}
 	}
 }
 

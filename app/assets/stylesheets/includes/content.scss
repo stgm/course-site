@@ -18,17 +18,9 @@ section, .sectionbody .content
 	
 	blockquote, pre
 	{
-		@extend .px-3;
-	}
-
-	> .extend, > blockquote, > pre, > .embed, > .videoblock
-	{
-		@extend .mx-n4;
-	}
-
-	> blockquote, > pre
-	{
-		@extend .px-4;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		// horizontal padding is responsively defined in framework.css
 	}
 
 	/*
@@ -91,7 +83,6 @@ section, .sectionbody .content
 		margin-top: 1.5rem;
 		margin-bottom: 1.5rem;
 		border: 0;
-		padding: 1em 1.5rem;
 		font-size: inherit;
 		background-image: linear-gradient(120deg, rgba(132,250,176, 0.3) 0%, #8fd3f4 100%);
 	}
