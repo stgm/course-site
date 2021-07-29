@@ -116,7 +116,7 @@
 
 @media (min-width: 992px)
 {
-	$sidebar-width: 400px;
+	$sidebar-width: 350px;
 	
 	#sidebar
 	{
@@ -140,14 +140,16 @@
 
 	.room-for-toc
 	{
+		$sidebar-width: 300px;
+
 		#sidebar
 		{
-			max-width: 350px;
+			max-width: $sidebar-width;
 		}
 		#row-content
 		{
-			margin-left: 350px;
-			width: calc(100vw - 350px);
+			margin-left: $sidebar-width;
+			width: calc(100vw - #{$sidebar-width});
 		}
 	}
 
@@ -186,6 +188,37 @@
 	{
 		margin-left: 0 !important;
 		margin-right: 15em !important;
+	}
+}
+
+@media (min-width: 1112px)
+{
+	$sidebar-width: 400px;
+
+	#sidebar
+	{
+		max-width: $sidebar-width;
+	}
+
+	#sidebar-tools
+	{
+		padding:1rem;
+	}
+
+	#sidebar-content
+	{
+		padding:1rem;
+
+		#schedule
+		{
+			margin-top:0.5rem;
+		}
+	}
+
+	#row-content
+	{
+		margin-left: $sidebar-width;
+		width: calc(100vw - #{$sidebar-width});
 	}
 }
 
