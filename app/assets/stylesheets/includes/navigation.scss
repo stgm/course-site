@@ -135,7 +135,7 @@
 	#row-content
 	{
 		margin-left: $sidebar-width;
-		width: calc(100vw - $sidebar-width);
+		width: calc(100vw - #{$sidebar-width});
 	}
 
 	.room-for-toc
@@ -187,11 +187,6 @@
 		margin-left: 0 !important;
 		margin-right: 15em !important;
 	}
-}
-
-@media (min-width: 1200px)
-{
-	$sidebar-width: 500px;
 }
 
 //****************************************************************************
