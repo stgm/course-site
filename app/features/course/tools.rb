@@ -56,7 +56,7 @@ class Course::Tools
 
         ps.each do |p|
             hash = hashify_path(p.slug.split('/'), p.slug, p.title)
-            res.deep_merge! hash
+            res.deep_merge! hash unless p.slug.blank?
         end
 
         Settings.page_tree = res
