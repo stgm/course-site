@@ -156,7 +156,7 @@ class Course::Loader
     def load_grading_info(file)
         if config = read_config(file)
             GradingConfig.load config
-            GradingConfig.validate
+            @errors.merge! GradingConfig.validate
         end
     end
 

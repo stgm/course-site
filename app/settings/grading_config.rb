@@ -48,6 +48,7 @@ module GradingConfig
     end
 
     def self.validate
+        @errors = []
         grading_config = self.all
         progress_categories = grading_config.select { |category, value| value['show_progress'] }
         if progress_categories.any?
@@ -62,6 +63,7 @@ module GradingConfig
                 return
             end
         end
+        return @errors
     end
 
     def self.overview_config
