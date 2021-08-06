@@ -45,7 +45,7 @@ class User < ApplicationRecord
 
 		self.assign_attributes(params)
 		# TODO ugly: default user has "empty" schedule, which we recognize here
-		self.schedule = Schedule.default if self.schedule.blank? || !self.schedule.persisted?
+		self.schedule = Schedule.default if self.schedule.blank?
 		self.save!
 		self.logins.create(login: login) unless self.logins.any?
 	end
