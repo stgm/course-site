@@ -19,7 +19,8 @@ class ApplicationController < ActionController::Base
 	end
 
 	before_action do
-		if current_user.admin?
+		# note: using authenticated? ensure that a user is not needlessly loaded
+		if authenticated? && current_user.admin?
 			if !Settings.site_enabled
 				flash[:alert] = "Warning: submit is disabled in settings."
 			elsif Settings.site_enabled && !Webdav::Client.available?
