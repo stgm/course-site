@@ -87,9 +87,16 @@ class Submit < ApplicationRecord
 
 	def all_files
 		result = []
-		result << ['Form', form_contents] if form_contents.present?   # form answers
-		result += file_contents.to_a                                  # files from old submit system
-		result += files.map{ |f| [f.filename.sanitized, f] }      # files from new submit system
+		# files from old submit system
+		result += file_contents.to_a
+		# files from new submit system
+		result += files.map{ |f| [f.filename.sanitized, f] }
+	end
+
+	def all_files_and_form
+		result = all_files
+		# add form answers
+		result.unshift ['Form', form_contents] if form_contents.present?
 	end
 
 	def filenames

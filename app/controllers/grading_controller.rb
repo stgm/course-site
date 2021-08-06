@@ -46,7 +46,7 @@ class GradingController < ApplicationController
 
 		# load the associated grade and files
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
-		@files = @submit.all_files
+		@files = @submit.all_files_and_form
 
 		# load other grades for summarizing
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @submit.user.id).order('submits.created_at desc')
