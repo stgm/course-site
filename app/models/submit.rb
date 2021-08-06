@@ -96,7 +96,8 @@ class Submit < ApplicationRecord
 	def all_files_and_form
 		result = all_files
 		# add form answers
-		result.unshift ['Form', form_contents] if form_contents.present?
+		result = result.unshift(['Form', form_contents]) if form_contents.present?
+		return result
 	end
 
 	def filenames
