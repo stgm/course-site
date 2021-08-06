@@ -56,7 +56,7 @@ module GradesHelper
 				link_to \
 					make_label(pset.name, "S", include_name),
 					submit,
-					class: "grade-button btn btn-sm btn-light",
+					class: "grade-button btn btn-sm",
 					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			end
 		else
