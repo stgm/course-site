@@ -24,9 +24,6 @@ class Course::Tools
                 p.order = counter
                 counter += 1
 
-                # add any info from course.yml to the pset config, which already can contain info from submit.yml
-                p.config = (p.config || {}).merge(definition || {})
-
                 # set a few flags from config for easier queries later on
                 p.automatic = p.config.present? && p.config["automatic"].present?
                 p.grade_type = definition['type'] || :float

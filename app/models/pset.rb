@@ -1,13 +1,13 @@
 class Pset < ApplicationRecord
 
 	belongs_to :page, optional: true
-	
+
 	has_many :pset_files
 	has_many :submits
 	has_many :grades, through: :submits
-	
+
 	enum grade_type: [:integer, :float, :pass, :percentage]
-	
+
 	serialize :files, Hash
 	serialize :config, Hash
 
@@ -26,7 +26,7 @@ class Pset < ApplicationRecord
 			end
 			psets += self.where(name: done_psets).sort_by{|m| done_psets.index(m.name)}
 		end
-		
+
 		# in addition to the module assignments, we add any other assignments that are included in the final grade
 		if Settings['grading'] && Settings['grading']['calculation']
 			final_grades = Settings['grading']['calculation'].keys
@@ -35,7 +35,7 @@ class Pset < ApplicationRecord
 			other_psets = self.where.not(id: psets).where(name: psets_in_final_grade + final_grades)
 			psets += other_psets.sort_by{|x| (psets_in_final_grade+final_grades).index(x.name) }
 		end
-		
+
 		# and then maybe grades that are mentioned in the grades section?
 		if Settings['grading'] && Settings['grading']['grades']
 			grades = Settings['grading']['grades'].keys
@@ -56,10 +56,14 @@ class Pset < ApplicationRecord
 		files.map { |h,f| f }.flatten.uniq
 	end
 
+	def config
+		super.merge GradingConfig.grades[name].to_h
+	end
+
 	def submit_from(user)
 		Submit.where(:user_id => user.id, :pset_id => id).first
 	end
-	
+
 	def check_config
 		config && config['check']
 	end

@@ -201,7 +201,6 @@ class Course::Loader
                 else
                     pset.files = nil
                 end
-                submit_config.merge! GradingConfig.grades[name].to_h
                 pset.config = submit_config
                 pset.save
 
