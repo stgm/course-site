@@ -99,7 +99,7 @@ module ApplicationHelper
 		list.each do |item, content|
 			if content.is_a?(Hash)
 				# a Hash means subitems, so create a caption and recurse
-				link = link_to bootstrap_icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-materials-#{path.parameterize}-#{item.parameterize}", class: "nav-link", data: { 'bs-toggle': "collapse" }, role: "button", aria: { haspopup: "true", expanded: "false" }
+				link = link_to bootstrap_icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-materials-#{path.parameterize}-#{item.parameterize}", class: "nav-link", data: { 'bs-toggle': "collapse" }, role: "button", aria: { expanded: "false" }
 				list = content_tag(:ul, material_links_to_li(content,path+"-#{item.parameterize}"), class: 'nav collapse', id: "collapse-materials-#{path.parameterize}-#{item.parameterize}")
 				items << content_tag(:li, link + list)
 				# items << content_tag(:li,   , class: "nav p-0", class: "nav-item")

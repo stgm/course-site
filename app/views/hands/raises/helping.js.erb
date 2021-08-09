@@ -1,5 +1,4 @@
 localStorage.removeItem('waiting-gif');
-document.getElementById('ama-nav').classList.add('open');
 document.getElementById('ama').innerHTML = "<%= j(render 'helping') %>";
 setTimeout(function(){
 	Rails.ajax({ type: 'get', url: '<%= hands_raise_path %>'});

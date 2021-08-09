@@ -95,10 +95,10 @@
 		<%= submit_tag 'Save', class: 'btn btn-primary flex-fill', form: 'grade-form' %>
 		<% end %>
 		<% if current_user.senior? %>
-		<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			Admin<span class="visually-hidden">Toggle Actions Dropdown</span>
+		<button id="submitAdminActionsDropdown" type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+			Admin <span class="visually-hidden">Toggle Actions Dropdown</span>
 		</button>
-		<div class="dropdown-menu">
+		<div class="dropdown-menu" aria-labelledby="submitAdminActionsDropdown">
 			<% if current_user.admin? %>
 			<%= button_to grade_path(id: @grade.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This deletes the grade completely, including internal info." }, class: 'dropdown-item' do "Destroy Grade" end if @grade.persisted? %>
 			<%= button_to submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty the text field and save the grade." }, class: 'dropdown-item', form: { "data-turbo-frame" => "modal" } do "Destroy Submit" end if @submit %>

@@ -4,10 +4,10 @@
 
 	<% if @accessible_schedules.size > 1 %>
 	<div class="dropdown">
-		<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="overviewScheduleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
 			<%= @name %>
 		</button>
-		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<div class="dropdown-menu" aria-labelledby="overviewScheduleDropdown">
 			<% @accessible_schedules.each do |schedule| %>
 			<%= link_to schedule.name, overview_path(schedule), class: "dropdown-item" + class_if(schedule == @selected_schedule, "active") %>
 			<% end %>
@@ -26,16 +26,16 @@
 	<div class="btn-group" role="group">
 
 		<div class="btn-group" role="group">
-			<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button id="overviewActionsDropdown" type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 				<%= bootstrap_icon 'check' %> <span class="caret"></span>
 			</button>
-			<div class="dropdown-menu dropdown-menu-end" aria-labelledby="btnGroupDrop1">
+			<div class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewActionsDropdown">
 				<% if current_user.senior? %>
-				<%= link_to 'Publish what\'s done'.html_safe, publish_finished_schedule_grades_path(schedule_slug: @selected_schedule), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item" %>
+				<%= link_to "Publish what's done".html_safe, publish_finished_schedule_grades_path(schedule_slug: @selected_schedule), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item" %>
 				<% end %>
 				<% if current_user.admin? %>
 				<%= link_to 'Publish my grades, even if not done'.html_safe, publish_my_schedule_grades_path(schedule_slug: @selected_schedule), method: 'post', data: { confirm:'Are you sure?' }, class:"dropdown-item"  %>
-				<%= link_to 'Publish everything that\'s a valid grade'.html_safe, publish_all_schedule_grades_path(schedule_slug: @selected_schedule), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' }, class:"dropdown-item"  %>
+				<%= link_to "Publish everything that's a valid grade".html_safe, publish_all_schedule_grades_path(schedule_slug: @selected_schedule), method: 'post', data: { confirm:'DANGEROUS, this even publishes stuff that is not done. Are you sure?' }, class:"dropdown-item"  %>
 				<% if Schedule.any? %>
 				<div class="dropdown-divider"></div>
 				<%= link_to 'Notify students who did not submit yet'.html_safe, form_for_missing_schedule_submits_path(schedule_slug: @selected_schedule), class:"dropdown-item", target: 'modal'  %>
@@ -53,11 +53,11 @@
 
 		<% if @selected_schedule && current_user.admin? %>
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button id="overviewGroupsDropdown" type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 				<%= bootstrap_icon 'people' %> <span class="caret"></span>
 			</button>
 
-			<ul class="dropdown-menu dropdown-menu-end">
+			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewGroupsDropdown">
 				<%= link_to 'Import Groups'.html_safe, new_schedule_import_groups_path(schedule_slug: @selected_schedule), target: 'modal', class:"dropdown-item" %>
 				<%= link_to 'Generate Groups'.html_safe, new_schedule_generate_groups_path(schedule_slug: @selected_schedule), target: 'modal', class:"dropdown-item" %>
 			</ul>
