@@ -2,7 +2,6 @@ class Pset < ApplicationRecord
 
 	belongs_to :page, optional: true
 
-	has_many :pset_files
 	has_many :submits
 	has_many :grades, through: :submits
 
