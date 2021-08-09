@@ -40,13 +40,6 @@ class ApplicationController < ActionController::Base
 		redirect_to profile_path if authenticated? && !current_user.valid_profile?
 	end
 
-	def register_attendance
-		if (!session[:last_seen_at] || session[:last_seen_at] && session[:last_seen_at] < 15.minutes.ago) && current_user.persisted?
-			AttendanceRecord.create_for_user(current_user, request_from_local_network?)
-			session[:last_seen_at] = DateTime.now
-		end
-	end
-
 	##
 	## Role-based permissions
 
