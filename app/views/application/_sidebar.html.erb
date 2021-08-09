@@ -7,9 +7,10 @@
         <% if !authenticated? %>
         <li class="navbar-nav d-block d-lg-none"><%= link_to(t(:sign_in), session_login_path, class:"d-inline-block", data: { turbo: false })%></li>
         <% else #if logged_in? %>
-        <div class="navbar-nav d-flex">
+        <ul class="navbar-nav d-flex">
+            <%= render 'hands_menu' %>
             <%= render 'menu' %>
-        </div>
+        </ul>
         <% end %>
     </div>
     <% if current_user.senior? %>
