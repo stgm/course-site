@@ -1,0 +1,6 @@
+hostname: minprog.local
+ingressClass: nginx
+image: fnwicr.azurecr.io/minprog
+tag: latest
+
+secretKeyBase: secret

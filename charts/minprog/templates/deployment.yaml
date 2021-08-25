@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minprog
+  namespace: "{{ .Release.Namespace }}"
+spec:
+  selector:
+    matchLabels:
+      app: minprog
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: minprog
+    spec:
+      containers:
+        - name: minprog
+          image: "{{ .Values.image }}:{{ .Values.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: SECRET_KEY_BASE
+              value: "{{ .Values.secretKeyBase }}"
+            - name: RAILS_ENV
+              value: production
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+          volumeMounts:
+            - name: minprog-data
+              mountPath: "/data"
+
+      volumes:
+        - name: minprog-data
+          persistentVolumeClaim:
+            claimName: minprog-data
