@@ -35,7 +35,7 @@
     </div>
     <% end %>
     
-    <% if logged_in? %>
+    <% if logged_in? && current_user.submits.any? %>
     <p>
         <%= bootstrap_icon('kanban') %>
         <%= t('submit.see_submissions_page', submissions_page: link_to(t('submissions_page'), submissions_path)).html_safe %>
