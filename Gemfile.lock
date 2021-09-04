@@ -63,8 +63,8 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     asciidoctor (2.0.16)
-    autoprefixer-rails (10.3.3.0)
-      execjs (~> 2)
+    autoprefixer-rails (10.2.5.1)
+      execjs (> 0)
     bootsnap (1.8.1)
       msgpack (~> 1.0)
     bootstrap (5.0.2)
@@ -239,6 +239,7 @@ PLATFORMS
 
 DEPENDENCIES
   asciidoctor
+  autoprefixer-rails (~> 10.2.5)
   bootsnap (>= 1.1.0)
   bootstrap (~> 5.0.0)
   bugsnag
@@ -267,4 +268,4 @@ DEPENDENCIES
   turbo-rails
 
 BUNDLED WITH
-   1.17.2
+   1.17.3
