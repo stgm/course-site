@@ -30,9 +30,7 @@
 					</div>
 				</div>
 				<div class="col-md">
-					<% cache [current_user, :items] do %>
-					<%= render partial: "items/item", collection: @items %>
-					<% end %>
+					<%= render partial: "items/item", collection: @items, cached: true %>
 				</div>
 			</div>
 		</div>
