@@ -216,7 +216,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
-    stimulus-rails (0.4.1)
+    stimulus-rails (0.2.4)
       rails (>= 6.0.0)
     sucker_punch (3.0.1)
       concurrent-ruby (~> 1.0)
@@ -262,7 +262,7 @@ DEPENDENCIES
   rufus-scheduler
   sass-rails
   sqlite3
-  stimulus-rails
+  stimulus-rails (~> 0.2.4)
   sucker_punch
   turbo-rails
 
