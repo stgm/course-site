@@ -1,6 +1,6 @@
 class AlertMailer < ApplicationMailer
 
-    def alert_message(user, alert, from_address)
+    def alert_message(user, alert)
         mail(
         to: user.mail,
         body: alert.body,
