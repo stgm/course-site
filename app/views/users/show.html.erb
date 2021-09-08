@@ -11,7 +11,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="p-1">
-								<% cache [current_user, @overview] do %>
+								<%# cache [current_user, @overview] do %>
 								<% @overview.each do |name, psets| %>
 								<p class="mb-1">
 									<strong><%= name.humanize %></strong>
@@ -24,7 +24,7 @@
 									<% end %>
 								</div>
 								<% end %>
-								<% end %>
+								<%# end %>
 							</div>
 						</div>
 					</div>
