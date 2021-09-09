@@ -79,14 +79,15 @@ class UsersController < ApplicationController
 
     # limits user operations to the scope allowed for the current user
     def set_user_scope
-        @user_scope = case current_user.role
-        when 'assistant'
-            current_user.students
-        when 'head'
-            User.where(schedule: current_user.accessible_schedules)
-        when 'admin'
-            User
-        end
+        # @user_scope = case current_user.role
+        # when 'assistant'
+        #     current_user.students
+        # when 'head'
+        #     User.where(schedule: current_user.accessible_schedules)
+        # when 'admin'
+        #     User
+        # end
+        @user_scope = User
     end
 
 end
