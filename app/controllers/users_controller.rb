@@ -2,8 +2,8 @@
 class UsersController < ApplicationController
 
     before_action :authorize
-    before_action :require_senior, except: :show
-    before_action :require_staff, only: :show
+    before_action :require_senior, except: [:show, :search]
+    before_action :require_staff, only: [:show, :search]
     before_action :set_user_scope
 
     layout 'modal'
