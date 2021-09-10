@@ -3,6 +3,10 @@ module ScheduleGroupOperations
 
 	extend ActiveSupport::Concern
 
+	def add_group(name)
+		self.groups.create(name: name)
+	end
+
 	# Generate a number of groups for this schedule and randomly assign students.
 	def generate_groups(number)
 		# delete old groups for this schedule

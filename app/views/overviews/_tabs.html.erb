@@ -60,6 +60,7 @@
 			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewGroupsDropdown">
 				<%= link_to 'Import Groups'.html_safe, new_schedule_import_groups_path(schedule_slug: @selected_schedule), target: 'modal', class:"dropdown-item" %>
 				<%= link_to 'Generate Groups'.html_safe, new_schedule_generate_groups_path(schedule_slug: @selected_schedule), target: 'modal', class:"dropdown-item" %>
+				<%= link_to 'Add Group'.html_safe, new_schedule_add_group_path(schedule_slug: @selected_schedule), target: 'modal', class:"dropdown-item" %>
 			</ul>
 		</div>
 		<% end %>

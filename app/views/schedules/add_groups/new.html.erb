@@ -1,0 +1,17 @@
+<% content_for :title do %>
+<h1>Add group</h1>
+<% end %>
+
+<p>How should we call your new group for the <%= @schedule.name %> schedule?</p>
+
+<%= form_tag schedule_add_group_path(
+		schedule_id: params[:schedule_id]),
+		method: :post,
+		data: { 'turbo-frame' => '_top' },
+		id: 'add_group_form' do %>
+	<p class="mb-3"><input type="text" name="name" required></p>
+<% end %>
+
+<% content_for :footer do %>
+<input type="submit" class="btn btn-primary" form="add_group_form">
+<% end %>

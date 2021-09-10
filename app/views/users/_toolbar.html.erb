@@ -35,6 +35,10 @@
 			<% else %>
 			<%= link_to "No schedule selected", '', class: 'dropdown-item disabled' %>
 			<% end %>
+			<% if @student.group.present? %>
+			<div class="dropdown-divider"></div>
+			<%= button_to [@student, user: {group_id: nil}], method: :patch, class: 'dropdown-item' do "Remove from #{@student.group.name}".html_safe end %>
+			<% end %>
 		</ul>
 	</div>
 
