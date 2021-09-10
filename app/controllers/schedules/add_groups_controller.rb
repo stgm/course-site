@@ -13,7 +13,7 @@ class Schedules::AddGroupsController < Schedules::ApplicationController
 	def create
 		load_schedule
 		@schedule.add_group(params[:name])
-		redirect_to overview_path(@schedule), notice: "Group <b>#{params[:name]}</b> has been added."
+		redirect_to overview_path(@schedule), notice: "Group \"#{params[:name]}\" has been added."
 	end
 
 end
