@@ -13,7 +13,7 @@ class Schedules::GenerateGroupsController < Schedules::ApplicationController
 	def create
 		load_schedule
 		@schedule.generate_groups(params[:number].to_i)
-		redirect_to schedule_path(@schedule), notice: 'Groups have been randomly assigned.'
+		redirect_to overview_path(@schedule), notice: 'Groups have been randomly assigned.'
 	end
 
 end
