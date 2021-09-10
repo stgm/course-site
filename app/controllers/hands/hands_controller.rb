@@ -104,7 +104,7 @@ class Hands::HandsController < ApplicationController
 	end
 
 	def create_hand
-		Hand.create(user_id: @user.id, evaluation: params[:evaluation], note: params[:note], done: true, success: true, assist: current_user, progress: params[:progress], closed_at: DateTime.now)
+		Hand.create(user_id: @user.id, evaluation: params[:evaluation], note: params[:note], done: true, success: true, assist: current_user, progress: params[:progress], closed_at: DateTime.now, claimed_at: DateTime.now)
 	end
 
 end
