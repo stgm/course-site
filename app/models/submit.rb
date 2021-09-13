@@ -123,6 +123,13 @@ class Submit < ApplicationRecord
 		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
 	end
 
+    def self.indexed_by_pset_and_user_for(users)
+        @all_indexed_by_pset_and_user ||=
+        where(user: users).
+        includes(grade: :pset).
+        index_by{|i| [i.pset_id, i.user_id]}
+    end
+
 	# kill auto-analysis by ActiveStorage
 	ActiveStorage::Blob::Analyzable.module_eval do
 		def analyze_later

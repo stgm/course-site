@@ -63,9 +63,7 @@ class OverviewsController < ApplicationController
             @users = @users.status_done
         end
 
-        @subs = Submit.where(user: @users).
-            includes(grade: :pset).
-            index_by{|i| [i.pset_id, i.user_id]}
+        @subs = Submit.indexed_by_pset_and_user_for @users
 
         @users = @users.group_by(&:group)
 
