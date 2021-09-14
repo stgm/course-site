@@ -124,7 +124,7 @@ class Submit < ApplicationRecord
 	end
 
     def self.indexed_by_pset_and_user_for(users)
-        @all_indexed_by_pset_and_user ||=
+        # @all_indexed_by_pset_and_user ||=
         where(user: users).
         includes(grade: :pset).
         index_by{|i| [i.pset_id, i.user_id]}

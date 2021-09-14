@@ -65,7 +65,7 @@ class OverviewsController < ApplicationController
 
         @subs = Submit.indexed_by_pset_and_user_for @users
 
-        @users = @users.group_by(&:group)
+        @grouped_users = @users.group_by(&:group)
 
         @overview = GradingConfig.overview
     end
