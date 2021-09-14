@@ -22,7 +22,7 @@ module GradingHelper
                     simple_markdown(contents.download.bytes.pack("c*").force_encoding("UTF-8"))
                 when 'html'
                     tag.div sanitize(contents.download), class: 'ipynb'
-                when 'txt', 'sql'
+                when 'txt', 'sql', 'c', 'py'
                     if contents.filename.extension == 'txt'
                         simple_format(
                             contents.download.encode("UTF-8", undef: :replace, replace: '?')
