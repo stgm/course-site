@@ -24,16 +24,20 @@ module ApplicationHelper
 		                       :enable_coderay => true,
 		                       :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
-	
+
 	def simple_markdown(text)
-		return text && Kramdown::Document.new(text,
-		                       :auto_ids => true,
-		                       :parse_block_html => true,
-		                       :toc_levels => 2..3,
-		                       :coderay_css => :class,
-		                       :coderay_tab_width => 4,
-		                       :enable_coderay => true,
-		                       :coderay_line_numbers => nil).to_custom_html.html_safe
+		begin
+			Kramdown::Document.new(text,
+			                       :auto_ids => true,
+			                       :parse_block_html => true,
+			                       :toc_levels => 2..3,
+			                       :coderay_css => :class,
+			                       :coderay_tab_width => 4,
+			                       :enable_coderay => true,
+			                       :coderay_line_numbers => nil).to_custom_html.html_safe
+		rescue
+			return ""
+		end
 	end
 
 	def title
