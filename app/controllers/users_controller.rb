@@ -31,12 +31,10 @@ class UsersController < ApplicationController
         if current_user.senior?
             @schedules = Schedule.all
             @groups = @student.schedule && @student.schedule.groups.order(:name) || []
-            @psets = Pset.ordered_by_grading
             @attend = @student.attendance_records.group_by_day(:cutoff, format: "%a %d-%m").count
             @items = @student.notes.includes(:author).order(created_at: :desc)
 
             @subs = @student.submits.includes(:grade).index_by{|i| [i.pset_id, i.user_id]}
-            @indexed_psets = @psets.index_by(&:name)
 
             @overview = GradingConfig.overview
         else

@@ -35,8 +35,6 @@ class OverviewsController < ApplicationController
     def load_data
         @name = @selected_schedule.name
         @status = params[:status]
-        @psets = Pset.ordered_by_grading
-        @grouped_psets = @psets.index_by &:name
 
         @users = @selected_schedule.users.not_staff
         @users = @users.where(group: @groups) if !current_user.admin? && @groups.any?
