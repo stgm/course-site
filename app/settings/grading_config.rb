@@ -37,9 +37,9 @@ module GradingConfig
         # include final grade components that were marked as "show progress"
         r = all.select { |c,v| v['show_progress'] }.
             map { |c,v| [c, v['submits'].map {|k,v| psets[k]}] }
-        # include modules
-        r = modules.
-            map { |c,v| [c, v.map {|k,v| psets[k]}] } + r if GradingConfig.modules
+        # include modules (this is redundant legacy)
+        # r = modules.
+        #     map { |c,v| [c, v.map {|k,v| psets[k]}] } + r if GradingConfig.modules
         # include all final grades at the end
         r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
         # if nothing's there, include all assignments
