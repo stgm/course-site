@@ -90,7 +90,9 @@ module Grading::FinalGradeCalculator
 		end
 
 		# ensure float divide
-		return total.to_f / weight
+		avg = total.to_f / weight
+		# if the average is a -1, "everything passed", so reinterpret as a 10
+		return avg == -1.0 && 10 || avg
 	end
 	
 	def self.has_bonus?(grades)
