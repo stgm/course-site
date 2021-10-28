@@ -64,7 +64,19 @@ module AutoCheck::FeedbackFormatter
 	
 		return result
 	end
-	
+
+	def has_run_log?
+		return false if not self.check_results
+		(self.check_results.keys & ["check50"]).any? && self.check_results['check50']['results'].present? &&
+		self.check_results['check50']['results'].select{|x| x['data'].present? && x['data']['output'].present? }
+	end
+
+	def formatted_run_log
+		self.check_results['check50']['results'].select{|x| x['data'].present? && x['data']['output'].present? }.
+		map{|x| x['data'] && x['data']['output'] }.join("\n\n-------------------\n\n")
+	end
+
+
 	def format_checkpy_feedback(part)
 		"- #{part['name']}\n" +
 		(part['results'] || {}).collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
