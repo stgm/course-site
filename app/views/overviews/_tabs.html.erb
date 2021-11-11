@@ -15,12 +15,14 @@
 	</div>
 	<% end %>
 	
+	<% if current_user.senior? %>
 	<div class="btn-group" role="group" aria-label="Basic example">
 		<%= link_to "Active #{@active_count}", { status: 'active' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'active', 'btn-primary', 'btn-outline-primary') %>
 		<%= link_to "Registered #{@registered_count}", { status: 'registered' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'registered', 'btn-primary', 'btn-outline-primary') %>
 		<%= link_to "Inactive #{@inactive_count}", { status: 'inactive' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'inactive', 'btn-primary', 'btn-outline-primary') %>
 		<%= link_to "Done #{@done_count}", { status: 'done' }, class: 'btn btn-sm' + class_if_else(params[:status] == 'done', 'btn-primary', 'btn-outline-primary') %>
 	</div>
+	<% end %>
 
 	<% if current_user.senior? %>
 	<div class="btn-group" role="group">

@@ -80,8 +80,9 @@ class GradingController < ApplicationController
 			# admins get everything from their current schedule (they can switch schedules)
 			@to_grade = Submit.admin_to_grade.where("users.schedule_id" => current_user.schedule)
 		elsif current_user.head? && current_user.schedules.any?
-			# heads get stuff from one schedule, but from all groups
-			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedule)
+			# heads get stuff from the current schedule, only from assigned groups (to save clutter)
+			@to_grade = Submit.to_grade.where("users.schedule_id" => current_user.schedule).
+			where("users.group_id in (?)", current_user.groups.pluck(:id))
 		elsif current_user.assistant? && (Group.any? || Schedule.any?) && (current_user.groups.any? || current_user.schedules.any?)
 			# other assistants get stuff only from their assigned group
 			@to_grade = Submit.to_grade.where(
