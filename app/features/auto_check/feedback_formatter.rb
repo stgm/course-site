@@ -56,7 +56,7 @@ module AutoCheck::FeedbackFormatter
 			when nil
 				result << ":|"
 			end
-			result << " " + item["description"] + "\n"
+			result << " " + (item["description"] || "") + "\n"
 			if item["cause"].present?
 				result << "    " + item["cause"]["rationale"] + "\n"
 			end
