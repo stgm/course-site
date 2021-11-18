@@ -1,10 +1,9 @@
 .room-for-toc #content #markdown-toc
 {
 	width:12rem;
-	float:left;
-	margin-left:calc(100% + 4rem);
+	float:right;
+	margin-right:-16rem;
 	padding:1rem;
-//	border-left:1px solid #64A2C0;
 	position:sticky;
 	position:-webkit-sticky;
 	top:1em;
