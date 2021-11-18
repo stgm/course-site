@@ -181,14 +181,14 @@ module ApplicationHelper
 
 	def icon(name, **options)
 		if name
-			image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'me-1', style: 'vertical-align: -4px;' }.merge(options)
+			image_tag "/icons/#{name}.svg", { width: 20, height: 20, title: name.capitalize, class: 'me-1', style: 'vertical-align: -4px;' }.merge(options)
 		else
 			tag.span('', class: 'me-2', style: 'display: inline-block; width:20px; height:20px')
 		end
 	end
 	
 	def bootstrap_icon(name, **options)
-		tag.svg({class:'bi', width:20, height:20, fill:'currentColor'}.merge(options)) do
+		content_tag :svg, { class: 'bi', width:20, height:20, fill:'currentColor'}.merge(options) do
 			"<use xlink:href=\"/icons/bootstrap-icons.svg##{name}\"/>".html_safe
 		end
 	end
