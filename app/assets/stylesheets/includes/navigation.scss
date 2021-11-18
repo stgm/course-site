@@ -148,8 +148,8 @@
 		}
 		#row-content
 		{
-			margin-left: $sidebar-width;
-			width: calc(100vw - #{$sidebar-width});
+			margin-left: $sidebar-width + 48px;
+			width: calc(100vw - #{$sidebar-width} - 48px);
 		}
 	}
 
