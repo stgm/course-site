@@ -34,14 +34,13 @@ module EditInPlaceHelper
 
 		tag.div(class: 'd-flex') do
 			tag.div(
-				display_value, {
-					contenteditable: true,
-					data: { url: url_for(real_object), id: real_object.id, model: real_object.class.name.downcase, property: property },
-					onkeypress: 'if(event.keyCode==13) { this.blur(); return false }',
-					onfocus: 'window.setTimeout(() => document.execCommand("selectAll", false, null))',
-					onblur: 'save_in_place(this)',
-					class: 'in_place_editable'
-				}
+				display_value, 
+				contenteditable: true,
+				data: { url: url_for(real_object), id: real_object.id, model: real_object.class.name.downcase, property: property },
+				onkeypress: 'if(event.keyCode==13) { this.blur(); return false }',
+				onfocus: 'window.setTimeout(() => document.execCommand("selectAll", false, null))',
+				onblur: 'save_in_place(this)',
+				class: 'in_place_editable'
 			) +
 			tag.div(class: "spinner-grow spinner-grow-sm collapse ms-1", role:"status") do
 				tag.span('Saving...', class: "visually-hidden")
