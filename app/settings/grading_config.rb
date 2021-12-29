@@ -16,6 +16,10 @@ module GradingConfig
         all['modules'] || {}
     end
 
+    def self.tests
+        all['tests'] || {}
+    end
+
     def self.load(new_settings)
         Settings.grading = new_settings
     end

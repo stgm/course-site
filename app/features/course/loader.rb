@@ -50,7 +50,7 @@ class Course::Loader
             'branch' => Settings.git_branch
         }, COURSE_DIR, '.')
 
-        other_repos = Settings["materials"] || {}
+        other_repos = Settings.materials
         other_repos.each do |dir, repo|
             load_changes_from_git(repo, MATERIALS_DIR, dir)
         end
@@ -143,13 +143,13 @@ class Course::Loader
 
     def load_course_info(file)
         if config = read_config(file)
-            Settings["course"] = config
+            Settings.course = config
         end
     end
 
     def load_materials_info(file)
         if config = read_config(file)
-            Settings["materials"] = config
+            Settings.materials = config
         end
     end
 

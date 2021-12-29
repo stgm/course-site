@@ -42,7 +42,7 @@ class Course::Tools
 
         # TESTS
         # check if any grades are "tests" (for easy data entry on exams), sets flag
-        Settings['tests_present'] = Pset.where(test:true).any?
+        Settings.tests_present = Pset.where(test:true).any?
     end
 
     # Generate a tree of (nested) sections and pages

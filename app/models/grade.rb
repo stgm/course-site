@@ -78,7 +78,7 @@ class Grade < ApplicationRecord
 		val.each do |k,v|
 			# get type from grading config
 			begin
-				grade_type = Settings['grading']['grades'][self.pset_name]['subgrades'][k]
+				grade_type = GradingConfig.grades[self.pset_name]['subgrades'][k]
 			rescue
 				grade_type = "integer"
 			end

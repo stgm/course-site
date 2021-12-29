@@ -1,7 +1,7 @@
 module Grading::FinalGradeAssigner
 
 	def self.available?
-		!!Settings['grading'] && !!Settings['grading']['calculation']
+		GradingConfig.calculation.present?
 	end
 
 	def self.assign_final_grade(student, grader, *args)

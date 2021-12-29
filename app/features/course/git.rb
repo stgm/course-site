@@ -22,10 +22,6 @@ class Course::Git
         end
     end
 
-    def new?
-        Settings["git_version_#{@repodir}"].blank?
-    end
-
     def update!
         begin
             @git.pull 'origin', @git.current_branch
@@ -48,17 +44,23 @@ class Course::Git
         @git.object('HEAD').sha
     end
 
+    def new?
+        # second part is for upgrade purposes; new values are always stored like in the first part
+        Settings.git_version[@repodir].blank? && Settings.find_by_var("git_version_#{@repodir}")&.value.blank?
+    end
+
     def previous_version
         if new?
             # git magic root hash to get all changes, ever
             '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
         else
-            Settings["git_version_#{@repodir}"]
+            # Settings["git_version_#{@repodir}"]
+            Settings.git_version[@repodir] || Settings.find_by_var("git_version_#{@repodir}")&.value
         end
     end
 
     def store_version
-        Settings["git_version_#{@repodir}"] = current_version
+        Settings.git_version[@repodir] = current_version
     end
 
     def get_remote_branch

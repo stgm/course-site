@@ -6,7 +6,7 @@ module Grading::FinalGradeCalculator
 		# tries to calculate all kinds of final grades
 		
 		grades = {}
-		Settings['grading']['calculation'].each do |name, parts|
+		GradingConfig.calculation.each do |name, parts|
 			grades[name] = final_grade_from_partial_grades(parts, user_grade_list)
 		end
 		
@@ -16,7 +16,7 @@ module Grading::FinalGradeCalculator
 	def self.final_grade_from_partial_grades(config, user_grade_list)
 		# attempt to calculate each partial grade
 		weighted_partial_grades = config.collect do |partial_name, weight|
-			partial_config = Settings['grading'][partial_name]
+			partial_config = GradingConfig[partial_name]
 			[partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
 		end
 		

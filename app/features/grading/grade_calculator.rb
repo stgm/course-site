@@ -23,7 +23,7 @@ module Grading::GradeCalculator
 	end
 	
 	def calculate_grade
-		calculations = Settings['grading']['grades'] if Settings['grading']
+		calculations = GradingConfig.grades
 		return nil if calculations.nil?
 		
 		pset_name = self.pset.name
