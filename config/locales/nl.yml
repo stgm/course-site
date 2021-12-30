@@ -25,6 +25,13 @@ nl:
     modules: "modules"
     other: "overig"
     
+    grading:
+        error: "probleem"
+        insufficient: "onvoldoende"
+        sufficient: "voldoende"
+        done_yes: "ja"
+        done_no: "nee"
+    
     sign_in: "Inloggen"
 
     submit:
@@ -75,6 +82,7 @@ nl:
           restrict_dependent_destroy:
             has_one: Kan item niet verwijderen omdat %{record} afhankelijk is
             has_many: Kan item niet verwijderen omdat afhankelijke %{record} bestaan
+
     date:
       abbr_day_names:
       - zo

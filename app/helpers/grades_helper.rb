@@ -30,16 +30,16 @@ module GradesHelper
 	end
 
 	def translate_grade(grade)
-		return "fout" if grade.nil? || grade < -1
-		return "voldoende" if grade == -1
-		return "onvoldoende" if grade == 0
+		return t("grading.error") if grade.nil? || grade < -1
+		return t("grading.sufficient") if grade == -1
+		return t("grading.insufficient") if grade == 0
 		return grade.to_s
 	end
 
 	def translate_subgrade(grade)
 		return "" if grade.nil?
-		return "yes" if grade == -1 && !grade.is_a?(Float)
-		return "no" if grade == 0
+		return t("grading.done_yes") if grade == -1 && !grade.is_a?(Float)
+		return t("grading.done_no") if grade == 0
 		return grade.to_i.to_s if grade == grade.to_i
 		return grade.to_s
 	end
