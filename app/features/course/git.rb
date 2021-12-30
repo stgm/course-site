@@ -60,7 +60,8 @@ class Course::Git
     end
 
     def store_version
-        Settings.git_version[@repodir] = current_version
+        Rails.logger.info "New git version: #{current_version}"
+        Settings.git_version = Settings.git_version.merge({ @repodir => current_version })
     end
 
     def get_remote_branch
