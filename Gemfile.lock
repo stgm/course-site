@@ -72,8 +72,6 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 2.9.2, < 3)
       sassc-rails (>= 2.0.0)
-    bugsnag (6.24.1)
-      concurrent-ruby (~> 1.0)
     builder (3.2.4)
     caxlsx (3.1.1)
       htmlentities (~> 4.3, >= 4.3.4)
@@ -92,6 +90,9 @@ GEM
     erubi (1.10.0)
     et-orbi (1.2.6)
       tzinfo
+    exception_notification (4.1.1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     execjs (2.8.1)
     ffi (1.15.4)
     friendly_id (5.4.2)
@@ -244,13 +245,12 @@ PLATFORMS
 
 DEPENDENCIES
   asciidoctor
-  autoprefixer-rails (~> 10.2.5)
-  bootsnap (>= 1.1.0)
+  bootsnap
   bootstrap (~> 5.0.0)
-  bugsnag
   caxlsx_rails
   coderay
   curb
+  exception_notification
   friendly_id
   front_matter_parser
   git

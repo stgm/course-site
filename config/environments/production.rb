@@ -91,9 +91,9 @@ Rails.application.configure do
   config.rack_cas.server_url = ENV['CAS_BASE_URL']
 end
 
-Bugsnag.configure do |config|
-	config.api_key = ENV['BUGSNAG_ID']
-	config.notify_release_stages = ['production']
-	config.ignore_classes << ActionController::RoutingError
-	config.ignore_classes << ActiveRecord::RecordNotFound
-end
+Rails.application.config.middleware.use ExceptionNotification::Rack,
+  email: {
+    email_prefix: '[ERROR] ',
+    sender_address: %{"notifier" <#{ENV['COURSE_SITE_ERROR_RECIPIENT']}>},
+    exception_recipients: %w{martijn@stgm.nl}
+  }

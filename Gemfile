@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '~>7.0.0'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', require: false
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -20,13 +20,12 @@ group :development do
 end
 
 group :production do
-    gem 'bugsnag'
+    gem 'exception_notification'
 end
 
 # assets
 gem 'sprockets-rails'
 gem 'sass-rails'
-gem 'autoprefixer-rails', '~> 10.2.5'
 
 # slug generator
 gem 'friendly_id'
