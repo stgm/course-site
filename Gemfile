@@ -16,6 +16,7 @@ group :development do
     # shut up icon requests
     gem 'listen'
     gem 'quiet_safari'
+    gem 'web-console'
 end
 
 group :production do

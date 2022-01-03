@@ -65,6 +65,7 @@ GEM
     asciidoctor (2.0.16)
     autoprefixer-rails (10.2.5.1)
       execjs (> 0)
+    bindex (0.8.1)
     bootsnap (1.9.3)
       msgpack (~> 1.0)
     bootstrap (5.0.2)
@@ -228,6 +229,11 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8)
+    web-console (4.2.0)
+      actionview (>= 6.0.0)
+      activemodel (>= 6.0.0)
+      bindex (>= 0.4.0)
+      railties (>= 6.0.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -265,6 +271,7 @@ DEPENDENCIES
   sqlite3
   stimulus-rails (~> 0.2.4)
   turbo-rails
+  web-console
 
 BUNDLED WITH
    2.2.22
