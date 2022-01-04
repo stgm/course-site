@@ -1,4 +1,4 @@
-module AutoCheck::FeedbackFormatter
+module Submit::AutoCheck::FeedbackFormatter
 	
 	extend ActiveSupport::Concern
 

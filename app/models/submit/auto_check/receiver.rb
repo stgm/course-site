@@ -1,4 +1,4 @@
-module AutoCheck::Receiver
+module Submit::AutoCheck::Receiver
 
 	extend ActiveSupport::Concern
 

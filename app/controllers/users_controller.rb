@@ -67,9 +67,9 @@ class UsersController < ApplicationController
 
     def calculate_final_grade
         # feature has to be enabled by supplying a grading.yml
-        raise ActionController::RoutingError.new('Not Found') if not Grading::FinalGradeAssigner.available?
+        raise ActionController::RoutingError.new('Not Found') if not User::FinalGradeAssigner.available?
         @user = @user_scope.find(params[:id])
-        result = Grading::FinalGradeAssigner.assign_final_grade(@user, current_user, only: params[:grades])
+        result = @user.assign_final_grade(current_user, only: params[:grades])
         redirect_to @user
     end
 

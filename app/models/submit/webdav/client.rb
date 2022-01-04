@@ -1,4 +1,4 @@
-class Webdav::Client
+class Submit::Webdav::Client
 
     # check if the env variables are filled for this API to function
     def self.available?

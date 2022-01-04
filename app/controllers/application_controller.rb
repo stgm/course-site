@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 		if authenticated? && current_user.admin?
 			if !Settings.site_enabled
 				flash[:alert] = "Warning: submit is disabled in settings."
-			elsif Settings.site_enabled && !Webdav::Client.available?
+			elsif Settings.site_enabled && !Submit::Webdav::Client.available?
 				flash[:alert] = "Warning: submit is enabled, but archival config is missing."
 			end
 		end

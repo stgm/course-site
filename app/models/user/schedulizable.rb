@@ -1,4 +1,4 @@
-module Schedulizable
+module User::Schedulizable
 
 	extend ActiveSupport::Concern
 
@@ -8,7 +8,6 @@ module Schedulizable
 
 		delegate :name, to: :schedule, prefix: true, allow_nil: true
 
-		before_save :reset_group, if: :schedule_id_changed?
 		before_save :set_current_module, if: :schedule_id_changed?
 	end
 

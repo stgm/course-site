@@ -71,20 +71,20 @@ class SubmissionsController < ApplicationController
 		current_user.login_id,           # /student ID
 		@submit_folder_name)             # /mario__21981289
 
-		uploader = Webdav::Uploader.new(submission_path)
+		uploader = Submit::Webdav::Uploader.new(submission_path)
 		uploader.upload(@attachments.all)
 	end
 
 	def should_upload_to_webdav?
-		Webdav::Client.available?
+		Submit::Webdav::Client.available?
 	end
 
 	def should_perform_auto_check?
-		AutoCheck::Sender.enabled? && @pset.config['check'].present?
+		Submit::AutoCheck::Sender.enabled? && @pset.config['check'].present?
 	end
 
 	def upload_files_to_check_server
-		@token = AutoCheck::Sender.new(@attachments.zipped, @pset.config['check'], request.host).start
+		@token = Submit::AutoCheck::Sender.new(@attachments.zipped, @pset.config['check'], request.host).start
 	end
 
 	def record_submission
