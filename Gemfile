@@ -55,7 +55,8 @@ gem 'caxlsx_rails'
 gem 'bootstrap', '~> 5.0.0'
 gem 'coderay'
 gem 'groupdate'
-gem 'stimulus-rails', '~> 0.2.4'
+gem 'importmap-rails'
+gem 'stimulus-rails'
 gem 'turbo-rails'
 
 # used by ActiveStorage to get image previews

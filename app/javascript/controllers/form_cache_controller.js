@@ -1,6 +1,6 @@
 // Very roughly based on https://stevepolito.design/blog/rails-auto-save-form-data/
 
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
     static targets = [ "form" ]
