@@ -53,6 +53,7 @@ gem 'caxlsx_rails'
 
 # front-end
 gem 'bootstrap', '~> 5.0.0'
+gem 'autoprefixer-rails', '~> 10.2.5'
 gem 'coderay'
 gem 'groupdate'
 gem 'importmap-rails'
