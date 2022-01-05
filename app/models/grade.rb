@@ -41,7 +41,7 @@ class Grade < ApplicationRecord
 
     def assign_grader_if_needed
         if grader.blank? || (Current.user.present? && Current.user != grader && grader.senior?)
-            grader = Current.user
+            self.grader = Current.user
         end
     end
 end
