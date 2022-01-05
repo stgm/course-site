@@ -120,7 +120,7 @@ class Submit < ApplicationRecord
 	end
 
 	def may_be_resubmitted?
-		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
+		grade.blank? || (grade.public? && grade.assigned_grade.present? && grade.assigned_grade == 0)
 	end
 
     def self.indexed_by_pset_and_user_for(users)

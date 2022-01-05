@@ -89,7 +89,7 @@ module GradesHelper
 
 	def grade_bg_type(grade)
 		return 'bg-light' if grade.blank? or !grade.public?
-		case grade.any_final_grade
+		case grade.assigned_grade
 		when 6.5..20.0, -1
 			'bg-success'
 		when 0..5.4

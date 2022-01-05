@@ -52,7 +52,7 @@ module User::FinalGradeCalculator
     def self.collect_grades_from_submits(config, user_grade_list)
         grades = config.collect do |grade_name, weight|
             # if no user_grade_list[grade_name] exists this will enter 'nil' into the resulting array
-            grade = user_grade_list[grade_name] && user_grade_list[grade_name].any_final_grade
+            grade = user_grade_list[grade_name] && user_grade_list[grade_name].assigned_grade
             [grade_name, grade, weight]
         end
     end

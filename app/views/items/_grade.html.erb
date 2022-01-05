@@ -16,7 +16,7 @@
 	<% end %>
 
 	<% if !Settings.grading || !Settings.grading['grades'][grade.pset.name] || !Settings.grading['grades'][grade.pset.name]['hide_calculated'] %>
-	<span class="btn btn-sm btn-outline-primary"> Grade <span class="badge bg-primary"><%= translate_grade(grade.any_final_grade) %></span></span>
+	<span class="btn btn-sm btn-outline-primary"> Grade <span class="badge bg-primary"><%= translate_grade(grade.assigned_grade) %></span></span>
 	<% end%>
 </p>
 

@@ -47,7 +47,7 @@
 						<%= v %> /
 						<% end %>
 						<% if current_user.admin? %>
-						<strong><%= translate_grade(grade.any_final_grade) %></strong>
+						<strong><%= translate_grade(grade.assigned_grade) %></strong>
 						<% end %>
 					</div>
 				</div>
