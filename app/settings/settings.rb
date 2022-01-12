@@ -26,6 +26,7 @@ class Settings < RailsSettings::Base
     scope :cache do
         field :page_tree
         field :tests_present
+        field :cached_user_paste
     end
 
     scope :features do
