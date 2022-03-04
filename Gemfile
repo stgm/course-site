@@ -10,7 +10,7 @@ gem 'bootsnap', require: false
 gem 'sqlite3'
 
 # Use Puma as the app server
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.6'
 
 group :development do
     # shut up icon requests
