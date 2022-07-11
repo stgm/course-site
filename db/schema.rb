@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_09_145854) do
-
+ActiveRecord::Schema[7.0].define(version: 2021_08_09_145854) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -35,7 +34,7 @@ ActiveRecord::Schema.define(version: 2021_08_09_145854) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -274,15 +273,15 @@ ActiveRecord::Schema.define(version: 2021_08_09_145854) do
     t.text "grades_cache"
     t.integer "current_module_id"
     t.text "progress"
-    t.string "login"
-    t.string "student_number"
-    t.string "affiliation"
-    t.string "organization"
     t.integer "status"
     t.integer "hands_count", default: 0, null: false
     t.integer "hands_duration_count", default: 0, null: false
     t.integer "notes_count", default: 0, null: false
     t.integer "submits_count", default: 0, null: false
+    t.string "login"
+    t.string "student_number"
+    t.string "affiliation"
+    t.string "organization"
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
     t.index ["status"], name: "index_users_on_status"
