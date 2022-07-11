@@ -13,10 +13,8 @@
 	display: flex;
 	padding: 0.35rem;
 	border-radius: 0.25rem;
-	flex: 1 0 0;
-	min-width: 0;
+	flex: 0 0 0;
 	flex-direction: column;
-	overflow: hidden;
 
 	svg
 	{
@@ -49,15 +47,13 @@
 {
 	#course-links
 	{
-		display: block;
+		display: flex;
 		overflow-x: scroll;
-		white-space: nowrap;
 	}
 
 	#course-links a
 	{
 		padding: 0.35rem 0.45rem;
-		display: inline-block;
 		flex-direction: row;
 
 		svg

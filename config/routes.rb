@@ -57,6 +57,7 @@ Rails.application.routes.draw do
 			post 'propose'
 		end
 		resource :generate_groups, only: [ :new, :create ]
+		resource :add_group, only: [ :new, :create ]
 
 		resources :grades, only: [] do
 			collection do

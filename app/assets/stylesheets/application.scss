@@ -10,7 +10,7 @@
  *
  */
 
-$background-color: #fdf9f5;
+$background-color: #fdfaf8;
 
 $primary: #0087d9;
 $secondary: #71B1D9;
@@ -35,7 +35,6 @@ $link-decoration: none;
 
 @import "bootstrap";
 
-@import "includes/framework";
 @import "includes/navigation";
 @import "includes/courselinks";
 @import "includes/content";
@@ -53,7 +52,5 @@ $link-decoration: none;
 @import "includes/effects";
 @import "includes/inplace";
 
-.table>:not(caption)>*>*
-{
-	background-image:none;
-}
+// includes responsive styles, so it goes last
+@import "includes/framework";

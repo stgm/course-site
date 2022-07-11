@@ -1,4 +1,4 @@
-<small><%= date_span_with_title(submit.submitted_at)%></small>
+<small><%= date_span(submit.submitted_at)%></small>
 <h5 class="card-title"><%= t "submit.you_submitted", name: submit.pset.name %></h5>
 
 <% if submit.url %>

@@ -12,22 +12,13 @@ class ApplicationController < ActionController::Base
 	end
 
 	before_action do
-		if current_user.admin?
+		# note: using authenticated? ensure that a user is not needlessly loaded
+		if authenticated? && current_user.admin?
 			if !Settings.site_enabled
 				flash[:alert] = "Warning: submit is disabled in settings."
-			elsif Settings.site_enabled && !Webdav::Client.available?
+			elsif Settings.site_enabled && !Submit::Webdav::Client.available?
 				flash[:alert] = "Warning: submit is enabled, but archival config is missing."
 			end
-		end
-	end
-
-	##
-	## Before-actions
-
-	def register_attendance
-		if (!session[:last_seen_at] || session[:last_seen_at] && session[:last_seen_at] < 15.minutes.ago) && current_user.persisted?
-			AttendanceRecord.create_for_user(current_user, request_from_local_network?)
-			session[:last_seen_at] = DateTime.now
 		end
 	end
 

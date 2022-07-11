@@ -87,9 +87,17 @@ class Submit < ApplicationRecord
 
 	def all_files
 		result = []
-		result << ['Form', form_contents] if form_contents.present?   # form answers
-		result += file_contents.to_a                                  # files from old submit system
-		result += files.map{ |f| [f.filename.sanitized, f] }      # files from new submit system
+		# files from old submit system
+		result += file_contents.to_a
+		# files from new submit system
+		result += files.map{ |f| [f.filename.sanitized, f] }
+	end
+
+	def all_files_and_form
+		result = all_files
+		# add form answers
+		result = result.unshift(['Form', form_contents]) if form_contents.present?
+		return result
 	end
 
 	def filenames
@@ -107,13 +115,20 @@ class Submit < ApplicationRecord
 
 	def recheck(host)
 		zip = Attachments.new(self.all_files.to_h).zipped
-		token = AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
+		token = Submit::AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
 		self.update(check_token: token)
 	end
 
 	def may_be_resubmitted?
-		grade.blank? || (grade.public? && grade.any_final_grade.present? && grade.any_final_grade == 0)
+		grade.blank? || (grade.public? && grade.assigned_grade.present? && grade.assigned_grade == 0)
 	end
+
+    def self.indexed_by_pset_and_user_for(users)
+        # @all_indexed_by_pset_and_user ||=
+        where(user: users).
+        includes(grade: :pset).
+        index_by{|i| [i.pset_id, i.user_id]}
+    end
 
 	# kill auto-analysis by ActiveStorage
 	ActiveStorage::Blob::Analyzable.module_eval do

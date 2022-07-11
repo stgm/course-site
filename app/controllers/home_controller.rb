@@ -1,10 +1,9 @@
 class HomeController < ApplicationController
 
 	include NavigationHelper
+    include AttendanceRecorder
 
 	before_action :authorize, except: [ :homepage ]
-	before_action :register_attendance, except: [ :homepage ]
-
 	layout 'sidebar'
 
 	def homepage

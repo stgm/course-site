@@ -37,7 +37,7 @@
 			<tr>
 				<td><strong><%= sub.pset.name if sub.pset.present? %></strong><br><small><%= sub.created_at.strftime("%d-%m-%Y %H:%M") %></small></td>
 				<% if sub.grade.present? %>
-				<td><%= sub.grade.any_final_grade %><br><small><%= sub.grade.updated_at.strftime("%d-%m-%Y %H:%M") %> (<%= sub.grade.grader_name %>)</small></td>
+				<td><%= sub.grade.assigned_grade %><br><small><%= sub.grade.updated_at.strftime("%d-%m-%Y %H:%M") %> (<%= sub.grade.grader_name %>)</small></td>
 				<td>
 					<%= sub.grade.subgrades.to_h.values.join(" / ") %>
 				</td>

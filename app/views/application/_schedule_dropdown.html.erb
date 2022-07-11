@@ -1,11 +1,11 @@
 <% if current_user.admin? || current_schedule.schedule_spans.accessible.many? %>
 
 <div class="dropdown">
-	<button class="btn btn-link nav-head text-dark m-0 p-0 dropdown-toggle <%= 'unavailable' if !current_module.public? %>" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+	<button id="scheduleDropdown" class="btn btn-link nav-head text-dark m-0 p-0 dropdown-toggle <%= 'unavailable' if !current_module.public? %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 		<%= current_module.name %>
 	</button>
 
-	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	<ul class="dropdown-menu" aria-labelledby="scheduleDropdown">
 		<% current_schedule.schedule_spans.accessible.order(:rank).each do |mod| %>
 		<li class="d-flex align-items-center">
 			<% if current_user.admin? %>

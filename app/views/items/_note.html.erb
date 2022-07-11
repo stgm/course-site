@@ -2,15 +2,15 @@
 <% if note.log %>
 <div class="small">
 	<strong><%= note.text %></strong> by
-	<%= note.author_name %> (<%= date_span_with_title(note.created_at)%>)
+	<%= note.author_name %> (<%= date_span(note.created_at)%>)
 </div>
 <% else %>
 <div class=" ">
 	<div class="text-dark d-flex justify-content-between pb-2">
 		<small class="author fw-bold"><%= note.author_name %></small>
 		<small class="ms-3">
-			<%= date_span_with_title(note.created_at)%>
-			<% if !note.log %>
+			<%= date_span(note.created_at)%>
+			<% if !note.log && current_user.senior? %>
 			<%= link_to bootstrap_icon('pen', height: 16, width: 16, style: 'vertical-align: sub;'), edit_note_path(note) %>
 			<% end %>
 		</small>

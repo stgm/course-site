@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_14_150308) do
+ActiveRecord::Schema.define(version: 2021_08_09_145854) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -145,15 +145,6 @@ ActiveRecord::Schema.define(version: 2021_07_14_150308) do
     t.string "path"
     t.boolean "public", default: false
     t.index ["slug", "section_id"], name: "index_pages_on_slug_and_section_id", unique: true
-  end
-
-  create_table "pset_files", force: :cascade do |t|
-    t.string "filename"
-    t.boolean "required", default: false
-    t.integer "pset_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["pset_id"], name: "index_pset_files_on_pset_id"
   end
 
   create_table "psets", force: :cascade do |t|

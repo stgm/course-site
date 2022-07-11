@@ -1,48 +1,48 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>6.1.0'
+gem 'rails', '~>7.0.0'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', require: false
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+gem 'pg'
 
-# sass
-gem 'sass-rails'
+# Use Puma as the app server
+gem 'puma', '~> 5.6'
 
 group :development do
-	gem 'listen'
-	gem 'thin'
+    # shut up icon requests
+    gem 'listen'
+    gem 'quiet_safari'
+    gem 'web-console'
 end
 
 group :production do
-	gem 'bugsnag'
+    gem 'exception_notification'
 end
 
-# shut up icon requests
-gem 'quiet_safari', group: :development
+# assets
+gem 'sprockets-rails'
+gem 'sass-rails'
 
 # slug generator
 gem 'friendly_id'
 
-# git integration
-gem 'git'
-
-# APIs
-gem 'rack-cas'
+# connectivity
+gem 'git'         # git for ingesting course materials
+gem 'rack-cas'    # login system
 gem 'openid_connect'
-gem 'curb'
+gem 'curb'        # webdav client for uploading archival files
+gem 'rest-client' # for sending submits to the autocheck server
 
 # manages settings in database
-gem 'rails-settings-cached', '~>0.4.1'
+gem 'rails-settings-cached'
 
 # scheduled email sending for grades
 gem 'rufus-scheduler'
-
-# for delayed mailers
-gem 'sucker_punch'
 
 # content
 gem 'kramdown'
@@ -55,13 +55,12 @@ gem 'caxlsx_rails'
 
 # front-end
 gem 'bootstrap', '~> 5.0.0'
+gem 'autoprefixer-rails', '~> 10.2.5'
 gem 'coderay'
 gem 'groupdate'
+gem 'importmap-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 
-# for sending submits to the autocheck server
-gem 'rest-client'
-
 # used by ActiveStorage to get image previews
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.12'

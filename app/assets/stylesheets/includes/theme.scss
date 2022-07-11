@@ -20,13 +20,25 @@ summary
 	color:var(--bs-primary);
 }
 
+$gradient1: #FEF3BE;
+$gradient2: #FFD3D2;
+
+$light-gradient1: scale-color($gradient1, $lightness: 20%);
+$light-gradient2: scale-color($gradient2, $lightness: 20%);
+
+#sidebar, #navbar
+{
+	background: linear-gradient(50deg, $light-gradient1 0%, $light-gradient2 100%);
+}
+
 #sidebar
 {
 	border-color: #F9EAE6;
 	
 	#sidebar-tools
 	{
-		background: linear-gradient(50deg, #FBE5BF 0%, #FCD6BC 100%);
+		-webkit-backdrop-filter: brightness(102%);
+		backdrop-filter: brightness(102%);
 
 		.bg-light
 		{
@@ -36,8 +48,8 @@ summary
 
 	#course-links
 	{
-		-webkit-backdrop-filter: brightness(102%);
-		backdrop-filter: brightness(102%);
+		-webkit-backdrop-filter: brightness(103%);
+		backdrop-filter: brightness(103%);
 
 		.bg-light
 		{

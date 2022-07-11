@@ -1,0 +1,31 @@
+<% if Settings.hands_allow && current_user.valid_profile? %>
+
+<li class="nav-item dropdown">
+    <a href="#" id="ama-dd" class="nav-link dropdown-toggle rounded-pill" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+        <%= bootstrap_icon "question-circle-fill", size: '24x24', style: 'vertical-align:-0.255em;' %><%= tag.span(Hand.waiting.count, class:'ms-1') if current_user.staff? %>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end" id="ama-menu" aria-labelledby="ama-dd">
+        <%= render 'ama' %>
+    </div>
+</li>
+
+<% if is_local_ip? && Settings.hands_bumper && current_user.student? && current_user.last_known_location.blank? %>
+    <script>
+        Rails.ajax({
+            url: '<%= hands_raise_path %>',
+            type: 'get',
+            success: () => (new bootstrap.Dropdown(document.getElementById('ama-dd'))).show()
+        });
+    </script>
+<% else %>
+    <script>
+    document.getElementById('ama-dd').addEventListener('show.bs.dropdown', function(e) {
+        Rails.ajax({
+            url: '<%= hands_raise_path %>',
+            type: 'get'
+        });
+    }, { once: true} )
+    </script>
+<% end %>
+
+<% end %>

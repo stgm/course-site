@@ -1,9 +1,9 @@
 class PageController < ApplicationController
 
     include NavigationHelper
+    include AttendanceRecorder
 
     before_action :authorize, if: :request_from_local_network?
-    before_action :register_attendance, if: :request_from_local_network?
 
     def index
         # find page by url and bail out if not found

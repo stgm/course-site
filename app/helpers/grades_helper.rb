@@ -30,16 +30,16 @@ module GradesHelper
 	end
 
 	def translate_grade(grade)
-		return "fout" if grade.nil? || grade < -1
-		return "voldoende" if grade == -1
-		return "onvoldoende" if grade == 0
+		return t("grading.error") if grade.nil? || grade < -1
+		return t("grading.sufficient") if grade == -1
+		return t("grading.insufficient") if grade == 0
 		return grade.to_s
 	end
 
 	def translate_subgrade(grade)
 		return "" if grade.nil?
-		return "yes" if grade == -1 && !grade.is_a?(Float)
-		return "no" if grade == 0
+		return t("grading.done_yes") if grade == -1 && !grade.is_a?(Float)
+		return t("grading.done_no") if grade == 0
 		return grade.to_i.to_s if grade == grade.to_i
 		return grade.to_s
 	end
@@ -56,7 +56,7 @@ module GradesHelper
 				link_to \
 					make_label(pset.name, "S", include_name),
 					submit,
-					class: "grade-button btn btn-sm btn-light",
+					class: "grade-button btn btn-sm",
 					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			end
 		else
@@ -89,7 +89,7 @@ module GradesHelper
 
 	def grade_bg_type(grade)
 		return 'bg-light' if grade.blank? or !grade.public?
-		case grade.any_final_grade
+		case grade.assigned_grade
 		when 6.5..20.0, -1
 			'bg-success'
 		when 0..5.4

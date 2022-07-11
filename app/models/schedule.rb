@@ -1,7 +1,7 @@
 # A schedule is one particular session of a course with a distinct set of students.
 class Schedule < ApplicationRecord
 
-	include ScheduleGroupOperations
+	include GroupOperations
 
 	# A schedule defines a set of modules (ScheduleSpans) that students work through
 	has_many :schedule_spans, dependent: :destroy

@@ -54,7 +54,7 @@ class SubmitsController < ApplicationController
 	def load_submit(id)
 		@submit = Submit.includes(:grade, :user, :pset).find(id)
 		@grade = @submit.grade || @submit.build_grade({ grader: current_user })
-		@files = @submit.all_files
+		@files = @submit.all_files_and_form
 	end
 
 end

@@ -45,37 +45,162 @@ body
 
 //****************************************************************************
 
+#content, #submit-content
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+
 body.home #content, body.submissions #content
 {
-	@extend .px-3;
-	@extend .py-3;
-
-	@extend .px-sm-4;
-	@extend .py-sm-4;
-
-	@extend .mt-xl-4;
-
-	@extend .px-lg-5;
-	@extend .py-lg-5;
-
-	@extend .mx-auto;
+	padding: 1rem;
 }
 
 body.page #content, #submit-content
 {
-	@extend .pt-4;
-	@extend .pb-4;
-	@extend .px-4;
+	padding: 1rem;
+}
 
-	@extend .px-sm-4;
-	@extend .pb-sm-4;
+section
+{
+	> .extend, > blockquote, > pre, > .embed, > .videoblock
+	{
+		margin-left: -1rem;
+		margin-right: -1rem;
+	}
 
-	@extend .pt-md-5;
-	@extend .mt-md-5;
-	@extend .pb-md-5;
-	@extend .px-md-5;
+	> blockquote, > pre
+	{
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}
 
-	@extend .mx-auto;
+@media only screen and (min-width: 576px) // small
+{
+	body.home #content, body.submissions #content
+	{
+		padding: 1.5rem;
+	}
+
+	body.page #content, #submit-content
+	{
+		padding: 1.5rem;
+	}
+
+	section
+	{
+		> .extend, > blockquote, > pre, > .embed, > .videoblock
+		{
+			margin-left: -1.5rem;
+			margin-right: -1.5rem;
+		}
+
+		> blockquote, > pre
+		{
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
+	}
+}
+
+@media only screen and (min-width: 768px) // medium, vertical iPad
+{
+	body.page #content, #submit-content
+	{
+		padding: 4rem;
+	}
+
+	section
+	{
+		> .extend, > blockquote, > pre, > .embed, > .videoblock
+		{
+			margin-left: -1.5rem;
+			margin-right: -1.5rem;
+		}
+
+		> blockquote, > pre
+		{
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
+	}
+}
+
+@media only screen and (min-width: 992px) // large, standard iPad screen
+{
+}
+
+@media only screen and (min-width: 1200px) // x-large
+{
+	body.page #content
+	{
+		margin-top: 3rem;
+		margin-bottom: 3rem;
+	}
+
+	body.home #content, body.submissions #content
+	{
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+
+		padding: 3rem;
+	}
+}
+
+@media only screen and (min-width: 1300px) // xxl
+{
+	#submit-button
+	{
+		position: static;
+
+		margin-left: auto;
+		margin-right: auto;
+
+		margin-bottom:0;
+
+		box-shadow: none !important;
+		border: 0;
+
+		button
+		{
+			max-width: 100%;
+			width: 100%;
+			border-radius:0;
+		}
+	}
+
+	body.page #content
+	{
+		background-color: #FEFCFA;
+	}
+
+	body.page #content, #submit-content
+	{
+		margin-bottom: 3rem;
+
+		max-width:54rem;
+
+		padding-left: 4rem;
+		padding-right: 4rem;
+
+		box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.04);
+	}
+
+	section
+	{
+		> .extend, > blockquote, > pre, > .embed, > .videoblock
+		{
+			margin-left: -4rem;
+			margin-right: -4rem;
+		}
+
+		> blockquote, > pre
+		{
+			padding-left: 4rem;
+			padding-right: 4rem;
+		}
+	}
 }
 
 #content section:first-child

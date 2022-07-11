@@ -15,7 +15,7 @@ class Admin::SiteController < ApplicationController
 		if setting = params["settings"]
 			setting.each do |k,v|
 				v = v == "1" if v == "1" or v == "0"
-				Settings[k] = v
+				Settings.send "#{k}=", v
 			end
 		end
 		head :ok

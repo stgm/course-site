@@ -30,7 +30,7 @@ class Schedules::ImportGroupsController < Schedules::ApplicationController
 		if source = params[:paste]
 			@schedule.import_groups(source)
 		end
-		redirect_to schedule_overview_path(@schedule), notice: 'Student groups were successfully imported.'
+		redirect_to overview_path(@schedule), notice: 'Student groups were successfully imported.'
 	end
 
 end

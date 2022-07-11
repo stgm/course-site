@@ -16,6 +16,10 @@ module GradingConfig
         all['modules'] || {}
     end
 
+    def self.tests
+        all['tests'] || {}
+    end
+
     def self.load(new_settings)
         Settings.grading = new_settings
     end
@@ -37,9 +41,9 @@ module GradingConfig
         # include final grade components that were marked as "show progress"
         r = all.select { |c,v| v['show_progress'] }.
             map { |c,v| [c, v['submits'].map {|k,v| psets[k]}] }
-        # include modules
-        r = modules.
-            map { |c,v| [c, v.map {|k,v| psets[k]}] } + r if GradingConfig.modules
+        # include modules (this is redundant legacy)
+        # r = modules.
+        #     map { |c,v| [c, v.map {|k,v| psets[k]}] } + r if GradingConfig.modules
         # include all final grades at the end
         r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
         # if nothing's there, include all assignments
@@ -48,20 +52,22 @@ module GradingConfig
     end
 
     def self.validate
+        @errors = []
         grading_config = self.all
         progress_categories = grading_config.select { |category, value| value['show_progress'] }
         if progress_categories.any?
             if grading_config['grades'].blank?
                 @errors << "Problem loading grading.yml. There are grading categories like #{progress_categories.first.first} but no grades section is present specifying how to calculate grades."
-                return
+                return @errors
             end
             all_submit_names = progress_categories.map { |k,v| [k,v['submits'].keys] }
             invalid_grade_names = all_submit_names.map { |k,v| [k,v.select { |name| !grading_config['grades'].include?(name) }] }.select { |k,v| v.any? }.map{|k,v| "#{k}->#{v.join(',')}"}
             if invalid_grade_names.any?
                 @errors << "Problem loading grading.yml. Some grades were specified as part of the final grade, but could not be found in the grades section: #{invalid_grade_names.join('; ')}."
-                return
+                return @errors
             end
         end
+        return @errors
     end
 
     def self.overview_config

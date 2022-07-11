@@ -1,9 +1,12 @@
-<small><%= date_span_with_title(grade.updated_at)%> <%= t(:by) %> <%= grade.grader_name || "Graderbot" %></small>
-<h5 class="card-title">
-	<%= grade.pset_name %> <%= t(:was_graded) %><br>
-</h5>
-<p id="grade_buttons">
+<small><%= date_span(grade.updated_at)%></small>
 
+<h5 class="card-title mb-0">
+    <%= grade.pset_name %> <%= t(:was_graded) %><br>
+</h5>
+
+<p><%= t(:by) %> <%= grade.grader_name || "Graderbot" %></p>
+
+<p id="grade_buttons">
 	<% if Settings.grading && Settings.grading['grades'][grade.pset.name] && Settings.grading['grades'][grade.pset.name]['subgrades'] && !Settings.grading['grades'][grade.pset.name]['hide_subgrades'] %>
 		<% Settings.grading['grades'][grade.pset.name]['subgrades'].each_pair do |subgrade_name, unin| %>
 		<% k=subgrade_name %>
@@ -13,9 +16,8 @@
 	<% end %>
 
 	<% if !Settings.grading || !Settings.grading['grades'][grade.pset.name] || !Settings.grading['grades'][grade.pset.name]['hide_calculated'] %>
-	<span class="btn btn-sm btn-outline-primary"> Grade <span class="badge bg-primary"><%= translate_grade(grade.any_final_grade) %></span></span>
+	<span class="btn btn-sm btn-outline-primary"> Grade <span class="badge bg-primary"><%= translate_grade(grade.assigned_grade) %></span></span>
 	<% end%>
-
 </p>
 
 <%= simple_markdown(grade.comments) %>
