@@ -1,7 +1,7 @@
 class SessionController < ApplicationController
 
 	def new
-		redirect_to authorization_uri
+		redirect_to authorization_uri, allow_other_host: true
 	end
 
 	def callback
@@ -33,7 +33,7 @@ class SessionController < ApplicationController
 		organization = info.raw_attributes['schac_home_organization']
 
 		# redirect depending on the existence of a user profile
-		if user = User.authenticate(login)
+		if user = User.find_by_login(login)
 			session[:user_id] = user.id
 			redirect_to root_url
 		else
