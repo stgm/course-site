@@ -73,7 +73,7 @@ class SessionController < ApplicationController
 		@client ||= OpenIDConnect::Client.new(
 			identifier: ENV['OIDC_CLIENT_ID'],
 			secret: ENV['OIDC_CLIENT_SECRET'],
-			redirect_uri: ENV['OIDC_REDIRECT_URI'],
+			redirect_uri: session_callback_url,
 			host: ENV['OIDC_HOST'],
 			authorization_endpoint: '/oidc/authorize',
 			token_endpoint: '/oidc/token',
