@@ -6,10 +6,6 @@
 	<label for="user_name">First and last name</label>
 	<%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
 </div>
-<div class=" mb-3">
-	<label for="user_mail">E-mail</label>
-	<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
-</div>
 			
 <% if Schedule.where(self_register: true).count > 1 %>
 <div class="">
@@ -28,6 +24,6 @@
 <%= hidden_field_tag "user[schedule_id]", Schedule.first.id %>
 <% end %>
 
-<p><%= submit_tag 'Create Profile', class:'btn btn-primary' %> <%= link_to 'Logout', session_logout_path, class: 'btn btn-primary float-end', data: { turbo: "false" } %></p>
+<p><%= submit_tag 'Create Profile', class:'btn btn-primary' %> <%= link_to 'Logout', auth_session_logout_path, class: 'btn btn-primary float-end', data: { turbo: "false" } %></p>
 
 <% end %>

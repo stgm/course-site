@@ -1,0 +1,19 @@
+<%= form_tag(auth_mail_validate_path) do |form| %>
+
+<div id="profile-dialog" class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title"><%= t('account.validation_code') %></h2>
+        </div>
+        <div class="modal-body">
+            <p>Code: <input type="text" name="code" maxlength="6" size="6" class="form-field text-center h2 my-4" autofocus autocomplete="one-time-code"></p>
+            <p><%= t('account.validation_code_in_mail') %></p>
+        </div>
+        <div class="modal-footer">
+            <%= link_to 'Cancel', auth_session_logout_path, class: 'btn', data: { turbo: "false" } %>
+            <input type="submit" class="btn btn-primary" value="<%= t('account.continue_button') %> &rarr;">
+        </div>
+    </div>
+</div>
+
+<% end %>

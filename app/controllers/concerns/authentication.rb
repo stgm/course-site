@@ -2,22 +2,20 @@ module Authentication
 
     include AuthenticationHelper
 
-    # before_action to require at least a confirmed login, but not necessarily a user object
+    # before_action to require at least a confirmed login, but not necessarily a user profile
     def authenticate
         if not authenticated?
             # no cookie means no session was created
-            redirect_to session_login_url
+            redirect_to auth_open_login_url
         end
     end
 
     # before_action to require a user to be logged in
     def authorize
-        if session[:user_id].blank?
-            # no cookie means no session was created
-            redirect_to session_login_url
-        elsif not current_user
-            # user was logged in but hasn't registered yet
-            redirect_to profile_url
+        if authenticated?
+            if !current_user.valid_profile?
+                redirect_to profile_url
+            end
         end
     end
 

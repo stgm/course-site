@@ -65,4 +65,9 @@
 
 <% end%>
 
-<%= menu_link 'Logout', session_logout_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
+<% if !authenticated? %>
+<%= menu_link 'Login via UvA', auth_open_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
+<%= menu_link 'Login via mail', auth_mail_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
+<% else %>
+<%= menu_link 'Logout', auth_session_logout_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
+<% end %>

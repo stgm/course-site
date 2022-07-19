@@ -1,10 +1,22 @@
 Rails.application.routes.draw do
 
-	# login
-	get 'session/login', to: 'session#new'
-	get 'session/callback', to: 'session#callback', as: 'session_callback'
-	get 'tokenize', to: 'session#tokenize'
-	get 'session/logout', to: 'session#destroy'
+    #--LOGIN------------------------------------------------------------------------------------
+
+    namespace :auth do
+        namespace :session do
+            get 'logout'
+        end
+        namespace :open do
+            get 'login'
+            get 'callback'
+        end
+        namespace :mail do
+            post 'create'
+            get 'code'
+            post 'validate'
+            get 'login'
+        end
+    end
 
 	#--ADMIN------------------------------------------------------------------------------------
 

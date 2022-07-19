@@ -75,6 +75,20 @@ nl:
         cancel_request: "Annuleren"
         link: "Geef je Zoom-link"
 
+    account:
+        login: Login met je UvA-studentenaccount
+        login_button: Inloggen
+        no_uva: Ik heb geen actief UvA-account
+        login_mail: Login via e-mail
+        disclaimer: We gebruiken je mailadres om je informatie te sturen over het registratieproces, en een paar herinneringen waar nodig. Later sturen we je via dit adres officiële onderwijsmededelingen.
+        email_placeholder: E-mailadres
+        continue_button: Doorgaan
+        name_description: Stel je naam in (roepnaam + achternaam)
+        validation_code: Vul je validatiecode in
+        validation_code_in_mail: Deze ontvang je per e-mail, maar mogelijk vind je 'm in je spam-map!
+        request_new_code: Verstuur code opnieuw
+        enter_your_details: Vul je gegevens in
+
     activerecord:
       errors:
         messages:

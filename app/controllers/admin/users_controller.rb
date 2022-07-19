@@ -18,11 +18,10 @@ class Admin::UsersController < ApplicationController
 		@user = User.new
 	end
 
-	# Create a new user with a login token.
+	# Create a new user if self-signups are not allowed.
 	def create
 		@u = User.new(params.require(:user).permit(:name, :mail, :schedule_id))
 		@u.student!
-		@url = tokenize_url(token: @u.token)
 	end
 
 	# Sets or unsets user role.

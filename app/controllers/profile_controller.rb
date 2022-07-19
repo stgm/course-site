@@ -5,11 +5,7 @@ class ProfileController < ApplicationController
 	include NavigationHelper
 
 	def index
-		if Schedule.none? || Schedule.default.present?
-			render layout: 'welcome'
-		else
-			render 'sorry', layout: 'welcome'
-		end
+		render layout: 'welcome'
 	end
 
 	def show
@@ -60,23 +56,17 @@ class ProfileController < ApplicationController
 	def save # POST
 		# remove leading and trailing space to give the user some slack
 		params[:user][:name].strip!
-		params[:user][:mail].strip!
 
 		# be explicit, but not so nice
 		if params[:user][:name] !~ /^[^\s][^\s]+(\s+[^\s][^\s]+)+$/
 			render plain: 'Will not work! Enter a valid name.'
 			return
 		end
-		if params[:user][:mail] !~ /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-			render plain: 'Will not work! Enter a valid email address.'
-			return
-		end
 
 		# create user if possible
 		ActiveRecord::Base.transaction do
-			user_params = params.require(:user).permit(:name, :mail, :schedule_id)
-			login = request.session[:user_login]
-			current_user.create_profile(user_params, login)
+			user_params = params.require(:user).permit(:name, :schedule_id)
+			current_user.create_profile(user_params)
 			session[:user_id] = current_user.id
 		end
 

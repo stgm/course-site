@@ -7,15 +7,11 @@ module User::Profileable
         scope :watching, -> { where(alarm: true) }
     end
 
-    def create_profile(params, login)
-        # cancel this thing if registration is not open (but not if first user)
-        raise unless User.none? || Schedule.none? || Schedule.default
-
+    def create_profile(params)
         self.assign_attributes(params)
         # TODO ugly: default user has "empty" schedule, which we recognize here
         self.schedule = Schedule.default if self.schedule.blank?
         self.save!
-        self.logins.create(login: login) unless self.logins.any?
     end
 
     def initials

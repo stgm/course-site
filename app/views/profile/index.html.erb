@@ -12,10 +12,6 @@
 				<label for="user_name">First and last name</label>
 				<%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
 			</div>
-			<div class="">
-				<label for="user_mail">E-mail</label>
-				<%= text_field_tag('user[mail]', (current_user.mail if current_user), required:true, class:'form-control') %>
-			</div>
 			
 			<% if Schedule.where(self_register: true).count > 1 %>
 			<div class="">
@@ -36,7 +32,7 @@
 			
 		</div>
 		<div class="modal-footer">
-			<%= link_to 'Cancel', session_logout_path, class: 'btn', data: { turbo: "false" } %>
+			<%= link_to 'Cancel', auth_session_logout_path, class: 'btn', data: { turbo: "false" } %>
 			<%= submit_tag 'Create Profile', class:'btn btn-primary' %>
 		</div>
 	</div>
