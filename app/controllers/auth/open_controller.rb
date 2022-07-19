@@ -1,5 +1,11 @@
 class Auth::OpenController < ApplicationController
 
+    def self.available?
+        ENV['OIDC_CLIENT_ID'].present? &&
+        ENV['OIDC_CLIENT_SECRET'].present? &&
+        ENV['OIDC_HOST'].present?
+    end
+
     def login
         redirect_to authorization_uri, allow_other_host: true
     end

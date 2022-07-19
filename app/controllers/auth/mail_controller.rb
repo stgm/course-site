@@ -19,24 +19,27 @@ class Auth::MailController < ApplicationController
     def validate
         if session[:login_secret] == Digest::SHA256.hexdigest(params[:code])
             mail = session[:login_email]
-            logger.info "FOUND MAIL"
-            logger.info mail
             if @user = User.find_by_mail(mail)
-                logger.info "ALSO IN DB"
                 # @user.update(validated: true)
             else
-                logger.info "CREATING NEW"
                 @user = User.create(mail: mail)#, validated: true)
             end
+            clear_session
             session[:user_id] = @user.id
             redirect_to root_url
         end
+        clear_session
     end
     
     private
 
     def user_params
         params.require(:user).permit(:name, :login, :alias)
+    end
+
+    def clear_session
+        session.delete(:login_secret)
+        session.delete(:login_email)
     end
 
 end
