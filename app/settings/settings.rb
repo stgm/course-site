@@ -6,6 +6,11 @@ class Settings < RailsSettings::Base
         field :grading, default: {}
     end
 
+    scope :accounts do
+        field :registration_phase, default: true
+        field :login_by_email, default: true
+    end
+
     scope :site do
         field :git_repo
         field :git_branch
