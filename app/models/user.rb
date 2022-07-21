@@ -9,6 +9,8 @@ class User < ApplicationRecord
     # Utilities
     include ChangeLogger, FinalGradeAssigner
 
+    validates :mail, email: true
+
     def items(with_private=false)
         items = []
         # show all submits for psets that are _not_ a module

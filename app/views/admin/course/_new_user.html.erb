@@ -1,1 +1,2 @@
-<%= link_to 'Add user', new_admin_user_path, class: 'btn btn-outline-primary' %>
+<%= link_to bootstrap_icon('person') + ' Single user', new_admin_user_path, class: 'btn btn-outline-primary' %>
+<%= link_to bootstrap_icon('people') + ' Multiple users', new_admin_user_path(multiple: true), class: 'btn btn-outline-primary' %>
