@@ -19,10 +19,6 @@ class PageController < ApplicationController
         end
 
         @title = @page.title
-
-        if not logged_in?
-            render layout: 'navbar' and return
-        end
     end
 
     def syllabus
@@ -30,10 +26,6 @@ class PageController < ApplicationController
         raise ActionController::RoutingError.new('Not Found') if !@page
         @subpages = @page.subpages
         @title = t(:syllabus)
-
-        if not logged_in?
-            render 'index', layout: 'navbar' and return
-        end
         render 'index'
     end
 
