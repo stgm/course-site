@@ -5,16 +5,13 @@ module User::Authenticatable
     included do
         def self.authenticate(user_data)
             if user = User.find_by_mail(user_data[:mail])
-                logger.info "FOUND BY MQIL"
-                logger.info user.inspect
-                x= authenticate_existing(user)
-                logger.info x.inspect
-                return x
+                return authenticate_existing(user)
             else
                 return authenticate_new(user_data)
             end
         end
 
+        # finds existing users to login, but also checks whether login is allowed at this time
         def self.authenticate_existing(user)
             case Settings.registration_phase
             when 'before'
@@ -26,14 +23,13 @@ module User::Authenticatable
             end
         end
 
+        # creates a new user, but only if allowed at this time
         def self.authenticate_new(user_data)
             case Settings.registration_phase
             when 'before', 'after', 'archival'
                 return false
             when 'during'
-                x=  User.create!(user_data)
-                logger.info x.inspect
-                return x
+                return User.create!(user_data)
             end
         end
     end

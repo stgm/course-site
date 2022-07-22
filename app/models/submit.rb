@@ -43,6 +43,10 @@ class Submit < ApplicationRecord
 		order('submits.created_at asc')
 	end
 
+    def self.available?
+        Settings.registration_phase.in?(['during', 'after']) && Submit::Webdav::Client.available?
+    end
+
 	def to_partial_path
 		# This very nice rails feature allows us to decide whether a form or
 		# a read-only presentation should be rendered. Simply use "render

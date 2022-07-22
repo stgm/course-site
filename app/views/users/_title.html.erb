@@ -7,7 +7,7 @@
 
 	<h1>
 		<%= @student.name %>
-		<small class="ms-3"><%= @student.login_id %> - <%= @student.mail %></small>
+		<small class="ms-3"><%= @student.student_number %> - <%= @student.mail %></small>
 		<%= link_to bootstrap_icon('pencil', width: 16), edit_user_path(@student), class: 'px-2' %>
 	</h1>
 

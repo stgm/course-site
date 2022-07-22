@@ -36,9 +36,19 @@ class Auth::OpenController < ApplicationController
         login = info.subject.downcase
         email = info.email
         name = info.name
-        student_number = info.raw_attributes['schac_personal_unique_code'].try(:first)
-        affiliation = info.raw_attributes['eduperson_affiliation']
+
+        # for now, prevent any registrations from outside the UvA
         organization = info.raw_attributes['schac_home_organization']
+        if organization != 'uva.nl'
+            redirect_to root_url, alert: "You can only register for this course using an UvA account."
+            return
+        end
+
+        # extract UvA student number from string
+        student_number = info.raw_attributes['schac_personal_unique_code'].try(:first)
+        student_number = student_number.match(/urn:schac:personalUniqueCode:nl:local:uva.nl:studentid:(.*)/).try{|x| x[1]}
+
+        affiliation = JSON(info.raw_attributes['eduperson_affiliation'])
 
         user_data = {
             login: login,

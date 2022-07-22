@@ -68,7 +68,7 @@ class SubmissionsController < ApplicationController
 		'/',
 		Settings.archive_base_folder,    # /Submit
 		Settings.archive_course_folder,  # /course name
-		current_user.login_id,           # /student ID
+		current_user.defacto_student_identifier, # /student ID
 		@submit_folder_name)             # /mario__21981289
 
 		uploader = Submit::Webdav::Uploader.new(submission_path)
@@ -90,7 +90,7 @@ class SubmissionsController < ApplicationController
 	def record_submission
 		submit = Submit.where(user: current_user, pset: @pset).first_or_initialize
 		submit.record(
-			used_login: current_user.login_id,
+			used_login: current_user.defacto_student_identifier,
 			archive_folder_name: @submit_folder_name,
 			url: params[:url],
 			attachments: @attachments,

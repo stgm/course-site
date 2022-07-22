@@ -1,7 +1,7 @@
 class Hands::HandsMailer < ApplicationMailer
 
     def cancelled(hand, name)
-        @login = hand.user.login_id
+        @login = hand.user.defacto_student_identifier
         @assist_name = name
         mail(
         to: hand.user.mail,

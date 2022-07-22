@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
 
     before_action :authorize
-    before_action :require_senior, except: [:show, :search]
+    before_action :require_admin, except: [:show, :search]
     before_action :require_staff, only: [:show, :search]
     before_action :set_user_scope
 
@@ -58,7 +58,8 @@ class UsersController < ApplicationController
             :avatar,
             :notes,
             :schedule_id,
-            :group_id))
+            :group_id,
+            :student_number))
         respond_to do |format|
             format.js { head :ok }
             format.html { redirect_to @user }
