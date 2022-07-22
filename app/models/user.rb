@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
     # Properties
-    include Loginable, Staffable, Groupable, Schedulizable, Profileable
+    include Authenticatable, Loginable, Staffable, Groupable, Schedulizable, Profileable
 
     # Activities
     include Submitter, HandRaiser, Attendee, Notee

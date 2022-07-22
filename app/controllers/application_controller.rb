@@ -11,17 +11,6 @@ class ApplicationController < ActionController::Base
 		I18n.locale = Course.language || I18n.default_locale
 	end
 
-	before_action do
-		# note: using authenticated? ensure that a user is not needlessly loaded
-		if authenticated? && current_user.admin?
-			if !Settings.site_enabled
-				flash[:alert] = "Warning: submit is disabled in settings."
-			elsif Settings.site_enabled && !Submit::Webdav::Client.available?
-				flash[:alert] = "Warning: submit is enabled, but archival config is missing."
-			end
-		end
-	end
-
 	private
 
 	def request_from_local_network?

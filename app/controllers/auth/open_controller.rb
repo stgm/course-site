@@ -1,5 +1,7 @@
 class Auth::OpenController < ApplicationController
 
+    # Facilitates login by OpenID as configured in the environment
+
     def self.available?
         ENV['OIDC_CLIENT_ID'].present? &&
         ENV['OIDC_CLIENT_SECRET'].present? &&
@@ -38,23 +40,21 @@ class Auth::OpenController < ApplicationController
         affiliation = info.raw_attributes['eduperson_affiliation']
         organization = info.raw_attributes['schac_home_organization']
 
-        # redirect depending on the existence of a user profile
-        if user = User.find_by_login(login)
-            session[:user_id] = user.id
-            redirect_to root_url
-        else
-            u = User.create(
+        user_data = {
             login: login,
             name: name,
             mail: email,
             student_number: student_number,
             affiliation: affiliation,
-            organization: organization,
-            schedule: Schedule.first,
-            role: :guest
-            )
-            session[:user_id] = u.id
+            organization: organization
+        }
+
+        # find existing user or create new (if possible)
+        if user = User.authenticate(user_data)
+            session[:user_id] = user.id
             redirect_to root_url
+        else
+            redirect_to root_url, alert: "The course has been restricted to not allow everyone to login. Contact your teacher if you think this is in error."
         end
     end
 

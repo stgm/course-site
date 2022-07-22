@@ -7,7 +7,7 @@ class Settings < RailsSettings::Base
     end
 
     scope :accounts do
-        field :registration_phase, default: true
+        field :registration_phase, default: 'before'
         field :login_by_email, default: true
     end
 

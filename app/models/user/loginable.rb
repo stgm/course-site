@@ -6,9 +6,9 @@ module User::Loginable
         has_many :logins
     end
 
-    def self.authenticate(login)
-        find_by_login(login)
-    end
+    # def self.authenticate(login)
+    #     find_by_login(login)
+    # end
 
     def login_id
         return self.logins.first.try(:login) || self.token

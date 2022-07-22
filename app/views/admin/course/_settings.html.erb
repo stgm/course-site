@@ -1,9 +1,13 @@
 <%= settings_form '' do %>
+<%= hidden_field_tag 'redirect', admin_course_path %>
 
 <div class="list-group mb-2">
     <button type="submit" name="settings[registration_phase]" value="before" class="list-group-item list-group-item-action">
         <div class="me-auto">
-            <div class="fw-bold">⓵ Before the course</div>
+            <div class="fw-bold">
+                ⓵ Before the course
+                <% if Settings.registration_phase == 'before' %><div class="float-end">✅ selected</div><% end %>
+            </div>
             <ul class="mb-0">
                 <li>Staff can login</li>
                 <li>No one can self-register</li>
@@ -13,7 +17,10 @@
     </button>
     <button type="submit" name="settings[registration_phase]" value="during" class="list-group-item list-group-item-action">
         <div class="me-auto">
-            <div class="fw-bold">⓶ During the course</div>
+            <div class="fw-bold">
+                ⓶ During the course
+                <% if Settings.registration_phase == 'during' %><div class="float-end">✅ selected</div><% end %>
+            </div>
             <ul class="mb-0">
                 <li>Anyone can login</li>
                 <li>Anyone can self-register</li>
@@ -23,7 +30,10 @@
     </button>
     <button type="submit" name="settings[registration_phase]" value="after" class="list-group-item list-group-item-action">
         <div class="me-auto">
-            <div class="fw-bold">⓷ After the course</div>
+            <div class="fw-bold">
+                ⓷ After the course
+                <% if Settings.registration_phase == 'after' %><div class="float-end">✅ selected</div><% end %>
+            </div>
             <ul class="mb-0">
                 <li>Anyone can login</li>
                 <li>No one can self-register</li>
@@ -33,7 +43,10 @@
     </button>
     <button type="submit" name="settings[registration_phase]" value="archival" class="list-group-item list-group-item-action">
         <div class="me-auto">
-            <div class="fw-bold">⓸ Archival phase</div>
+            <div class="fw-bold">
+                ⓸ Archival phase
+                <% if Settings.registration_phase == 'archival' %><div class="float-end">✅ selected</div><% end %>
+            </div>
             <ul class="mb-0">
                 <li>Admins can login</li>
                 <li>No one can self-register</li>
@@ -44,6 +57,6 @@
 </div>
 <% end %>
 
-<%#= toggle_setting_form('registration_allow', 'Allow new registrations (you can still invite users if not)') %>
-<%#= toggle_setting_form('login_students', 'Allow students to login (staff will always be able to login)') %>
+<% if Auth::OpenController.available? %>
 <%= toggle_setting_form('login_by_email', 'Allow login by e-mail token in addition to login by OpenID') %>
+<% end %>

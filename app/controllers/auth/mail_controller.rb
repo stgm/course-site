@@ -1,43 +1,45 @@
 class Auth::MailController < ApplicationController
 
-    def login
-        render layout: 'welcome'
+    # Facilitates login by e-mail, using a one time code
+
+    def self.available?
+        !Auth::OpenController.available? || Settings.login_by_email
     end
 
-    def code
-        render layout: 'welcome'
+    layout 'welcome'
+
+    def login
+        # e-mail address form
     end
 
     def create
+        # user has entered e-mail address
         session[:login_email] = mail = params[:email].downcase
+        # generate 6-digit hex code for e-mail
         code = SecureRandom.hex(3)
+        # hash it for later check
         session[:login_secret] = Digest::SHA256.hexdigest(code)
         AuthMailer.with(mail: mail, code: code).login_code.deliver_later
         redirect_to auth_mail_code_path
     end
 
+    def code
+        # secret code form
+    end
+
     def validate
         if session[:login_secret] == Digest::SHA256.hexdigest(params[:code])
+            # retrieve previously entered e-mail address
             mail = session[:login_email]
-            if @user = User.find_by_mail(mail)
-                # @user.update(validated: true)
+            # find existing user or create new (if possible)
+            if @user = User.authenticate({ mail: mail })
+                session[:user_id] = @user.id
+                redirect_to root_url
             else
-                @user = User.create(mail: mail)#, validated: true)
+                redirect_to root_url, alert: "The course has been restricted to not allow everyone to login. Contact your teacher if you think this is in error."
             end
-            clear_session
-            session[:user_id] = @user.id
-            redirect_to root_url
         end
-        clear_session
-    end
-    
-    private
-
-    def user_params
-        params.require(:user).permit(:name, :login, :alias)
-    end
-
-    def clear_session
+        # always remove entered details, whether successful or not
         session.delete(:login_secret)
         session.delete(:login_email)
     end
