@@ -3,7 +3,8 @@ class PageController < ApplicationController
     include NavigationHelper
     include AttendanceRecorder
 
-    before_action :authorize, if: :request_from_local_network?
+    before_action :authorize, only: [ :index ], if: :request_from_local_network?
+    before_action :authorize, only: [ :announcements ]
 
     def index
         # find page by url and bail out if not found
@@ -19,6 +20,10 @@ class PageController < ApplicationController
         end
 
         @title = @page.title
+    end
+
+    def announcements
+        @title = t(:announcements)
     end
 
     def syllabus

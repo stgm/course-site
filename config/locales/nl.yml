@@ -80,7 +80,7 @@ nl:
         login_button: Inloggen
         no_uva: Ik heb geen actief UvA-account
         login_mail: Login via e-mail
-        disclaimer: We gebruiken je mailadres om je informatie te sturen over het registratieproces, en een paar herinneringen waar nodig. Later sturen we je via dit adres officiële onderwijsmededelingen.
+        disclaimer: We gebruiken je mailadres om je in te loggen, om je inzendingen, cijfers en feedback te koppelen, en om mededelingen over de cursus rond te sturen. Als je de cursus niet meer volgt kun je je per e-mail afmelden.
         email_placeholder: E-mailadres
         continue_button: Doorgaan
         name_description: Stel je naam in (roepnaam + achternaam)

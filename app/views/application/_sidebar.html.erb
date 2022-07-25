@@ -5,7 +5,7 @@
         </button>
         <%= render 'brand' %>
         <ul class="navbar-nav d-flex">
-            <% if authenticated? %>
+            <% if logged_in? %>
             <%= render 'hands_menu' %>
             <% end %>
             <%= render 'menu' %>

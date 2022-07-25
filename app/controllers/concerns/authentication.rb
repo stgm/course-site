@@ -1,22 +1,34 @@
 module Authentication
+    extend ActiveSupport::Concern
 
-    include AuthenticationHelper
+    included do
+        helper_method :authenticated?, :logged_in?, :current_user
+    end
+
+    # decides if any of the auth methods is satisfied
+    # may also be used by controller methods to make decisions
+    def authenticated?
+        return session[:user_id].present?
+    end
+
+    def logged_in?
+        return authenticated? && current_user.present?
+    end
+
+    def current_user
+        @current_user ||= (User.find_by(id: session[:user_id]) || User.new)
+        Current.user = @current_user
+    end
 
     # before_action to require at least a confirmed login, but not necessarily a user profile
     def authenticate
-        if not authenticated?
-            # no cookie means no session was created
-            redirect_to auth_open_login_url
-        end
+        redirect_to root_url if not authenticated?
     end
 
     # before_action to require a user to be logged in
     def authorize
-        if authenticated?
-            if !current_user.valid_profile?
-                redirect_to profile_url
-            end
-        end
+        redirect_to(root_path) && return if not authenticated?
+        redirect_to profile_path if !current_user.valid_profile?
     end
 
     # role-based permissions

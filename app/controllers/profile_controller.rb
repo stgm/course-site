@@ -67,7 +67,6 @@ class ProfileController < ApplicationController
 		ActiveRecord::Base.transaction do
 			user_params = params.require(:user).permit(:name, :schedule_id)
 			current_user.create_profile(user_params)
-			session[:user_id] = current_user.id
 		end
 
 		redirect_to :root

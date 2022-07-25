@@ -205,9 +205,9 @@ Rails.application.routes.draw do
 	#--CONTENT----------------------------------------------------------------------------------
 
 	# homepage
-	root to: "home#homepage"
+	root to: "home#index"
 	get 'syllabus',      to: 'page#syllabus'
-	get 'announcements', to: 'home#announcements'
+	get 'announcements', to: 'page#announcements'
 
 	# search
 	get  "search/autocomplete"

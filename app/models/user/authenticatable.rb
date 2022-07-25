@@ -29,7 +29,10 @@ module User::Authenticatable
             when 'before', 'after', 'archival'
                 return false
             when 'during'
-                return User.create!(user_data)
+                user = User.new(user_data)
+                # first user gets admin
+                user.role = 'admin' if User.admin.none?
+                user.save!
             end
         end
     end

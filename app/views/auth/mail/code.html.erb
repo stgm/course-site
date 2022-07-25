@@ -1,19 +1,17 @@
-<%= form_tag(auth_mail_validate_path) do |form| %>
+<%= form_tag(auth_mail_validate_path, style: 'width: 400px', class: 'mx-auto mt-5 border rounded p-4') do |form| %>
 
-<div id="profile-dialog" class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title"><%= t('account.validation_code') %></h2>
-        </div>
-        <div class="modal-body">
-            <p>Code: <input type="text" name="code" maxlength="6" size="6" class="form-field text-center h2 my-4" autofocus autocomplete="one-time-code"></p>
-            <p><%= t('account.validation_code_in_mail') %></p>
-        </div>
-        <div class="modal-footer">
-            <%= link_to 'Cancel', auth_session_logout_path, class: 'btn', data: { turbo: "false" } %>
-            <input type="submit" class="btn btn-primary" value="<%= t('account.continue_button') %> &rarr;">
-        </div>
-    </div>
+<h1 class="h3 mb-3 fw-normal"><%= t('account.validation_code') %></h1>
+<p class=""><%= t('account.validation_code_in_mail') %></p>
+
+<div class="form-floating">
+    <input name="code" required class="form-control" maxlength="6" size="6" id="floatingInput" autofocus autocomplete="one-time-code">
+    <label for="floatingInput">Code</label>
 </div>
+
+<div class="d-flex justify-content-evenly mt-5">
+<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-lg btn-outline-secondary', data: { turbo: "false" } %>
+<input type="submit" class="btn btn-lg btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
+</div>
+
 
 <% end %>

@@ -1,19 +1,16 @@
-<%= form_tag(auth_mail_create_path) do |form| %>
+<%= form_tag(auth_mail_create_path, style: 'width: 400px', class: 'mx-auto mt-5 border rounded p-4') do |form| %>
 
-<div id="profile-dialog" class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title"><%= t('account.login_mail') %></h2>
-        </div>
-        <div class="modal-body">
-            <p class=""><%= t('account.disclaimer') %></p>
-            <p>E-mail: <input placeholder="<%= t('account.email_placeholder') %>" name="email" type="email" class="form-field" autocomplete="email"></p>
-        </div>
-        <div class="modal-footer">
-            <%= link_to 'Cancel', auth_session_logout_path, class: 'btn', data: { turbo: "false" } %>
-            <input type="submit" class="btn btn-primary" value="<%= t('account.continue_button') %> &rarr;">
-        </div>
-    </div>
+<h1 class="h3 mb-3 fw-normal"><%= t('account.login_mail') %></h1>
+<p class=""><%= t('account.disclaimer') %></p>
+
+<div class="form-floating">
+    <input name="email" type="email" required class="form-control" id="floatingInput" placeholder="<%= t('account.email_placeholder') %>">
+    <label for="floatingInput">Email address</label>
+</div>
+
+<div class="d-flex justify-content-evenly mt-5">
+<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-lg btn-outline-secondary', data: { turbo: "false" } %>
+<input type="submit" class="btn btn-lg btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
 </div>
 
 <% end %>

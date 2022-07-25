@@ -21,4 +21,10 @@ class User < ApplicationRecord
         items = items.sort { |a,b| b.sortable_date <=> a.sortable_date }
     end
 
+    def designation
+        if Schedule.count > 1
+            group_name || schedule_name
+        end
+    end
+
 end
