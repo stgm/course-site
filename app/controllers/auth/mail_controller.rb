@@ -50,7 +50,8 @@ class Auth::MailController < ApplicationController
             redirect_to root_url
         end
         # always remove entered details, whether successful or not
-        reset_session
+        session.delete(:login_secret)
+        session.delete(:login_email)
     end
 
 end

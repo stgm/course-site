@@ -3,7 +3,7 @@ module User::Schedulizable
 	extend ActiveSupport::Concern
 
 	included do
-		belongs_to :schedule, optional: true
+		belongs_to :schedule, optional: true, default: -> { Schedule.default }
 		belongs_to :current_module, class_name: "ScheduleSpan", optional: true
 
 		delegate :name, to: :schedule, prefix: true, allow_nil: true

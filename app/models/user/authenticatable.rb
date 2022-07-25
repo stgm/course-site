@@ -33,6 +33,7 @@ module User::Authenticatable
                 # first user gets admin
                 user.role = 'admin' if User.admin.none?
                 user.save!
+                return user
             end
         end
     end

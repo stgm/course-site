@@ -5,7 +5,9 @@ class HomeController < ApplicationController
 
     def index
         if logged_in?
-            if alerts_for_current_schedule.any?
+            if !current_user.valid_profile?
+                redirect_to profile_path
+            elsif alerts_for_current_schedule.any?
                 # current user's schedule's announcements
                 redirect_to announcements_path
             else

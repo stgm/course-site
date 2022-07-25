@@ -10,6 +10,8 @@ class User < ApplicationRecord
     include ChangeLogger, FinalGradeAssigner
 
     validates :mail, email: true
+    validates_uniqueness_of :mail
+    validates_format_of :name, with: /\A[^\s][^\s]+(\s+[^\s][^\s]+)+\z/, unless: Proc.new { |u| u.name.blank? }
 
     def items(with_private=false)
         items = []
