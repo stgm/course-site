@@ -14,7 +14,6 @@ class Settings < RailsSettings::Base
     scope :site do
         field :git_repo
         field :git_branch
-        field :mailer_from
         field :send_grade_mails, default: false
         field :room_for_toc
         field :public_schedule
