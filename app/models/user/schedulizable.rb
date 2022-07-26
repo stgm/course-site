@@ -12,16 +12,16 @@ module User::Schedulizable
 	end
 
 	def check_current_schedule!
-		if schedule.blank?
-			set_current_schedule
-			save! if persisted?
-		end
+        # if schedule.blank?
+        #     set_current_schedule
+        #     save! if persisted?
+        # end
 		self.schedule
 	end
 
-	def set_current_schedule
-		self.schedule = Schedule.default
-	end
+    # def set_current_schedule
+    #     self.schedule = Schedule.default
+    # end
 
 	def check_current_module!
 		check_current_schedule!
