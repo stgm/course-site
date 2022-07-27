@@ -3,7 +3,7 @@
 	<% if Course.modules.any? %>
 	<ul class="nav">
 		<li>
-			<p class="ms-1"><%= current_module ? t(:other) : t(:modules) %></p>
+			<p class="nav-head"><%= current_module ? t(:other) : t(:modules) %></p>
 		</li>
 		<% Course.modules.each do |title, url|  %>
 		<li><%= link_to title.html_safe, url, class:"nav-link" %></li>
