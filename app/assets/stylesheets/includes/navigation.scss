@@ -52,13 +52,6 @@
 	min-width:0;
 }
 
-#course-title *
-{
-	overflow-x:hidden;
-	text-overflow:ellipsis;
-	white-space:nowrap;
-}
-
 #course-name
 {
 	font-weight:bold;
@@ -78,6 +71,13 @@
 	{
 		padding:0.1rem;
 	}
+
+    .navbar-brand #course-title *
+    {
+        overflow-x:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
 
 	#sidebar-tools
 	{
@@ -103,6 +103,18 @@
 
 @media (min-width: 768px)
 {
+    .navbar-brand
+    {
+        white-space:normal;
+    }
+
+    .navbar-brand.logged_in #course-title *
+    {
+        overflow-x:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+
 	#sidebar-tools
 	{
 		padding:0.75rem;
