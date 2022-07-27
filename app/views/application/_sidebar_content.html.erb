@@ -49,7 +49,7 @@
 
 	<%# All pages by section, but users only see "published" pages here %>
 
-	<% if current_schedule.blank? && current_sections.any? %>
+	<% if current_schedule.blank? && Course.modules.blank? && current_sections.any? %>
 	<ul id="sections" class="nav">
 		<li>
 			<p class="nav-head"><%= current_module ? t(:other) : t(:materials) %></p>
