@@ -78,7 +78,7 @@ nl:
     account:
         login: Login met je UvA-studentenaccount
         login_button: Inloggen
-        login_mail: Login via e-mail
+        login_mail: Geef je e-mailadres
         email_placeholder: E-mailadres
         continue_button: Doorgaan
         name_description: Stel je naam in (roepnaam + achternaam)

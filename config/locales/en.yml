@@ -71,7 +71,7 @@ en:
     account:
         login: Log in using your UvA account
         login_button: Log in
-        login_mail: Log in using e-mail
+        login_mail: Enter your e-mail address
         email_placeholder: E-mail address
         continue_button: Continue
         name_description: Enter your name (first + last)

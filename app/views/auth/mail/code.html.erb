@@ -1,16 +1,22 @@
-<%= form_tag(auth_mail_validate_path, style: 'width: 400px', class: 'mx-auto m-5 bg-light p-5 rounded shadow') do |form| %>
+<%= form_tag(auth_mail_validate_path, style: 'width: 600px', class: 'mx-auto m-5 bg-white p-4 rounded shadow') do |form| %>
 
-<h1 class="h3 mb-3 fw-normal"><%= t('account.validation_code') %></h1>
-<p class=""><%= t('account.validation_code_in_mail') %></p>
+<h1 class="text-center">
+    <%= bootstrap_icon 'file-earmark-binary', width: 60, height: 60 %>
+    <%= t('account.validation_code') %>
+</h1>
+<p class="text-center">
+    <% if Rails.env.development? %>
+    Find your code in the Rails console
+    <% else %>
+    <%= t('account.validation_code_in_mail') %>
+    <% end %>
+</p>
 
-<div class="form-floating">
-    <input name="code" required class="form-control" maxlength="6" size="6" id="floatingInput" autofocus autocomplete="one-time-code">
-    <label for="floatingInput">Code</label>
-</div>
+<input name="code" type="text" autofocus required class="form-control my-5 border-0 border-bottom" maxlength="6" size="6" autocomplete="one-time-code">
 
-<div class="d-flex justify-content-evenly mt-5">
-<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-lg btn-outline-secondary', data: { turbo: "false" } %>
-<input type="submit" class="btn btn-lg btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
+<div class="d-flex justify-content-between">
+<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
+<input type="submit" class="btn btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
 </div>
 
 

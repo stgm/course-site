@@ -1,15 +1,15 @@
-<%= form_tag(auth_mail_create_path, style: 'width: 400px', class: 'mx-auto m-5 bg-light p-5 rounded shadow') do |form| %>
+<%= form_tag(auth_mail_create_path, style: 'width: 600px', class: 'mx-auto m-5 bg-white p-4 rounded shadow') do |form| %>
 
-<h1 class="h3 mb-3 fw-normal"><%= t('account.login_mail') %></h1>
+<h1 class="text-center">
+    <%= bootstrap_icon 'envelope', width: 60, height: 60 %>
+    <%= t('account.login_mail') %>
+</h1>
 
-<div class="form-floating">
-    <input name="email" type="email" required class="form-control" id="floatingInput" placeholder="<%= t('account.email_placeholder') %>">
-    <label for="floatingInput">Email address</label>
-</div>
+<input name="email" type="email" autofocus required class="form-control my-5 border-0 border-bottom" placeholder="<%= t('account.email_placeholder') %>">
 
-<div class="d-flex justify-content-evenly mt-5">
-<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-lg btn-outline-secondary', data: { turbo: "false" } %>
-<input type="submit" class="btn btn-lg btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
+<div class="d-flex justify-content-between">
+<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
+<input type="submit" class="btn btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
 </div>
 
 <% end %>
