@@ -78,16 +78,12 @@ nl:
     account:
         login: Login met je UvA-studentenaccount
         login_button: Inloggen
-        no_uva: Ik heb geen actief UvA-account
         login_mail: Login via e-mail
-        disclaimer: We gebruiken je mailadres om je in te loggen, om je inzendingen, cijfers en feedback te koppelen, en om mededelingen over de cursus rond te sturen. Als je de cursus niet meer volgt kun je je per e-mail afmelden.
         email_placeholder: E-mailadres
         continue_button: Doorgaan
         name_description: Stel je naam in (roepnaam + achternaam)
         validation_code: Vul je validatiecode in
         validation_code_in_mail: Deze ontvang je per e-mail, maar mogelijk vind je 'm in je spam-map!
-        request_new_code: Verstuur code opnieuw
-        enter_your_details: Vul je gegevens in
 
     activerecord:
       errors:

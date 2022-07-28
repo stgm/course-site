@@ -1,7 +1,6 @@
 <%= form_tag(auth_mail_create_path, style: 'width: 400px', class: 'mx-auto mt-5 border rounded p-4') do |form| %>
 
 <h1 class="h3 mb-3 fw-normal"><%= t('account.login_mail') %></h1>
-<p class=""><%= t('account.disclaimer') %></p>
 
 <div class="form-floating">
     <input name="email" type="email" required class="form-control" id="floatingInput" placeholder="<%= t('account.email_placeholder') %>">
