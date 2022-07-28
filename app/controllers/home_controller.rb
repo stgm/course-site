@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
 
     include NavigationHelper
-    include AttendanceRecorder
 
     def index
         if logged_in?
