@@ -26,14 +26,16 @@ module User::Authenticatable
         # creates a new user, but only if allowed at this time
         def self.authenticate_new(user_data)
             case Settings.registration_phase
+            when 'before'
+                if User.none?
+                    User.create!(user_data.merge(role: 'admin'))
+                else
+                    return false
+                end
             when 'before', 'after', 'archival'
                 return false
             when 'during'
-                user = User.new(user_data)
-                # first user gets admin
-                user.role = 'admin' if User.admin.none?
-                user.save!
-                return user
+                return User.create!(user_data)
             end
         end
     end
