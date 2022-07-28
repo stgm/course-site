@@ -16,7 +16,13 @@ module Authentication
     end
 
     def current_user
-        @current_user ||= (User.find_by(id: session[:user_id]) || User.new)
+        @current_user ||= 
+            if session[:user_id].present?
+                User.find_by(id: session[:user_id])
+            else
+                # Blank user for logged out purposes
+                User.new
+            end
         Current.user = @current_user
     end
 
