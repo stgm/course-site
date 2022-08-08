@@ -5,6 +5,10 @@
     <%= t('account.login_mail') %>
 </h1>
 
+<% if flash[:alert] %>
+<p><%= flash[:alert] %></p>
+<% end %>
+
 <input name="email" type="email" autofocus required class="form-control my-5 border-0 border-bottom" placeholder="<%= t('account.email_placeholder') %>">
 
 <div class="d-flex justify-content-between">

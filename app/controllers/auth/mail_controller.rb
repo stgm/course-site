@@ -10,14 +10,19 @@ class Auth::MailController < ApplicationController
 
     def login
         # e-mail address form
+        logger.info flash.inspect
     end
 
     def create
         entry = params[:email].downcase
         parsed = Mail::Address.new entry
         if parsed.address != entry || parsed.domain.split(".").length <= 1
-            redirect_to auth_mail_login_path
-            return
+            redirect_to auth_mail_login_path, alert: 'Email seems invalid' and return
+        end
+        if uva_details = /\A([\d]+)@((?:[-a-z0-9]+\.)*uva\.nl)\z/i.match(entry)
+            if uva_details[2].downcase == 'uva.nl' || uva_details[2].downcase == 'student.uva.nl'
+                redirect_to auth_mail_login_path, alert: 'The address you entered is a login, but not a valid email' and return
+            end
         end
         # user has entered e-mail address
         session[:login_email] = mail = params[:email].downcase
