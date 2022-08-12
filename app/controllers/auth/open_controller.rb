@@ -45,8 +45,10 @@ class Auth::OpenController < ApplicationController
         end
 
         # extract UvA student number from string
-        student_number = info.raw_attributes['schac_personal_unique_code'].try(:first)
-        student_number = student_number.match(/urn:schac:personalUniqueCode:nl:local:uva.nl:studentid:(.*)/).try{|x| x[1]}
+        student_number =
+            info.raw_attributes['schac_personal_unique_code'].try(:first).try do |urn|
+                urn.match(/urn:schac:personalUniqueCode:nl:local:uva.nl:studentid:(.*)/).try{|x| x[1]}
+            end
 
         affiliation = JSON(info.raw_attributes['eduperson_affiliation'])
 
