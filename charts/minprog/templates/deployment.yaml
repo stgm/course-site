@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: minprog
+        {{- if .Values.azure }}
+        aadpodidbinding: minprog-azure-kv
+        {{- end }}
     spec:
       containers:
         - name: minprog
@@ -21,17 +24,35 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: SECRET_KEY_BASE
-              value: "{{ .Values.secretKeyBase }}"
             - name: RAILS_ENV
               value: production
             - name: RAILS_LOG_TO_STDOUT
               value: "true"
+            - name: OIDC_HOST
+              value: "{{ .Values.oidc.host }}"
+            - name: OIDC_CLIENT_ID
+              value: "{{ .Values.oidc.clientId }}"
+            - name: GITHUB_BASE
+              value: "{{ .Values.github.base }}"
+            - name: GITHUB_BRANCH
+              value: "{{ .Values.github.branch }}"
+          envFrom:
+            - secretRef:
+                name: minprog-secret
           volumeMounts:
+            - name: secrets-store-inline
+              mountPath: "/etc/secrets"
+              readOnly: true
             - name: minprog-data
               mountPath: "/data"
 
       volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "minprog-secretproviderclass"
         - name: minprog-data
           persistentVolumeClaim:
             claimName: minprog-data

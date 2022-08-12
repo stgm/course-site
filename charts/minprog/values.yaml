@@ -4,3 +4,36 @@ image: fnwicr.azurecr.io/minprog
 tag: latest
 
 secretKeyBase: secret
+
+oidc:
+  clientId: minprog.local
+  host: connect.test.surfconext.nl
+
+webdav:
+  base: https://webdev
+  user: user
+
+checkServer:
+  url: https://check
+
+mail: 
+  address: smtp.example.com
+
+github:
+  base: git://repo
+  branch: main
+
+azure:
+  keyvaultName: keyvaultName
+  resourceGroup: resourceGroupName
+  subscriptionId: subscriptionId
+  tenantId: tenantId
+  clientId: clientId
+  identityName: identityName
+  secrets:
+    - name: minprog-connectionstring
+      key: DATABASE_URL
+    - name: minprog-oidc-secret
+      key: OIDC_CLIENT_SECRET
+    - name: minprog-secretbase
+      key: SECRET_KEY_BASE

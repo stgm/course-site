@@ -1,0 +1,11 @@
+{{- if .Values.azure }}
+apiVersion: aadpodidentity.k8s.io/v1
+kind: AzureIdentity
+metadata:
+  name: minprog-identity-aks-kv
+  namespace: "{{ .Release.Namespace }}"
+spec:
+  type: 0
+  resourceID: "/subscriptions/{{ .Values.azure.subscriptionId }}/resourcegroups/{{ .Values.azure.resourceGroup }}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{{ .Values.azure.identityName }}"
+  clientID: {{ .Values.azure.clientId }}
+{{- end }}
