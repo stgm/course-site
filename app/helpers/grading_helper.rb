@@ -8,8 +8,8 @@ module GradingHelper
                     rails_blob_path(contents, disposition: 'attachment'),
                     class: 'btn btn-small btn-light float-end',
                     data: { turbo: false }
-                case contents.content_type
-                when 'application/x-ipynb+json'
+                case contents.filename.extension
+                when 'ipynb'
                     begin
                         tag.div(
                             simple_markdown(NBConverter.new(contents.download).run),
@@ -18,11 +18,11 @@ module GradingHelper
                     rescue
                         tag.div "No JSON found"
                     end
-                when 'text/markdown'
+                when 'markdown', 'md'
                     simple_markdown(contents.download.bytes.pack("c*").force_encoding("UTF-8"))
-                when 'text/html'
+                when 'html'
                     tag.div sanitize(contents.download), class: 'ipynb'
-                when /text\/.*/, 'application/sql'
+                when 'txt', 'sql', 'c', 'py'
                     if contents.filename.extension == 'txt'
                         simple_format(
                             contents.download.encode("UTF-8", undef: :replace, replace: '?')

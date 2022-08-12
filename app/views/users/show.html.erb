@@ -11,7 +11,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="p-1">
-								<% cache [current_user, :submits] do %>
+								<% cache @student do %>
 								<% @overview.each do |name, psets| %>
 								<p class="mb-1">
 									<strong><%= name.humanize %></strong>
@@ -30,9 +30,7 @@
 					</div>
 				</div>
 				<div class="col-md">
-					<% cache [current_user, :items] do %>
-					<%= render partial: "items/item", collection: @items %>
-					<% end %>
+					<%= render partial: "items/item", collection: @items, cached: true %>
 				</div>
 			</div>
 		</div>

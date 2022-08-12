@@ -8,7 +8,7 @@
 			<%= g.user.group.name if g.user and g.user.group %>
 		</td>
 		<td>
-			<%= g.user.login_id if g.user %>
+			<%= g.user.defacto_student_identifier if g.user %>
 		</td>
 		<td>
 			<%= g.user_name %>
@@ -20,7 +20,7 @@
 			<%= g.created_at %>
 		</td>
 		<td>
-			<%= g.any_final_grade %>
+			<%= g.assigned_grade %>
 		</td>
 	</tr>
 	<% end %>

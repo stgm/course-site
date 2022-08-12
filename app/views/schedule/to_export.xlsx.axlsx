@@ -7,10 +7,10 @@ wb.add_worksheet(name: "Grades") do |sheet|
 		data = []
 		data << (g.user && g.user.schedule && g.user.schedule.name || "")
 		data << (g.user && g.user.group && g.user.group.name || "")
-		data << (g.user && g.user.login_id || "")
+		data << (g.user && g.user.defacto_student_identifier || "")
 		data << g.user_name
 		data << g.pset_name
-		data << g.any_final_grade
+		data << g.assigned_grade
 		sheet.add_row data
 	end
 end

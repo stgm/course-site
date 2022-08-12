@@ -10,16 +10,20 @@ class Admin::SiteController < ApplicationController
 		@secret = Settings.webhook_secret
 	end
 
-	# Allows changing arbitrary settings in the settings model.
-	def settings
-		if setting = params["settings"]
-			setting.each do |k,v|
-				v = v == "1" if v == "1" or v == "0"
-				Settings[k] = v
-			end
-		end
-		head :ok
-	end
+    # Allows changing arbitrary settings in the settings model.
+    def settings
+        if setting = params["settings"]
+            setting.each do |k,v|
+                v = v == "1" if v == "1" or v == "0"
+                Settings.send "#{k}=", v
+            end
+        end
+        if params["redirect"]
+            redirect_to params["redirect"]
+        else
+            head :ok
+        end
+    end
 
 	# Set git repository, cloning if needed.
 	def set_git_repo

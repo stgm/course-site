@@ -1,5 +1,5 @@
 <%= form_tag_if(
-    Settings.site_enabled && logged_in? && @page.pset,
+    Submit.available? && logged_in? && @page.pset,
     submissions_path,
     {
         multipart: true,
@@ -13,7 +13,7 @@
     }
     ) do %>
 
-<% if @submit || (@page.pset && Settings.site_enabled && Webdav::Client.available? && logged_in?) %>
+<% if @submit || (@page.pset && Submit.available? && logged_in?) %>
 <div id="submit-button">
     <button class="btn btn-primary" type="button" onclick="window.scrollTo(0,document.body.scrollHeight);">
     <% if @submit && @submit.submitted_at %>

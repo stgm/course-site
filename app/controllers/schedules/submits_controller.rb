@@ -19,7 +19,7 @@ class Schedules::SubmitsController < Schedules::ApplicationController
 		@users.each do |u|
 			NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver_later
 		end
-		redirect_to schedule_overview_path(@schedule), notice: "E-mails are being sent to #{@users.count} students from #{@schedule.name}."
+		redirect_to overview_path(@schedule), notice: "E-mails are being sent to #{@users.count} students from #{@schedule.name}."
 	end
 
 end

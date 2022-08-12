@@ -1,8 +1,22 @@
 Rails.application.routes.draw do
 
-	# login
-	get 'session/login', to: 'session#new'
-	get 'session/logout', to: 'session#destroy'
+    #--LOGIN------------------------------------------------------------------------------------
+
+    namespace :auth do
+        namespace :session do
+            get 'logout'
+        end
+        namespace :open do
+            get 'login'
+            get 'callback'
+        end
+        namespace :mail do
+            post 'create'
+            get 'code'
+            post 'validate'
+            get 'login'
+        end
+    end
 
 	#--ADMIN------------------------------------------------------------------------------------
 
@@ -55,6 +69,7 @@ Rails.application.routes.draw do
 			post 'propose'
 		end
 		resource :generate_groups, only: [ :new, :create ]
+		resource :add_group, only: [ :new, :create ]
 
 		resources :grades, only: [] do
 			collection do
@@ -190,9 +205,9 @@ Rails.application.routes.draw do
 	#--CONTENT----------------------------------------------------------------------------------
 
 	# homepage
-	root to: "home#homepage"
+	root to: "home#index"
 	get 'syllabus',      to: 'page#syllabus'
-	get 'announcements', to: 'home#announcements'
+	get 'announcements', to: 'page#announcements'
 
 	# search
 	get  "search/autocomplete"

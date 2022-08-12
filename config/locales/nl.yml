@@ -25,6 +25,13 @@ nl:
     modules: "modules"
     other: "overig"
     
+    grading:
+        error: "probleem"
+        insufficient: "onvoldoende"
+        sufficient: "voldoende"
+        done_yes: "ja"
+        done_no: "nee"
+    
     sign_in: "Inloggen"
 
     submit:
@@ -68,6 +75,16 @@ nl:
         cancel_request: "Annuleren"
         link: "Geef je Zoom-link"
 
+    account:
+        login: Login met je UvA-studentenaccount
+        login_button: Inloggen
+        login_mail: Geef je e-mailadres
+        email_placeholder: E-mailadres
+        continue_button: Doorgaan
+        name_description: Stel je naam in (roepnaam + achternaam)
+        validation_code: Vul je validatiecode in
+        validation_code_in_mail: Deze ontvang je per e-mail, maar mogelijk vind je 'm in je spam-map!
+
     activerecord:
       errors:
         messages:
@@ -75,6 +92,7 @@ nl:
           restrict_dependent_destroy:
             has_one: Kan item niet verwijderen omdat %{record} afhankelijk is
             has_many: Kan item niet verwijderen omdat afhankelijke %{record} bestaan
+
     date:
       abbr_day_names:
       - zo
@@ -277,5 +295,5 @@ nl:
       formats:
         default: "%a %d %b %Y %H:%M:%S %Z"
         long: "%d %B %Y %H:%M"
-        short: "%d %b %H:%M"
+        short: "%a %d %b %H:%M"
       pm: "'s middags"

@@ -1,8 +1,11 @@
 <% content_for :title do %>
-<h1>Add user</h1>
+<h1>
+    <%= link_to bootstrap_icon('chevron-left'), admin_course_path %>
+    Invite user
+</h1>
 <% end %>
 
-<%= form_with model: [:admin, @user] do |f| %>
+<%= form_with model: [:admin, @user], id: 'user_form' do |f| %>
 
 <div class="mb-3">
 	<label for="user_name" class="ms-1 small">Full name</label>
@@ -28,6 +31,18 @@
 <% elsif Schedule.count == 1 %>
 <%= hidden_field_tag "user[schedule_id]", Schedule.first.id %>
 <% end %>
-<%= f.submit class: 'btn btn-primary' %>
+
+<div class=" mb-3">
+    <%= f.collection_radio_buttons :role, User.roles, :first, :first do |b| %>
+    <div class="form-check">
+        <%= b.radio_button(class: 'form-check-input', required: true) %>
+        <%= b.label { b.text.capitalize } %>
+    </div>
+    <% end %>
+</div>
+
+<% content_for :footer do %>
+<%= f.submit class: 'btn btn-primary', form: 'user_form' %>
+<% end %>
 
 <% end %>

@@ -1,0 +1,23 @@
+<%= form_tag(auth_mail_validate_path, style: 'width: 600px', class: 'mx-auto m-5 bg-white p-4 rounded shadow') do |form| %>
+
+<h1 class="text-center">
+    <%= bootstrap_icon 'file-earmark-binary', width: 60, height: 60 %>
+    <%= t('account.validation_code') %>
+</h1>
+<p class="text-center">
+    <% if Rails.env.development? %>
+    Find your code in the Rails console
+    <% else %>
+    <%= t('account.validation_code_in_mail') %>
+    <% end %>
+</p>
+
+<input name="code" type="text" autofocus required class="form-control my-5 border-0 border-bottom" maxlength="6" size="6" autocomplete="one-time-code">
+
+<div class="d-flex justify-content-between">
+<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
+<input type="submit" class="btn btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
+</div>
+
+
+<% end %>

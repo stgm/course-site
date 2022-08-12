@@ -8,8 +8,8 @@ module ApplicationHelper
 		end
 	end
 
-	def date_span_with_title(date)
-		"<span title=\"#{date.strftime("%A %d %b %Y %R")}\">#{time_ago_in_words(date)} #{t(:ago)}</span>".html_safe
+	def date_span(date)
+        "<span>#{l date, format: :short}".html_safe
 	end
 
 	def markdown(text, page_context)
@@ -24,16 +24,20 @@ module ApplicationHelper
 		                       :enable_coderay => true,
 		                       :coderay_line_numbers => nil).to_custom_html.html_safe
 	end
-	
+
 	def simple_markdown(text)
-		return text && Kramdown::Document.new(text,
-		                       :auto_ids => true,
-		                       :parse_block_html => true,
-		                       :toc_levels => 2..3,
-		                       :coderay_css => :class,
-		                       :coderay_tab_width => 4,
-		                       :enable_coderay => true,
-		                       :coderay_line_numbers => nil).to_custom_html.html_safe
+		begin
+			Kramdown::Document.new(text,
+			                       :auto_ids => true,
+			                       :parse_block_html => true,
+			                       :toc_levels => 2..3,
+			                       :coderay_css => :class,
+			                       :coderay_tab_width => 4,
+			                       :enable_coderay => true,
+			                       :coderay_line_numbers => nil).to_custom_html.html_safe
+		rescue
+			return ""
+		end
 	end
 
 	def title
@@ -99,7 +103,7 @@ module ApplicationHelper
 		list.each do |item, content|
 			if content.is_a?(Hash)
 				# a Hash means subitems, so create a caption and recurse
-				link = link_to bootstrap_icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-materials-#{path.parameterize}-#{item.parameterize}", class: "nav-link", data: { 'bs-toggle': "collapse" }, role: "button", aria: { expanded: "false" }
+				link = link_to bootstrap_icon('chevron-right', class: 'chevron d-none d-lg-inline-block') + item.humanize, "#collapse-materials-#{path.parameterize}-#{item.parameterize}", class: "nav-link align-items-center", data: { 'bs-toggle': "collapse" }, role: "button", aria: { expanded: "false" }
 				list = content_tag(:ul, material_links_to_li(content,path+"-#{item.parameterize}"), class: 'nav collapse', id: "collapse-materials-#{path.parameterize}-#{item.parameterize}")
 				items << content_tag(:li, link + list)
 				# items << content_tag(:li,   , class: "nav p-0", class: "nav-item")
@@ -177,14 +181,14 @@ module ApplicationHelper
 
 	def icon(name, **options)
 		if name
-			image_tag "/icons/#{name}.svg", { size: '20x20', title: name.capitalize, class: 'me-1', style: 'vertical-align: -4px;' }.merge(options)
+			image_tag "/icons/#{name}.svg", { width: 20, height: 20, title: name.capitalize, class: 'me-1', style: 'vertical-align: -4px;' }.merge(options)
 		else
 			tag.span('', class: 'me-2', style: 'display: inline-block; width:20px; height:20px')
 		end
 	end
 	
 	def bootstrap_icon(name, **options)
-		tag.svg({class:'bi', width:20, height:20, fill:'currentColor'}.merge(options)) do
+		content_tag :svg, { class: 'bi', width:20, height:20, fill:'currentColor'}.merge(options) do
 			"<use xlink:href=\"/icons/bootstrap-icons.svg##{name}\"/>".html_safe
 		end
 	end

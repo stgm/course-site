@@ -10,7 +10,7 @@ module SettingsHelper
 						type:'text',
 						class:'form-control',
 						id: "settings_#{setting_name}_input",
-						value:Settings[setting_name]
+						value:Settings.send("#{setting_name}")
 					}))
 					concat(tag.button 'Save', type:'submit', class:'btn btn-primary')
 				end)
@@ -25,7 +25,7 @@ module SettingsHelper
 				tag.div class:'form-check' do
 					concat(form.check_box(setting_name,
 						{
-							checked: Settings[setting_name],
+							checked: Settings.send("#{setting_name}"),
 							id: "settings_#{setting_name}_check",
 							class: "form-check-input",
 							onclick: "Rails.fire(this.form, 'submit');"

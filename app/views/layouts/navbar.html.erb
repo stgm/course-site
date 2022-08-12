@@ -16,13 +16,7 @@
             <% end %>
             <%= render partial: 'hands_menu' %>
         </ul>
-        <% if !authenticated? %>
-        <ul id="icon-nav" class="navbar-nav ms-auto">
-            <li class="nav-item"><%= link_to(t(:sign_in), session_login_path, class:"snav-link", data: { turbo: false })%></li>
-        </ul>
-        <% else %>
         <%= render 'menu' %>
-        <% end %>
     </div>
 
     <%= render "alerts" %>

@@ -10,7 +10,7 @@ module NavigationHelper
 	end
 
 	def current_schedule
-		@current_schedule ||= current_user.check_current_schedule!
+		@current_schedule ||= current_user.try :check_current_schedule!
 	end
 
 	def current_module
@@ -31,10 +31,6 @@ module NavigationHelper
 	def next_module
 		# retrieve next module from here, accounting for student/admin permissions
 		current_user.current_module.next(current_user.student?)
-	end
-
-	def user_designation
-		@user_designation ||= current_user.group_name || current_user.schedule_name if Schedule.count > 1
 	end
 
 	def alerts_for_current_schedule

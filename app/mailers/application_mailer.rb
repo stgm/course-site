@@ -1,6 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
 
-    default from: Settings.mailer_from
+    default from: ENV['MAILER_FROM']
     helper :application
 
     def self.available?

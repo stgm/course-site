@@ -13,7 +13,7 @@ wb.add_worksheet(name: "Grades") do |sheet|
 		subs = user.submits.group_by(&:pset_id)
 		# submitted = false
 		data = []
-		data << user.login_id
+		data << user.defacto_student_identifier
 		data << user.name
 		data << user.attendance_records.count
 		data << user.hands.where(success:true).count

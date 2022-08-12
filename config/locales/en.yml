@@ -67,3 +67,13 @@ en:
         cancel_request: "Cancel request"
         link: "Provide your Zoom link"
         in_line: "We ask that you wait a bit because you were helped just recently!"
+
+    account:
+        login: Log in using your UvA account
+        login_button: Log in
+        login_mail: Enter your e-mail address
+        email_placeholder: E-mail address
+        continue_button: Continue
+        name_description: Enter your name (first + last)
+        validation_code: Enter your validation code
+        validation_code_in_mail: You will receive it by e-mail, but it might end up in your spam folder!
