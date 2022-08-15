@@ -8,7 +8,9 @@ class Submit::Plag::Uploader
 
     def upload(file)
         json = @config_items.map { |k,v| Curl::PostField.content(k.to_s, v) }
-        @c.http_post Curl::PostField.file("files", "files"){ file.read }, *json
+        f = Curl::PostField.file("files", "files"){ file.read }
+        f.content_type = 'application/octet-stream'
+        @c.http_post f, *json
     end
 
     def close
