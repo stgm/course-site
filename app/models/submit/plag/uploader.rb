@@ -2,7 +2,7 @@ class Submit::Plag::Uploader
 
     def initialize(config)
         @config_items = config
-        @c = Curl::Easy.new(@config_items.server)
+        @c = Curl::Easy.new(@config_items['server'])
     end
 
     def upload(file)
