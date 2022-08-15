@@ -8,6 +8,6 @@ module User::Loginable
 
     def defacto_student_identifier
         # require student-number to be available, or fall back to old logins
-        return self.student_number || self.login_id
+        return self.student_number || self.logins.first.try(:login)
     end
 end
