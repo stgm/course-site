@@ -40,6 +40,8 @@ module CourseSite
         password: ENV["MAILER_PASS"]
     }
 
+    config.active_record.yaml_column_permitted_classes = [HashWithIndifferentAccess]
+
     # Can be deleted after load_defaults 7.0
     config.active_storage.variant_processor = :vips
 
