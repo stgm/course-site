@@ -2,13 +2,12 @@ module Grade::SubGrades
     extend ActiveSupport::Concern
 
     included do
-        # this is an OpenStruct to make sure that subgrades can be referenced as a method
-        # for use in the grade calculation formulae in grading.yml
-        serialize :subgrades, OpenStruct
+        # creates OpenStruct from serialized data to ensure method access in grading formulas
+        serialize :subgrades, SubGrades
 
         after_initialize do
             # this adds automatic grades to the subgrades quite aggressively
-            if !self.persisted?
+            if !self.persisted? && self.submit.present?
                 # add any newly found autogrades to the subgrades as default
                 self.submit.automatic_scores.each do |k,v|
                     self.subgrades[k] = v if not self.subgrades[k].present?
@@ -18,9 +17,6 @@ module Grade::SubGrades
     end
 
     def subgrades=(val)
-        # we would like this to be stored as an OpenStruct
-        #return super if val.is_a? OpenStruct
-
         # take this opportunity to convert any stringified stuff to numbers
         val.each do |k,v|
             # get type from grading config
@@ -39,5 +35,20 @@ module Grade::SubGrades
         end if val
 
         super OpenStruct.new val.to_h if val
+    end
+
+    class SubGrades
+        def self.dump(value)
+            # assumes OpenStruct
+            value.to_h.to_yaml
+        end
+
+        def self.load(value)
+            if value.present?
+                OpenStruct.new YAML.safe_load(value, permitted_classes: [Symbol, OpenStruct])
+            else
+                OpenStruct.new
+            end
+        end
     end
 end
