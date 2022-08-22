@@ -35,7 +35,6 @@ module CourseSite
         address: ENV["MAILER_ADDRESS"],
         domain: ENV["MAILER_DOMAIN"],
         port: 465,
-        ssl: true,
         user_name: ENV["MAILER_USER"],
         password: ENV["MAILER_PASS"]
     }
