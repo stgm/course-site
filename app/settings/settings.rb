@@ -12,8 +12,8 @@ class Settings < RailsSettings::Base
     end
 
     scope :site do
-        field :git_repo
-        field :git_branch
+        field :git_repo, default: ENV['GITHUB_BASE']
+        field :git_branch, default: ENV['GITHUB_BRANCH']
         field :send_grade_mails, default: false
         field :room_for_toc
         field :public_schedule
