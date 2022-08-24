@@ -184,13 +184,6 @@ Rails.application.routes.draw do
 		get 'show'
 	end
 
-	#--ONBOARDING-------------------------------------------------------------------------------
-	# for new web site instances
-	get  "welcome" => "welcome#index"
-	get  "welcome/clone"
-	get  "welcome/claim"
-	get  "welcome/register"
-
 	#--EXTERNAL APIs----------------------------------------------------------------------------
 
 	post "api/reload", to: "api/api#reload"
@@ -206,6 +199,7 @@ Rails.application.routes.draw do
 
 	# homepage
 	root to: "home#index"
+	get 'home/clone'
 	get 'syllabus',      to: 'page#syllabus'
 	get 'announcements', to: 'page#announcements'
 
