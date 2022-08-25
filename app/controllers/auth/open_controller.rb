@@ -35,7 +35,7 @@ class Auth::OpenController < ApplicationController
 
         login = info.subject.downcase
         email = info.email
-        name = info.name
+        name = info.nickname
 
         # for now, prevent any registrations from outside the UvA
         organization = info.raw_attributes['schac_home_organization']
