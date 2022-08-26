@@ -37,13 +37,6 @@ class Auth::OpenController < ApplicationController
         email = info.email
         name = info.nickname
 
-        # for now, prevent any registrations from outside the UvA
-        organization = info.raw_attributes['schac_home_organization']
-        if organization != 'uva.nl'
-            redirect_to root_url, alert: "You can only register for this course using an UvA account."
-            return
-        end
-
         # extract UvA student number from string
         student_number =
             info.raw_attributes['schac_personal_unique_code'].try(:first).try do |urn|
@@ -57,8 +50,7 @@ class Auth::OpenController < ApplicationController
             name: name,
             mail: email,
             student_number: student_number,
-            affiliation: affiliation,
-            organization: organization
+            affiliation: affiliation
         }
 
         # find existing user or create new (if possible)
