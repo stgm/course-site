@@ -58,7 +58,7 @@ class SubmissionsController < ApplicationController
 
 	def collect_attachments
 		@attachments = Attachments.new(params.permit(f: {})[:f].to_h)
-		@form_contents = params.permit(form: {})[:form].to_hash
+		@form_contents = params.permit(form: {})[:form].try(:to_hash)
 	end
 
 	def upload_attachments_to_webdav
