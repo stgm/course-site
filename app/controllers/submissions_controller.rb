@@ -26,11 +26,11 @@ class SubmissionsController < ApplicationController
 			upload_files_to_check_server  if should_perform_auto_check?
 			record_submission
 			redirect_back fallback_location: '/'
-		rescue
+		rescue => e
 			redirect_back(
 				fallback_location: '/',
 				alert: "There was a problem uploading your submission! Please try again. " \
-				       "If the problem persists, contact your teacher.".html_safe)
+				       "If the problem persists, contact your teacher.<br><pre>#{e.backtrace.first}</pre>")
 		end
 	end
 
