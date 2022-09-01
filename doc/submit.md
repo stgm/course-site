@@ -27,7 +27,9 @@ You may include a `files` key which in turn should contain one or more keys that
 
 Note that the file picker on the website will be configured to allow only files of the extension that is specified here.
 
-The file types `required` and `optional` are special in the sense that i18n translations for these keys are included in the website. The file type `required` is also special because the form will be configured to make these files mandatory.
+The file types `required` and `optional` are special in the sense that i18n translations for these keys are included in the website.
+
+The file type `required` is also special because the form will be configured to make these files mandatory. Any other file type will not be marked as mandatory.
 
 It is not possible to configure to allow a variable number of files to be submitted. However, you can request zip-files or other archive formats.
 
