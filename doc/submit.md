@@ -15,7 +15,9 @@ Add a file named `submit.yml` to any directory to allow submits on the respectiv
 
 ## Name
 
-Any single `name` can only be used on one page on the site. It will identify the submit internally and to users (graders, admins). You can use underscores or dashes in the name.
+The name will identify the submit internally and to users (graders, admins). You can use underscores or dashes in the name.
+
+Any single `name` can only be used on one page on the site. This means that you cannot create multiple forms for the same submit name.
 
 Renaming a submit is never recommended, because the relation between the old name and new name will not be inferred. It will just create a new submit identifier in the website which will exist next to the old one. Old submits will still be linked to the old name for students and teachers alike.
 
