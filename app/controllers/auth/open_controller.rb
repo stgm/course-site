@@ -34,7 +34,7 @@ class Auth::OpenController < ApplicationController
         info = user_info(token)
 
         login = info.subject.downcase
-        email = info.email
+        email = info.email.downcase
         name = info.nickname
 
         # extract UvA student number from string
