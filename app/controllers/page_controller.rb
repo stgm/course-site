@@ -28,12 +28,10 @@ class PageController < ApplicationController
 
     def syllabus
         if @page = current_schedule && current_schedule.page || Page.find_by_slug('')
-        # raise ActionController::RoutingError.new('Not Found') if !@page
+        else
+            @page = Page.new
+        end
         @subpages = @page.subpages
-    else
-        @page = Page.new
-        @subpages = @page.subpages
-    end
         @title = t(:syllabus)
         render 'index'
     end
