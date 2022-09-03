@@ -30,7 +30,7 @@ class SubmissionsController < ApplicationController
 			redirect_back(
 				fallback_location: '/',
 				alert: "There was a problem uploading your submission! Please try again. " \
-				       "If the problem persists, contact your teacher.<br><pre>#{e.backtrace.first}</pre>")
+				       "If the problem persists, contact your teacher.<br><pre>#{e.message}</pre><br><pre>#{e.backtrace.first}</pre>")
 		end
 	end
 
