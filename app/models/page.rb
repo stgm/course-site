@@ -15,12 +15,12 @@ class Page < ApplicationRecord
 
     def public_url
         if self.path.start_with?("course")
-            url = File.join(Settings.git_repo.sub(/.git$/,''), 'raw', Settings.git_branch)
+            url = File.join(Settings.git_repo.sub(/.git$/,''), 'raw', Settings.git_branch.to_s)
             return self.path.sub(/\Acourse/, url)
         elsif self.path.start_with?("materials")
             dir = self.path.match(/\Amaterials\/([^\/]*)/)[1]
             repo = Settings.materials[dir]
-            url = File.join(repo['remote'].sub(/.git$/,''), 'raw', repo['branch'])
+            url = File.join(repo['remote'].sub(/.git$/,''), 'raw', repo['branch'].to_s)
             return self.path.sub(/\Amaterials\/#{dir}/, url)
         end
     end
