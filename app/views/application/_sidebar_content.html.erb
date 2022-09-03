@@ -22,8 +22,8 @@
 				</div>
 				<% if current_schedule.self_service %>
 				<div class="ms-auto me-n1">
-					<%= button_to prev_module.present? ? profile_prev_path : '', method: :post, id: 'schedule_prev_button', disabled:!prev_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do bootstrap_icon('chevron-left', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
-					<%= button_to next_module.present? ? profile_next_path : '', method: :post, id: 'schedule_next_button', disabled:!next_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do bootstrap_icon('chevron-right', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
+					<%= button_to prev_module.present? ? profile_prev_path : '', method: :post, id: 'schedule_prev_button', disabled:!prev_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do tag.span('Previous module', class: 'visually-hidden') + bootstrap_icon('chevron-left', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
+					<%= button_to next_module.present? ? profile_next_path : '', method: :post, id: 'schedule_next_button', disabled:!next_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do tag.span('Next module', class: 'visually-hidden') + bootstrap_icon('chevron-right', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
 				</div>
 				<% end %>
 			</div>
@@ -48,8 +48,9 @@
 	<% end %>
 
 	<%# All pages by section, but users only see "published" pages here %>
+	<%# TODO DISABLED%>
 
-	<% if current_schedule.blank? && Course.modules.blank? && current_sections.any? %>
+	<% if false && current_schedule.blank? && Course.modules.blank? && current_sections.any? %>
 	<ul id="sections" class="nav">
 		<li>
 			<p class="nav-head"><%= current_module ? t(:other) : t(:materials) %></p>
