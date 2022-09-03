@@ -84,6 +84,10 @@ nl:
         name_description: Stel je naam in (roepnaam + achternaam)
         validation_code: Vul je validatiecode in
         validation_code_in_mail: Deze ontvang je per e-mail, maar mogelijk vind je 'm in je spam-map!
+        you_can_login: Welkom! Je kunt hier inloggen.
+        guest_needs_activation: Als je inlogt als gast via e-mail kun je nog geen opdrachten insturen tot je account is geactiveerd door de docent.
+        login_via_uva: Login met UvA-account
+        login_via_mail: Login als gast via mail
 
     activerecord:
       errors:
