@@ -1,5 +1,5 @@
 <li class="nav-item dropdown d-flex align-items-center">
-    <a id="userMenuDropdown" href="#" class="nav-link dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false"><%= bootstrap_icon 'person-fill', size: '24x24', style: 'vertical-align:-0.255em;' %></a>
+    <a id="userMenuDropdown" href="#" class="nav-link dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false"><%= bootstrap_icon 'person-fill', size: '24x24', style: 'vertical-align:-4px;' %> <%= t('account.login_button') if !authenticated? %></a>
     <div class="dropdown-menu dropdown-menu-end" id="user-menu" aria-labelledby="userMenuDropdown">
         <%= render partial: 'menu_items' %>
     </div>
