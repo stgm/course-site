@@ -78,6 +78,7 @@ en:
         validation_code: Enter your validation code
         validation_code_in_mail: You will receive it by e-mail, but it might end up in your spam folder!
         you_can_login: Welcome! This is where you log in.
-        guest_needs_activation: When you log in as guest via e-mail you will not be able to submit assignments until your account is activated by a teacher.
+        guest_needs_activation: When you log in as guest (via e-mail) you will not be able to submit assignments until your account is activated by a teacher.
         login_via_uva: Login via UvA account
         login_via_mail: Guest login via mail
+        logout: Log out
