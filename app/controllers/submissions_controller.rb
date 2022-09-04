@@ -26,11 +26,11 @@ class SubmissionsController < ApplicationController
 			upload_files_to_check_server  if should_perform_auto_check?
 			record_submission
 			redirect_back fallback_location: '/'
-		rescue
+		rescue => e
 			redirect_back(
 				fallback_location: '/',
 				alert: "There was a problem uploading your submission! Please try again. " \
-				       "If the problem persists, contact your teacher.".html_safe)
+				       "If the problem persists, contact your teacher.<br><pre>#{e.message}</pre><br><pre>#{e.backtrace.first}</pre>")
 		end
 	end
 
@@ -58,7 +58,7 @@ class SubmissionsController < ApplicationController
 
 	def collect_attachments
 		@attachments = Attachments.new(params.permit(f: {})[:f].to_h)
-		@form_contents = params.permit(form: {})[:form].to_hash
+		@form_contents = params.permit(form: {})[:form].try(:to_hash)
 	end
 
 	def upload_attachments_to_webdav
@@ -68,7 +68,7 @@ class SubmissionsController < ApplicationController
 		'/',
 		Settings.archive_base_folder,    # /Submit
 		Settings.archive_course_folder,  # /course name
-		current_user.login_id,           # /student ID
+		current_user.defacto_student_identifier, # /student ID
 		@submit_folder_name)             # /mario__21981289
 
 		uploader = Submit::Webdav::Uploader.new(submission_path)
@@ -90,7 +90,7 @@ class SubmissionsController < ApplicationController
 	def record_submission
 		submit = Submit.where(user: current_user, pset: @pset).first_or_initialize
 		submit.record(
-			used_login: current_user.login_id,
+			used_login: current_user.defacto_student_identifier,
 			archive_folder_name: @submit_folder_name,
 			url: params[:url],
 			attachments: @attachments,

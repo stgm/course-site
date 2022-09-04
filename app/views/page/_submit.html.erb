@@ -9,14 +9,14 @@
 
         <% if @submit.grade_public? && !@submit.may_be_resubmitted? # grade has been published %>
         <p><%= bootstrap_icon 'check2-all' %> <%= t 'submit.submit_is_graded' %></p>
-        <% elsif Settings.site_enabled && Submit::Webdav::Client.available? %>
+        <% elsif current_user.can_submit? %>
         <p><%= bootstrap_icon 'check2-all' %> <%= t 'submit.until_deadline_new_version' %></p>
         <% end %>
-    <% elsif Settings.site_enabled && Submit::Webdav::Client.available? && logged_in? %>
+    <% elsif Submit.available? && logged_in? %>
         <p><%= t 'submit.instructions' %></p>
     <% end %>
 
-    <% if !Settings.site_enabled || !Submit::Webdav::Client.available? %>
+    <% if !Submit.available? %>
     <p><strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.course_not_open' %></strong></p>
     <% elsif not current_user.can_submit? %>
     <p><strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.cant_not_logged_in' %></strong></p>

@@ -29,7 +29,11 @@ class Schedule < ApplicationRecord
 	def self.default
 		Schedule.where(self_register: true).first
 	end
-	
+
+    def self.many_registerable?
+        Schedule.where(self_register: true).many?
+    end
+
 	def self.find_open
 		Schedule.where(id: Settings.public_schedule).first
 	end

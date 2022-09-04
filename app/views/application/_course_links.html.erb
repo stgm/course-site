@@ -1,14 +1,17 @@
 <div id="course-links">
-	<% if logged_in? && alerts_for_current_schedule.any? %>
-		<a href="/announcements"><%= bootstrap_icon 'bell-fill' %><small><%= t(:announcements) %></small></a>
-	<% end %>
-	<% if logged_in? && current_user.submits.where("submitted_at is not null").any? %>
-		<a href="/submissions"><%= bootstrap_icon 'kanban' %><small><%= t(:submissions) %></small></a>
-	<% end %>
-	<% if current_schedule && current_schedule.page %>
-		<a href="/syllabus"><%= bootstrap_icon 'calendar' %><small><%= t(:syllabus) %></small></a>
-	<% end %>
-	<% Course.links.each do |title, url|  %>
-		<%= link_to insert_icon(title).html_safe, url, class:"", target: url =~ /^http/i ? '_blank' : nil %>
-	<% end if logged_in? %>
+    <% if logged_in? %>
+    <% if alerts_for_current_schedule.any? %>
+    <a href="/announcements"><%= bootstrap_icon 'bell-fill' %><small><%= t(:announcements) %></small></a>
+    <% end %>
+    <% if current_user.submits.where("submitted_at is not null").any? %>
+    <a href="/submissions"><%= bootstrap_icon 'kanban' %><small><%= t(:submissions) %></small></a>
+    <% end %>
+    <% if current_schedule && current_schedule.page %>
+    <a href="/syllabus"><%= bootstrap_icon 'calendar' %><small><%= t(:syllabus) %></small></a>
+    <% end %>
+    <% end %>
+
+    <% Course.links.each do |title, url|  %>
+    <%= link_to insert_icon(title).html_safe, url, class:"", target: url =~ /^http/i ? '_blank' : nil %>
+    <% end %>
 </div>

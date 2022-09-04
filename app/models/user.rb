@@ -1,12 +1,17 @@
 class User < ApplicationRecord
+
     # Properties
-    include Loginable, Staffable, Groupable, Schedulizable, Profileable
+    include Authenticatable, Loginable, Staffable, Groupable, Schedulizable, Profileable
 
     # Activities
     include Submitter, HandRaiser, Attendee, Notee
 
     # Utilities
     include ChangeLogger, FinalGradeAssigner
+
+    validates :mail, email: true
+    validates_uniqueness_of :mail
+    validates_format_of :name, with: /\A[^\s][^\s]+(\s+[^\s][^\s]+)+\z/, unless: Proc.new { |u| u.name.blank? }
 
     def items(with_private=false)
         items = []
@@ -17,4 +22,11 @@ class User < ApplicationRecord
         items += notes.includes(:author).to_a if with_private
         items = items.sort { |a,b| b.sortable_date <=> a.sortable_date }
     end
+
+    def designation
+        if Schedule.count > 1
+            group_name || schedule_name
+        end
+    end
+
 end

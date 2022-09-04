@@ -24,7 +24,7 @@
 	<div class="container">
 
 	<% @students.each do |s| %>
-		<h3><%= s.name %> (<%= s.login_id %>)</h3>
+		<h3><%= s.name %> (<%= s.defacto_student_identifier %>)</h3>
 		<% if s.submits.any? %>
 		<table class="table table-condensed grades">
 			<tr>

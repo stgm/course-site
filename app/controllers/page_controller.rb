@@ -3,8 +3,8 @@ class PageController < ApplicationController
     include NavigationHelper
     include AttendanceRecorder
 
-    before_action :authorize, if: :request_from_local_network?
-    before_action :validate_profile
+    before_action :authorize, only: [ :index ], if: :request_from_local_network?
+    before_action :authorize, only: [ :announcements ]
 
     def index
         # find page by url and bail out if not found
@@ -20,21 +20,19 @@ class PageController < ApplicationController
         end
 
         @title = @page.title
+    end
 
-        if not logged_in?
-            render layout: 'navbar' and return
-        end
+    def announcements
+        @title = t(:announcements)
     end
 
     def syllabus
-        @page = current_schedule && current_schedule.page || Page.find_by_slug('')
-        raise ActionController::RoutingError.new('Not Found') if !@page
+        if @page = current_schedule && current_schedule.page || Page.find_by_slug('')
+        else
+            @page = Page.new
+        end
         @subpages = @page.subpages
         @title = t(:syllabus)
-
-        if not logged_in?
-            render 'index', layout: 'navbar' and return
-        end
         render 'index'
     end
 

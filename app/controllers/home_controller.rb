@@ -1,26 +1,48 @@
 class HomeController < ApplicationController
 
-	include NavigationHelper
-    include AttendanceRecorder
+    include NavigationHelper
 
-	before_action :authorize, except: [ :homepage ]
-	before_action :validate_profile
-	
-	layout 'sidebar'
+    before_action :authorize,     except: [ :index ]
+    before_action :require_staff, except: [ :index ]
 
-	def homepage
-		if User.admin.none?
-			redirect_to welcome_path
-		elsif logged_in? && alerts_for_current_schedule.any? || !(current_schedule && current_schedule.page || Page.find_by_slug(''))
-			# show announcements page if no syllabus in repo or if there are ann to show at all
-			redirect_to action: "announcements"
-		else
-			redirect_to syllabus_path
-		end
-	end
+    layout 'welcome'
 
-	def announcements
-		@title = t(:announcements)
-	end
+    def index
+        if logged_in?
+            if !current_user.valid_profile?
+                # require profile completion
+                redirect_to profile_path
+            elsif !current_user.valid_schedule? && Schedule.many_registerable?
+                redirect_to profile_path
+            elsif !current_user.valid_schedule?
+                current_user.set_current_schedule!
+                redirect_to syllabus_path
+            elsif current_user.admin? && !Settings.git_version.key?('.')
+                # allow connecting course materials git
+                redirect_to home_clone_path
+            elsif alerts_for_current_schedule.any?
+                # current user's schedule's announcements
+                redirect_to announcements_path
+            else
+                # current user's schedule's syllabus
+                redirect_to syllabus_path
+            end
+        else
+            if Page.find_by_slug('')
+                # public syllabus as welcome page
+                redirect_to syllabus_path
+            else
+                # basic course info + login buttons
+            end
+        end
+    end
+
+    def clone
+        if Settings.git_repo.present?
+            Course::Loader.new.run
+            User.first.update(schedule: Schedule.first)
+            return redirect_to :root
+        end
+    end
 
 end

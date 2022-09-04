@@ -1,5 +1,5 @@
 <%= form_tag_if(
-    Settings.site_enabled && logged_in? && @page.pset,
+    Submit.available? && logged_in? && @page.pset,
     submissions_path,
     {
         multipart: true,
@@ -8,12 +8,13 @@
         {
             controller: "form-cache",
             form_cache_target: "form",
-            action: "change->form-cache#saveToLocalStorage submit->form-cache#clearLocalStorage"
+            action: "input->form-cache#saveToLocalStorage submit->form-cache#clearLocalStorage"
         }
     }
     ) do %>
 
-<% if @submit || (@page.pset && Settings.site_enabled && Submit::Webdav::Client.available? && logged_in?) %>
+<% if @submit || (@page.pset && Submit.available? && logged_in?) %>
+<%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
 <div id="submit-button">
     <button class="btn btn-primary" type="button" onclick="window.scrollTo(0,document.body.scrollHeight);">
     <% if @submit && @submit.submitted_at %>
@@ -25,18 +26,20 @@
 </div>
 <% end %>
 
+<% @subpages.each_with_index do |subpage, index| %>
 <div id="content">
-    <%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
-
-    <% @subpages.each_with_index do |subpage, index| %>
     <section class="markdown" id="<%= subpage.slug %>-content">
         <%= markdown(subpage.content, @page) %>
     </section>
-    <% end %>
-
-    <%= render 'footer' %>
 </div>
+<% end %>
 
 <%= render 'submit' %>
+
+<% if Course.license.present? || Course.acknowledgements.present? %>
+<div id="content">
+    <%= render 'footer' %>
+</div>
+<% end %>
 
 <% end %>

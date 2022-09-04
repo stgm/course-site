@@ -22,6 +22,7 @@ end
 
 group :production do
     gem 'exception_notification'
+    gem 'azure-storage-blob', '~> 2.0', require: false # active storage client
 end
 
 # assets
@@ -34,6 +35,7 @@ gem 'friendly_id'
 # connectivity
 gem 'git'         # git for ingesting course materials
 gem 'rack-cas'    # login system
+gem 'openid_connect'
 gem 'curb'        # webdav client for uploading archival files
 gem 'rest-client' # for sending submits to the autocheck server
 

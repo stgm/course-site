@@ -6,12 +6,15 @@ class Settings < RailsSettings::Base
         field :grading, default: {}
     end
 
+    scope :accounts do
+        field :registration_phase, default: 'before'
+        field :login_by_email, default: true
+    end
+
     scope :site do
-        field :git_repo
-        field :git_branch
-        field :mailer_from
+        field :git_repo, default: ENV['GITHUB_BASE']
+        field :git_branch, default: ENV['GITHUB_BRANCH']
         field :send_grade_mails, default: false
-        field :site_enabled, default: false
         field :room_for_toc
         field :public_schedule
 

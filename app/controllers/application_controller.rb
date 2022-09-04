@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-	include AuthenticationHelper
+	include Authentication
 
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|
 		flash[:alert] = "Warning: you were logged out since you last loaded this page. If you just submitted, please login and try again."
@@ -9,50 +9,6 @@ class ApplicationController < ActionController::Base
 
 	before_action do # set_locale
 		I18n.locale = Course.language || I18n.default_locale
-	end
-
-	before_action do # login by token
-		if params[:token].present? && User.where(token: params[:token]).any?
-			# login via generated token
-			request.session['token'] = params[:token]
-		end
-	end
-
-	before_action do
-		# note: using authenticated? ensure that a user is not needlessly loaded
-		if authenticated? && current_user.admin?
-			if !Settings.site_enabled
-				flash[:alert] = "Warning: submit is disabled in settings."
-			elsif Settings.site_enabled && !Submit::Webdav::Client.available?
-				flash[:alert] = "Warning: submit is enabled, but archival config is missing."
-			end
-		end
-	end
-
-	##
-	## Before-actions
-
-	def authorize
-		head :unauthorized unless authenticated?
-	end
-
-	def validate_profile
-		redirect_to profile_path if authenticated? && !current_user.valid_profile?
-	end
-
-	##
-	## Role-based permissions
-
-	def require_admin
-		head :forbidden unless current_user.admin?
-	end
-
-	def require_senior
-		head :forbidden unless current_user.senior?
-	end
-
-	def require_staff
-		head :forbidden unless current_user.staff?
 	end
 
 	private

@@ -1,4 +1,6 @@
 <footer>
-	<%= Course.license %>
-	Acknowledgements: <%= Course.acknowledgements %>
+    <%= Course.license %>
+    <% if Course.acknowledgements.present? %>
+    Acknowledgements: <%= Course.acknowledgements %>
+    <% end %>
 </footer>

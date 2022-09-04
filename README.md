@@ -66,6 +66,11 @@ Admin configuration options
 
 * Setting a `MAILER_ADDRESS` and `MAILER_DOMAIN` will allow mails to be sent to users.
 
+Dependencies
+------------
+
+* Install `libvips` according to the instructions for the [ImageProcessing](https://github.com/janko/image_processing) gem in order to be able to view images uploaded by students.
+
 Some stuff we still want
 ------------------------
 

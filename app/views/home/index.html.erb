@@ -1,0 +1,19 @@
+<div class="px-4 pt-5 my-5 text-center">
+    <h1 class="display-4 fw-bold"><%= Course.long_name %></h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mt-4 mb-5">
+            <%= t('account.you_can_login') %>
+            <% if Auth::MailController.available? %>
+            <%= t('account.guest_needs_activation') %>
+            <% end %>
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <% if Auth::OpenController.available? %>
+            <%= link_to t('account.login_via_uva'), auth_open_login_path, class: "btn btn-primary btn-lg px-4" %>
+            <% end %>
+            <% if Auth::MailController.available? %>
+            <%= link_to t('account.login_via_mail'), auth_mail_login_path, class: "btn btn-outline-secondary btn-lg px-4" %>
+            <% end %>
+        </div>
+    </div>
+</div>

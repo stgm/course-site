@@ -1,2 +1,2 @@
-<%= change_setting_form('mailer_from', 'Sender address for announcements, grade e-mails:') %>
+<p>Mails will be sent from &lt;<%= ENV['MAILER_FROM'] %>&gt;</p>
 <%= toggle_setting_form('send_grade_mails', 'Send grade e-mails from now on (be sure to enter a valid address above!)') %>

@@ -1,0 +1,43 @@
+<% content_for :title do %>
+<h1>
+    <%= link_to bootstrap_icon('chevron-left'), admin_course_path %>
+    Invite multiple users
+</h1>
+<% end %>
+
+<%= form_with model: [:admin, @user], id: 'user_form' do |f| %>
+
+<div class="mb-3">
+  <label for="user_infos" class="ms-1 small">Enter names and e-mail addresses on the same line</label>
+  <%= f.text_area :infos, rows: 10, class: 'form-control', required: true %>
+</div>
+
+<% if Schedule.where(self_register: true).count >= 1 %>
+<div class=" mb-3">
+	<% Schedule.where(self_register: true).each do |schedule| %>
+	<div class="form-check">
+		<input type="radio" required class="form-check-input" name="user[schedule_id]" required id="optionsRadios<%= schedule.id %>" value="<%= schedule.id %>" <%= 'checked' if current_user && current_user.schedule && current_user.schedule.id == schedule.id %>>
+		<label for="optionsRadios<%= schedule.id %>">
+			<%= schedule.description || schedule.name %>
+		</label>
+	</div>
+	<% end %>
+</div>
+<% elsif Schedule.count == 1 %>
+<%= hidden_field_tag "user[schedule_id]", Schedule.first.id %>
+<% end %>
+
+<div class=" mb-3">
+    <%= f.collection_radio_buttons :role, User.roles, :first, :first do |b| %>
+    <div class="form-check">
+        <%= b.radio_button(class: 'form-check-input', required: true) %>
+        <%= b.label { b.text.capitalize } %>
+    </div>
+    <% end %>
+</div>
+
+<% content_for :footer do %>
+<%= f.submit class: 'btn btn-primary', form: 'user_form' %>
+<% end %>
+
+<% end %>

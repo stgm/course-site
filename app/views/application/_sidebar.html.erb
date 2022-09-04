@@ -4,14 +4,12 @@
             <span class="navbar-toggler-icon text-primary" style="vertical-align:-4px;"><%= bootstrap_icon 'list', width:32, height:32 %></span>
         </button>
         <%= render 'brand' %>
-        <% if !authenticated? %>
-        <li class="navbar-nav d-block d-lg-none"><%= link_to(t(:sign_in), session_login_path, class:"d-inline-block", data: { turbo: false })%></li>
-        <% else #if logged_in? %>
         <ul class="navbar-nav d-flex">
+            <% if logged_in? %>
             <%= render 'hands_menu' %>
+            <% end %>
             <%= render 'menu' %>
         </ul>
-        <% end %>
     </div>
     <% if current_user.staff? %>
     <div class="container-fluid px-0 mt-2 flex-fill">
