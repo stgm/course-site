@@ -5,7 +5,7 @@ module GradingHelper
         else
             if contents.kind_of? ActiveStorage::Attachment
                 concat link_to 'Download', 
-                    rails_blob_path(contents, disposition: 'attachment'),
+                    rails_storage_proxy_path(contents, disposition: 'attachment'),
                     class: 'btn btn-small btn-light float-end',
                     data: { turbo: false }
                 case contents.filename.extension
@@ -34,9 +34,9 @@ module GradingHelper
                     end
                 else
                     if contents.representable?
-                        image_tag contents.representation(resize_to_limit: [600,1800])
+                        image_tag rails_storage_proxy_path(contents.representation(resize_to_limit: [600,1800]))
                     elsif contents.previewable?
-                        image_tag contents.preview(resize_to_limit: [600,1800])
+                        image_tag rails_storage_proxy_path(contents.preview(resize_to_limit: [600,1800]))
                     else
                         tag.div "Attachment is not previewable"
                     end
