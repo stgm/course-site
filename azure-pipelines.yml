@@ -1,0 +1,15 @@
+trigger:
+- staging
+
+pool: k8s
+
+steps:
+- script: |
+    curl --location --request POST 'https://dev.azure.com/UvA-FNWI/FNWI-k8s/_apis/build/builds?api-version=5.0' \
+    --header 'Authorization: Basic ${DEVOPS_SECRET}' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{ "definition": { "id": 11 } }'
+  displayName: 'Run staging build'
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/staging')
+  env:
+    DEVOPS_SECRET: $(DEVOPS_SECRET)
