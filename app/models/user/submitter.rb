@@ -16,7 +16,7 @@ module User::Submitter
     end
 
     def can_submit?
-        return self.valid_profile? && Submit.available?
+        return self.valid_profile? && self.defacto_student_identifier.present? && Submit.available?
         # TODO return reason
     end
 

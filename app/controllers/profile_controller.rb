@@ -5,7 +5,7 @@ class ProfileController < ApplicationController
     include NavigationHelper
 
     def index
-        return head(:not_found) if current_user.valid_profile?
+        return head(:not_found) if current_user.valid_profile? && current_user.valid_schedule?
         render layout: 'welcome'
     end
 
@@ -54,7 +54,7 @@ class ProfileController < ApplicationController
         # create user if possible
         user_params = params.require(:user).permit(:name, :schedule_id)
         @user = current_user
-        @user.assign_attributes(user_params)
+        @user.assign_attributes({schedule_id: Schedule.default.try(:id)}.merge(user_params))
         if @user.save
             redirect_to :root
         else

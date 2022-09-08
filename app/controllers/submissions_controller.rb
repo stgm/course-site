@@ -27,11 +27,11 @@ class SubmissionsController < ApplicationController
 			upload_files_to_plag_server   if should_upload_to_plag_server?
 			record_submission
 			redirect_back fallback_location: '/'
-		rescue
+		rescue => e
 			redirect_back(
 				fallback_location: '/',
 				alert: "There was a problem uploading your submission! Please try again. " \
-				       "If the problem persists, contact your teacher.".html_safe)
+				       "If the problem persists, contact your teacher.<br><pre>#{e.message}</pre><br><pre>#{e.backtrace.first}</pre>")
 		end
 	end
 
@@ -59,7 +59,7 @@ class SubmissionsController < ApplicationController
 
 	def collect_attachments
 		@attachments = Attachments.new(params.permit(f: {})[:f].to_h)
-		@form_contents = params.permit(form: {})[:form].to_hash
+		@form_contents = params.permit(form: {})[:form].try(:to_hash)
 	end
 
 	def upload_attachments_to_webdav

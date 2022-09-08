@@ -12,6 +12,11 @@ class HomeController < ApplicationController
             if !current_user.valid_profile?
                 # require profile completion
                 redirect_to profile_path
+            elsif !current_user.valid_schedule? && Schedule.many_registerable?
+                redirect_to profile_path
+            elsif !current_user.valid_schedule?
+                current_user.set_current_schedule!
+                redirect_to syllabus_path
             elsif current_user.admin? && !Settings.git_version.key?('.')
                 # allow connecting course materials git
                 redirect_to home_clone_path
