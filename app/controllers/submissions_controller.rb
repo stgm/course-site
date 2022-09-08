@@ -24,6 +24,7 @@ class SubmissionsController < ApplicationController
 			collect_attachments
 			upload_attachments_to_webdav  if should_upload_to_webdav?
 			upload_files_to_check_server  if should_perform_auto_check?
+			upload_files_to_plag_server   if should_upload_to_plag_server?
 			record_submission
 			redirect_back fallback_location: '/'
 		rescue => e
@@ -86,6 +87,16 @@ class SubmissionsController < ApplicationController
 	def upload_files_to_check_server
 		@token = Submit::AutoCheck::Sender.new(@attachments.zipped, @pset.config['check'], request.host).start
 	end
+
+    def should_upload_to_plag_server?
+        @pset.config['plag'].present?
+    end
+
+    def upload_files_to_plag_server
+        uploader = Submit::Plag::Uploader.new(@pset.config['plag'].merge({ student: current_user.defacto_student_identifier }))
+        uploader.upload(@attachments.zipped)
+        uploader.close
+    end
 
 	def record_submission
 		submit = Submit.where(user: current_user, pset: @pset).first_or_initialize
