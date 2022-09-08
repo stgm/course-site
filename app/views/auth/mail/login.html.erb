@@ -5,6 +5,10 @@
     <%= t('account.login_mail') %>
 </h1>
 
+<p class="lead text-center">
+    <%= t('account.guest_needs_activation') %>
+</p>
+
 <% if flash[:alert] %>
 <p><%= flash[:alert] %></p>
 <% end %>
