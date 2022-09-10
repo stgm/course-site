@@ -89,7 +89,7 @@ class SubmissionsController < ApplicationController
 	end
 
     def should_upload_to_plag_server?
-        @pset.config['plag'].present?
+        !current_user.staff? && @pset.config['plag'].present?
     end
 
     def upload_files_to_plag_server
