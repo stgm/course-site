@@ -186,7 +186,7 @@ class Course::Loader
 
     def load_submit(file)
         page = load_page(file.parent_path)
-        if submit_config = read_config(file)
+        if file.type != "D" && submit_config = read_config(file)
             if name = submit_config['name']
                 pset = Pset.where(name: name).first_or_initialize
 
