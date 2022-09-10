@@ -16,8 +16,7 @@ class Course::Git
                 @git = Git.clone(
                     remote,
                     repo,
-                    branch: branch,
-                    depth: 1)
+                    branch: branch)
             end
         end
     end
