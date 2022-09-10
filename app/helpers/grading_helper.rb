@@ -29,7 +29,12 @@ module GradingHelper
                         )
                     else
                         filetype = CodeRay::FileType.fetch(contents.filename.sanitized, :text)
-                        CodeRay.scan(contents.download, filetype)
+                        begin
+                            c = contents.download
+                        rescue ActiveStorage::FileNotFoundError => e
+                            return tag.div 'ERROR: File not found in storage'
+                        end
+                        CodeRay.scan(c, filetype)
                             .div(:line_numbers => :inline).html_safe
                     end
                 else

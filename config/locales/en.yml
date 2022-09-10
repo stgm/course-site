@@ -82,3 +82,7 @@ en:
         login_via_uva: Login via UvA account
         login_via_mail: Guest login via mail
         logout: Log out
+
+    errors:
+      messages:
+        invalid: seems to be invalid
