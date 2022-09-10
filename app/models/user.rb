@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
     validates :mail, email: true
     validates_uniqueness_of :mail
-    validates_format_of :name, with: /\A[^\s][^\s]+(\s+[^\s][^\s]+)+\z/, unless: Proc.new { |u| u.name.blank? }
+    validates_format_of :name, with: /\A[^\s][^\s]+(\s+[^\s][^\s]+)+\z/, unless: Proc.new { |u| u.name.blank? }, message: ->(a,e) { "#{e[:value]} #{I18n.t('errors.messages.invalid')} #{a.student_number}" }
 
     def items(with_private=false)
         items = []

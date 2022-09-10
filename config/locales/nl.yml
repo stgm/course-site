@@ -91,6 +91,9 @@ nl:
         logout: Uitloggen
 
     activerecord:
+      attributes:
+        user:
+          name: Naam
       errors:
         messages:
           record_invalid: 'Validatie mislukt: %{errors}'
@@ -211,7 +214,7 @@ nl:
         greater_than: moet groter zijn dan %{count}
         greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}
         inclusion: is niet in de lijst opgenomen
-        invalid: is ongeldig
+        invalid: lijkt ongeldig
         less_than: moet minder zijn dan %{count}
         less_than_or_equal_to: moet minder dan of gelijk zijn aan %{count}
         model_invalid: "Validatie mislukt: %{errors}"
