@@ -1,20 +1,21 @@
 module Submit::AutoCheck::FeedbackFormatter
-	
+
 	extend ActiveSupport::Concern
 
 	def has_auto_feedback?
 		return false if not self.check_results
 		(self.check_results.keys & ["check50v2", "check50", "checkpy", "check50v3"]).any?
 	end
-	
+
 	def formatted_auto_feedback
 		check_results = self.check_results
+		return "" if check_results.blank?
 
 		items = nil
 		v3=nil
 
 		# each tool has different output formats that we detect here
-		
+
 		check_results.keys.each do |tool|
 			case tool
 			when "check50v2"
@@ -41,12 +42,12 @@ module Submit::AutoCheck::FeedbackFormatter
 				end
 			end
 		end
-	
+
 		return "" if items.nil?
 
 		# now generate basic feedback
 		result = ""
-		
+
 		items.each do |item|
 			case v3 && item["passed"] || item["status"]
 			when true
@@ -61,7 +62,7 @@ module Submit::AutoCheck::FeedbackFormatter
 				result << "    " + item["cause"]["rationale"] + "\n"
 			end
 		end
-	
+
 		return result
 	end
 
@@ -81,7 +82,7 @@ module Submit::AutoCheck::FeedbackFormatter
 		"- #{part['name']}\n" +
 		(part['results'] || {}).collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
 	end
-	
+
 	def format_line(success, description, explanation)
 		result = ''
 		case success
@@ -98,5 +99,5 @@ module Submit::AutoCheck::FeedbackFormatter
 		end
 		result
 	end
-	
+
 end
