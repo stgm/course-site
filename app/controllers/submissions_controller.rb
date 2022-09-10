@@ -37,7 +37,7 @@ class SubmissionsController < ApplicationController
 
 	# Shows automatic check feedback for a single submission.
 	def feedback
-		submit = Submit.find(params[:submission_id])
+		submit = current_user.submits.find(params[:submission_id])
 		@formatted_feedback = submit.formatted_auto_feedback
 		@formatted_feedback = '(no data)' if @formatted_feedback.blank?
 		render layout: 'modal'
