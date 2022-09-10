@@ -25,6 +25,13 @@ en:
     modules: "modules"
     other: "other"
 
+    grading:
+        error: "error"
+        insufficient: "insufficient"
+        sufficient: "sufficient"
+        done_yes: "yes"
+        done_no: "no"
+
     sign_in: "Sign in"
 
     submit:
