@@ -79,8 +79,12 @@ module Submit::AutoCheck::FeedbackFormatter
 
 
 	def format_checkpy_feedback(part)
-		"- #{part['name']}\n" +
-		(part['results'] || {}).collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
+		if part['results']
+			"- #{part['name']}\n" +
+			(part['results'] || {}).collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
+		else
+			part
+		end
 	end
 
 	def format_line(success, description, explanation)
