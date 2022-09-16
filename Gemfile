@@ -21,7 +21,7 @@ group :development do
 end
 
 group :production do
-    gem 'mini_racer'
+    gem 'duktape'
     gem 'exception_notification'
     gem 'azure-storage-blob', '~> 2.0', require: false # active storage client
 end

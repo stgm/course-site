@@ -106,6 +106,7 @@ GEM
     digest (3.1.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    duktape (2.6.0.0)
     erubi (1.11.0)
     et-orbi (1.2.7)
       tzinfo
@@ -356,6 +357,7 @@ DEPENDENCIES
   caxlsx_rails
   coderay
   curb
+  duktape
   exception_notification
   friendly_id
   front_matter_parser
