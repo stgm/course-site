@@ -1,6 +1,6 @@
 <% @files.each do |filename, contents| %>
 <li class="nav-item">
-	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#file-<%= filename.parameterize %>" role="tab"><%= filename.html_safe %></a>
+	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#show-file-<%= filename.parameterize %>" role="tab"><%= filename.html_safe %></a>
 </li>
 <% end %>
 
