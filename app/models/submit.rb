@@ -44,7 +44,7 @@ class Submit < ApplicationRecord
 	end
 
     def self.available?
-        Settings.registration_phase.in?(['during', 'after']) && Submit::Webdav::Client.available?
+        Settings.registration_phase.in?(['during', 'after']) && Submit::Webdav::Client.available? || Rails.env.development?
     end
 
 	def to_partial_path
@@ -85,8 +85,9 @@ class Submit < ApplicationRecord
 		self.grade.update_columns(grade: nil, status: Grade.statuses[:unfinished]) if self.grade
 
 		self.files.purge
-		self.files.attach(attachments.all.values)
-
+		attachments.all.each do |filename, attachment|
+			self.files.attach(io: attachment.open, filename: filename)
+		end
 	end
 
 	def all_files
