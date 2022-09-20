@@ -34,7 +34,7 @@ class Grade < ApplicationRecord
     private
 
     def set_user_status_to_done_if_final_grade
-        if published? && sufficient? && Current.user.admin? && pset.is_final_grade?
+        if published? && sufficient? && pset.is_final_grade? && logged_in? && Current.user.admin?
             user.status_done!
         end
     end
