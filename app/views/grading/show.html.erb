@@ -59,7 +59,7 @@
 			<% end %>
 		</div>
 
-		<div class="grading-files col-7 p-0" style="overflow-y:scroll; min-height:0; max-height:100%">
+		<div class="grading-files col-7 p-0">
 			<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
 			<ul class="nav nav-pills p-2" id="files" role="tablist">
 				<%= render partial: 'file_tabs', locals: { first: true } %>

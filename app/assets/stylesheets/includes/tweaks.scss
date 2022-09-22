@@ -58,3 +58,29 @@ span.line-numbers
 {
 	display:inline;
 }
+
+.grading-files
+{
+    overflow-y:scroll;
+    min-height:0;
+    max-height:100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.grading-files .tab-content
+{
+    flex-grow: 1;
+}
+
+.grading-files .tab-content .tab-pane
+{
+    height: 100%;
+}
+
+.grading-files iframe
+{
+    width: 100%;
+    height: 100%;
+}
