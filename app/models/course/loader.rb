@@ -217,7 +217,7 @@ class Course::Loader
     #
     def read_config(file)
         begin
-            return YAML.load(file.read)
+            return YAML.load(file.read, aliases: true)
         rescue => e
             @errors << "#{file.path} was in an unreadable format. Error message: #{e.message}."
             return nil
