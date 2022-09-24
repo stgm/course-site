@@ -20,19 +20,12 @@ class SubmissionsController < ApplicationController
 
 	# Accepts a submission coming from a course page.
 	def create
-        # begin
-			collect_attachments
-			upload_attachments_to_webdav  if should_upload_to_webdav?
-			upload_files_to_check_server  if should_perform_auto_check?
-			record_submission
-			upload_files_to_plag_server   if should_upload_to_plag_server?
-			redirect_back fallback_location: '/'
-        # rescue => e
-        #     redirect_back(
-        #         fallback_location: '/',
-        #         alert: "There was a problem uploading your submission! Please try again. " \
-        #                "If the problem persists, contact your teacher.<br><pre>#{e.message}</pre><br><pre>#{e.backtrace.first}</pre>")
-        # end
+		collect_attachments
+		upload_attachments_to_webdav  if should_upload_to_webdav?
+		upload_files_to_check_server  if should_perform_auto_check?
+		record_submission
+		upload_files_to_plag_server   if should_upload_to_plag_server?
+		redirect_back fallback_location: '/'
 	end
 
 	# Shows automatic check feedback for a single submission.
@@ -85,7 +78,7 @@ class SubmissionsController < ApplicationController
 	end
 
 	def upload_files_to_check_server
-		@token = Submit::AutoCheck::Sender.new(@attachments.zipped, @pset.config['check'], request.host).start
+		@token = Submit::AutoCheck::Sender.new(@attachments.zipped, @pset.config['check'], api_check_result_do_url).start
 	end
 
     def should_upload_to_plag_server?

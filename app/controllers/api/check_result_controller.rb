@@ -4,14 +4,11 @@ class Api::CheckResultController < ApplicationController
 
 	def do
 		submit = Submit.find_by_check_token(params["id"])
-        raise "#{params['id'].inspect} not found"
 		if submit
 			results = params["result"]
-            results2= results
 			# TODO insert validator
 			results.permit!
-            # submit.register_auto_check_results(results.to_h)
-            submit.update!(check_results: [results2, results])
+			submit.register_auto_check_results(results.to_h)
 			head :ok
 		end
 	end

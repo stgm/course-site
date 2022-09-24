@@ -10,7 +10,7 @@ class Submit::AutoCheck::Sender
 		
 		@zipped_attachments = attachments
 		@config = config
-		@host = host
+		@callback_url = host
 	end
 	
 	def start
@@ -22,7 +22,7 @@ class Submit::AutoCheck::Sender
 			opts = {
 				file: @zipped_attachments,
 				password: @server_secret,
-				webhook: "https://#{@host}/api/check_result/do",
+				webhook: @callback_url,
 				multipart: true
 			}
 			# and add slug/repo/args from the config file

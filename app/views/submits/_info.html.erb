@@ -1,4 +1,4 @@
 <p class="mt-2 mb-0">
-	Last submitted: <%= some_time_or_never(@submit.submitted_at) %> <%= "via login #{@submit.used_login}" if @submit.used_login %>
+    Last submitted: <%= some_time_or_never(@submit.submitted_at) %> <%= "via login #{@submit.used_login}" if @submit.used_login %>
     <%= @submit.check_token %>
 </p>
