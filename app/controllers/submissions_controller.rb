@@ -23,9 +23,9 @@ class SubmissionsController < ApplicationController
         # begin
 			collect_attachments
 			upload_attachments_to_webdav  if should_upload_to_webdav?
-			record_submission
 			upload_files_to_check_server  if should_perform_auto_check?
 			upload_files_to_plag_server   if should_upload_to_plag_server?
+			record_submission
 			redirect_back fallback_location: '/'
         # rescue => e
         #     redirect_back(
