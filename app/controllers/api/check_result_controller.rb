@@ -10,7 +10,7 @@ class Api::CheckResultController < ApplicationController
 			# TODO insert validator
 			results.permit!
             # submit.register_auto_check_results(results.to_h)
-            submit.update!(check_results: [results2, results]
+            submit.update!(check_results: [results2, results])
 			head :ok
 		end
 	end
