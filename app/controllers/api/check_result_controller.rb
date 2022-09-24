@@ -4,7 +4,7 @@ class Api::CheckResultController < ApplicationController
 
 	def do
 		submit = Submit.find_by_check_token(params["id"])
-        raise "#{params[id].inspect} not found"
+        raise "#{params['id'].inspect} not found"
 		if submit
 			results = params["result"]
             results2= results
