@@ -3,11 +3,13 @@ module Submit::AutoCheck::FeedbackFormatter
 	extend ActiveSupport::Concern
 
 	def has_auto_feedback?
+        return true
 		return false if not self.check_results
 		(self.check_results.keys & ["check50v2", "check50", "checkpy", "check50v3"]).any?
 	end
 
 	def formatted_auto_feedback
+        return check_results.inspect
 		check_results = self.check_results
 		return "" if check_results.blank?
 

@@ -11,7 +11,6 @@ class Api::CheckResultController < ApplicationController
 			submit.register_auto_check_results(results.to_h)
 			head :ok
 		end
-        raise
 	end
 
 end
