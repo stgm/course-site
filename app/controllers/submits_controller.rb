@@ -45,7 +45,7 @@ class SubmitsController < ApplicationController
 	# Sends files to check server and redirects to the previously associated student.
 	def recheck
 		@submit = Submit.find(params[:id])
-		@submit.recheck(request.host)
+		@submit.recheck(api_check_result_do_url)
 		redirect_to user_path(@submit.user)
 	end
 
