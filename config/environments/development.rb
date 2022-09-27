@@ -70,4 +70,7 @@ Rails.application.configure do
 
   # In development, allow Rack-CAS to provide a fake login screen
   config.rack_cas.fake = true
+
+  # Remove time zone for Groupdate because it does not support SQLite
+  Groupdate.time_zone = false
 end

@@ -23,12 +23,8 @@ class Hands::StatisticsController < ApplicationController
 		end
 		@chart_data = @chart_data.flatten(1)
 		@chart_groups = @chart_data.group_by(&:first)
-		#@chart_data.map(&:second)
 		@chart_start = @chart_data.map(&:second).compact.sort.first
 		@chart_end = @chart_data.map(&:third).compact.sort.last
-		logger.info @chart_data.inspect
-		logger.info @chart_start.inspect
-		logger.info @chart_end.inspect
 
 		date1 = 1.week.ago.beginning_of_day
 		@week_data = Hand.
@@ -36,7 +32,7 @@ class Hands::StatisticsController < ApplicationController
 			where('claimed_at is not null').
 			where('updated_at > ?', date1).
 			group_by_hour(:claimed_at).count.
-			map { |h,v| { x: h.day , y: Time.zone.utc_to_local(h).hour, r: v } }
+			map { |h,v| { x: h.day , y: h.hour, r: v } }
 	end
 
 end

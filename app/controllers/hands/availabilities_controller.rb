@@ -7,11 +7,11 @@ class Hands::AvailabilitiesController < ApplicationController
 
 	def edit
 		@user = current_user
-		real_time = DateTime.now
+		real_time = Time.current
 		cutoff_time = real_time.beginning_of_hour
 		@option1 = cutoff_time + 1.hours
 		@optionU = 1.hour.ago
-		@available = ((@user.available or DateTime.now) > DateTime.now)
+		@available = ((@user.available or Time.current) > Time.current)
 		@available_string = @available ? "" : "not"
 	end
 	
