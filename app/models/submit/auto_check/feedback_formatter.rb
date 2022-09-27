@@ -84,7 +84,7 @@ module Submit::AutoCheck::FeedbackFormatter
 			(part['results'] || {}).collect { |item| format_line(item["passed"], item['description'], item['message']) }.join
 		else
 			"- #{part['name']}\n  " +
-			part['output'].join('\n').gsub(/\033\[\d*m/, '')
+			part['output'].join('\n').gsub(/\033\[\d*m/, '') + "\n"
 		end
 	end
 
