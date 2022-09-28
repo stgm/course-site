@@ -40,7 +40,7 @@
 		<p>Last seen: <%= @student.last_seen_at.to_fs(:long) %></p>
 		<div class="barchart d-flex align-items-end" style="height:8rem;">
 			<% @attend.each do |dat, count| %>
-			<div class="progress-bar bg-success justify-content-end" style="width:1rem; height: <%= count/12.0*100+1 %>%"><div style="font-size: 0.25rem; white-space:normal;"><%= dat %></div></div>
+			<div class="progress-bar bg-success justify-content-end" style="width:1rem; height: <%= count/12.0*100+1 %>%"><div style="font-size: 0.25rem;"><%= dat %></div></div>
 			<% end %>
 		</div>
 	</div>
