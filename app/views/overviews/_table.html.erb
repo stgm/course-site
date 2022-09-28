@@ -52,7 +52,7 @@
         </th>
     </tr>
     <% user_list.each do |user| %>
-    <% cache [user, current_user.senior?] do %>
+    <% cache [user, current_user.senior?], expires_in: 6.hours do %>
     <tr>
         <td>
             <%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
