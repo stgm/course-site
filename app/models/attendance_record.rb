@@ -10,5 +10,6 @@ class AttendanceRecord < ApplicationRecord
 
         # update user last_seen
         user.update_columns(last_seen_at: Time.now)
+        user.take_attendance
     end
 end

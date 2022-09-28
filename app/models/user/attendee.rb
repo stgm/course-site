@@ -11,4 +11,13 @@ module User::Attendee
         graph = user_attendance.map { |v| symbols[[v,7].min] }.join("")
         self.update_attribute(:attendance, graph)
     end
+
+    def attendance_graph
+        if self.last_seen_at.blank?
+            return "▁" * 8
+        else
+            last_seen_days_ago = (Date.current - self.last_seen_at.to_date).to_i
+            return self.attendance.split('').drop(last_seen_days_ago).join + ('▁' * last_seen_days_ago)
+        end
+    end
 end

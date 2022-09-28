@@ -19,12 +19,6 @@ unless (defined?(Rails::Console) || File.split($0).last == 'rake')
         end
     end
 
-    scheduler.every '135m' do
-        User.all.each do |u|
-            u.take_attendance
-        end
-    end
-
     scheduler.cron '00 05 * * *' do
         # reset locations
         User.update_all(last_known_location: nil)
