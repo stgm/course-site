@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         if current_user.senior?
             @schedules = Schedule.all
             @groups = @student.schedule && @student.schedule.groups.order(:name) || []
-            @attend = @student.attendance_records.group_by_day(:cutoff, format: "%d").count
+            @attend = @student.attendance_records.group_by_day(:cutoff, format: "%d %m").count
             @items = @student.notes.includes(:author).order(created_at: :desc)
 
             @subs = @student.submits.includes(:grade).index_by{|i| [i.pset_id, i.user_id]}
