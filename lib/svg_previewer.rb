@@ -29,7 +29,7 @@ class SvgPreviewer < ActiveStorage::Previewer
                 begin
                     yield file
                 ensure
-                    file.close!
+                    file.close
                 end
             else
                 logger.info "Skipping svg to png conversion because ImageMagick doesn't support the file"
