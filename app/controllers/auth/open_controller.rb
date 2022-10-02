@@ -35,7 +35,7 @@ class Auth::OpenController < ApplicationController
 
         login = info.subject.downcase
         email = info.email.downcase
-        name = info.nickname
+        name = info.nickname.gsub(/\A\.\ /, '')
 
         # extract UvA student number from string
         student_number =
