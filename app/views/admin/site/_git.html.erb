@@ -1,19 +1,37 @@
 <p class="text-center">Course materials will be downloaded from this git repository.</p>
 
 <% if Settings.git_repo.present? %>
+
 <p><%= Settings.git_repo %> @ <%= Settings.git_branch %></p>
-<% else %>
-<%= form_tag(admin_site_set_git_repo_path, class:'form d-flex') do %>
-<div class=" flex-fill">
-	<label for="repo_url">Repo URL</label>
-	<%= text_field_tag 'repo_url', Settings.git_repo, required: true, class: 'form-control' %>
+<p>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#hiddenReset" aria-expanded="false" aria-controls="hiddenReset">
+        Advanced...
+    </button>
+</p>
+<div class="collapse" id="hiddenReset">
+    <div class="card card-body">
+        <p><strong>Warning:</strong> this may destroy your website.</p>
+        <%= form_tag(admin_site_set_git_version_path, class:'form d-flex') do %>
+        <label for="repo_url">Current git version</label>
+        <%= text_field_tag 'version', Settings.git_version['.'], required: true, class: 'form-control' %>
+        <% end %>
+    </div>
 </div>
-<div class=" ms-3">
-	<label for="repo_branch">Branch</label>
-	<div class="input-group">
-		<%= text_field_tag 'repo_branch', Settings.git_branch, class: 'form-control' %>
-		<%= submit_tag 'Clone', class:'btn btn-primary' %>
-	</div>
+
+<% else %>
+
+<%= form_tag(admin_site_set_git_repo_path, class:'form d-flex') do %>
+<div class="flex-fill">
+    <label for="repo_url">Repo URL</label>
+    <%= text_field_tag 'repo_url', Settings.git_repo, required: true, class: 'form-control' %>
+</div>
+<div class="ms-3">
+    <label for="repo_branch">Branch</label>
+    <div class="input-group">
+        <%= text_field_tag 'repo_branch', Settings.git_branch, class: 'form-control' %>
+        <%= submit_tag 'Clone', class:'btn btn-primary' %>
+    </div>
 </div>
 <% end %>
+
 <% end %>

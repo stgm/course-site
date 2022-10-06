@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 			get  'permissions'            #done
 			post 'settings'               #done
 			post 'set_git_repo'           #done
+			post 'set_git_version'        #done
 			post 'generate_secret'        #done
 		end
 
