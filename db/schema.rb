@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2021_08_09_145854) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_07_162252) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -231,6 +231,7 @@ ActiveRecord::Schema[7.0].define(version: 2021_08_09_145854) do
     t.text "check_results"
     t.string "check_token"
     t.text "form_contents"
+    t.boolean "locked", default: false, null: false
     t.index ["pset_id"], name: "index_submits_on_pset_id"
     t.index ["user_id"], name: "index_submits_on_user_id"
   end

@@ -20,6 +20,10 @@ module User::Submitter
         # TODO return reason
     end
 
+    def can_submit_pset? pset
+        !self.submits.where(pset: pset, locked: true).exists?
+    end
+
     def all_submits
         self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k,v),o| o[k] = v[0] }
     end
