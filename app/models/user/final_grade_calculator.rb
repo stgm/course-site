@@ -13,11 +13,8 @@ module User::FinalGradeCalculator
     def self.final_grade_from_partial_grades(config, user_grade_list)
         # attempt to calculate each partial grade
         weighted_partial_grades = config.collect do |partial_name, weight|
-            puts partial_name
             partial_config = GradingConfig.all[partial_name]
-            x=[partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
-            puts x.inspect
-            x
+            [partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
         end
 
         # if any of the partial grades has failed, propagate this result immediately
@@ -37,8 +34,12 @@ module User::FinalGradeCalculator
         # missing data for something like an exam receives a "not attempted" note
         return :not_attempted if config['attempt_required'] && missing_data?(grades)
 
-        # missing data means we can't calculate any average
-        return :missing_data if missing_data?(grades)
+        # deal with missing data: if allowed, fill with default; else immediately cancel
+        if missing_data?(grades) && config['fill_missing'].present?
+            grades = fill_missing(grades, config['fill_missing'])
+        elsif missing_data?(grades)
+            return :missing_data
+        end
 
         # zeroed data for something like tests receives an "insufficient"
         return :insufficient if config['required'] && zeroed_data?(grades)
@@ -66,6 +67,16 @@ module User::FinalGradeCalculator
     def self.missing_data?(grades)
         # any of the grades are missing
         grades.select{|g| g[1]==nil }.any?
+    end
+
+    def self.fill_missing(grades, value)
+        grades.map do |g|
+            if g[1].blank?
+                [g[0], value, g[2]]
+            else
+                [g[0], g[1], g[2]]
+            end
+        end
     end
 
     def self.zeroed_data?(grades)
