@@ -13,8 +13,11 @@ module User::FinalGradeCalculator
     def self.final_grade_from_partial_grades(config, user_grade_list)
         # attempt to calculate each partial grade
         weighted_partial_grades = config.collect do |partial_name, weight|
+            puts partial_name
             partial_config = GradingConfig.all[partial_name]
-            [partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
+            x=[partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
+            puts x.inspect
+            x
         end
 
         # if any of the partial grades has failed, propagate this result immediately
@@ -42,6 +45,9 @@ module User::FinalGradeCalculator
 
         grades = drop_lowest_from(grades) if config['drop'] == :lowest
         average = calculate_average(grades)
+
+        # if flag is set, convert a series of "pass/fail" grades to a 1-10 grade
+        average = average * -9.0 + 1 if config['convert_passes_to_grade']
 
         # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
         return :insufficient if config['minimum'] && average < config['minimum']
@@ -86,10 +92,7 @@ module User::FinalGradeCalculator
             weight = grades.map{|g| g[2]}.sum
         end
 
-        # ensure float divide
-        avg = total.to_f / weight
-        # if the average is a -1, "everything passed", so reinterpret as a 10
-        return avg == -1.0 && 10 || avg
+        return total.to_f / weight
     end
 
     def self.has_bonus?(grades)
