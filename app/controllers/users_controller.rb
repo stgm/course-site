@@ -12,7 +12,7 @@ class UsersController < ApplicationController
         if params[:text] != ""
             @results = @user_scope.
                 includes(:logins).
-                where("lower(users.name) like ? or logins.login like ?", "%#{params[:text].downcase}%", "%#{params[:text]}%").
+                where("lower(users.name) like ? or users.student_number like ?", "%#{params[:text].downcase}%", "%#{params[:text]}%").
                 references(:logins).
                 limit(10).
                 order(:name)
