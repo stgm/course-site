@@ -114,7 +114,11 @@ module GradesHelper
 			form_contents.collect do |form_field, field_value|
 				concat(
 					tag.tr do
-						tag.td(tag.strong(form_field)) + tag.td(field_value)
+						if field_value.include?("\n  ")
+							tag.td(tag.strong(form_field)) + tag.td(tag.pre(field_value))
+						else
+							tag.td(tag.strong(form_field)) + tag.td(simple_format(field_value))
+						end
 					end
 				)
 			end
