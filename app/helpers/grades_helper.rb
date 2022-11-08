@@ -52,6 +52,12 @@ module GradesHelper
 					submit,
 					class: "grade-button btn btn-sm",
 					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
+			elsif submit.locked && submit.submitted_at.blank?
+				link_to \
+					make_label(pset.name, "-", include_name),
+					submit,
+					class: "grade-button btn btn-sm",
+					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
 			elsif submit.locked
 				link_to \
 					make_label(pset.name, "🔒", include_name),
