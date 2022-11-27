@@ -24,14 +24,17 @@ nl:
     materials: "materialen"
     modules: "modules"
     other: "overig"
-    
+
+    grade: "Cijfer"
+    points: "Punten"
+
     grading:
         error: "probleem"
         insufficient: "onvoldoende"
         sufficient: "voldoende"
         done_yes: "ja"
         done_no: "nee"
-    
+
     sign_in: "Inloggen"
 
     submit:

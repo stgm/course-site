@@ -1,7 +1,7 @@
 <% @overview_config.each do |category, definition| %>
 <div id="overview" class="card">
 	<div class="card-body overflow-auto">
-		<h5 class="card-title"><%= category.capitalize %></h5>
+		<h5 class="card-title"><%= category.humanize %></h5>
 		<table class="table table-sm">
 			<%# Table header  %>
 			<tr>
@@ -13,7 +13,13 @@
 				<% end %>
 				<%# Final grade %>
 				<% if definition['show_calculated'] %>
-				<th>Grade</th>
+				<th>
+					<% if definition['type'] == 'points' %>
+					<%= t(:points) %>
+					<% else %>
+					<%= t(:grade) %>
+					<% end %>
+				</th>
 				<% end %>
 			</tr>
 
@@ -35,7 +41,11 @@
 				<%# Print calculated grade for this submit if it is not unpublished or hidden. %>
 				<%# Else, print a dash. %>
 				<% if @grades_by_pset.key?(submit) && !Settings.grading['grades'][submit]['hide_calculated'] %>
+				<% if definition['type'] == 'points' %>
+				<td><%= @grades_by_pset[submit].assigned_grade.to_i %></td>
+				<% else%>
 				<td><%= translate_grade(@grades_by_pset[submit].assigned_grade) %></td>
+				<% end %>
 				<% else %>
 				<td>-</td>
 				<% end %>
