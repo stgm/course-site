@@ -5,7 +5,7 @@ class Pset < ApplicationRecord
     has_many :submits
     has_many :grades, through: :submits
 
-    enum grade_type: [:integer, :float, :pass, :percentage]
+    enum grade_type: [:integer, :float, :pass, :percentage, :points]
 
     serialize :files, Hash
     serialize :config, Hash
