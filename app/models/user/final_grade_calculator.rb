@@ -14,7 +14,11 @@ module User::FinalGradeCalculator
         # attempt to calculate each partial grade
         weighted_partial_grades = config.collect do |partial_name, weight|
             partial_config = GradingConfig.all[partial_name]
-            [partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
+            if partial_config['type'] == 'points'
+                [partial_name, grade_from_points_from_submits(partial_config, user_grade_list), weight]
+            else
+                [partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
+            end
         end
 
         # if any of the partial grades has failed, propagate this result immediately
@@ -24,6 +28,17 @@ module User::FinalGradeCalculator
         return :insufficient  if partial_grades.include? :insufficient
 
         return uva_round(calculate_average(weighted_partial_grades))
+    end
+
+    # calculate subgrade based on per-assignment points
+    def self.grade_from_points_from_submits(config, user_grade_list)
+        grades = collect_grades_from_submits(config['submits'], user_grade_list)
+        return :not_attempted if config['attempt_required'] && missing_data?(grades)
+        grades = fill_missing(grades, 0)
+        total = grades.map{|g| g[1]}.sum.to_f
+        grade = total / config['total_points'] * 9 + 1
+        return :insufficient if config['minimum'] && grade < config['minimum']
+        return grade
     end
 
     def self.average_grade_from_submits(config, user_grade_list)
