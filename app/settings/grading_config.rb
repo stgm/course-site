@@ -36,18 +36,20 @@ module GradingConfig
         categories.map{|cat| [cat, all[cat]['submits'].keys]}
     end
 
+    # for the admin grading overview
     def self.overview
         psets = Pset.order(:order).index_by &:name
+
         # include final grade components that were marked as "show progress"
         r = all.select { |c,v| v['show_progress'] }.
             map { |c,v| [c, v['submits'].map {|k,v| psets[k]}] }
-        # include modules (this is redundant legacy)
-        # r = modules.
-        #     map { |c,v| [c, v.map {|k,v| psets[k]}] } + r if GradingConfig.modules
+
         # include all final grades at the end
         r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
+
         # if nothing's there, include all assignments
         r = [["Assignments", Pset.order(:order)]] if r.blank?
+
         return r
     end
 
@@ -71,8 +73,6 @@ module GradingConfig
     end
 
     def self.overview_config
-        return {} if not self.all
-
         # determine the categories to show
         overview = self.all.select { |category, value| value['show_progress'] }
 
@@ -86,7 +86,7 @@ module GradingConfig
             subgrades = []
             show_calculated = false
             content['submits'].each do |submit, weight|
-                if !self.grades[submit]['hide_subgrades']
+                if !self.grades[submit]['hide_subgrades'] && self.grades[submit]['subgrades'].present?
                     subgrades += self.grades[submit]['subgrades'].keys
                 end
                 show_calculated = true if !self.grades[submit]['hide_calculated']

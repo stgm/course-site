@@ -32,7 +32,13 @@ class Admin::UsersController < ApplicationController
                     parsed = user_info.match /(?:"?([^"]*)"?\s)?(?:<?(.+@[^> ]+)>?)/
                     name = parsed[1]
                     mail = parsed[2]
-                    User.create!(name: name, mail: mail, schedule_id: params[:user][:schedule_id], role: params[:user][:role])
+                    begin
+                        User.create!(name: name, mail: mail, schedule_id: params[:user][:schedule_id], role: params[:user][:role])
+                    rescue ActiveRecord::RecordNotUnique
+                        if u = User.find(mail: mail)
+                            
+                        end
+                    end
                 end
             end
             redirect_to admin_course_path
