@@ -9,10 +9,10 @@
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
             <% if Auth::OpenController.available? %>
-            <%= link_to t('account.login_via_uva'), auth_open_login_path, class: "btn btn-primary btn-lg px-4" %>
+            <%= link_to t('account.login_via_uva'), auth_open_login_path, class: "btn btn-primary btn-lg px-4", data: { turbo: "false" } %>
             <% end %>
             <% if Auth::MailController.available? %>
-            <%= link_to t('account.login_via_mail'), auth_mail_login_path, class: "btn btn-outline-secondary btn-lg px-4" %>
+            <%= link_to t('account.login_via_mail'), auth_mail_login_path, class: "btn btn-outline-secondary btn-lg px-4", data: { turbo: "false" } %>
             <% end %>
         </div>
     </div>
