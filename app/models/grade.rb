@@ -19,7 +19,7 @@ class Grade < ApplicationRecord
     scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
 
     def sufficient?
-        assigned_grade >= 5.5
+        assigned_grade >= 5.5 || assigned_grade == -1
     end
 
     def reject!
