@@ -82,8 +82,10 @@ class Attachments
 					end
 				end
 			end
+			# prepare for reading again
+			zipfile.rewind if zipfile.respond_to?(:rewind)
 		end
-		zipfile.rewind
+
 		zipfile
 	end
 	
