@@ -9,7 +9,7 @@ class Git::Lib
 
         opts_arr << '--' << opts[:path] if opts[:path]
 
-        command_lines('diff', opts_arr).inject({}) do |memo, line|
+        command_lines('diff', *opts_arr).inject({}) do |memo, line|
             status, path = line.split("\t")
             memo[path] = status
             memo
