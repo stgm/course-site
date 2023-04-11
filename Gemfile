@@ -34,7 +34,7 @@ gem 'sass-rails'
 gem 'friendly_id'
 
 # connectivity
-gem 'git'         # git for ingesting course materials
+gem 'git', '1.13.0'         # git for ingesting course materials
 gem 'rack-cas'    # login system
 gem 'openid_connect'
 gem 'curb'        # webdav client for uploading archival files
