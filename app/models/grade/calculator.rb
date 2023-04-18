@@ -10,7 +10,7 @@ module Grade::Calculator
         calculated_grade = calculate_grade
         if calculated_grade.present?
             case self.pset.grade_type
-            when 'float'
+            when 'float', 'points'
                 # calculated_grade = calculated_grade
             else # integer, pass
                 calculated_grade = calculated_grade.round
