@@ -59,7 +59,7 @@ module User::FinalGradeCalculator
         # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
         return :insufficient if config['minimum'] && average < config['minimum']
 
-        return average
+        return grade
     end
 
     def self.average_grade_from_submits(config, user_grade_list)
