@@ -1,21 +1,15 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
 one:
-  submit: 
-  grader: MyString
-  scope: 1
-  correctness: 1
-  design: 1
-  style: 1
-  comments: MyText
-  grade: 1
+    submit: one
+    calculated_grade: 60
 
 two:
-  submit: 
-  grader: MyString
-  scope: 1
-  correctness: 1
-  design: 1
-  style: 1
-  comments: MyText
-  grade: 1
+    submit: two
+    calculated_grade: 60
+
+three:
+    submit: three
+    calculated_grade: 80
+
+four:
+    submit: four
+    calculated_grade: 60

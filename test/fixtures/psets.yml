@@ -1,11 +1,11 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+m2:
+    name: m2
 
-one:
-  name: MyString
-  description: MyText
-  page_id: 
+m4:
+    name: m4
 
-two:
-  name: MyString
-  description: MyText
-  page_id: 
+m6:
+    name: m6
+
+tentamen:
+    name: tentamen

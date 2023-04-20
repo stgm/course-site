@@ -46,15 +46,19 @@ module User::FinalGradeCalculator
     def self.maximum_grade_from_submits(config, user_grade_list)
         # config := { need_attempt: true, minimum: 5.5, required: true, drop: :lowest, submits: { m1: 1, m2: 2, ... } }
         grades  = collect_grades_from_submits(config['submits'], user_grade_list)
-        bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
-        # remove any zero/non grades from the bonus list
-        bonuses = bonuses.reject{|g| g[1] == nil || g[1] == 0}
-
         max_grade = grades.max{|g1, g2| g1[1] <=> g2[1]}
-        grade = max_grade[1] * max_grade[2]
-        grade += bonuses.map{|g| g[1] * g[2]}.sum
-        grade /= max_grade[2]
-        grade = [10, grade].max
+        grade = max_grade[1]
+
+        if config['bonus'].present?
+            grade = max_grade[1] * max_grade[2]
+            bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
+            # remove any zero/non grades from the bonus list
+            bonuses = bonuses.reject{|g| g[1] == nil || g[1] == 0}
+
+            grade += bonuses.map{|g| g[1] * g[2]}.sum
+            grade /= max_grade[2]
+            grade = [10, grade].min
+        end
 
         # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
         return :insufficient if config['minimum'] && average < config['minimum']
