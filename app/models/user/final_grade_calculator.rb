@@ -16,6 +16,8 @@ module User::FinalGradeCalculator
             partial_config = GradingConfig.all[partial_name]
             if partial_config['type'] == 'points'
                 [partial_name, grade_from_points_from_submits(partial_config, user_grade_list), weight]
+            elsif partial_config['type'] == 'maximum'
+                [partial_name, maximum_grade_from_submits(partial_config, user_grade_list), weight]
             else
                 [partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
             end
@@ -39,6 +41,25 @@ module User::FinalGradeCalculator
         grade = total / config['total_points'] * 9 + 1
         return :insufficient if config['minimum'] && grade < config['minimum']
         return grade
+    end
+
+    def self.maximum_grade_from_submits(config, user_grade_list)
+        # config := { need_attempt: true, minimum: 5.5, required: true, drop: :lowest, submits: { m1: 1, m2: 2, ... } }
+        grades  = collect_grades_from_submits(config['submits'], user_grade_list)
+        bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
+        # remove any zero/non grades from the bonus list
+        bonuses = bonuses.reject{|g| g[1] == nil || g[1] == 0}
+
+        max_grade = grades.max{|g1, g2| g1[1] <=> g2[1]}
+        grade = max_grade[1] * max_grade[2]
+        grade += bonuses.map{|g| g[1] * g[2]}.sum
+        grade /= max_grade[2]
+        grade = [10, grade].max
+
+        # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
+        return :insufficient if config['minimum'] && average < config['minimum']
+
+        return average
     end
 
     def self.average_grade_from_submits(config, user_grade_list)
