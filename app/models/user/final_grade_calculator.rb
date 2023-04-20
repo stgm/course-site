@@ -37,8 +37,21 @@ module User::FinalGradeCalculator
         grades = collect_grades_from_submits(config['submits'], user_grade_list)
         return :not_attempted if config['attempt_required'] && missing_data?(grades)
         grades = fill_missing(grades, 0)
-        total = grades.map{|g| g[1]}.sum.to_f
-        grade = total / config['total_points'] * 9 + 1
+
+        potential = grades.map(&:third).sum
+
+        # get total points
+        total = grades.map do |g|
+            if g[1] == -1
+                g[2]
+            else
+                g[1]
+            end
+        end.sum
+        
+        grade = total / potential.to_f * 9 + 1
+        grade = 0 if grade.nan?
+
         return :insufficient if config['minimum'] && grade < config['minimum']
         return grade
     end
@@ -55,16 +68,26 @@ module User::FinalGradeCalculator
         max_grade = grades.max{|g1, g2| g1[1] <=> g2[1]}
         grade = max_grade[1]
 
+        # add any bonus grades
         if config['bonus'].present?
             bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
+
             # remove any zero/non grades from the bonus list
             bonuses = bonuses.reject{|g| g[1] == nil || g[1] == 0}
 
-            grade += bonuses.map{|g| g[1] * g[2]}.sum
+            # sum all and add to grade
+            count_bonuses = bonuses.map do |g|
+                if g[1] == -1
+                    # in case of a "pass" just add the weight from grading.yml
+                    g[2]
+                else
+                    g[1] * g[2]
+                end
+            end
+            grade += count_bonuses.sum
             grade = [10, grade].min
         end
 
-        # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
         return :insufficient if config['minimum'] && average < config['minimum']
 
         return grade
@@ -100,11 +123,20 @@ module User::FinalGradeCalculator
         return average
     end
 
-    def self.collect_grades_from_submits(config, user_grade_list)
+    def self.collect_grades_from_submits(config, user_grade_list, **kwargs)
         grades = config.collect do |grade_name, weight|
             # if no user_grade_list[grade_name] exists this will enter 'nil' into the resulting array
             grade = user_grade_list[grade_name] && user_grade_list[grade_name].assigned_grade
+            grade = convert_pass_to_10(grade) if kwargs.key?(:convert_pass_to_10)
             [grade_name, grade, weight]
+        end
+    end
+
+    def self.convert_pass_to_10(grade)
+        if grade == -1
+            return 10
+        else
+            return grade
         end
     end
 

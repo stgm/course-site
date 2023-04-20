@@ -1,3 +1,7 @@
 test_user:
     name: Test User
     mail: test@example.com
+
+test_user_2:
+    name: Test User2
+    mail: test2@example.com

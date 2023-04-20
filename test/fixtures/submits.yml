@@ -13,3 +13,35 @@ three:
 four:
     user: test_user
     pset: tentamen
+
+user_2_one:
+    user: test_user_2
+    pset: m2
+
+user_2_two:
+    user: test_user_2
+    pset: m4
+
+user_2_three:
+    user: test_user_2
+    pset: m6
+
+user_2_four:
+    user: test_user_2
+    pset: tentamen
+
+user_2_five:
+    user: test_user_2
+    pset: goldbach
+
+points_one:
+    user: test_user
+    pset: mario
+
+points_two:
+    user: test_user
+    pset: readability
+
+points_three:
+    user: test_user
+    pset: schuifpuzzel

@@ -9,3 +9,15 @@ m6:
 
 tentamen:
     name: tentamen
+
+goldbach:
+    name: goldbach
+
+mario:
+    name: mario
+
+readability:
+    name: readability
+
+schuifpuzzel:
+    name: schuifpuzzel

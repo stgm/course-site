@@ -13,3 +13,35 @@ three:
 four:
     submit: four
     calculated_grade: 60
+
+user_2_one:
+    submit: user_2_one
+    calculated_grade: 60
+
+user_2_two:
+    submit: user_2_two
+    calculated_grade: 60
+
+user_2_three:
+    submit: user_2_three
+    calculated_grade: 80
+
+user_2_four:
+    submit: user_2_four
+    calculated_grade: 60
+
+user_2_five:
+    submit: user_2_five
+    calculated_grade: -10
+
+points_one:
+    submit: points_one
+    calculated_grade: -10
+
+points_two:
+    submit: points_two
+    calculated_grade: -10
+
+points_three:
+    submit: points_three
+    calculated_grade: 10

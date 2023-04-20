@@ -1,0 +1,165 @@
+# This is a separate section containing a few templates that we will use below.
+# The & feature is built into YAML, it is not a special feature of the website.
+# The section does not need to be called `templates` necessarily.
+
+templates:
+    1: &automatic
+        type: pass
+        subgrades:
+            done: boolean
+        automatic:
+            done: -(correctness_score.floor)
+        calculation: done
+        auto_publish: true
+        hide_calculated: true
+    4: &semiautomatic
+        type: float
+        subgrades:
+            done: boolean
+        automatic:
+            done: -(correctness_score.floor)
+        calculation: done
+        hide_calculated: true
+    2: &manual
+        type: float
+        subgrades:
+            points: integer
+        calculation: (points / 6.0 * 9 + 1).round(1)
+        hide_calculated: true
+    3: &check
+        type: pass
+        subgrades:
+            done: boolean
+        calculation: done
+        hide_calculated: true
+    2: &exam
+        type: float
+        subgrades:
+            cijfer: float
+        calculation: cijfer
+        hide_calculated: true
+
+# GRADES
+
+grades:
+    scratch: *check
+    hello: *automatic
+    population: *automatic
+
+    conversion: *automatic
+    mario: *automatic
+    soda: *automatic
+    caffeine: *automatic
+
+    strings: *check
+    scrabble: *automatic
+    rna: *automatic
+    cypher: *automatic
+
+    functions: *check
+    tiles: *automatic
+    calendar: *automatic
+
+    algorithms: *check
+    measurements: *automatic
+    sort: *automatic
+    big_o: *check
+    complexity_puzzle: *check
+
+    beatles: *check
+    whodunit: *check
+    filter: *automatic
+
+    speller: *automatic
+    speller_questions: *check
+
+    goldbach: *semiautomatic
+    decryptor: *semiautomatic
+    design_challenge: *semiautomatic
+    find: *semiautomatic
+    resize: *semiautomatic
+
+    basics_variables: *check
+    basics_control_flow: *check
+    basics_arrays: *check
+    basics_functions: *check
+
+    tentamen-oefening-regen: *automatic
+    tentamen-oefening-rechthoeken: *automatic
+    tentamen-oefening-hoofdletters: *automatic
+    tentamen-oefening-driehoek: *automatic
+
+    m2: *manual
+    m3: *manual
+    m4: *manual
+    m5: *manual
+    m6: *manual
+    m7: *manual
+    
+    readability: *automatic
+    schuifpuzzel: *automatic
+
+    oefententamen: *check
+    tentamen: *exam
+    hertentamen: *check
+
+# CALCULATIONS
+
+calculation:
+    eindcijfer:
+        punten: 25
+        # tentamen: 75
+    eindcijfer_herkansing:
+        punten: 25
+        # hertentamen: 75
+    berekening_op_punten:
+        berekening_op_punten: 1
+
+# SUB-CALCULATIONS
+
+punten:
+    type: maximum
+    show_progress: true
+    submits:
+        - m2
+        - m4
+        - m6
+    bonus:
+        goldbach: 0.25
+        decryptor: 0.25
+        design_challenge: 0.25
+        find: 0.25
+        resize: 0.25
+
+berekening_op_punten:
+    type: points
+    show_progress: true
+    submits:
+        mario: 2
+        readability: 2
+        schuifpuzzel: 2
+
+cijfers:
+    show_progress: true
+    submits:
+        m2: 1
+        m4: 2
+        m6: 3
+    bonus:
+        goldbach: 0.25
+        decryptor: 0.25
+        design_challenge: 0.25
+        find: 0.25
+        resize: 0.25
+
+tentamen:
+    show_progress: true
+    required: true
+    submits:
+        tentamen: 1
+
+hertentamen:
+    show_progress: true
+    required: true
+    submits:
+        hertentamen: 1
