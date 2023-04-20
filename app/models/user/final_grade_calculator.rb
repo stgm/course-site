@@ -50,7 +50,7 @@ module User::FinalGradeCalculator
         # if some of the assignments were not handed in or graded, we
         # do not allow this strategy to produce a grade (fill in 0 as
         # a grade to make it work)
-        return :not_attempted if config['attempt_required'] && missing_data?(grades)
+        return :not_attempted if missing_data?(grades)
 
         max_grade = grades.max{|g1, g2| g1[1] <=> g2[1]}
         grade = max_grade[1]
