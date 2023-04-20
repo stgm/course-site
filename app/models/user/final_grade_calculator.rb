@@ -56,13 +56,11 @@ module User::FinalGradeCalculator
         grade = max_grade[1]
 
         if config['bonus'].present?
-            grade = max_grade[1] * max_grade[2]
             bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
             # remove any zero/non grades from the bonus list
             bonuses = bonuses.reject{|g| g[1] == nil || g[1] == 0}
 
             grade += bonuses.map{|g| g[1] * g[2]}.sum
-            grade /= max_grade[2]
             grade = [10, grade].min
         end
 
