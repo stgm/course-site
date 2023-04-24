@@ -24,7 +24,7 @@ user_2_two:
 
 user_2_three:
     submit: user_2_three
-    calculated_grade: 80
+    calculated_grade: 85
 
 user_2_four:
     submit: user_2_four

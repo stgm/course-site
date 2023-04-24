@@ -35,35 +35,60 @@ module User::FinalGradeCalculator
     # calculate subgrade based on per-assignment points
     def self.grade_from_points_from_submits(config, user_grade_list)
         grades = collect_grades_from_submits(config['submits'], user_grade_list)
-        return :not_attempted if config['attempt_required'] && missing_data?(grades)
+
+        if config['attempt_required'] && missing_data?(grades)
+            return :not_attempted
+        end
+
+        potential = get_points_potential(grades, config['maximum'])
+        total = get_points_total(grades)
+        grade = points_to_grade(total, potential)
+
+        if config['minimum'] && grade < config['minimum']
+            return :insufficient
+        end
+
+        return grade
+    end
+
+    def self.get_points_potential(grades, config)
+        if config.present?
+            return config
+        else
+            return grades.map(&:third).sum
+        end
+    end
+
+    def self.get_points_total(grades)
         grades = fill_missing(grades, 0)
-
-        potential = grades.map(&:third).sum
-
-        # get total points
-        total = grades.map do |g|
+        grades.map do |g|
             if g[1] == -1
+                # pass means they get full credit
                 g[2]
             else
+                # or if a number of points was entered by grader, we use that
                 g[1]
             end
         end.sum
-        
-        grade = total / potential.to_f * 9 + 1
-        grade = 0 if grade.nan?
+    end
 
-        return :insufficient if config['minimum'] && grade < config['minimum']
+    def self.points_to_grade(points, potential_points)
+        proportion = points / potential_points.to_f
+        grade = proportion * 9 + 1
+        # if total and potential are both 0 we get NaN
+        grade = 0 if grade.nan?
         return grade
     end
 
     def self.maximum_grade_from_submits(config, user_grade_list)
-        # config := { need_attempt: true, minimum: 5.5, required: true, drop: :lowest, submits: { m1: 1, m2: 2, ... } }
-        grades  = collect_grades_from_submits(config['submits'], user_grade_list)
+        grades = collect_grades_from_submits(config['submits'], user_grade_list)
 
         # if some of the assignments were not handed in or graded, we
         # do not allow this strategy to produce a grade (fill in 0 as
         # a grade to make it work)
-        return :not_attempted if missing_data?(grades)
+        if missing_data?(grades)
+            return :missing_data
+        end
 
         max_grade = grades.max{|g1, g2| g1[1] <=> g2[1]}
         grade = max_grade[1]
@@ -71,32 +96,19 @@ module User::FinalGradeCalculator
         # add any bonus grades
         if config['bonus'].present?
             bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
-
-            # remove any zero/non grades from the bonus list
-            bonuses = bonuses.reject{|g| g[1] == nil || g[1] == 0}
-
-            # sum all and add to grade
-            count_bonuses = bonuses.map do |g|
-                if g[1] == -1
-                    # in case of a "pass" just add the weight from grading.yml
-                    g[2]
-                else
-                    g[1] * g[2]
-                end
-            end
-            grade += count_bonuses.sum
+            grade += total_bonus(bonuses)
             grade = [10, grade].min
         end
 
-        return :insufficient if config['minimum'] && average < config['minimum']
+        if config['minimum'] && average < config['minimum']
+            return :insufficient
+        end
 
         return grade
     end
-
+    
     def self.average_grade_from_submits(config, user_grade_list)
-        # config := { need_attempt: true, minimum: 5.5, required: true, drop: :lowest, submits: { m1: 1, m2: 2, ... } }
         grades = collect_grades_from_submits(config['submits'], user_grade_list)
-        grades = remove_unused_bonus(grades)
 
         # missing data for something like an exam receives a "not attempted" note
         return :not_attempted if config['attempt_required'] && missing_data?(grades)
@@ -112,15 +124,38 @@ module User::FinalGradeCalculator
         return :insufficient if config['required'] && zeroed_data?(grades)
 
         grades = drop_lowest_from(grades) if config['drop'] == :lowest
-        average = calculate_average(grades)
+        grade = calculate_average(grades)
 
-        # if flag is set, convert a series of "pass/fail" grades to a 1-10 grade
-        average = average * -9.0 + 1 if config['convert_passes_to_grade']
+        # add any bonus grades
+        if config['bonus'].present?
+            bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
+            grade += total_bonus(bonuses)
+            grade = [10, grade].min
+        end
 
         # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
-        return :insufficient if config['minimum'] && average < config['minimum']
+        if config['minimum'] && average < config['minimum']
+            return :insufficient
+        end
 
         return average
+    end
+
+    def self.total_bonus(grades)
+        # remove any zero/non grades from the bonus list
+        bonuses = grades.reject{|g| g[1] == nil || g[1] == 0}
+
+        # sum all and add to grade
+        count_bonuses = bonuses.map do |g|
+            if g[1] == -1
+                # in case of a "pass" just add the weight from grading.yml
+                g[2]
+            else
+                g[1] * g[2]
+            end
+        end
+        
+        return count_bonuses.sum
     end
 
     def self.collect_grades_from_submits(config, user_grade_list, **kwargs)
@@ -169,25 +204,10 @@ module User::FinalGradeCalculator
     end
 
     def self.calculate_average(grades)
-        if has_bonus?(grades)
-            # bonus calculation assumes equals weights for all grades!
-            total = grades.map{|g| g[1]}.sum
-            weight = grades.map{|g| g[2]}.reject{|w| w == :bonus}.sum
-        else
-            # multiply each grade by its weight
-            total = grades.inject(0) { |total, (name, grade, weight)| total += grade * weight }
-            weight = grades.map{|g| g[2]}.sum
-        end
-
+        # multiply each grade by its weight
+        total = grades.inject(0) { |total, (name, grade, weight)| total += grade * weight }
+        weight = grades.map{|g| g[2]}.sum
         return total.to_f / weight
-    end
-
-    def self.has_bonus?(grades)
-        grades.select{|g| g[2] == :bonus}.any?
-    end
-
-    def self.remove_unused_bonus(grades)
-        grades.reject{|g| (g[1] == nil || g[1] == 0) && g[2] == :bonus}
     end
 
     def self.uva_round(grade)

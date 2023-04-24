@@ -8,7 +8,7 @@ class User::FinalGradeCalculatorTest < ActiveSupport::TestCase
 
     test "grade" do
         assert_equal 8, User::FinalGradeCalculator.run_for(User.first.all_submits)['eindcijfer']
-        assert_equal 8.5, User::FinalGradeCalculator.run_for(User.second.all_submits)['eindcijfer']
+        assert_equal 9, User::FinalGradeCalculator.run_for(User.second.all_submits)['eindcijfer']
         assert_equal 8.5, User::FinalGradeCalculator.run_for(User.first.all_submits)['berekening_op_punten']
     end
 
