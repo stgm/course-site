@@ -4,6 +4,10 @@ module GradesHelper
 		time && time.to_formatted_s(:short) || "never"
 	end
 
+    def to_i_if_whole(number)
+        number == number.to_i ? number.to_i : number
+    end
+
 	def grade_for(submit)
 		if submit
 			submitted = submit[0]
