@@ -41,7 +41,7 @@ module GradingConfig
         psets = Pset.order(:order).index_by &:name
 
         # include final grade components that were marked as "show progress"
-        r = all.select { |c,v| v['show_progress'] }.
+        r = all.select { |c,v| v['show_progress'] || v['show_overview'] }.
             map { |c,v| [c, v['submits'].map {|k,v| psets[k]}] }
 
         # include all final grades at the end
