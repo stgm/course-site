@@ -112,6 +112,8 @@ calculation:
     eindcijfer_herkansing:
         punten: 25
         # hertentamen: 75
+    berekening_op_gemiddelde:
+        cijfers: 1
     berekening_op_punten:
         berekening_op_punten: 1
 

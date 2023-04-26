@@ -3,11 +3,11 @@
 	<div class="card-body overflow-auto">
 		<h5 class="card-title"><%= category.humanize %></h5>
 		<table class="table table-sm">
-			<%# Table header  %>
+			<%# Table header %>
 			<tr>
-				<%# Assignment %>
+				<%# Assignment name %>
 				<th></th>
-				<%# Subgrades  %>
+				<%# Subgrades %>
 				<% definition['subgrades'].each do |subgrade| %>
 				<th><%= subgrade.capitalize %></th>
 				<% end %>
