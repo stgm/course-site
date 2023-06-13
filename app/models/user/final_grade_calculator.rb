@@ -136,7 +136,7 @@ module User::FinalGradeCalculator
         end
 
         # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
-        if config['minimum'] && average < config['minimum']
+        if config['minimum'] && grade < config['minimum']
             return :insufficient
         end
 
