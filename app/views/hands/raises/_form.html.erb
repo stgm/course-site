@@ -5,8 +5,7 @@
 <% end %>
 <li class="dropdown-header"  style="padding:2px 10px 0 10px;">
 	<%= form_tag(hands_raise_path, method: :post, remote: true) do %>
-		<textarea name="question" class="form-control" rows="3" required placeholder="<%= t "hands.briefly_summarize" %>" style="margin-top:0.5em"></textarea>
-		<input type="text" name="subject" class="form-control" required placeholder="<%= t "hands.subject" %>" style="margin-top:0.5em" value="">
+		<textarea name="question" id="hands-question" class="form-control" rows="6" required placeholder="<%= t "hands.briefly_summarize" %>" style="margin-top:0.5em"></textarea>
 		<% if Settings.hands_link %>
 		<input type="text" name="location" class="form-control" required placeholder="<%= t "hands.link" %>" style="margin-top:0.5em" value="<%= current_user.last_known_location %>" pattern="https://.*zoom\.us/j/.*">
 		<% elsif Settings.hands_location %>

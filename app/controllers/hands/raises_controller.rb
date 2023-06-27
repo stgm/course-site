@@ -1,5 +1,7 @@
 class Hands::RaisesController < ApplicationController
 
+    include NavigationHelper
+
 	before_action :authorize
 
 	def show
@@ -39,13 +41,37 @@ class Hands::RaisesController < ApplicationController
 	def create
 		# only create a new hand if no hands are still open
 		if Hand.where(user: current_user, done: false).count == 0
-			if hand = Hand.where(user: current_user, done: true, success: false).where("closed_at > ?", 30.minutes.ago).last
+			if !current_user.admin? && hand = Hand.where(user: current_user, done: true, success: false).where("closed_at > ?", 10.minutes.ago).last
 				# there is a relatively recent hand that was closed and can now be re-used
 				hand.update(done: false, assist_id: nil, help_question: params[:question], subject: params[:subject], location: params[:location])
 			else
 				# create a completely new one
 				hand = Hand.create(user:current_user, help_question: params[:question], subject: params[:subject], location: params[:location])
-				current_user.update!(last_known_location: params[:location])
+                current_user.update!(last_known_location: params[:location])
+
+                current_page = Rails.application.routes.recognize_path request.referer
+                if current_page[:controller] == 'page' && current_page[:action] == 'index'
+                    logger.info "SLUG"
+                    logger.info current_page
+                    @page = Page.where(slug: current_page[:slug].chomp('/')).first
+                    logger.info @page
+                    if @page.present?
+                        content = @page.subpages.collect(&:content).join
+                        query = render_to_string('openai_assignment', layout: false, locals: { assignment_body: content, prompt: hand.help_question })
+                    end
+                elsif current_page[:controller] == 'page' && current_page[:action] == 'syllabus'
+                    logger.info "SLUG2"
+                    @page = current_schedule && current_schedule.page || Page.find_by_slug('')
+                    if @page.present?
+                        content = @page.subpages.collect(&:content).join
+                        query = render_to_string('openai_syllabus', layout: false, locals: { assignment_body: content, prompt: hand.help_question })
+                    end
+                end
+                logger.info @page.inspect
+                if @page.present?
+                    logger.info query.inspect
+                    GptJob.perform_later hand, query
+                end
 			end
 		end
 

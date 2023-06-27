@@ -281,6 +281,9 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     rexml (3.2.5)
+    ruby-openai (4.2.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
@@ -372,6 +375,7 @@ DEPENDENCIES
   rails (~> 7.0.0)
   rails-settings-cached
   rest-client
+  ruby-openai
   rubyzip (~> 2.3.0)
   rufus-scheduler
   sass-rails

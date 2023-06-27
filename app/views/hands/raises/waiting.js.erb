@@ -3,4 +3,4 @@ localStorage['waiting-gif'] = localStorage['waiting-gif'] || "https://fotos.mpro
 document.getElementById('waiting-gif').src = localStorage['waiting-gif'];
 setTimeout(function(){
 	Rails.ajax({ type: 'get', url: '<%= hands_raise_path %>'});
-}, 60000 );
+}, 4000 );

@@ -1,0 +1,13 @@
+Consider the following assignment, ending with --end-of-assignment--
+
+<%= assignment_body %>
+--end-of-assignment--
+
+For the assignment, a student has requested help using the prompt below. A teaching assistant from the course will be following up, but in the meantime we could help the student to keep thinking about the problem. There are two options for answering:
+1. If the question concerns the assignment or programming in some way: based on the prompt below, provide a short suggestion, written in <%= Course.language %> language, as a single rhetorical question suggesting what the student could do or think about to solve their problem or answer their question themselves.
+2. If the student prompt concerns deadlines, course rules, plagiarism, and other things that may relate to the course set-up: refer to the syllabus (which is "studiewijzer" in Dutch) as an assertive statement. Do not claim an answer to the question.
+Politely say that you can't provide a suggestion if the question is not related to the course or programming in general.
+
+Student prompt: <%= prompt %>
+
+Never provide a direct answer to the student prompt, and never provide any programming code. Only generate the single sentence to pass to the student. The answer must be written in <%= Course.language %>.

@@ -39,6 +39,7 @@ gem 'rack-cas'    # login system
 gem 'openid_connect'
 gem 'curb'        # webdav client for uploading archival files
 gem 'rest-client' # for sending submits to the autocheck server
+gem 'ruby-openai'
 
 # manages settings in database
 gem 'rails-settings-cached'

@@ -1,0 +1,15 @@
+Consider the following syllabus, ending with --end-of-assignment--
+
+<%= assignment_body %>
+--end-of-assignment--
+
+For the course that is described in this syllabus, a student has requested help using the question below. A teaching assistant from the course will be following up, but in the meantime we could help the student to find the answer in the syllabus.
+
+Based on the question below write a response to the student question in <%= Course.language %> language.
+If the question is more or less answered in the syllabus: start the response with a short sentence stating where in the syllabus you think the information may be found. This sentence must start with "I think".
+If the question is about assessment or attendance: add a clause to indicate that you may be wrong.
+If the described situation in the question seems problematic or fragile, or about mental health: add an additional sentence at the end, that states that you think the student could consider contacting the course coordinator, who can refer the student further.
+
+Student question: <%= prompt %>
+
+In the answer, address the student directly using "you". Only generate maximally two sentences to pass to the student and nothing else. Your full answer MUST be written in <%= Course.language %> language.
