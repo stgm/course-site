@@ -1,4 +1,4 @@
-<% if Schedule.many? || Schedule.first.groups.many? %>
+<% if Schedule.many? || Schedule.first&.groups.many? %>
 <%= simple_format(hand.user.full_designation, { class: 'float-end badge bg-secondary', style: get_colors_for_text(hand.user.full_designation) }, wrapper_tag: 'span') %>
 <% end %>
 <h5><strong><%= hand.user.name %></strong></h5>
