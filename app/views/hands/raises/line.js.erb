@@ -1,3 +1,3 @@
-document.getElementById('ama').innerHTML = "<%= j(render 'line') %>";
+document.getElementById('assistance').innerHTML = "<%= j(render 'line') %>";
 localStorage['waiting-gif'] = localStorage['waiting-gif'] || "https://fotos.mprog.nl/waiting-gifs/wait<%= Random.new.rand(0..9) %>.gif";
 document.getElementById('waiting-gif').src = localStorage['waiting-gif'];

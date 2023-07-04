@@ -1,19 +1,32 @@
-<% if @assist_available.length > 0 %>
-<li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;"><%= t "hands.staff_are_currently_available", count: @assist_available.length %></li>
-<% else %>
-<li role="presentation" class="dropdown-header" style="padding:5px 10px 0 12px;"><%= t "hands.request_assistance_in_class" %></li>
+<div class="cards">
+<%= form_tag(hands_raise_path, method: :post, remote: true, style: 'height: 100%;', id: 'assistance-form') do %>
+
+    <!-- action message -->
+    
+    <label for="assistance-form-question">
+        <strong class="fs-5"><%= t('hands.summary')%><br></strong>
+        <%= t "hands.briefly_summarize" %>:
+    </label>
+
+    <textarea id="assistance-form-question" name="question" class="form-control" rows="3" required placeholder=""></textarea>
+
+    <!-- location -->
+
+    <% if Settings.hands_link %>
+    <input type="text" name="location" class="form-control" required placeholder="<%= t "hands.link" %>" style="margin-top:0.5em" value="<%= current_user.last_known_location %>" pattern="https://.*zoom\.us/j/.*">
+    <% elsif Settings.hands_location %>
+    <label for="assistance-form-location">
+        <strong class="fs-5"><%= t('hands.location') %><br></strong>
+        <%= t "hands.enter_location", type: Settings.hands_location_type %>:
+    </label>
+    <input id="assistance-form-location" type="text" name="location" class="form-control" required placeholder="" value="<%= current_user.last_known_location %>">
+    <% end %>
+
+    <!-- submit -->
+
+    <div class="d-grid">
+        <button id="ask-button" data-loading-text="<%= t "hands.posting_question" %>" type="submit" class="btn" name="how" value="hands"><%= t "hands.ask_for_assistance" %></button>
+    </div>
+
 <% end %>
-<li class="dropdown-header"  style="padding:2px 10px 0 10px;">
-	<%= form_tag(hands_raise_path, method: :post, remote: true) do %>
-		<textarea name="question" class="form-control" rows="3" required placeholder="<%= t "hands.briefly_summarize" %>" style="margin-top:0.5em"></textarea>
-		<input type="text" name="subject" class="form-control" required placeholder="<%= t "hands.subject" %>" style="margin-top:0.5em" value="">
-		<% if Settings.hands_link %>
-		<input type="text" name="location" class="form-control" required placeholder="<%= t "hands.link" %>" style="margin-top:0.5em" value="<%= current_user.last_known_location %>" pattern="https://.*zoom\.us/j/.*">
-		<% elsif Settings.hands_location %>
-		<input type="text" name="location" class="form-control" required placeholder="<%= t "hands.location" %>" style="margin-top:0.5em" value="<%= current_user.last_known_location %>">
-		<% end %>
-		<div class="d-grid">
-		<button id="ask-button" data-loading-text="<%= t "hands.posting_question" %>" type="submit" style="margin-top:0.5em; margin-bottom:0.5em" class="btn btn-warning" name="how" value="hands"><%= t "hands.ask_for_assistance" %></button>
-		</div>
-	<% end %>
-</li>
+</div>

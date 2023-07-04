@@ -20,6 +20,12 @@ class HomeController < ApplicationController
             elsif current_user.admin? && !Settings.git_version.key?('.')
                 # allow connecting course materials git
                 redirect_to home_clone_path
+            elsif Settings.hands_only && !current_user.staff?
+                # if website is only used to manage assistance queue, student:
+                redirect_to assistance_index_path
+            elsif Settings.hands_only && current_user.assistant?
+                # if website is only used to manage assistance queue, staff:
+                redirect_to hands_path
             elsif alerts_for_current_schedule.any?
                 # current user's schedule's announcements
                 redirect_to announcements_path

@@ -7,6 +7,8 @@ class Hands::HandsController < ApplicationController
 	
 	before_action do
 		I18n.locale = :en
+        @group_name = params['group'] ||  current_user.groups.first&.name || Schedule.count > 1 && current_schedule.name || Course.long_name
+        @course_name = Schedule.count > 1 && current_schedule.name || Course.long_name
 	end	
 
 	def index
@@ -18,7 +20,12 @@ class Hands::HandsController < ApplicationController
 			render 'search'
 		else
 			@my_hands = Hand.where(done:false, assist:current_user).order('created_at asc')
-			@hands = Hand.where(done:false, assist:nil).order('created_at asc')
+			@hands = Hand.where(done:false, assist:nil).order('hands.created_at asc')
+            if Settings.hands_groups && params[:group]!='all' #&& current_user.groups.any?
+                selected_group = Group.find_by_name(params['group'])
+                @group = current_user.groups.first
+                @hands = @hands.includes(:user).where(users: { group: selected_group || @group })
+            end
 			@long_time_users = User.student.where("last_known_location is not null").where('last_seen_at > ? and (last_spoken_at < ? or last_spoken_at is null)', 25.minutes.ago, 1.day.ago).order('last_spoken_at asc')
 		end
 	end
@@ -32,9 +39,9 @@ class Hands::HandsController < ApplicationController
 			load_hand
 			if current_user.assistant? && @hand.assist != current_user && !@hand.helpline
 				if auto_claim_hand
-					flash[:notice] = "Go and help this one!"
+                    # flash[:notice] = "Go and help this one!"
 				else
-					flash[:alert] = "Someone was ahead of you!"
+                    # flash[:alert] = "Someone was ahead of you!"
 					redirect_to hands_path and return
 				end
 			end
@@ -62,10 +69,10 @@ class Hands::HandsController < ApplicationController
 		Hand.transaction do
 			load_hand
 			if auto_claim_hand
-				flash[:notice] = "Go and help this one!"
+                # flash[:notice] = "Go and help this one!"
 				redirect_back fallback_location: '/'
 			else
-				flash[:alert] = "Someone was ahead of you!"
+                # flash[:alert] = "Someone was ahead of you!"
 				redirect_to hands_path and return
 			end
 		end

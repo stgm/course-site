@@ -24,9 +24,21 @@ class User < ApplicationRecord
     end
 
     def designation
-        if Schedule.count > 1
+        if Schedule.many?
             group_name || schedule_name
         end
+    end
+
+    def full_designation
+        result = ""
+        if Schedule.many?
+            result += schedule_name
+        end
+        if schedule.groups.many? && group_name
+            result += "\n" if result != ""
+            result += group_name
+        end
+        return result
     end
 
 end

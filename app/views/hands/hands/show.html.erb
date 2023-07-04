@@ -1,19 +1,11 @@
-<div class="my-3">
+<div class="hands-show">
 
-<h4>
-<%= @hand.user.name %><% if @hand.user.group %> (<%= @hand.user.group.name %>)<% end %>
-<% if @hand.done %>
-<span class="badge float-end">done</span>
-<% end %>
-<br>
-<small><%= minutes_ago(@hand.created_at) %> minutes <%= t(:ago) %></small>
-</h4>
-
-<% if Settings.hands_link && @hand.location.present? %>
-<%= link_to @hand.location, @hand.location || "no location", target: "_blank" %>
+<div class="flex-fill">
+<% if @hand.assist == current_user %>
 <% end %>
 
-<p><%= @hand.help_question or "No question was entered, even if this would be impossible." %></p>
+<%= render partial: "hand", object: @hand %>
+</div>
 
 <% if @hand.assist.blank? %>
 
@@ -26,7 +18,7 @@
 
 <%= form_tag(done_hand_path(@hand, success: true), method: :put) do %>
 
-<%= render partial: 'form' %>
+<%#= render partial: 'form' %>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	<button type="submit" class="btn btn-primary me-md-2">Mark as done</button>
