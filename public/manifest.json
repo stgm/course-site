@@ -1,0 +1,8 @@
+{
+    "name": "Assist",
+    "display": "standalone",
+    "theme_color": "#F4F9FF",
+    "orientation": "portrait",
+    "start_url": "/",
+    "scope": "/"
+}
