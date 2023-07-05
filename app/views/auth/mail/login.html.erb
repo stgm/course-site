@@ -1,23 +1,30 @@
-<%= form_tag(auth_mail_create_path, class: 'mx-auto m-5 p-4') do |form| %>
+<% @page_name = t('account.login_or_register') %>
 
-<h1 class="text-center">
-    <%= bootstrap_icon 'envelope', width: 60, height: 60 %>
-    <%= t('account.login_mail') %>
-</h1>
+<div class="cards">
+    <div>
+        <p class="lead text-center">
+            <%= t('account.guest_needs_activation') %>
+        </p>
+    </div>
 
-<p class="lead text-center">
-    <%= t('account.guest_needs_activation') %>
-</p>
+    <%= form_tag(auth_mail_create_path, 
+        class: 'mini-app-body d-flex justify-content-between flex-column') do |form| %>
 
-<% if flash[:alert] %>
-<p><%= flash[:alert] %></p>
-<% end %>
+    <% if flash[:alert] %>
+    <p><%= flash[:alert] %></p>
+    <% end %>
 
-<input name="email" type="email" autofocus required class="form-control my-5 border-0 border-bottom" placeholder="<%= t('account.email_placeholder') %>">
+    <div>
+        <label for="email" class="mb-1">Your e-mail address</label>
+        <input name="email" type="email" autofocus required class="form-control" placeholder="<%= t('account.email_placeholder') %>">
+    </div>
 
-<div class="d-flex justify-content-between">
-<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
-<input type="submit" class="btn btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
+    <div class="d-flex justify-content-between">
+        <%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', 
+            data: { turbo: "false" } %>
+        <input type="submit" class="btn btn-primary" 
+            value="<%= t('account.continue_button') %> &rarr;">
+    </div>
+
+    <% end %>
 </div>
-
-<% end %>

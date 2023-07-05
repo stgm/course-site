@@ -5,11 +5,14 @@
         </p>
     </div>
     <%= form_tag(set_location_hands_raise_path, method: :patch, remote: true, id: 'location-form') do %>
-    <label for="location-text-field">
-        <!-- <strong class="fs-5">Location</strong><br> -->
-        <%= t('hands.entering_location', location_type: Settings.hands_location_type) %>:
-    </label>
-    <input id="location-text-field" type="text" name="location" class="form-control" required autofocus placeholder="<%= Settings.hands_location_type %>">
+    <div></div>
+    <div>
+        <label for="location-text-field">
+            <!-- <strong class="fs-5">Location</strong><br> -->
+            <%= t('hands.entering_location', location_type: Settings.hands_location_type) %>:
+        </label>
+        <input id="location-text-field" type="text" name="location" class="form-control" required autofocus placeholder="<%= Settings.hands_location_type %>">
+    </div>
     <button id="loc-button" data-loading-text="Just a sec..." type="submit" class="btn btn-warning" name="how" value="hands"><%= t('hands.save_my_location') %></button>
     <% end %>
 </div>

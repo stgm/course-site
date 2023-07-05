@@ -1,23 +1,28 @@
-<%= form_tag(auth_mail_validate_path, class: 'mx-auto m-5 p-4') do |form| %>
+<% @page_name = t('account.login_or_register') %>
 
-<h1 class="text-center">
-    <%= bootstrap_icon 'file-earmark-binary', width: 60, height: 60 %>
-    <%= t('account.validation_code') %>
-</h1>
-<p class="text-center">
-    <% if Rails.env.development? %>
-    Find your code in the Rails console
-    <% else %>
-    <%= t('account.validation_code_in_mail') %>
+<div class="cards">
+    <div>
+        <p class="lead text-center">
+            <%= t('account.validation_code') %>.
+            <% if Rails.env.development? %>
+            Find your code in the Rails console!
+            <% else %>
+            <%= t('account.validation_code_in_mail') %>
+            <% end %>
+        </p>
+    </div>
+
+    <%= form_tag(auth_mail_validate_path, class: 'mini-app-body d-flex justify-content-between flex-column') do |form| %>
+
+    <div>
+        <label for="code" class="mb-1">Validation code</label>
+        <input name="code" type="text" autofocus required class="form-control" maxlength="6" size="6" autocomplete="one-time-code">
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
+        <input type="submit" class="btn btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
+    </div>
+
     <% end %>
-</p>
-
-<input name="code" type="text" autofocus required class="form-control my-5 border-0 border-bottom" maxlength="6" size="6" autocomplete="one-time-code">
-
-<div class="d-flex justify-content-between">
-<%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
-<input type="submit" class="btn btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
 </div>
-
-
-<% end %>
