@@ -31,13 +31,18 @@ class User < ApplicationRecord
 
     def full_designation
         result = ""
-        if Schedule.many?
+
+        # if there are multiple schedules, add the schedule name
+        if Schedule.many? && schedule_name
             result += schedule_name
         end
-        if schedule.groups.many? && group_name
+        
+        # if there are multiple groups in the current schedule, add that too
+        if schedule.present? && schedule.groups.many? && group_name
             result += "\n" if result != ""
             result += group_name
         end
+
         return result
     end
 
