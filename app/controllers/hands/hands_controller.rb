@@ -1,5 +1,7 @@
 class Hands::HandsController < ApplicationController
 
+    include NavigationHelper
+
 	before_action :authorize
 	before_action :require_staff
 
