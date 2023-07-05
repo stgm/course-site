@@ -14,9 +14,6 @@ class HomeController < ApplicationController
                 redirect_to profile_path
             elsif !current_user.valid_schedule? && Schedule.many_registerable?
                 redirect_to profile_path
-            elsif !current_user.valid_schedule?
-                current_user.set_current_schedule!
-                redirect_to syllabus_path
             elsif current_user.admin? && !Settings.git_version.key?('.')
                 # allow connecting course materials git
                 redirect_to home_clone_path
@@ -30,6 +27,7 @@ class HomeController < ApplicationController
                 # current user's schedule's announcements
                 redirect_to announcements_path
             else
+                current_user.set_current_schedule! if !current_user.valid_schedule?
                 # current user's schedule's syllabus
                 redirect_to syllabus_path
             end
