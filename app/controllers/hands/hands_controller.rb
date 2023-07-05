@@ -9,7 +9,7 @@ class Hands::HandsController < ApplicationController
 	
 	before_action do
 		I18n.locale = :en
-        @group_name = params['group'] ||  current_user.groups.first&.name || Schedule.count > 1 && current_schedule.name || Course.long_name
+        @group_name = params['group'] ||  current_user.groups.first&.name || current_user.full_designation.gsub("\n", " &ndash; ")
         @course_name = Schedule.count > 1 && current_schedule.name || Course.long_name
 	end	
 
