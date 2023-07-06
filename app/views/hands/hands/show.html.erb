@@ -1,34 +1,33 @@
 <div class="hands-show">
 
-<div class="flex-fill">
-<% if @hand.assist == current_user %>
-<% end %>
+    <div class="flex-fill">
+        <% if @hand.assist == current_user %>
+        <% end %>
+        <%= render_hand hand: @hand %>
+    </div>
 
-<%= render partial: "hand", object: @hand %>
-</div>
+    <% if @hand.assist.blank? %>
 
-<% if @hand.assist.blank? %>
+    <div class="d-grid gap-2 d-md-block">
+        <%= link_to("Start Helping", dib_hand_path(@hand), method: :put, class: 'btn btn-primary') %>
+        <%= link_to('Delete & Mail', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-secondary', data: { confirm: 'Sure to delete?' })%>
+    </div>
 
-<div class="d-grid gap-2 d-md-block">
-	<%= link_to("Start Helping", dib_hand_path(@hand), method: :put, class: 'btn btn-primary') %>
-	<%= link_to('Delete & Mail', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-secondary', data: { confirm: 'Sure to delete?' })%>
-</div>
+    <% else %>
 
-<% else %>
+    <%= form_tag(done_hand_path(@hand, success: true), method: :put) do %>
 
-<%= form_tag(done_hand_path(@hand, success: true), method: :put) do %>
+    <%#= render partial: 'form' %>
 
-<%#= render partial: 'form' %>
-
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-	<button type="submit" class="btn btn-primary me-md-2">Mark as done</button>
-	<%= link_to('Put back in list', helpline_hand_path(@hand), method: :put, class: 'btn btn-secondary me-md-2', data: { confirm: 'Are you sure that someone is available for extra help?' })%>
-	<%= link_to('Delete and mail', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-secondary', data: { confirm: 'Sure to delete?' })%>
-</div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-primary me-md-2">Mark as done</button>
+        <%= link_to('Put back in list', helpline_hand_path(@hand), method: :put, class: 'btn btn-secondary me-md-2', data: { confirm: 'Are you sure that someone is available for extra help?' })%>
+        <%= link_to('Delete and mail', done_hand_path(@hand, success: false), method: :put, class: 'btn btn-secondary', data: { confirm: 'Sure to delete?' })%>
+    </div>
 
 
-<% end %>
+    <% end %>
 
-<% end %>
+    <% end %>
 
 </div>

@@ -5,6 +5,9 @@ class Hands::RaisesController < ApplicationController
     def show
         @assist_available = User.where('available > ?', DateTime.now)
 
+        # clear any old requests
+        current_user.hands.where("updated_at < ?", Date.today).where(done: false).update_all(done: true)
+
         respond_to do |format|
             format.js do
                 if @question = Hand.where(user: current_user, done: false).first
