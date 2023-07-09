@@ -14,5 +14,4 @@
     <% Course.links.each do |title, url|  %>
     <%= link_to insert_icon(title).html_safe, url, class:"", target: url =~ /^http/i ? '_blank' : nil %>
     <% end %>
-    <%= link_to "Assistentie" , assistance_index_path %>
 </div>
