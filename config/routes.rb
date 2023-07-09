@@ -136,6 +136,9 @@ Rails.application.routes.draw do
 			put "done"
 		end
 	end
+    
+    resources :questions
+    resources :answers
 
     resources :assistance, only: [ :index ]
 
@@ -218,6 +221,9 @@ Rails.application.routes.draw do
 	resources :submissions, only: [ :index, :create ] do
 		get 'feedback'
 	end
+
+    get  "s/*slug" => "page#submit"
+    get  "q/*slug" => "page#questions"
 
 	# default route, for content pages (must be last!)
 	# ..with an exception for the /rails routes

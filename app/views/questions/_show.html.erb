@@ -1,0 +1,32 @@
+<turbo-frame id="question_<%= question.id %>">
+<div class="card-body">
+    <%= link_to bootstrap_icon('star'), '', class: 'star', 'data-bs-toggle' => 'tooltip', title: "Mark thread as interesting" %>
+    <h5 class="card-title">
+        <%= question.user_name %> &middot;
+        <small class="text-muted">
+            <%= time_ago_in_words(question.updated_at) %> geleden
+        </small>
+    </h5>
+    <%= question.text %>
+</div>
+<% question.answers.each do |answer| %>
+<div class="answer-card">
+    <div class="card-body">
+        <h5 class="card-title">
+            <%= answer.user_name %> &middot;
+            <small class="text-muted">
+                <%= time_ago_in_words(answer.updated_at) %> geleden
+            </small>
+        </h5>
+        <%= answer.text %>
+    </div>
+</div>
+<% end %>
+<div class="answer-card">
+    <div class="card-body">
+        <turbo-frame id="reply_question_<%= question.id %>">
+        <%= link_to 'Reply', new_answer_path(question_id: question.id), class: "card-link small" %>
+        </turbo-frame>
+    </div>
+</div>
+</turbo-frame>

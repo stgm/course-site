@@ -1,0 +1,24 @@
+<%= form_tag_if(
+    Submit.available? && logged_in? && @page.pset,
+    submissions_path,
+    {
+        multipart: true,
+        id: "page_form",
+        data:
+        {
+            controller: "form-cache",
+            form_cache_target: "form",
+            action: "input->form-cache#saveToLocalStorage submit->form-cache#clearLocalStorage"
+        }
+    }
+    ) do %>
+
+<% if @submit || (@page.pset && Submit.available? && logged_in?) %>
+<%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
+<% end %>
+
+
+<%= render 'submit' %>
+
+
+<% end %>

@@ -37,6 +37,7 @@ $link-decoration: none;
 
 @import "includes/navigation";
 @import "includes/courselinks";
+@import "includes/page";
 @import "includes/content";
 @import "includes/elements";
 @import "includes/timeline";
@@ -56,3 +57,6 @@ $link-decoration: none;
 
 // includes responsive styles, so it goes last
 @import "includes/framework";
+
+@import "actiontext";
+@import "trix";

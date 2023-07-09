@@ -1,31 +1,3 @@
-<%= form_tag_if(
-    Submit.available? && logged_in? && @page.pset,
-    submissions_path,
-    {
-        multipart: true,
-        id: "page_form",
-        data:
-        {
-            controller: "form-cache",
-            form_cache_target: "form",
-            action: "input->form-cache#saveToLocalStorage submit->form-cache#clearLocalStorage"
-        }
-    }
-    ) do %>
-
-<% if @submit || (@page.pset && Submit.available? && logged_in?) %>
-<%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
-<div id="submit-button">
-    <button class="btn btn-primary" type="button" onclick="window.scrollTo(0,document.body.scrollHeight);">
-    <% if @submit && @submit.submitted_at %>
-        <%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %> <%= bootstrap_icon 'arrow-down' %>
-    <% else %>
-        <%= t 'submit.at_the_end_of_page' %> <%= bootstrap_icon 'arrow-down' %>
-    <% end %>
-    </button>
-</div>
-<% end %>
-
 <% @subpages.each_with_index do |subpage, index| %>
 <div id="content">
     <section class="markdown" id="<%= subpage.slug %>-content">
@@ -34,12 +6,8 @@
 </div>
 <% end %>
 
-<%= render 'submit' %>
-
 <% if Course.license.present? || Course.acknowledgements.present? %>
 <div id="content">
     <%= render 'footer' %>
 </div>
-<% end %>
-
 <% end %>

@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_07_162252) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_155429) do
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,6 +57,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_162252) do
     t.datetime "updated_at", null: false
     t.integer "schedule_id"
     t.index ["schedule_id"], name: "index_alerts_on_schedule_id"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "attendance_records", force: :cascade do |t|
@@ -112,6 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_162252) do
     t.datetime "claimed_at"
     t.datetime "closed_at"
     t.string "subject"
+    t.string "hint"
     t.index ["assist_id"], name: "index_hands_on_assist_id"
     t.index ["user_id"], name: "index_hands_on_user_id"
   end
@@ -165,6 +185,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_162252) do
     t.boolean "test", default: false
     t.index ["mod_id"], name: "index_psets_on_mod_id"
     t.index ["page_id"], name: "index_psets_on_page_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "page_id", null: false
+    t.boolean "locked", default: false
+    t.boolean "hidden", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_questions_on_page_id"
+    t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
   create_table "schedule_spans", force: :cascade do |t|
@@ -290,5 +321,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_162252) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
+  add_foreign_key "questions", "pages"
+  add_foreign_key "questions", "users"
   add_foreign_key "schedules", "pages"
 end

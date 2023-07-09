@@ -2,6 +2,7 @@ class Page < ApplicationRecord
     has_many :subpages, dependent: :destroy
     has_one  :pset, dependent: :nullify  # psets should never be destroyed, because may have submits
     has_one  :schedule, dependent: :nullify  # a schedule may have this page linked as a syllabus
+    has_many :questions #, dependent: :destroy
 
     # Make sure the subpages are always ordered
     default_scope { order(:position, :title) }

@@ -1,0 +1,72 @@
+    <turbo-frame id="questions_page_<%= @page.id %>">
+
+<div id="content" class="questions" style="background-color: #FDF8F5">
+
+    <!-- <div class="card">
+        <div class="card-body"> -->
+            <!-- <h5 class="card-title">Hoe kun je hulp krijgen bij deze cursus?</h5> -->
+            <div class="disambiguation card-group stext-white">
+                <div class="card sbg-primary">
+                    <%= bootstrap_icon 'people-fill', width: '40', height: '40' %>
+                    <!-- <h5>Assistentie</h5> -->
+                    Als je nog niet zo goed weet hoe je je vraag moet stellen dan 
+                    kun je samen met een assistent aan de slag in het lokaal.
+                    <button class="btn btn-light btn-sm mt-auto" onclick="" id="assist-button">Vraag assistentie</button>
+                </div>
+                <div class="card sbg-primary">
+                    <%= bootstrap_icon 'envelope-at-fill', width: '40', height: '40' %>
+                    <!-- <h5>Mail</h5> -->
+                    Als je een uitzondering zou willen aanvragen, of de precieze 
+                    regels zijn je niet helemaal duidelijk, dan kun je het best een
+                    mail sturen.
+                    <a href="mailto:help@mprog.nl" class="btn btn-light btn-sm mt-auto">Stuur een mail</a>
+                </div>
+                <div class="card sbg-primary">
+                    <%= bootstrap_icon 'robot', width: '40', height: '40' %>
+                    <!-- <h5>CS50.ai</h5> -->
+                    Een alternatief voor assistentie, om op ideeën te komen hoe je je
+                    probleem kunt aanpakken. Gebruik dit in plaats van ChatGPT.
+                    <a href="https://cs50.ai/" target="_new" class="btn btn-light btn-sm mt-auto">Ga naar cs50.ai</a>
+                </div>
+                <!--div class="card sbg-primary">
+                    <%= bootstrap_icon 'person-workspace', width: '40', height: '40' %>
+                    <h5>Forum</h5>
+                    Als je een redelijk gerichte vraag hebt, met name over wat er in
+                    de opdracht wordt bedoeld, dan kun je hieronder een vraag stellen.
+                    <button class="btn btn-light btn-sm">Create a new post</button>
+                </div-->
+            </div>
+        <!-- </div>
+    </div> -->
+
+
+    <div class="card">
+        <div class="card-body">
+            <turbo-frame id="new-question-form">
+            <h5 class="card-title"><%= link_to 'Schrijf een nieuwe vraag of opmerking', new_question_path(slug: @page.slug) %></h5>
+            </turbo-frame>
+        </div>
+    </div>
+    
+    <% @questions.each do |question| %>
+    <div class="card">
+        <%= render partial: 'questions/show', locals: { question: question } %>
+    </div>
+    <% end %>
+
+
+</div>
+
+    </turbo-frame>
+<script>
+enableTooltips();
+
+document.getElementById('assist-button').addEventListener('click', (e) => {
+    y = document.getElementById('ama-dd');
+    x = new bootstrap.Dropdown(y);
+    x.toggle();
+    e.stopPropagation();
+    return false;
+});
+
+</script>
