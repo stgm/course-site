@@ -52,6 +52,15 @@ class PageController < ApplicationController
         
     end
 
+    def questions_syllabus
+        @page = current_schedule && current_schedule.page || Page.find_by_slug('')
+        raise ActionController::RoutingError.new('Not Found') if !@page
+        params[:slug] = 'syllabus'
+        @title = @page.title
+        @questions = @page.questions.order updated_at: :desc
+        render 'questions'
+    end
+
     def announcements
         @title = t(:announcements)
     end
@@ -63,7 +72,9 @@ class PageController < ApplicationController
         end
         @subpages = @page.subpages
         @title = t(:syllabus)
+        params[:slug] = 'syllabus'
         render 'index'
+        # @questions = @page.questions.order updated_at: :desc
     end
 
 end
