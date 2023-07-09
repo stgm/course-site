@@ -223,6 +223,7 @@ Rails.application.routes.draw do
 	end
 
     get  "s/*slug" => "page#submit"
+    get  "q/syllabus" => "page#questions_syllabus"
     get  "q/*slug" => "page#questions"
 
 	# default route, for content pages (must be last!)
