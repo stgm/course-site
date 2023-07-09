@@ -151,3 +151,9 @@
         display: none;
     }
 }
+
+.trix-content pre
+{
+    max-height: 250px;
+    overflow: scroll;
+}
