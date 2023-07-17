@@ -1,4 +1,4 @@
-<div id="course-links">
+<!-- <div id="course-links"> -->
     <% if logged_in? %>
     <% if alerts_for_current_schedule.any? %>
     <a href="/announcements"><%= bootstrap_icon 'bell-fill' %><small><%= t(:announcements) %></small></a>
@@ -14,4 +14,4 @@
     <% Course.links.each do |title, url|  %>
     <%= link_to insert_icon(title).html_safe, url, class:"", target: url =~ /^http/i ? '_blank' : nil %>
     <% end %>
-</div>
+<!-- </div> -->

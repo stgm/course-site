@@ -1,0 +1,23 @@
+<div id="navbar" class="shadow-sm navbar navbar-expand-md flex-wrap gap-3">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <%= render 'brand' %>
+
+    <%# additional items as defined by the page template %>
+    <%= yield :navbar_items %>
+
+    <%# spacer %>
+    <div class="flex-fill"></div>
+
+    <%# default toolbar items %>
+    <% if current_user.senior? %>
+    <%= render partial: 'search' %>
+    <% end %>
+
+    <ul class="navbar-nav button-bar collapse navbar-collapse navbarSupportedContent">
+        <%= render 'course_links' %>
+        <%= render partial: 'hands_menu' %>
+        <%= render 'menu' %>
+    </ul>
+</div>

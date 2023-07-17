@@ -1,0 +1,237 @@
+// CSS for the sidebar
+
+#sidebar
+{
+    font-size: 0.9rem;
+
+    padding:1rem;
+    padding-top:0;
+}
+
+@media (max-width: 767.98px)
+{
+    #sidebar
+    {
+        border-bottom: 1px solid;
+    }
+}
+
+@media (min-width: 768px)
+{
+    #sidebar
+    {
+        display:flex;
+        flex-direction:column;
+        padding:0.75rem;
+        padding-top:0.5rem;
+    }
+}
+
+@media (min-width: 992px)
+{
+    #sidebar
+    {
+        border-right: 1px solid;
+        // prevents backdrop-filter blocking out text when scrolling
+        transform: translate3d(0,0,0);
+    }
+
+    #sidebar > .nav
+    {
+        padding-left:.75rem;
+        padding-right:.75rem;
+    }
+
+    #sidebar > .nav > .nav
+    {
+        padding-left:1rem;
+        padding-right:1rem;
+    }
+}
+
+@media (min-width: 1112px)
+{
+    #sidebar
+    {
+        padding:1rem;
+
+        #schedule
+        {
+            margin-top:0.5rem;
+        }
+    }
+}
+
+//****************************************************************************
+
+.unavailable
+{
+    text-decoration:line-through;
+}
+
+#sidebar .nav, .materials-nav
+{
+    // damn flexbox so flexible
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    width: 100%;
+    flex-direction: column;
+    padding:0;
+}
+
+#sidebar .nav + .nav
+{
+    margin-top: 1rem;
+}
+
+#sidebar a.disabled
+{
+    font-weight:600;
+}
+
+#sidebar h2
+{
+    font-size:.7rem;
+    text-transform: uppercase;
+    color:gray;
+}
+
+#sidebar .nav-text, .materials-nav .nav-text
+{
+    font-size: smaller;
+    margin: 0.5rem 0 0.25rem 0.15rem;
+    color: map-get($theme-colors, 'dark');
+}
+
+#sidebar .nav-head, .materials-nav .nav-head
+{
+    padding-left: 0.15rem;
+    padding-right: 0.15rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 14px;
+}
+
+#sidebar .nav-head, .materials-nav .nav-head
+{
+    margin:0.15rem 0 0.15rem 0;
+    color:#a5a5a5;
+}
+
+#sidebar .nav-link-item, .materials-nav .nav-link-item
+{
+    padding: 0;
+    border-radius: 0.25rem !important;
+    margin-bottom: 0.25rem;
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    align-items: start !important;
+}
+
+#sidebar .nav-link, .materials-nav .nav-link
+{
+    display: inline-block;
+    padding: 0.25rem 0.25rem;
+    flex: 1 1 auto !important; // fill
+    border-radius: 0.25rem !important;
+
+    .badge
+    {
+        // align to the right
+        margin-left: auto;
+        margin-right: 0.25rem;
+
+        background-color: $secondary;
+        color: white;
+        font-weight: normal;
+        text-transform: uppercase;
+
+        // ensure correct vertical alignment
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+#sidebar > ul
+{
+    margin-top:0.75rem;
+    padding-top:.75rem;
+}
+
+#sidebar > ul:first-child
+{
+    margin-top:0rem;
+    padding-top:0;
+    border-top:0;
+}
+
+//****************************************************************************
+
+#sidebar #schedule > .nav > .nav-text
+{
+    font-weight:600;
+}
+
+#sidebar #schedule > .nav .nav .nav-text
+{
+    color:#6C8DAF;
+}
+
+#sidebar .materials a
+{
+    padding:0.5rem;
+    margin-left:-0.25rem;
+    margin-right:-0.25rem;
+}
+
+#sidebar .materials a a
+{
+    margin-left:-1.25rem;
+    padding-left:0.25rem;
+}
+
+#sidebar .materials a [data-bs-toggle="collapse"]
+{
+    margin-left:-1.25rem;
+    padding-left:0.25rem;
+    color:#343a40;
+}
+
+#sidebar .materials .nav-item
+{
+    margin-left:0.95rem;
+}
+
+#sidebar .materials ul.nav
+{
+    padding-left:1.5rem;
+}
+
+#sidebar ul#sections
+{
+    img
+    {
+        opacity: 0.3;
+        vertical-align: -3px;
+        height: 1rem;
+        width: 1.3rem;
+        margin-left:-1.3rem;
+        color: #D4DAE0; // doesn't work because it's a SVG (currently)
+    }
+}
+
+#sidebar .materials
+{
+    padding:0;
+}
+
+#sidebar .materials .chevron
+{
+    color:#aaa;
+    text-align:center;
+    margin-left:-0.25rem;
+    margin-right:0.15rem;
+    width:1rem;
+    height:1rem;
+}

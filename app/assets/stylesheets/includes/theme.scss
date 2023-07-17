@@ -1,188 +1,159 @@
 // CSS for the theme, which is mostly the colors of elements
 
-body
-{
-	background-color: $background-color;
-}
-
-.navbar-brand
-{
-	color:map-get($theme-colors, "dark");
-}
-
-.navbar-brand svg
-{
-	background-color: #ffc28f;
-}
-
-summary
-{
-	color:var(--bs-primary);
-}
-
 $gradient1: #FEF3BE;
 $gradient2: #FFD3D2;
 
 $light-gradient1: scale-color($gradient1, $lightness: 20%);
 $light-gradient2: scale-color($gradient2, $lightness: 20%);
 
-#sidebar, #navbar
+body, #content
 {
-	background: linear-gradient(50deg, $light-gradient1 0%, $light-gradient2 100%);
+    background-color: $background-color;
+}
+
+.navbar-brand
+{
+    color:map-get($theme-colors, "dark");
+}
+
+summary
+{
+    color:var(--bs-primary);
+}
+
+#navbar
+{
+    background-image: linear-gradient(120deg, rgb(132,250,176) 0%, #8fd3f4 100%);
 }
 
 #sidebar
 {
-	border-color: #F9EAE6;
-	
-	#sidebar-tools
-	{
-		-webkit-backdrop-filter: brightness(102%);
-		backdrop-filter: brightness(102%);
+    background: linear-gradient(50deg, adjust-color($background-color, $lightness: -1%) 0%, #F4F4F4 100%);
+}
 
-		.bg-light
-		{
-			background-color:transparent !important;
-		}
-	}
+#sidebar
+{
+    border-color: adjust-color($background-color, $lightness: -5%);
 
-	#course-links
-	{
-		-webkit-backdrop-filter: brightness(103%);
-		backdrop-filter: brightness(103%);
+    .nav-link-item > a
+    {
+        background-color: #fffdfc;
+    }
 
-		.bg-light
-		{
-			background-color:transparent !important;
-		}
-	}
-
-	.nav-link-item
-	{
-		background-color: #fffdfc;
-	}
-
-	a:hover
-	{
-		color:#235A9E;
-		background-color: #e5e1dd;
-		text-decoration:none;
-	}
+    a:hover
+    {
+        color:#235A9E;
+        background-color: #e5e1dd;
+        text-decoration:none;
+    }
 }
 
 #row-content .bg-light
 {
-	background-color:#f1efee !important;
-}
-
-#icon-nav .nav-link
-{
-	outline: none;
+    background-color:#f1efee !important;
 }
 
 .dropdown-menu-right
 {
-	right:-2px;
-	margin:0;
+    right:-2px;
+    margin:0;
 }
-
-
 
 .btn.btn-grayed
 {
-	color: #545454;
-	background-color: #ececec;
-	border-color: #ccc;
+    color: #545454;
+    background-color: #ececec;
+    border-color: #ccc;
 }
 
 .btn-grayed:active
 {
-	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 
 .menu-hidden
 {
-	background-color: #ff9966;
+    background-color: #ff9966;
 }
 
 #profile-dialog .modal-header
 {
-	background: linear-gradient(50deg, #FEF3BE 0%, #FDDED0 100%);	
+    background: linear-gradient(50deg, #FEF3BE 0%, #FDDED0 100%);
 }
 
 .dropdown-menu
 {
-	@extend .shadow;
-	@extend .border-0;
+    @extend .shadow;
+    @extend .border-0;
 }
 
 .modal-content
 {
-	@extend .shadow-lg;
-	@extend .border-0;
+    @extend .shadow-lg;
+    @extend .border-0;
 }
 
 #toolbar
 {
-	background-color: #EFF2F6;
+    background-color: #EFF2F6;
 }
 
 .grading-panes
 {
-	.grading-submits
-	{
-		background-color: #F9FCFF;
-	}
-	.grading-form
-	{
-		background-color: white;
-	}
-	.grading-files
-	{
-		border-left: 1px solid #eee;
-		
-		#files
-		{
-			background-color:#F4F4F4;
-		}
-	}
+    .grading-submits
+    {
+        background-color: #F9FCFF;
+    }
+    .grading-form
+    {
+        background-color: white;
+    }
+    .grading-files
+    {
+        border-left: 1px solid #eee;
+
+        #files
+        {
+            background-color:#F4F4F4;
+        }
+    }
 }
 
 #timeline
 {
-	.card-body
-	{
-		display: inline-block;
-		background-color: white;
-		border-radius: 0.3rem;
-		box-shadow: 0px 5px 20px -5px rgba(0,0,0,0.02) ;
-		margin-bottom: 2rem;
-	}
+    .card-body
+    {
+        display: inline-block;
+        background-color: white;
+        border-radius: 0.3rem;
+        box-shadow: 0px 5px 20px -5px rgba(0,0,0,0.02) ;
+        margin-bottom: 2rem;
+    }
 }
 
 
 section pre .comment
 {
-	color:#363;
+    color:#363;
 }
 
 .red
 {
-	color: red;
+    color: red;
 }
 
 .green
 {
-	color: green;
+    color: green;
 }
 
 footer
 {
-	opacity: 0.3;
+    opacity: 0.3;
 }
 
 footer:hover
 {
-	opacity: 1;
+    opacity: 1;
 }

@@ -1,0 +1,86 @@
+#navbar
+{
+    padding: 0.25rem 1rem;
+}
+
+.navbar-brand
+{
+    line-height:normal;
+    padding:0.5rem;
+    border-radius:0.25rem;
+}
+
+#course-title
+{
+    min-width:0;
+}
+
+#course-name
+{
+    font-weight:bold;
+    line-height:1.1;
+}
+
+.navbar-toggler
+{
+    padding: 0;
+    border: 0;
+    margin-left: 0.5rem;
+}
+
+
+@media (max-width: 767.98px)
+{
+    .navbar-brand
+    {
+        padding:0.1rem;
+    }
+
+    .navbar-brand #course-title *
+    {
+        overflow-x:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+
+    #schedule-navbar-items
+    {
+        margin-top:1rem;
+    }
+
+    #schedule-navbar-items > *
+    {
+        margin-right:0;
+        width:100%;
+    }
+}
+
+@media (min-width: 768px)
+{
+    .navbar-brand
+    {
+        white-space:normal;
+    }
+
+    .navbar-brand.logged_in #course-title *
+    {
+        overflow-x:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+}
+
+@media (min-width: 992px)
+{
+    #schedule-navbar-items > *
+    {
+        margin-right:1rem;
+    }
+}
+
+//****************************************************************************
+
+#user-menu a
+{
+	@extend .dropdown-item;
+}

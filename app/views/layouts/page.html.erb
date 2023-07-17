@@ -1,17 +1,19 @@
 <% content_for :content do %>
-<ul class="nav page-tabs">
+<ul id="page-tabs" class="nav">
     <li class="nav-item">
         <a class="nav-link <%= 'active' if action_name == 'index' || action_name == 'syllabus' %>"
             aria-current="page" href="/<%= params[:slug] %>">
             <%= bootstrap_icon 'clipboard-check' %> Inhoud
         </a>
     </li>
+    <% if !@page.pset %>
     <li class="nav-item">
         <a class="nav-link <%= 'active' if action_name == 'questions' || action_name == 'questions_syllabus' %>"
             href="/q/<%= params[:slug] %>">
             <%= bootstrap_icon 'patch-question' %> Hulp
         </a>
     </li>
+    <% end %>
     <% if @page.pset %>
     <li class="nav-item">
         <a class="nav-link <%= 'active' if action_name == 'submit' %>"
