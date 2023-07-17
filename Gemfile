@@ -56,7 +56,7 @@ gem 'rubyzip', '~> 2.3.0', require: 'zip'
 gem 'caxlsx_rails'
 
 # front-end
-gem 'bootstrap', '~> 5.0.0'
+gem 'bootstrap', '~> 5.3.0.alpha3'
 gem 'autoprefixer-rails', '~> 10.2.5'
 gem 'coderay'
 gem 'groupdate'

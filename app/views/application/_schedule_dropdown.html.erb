@@ -1,7 +1,7 @@
 <% if current_user.admin? || current_schedule.schedule_spans.accessible.many? %>
 
-<div class="dropdown">
-	<button id="scheduleDropdown" class="btn btn-link nav-head text-dark m-0 p-0 dropdown-toggle <%= 'unavailable' if !current_module.public? %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+<div class="dropdown" style="min-width: 0">
+	<button id="scheduleDropdown" class="btn btn-link nav-head text-dark m-0 p-0 dropdown-toggle d-flex align-items-center text-truncate <%= 'unavailable' if !current_module.public? %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 		<%= current_module.name %>
 	</button>
 

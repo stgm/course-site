@@ -72,9 +72,9 @@ class PageController < ApplicationController
         end
         @subpages = @page.subpages
         @title = t(:syllabus)
+        @questions = @page.questions.order updated_at: :desc
         params[:slug] = 'syllabus'
         render 'index'
-        # @questions = @page.questions.order updated_at: :desc
     end
 
 end

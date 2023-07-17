@@ -6,7 +6,12 @@ body.page #content, body.home #content, body.submissions #content
 	-webkit-hyphens:auto;
 	-moz-hyphens:none;
 	clear:both;
-	max-width:50rem;
+}
+
+section
+{
+    max-width: 40rem;
+    margin: 0 auto;
 }
 
 section, .sectionbody .content
