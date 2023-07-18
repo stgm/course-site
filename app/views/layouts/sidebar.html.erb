@@ -2,7 +2,7 @@
 
 <%= render 'navbar' %>
 
-<div id="sidebar" data-turbo-permanent class="navbar-expand-md navbar-collapse collapse navbarCollapsedContent">
+<div id="sidebar" tabindex="-1" onclick="x = new bootstrap.Offcanvas('#sidebar'); x.hide();">
     <%= render 'sidebar' %>
 </div>
 

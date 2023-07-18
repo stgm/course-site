@@ -3,9 +3,9 @@
 #sidebar
 {
     font-size: 0.9rem;
+    overflow-y: scroll;
 
     padding:0.75rem;
-    padding-top:0.5rem;
 }
 
 #scheduleDropdown
@@ -18,11 +18,11 @@
     .dropdown-menu
     {
         max-width: 100%;
-        
+
         form
         {
             overflow: hidden;
-            
+
             button
             {
                 overflow: hidden;
@@ -36,7 +36,24 @@
 {
     #sidebar
     {
-        border-bottom: 1px solid;
+        // offcanvas
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        bottom: 0;
+        max-width: 100%;
+
+        visibility: hidden;
+        transform: translateX(-100%);
+        outline: 0;
+    }
+
+    #sidebar.showing, #sidebar.hiding, #sidebar.show {
+        visibility: visible;
+        transform: none;
+        z-index: 1045;
+        width: 80%;
     }
 }
 
