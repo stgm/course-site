@@ -17,6 +17,13 @@
 <%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
 <% end %>
 
+<% @subpages.each_with_index do |subpage, index| %>
+<div id="content">
+    <section class="markdown" id="<%= subpage.slug %>-content">
+        <%= markdown(subpage.content, @page) %>
+    </section>
+</div>
+<% end %>
 
 <%= render 'submit' %>
 

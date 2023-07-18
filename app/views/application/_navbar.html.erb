@@ -1,5 +1,5 @@
-<div id="navbar" class="shadow-sm navbar navbar-expand-md flex-wrap gap-3">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<div id="navbar" class="shadow-sm navbar navbar-expand-md flex-wrap column-gap-3">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbarCollapsedContent" aria-controls="navbar_links sidebar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <%= render 'brand' %>
@@ -15,7 +15,7 @@
     <%= render partial: 'search' %>
     <% end %>
 
-    <ul class="navbar-nav button-bar collapse navbar-collapse navbarSupportedContent">
+    <ul id="navbar_links" class="navbar-nav button-bar collapse navbar-collapse navbarCollapsedContent">
         <%= render 'course_links' %>
         <%= render partial: 'hands_menu' %>
         <%= render 'menu' %>
