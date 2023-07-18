@@ -8,15 +8,20 @@ class PageController < ApplicationController
 
     def index
         # find page by url and bail out if not found
-        @page = Page.where(slug: params[:slug]).first
+        @page = Page.where(slug: params[:slug]).includes(:subpages).first
         raise ActionController::RoutingError.new('Not Found') if !@page
 
-        @subpages = @page.subpages
+        if @page.pset && @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
+            redirect_to page_submit_path(slug: params[:slug])
+        end
+
+        @subpages = @page.subpages.select{|x| x.title.downcase != 'submit'}
 
         if @page.pset && current_user.can_submit?
             @has_form = @page.pset.form
             @submit = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
             @allow_submit = @submit.blank? || @submit.may_be_resubmitted?
+            @only_submit = @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
         end
 
         @title = @page.title
@@ -25,31 +30,34 @@ class PageController < ApplicationController
 
     def submit
         # find page by url and bail out if not found
-        @page = Page.where(slug: params[:slug]).first
+        @page = Page.where(slug: params[:slug]).includes(:subpages).first
         raise ActionController::RoutingError.new('Not Found') if !@page
-        
+
+        @subpages = @page.subpages.select{|x| x.title.downcase == 'submit'}
+
         if @page.pset && current_user.can_submit?
             @has_form = @page.pset.form
             @submit = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
             @allow_submit = @submit.blank? || @submit.may_be_resubmitted?
+            @only_submit = @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
         end
-        
+
         @title = @page.title
-        
+
     end
 
     def questions
         # find page by url and bail out if not found
-        @page = Page.where(slug: params[:slug]).first
+        @page = Page.where(slug: params[:slug]).includes(:subpages).first
         raise ActionController::RoutingError.new('Not Found') if !@page
-        
+
         if @page.pset && current_user.can_submit?
             @submit = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
         end
-        
+
         @title = @page.title
         @questions = @page.questions.order updated_at: :desc
-        
+
     end
 
     def questions_syllabus

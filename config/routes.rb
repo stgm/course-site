@@ -222,7 +222,7 @@ Rails.application.routes.draw do
 		get 'feedback'
 	end
 
-    get  "s/*slug" => "page#submit"
+    get  "s/*slug" => "page#submit", as: "page_submit"
     get  "q/syllabus" => "page#questions_syllabus"
     get  "q/*slug" => "page#questions"
 

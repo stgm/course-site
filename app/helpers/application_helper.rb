@@ -94,6 +94,7 @@ module ApplicationHelper
 		all_modules = SubModule.where(name:content).sort_by{|m| content.index(m.name)}
 		# combine the content links into a single hash
 		combined_content = all_modules.map(&:content_links).reduce({}, :merge)
+        logger.info combined_content.inspect
 		return content_tag(:li, links_to_ul(combined_content), class: "nav-item")
 	end
 	

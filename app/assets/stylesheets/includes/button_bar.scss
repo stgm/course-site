@@ -11,7 +11,7 @@
         flex: 0 0 0;
         flex-direction: column;
         font-size: 0.9rem;
-        min-width: 4.5rem;
+        min-width: 5.5rem;
 
         svg
         {
@@ -53,19 +53,17 @@
     #navbar
     {
         padding: 0.25rem;
-    }
 
-    .button-bar
-    {
-        width: 100%;
-        flex-direction: column !important;
-    }
+        .button-bar
+        {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+        }
 
-    .button-bar > a, .button-bar > li > a
-    {
-        min-width: auto;
-        display: flex;
-        flex-direction: row;
-        gap: 0.35rem;
+        .button-bar.collapse {
+          &:not(.show) {
+            display: none !important;
+          }
+        }
     }
 }

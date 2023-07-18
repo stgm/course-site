@@ -14,20 +14,20 @@
 	<%# Schedule-based navigation %>
 
 	<% if current_module %>
-			<div class="nav-head text-dark d-flex justify-content-between" style="min-width: 0;">
-                <%= render 'schedule_dropdown' %>
-				<% if current_schedule.self_service %>
-				<div class="ms-auto me-n1" style="flex: 0 0 fit-content">
-					<%= button_to prev_module.present? ? profile_prev_path : '', method: :post, id: 'schedule_prev_button', disabled:!prev_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do tag.span('Previous module', class: 'visually-hidden') + bootstrap_icon('chevron-left', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
-					<%= button_to next_module.present? ? profile_next_path : '', method: :post, id: 'schedule_next_button', disabled:!next_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do tag.span('Next module', class: 'visually-hidden') + bootstrap_icon('chevron-right', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
-				</div>
-				<% end %>
-			</div>
-	<ul class="nav">
-		<li id="schedule">
+    <div class="nav-head text-dark d-flex justify-content-between" style="min-width: 0;">
+        <%= render 'schedule_dropdown' %>
+        <% if current_schedule.self_service %>
+        <div class="ms-auto me-n1" style="flex: 0 0 fit-content">
+            <%= button_to prev_module.present? ? profile_prev_path : '', method: :post, id: 'schedule_prev_button', disabled:!prev_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do tag.span('Previous module', class: 'visually-hidden') + bootstrap_icon('chevron-left', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
+            <%= button_to next_module.present? ? profile_next_path : '', method: :post, id: 'schedule_next_button', disabled:!next_module.present?, class: 'btn btn-link p-0', form: { style: "display:inline;", data: {'turbo-frame': 'sidebar-frame'} } do tag.span('Next module', class: 'visually-hidden') + bootstrap_icon('chevron-right', class: 'rounded', style: 'vertical-align:-4px;').html_safe end %>
+        </div>
+        <% end %>
+    </div>
+    <!-- <ul class="nav">
+        <li id="schedule"> -->
 			<%= links_to_ul(current_module.content) %>
-		</li>
-	</ul>
+        <!-- </li>
+    </ul> -->
 	<% end %>
 
 	<%# Navigation items from section that current page belongs to %>
