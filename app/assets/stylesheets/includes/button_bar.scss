@@ -54,16 +54,16 @@
     {
         padding: 0.25rem;
 
-        .button-bar
-        {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-        }
+    }
+    .button-bar
+    {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    }
 
-        .button-bar.collapse {
-          &:not(.show) {
-            display: none !important;
-          }
-        }
+    .button-bar.collapse {
+      &:not(.show) {
+        display: none !important;
+      }
     }
 }
