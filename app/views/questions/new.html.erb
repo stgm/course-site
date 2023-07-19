@@ -3,7 +3,7 @@
 <%= form_with model: @question, html: {'data-turbo-frame' => "questions_page_#{@page.id}"} do |form| %>
 <%= hidden_field(:question, :page_id) %>
 <div class="field">
-    <%= form.rich_text_area :text %>
+    <%= form.rich_text_area :text, data: { controller: "disable-attachments" } %>
 </div>
 <%= form.submit 'Post', class: 'btn btn-primary btn-sm mt-3' %>
 <% end %>
