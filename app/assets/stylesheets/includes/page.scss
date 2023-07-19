@@ -6,7 +6,8 @@
     padding: 0;
     margin-left: 0;
     border-bottom: 1px solid adjust-color($background-color, $lightness: -10%);
-    background-color: $background-color;
+//    background-color: $background-color;
+    background: linear-gradient(50deg, adjust-color($background-color, $lightness: -1%) 0%, #F4F4F4 100%);
 
     li
     {
@@ -27,12 +28,13 @@
     li a.active
     {
         border-bottom: 1px solid $background-color;
+        background-color: $background-color;
     }
 
     li a:hover:not(.active)
     {
-        background-color: #0087d9;
-        color: white;
+        background-color: #e5e1dd;
+//        color: white;
     }
 }
 

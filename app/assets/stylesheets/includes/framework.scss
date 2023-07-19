@@ -97,29 +97,20 @@ body
     margin-left:auto;
 }
 
-.container.limit-width
-{
-    //max-width:60em;
-}
-
 //****************************************************************************
 
-#content, #submit-content
-{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-body.home #content, body.submissions #content
+section, footer
 {
     padding: 1rem;
+    max-width: 42rem;
+    margin: 0 auto;
 }
 
-body.page #content, #submit-content
+section.questions
 {
-    padding: 1rem;
-    margin-top: 0 !important;
-//    background-color: #fff;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 42rem !important;
 }
 
 section
@@ -139,14 +130,10 @@ section
 
 @media only screen and (min-width: 576px) // small
 {
-    body.home #content, body.submissions #content
+    section, footer
     {
         padding: 1.5rem;
-    }
-
-    body.page #content, #submit-content
-    {
-        padding: 1.5rem;
+        max-width: 43rem;
     }
 
     section
@@ -167,55 +154,67 @@ section
 
 @media only screen and (min-width: 768px) // medium, vertical iPad
 {
-    body.page #content, #submit-content
+    section, footer
     {
         padding: 4rem;
+        max-width: 48rem;
     }
 
-    .rest
-    {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        align-self: stretch;
-    }
-
+//    .rest
+//    {
+//        display: flex;
+//        flex-direction: row;
+//        align-items: center;
+//        align-self: stretch;
+//    }
 
     section
     {
         > .extend, > blockquote, > pre, > .embed, > .videoblock
         {
-            margin-left: -1.5rem;
-            margin-right: -1.5rem;
+            margin-left: -2.5rem;
+            margin-right: -2.5rem;
         }
 
         > blockquote, > pre
         {
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
         }
     }
 }
 
-@media only screen and (min-width: 992px) // large, standard iPad screen
+//@media only screen and (min-width: 992px) // large, standard iPad screen
+//{
+//}
+//
+//@media only screen and (min-width: 1200px) // x-large
+//{
+//    body.page #content, #submit-content
+//    {
+//        margin-top: 3rem;
+//        margin-bottom: 3rem;
+//    }
+//
+//    body.home #content, body.submissions #content
+//    {
+//        margin-top: 1.5rem;
+//        margin-bottom: 1.5rem;
+//
+//        padding: 3rem;
+//    }
+//}
+
+/*
+ * OVERRIDES FOR MOBILE + TABLET
+ */
+
+@media (max-width: 768px)
 {
-}
-
-@media only screen and (min-width: 1200px) // x-large
-{
-    body.page #content, #submit-content
-    {
-        margin-top: 3rem;
-        margin-bottom: 3rem;
-    }
-
-    body.home #content, body.submissions #content
-    {
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-
-        padding: 3rem;
-    }
+	main section + section, main header + header
+	{
+		padding-top: 1em;
+	}
 }
 
 @media only screen and (min-width: 1300px) // xxl
@@ -266,11 +265,6 @@ section
             padding-right: 4rem;
         }
     }
-}
-
-#content section:first-child
-{
-    padding-top: 0;
 }
 
 //****************************************************************************

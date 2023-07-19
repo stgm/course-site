@@ -1,12 +1,14 @@
 <% content_for :content do %>
 <ul id="page-tabs" class="nav">
-    <% if !@only_submit %>
+    <% if @may_show_content %>
     <li class="nav-item">
         <a class="nav-link <%= 'active' if action_name == 'index' || action_name == 'syllabus' %>"
             aria-current="page" href="/<%= params[:slug] %>">
             <%= bootstrap_icon 'clipboard-check' %> Inhoud
         </a>
     </li>
+    <% end %>
+    <% if @may_show_questions %>
     <li class="nav-item">
         <a class="nav-link <%= 'active' if action_name == 'questions' || action_name == 'questions_syllabus' %>"
             href="/q/<%= params[:slug] %>">
@@ -14,7 +16,7 @@
         </a>
     </li>
     <% end %>
-    <% if @page.pset %>
+    <% if @may_show_submit %>
     <li class="nav-item">
         <a class="nav-link <%= 'active' if action_name == 'submit' %>"
             href="/s/<%= params[:slug] %>">

@@ -3,6 +3,7 @@ module Authentication
 
     included do
         helper_method :authenticated?, :logged_in?, :current_user
+        before_action :current_user
     end
 
     # decides if any of the auth methods is satisfied

@@ -1,13 +1,10 @@
 <% @subpages.each_with_index do |subpage, index| %>
-<div id="content">
+<!-- <div id="content"> -->
     <section class="markdown" id="<%= subpage.slug %>-content">
         <%= markdown(subpage.content, @page) %>
     </section>
-</div>
-<% end %>
-
-<% if Course.license.present? || Course.acknowledgements.present? %>
-<div id="content">
+    <% if Course.license.present? || Course.acknowledgements.present? %>
     <%= render 'footer' %>
-</div>
+    <% end %>
+<!-- </div> -->
 <% end %>

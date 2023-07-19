@@ -6,7 +6,7 @@ $gradient2: #FFD3D2;
 $light-gradient1: scale-color($gradient1, $lightness: 20%);
 $light-gradient2: scale-color($gradient2, $lightness: 20%);
 
-body, #content
+body
 {
     background-color: $background-color;
 }
@@ -23,12 +23,12 @@ summary
 
 #navbar
 {
-    background-image: linear-gradient(180deg, #84fab0 20%, #8fd3f4 100%);
+    background-image: linear-gradient(180deg, rgba(132, 250, 176, 0.99) 95%, rgba(143, 211, 244, 0.99) 100%);
 }
 
 #sidebar
 {
-    background: linear-gradient(50deg, adjust-color($background-color, $lightness: -1%) 0%, #F4F4F4 100%);
+    background: linear-gradient(50deg, adjust-color(#F4F4F4, $lightness: -2%) 0%, #F4F4F4 100%);
 }
 
 #sidebar
@@ -48,7 +48,7 @@ summary
     }
 }
 
-#row-content .bg-light
+main .bg-light
 {
     background-color:#f1efee !important;
 }
