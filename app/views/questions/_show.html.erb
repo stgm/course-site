@@ -22,7 +22,7 @@
     </div>
 </div>
 <% end %>
-<div class="answer-card">
+<div class="answer-card buttons">
     <div class="card-body">
         <turbo-frame id="reply_question_<%= question.id %>">
         <%= link_to 'Reply', new_answer_path(question_id: question.id), class: "card-link small" %>

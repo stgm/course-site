@@ -2,33 +2,33 @@
 {
     .card
     {
-        border-radius: 0;
-        
+//        border-radius: 0;
+
         .star
         {
             float: right;
-            
+
             svg
             {
                 display: block;
             }
         }
-        
+
         h5
         {
             font-size: 1rem;
         }
-        
+
         h5:only-child
         {
             margin:0;
         }
-        
+
         .card-link
         {
             display: block;
         }
-        
+
         .toolbar
         {
             display: flex;
@@ -48,6 +48,16 @@
         border-top: 1px solid #E4E2E0;
         background-color: #FAF8F5;
     }
+    
+
+    .answer-card.buttons
+    {
+        .card-body
+        {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+    }
 
     > .card + .card
     {
@@ -57,27 +67,27 @@
     .disambiguation
     {
         margin-bottom: 1rem;
-        
+
         .card
         {
             border-radius: 0;
             text-align: center;
             padding: 0.5rem;
             font-size: smaller;
-            
+
             svg
             {
                 margin: 0 auto;
                 margin-bottom: 0.5rem;
             }
-            
+
             .btn
             {
                 margin-top: 0.5rem;
             }
         }
     }
-    
+
     [data-trix-attribute="quote"], [data-trix-attribute="strike"], [data-trix-attribute="href"], [data-trix-action="attachFiles"], [data-trix-button-group="file-tools"], [data-trix-attribute="heading1"]
     {
         display: none;

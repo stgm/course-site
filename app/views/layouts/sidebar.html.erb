@@ -6,7 +6,7 @@
     <%= render 'sidebar' %>
 </div>
 
-<main id="row-content" class="p-0 <%= 'room-for-toc' if Settings.room_for_toc %>">
+<main class="<%= 'room-for-toc' if Settings.room_for_toc %>">
     <%= render "alerts" %>
     <%= content_for?(:content) ? yield(:content) : yield %>
 </main>

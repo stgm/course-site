@@ -1,24 +1,24 @@
 <turbo-frame id="questions_page_<%= @page.id %>">
-    <div id="content" class="questions" style="">
-        <div class="disambiguation card-group stext-white">
-            <div class="card sbg-primary">
+    <section class="questions" style="">
+        <div class="disambiguation card-group d-none d-md-flex">
+            <div class="card bg-primary rounded-4 border-0 text-white p-3">
                 <%= bootstrap_icon 'people-fill', width: '40', height: '40' %>
                 Als je nog niet zo goed weet hoe je je vraag moet stellen dan 
                 kun je samen met een assistent aan de slag in het lokaal.
-                <button class="btn btn-light btn-sm mt-auto" onclick="" id="assist-button">Vraag assistentie</button>
+                <button class="btn btn-light btn-sm" onclick="" id="assist-button">Vraag assistentie</button>
             </div>
-            <div class="card sbg-primary">
+            <div class="card bg-primary rounded-4 border-0 text-white p-3">
                 <%= bootstrap_icon 'envelope-at-fill', width: '40', height: '40' %>
                 Als je een uitzondering zou willen aanvragen, of de precieze 
                 regels zijn je niet helemaal duidelijk, dan kun je het best een
                 mail sturen.
-                <a href="mailto:help@mprog.nl" class="btn btn-light btn-sm mt-auto">Stuur een mail</a>
+                <a href="mailto:help@mprog.nl" class="btn btn-light btn-sm">Stuur een mail</a>
             </div>
-            <div class="card sbg-primary">
+            <div class="card bg-primary rounded-4 border-0 text-white p-3">
                 <%= bootstrap_icon 'robot', width: '40', height: '40' %>
                 Een alternatief voor assistentie, om op ideeën te komen hoe je je
                 probleem kunt aanpakken. Gebruik dit in plaats van ChatGPT.
-                <a href="https://cs50.ai/" target="_new" class="btn btn-light btn-sm mt-auto">Ga naar cs50.ai</a>
+                <a href="https://cs50.ai/" target="_new" class="btn btn-light btn-sm">Ga naar cs50.ai</a>
             </div>
         </div>
 

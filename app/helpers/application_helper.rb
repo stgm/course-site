@@ -130,7 +130,7 @@ module ApplicationHelper
 					remote: true,
 					checked: current_user.progress[page_name],
 					id: "progress_#{page_name.parameterize}_check",
-					class: "sform-check-input m-1 mt-2",
+					class: "form-check-input",
 					onclick: "Rails.fire(this.form, 'submit');"
 				}
 			)

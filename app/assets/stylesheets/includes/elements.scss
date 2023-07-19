@@ -147,7 +147,7 @@ span.bubble {
 	min-height:10rem;
 	width: 100%;
 
-	background-color: #cce7f7;
+//    background-color: #cce7f7;
 	color: #005182;
 
 	table
@@ -182,9 +182,14 @@ span.bubble {
 	}
 }
 
+#page_form
+{
+	background-color: #cce7f7;
+}
+
 #submit-form
 {
-	background-color: #D6EBFA;
+    background-color: #D6EBFA;
 	border:none;
 	border-top: 1px solid white;
 	border-bottom: 1px solid white;

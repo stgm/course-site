@@ -25,4 +25,8 @@ class Page < ApplicationRecord
             return self.path.sub(/\Amaterials\/#{dir}/, url)
         end
     end
+    
+    def self.syllabus
+        Current.user.schedule&.page || find_by_slug('')
+    end
 end
