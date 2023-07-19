@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_07_155429) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_19_140202) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -206,6 +206,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_155429) do
     t.datetime "updated_at"
     t.boolean "public", default: true
     t.integer "rank"
+    t.datetime "publish_at"
     t.index ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
   end
 
