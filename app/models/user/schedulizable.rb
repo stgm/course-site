@@ -40,7 +40,7 @@ module User::Schedulizable
     def valid_current_module?
         return false if !schedule.present?                 # there is no schedule
         return false if current_module.nil?                # there is a schedule, but no module
-        return false if !staff? && !current_module.public? # there is something, but access is currently denied
+        return false if !staff? && !current_module.accessible? # there is something, but access is currently denied
         return true
     end
 
