@@ -40,7 +40,7 @@ class PageController < ApplicationController
 
     def questions
         @title = @page.title
-        @questions = @page.questions.order updated_at: :desc
+        @questions = @page.questions.includes(:user, :rich_text_text, answers: [:user, :rich_text_text] ).order(updated_at: :desc).all
     end
 
     def announcements

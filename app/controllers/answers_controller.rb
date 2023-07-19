@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
-    
+
+    before_action :authorize
+
     def new
         @question = Question.find(params[:question_id])
     end
@@ -10,7 +12,7 @@ class AnswersController < ApplicationController
     end
 
     private
-    
+
     def answer_params
         params.require(:answer).permit(:text, :question_id)
     end

@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
-    
+
+    before_action :authorize
+
     def index
         @page = Page.where(slug: params[:slug]).first
         @questions = @page.questions.order(updated_at: :desc).all
@@ -7,7 +9,7 @@ class QuestionsController < ApplicationController
     end
 
     def show
-        @question = Question.find(params[:id])
+        @question = Question.find(params[:id]).includes(:answers)
     end
 
     def new
