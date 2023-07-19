@@ -1,8 +1,23 @@
+main:has(section.questions)
+{
+    background-color: #e8e8e8;
+    
+    #page-tabs
+    {
+        a.active
+        {
+            background-color: #e8e8e8;
+            border-bottom: 1px solid #e8e8e8;
+        }
+    }
+}
+
 .questions
 {
+    
     .card
     {
-//        border-radius: 0;
+        border: 2px solid #e8e8e8;
 
         .star
         {
@@ -17,6 +32,8 @@
         h5
         {
             font-size: 1rem;
+            margin-top: 0;
+            font-weight: 500;
         }
 
         h5:only-child

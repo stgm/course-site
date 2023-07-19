@@ -157,3 +157,23 @@ footer:hover
 {
     opacity: 1;
 }
+
+
+main:has(#page_form)
+{
+	background-color: #cce7f7;
+
+    #page-tabs
+    {
+        a.active
+        {
+            background-color: #cce7f7;
+            border-bottom: 1px solid #cce7f7;
+        }
+    }
+}
+
+#submit-form
+{
+    background-color: #D6EBFA;
+}
