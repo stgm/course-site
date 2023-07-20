@@ -5,8 +5,6 @@ class HomeController < ApplicationController
     before_action :authorize,     except: [ :index ]
     before_action :require_staff, except: [ :index ]
 
-    layout 'welcome'
-
     def index
         if logged_in?
             if !current_user.valid_profile?
