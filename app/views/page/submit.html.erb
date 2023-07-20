@@ -1,5 +1,5 @@
 <%= form_tag_if(
-    Submit.available? && logged_in? && @page.pset,
+    @page.pset && @allow_submit,
     submissions_path,
     {
         multipart: true,
@@ -13,11 +13,10 @@
     }
     ) do %>
 
-<% if @submit || (@page.pset && Submit.available? && logged_in?) %>
-<%= hidden_field_tag :pset_id, @page.pset.id if @page.pset if @allow_submit %>
+<% if @page.pset && @allow_submit %>
+<%= hidden_field_tag :pset_id, @page.pset.id %>
 <% end %>
 
-<!-- <div id="content"> -->
 <% @subpages.each_with_index do |subpage, index| %>
     <section class="markdown" id="<%= subpage.slug %>-content">
         <%= markdown(subpage.content, @page) %>
@@ -25,7 +24,5 @@
 <% end %>
 
 <%= render 'submit' %>
-<!-- </div> -->
-
 
 <% end %>

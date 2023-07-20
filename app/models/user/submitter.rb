@@ -16,12 +16,8 @@ module User::Submitter
     end
 
     def can_submit?
-        return self.valid_profile? && self.defacto_student_identifier.present? && Submit.available?
+        return self.valid_profile? && self.defacto_student_identifier.present?
         # TODO return reason
-    end
-
-    def can_submit_pset? pset
-        !self.submits.where(pset: pset, locked: true).exists?
     end
 
     def all_submits

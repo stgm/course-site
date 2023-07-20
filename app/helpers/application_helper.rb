@@ -12,6 +12,14 @@ module ApplicationHelper
         "<span>#{l date, format: :short}".html_safe
 	end
 
+    def time_ago_in_words_or_more_precise(time)
+        if time < 2.hours.ago
+            time.to_fs(:short)
+        else
+            time_ago_in_words(time) + " " + t(:ago)
+        end
+    end
+
 	def markdown(text, page_context)
 		Kramdown::Document.new(text,
 		                       :auto_ids => true,

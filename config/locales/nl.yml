@@ -43,9 +43,11 @@ nl:
         button: "Insturen"
         answers_will_be_submitted: Je antwoorden in het formulier hierboven worden ingestuurd.
         you_submitted: "Je hebt %{name} ingezonden"
-        you_submitted_ago: "Je hebt deze opdracht %{time} geleden ingestuurd."
+        you_submitted_ago: "Je hebt deze opdracht %{time} ingestuurd."
         see_submissions_page: "Bekijk je inzendingen en feedback op de %{submissions_page}."
         until_deadline_new_version: 'Normaal kun je tot de deadline nog een nieuwe versie van je oplossing insturen.'
+        deadline_is: "De deadline is op %{date} om %{time}."
+        deadline_was: "De deadline was op %{date} om %{time}."
         files_submitted: "Ingestuurde bestanden:"
         check_results: "Check-resultaten"
         overview: "Resultaten"
@@ -53,11 +55,11 @@ nl:
         submit_is_graded: 'Je inzending is nagekeken en daarom kun je geen nieuwe versie meer insturen.'
         at_the_end_of_page: 'Verstuur je oplossing onderaan deze pagina'
         course_not_open: 'Deze cursus is op dit moment niet geopend voor inzendingen.'
-        cant_not_logged_in: "Je kunt geen oplossing insturen omdat je niet ingelogd bent."
+        cant_not_logged_in: "Je kunt geen oplossing insturen omdat je niet geactiveerd bent als student."
         cant_resubmit: "Je kunt op dit moment niet insturen."
         cant_resubmit_explainer: "Je oplossing staat in de rij voor beoordeling, dus je kunt nu geen nieuwe oplossing insturen. Check later nog eens om de resultaten te zien of opnieuw in te sturen. Als je denkt dat je op dit moment al zou moeten kunnen insturen, laat het dan gerust weten!"
-        submit_locked: "Deze opdracht is gesloten voor inzendingen."
-        submit_locked_explainer: "Als je denkt dat je op dit moment zou moeten kunnen insturen, laat het dan gerust weten!"
+        submit_closed: "Deze opdracht is gesloten voor verdere inzendingen."
+        submit_closed_explainer: "Als je denkt dat je op dit moment zou moeten kunnen insturen, laat het dan gerust weten!"
         files: bestanden
         file_groups:
             required: Benodigde

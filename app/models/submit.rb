@@ -18,6 +18,8 @@ class Submit < ApplicationRecord
 	delegate :first_graded, to: :grade, allow_nil: true
 	delegate :last_graded, to: :grade, allow_nil: true
 	delegate :public?, to: :grade, prefix: true, allow_nil: true
+	delegate :sufficient?, to: :grade, prefix: true, allow_nil: true
+	delegate :resubmit_exception?, to: :grade, prefix: true, allow_nil: true
 
 	has_many_attached :files
 
@@ -45,6 +47,20 @@ class Submit < ApplicationRecord
 
     def self.available?
         Settings.registration_phase.in?(['during', 'after']) && Submit::Webdav::Client.available? || Rails.env.development?
+    end
+
+    def self.allowed_for?(user, pset)
+        return false if !self.available?
+        return false if !user.can_submit?
+
+        submit = Submit.where(user: user, pset: pset).first
+
+        ( pset.submittable? && submit.blank?             ) ||
+        ( pset.submittable? && !submit.grade_sufficient? ) ||
+        (!pset.submittable? && submit.grade_resubmit_exception?)
+
+        # false if generally submittable but already sufficient+published
+        # false if not submittable anymore and not exception
     end
 
 	def to_partial_path
@@ -118,14 +134,14 @@ class Submit < ApplicationRecord
 		pset.check_config.present?
 	end
 
+    def late?
+        pset.deadline.present? && submitted_at.present? && submitted_at > pset.deadline
+    end
+
 	def recheck(host)
 		zip = Attachments.new(self.all_files.to_h).zipped
 		token = Submit::AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
 		self.update(check_token: token)
-	end
-
-	def may_be_resubmitted?
-		!locked && (grade.blank? || (grade.public? && grade.assigned_grade.present? && grade.assigned_grade == 0))
 	end
 
     def self.indexed_by_pset_and_user_for(users)
