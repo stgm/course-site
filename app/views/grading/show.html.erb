@@ -1,22 +1,8 @@
-<div id="toolbar" class="small">
-	<nav class="nav">
-		<li class="nav-item">
-			<%= link_to '(show all)', { pset: nil }, class: "nav-link #{'active' if params[:pset]==nil}" %>
-		</li>
-		<% @psets_to_grade.each do |pset| %>
-			<li class="nav-item">
-				<%= link_to pset.name, { pset: pset.name }, class: "nav-link #{'active' if params[:pset]==pset.name}" %>
-			</li>
-		<% end %>
-	</nav>
-	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm p-1', form_class: 'ms-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
-</div>
-
-<div class="container-fluid flex-fill h-100" style="overflow-y: scroll">
-	<div class="grading-panes row content h-100">
+<div class="container-fluid flex-fill h-100" style="overflow-y: scroll; padding:0">
+	<div class="grading-panes grid content h-100" style="--bs-gap: 0;">
 
 		<% cache [ @to_grade, @submit ] do %>
-		<div class="grading-submits col-2 px-0 py-0 restore-scroll-position" style="overflow-y:scroll; min-height:0; max-height:100%">
+		<div class="grading-submits g-col-2 px-0 py-0 restore-scroll-position" style="overflow-y:scroll; min-height:0; max-height:100%">
 			<ul class="nav flex-column">
 				<% @to_grade.each do |submit| %>
 				<li class="nav-item p-0 ">
@@ -27,7 +13,7 @@
 		</div>
 		<% end %>
 
-		<div class="grading-form col-3 pt-2" style="overflow-y:scroll; min-height:0; max-height:100%;">
+		<div class="grading-form g-col-3 pt-2" style="overflow-y:scroll; min-height:0; max-height:100%;">
 			<!-- TODO id=grade makes it auto-update but it doesn't quite work because it was made for a different page -->
 
 			<%= render partial: 'grading_info' %>
@@ -59,7 +45,7 @@
 			<% end %>
 		</div>
 
-		<div class="grading-files col-7 p-0">
+		<div class="grading-files g-col-7 p-0">
 			<% if @files.present? || @submit.has_form_response? || @submit.has_auto_feedback? %>
 			<ul class="nav nav-pills p-2" id="files" role="tablist">
 				<%= render partial: 'file_tabs', locals: { first: true } %>

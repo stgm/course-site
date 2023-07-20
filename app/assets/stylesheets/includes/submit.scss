@@ -1,0 +1,36 @@
+#submit-content
+{
+    color: #005182;
+
+    svg
+    {
+        vertical-align: sub;
+    }
+
+    table
+    {
+        border: hidden
+    }
+
+    hr
+    {
+        margin-left:0; margin-right:0;
+    }
+}
+
+#submit-form
+{
+    border:none;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    border-radius:0;
+    padding: 0.5rem;
+
+    margin-top:2rem;
+    margin-bottom:2rem;
+
+    h6:first-child
+    {
+        margin-top:0 !important;
+    }
+}

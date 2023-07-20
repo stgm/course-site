@@ -7,8 +7,6 @@ class GradingController < ApplicationController
 
 	before_action :authorize
 	before_action :require_staff
-	
-	layout 'navbar'
 
 	# GET /grading
 	def index

@@ -1,27 +1,13 @@
-<% content_for :meta do %>
-<meta name="turbo-cache-control" content="no-cache">
-<% end %>
-
 <% content_for :body do %>
-<div class="d-flex flex-column h-100" style="max-height:100%">
 
-    <div id="navbar" class="navbar navbar-expand-lg flex-shrink-0 flex-wrap py-2 px-2 pe-md-3">
-        <%= render 'brand' %>
-        <%= yield :navbar_items %>
-        <ul class="navbar-nav align-items-center flex-fill">
-            <% if current_user.senior? %>
-            <div class="flex-fill">
-                <%= render partial: 'search' %>
-            </div>
-            <% end %>
-            <%= render partial: 'hands_menu' %>
-        </ul>
-        <%= render 'menu' %>
-    </div>
+<%= render 'navbar' %>
+<%= content_for?(:toolbar) ? yield(:toolbar) : nil %>
 
+<main class="<%= 'room-for-toc' if Settings.room_for_toc %>">
     <%= render "alerts" %>
-
     <%= content_for?(:content) ? yield(:content) : yield %>
-</div>
+</main>
+
 <% end %>
+
 <%= render template: "layouts/application" %>

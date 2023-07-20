@@ -1,0 +1,19 @@
+<% content_for :toolbar do %>
+<div id="toolbar" class="small">
+	<nav class="nav">
+		<li class="nav-item">
+			<%= link_to '(show all)', { pset: nil }, class: "nav-link #{'active' if params[:pset]==nil}" %>
+		</li>
+		<% @psets_to_grade.each do |pset| %>
+			<li class="nav-item">
+				<%= link_to pset.name, { pset: pset.name }, class: "nav-link #{'active' if params[:pset]==pset.name}" %>
+			</li>
+		<% end %>
+	</nav>
+	<%= button_to 'Mark finished', finish_grading_path, class: 'btn btn-secondary m-0 btn-sm p-1', form_class: 'ms-auto', data: { confirm:'Are you sure? All grades that have been fully entered will be marked as "finished". You will not be able to edit those afterwards.' } %>
+</div>
+<% end %>
+<% content_for :content do %>
+<%= yield %>
+<% end %>
+<%= render template: "layouts/navbar" %>

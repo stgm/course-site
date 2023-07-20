@@ -14,7 +14,7 @@ class NotesController < ApplicationController
             order("groups.name").
             order(:id).
             group_by(&:group)
-        render layout: 'navbar'
+        render layout: 'sidebar'
     end
 
     def show

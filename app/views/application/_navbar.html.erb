@@ -16,9 +16,11 @@
     <%= render partial: 'search' %>
     <% end %>
 
+    <% if !content_for(:navbar_items) %>
     <ul id="navbar_links" class="navbar-nav button-bar collapse navbar-collapse navbarCollapsedContent">
         <%= render 'course_links' %>
         <%= render partial: 'hands_menu' %>
         <%= render 'menu' %>
     </ul>
+    <% end %>
 </div>
