@@ -40,9 +40,11 @@ en:
         button: "Submit"
         answers_will_be_submitted: Your answers in the form above will be submitted.
         you_submitted: "You submitted %{name}"
-        you_submitted_ago: "You have submitted this problem set %{time} ago."
+        you_submitted_ago: "You have submitted this problem set %{time}."
         see_submissions_page: "Check your submissions and feedback on the %{submissions_page}."
         until_deadline_new_version: 'Usually, you can submit another version until the deadline the passes.'
+        deadline_is: "The deadline is on %{date} at %{time}."
+        deadline_was: "The deadline was on %{date} at %{time}."
         files_submitted: "Submitted files:"
         check_results: "Check results"
         overview: "Results"
@@ -50,11 +52,11 @@ en:
         submit_is_graded: "Your submission was graded, so you can't submit any new versions."
         at_the_end_of_page: 'Submit your solution at the end of the page'
         course_not_open: 'This course does not currently accept submissions.'
-        cant_not_logged_in: "You can't submit a solution because you are not logged in."
+        cant_not_logged_in: "You can't submit a solution because you are not activated as a student."
         cant_resubmit: "You can't currently submit."
         cant_resubmit_explainer: "Your solution is queued for assessment, so you can't submit a new solution now. Check back later to see the results or to re-submit. If you think you should be able to submit, feel free to contact the course's staff!"
-        submit_locked: "This problem is locked for submissions."
-        submit_locked_explainer: "If you think you should be able to submit, feel free to contact the course's staff!"
+        submit_closed: "This problem is closed for further submissions."
+        submit_closed_explainer: "If you think you should be able to submit, feel free to contact the course's staff!"
         files: files
         file_groups:
             required: Required

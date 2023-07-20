@@ -49,11 +49,6 @@ class SubmitsController < ApplicationController
         redirect_to user_path(@submit.user)
     end
 
-    def unlock
-        @submit = Submit.find(params[:id])
-        @submit.update(locked: false)
-    end
-
     private
 
     def load_submit(id)
