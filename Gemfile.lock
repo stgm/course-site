@@ -170,8 +170,13 @@ GEM
       aes_key_wrap
       bindata
       httpclient
+    katex (0.10.0)
+      execjs (~> 2.8)
     kramdown (2.4.0)
       rexml
+    kramdown-math-katex (1.0.1)
+      katex (~> 0.4)
+      kramdown (~> 2.0)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -363,7 +368,9 @@ DEPENDENCIES
   groupdate
   image_processing (~> 1.12)
   importmap-rails
+  katex (~> 0.10.0)
   kramdown
+  kramdown-math-katex
   listen
   openid_connect
   pg

@@ -33,6 +33,7 @@ $min-contrast-ratio: 3;
 $enable-negative-margins: true;
 $link-decoration: none;
 
+@import "_katex";
 @import "bootstrap";
 
 @import "includes/navigation";
