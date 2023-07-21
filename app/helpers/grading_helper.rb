@@ -117,7 +117,6 @@ module GradingHelper
                 end
                 newline(2)
             end
-            Rails.logger.info @markdown_source.inspect
             return @markdown_source
         end
 
