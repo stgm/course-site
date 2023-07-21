@@ -12,7 +12,7 @@ module GradingHelper
                 when 'ipynb'
                     begin
                         tag.div(
-                            simple_markdown(NBConverter.new(contents.download).run),
+                            single_dollar_math_markdown(NBConverter.new(contents.download).run),
                             class: 'ipynb'
                         )
                     rescue
@@ -53,7 +53,7 @@ module GradingHelper
                 filetype = CodeRay::FileType.fetch(filename, :text)
                 if filename =~ /\.ipynb$/
                     begin
-                        tag.div simple_markdown(NBConverter.new(contents).run), class: 'ipynb'
+                        tag.div single_dollar_math_markdown(NBConverter.new(contents).run), class: 'ipynb'
                     rescue
                         tag.div "No JSON found"
                     end
