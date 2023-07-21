@@ -20,7 +20,7 @@ module User::ChangeLogger
         changes.each do |k,value|
             text = case k
             when 'status'
-                "Marked as #{value[1]}"
+                "Marked as #{value[1]}#{' automatically' if long_time_not_seen? && status == 'inactive'}"
             when 'status_description'
                 # don't log if it was empty and is still empty
                 next if !value[0].present? && !value[1].present?

@@ -3,6 +3,11 @@ module User::Attendee
 
     included do
         has_many :attendance_records
+        scope :long_time_not_seen, -> { where('last_seen_at < ?', 1.week.ago) }
+
+        def self.set_inactives_to_inactive!
+            User.status_active.long_time_not_seen.update(status: :inactive)
+        end
     end
 
     def take_attendance
@@ -19,5 +24,9 @@ module User::Attendee
             last_seen_days_ago = (Date.current - self.last_seen_at.to_date).to_i
             return self.attendance.split('').drop(last_seen_days_ago).join + ('▁' * [last_seen_days_ago,8].min)
         end
+    end
+
+    def long_time_not_seen?
+        last_seen_at < 1.week.ago
     end
 end

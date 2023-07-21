@@ -5,6 +5,7 @@ class OverviewsController < ApplicationController
     before_action :require_senior, only: [ :show ]
 
     layout 'navbar'
+    before_action :check_inactives, only: [ :index ]
 
     def index
         if current_user.assistant?
@@ -79,6 +80,10 @@ class OverviewsController < ApplicationController
         @grouped_users = @users.group_by(&:group)
 
         @overview = GradingConfig.overview
+    end
+
+    def check_inactives
+        User.set_inactives_to_inactive!
     end
 
 end

@@ -59,6 +59,9 @@
             <% if user.alarm %>
             <%= bootstrap_icon 'exclamation-triangle-fill', width: 12, height: 12 %>
             <% end %>
+            <% if user.long_time_not_seen? %>
+            <%= bootstrap_icon 'moon-stars', width: 12, height: 12 %>
+            <% end %>
             <% if user.last_known_location %>
             <span aria-hidden="true" data-bs-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
             <% end %><br>
