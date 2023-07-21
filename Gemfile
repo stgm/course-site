@@ -50,6 +50,8 @@ gem 'rufus-scheduler'
 gem 'kramdown'
 gem 'asciidoctor'
 gem 'front_matter_parser'
+gem 'katex', '~> 0.10.0'
+gem 'kramdown-math-katex'
 
 # XLSX generation
 gem 'rubyzip', '~> 2.3.0', require: 'zip'
