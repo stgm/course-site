@@ -92,20 +92,32 @@ module GradingHelper
                     write "{:.input}"
                     newline(2)
                     # do not include outputs for now, because they might be huge
-                    # cell['outputs'].select{|o| o['name']=='stdout' }.each do |output|
-                    # 	output['text'].each do |line|
-                    # 		write indent(line)
-                    # 	end
-                    # 	write "{:.output}"
-                    # 	newline
-                    # end
+                    cell['outputs'].select{|o| o['name']=='stdout' }.each do |output|
+                        take_first_and_last(output['text'], 100, 10).each do |line|
+                            write indent(line)
+                        end
+                        write "{:.output}"
+                        newline
+                    end
                     cell['outputs'].select{|o| o['output_type']=='error' }.each do |output|
                         write indent(output['ename'])
                         newline
                     end
+                    cell['outputs'].select{|o| o['output_type']=='display_data' }.each do |output|
+                        begin # catch-all for when anything else than png's would be present
+                            img_data = "data:image/png;base64,#{output['data']['image/png'].strip}"
+                            img_desc = output['data']['text/plain'].join
+                            newline
+                            write "![#{img_desc}](#{img_data})"
+                            newline
+                            write "{:.output}"
+                            newline
+                        rescue; end
+                    end
                 end
                 newline(2)
             end
+            Rails.logger.info @markdown_source.inspect
             return @markdown_source
         end
 
@@ -127,5 +139,14 @@ module GradingHelper
             @markdown_source << s
         end
 
+        def take_first_and_last(array, x, y)
+            if array.length <= (x + y)
+                return array
+            else
+                first_x_rows = array[0...x]
+                last_y_rows = array[-y..-1]
+                return first_x_rows + ["...\n"] + last_y_rows
+            end
+        end
     end
 end
