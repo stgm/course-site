@@ -75,6 +75,14 @@ body.mini-app
 }
 
 @media (min-width: 768px) {
+    .mini-app
+    {
+        #sidebar
+        {
+            display: none;
+        }
+    }
+
     .mini-app-container
     {
         // here the app is a visual "card" on a blank page
@@ -91,7 +99,7 @@ body.mini-app
 
         // allow the content to be scrolled
         overflow: hidden;
-        
+
         padding: 2rem;
         row-gap: 2rem;
     }
@@ -157,7 +165,7 @@ body.mini-app
         color: #000;
         background-color: #ffc107;
         border-color: #ffc107;
-    
+
         margin: 0.5rem;
         font-weight: bolder;
     }
@@ -168,7 +176,7 @@ body.mini-app
         display: flex;
         flex-direction: column;
         justify-content: center;
-    
+
     }
 
     .cards > img
@@ -205,7 +213,7 @@ body.mini-app
             {
                 rotate: 0.75deg;
             }
-        
+
             & > :only-child
             {
                 rotate: none;
