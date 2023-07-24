@@ -11,7 +11,7 @@ body
     background-color: $background-color;
 }
 
-.navbar-brand
+.navbar-brand, #navbar button
 {
     color:map-get($theme-colors, "dark");
 }
@@ -177,3 +177,12 @@ main:has(#page_form)
 {
     background-color: #D6EBFA;
 }
+
+@media (max-width: 767.98px)
+{
+    #page-tabs
+    {
+        border-top: 1px solid #ccc;
+    }
+}
+

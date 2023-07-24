@@ -6,6 +6,7 @@
     overflow-y: scroll;
 
     padding:1rem;
+    height: calc(100vh - 4rem);
 }
 
 #scheduleDropdown
@@ -19,13 +20,14 @@
     {
         min-width: 0;
         flex: 1 1 auto;
-        
+
         button
         {
+            border: 0;
             text-align: start;
         }
     }
-    
+
     .dropdown-menu
     {
         max-width: 100%;
@@ -39,67 +41,6 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-        }
-    }
-}
-
-@media (max-width: 767.98px)
-{
-    #sidebar
-    {
-        // offcanvas
-        position: fixed;
-
-        top: 0;
-        left: 0;
-        bottom: 0;
-        max-width: 100%;
-        border-right: 1px solid;
-
-        visibility: hidden;
-        transform: translateX(-100%);
-        outline: 0;
-    }
-
-    #sidebar.showing, #sidebar.hiding, #sidebar.show {
-        visibility: visible;
-        transform: none;
-        z-index: 1045;
-        width: 80%;
-    }
-}
-
-@media (min-width: 768px)
-{
-    #sidebar
-    {
-        display:flex;
-        flex-direction:column;
-    }
-}
-
-@media (min-width: 992px)
-{
-    #sidebar > .nav
-    {
-        padding-left:.75rem;
-        padding-right:.75rem;
-    }
-
-    #sidebar > .nav > .nav
-    {
-        padding-left:1rem;
-        padding-right:1rem;
-    }
-}
-
-@media (min-width: 1112px)
-{
-    #sidebar
-    {
-        #schedule
-        {
-            margin-top:0.5rem;
         }
     }
 }
@@ -280,3 +221,61 @@
     width:1rem;
     height:1rem;
 }
+
+
+@media (max-width: 767.98px)
+{
+    #sidebar
+    {
+        position: fixed;
+
+        width: 100%;
+
+        --bs-offcanvas-transition: transform 0.1s ease-in-out;
+
+        border-top:0;
+
+        .nav-head
+        {
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+@media (min-width: 768px)
+{
+    #sidebar
+    {
+        display:flex;
+        flex-direction:column;
+        visibility: visible;
+        transform: none;
+    }
+}
+
+@media (min-width: 992px)
+{
+    #sidebar > .nav
+    {
+        padding-left:.75rem;
+        padding-right:.75rem;
+    }
+
+    #sidebar > .nav > .nav
+    {
+        padding-left:1rem;
+        padding-right:1rem;
+    }
+}
+
+@media (min-width: 1112px)
+{
+    #sidebar
+    {
+        #schedule
+        {
+            margin-top:0.5rem;
+        }
+    }
+}
+
