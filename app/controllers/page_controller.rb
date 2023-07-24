@@ -6,21 +6,7 @@ class PageController < ApplicationController
     before_action :authorize, only: [ :index ], if: :request_from_local_network?
     before_action :authorize, only: [ :submit, :questions, :announcements ]
 
-    before_action do
-        if params[:slug] == 'syllabus'
-            @page = Page.syllabus
-        else
-            @page = Page.where(slug: params[:slug]).includes(:subpages).first
-        end
-
-        raise ActionController::RoutingError.new('Not Found') and return if !@page
-
-        @only_submit = @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
-
-        @may_show_content = !@only_submit
-        @may_show_questions = logged_in? && !@only_submit
-        @may_show_submit = @page.pset #&& current_user.can_submit?
-    end
+    before_action :load_page_components, only: [ :index, :submit, :questions ]
 
     def index
         redirect_to page_submit_path(slug: params[:slug]) and return if @only_submit
@@ -45,6 +31,24 @@ class PageController < ApplicationController
 
     def announcements
         @title = t(:announcements)
+    end
+
+    private
+
+    def load_page_components
+        if params[:slug] == 'syllabus'
+            @page = Page.syllabus
+        else
+            @page = Page.where(slug: params[:slug]).includes(:subpages).first
+        end
+
+        raise ActionController::RoutingError.new('Not Found') and return if !@page
+
+        @only_submit = @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
+
+        @may_show_content = !@only_submit
+        @may_show_questions = logged_in? && !@only_submit
+        @may_show_submit = @page.pset #&& current_user.can_submit?
     end
 
 end
