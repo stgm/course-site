@@ -40,7 +40,7 @@
     <%# Provide specific reasons for NOT being able to submit %>
     <% if !@allow_submit %>
 
-    <% if @previous_submit.grade_public? # grade has been published %>
+    <% if @previous_submit&.grade_public? # grade has been published %>
     <p>
         <%= bootstrap_icon 'check2-all' %>
         <%= t 'submit.submit_is_graded' %>
@@ -55,7 +55,7 @@
         <%= bootstrap_icon('exclamation-diamond') %>
         <%= t 'submit.cant_not_logged_in' %>
     </p>
-    <% elsif !@page.pset.submittable? && !@previous_submit.grade_resubmit_exception? %>
+    <% elsif !@page.pset.submittable? && !@previous_submit&.grade_resubmit_exception? %>
     <p>
         <%= bootstrap_icon('exclamation-diamond') %>
         <%= t 'submit.submit_closed' %>

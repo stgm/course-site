@@ -57,7 +57,7 @@ class Submit < ApplicationRecord
 
         ( pset.submittable? && submit.blank?             ) ||
         ( pset.submittable? && !submit.grade_sufficient? ) ||
-        (!pset.submittable? && submit.grade_resubmit_exception?)
+        (!pset.submittable? && submit&.grade_resubmit_exception?)
 
         # false if generally submittable but already sufficient+published
         # false if not submittable anymore and not exception
