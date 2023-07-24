@@ -11,7 +11,7 @@ class Course
     # methods for settings that also provide defaults
 
     def self.deadlines
-        instance.settings['deadlines'].to_sym || :hard
+        instance.settings['deadlines']&.to_sym || :hard
     end
 
     def self.deadlines_hard?
