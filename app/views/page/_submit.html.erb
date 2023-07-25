@@ -1,7 +1,9 @@
 <% if @page.pset.present? %>
 
 <section id="submit-content">
-    <h2 class="mt-0">Submit</h2>
+    <% unless @subpages.any? %>
+    <h1>Submit</h1>
+    <% end %>
     <% if @submit.present? %>
         <% if @submit.submitted_at # student did actually submit herself %>
         <p><%= bootstrap_icon 'check2-all' %> <strong><%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %></strong></p>
