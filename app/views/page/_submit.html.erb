@@ -1,11 +1,18 @@
 <% if @page.pset.present? %>
 
 <section id="submit-content">
-    <h2 class="mt-0">Submit</h2>
+    <% unless @subpages.any? %>
+    <h1>Submit</h1>
+    <% end %>
+    <% if @submit.present? %>
+    <% if @submit.submitted_at # student did actually submit herself %>
+    <p><%= bootstrap_icon 'check2-all' %> <strong><%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %></strong></p>
+    <% end %>
 
     <%# Mention the deadline first, but only if it is a hard deadline %>
     <% if Course.deadlines_hard? && @page.pset.deadline.present? %>
-    <p><%= bootstrap_icon 'calendar3' %>
+    <p>
+        <%= bootstrap_icon 'calendar3' %>
         <% if @page.pset.deadline.past? %>
         <%= t 'submit.deadline_was', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %>
         <% else %>
