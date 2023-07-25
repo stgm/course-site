@@ -31,7 +31,7 @@
 
             th, td
             {
-                padding: 0.25rem !important;
+                padding: 0 !important;
             }
 
             td:not(:only-child)
@@ -39,9 +39,14 @@
                 white-space: nowrap;
             }
 
-            p
+            p, ul
             {
                 margin: 0 !important;
+            }
+            
+            th *, td *
+            {
+                font-size: inherit !important;
             }
         }
         </style>
