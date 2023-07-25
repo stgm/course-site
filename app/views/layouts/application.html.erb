@@ -22,12 +22,6 @@
     <%= stylesheet_link_tag    'application', :media => 'all' %>
     <%= javascript_include_tag 'legacy-application', 'data-turbolinks-track' => 'reload' %>
 
-    <% if ['home', 'page', 'profile'].include?(controller_name) && Settings.pages_enable_math %>
-    <%= javascript_include_tag 'optional/math' %>
-    <%= javascript_include_tag 'https://polyfill.io/v3/polyfill.min.js?features=es6' %>
-    <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', { async: true, id: 'MathJax-script' } %>
-    <% end %>
-
     <%= yield(:meta) %>
     <%= javascript_importmap_tags %>
 </head>

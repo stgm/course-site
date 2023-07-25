@@ -17,7 +17,7 @@
 	<ul class="nav">
 		<li>
 			<div class="nav-head text-dark d-flex justify-content-between">
-				<div id="schedule_name" class="<%= 'unavailable' if !current_module.public? %>">
+				<div id="schedule_name">
 					<%= render 'schedule_dropdown' %>
 				</div>
 				<% if current_schedule.self_service %>
