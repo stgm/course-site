@@ -36,6 +36,7 @@ $link-decoration: none;
 $enable-grid-classes: false;
 $enable-cssgrid: true;
 
+@import "_katex";
 @import "bootstrap";
 
 @import "includes/sidebar";

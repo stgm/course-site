@@ -206,6 +206,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_155429) do
     t.datetime "updated_at"
     t.boolean "public", default: true
     t.integer "rank"
+    t.datetime "publish_at"
     t.index ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
   end
 

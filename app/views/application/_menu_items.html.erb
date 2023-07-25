@@ -3,7 +3,6 @@
 <% if current_schedule.present? %>
 <%= menu_group(Schedule.many? ? current_schedule.name : nil) do %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns' %>
-	<%= menu_link 'Notes', notes_path, icon: 'journal-bookmark' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
     <% if Settings.hands_allow %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill' %>

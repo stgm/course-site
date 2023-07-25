@@ -1,40 +1,60 @@
 body.grading
 {
-	height:100vh;
+    height:100vh;
 }
 
 .ipynb
 {
-	h1, h2, h3
-	{
-		margin-bottom:1rem;
-	}
+    h1, h2, h3
+    {
+        margin-bottom:1rem;
+    }
 
-	pre
-	{
-		margin-left:1.5rem;
-	}
+    pre
+    {
+        margin-left:1.5rem;
+    }
 
-	pre.input
-	{
-		margin-top:2rem;
-		margin-bottom:2rem;
+    .input, .output
+    {
+        margin-top:2rem;
+        margin-bottom:2rem;
 
-		margin-left:0rem;
-		border:1px solid #56b056;
-		border-left:0.25rem solid #56b056;
-		padding:1.25rem;
+        margin-left:0rem;
+        border:1px solid #56b056;
+        border-left:0.25rem solid #56b056;
+        padding:1.25rem;
 
-		code
-		{
-			word-wrap:normal;
-		}
-	}
+        code
+        {
+            word-wrap:normal;
+        }
+    }
 
-	pre.output
-	{
-		border-color:#C2CACC;
-	}
+    .output
+    {
+        border-color:#C2CACC;
+        max-height: 20rem;
+        overflow: scroll;
+    }
+
+    .input + .output
+    {
+        margin-top: -2rem;
+        margin-left: 1rem;
+    }
+
+    .output:has(img)
+    {
+        max-height: none;
+        padding: 0;
+        background-color: #fff;
+    }
+
+    .output img
+    {
+        max-width:100%;
+    }
 }
 
 //****************************************************************************
