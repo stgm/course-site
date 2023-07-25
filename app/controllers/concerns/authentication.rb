@@ -12,17 +12,14 @@ module Authentication
     end
 
     def logged_in?
-        return authenticated? && current_user.present?
+        return authenticated? && current_user.present? && current_user.persisted?
     end
 
     def current_user
         @current_user ||= 
-            if session[:user_id].present?
-                User.find_by(id: session[:user_id])
-            else
-                # Blank user for logged out purposes
-                User.new
-            end
+            session[:user_id].present? &&
+            User.find_by(id: session[:user_id]) ||
+            User.new  # blank user for logged-out
         Current.user = @current_user
     end
 
