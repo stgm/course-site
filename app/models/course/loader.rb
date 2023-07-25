@@ -164,7 +164,9 @@ class Course::Loader
         page = load_page(file.parent_path)
         if schedule_contents = read_config(file)
             schedule_name = page.title != '.' ? page.title : 'Standard'
-            schedule = Schedule.where(name: schedule_name).first_or_create
+            schedule = Schedule.where(name: schedule_name).first_or_create do |s|
+                s.self_service = true
+            end
             schedule.load(schedule_contents, page)
         end
     end

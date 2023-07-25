@@ -20,33 +20,50 @@ module ApplicationHelper
         end
     end
 
-	def markdown(text, page_context)
-		Kramdown::Document.new(text,
-		                       :auto_ids => true,
-		                       :asset_prefix => page_context.public_url,
-		                       :parse_block_html => true,
-		                       :toc_levels => 2..3,
-		                       :math_engine => nil,
-		                       :coderay_css => :class,
-		                       :coderay_tab_width => 4,
-		                       :enable_coderay => true,
-		                       :coderay_line_numbers => nil).to_custom_html.html_safe
-	end
+    def markdown(text, page_context)
+        Kramdown::Document.new(text,
+                               :auto_ids => true,
+                               :asset_prefix => page_context.public_url,
+                               :parse_block_html => true,
+                               :toc_levels => 2..3,
+                               :math_engine => :katex,
+                               :coderay_css => :class,
+                               :coderay_tab_width => 4,
+                               :enable_coderay => true,
+                               :coderay_line_numbers => nil).to_custom_html.html_safe
+    end
 
-	def simple_markdown(text)
-		begin
-			Kramdown::Document.new(text,
-			                       :auto_ids => true,
-			                       :parse_block_html => true,
-			                       :toc_levels => 2..3,
-			                       :coderay_css => :class,
-			                       :coderay_tab_width => 4,
-			                       :enable_coderay => true,
-			                       :coderay_line_numbers => nil).to_custom_html.html_safe
-		rescue
-			return ""
-		end
-	end
+    def simple_markdown(text)
+        begin
+            Kramdown::Document.new(text,
+                                   :auto_ids => true,
+                                   :parse_block_html => true,
+                                   :toc_levels => 2..3,
+                                   :math_engine => :katex,
+                                   :coderay_css => :class,
+                                   :coderay_tab_width => 4,
+                                   :enable_coderay => true,
+                                   :coderay_line_numbers => nil).to_custom_html.html_safe
+        rescue
+            return ""
+        end
+    end
+
+    def single_dollar_math_markdown(text)
+        begin
+            Kramdown::Document.new(text.gsub(/(?<!\$)\$(?!\$)/, '$$'),
+                                   :auto_ids => true,
+                                   :parse_block_html => true,
+                                   :toc_levels => 2..3,
+                                   :math_engine => :katex,
+                                   :coderay_css => :class,
+                                   :coderay_tab_width => 4,
+                                   :enable_coderay => true,
+                                   :coderay_line_numbers => nil).to_custom_html.html_safe
+        rescue
+            return ""
+        end
+    end
 
 	def title
 		"#{@title} - #{Course.long_name}"
