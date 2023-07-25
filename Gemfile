@@ -21,7 +21,7 @@ group :development do
 end
 
 group :production do
-    # gem 'mini_racer'
+    gem 'mini_racer'
     gem 'exception_notification'
     gem 'azure-storage-blob', '~> 2.0', require: false # active storage client
 end
@@ -50,6 +50,8 @@ gem 'rufus-scheduler'
 gem 'kramdown'
 gem 'asciidoctor'
 gem 'front_matter_parser'
+gem 'katex', '~> 0.10.0'
+gem 'kramdown-math-katex'
 
 # XLSX generation
 gem 'rubyzip', '~> 2.3.0', require: 'zip'

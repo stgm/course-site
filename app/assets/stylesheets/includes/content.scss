@@ -91,12 +91,17 @@ section, .sectionbody .content
 		margin-bottom: 0;
 	}
 
-	li > blockquote
-	{
-		margin-left: 0;
-		margin-top: .75rem;
-		margin-bottom: .75rem;
-	}
+    /*
+     * STUFF IN LISTS
+     */
+
+    li > blockquote, li > pre
+    {
+        margin-left: 0;
+        margin-top: .75rem;
+        margin-bottom: .75rem;
+        padding: 1rem;
+    }
 
 	/*
 	 * OTHER ELEMENTS

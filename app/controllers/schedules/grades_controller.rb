@@ -44,7 +44,7 @@ class Schedules::GradesController < Schedules::ApplicationController
 		# feature has to be enabled by supplying a grading.yml
 		raise ActionController::RoutingError.new('Not Found') if not User::FinalGradeAssigner.available?
 
-		@schedule.users.each do |student|
+		@schedule.users.status_active.each do |student|
 			student.assign_final_grade(current_user, only: params[:grades])
 		end
 		redirect_back fallback_location: '/'
