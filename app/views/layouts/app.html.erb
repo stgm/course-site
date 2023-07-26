@@ -1,22 +1,17 @@
 <% content_for :body do %>
 
 <% @body_class = "mini-app" %>
-<meta name="theme-color" content="#F4F9FF">
+<% @theme_color = "#F4F9FF" %>
 
-<div id="sidebar" class="offcanvas offcanvas-bottom" tabindex="-1" data-bs-backdrop="false" data-turbo-permanent>
+<%= render 'navbar', remove_content: true %>
+<%= render 'alerts' %>
+
+<div id="sidebar" class="offcanvas offcanvas-bottom" tabindex="-1" data-turbo-permanent>
     <%= render 'sidebar' %>
 </div>
 
-<%= render "alerts" %>
-
 <div class="mini-app-container">
-    <div class="mini-app-header">
-        <%= link_to bootstrap_icon('chat-text', width: '40', height: '40', style: 'color: #88C0FF'), '',
-            { 'data-bs-toggle' => "offcanvas", 'data-bs-target' => "#sidebar" } %>
-        <h1 class="display-4"><%= @page_name %></h1>
-        <h3 class="fw-normal"><%= @course_name %></h3>
-    </div>
-    <%= yield %>
+    <%= content_for?(:app) ? yield(:app) : yield %>
 </div>
 
 <% end %>

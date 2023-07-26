@@ -229,7 +229,10 @@
     {
         position: fixed;
 
-        width: 100%;
+        width: calc(100% - 1.5rem);
+        height: 80%;
+        margin: 0.75rem;
+        border-radius: 40px;
 
         --bs-offcanvas-transition: transform 0.1s ease-in-out;
 
@@ -239,6 +242,13 @@
         {
             margin-top: 0.5rem;
         }
+
+        box-shadow: 0 10px 30px #777;
+    }
+
+    .offcanvas-backdrop.show
+    {
+        opacity: .2;
     }
 }
 

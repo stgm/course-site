@@ -1,7 +1,5 @@
 localStorage.removeItem('waiting-gif');
 document.getElementById('assistance').innerHTML = "<%= j(render 'helping') %>";
-setTimeout(function(){
-	Rails.ajax({ type: 'get', url: '<%= hands_raise_path %>'});
-}, 60000 );
-const notification = new Notification("Assistance", { body: 'Your TA is looking for you!' });
-console.log(notification);
+document.getElementById('assistance').dataset.reloadTimeoutValue = '60';
+// notification = new Notification("Assistance", { body: 'Your TA is looking for you!' });
+// console.log(notification);

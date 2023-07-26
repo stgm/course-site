@@ -26,6 +26,12 @@ summary
     background-image: linear-gradient(180deg, rgba(132, 250, 176, 0.99) 95%, rgba(143, 211, 244, 0.99) 100%);
 }
 
+.mini-app #navbar
+{
+    background: none;
+    box-shadow: none;
+}
+
 #sidebar
 {
     background: linear-gradient(50deg, adjust-color(#F4F4F4, $lightness: -2%) 0%, #F4F4F4 100%);

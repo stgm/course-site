@@ -1,4 +1,4 @@
-<div id="navbar" class="shadow-sm navbar navbar-expand-md flex-wrap column-gap-3 justify-items-start">
+<div id="navbar" class="shadosw-sm navbar navbar-expand-md flex-wrap column-gap-3 justify-items-start">
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,6 +11,8 @@
     <%# spacer %>
     <div class="flex-fill"></div>
 
+    <% unless defined?(remove_content) %>
+
     <%# default toolbar items %>
     <% if current_user.senior? %>
     <%= render partial: 'search' %>
@@ -22,5 +24,7 @@
         <%= render partial: 'hands_menu' %>
         <%= render 'menu' %>
     </ul>
+    <% end %>
+
     <% end %>
 </div>
