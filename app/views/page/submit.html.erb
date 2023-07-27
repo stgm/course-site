@@ -1,0 +1,28 @@
+<%= form_tag_if(
+    @page.pset && @allow_submit,
+    submissions_path,
+    {
+        multipart: true,
+        id: "page_form",
+        data:
+        {
+            controller: "form-cache",
+            form_cache_target: "form",
+            action: "input->form-cache#saveToLocalStorage submit->form-cache#clearLocalStorage"
+        }
+    }
+    ) do %>
+
+<% if @page.pset && @allow_submit %>
+<%= hidden_field_tag :pset_id, @page.pset.id %>
+<% end %>
+
+<% @subpages.each_with_index do |subpage, index| %>
+    <section class="markdown" id="<%= subpage.slug %>-content">
+        <%= markdown(subpage.content, @page) %>
+    </section>
+<% end %>
+
+<%= render 'submit' %>
+
+<% end %>

@@ -1,0 +1,162 @@
+//****************************************************************************
+// div#assistance in the navbar/sidebar is a dropdown, which can contain
+// the assistance application
+
+#assistance.dropdown-menu
+{
+    width:300px;
+    padding: 0.75rem;
+
+    p, textarea, input, img
+    {
+        margin-bottom: 0.5rem;
+    }
+
+    textarea
+    {
+        height: 8rem;
+    }
+
+    #waiting-gif
+    {
+        width: 100%;
+        display: block;
+        max-height: 180px;
+    }
+
+    .btn
+    {
+        color: #000;
+        background-color: #ffc107;
+        border-color: #ffc107;
+        width: 100%;
+    }
+
+    label
+    {
+        font-size: smaller;
+        vertical-align: top;
+
+        strong
+        {
+            display:none;
+        }
+    }
+    
+    .message
+    {
+        text-align: center;
+    }
+    
+    .message.big
+    {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        margin-bottom:3rem;
+    }
+}
+
+.mini-app #location-form
+{
+    justify-content: space-between;
+
+    background-color: white;
+    border-radius: 30px;
+    padding: 1.5rem;
+    background-color: rgba(255, 206, 0, 0.6);
+
+    #location-text-field
+    {
+        border-bottom: 2px dotted;
+        font-size: 2rem;
+        border-radius: unset;
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .mini-app #location-form
+    {
+        padding: 1.5rem;
+        margin: -1.5rem;
+    }
+}
+
+.mini-app
+{
+    #location-form, #assistance-form
+    {
+        // have the question box take up any remaining space
+        #assistance-form-question
+        {
+            flex: 1 1 auto !important;
+        }
+
+        label
+        {
+            margin-bottom: 0.35rem;
+            font-size: 90%;
+            margin-left: 0.15rem;
+        }
+
+        textarea, input
+        {
+            width: 100%;
+            border: 1px solid #BCDCFF;
+            border: none;
+            margin-bottom: 1rem;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+    }
+}
+
+.hands-app
+{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    .message
+    {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        & h5
+        {
+            margin-top: -4rem;
+            text-align: center;
+        }
+    }
+
+    .list-group-item
+    {
+        padding: 2rem;
+        border: 0 !important;
+        margin-bottom: 0.5rem;
+    }
+
+    .hands-show
+    {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        & p
+        {
+            flex: 1 1 auto;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .hands-show
+        {
+            background: linear-gradient(170deg, #CAEAFF, #BAF7C8) fixed !important;
+            border-radius: 40px;
+            height: 100%;
+            padding: 2rem;
+        }
+    }
+}

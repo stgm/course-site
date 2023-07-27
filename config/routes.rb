@@ -1,22 +1,22 @@
 Rails.application.routes.draw do
 
-    #--LOGIN------------------------------------------------------------------------------------
+	#--LOGIN------------------------------------------------------------------------------------
 
-    namespace :auth do
-        namespace :session do
-            get 'logout'
-        end
-        namespace :open do
-            get 'login'
-            get 'callback'
-        end
-        namespace :mail do
-            post 'create'
-            get 'code'
-            post 'validate'
-            get 'login'
-        end
-    end
+	namespace :auth do
+		namespace :session do
+			get 'logout'
+		end
+		namespace :open do
+			get 'login'
+			get 'callback'
+		end
+		namespace :mail do
+			post 'create'
+			get 'code'
+			post 'validate'
+			get 'login'
+		end
+	end
 
 	#--ADMIN------------------------------------------------------------------------------------
 
@@ -24,20 +24,20 @@ Rails.application.routes.draw do
 		# site-wide settings, often used only once
 		get 'site', to: 'site#index'
 		namespace :site do
-			get  'permissions'            #done
-			post 'settings'               #done
-			post 'set_git_repo'           #done
-			post 'set_git_version'        #done
-			post 'generate_secret'        #done
+			get	 'permissions'			  #done
+			post 'settings'				  #done
+			post 'set_git_repo'			  #done
+			post 'set_git_version'		  #done
+			post 'generate_secret'		  #done
 		end
 
 		# course settings, not often used
 		get 'course', to: 'course#index'
 		namespace :course do
-			get   'export_grades'         #done
+			get	  'export_grades'		  #done
 			patch 'schedule_registration' #done
 			patch 'schedule_self_service' #done
-			patch 'page_update'           #done
+			patch 'page_update'			  #done
 			patch 'update_schedule_span'
 		end
 
@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 			post   'add_schedule_permission'
 			delete 'remove_schedule_permission'
 			patch  'set_role'
-			put    'set_role'
+			put	   'set_role'
 		end
 
 		resource :update, only: [ :create ]
@@ -62,7 +62,7 @@ Rails.application.routes.draw do
 	end
 
 	resources :schedules, module: 'schedules', param: 'slug', only: [] do
-		get  "(/status/:status)", action: :index, as: '', defaults: { status: 'active' }
+		get	 "(/status/:status)", action: :index, as: '', defaults: { status: 'active' }
 
 		resource :current_module, only: [ :edit, :update ]
 		resource :export_final_grades, only: [ :new, :create ]
@@ -79,22 +79,20 @@ Rails.application.routes.draw do
 				post "publish_all"
 				post "publish"
 
-				get  "form_for_publish_auto"
+				get	 "form_for_publish_auto"
 				post "publish_auto"
 
-				put  "assign_all_final"
+				put	 "assign_all_final"
 				post 'reopen', param: 'group_id'
 			end
 		end
 
 		resources :submits, only: [] do
 			collection do
-				get  "form_for_late"
+				get	 "form_for_late"
 				post "close_and_mail_late"
-				get  "form_for_missing"
+				get	 "form_for_missing"
 				post "notify_missing"
-                post "lock_for_all"
-                post "unlock_for_all"
 			end
 		end
 
@@ -113,7 +111,7 @@ Rails.application.routes.draw do
 
 	# grading interface
 	resources :grading, param: 'submit_id', only: [ :index, :show, :create ], path: "grading" do
-		get  "download"
+		get	 "download"
 	end
 	# one button in the grading interface
 	post "grading/finish", as: "finish_grading"
@@ -136,6 +134,11 @@ Rails.application.routes.draw do
 			put "done"
 		end
 	end
+	
+	resources :questions
+	resources :answers
+
+	resources :assistance, only: [ :index ]
 
 	#--RESOURCES--------------------------------------------------------------------------------
 
@@ -143,7 +146,7 @@ Rails.application.routes.draw do
 
 		resources :users, only: [ :index, :show, :edit, :update ] do
 			collection do
-				get  'search'
+				get	 'search'
 			end
 			member do
 				post  'calculate_final_grade'
@@ -166,16 +169,15 @@ Rails.application.routes.draw do
 	resources :submits, only: [ :show, :create, :destroy, :update ] do
 		member do
 			post 'recheck'
-            patch 'unlock'
 		end
 	end
 
-	get  "profile" => "profile#index"
+	get	 "profile" => "profile#index"
 	namespace :profile do
 		post 'save'
-		get  'pair'
+		get	 'pair'
 		post 'ask'
-		get  'ping'
+		get	 'ping'
 		post 'next' # set user schedule
 		post 'prev' # set user schedule
 		post 'set_module'
@@ -191,7 +193,7 @@ Rails.application.routes.draw do
 	#--EXTERNAL APIs----------------------------------------------------------------------------
 
 	post "api/reload", to: "api/api#reload"
-	get  "api/current_longest_waiting_time"
+	get	 "api/current_longest_waiting_time"
 
 	post "api/check_result/do", to: "api/check_result#do"
 
@@ -203,22 +205,27 @@ Rails.application.routes.draw do
 
 	# homepage
 	root to: "home#index"
-	get 'home/clone'
-	get 'syllabus',      to: 'page#syllabus'
-	get 'announcements', to: 'page#announcements'
+	get "manifest.json", to: "home#manifest"
+	get "home/clone"
+	get "syllabus",		 to: "page#index", defaults: { slug: 'syllabus' }
+	get "announcements", to: "page#announcements"
 
 	# search
-	get  "search/autocomplete"
-	get  "search/query"
-	get  "search/subpage"
+	get	 "search/autocomplete"
+	get	 "search/query"
+	get	 "search/subpage"
 
 	# pages
 	resources :submissions, only: [ :index, :create ] do
 		get 'feedback'
 	end
 
+	get	 "s/*slug" => "page#submit", as: "page_submit"
+	get	 "q/syllabus" => "page#questions", defaults: { slug: 'syllabus' }
+	get	 "q/*slug" => "page#questions"
+
 	# default route, for content pages (must be last!)
 	# ..with an exception for the /rails routes
-	get  "*slug" => "page#index", constraints: lambda { |e| !e.fullpath.start_with?('/rails/') }
+	get	 "*slug" => "page#index", constraints: lambda { |e| !e.fullpath.start_with?('/rails/') }
 
 end

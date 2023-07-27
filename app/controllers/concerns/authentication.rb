@@ -3,6 +3,7 @@ module Authentication
 
     included do
         helper_method :authenticated?, :logged_in?, :current_user
+        before_action :current_user
     end
 
     # decides if any of the auth methods is satisfied
@@ -17,12 +18,9 @@ module Authentication
 
     def current_user
         @current_user ||= 
-            if session[:user_id].present?
-                User.find_by(id: session[:user_id])
-            else
-                # Blank user for logged out purposes
-                User.new
-            end
+            session[:user_id].present? &&
+            User.find_by(id: session[:user_id]) ||
+            User.new # Blank user for logged out purposes
         Current.user = @current_user
     end
 

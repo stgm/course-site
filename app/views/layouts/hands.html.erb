@@ -1,19 +1,17 @@
-<% content_for :content do %>
-<div class="container-fluid">
-	<div class="row content">
-		<div class="col-12">
-			<%= form_tag(hands_path, method: 'get', class: 'form mt-3') do %>
-			<div class="input-group">
-				<div class="input-group">
-					<a class="btn btn-primary" href="<%= hands_path %>"><%= bootstrap_icon 'chevron-left' %></a>
-					<input type="text" class="form-control" placeholder="Search" name="term" id="term" required>
-					<button class="btn btn-primary" type="submit"><%= bootstrap_icon 'search' %></button>
-				</div>
-			</div>
-			<% end %>
-			<%= yield %>
-		</div>
-	</div>
+<% content_for :app do %>
+<div class="mini-app-body hands-app">
+    <% if Settings.hands_groups %>
+    <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><%= @group_name %></button>
+        <ul class="dropdown-menu">
+            <% current_user.groups.each do |g| %>
+            <li><%= link_to g.name, hands_path(group: g.name), class: 'dropdown-item', aria: { current: 'page' } %></li>
+            <% end %>
+            <li><%= link_to '(all)', hands_path(group: 'all'), class: 'dropdown-item' %></li>
+        </ul>
+    </div>
+    <% end %>
+    <%= yield %>
 </div>
 <% end %>
-<%= render template: "layouts/navbar" %>
+<%= render template: "layouts/app" %>

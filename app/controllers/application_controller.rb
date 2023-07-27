@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
 
+    # automatically loads current_user and Current.user
 	include Authentication
 
 	rescue_from ActionController::InvalidAuthenticityToken do |exception|

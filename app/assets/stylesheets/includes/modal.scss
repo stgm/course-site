@@ -69,12 +69,11 @@
 
 @media (max-width: 767.98px)
 {
-	.btn-close
+	#modal-browser-header .btn-close
 	{
 		display: block;
 	}
 }
-
 
 #modal-browser-body
 {
@@ -112,4 +111,10 @@
 
 	-webkit-backdrop-filter: brightness(102%);
 	backdrop-filter: brightness(102%);
+}
+
+#user-toolbar .dropdown-menu
+{
+    max-height: 30rem;
+    overflow-y: scroll;
 }

@@ -12,33 +12,58 @@ module ApplicationHelper
         "<span>#{l date, format: :short}".html_safe
 	end
 
-	def markdown(text, page_context)
-		Kramdown::Document.new(text,
-		                       :auto_ids => true,
-		                       :asset_prefix => page_context.public_url,
-		                       :parse_block_html => true,
-		                       :toc_levels => 2..3,
-		                       :math_engine => nil,
-		                       :coderay_css => :class,
-		                       :coderay_tab_width => 4,
-		                       :enable_coderay => true,
-		                       :coderay_line_numbers => nil).to_custom_html.html_safe
-	end
+    def time_ago_in_words_or_more_precise(time)
+        if time < 2.hours.ago
+            time.to_fs(:short)
+        else
+            time_ago_in_words(time) + " " + t(:ago)
+        end
+    end
 
-	def simple_markdown(text)
-		begin
-			Kramdown::Document.new(text,
-			                       :auto_ids => true,
-			                       :parse_block_html => true,
-			                       :toc_levels => 2..3,
-			                       :coderay_css => :class,
-			                       :coderay_tab_width => 4,
-			                       :enable_coderay => true,
-			                       :coderay_line_numbers => nil).to_custom_html.html_safe
-		rescue
-			return ""
-		end
-	end
+    def markdown(text, page_context)
+        Kramdown::Document.new(text,
+                               :auto_ids => true,
+                               :asset_prefix => page_context.public_url,
+                               :parse_block_html => true,
+                               :toc_levels => 2..3,
+                               :math_engine => :katex,
+                               :coderay_css => :class,
+                               :coderay_tab_width => 4,
+                               :enable_coderay => true,
+                               :coderay_line_numbers => nil).to_custom_html.html_safe
+    end
+
+    def simple_markdown(text)
+        begin
+            Kramdown::Document.new(text,
+                                   :auto_ids => true,
+                                   :parse_block_html => true,
+                                   :toc_levels => 2..3,
+                                   :math_engine => :katex,
+                                   :coderay_css => :class,
+                                   :coderay_tab_width => 4,
+                                   :enable_coderay => true,
+                                   :coderay_line_numbers => nil).to_custom_html.html_safe
+        rescue
+            return ""
+        end
+    end
+
+    def single_dollar_math_markdown(text)
+        begin
+            Kramdown::Document.new(text.gsub(/(?<!\$)\$(?!\$)/, '$$'),
+                                   :auto_ids => true,
+                                   :parse_block_html => true,
+                                   :toc_levels => 2..3,
+                                   :math_engine => :katex,
+                                   :coderay_css => :class,
+                                   :coderay_tab_width => 4,
+                                   :enable_coderay => true,
+                                   :coderay_line_numbers => nil).to_custom_html.html_safe
+        rescue
+            return ""
+        end
+    end
 
 	def title
 		"#{@title} - #{Course.long_name}"
@@ -94,6 +119,7 @@ module ApplicationHelper
 		all_modules = SubModule.where(name:content).sort_by{|m| content.index(m.name)}
 		# combine the content links into a single hash
 		combined_content = all_modules.map(&:content_links).reduce({}, :merge)
+        logger.info combined_content.inspect
 		return content_tag(:li, links_to_ul(combined_content), class: "nav-item")
 	end
 	
@@ -129,7 +155,7 @@ module ApplicationHelper
 					remote: true,
 					checked: current_user.progress[page_name],
 					id: "progress_#{page_name.parameterize}_check",
-					class: "sform-check-input m-2",
+					class: "form-check-input",
 					onclick: "Rails.fire(this.form, 'submit');"
 				}
 			)

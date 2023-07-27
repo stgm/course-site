@@ -1,11 +1,14 @@
 <%= toggle_setting_form('hands_allow', 'Enable student question queue') %>
-<%= toggle_setting_form('hands_location', 'Ask for location') %>
-<%= toggle_setting_form('hands_bumper', 'Force location when local') %>
-<%= toggle_setting_form('hands_link', 'Require video link instead of location') %>
-<%= toggle_setting_form('hands_groups', 'Always show group name in help list') %>
+<%= toggle_setting_form('hands_only', 'Only use website for assistance queue (redirect users as appropriate)') %>
+<%= toggle_setting_form('hands_location', 'Ask for location (set a location type descriptor below)') %>
+<%= toggle_setting_form('hands_location_bumper', 'Ask for location before anything else') %>
+<%= toggle_setting_form('hands_link', 'Require Zoom link instead of physical location') %>
+<% if Group.many? %>
+<%= toggle_setting_form('hands_groups', 'Filter assistance list by group (for courses with separate TAs for each group)') %>
+<% end %>
 <%= toggle_setting_form('hands_show_non_questions', 'Show people who haven\'t asked questions for a while') %>
+<%= change_setting_form('hands_location_type', 'What kind of location is required') %>
 
 <hr>
 
 <%= toggle_setting_form('room_for_toc', 'Make room for table of contents') %>
-<%= toggle_setting_form('pages_enable_math', 'Enable MathJax') %>

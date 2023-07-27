@@ -40,9 +40,11 @@ en:
         button: "Submit"
         answers_will_be_submitted: Your answers in the form above will be submitted.
         you_submitted: "You submitted %{name}"
-        you_submitted_ago: "You have submitted this problem set %{time} ago."
+        you_submitted_ago: "You have submitted this problem set %{time}."
         see_submissions_page: "Check your submissions and feedback on the %{submissions_page}."
         until_deadline_new_version: 'Usually, you can submit another version until the deadline the passes.'
+        deadline_is: "The deadline is on %{date} at %{time}."
+        deadline_was: "The deadline was on %{date} at %{time}."
         files_submitted: "Submitted files:"
         check_results: "Check results"
         overview: "Results"
@@ -50,11 +52,11 @@ en:
         submit_is_graded: "Your submission was graded, so you can't submit any new versions."
         at_the_end_of_page: 'Submit your solution at the end of the page'
         course_not_open: 'This course does not currently accept submissions.'
-        cant_not_logged_in: "You can't submit a solution because you are not logged in."
+        cant_not_logged_in: "You can't submit a solution because you are not activated as a student."
         cant_resubmit: "You can't currently submit."
         cant_resubmit_explainer: "Your solution is queued for assessment, so you can't submit a new solution now. Check back later to see the results or to re-submit. If you think you should be able to submit, feel free to contact the course's staff!"
-        submit_locked: "This problem is locked for submissions."
-        submit_locked_explainer: "If you think you should be able to submit, feel free to contact the course's staff!"
+        submit_closed: "This problem is closed for further submissions."
+        submit_closed_explainer: "If you think you should be able to submit, feel free to contact the course's staff!"
         files: files
         file_groups:
             required: Required
@@ -65,17 +67,59 @@ en:
             one: One member of staff is available
             other: "%{count} staff are currently available"
         request_assistance_in_class: "Request assistance in class!"
-        briefly_summarize: "Briefly summarize your question"
+        good_morning: "Good morning"
+        good_afternoon: "Good afternoon"
+        good_evening: "Good evening"
+        good_night: "Good night"
+        lets_check_you_in: "Let's check you in."
+        entering_location: "Entering your %{location_type} helps to register attendance"
+        save_my_location: "Save my location"
+        summary: "Summary"
+        location: "Location"
+        briefly_summarize: "Provide a summary of what you would like to discuss"
         subject: "About which assignment?"
-        location: "Enter your location"
+        enter_location: "Enter your location"
         ask_for_assistance: "Ask for assistance"
         posting_question: "Aanvraag wordt verstuurd..."
         you_are_number_1_in_line: "You are number %{number} in line."
         wait_is_over: "The wait is over!"
-        is_looking_to_help_you: "%{name} is looking to assist you right now"
+        is_looking_to_help_you: "%{name} is looking to assist you right now."
         cancel_request: "Cancel request"
         link: "Provide your Zoom link"
-        in_line: "We ask that you wait a bit because you were helped just recently!"
+        in_line: "We ask that you wait a bit because you were helped just recently and it's quite busy!"
+
+        prompts:
+            - "What project are you currently working on, and how can I assist you?"
+            - "Have you encountered any challenges in your coding tasks today?"
+            # - "What programming language are you most comfortable with and why?"
+            - "Is there a particular programming concept you'd like to explore further?"
+            - "Are there any interesting coding techniques you've come across recently?"
+            - "How do you approach problem-solving when faced with a programming task?"
+            - "Are there any specific areas of programming you'd like to improve?"
+            - "What motivated you to pursue programming as a course of study?"
+            - "Do you have any favorite websites you find helpful for programming?"
+            - "What programming projects or ideas are you passionate about outside of class?"
+            - "Have you tried any new programming tools or libraries lately?"
+            - "How do you usually debug your code when you encounter errors?"
+            - "What is your preferred development environment and why?"
+            - "Are there any programming concepts you find particularly challenging?"
+            - "Do you enjoy working on frontend or backend development more?"
+            - "Have you ever contributed to an open-source project? If so, which one?"
+            - "What's your favorite aspect of programming and why?"
+            - "Are there any coding patterns or best practices you follow regularly?"
+            - "How do you stay up-to-date with the latest programming trends and technologies?"
+            - "What advice would you give to someone just starting to learn programming?"
+            - "Do you prefer working on solo coding projects or collaborating in a team?"
+            - "What's the most interesting bug or issue you've encountered while coding?"
+            # - "Have you ever had to refactor a large codebase? How did you approach it?"
+            - "Do you have any strategies for managing your time effectively while coding?"
+            - "What programming projects or exercises have you found most rewarding?"
+            - "Are there any programming languages you're interested in learning in the future?"
+            - "Have you ever built a project that you're particularly proud of? Tell me about it."
+            - "What programming-related hobbies or side projects do you engage in?"
+            - "How do you handle stress or frustration when facing programming challenges?"
+            - "What's your favorite feature or tool?"
+            - "Are there any programming communities or forums you actively participate in?"
 
     account:
         login: Log in using your UvA account
@@ -87,9 +131,10 @@ en:
         validation_code: Enter your validation code
         validation_code_in_mail: You will receive it by e-mail, but it might end up in your spam folder!
         you_can_login: Welcome! This is where you log in.
-        guest_needs_activation: When you log in as guest (via e-mail) you will not be able to submit assignments until your account is activated by a teacher.
+        guest_needs_activation: "Note: when you log in as guest (via e-mail) you will not be able to submit assignments until your account is activated by a teacher."
         login_via_uva: Login via UvA account
         login_via_mail: Guest login via mail
+        login_or_register: Login or register
         logout: Log out
 
     errors:

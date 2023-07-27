@@ -1,1 +1,16 @@
-document.getElementById('ama').innerHTML = "<%= j(render 'form') %>";
+document.getElementById('assistance').innerHTML = "<%= j(render 'form') %>";
+document.getElementById('assistance-form-question').focus();
+// document.getElementById('ask-button').addEventListener('click', () => {
+//     try {
+//         Notification.requestPermission().then((result) => {
+//           console.log(result);
+//           document.getElementById('assistance-app-h1').innerText = 'no permission';
+//         });
+//     } catch (e) {
+//         document.getElementById('assistance-app-h1').innerText = 'catch';
+//     }
+//
+//     document.getElementById('assistance-app-h1').innerText = 'good';
+//
+// });
+document.getElementById('assistance').dataset.reloadTimeoutValue = '0';

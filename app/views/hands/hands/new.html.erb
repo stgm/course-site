@@ -1,25 +1,14 @@
-<div class="my-3">
+<div class="hands-show">
 
-<h4>
-	<%= @user.name %><% if @user.group %> <%= @user.group.name %><% end %><br>
-	<small>was seen on this site <%= @user.last_seen_at ? time_ago_in_words(@user.last_seen_at) : 'never??' %> <%= t(:ago) %></small>
-</h4>
+    <div class="flex-fill">
+        <%= render_hand user: @user, provide_suggestion: true %>
+    </div>
 
-<p>
-	Ask this student what they are working on right now. Let them explain a bit.
-	<br>
-	If this student is new, please welcome them and show the "Ask" button on the website.
-	Refer them to help@mprog.nl for practical matters.
-</p>
-
-<%= form_tag(hands_path(user_id: @user.id)) do %>
-
-<%= render partial: 'form' %>
-		
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-	<button type="submit" class="btn btn-primary">Mark as done</button>
-</div>
-
-<% end %>
+    <%= form_tag(hands_path(user_id: @user.id)) do %>
+    <%= render partial: 'form' %>
+    <div class="d-grid gap-2 d-md-flex ">
+        <button type="submit" class="btn btn-primary">Mark as done</button>
+    </div>
+    <% end %>
 
 </div>

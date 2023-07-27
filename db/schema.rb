@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_25_132856) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_19_140202) do
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,6 +57,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_132856) do
     t.datetime "updated_at", null: false
     t.integer "schedule_id"
     t.index ["schedule_id"], name: "index_alerts_on_schedule_id"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "attendance_records", force: :cascade do |t|
@@ -168,6 +187,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_132856) do
     t.index ["page_id"], name: "index_psets_on_page_id"
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "page_id", null: false
+    t.boolean "locked", default: false
+    t.boolean "hidden", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_questions_on_page_id"
+    t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
   create_table "schedule_spans", force: :cascade do |t|
     t.string "name"
     t.integer "schedule_id"
@@ -176,6 +206,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_132856) do
     t.datetime "updated_at"
     t.boolean "public", default: true
     t.integer "rank"
+    t.datetime "publish_at"
     t.index ["schedule_id"], name: "index_schedule_spans_on_schedule_id"
   end
 
@@ -291,5 +322,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_132856) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
+  add_foreign_key "questions", "pages"
+  add_foreign_key "questions", "users"
   add_foreign_key "schedules", "pages"
 end

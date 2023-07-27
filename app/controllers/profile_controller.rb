@@ -6,7 +6,7 @@ class ProfileController < ApplicationController
 
     def index
         return head(:not_found) if current_user.valid_profile? && current_user.valid_schedule?
-        render layout: 'welcome'
+        render layout: 'app'
     end
 
     def ping

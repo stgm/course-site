@@ -2,57 +2,102 @@
 
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Grade dump</title>
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<style type="text/css" media="screen">
-		table.grades
-		{
-			background-color:white;
-		}
-		
-		table.grades tr td:nth-child(-n+3)
-		{
-			white-space:nowrap;
-		}
-	</style>
-</head>
+    <meta charset="UTF-8">
+    <title>Grade dump</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <style type="text/css">
+        @media print {
+            body
+            {
+                font-size: 6pt;
+            }
+
+            h3
+            {
+                font-size: 8pt;
+            }
+
+            h3:not(:first-child)
+            {
+                page-break-before: always;
+            }
+
+            table.grades
+            {
+                background-color:white;
+            }
+
+            th, td
+            {
+                padding: 0 !important;
+            }
+
+            td:not(:only-child)
+            {
+                white-space: nowrap;
+            }
+
+            p, ul
+            {
+                margin: 0 !important;
+            }
+            
+            th *, td *
+            {
+                font-size: inherit !important;
+            }
+        }
+        </style>
+    </head>
 <body>
 
-	<div class="container">
+    <div class="container">
 
-	<% @students.each do |s| %>
-		<h3><%= s.name %> (<%= s.defacto_student_identifier %>)</h3>
-		<% if s.submits.any? %>
-		<table class="table table-condensed grades">
-			<tr>
-				<th>pset</th>
-				<th>grade</th>
-				<th>subgrades</th>
-				<th>comments</th>
-			</tr>
-			<% s.submits.each do |sub| %>
-			<tr>
-				<td><strong><%= sub.pset.name if sub.pset.present? %></strong><br><small><%= sub.created_at.strftime("%d-%m-%Y %H:%M") %></small></td>
-				<% if sub.grade.present? %>
-				<td><%= sub.grade.assigned_grade %><br><small><%= sub.grade.updated_at.strftime("%d-%m-%Y %H:%M") %> (<%= sub.grade.grader_name %>)</small></td>
-				<td>
-					<%= sub.grade.subgrades.to_h.values.join(" / ") %>
-				</td>
-				<td><%= simple_markdown(sub.grade.comments) %></td>
-				<% else %>
-				<td colspan="3">not graded</td>
-				<% end %>
-			</tr>
-			<% end %>
-		</table>
-		<% else %>
-		No submits.
-		<% end %>
-	<% end %>
-	
-	</div>
+        <h1>Course export</h1>
+        <h5><%= Course.long_name %> <%= root_url %></h5>
+        <h5>Exported on <%= DateTime.now.to_fs(:long) %></h5>
+
+        <% @students.each do |s| %>
+        <h3><%= s.name %> (<%= s.defacto_student_identifier %>)</h3>
+        <% if s.submits.any? %>
+        <table class="table table-condensed grades">
+            <tr>
+                <th>pset</th>
+                <th>submitted</th>
+                <th>graded</th>
+                <th>grade</th>
+                <th>grader</th>
+                <th>subgrades</th>
+            </tr>
+            <% s.submits.each do |sub| %>
+            <tr>
+                <td><strong><%= sub.pset.name if sub.pset.present? %></strong></td>
+                <td><%= sub.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+                <% if sub.grade.present? %>
+                <td><%= sub.grade.updated_at.strftime("%d-%m-%Y %H:%M") %></td>
+                <td><%= translate_grade(sub.grade.assigned_grade) %></td>
+                <td><%= sub.grade.grader_name %></td>
+                <td>
+                    <%= sub.grade.subgrades.to_h.values.join(" / ") %>
+                </td>
+                <% if sub.grade.comments.present? %>
+            </tr><tr>
+                <td colspan="6"><%= simple_markdown(sub.grade.comments) %></td>
+            </tr><tr>
+                <% end %>
+                <% else %>
+                <td colspan="5">not graded</td>
+                <% end %>
+            </tr>
+            <% end %>
+        </table>
+        <% else %>
+        No submits.
+        <% end %>
+        <% end %>
+
+    </div>
 
 </body>

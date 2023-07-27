@@ -1,12 +1,11 @@
 // CSS for the page content, especially originating from markdown sources
 
-body.page #content, body.home #content, body.submissions #content
+main
 {
 	hyphens:auto;
 	-webkit-hyphens:auto;
 	-moz-hyphens:none;
 	clear:both;
-	max-width:50rem;
 }
 
 section, .sectionbody .content
@@ -92,12 +91,17 @@ section, .sectionbody .content
 		margin-bottom: 0;
 	}
 
-	li > blockquote
-	{
-		margin-left: 0;
-		margin-top: .75rem;
-		margin-bottom: .75rem;
-	}
+    /*
+     * STUFF IN LISTS
+     */
+
+    li > blockquote, li > pre
+    {
+        margin-left: 0;
+        margin-top: .75rem;
+        margin-bottom: .75rem;
+        padding: 1rem;
+    }
 
 	/*
 	 * OTHER ELEMENTS
@@ -148,6 +152,11 @@ section, .sectionbody .content
 		padding-top:1em;
 		border-top:1px solid #eee;
 	}
+
+    input, textarea
+    {
+        @extend .form-control;
+    }
 
 	textarea
 	{
@@ -251,17 +260,5 @@ section, .sectionbody .content
 	.row .col:not(:first-child)
 	{
 		border-left:1px solid gray;
-	}
-}
-
-/*
- * OVERRIDES FOR MOBILE + TABLET
- */
-
-@media (max-width: 768px)
-{
-	#content section + section, #content header + header
-	{
-		padding-top: 1em;
 	}
 }

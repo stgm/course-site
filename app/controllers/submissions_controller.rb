@@ -51,10 +51,10 @@ class SubmissionsController < ApplicationController
     end
 
     def check_permission_to_submit
-        if !current_user.can_submit_pset?(@pset)
+        if not Submit.allowed_for?(current_user, @pset)
             redirect_back(
             fallback_location: '/',
-            alert: "Sorry, this problem is locked for submissions. Consult your teacher if you think this is in error.")
+            alert: "Sorry, you can't submit this problem. Consult your teacher if you think this is in error.")
         end
     end
 

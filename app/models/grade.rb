@@ -19,7 +19,11 @@ class Grade < ApplicationRecord
     scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
 
     def sufficient?
-        assigned_grade >= 5.5 || assigned_grade == -1
+        published? && (assigned_grade >= 5.5 || assigned_grade == -1)
+    end
+
+    def resubmit_exception?
+        published? && assigned_grade == -2
     end
 
     def reject!
@@ -34,7 +38,7 @@ class Grade < ApplicationRecord
     private
 
     def set_user_status_to_done_if_final_grade
-        if published? && sufficient? && pset.is_final_grade? && Current.user.present? && Current.user.admin?
+        if sufficient? && pset.is_final_grade? && Current.user.present? && Current.user.admin?
             user.status_done!
         end
     end

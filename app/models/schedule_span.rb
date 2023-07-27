@@ -1,21 +1,33 @@
 class ScheduleSpan < ApplicationRecord
 
-	belongs_to :schedule
-	serialize :content
-	
-	scope :all_public, -> { where(public: true) }
-	scope :accessible, -> { Current.user.staff? && all || all_public }
+    belongs_to :schedule
+    serialize :content
 
-	def previous(only_public=true)
-		spans = schedule.schedule_spans
-		spans = spans.all_public if only_public
-		spans.where("rank < ?", self.rank).order(:rank).last
-	end
+    scope :all_public, -> { where('public = ? OR publish_at < ?', true, DateTime.now) }
+    scope :accessible, -> { Current.user.staff? && all || all_public }
 
-	def next(only_public=true)
-		spans = schedule.schedule_spans
-		spans = spans.all_public if only_public
-		spans.where("rank > ?", self.rank).order(:rank).first
-	end
+    def name
+        if Current.user.staff?
+            (self[:name] + " <div class='badge bg-secondary'>#{self.publish_at&.strftime('%d %b')}</div>").html_safe
+        else
+            self[:name]
+        end
+    end
+    
+    def accessible?
+        public? || publish_at.present? && publish_at < DateTime.now
+    end
+
+    def previous(only_public=true)
+        spans = schedule.schedule_spans
+        spans = spans.all_public if only_public
+        spans.where("rank < ?", self.rank).order(:rank).last
+    end
+
+    def next(only_public=true)
+        spans = schedule.schedule_spans
+        spans = spans.all_public if only_public
+        spans.where("rank > ?", self.rank).order(:rank).first
+    end
 
 end

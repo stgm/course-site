@@ -1,8 +1,32 @@
-<%= hand.user.name %> / <strong><%= hand.subject %></strong>
-<% if should_show_groups_in_hands? && hand.user.group %>
-<span class="float-end badge bg-secondary" style="<%= get_colors_for_text(hand.user.group.name) %>"><%= hand.user.group.name %></span>
-<% elsif hand.user.schedule %>
-<span class="float-end badge bg-secondary" style="<%= get_colors_for_text(hand.user.schedule.name) %>"><%= hand.user.schedule.name %></span>
+<% if Schedule.many? || Schedule.first&.groups&.many? %>
+<%= simple_format(user.full_designation, { class: 'float-end badge bg-secondary', style: get_colors_for_text(user.full_designation) }, wrapper_tag: 'span') %>
 <% end %>
-<br>
-<small>in line since <%= minutes_ago(hand.created_at) %> minutes <% if Settings.hands_location && !Settings.hands_link %> @ <%= hand.location %><% end %></small>
+<h5><strong><%= user.name %></strong></h5>
+<% if Settings.hands_link && location.present? %>
+<%= link_to location, location || "no location", target: "_blank" %>
+<% end %>
+<% if current_user.senior? || (Settings.hands_location && !Settings.hands_link) %>
+<p>
+    <small>
+        <% if current_user.senior? %>
+        waiting for 
+        <% if waiting_since %>
+        <%= minutes_ago(waiting_since) %> minutes 
+        <% else %>
+        ever
+        <% end %>
+        <% end %>
+        <% if Settings.hands_location && !Settings.hands_link %>
+            @ <%= location %>
+        <% end %>
+    </small>
+</p>
+<% end %>
+<p>
+    <strong><%= subject %></strong>&mdash;<%= question %>
+</p>
+<% if suggestion.present? %>
+<p>
+    "<%= suggestion %>"
+</p>
+<% end %>
