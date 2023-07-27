@@ -10,6 +10,7 @@ class Hands::HandsController < ApplicationController
     before_action do
         @group_name = params['group'] ||  current_user.groups.first&.name || current_user.full_designation.gsub("\n", " &ndash; ")
         @course_name = Schedule.count > 1 && current_schedule.name || Course.long_name
+        @reload_path = hands_path
     end
 
     def index

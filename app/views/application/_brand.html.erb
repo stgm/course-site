@@ -1,5 +1,5 @@
 <%# min-width:0 is to allow the div to dictate the width for flexboxed children %>
-<a href="/" class="navbar-brand d-flex align-items-center p-1 ms-n1 me-auto <%= 'logged_in' if logged_in? %>" style="min-width:0;">
+<a href="<%= @reload_path || root_path %>" class="navbar-brand d-flex align-items-center p-1 ms-n1 me-auto <%= 'logged_in' if logged_in? %>" style="min-width:0;">
 
     <%= bootstrap_icon "terminal", class: "rounded me-2 flex-shrink-0 d-none d-md-block", width:32, height:32, style: 'vertical-align:bottom;' %>
 
