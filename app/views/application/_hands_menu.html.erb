@@ -25,10 +25,16 @@
     </script>
 <% else %>
     <script>
-    console.log("HALLO!")
-    document.getElementById('ama-dd').addEventListener('show.bs.dropdown', function(e) {
-        document.getElementById("assistance").dataset.reloadDeferValue = false;
-    }, { once: true} )
+        document.getElementById('ama-dd').addEventListener('show.bs.dropdown', function(e) {
+            assistMenu = document.getElementById("assistance");
+            assistMenu.dataset.reloadDeferValue = false;
+        }, { once: true} )
+        document.getElementById('ama-dd').addEventListener('shown.bs.dropdown', function(e) {
+            assistMenu = document.getElementById("assistance");
+            focusChild = assistMenu.querySelector("[autofocus]");
+            console.log(focusChild);
+            if (focusChild) focusChild.focus();
+        })
     </script>
     <% end %>
 <% end %>
