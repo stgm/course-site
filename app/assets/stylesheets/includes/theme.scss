@@ -11,9 +11,22 @@ body
     background-color: $background-color;
 }
 
-.navbar-brand, #navbar button
+a
 {
-    color:map-get($theme-colors, "dark");
+    color: var(--bs-link-color-rgb);
+}
+
+#navbar, #sidebar .navbar-nav
+{
+    --bs-link-color: #006b4b;
+    --bs-link-color-rgb: rgb(0, 107, 75);
+    --bs-link-hover-color: rgb(0, 77, 54);
+    --bs-link-hover-color-rgb: rgb(0, 77, 54);
+}
+
+.navbar-brand
+{
+    --bs-navbar-brand-color: #006b4b;
 }
 
 summary
@@ -126,18 +139,13 @@ main .bg-light
     }
 }
 
-#timeline
+@media (min-width: 992px)
 {
-    .card-body
+    #timeline .card-body
     {
-        display: inline-block;
-        background-color: white;
-        border-radius: 0.3rem;
         box-shadow: 0px 5px 20px -5px rgba(0,0,0,0.02) ;
-        margin-bottom: 2rem;
     }
 }
-
 
 section pre .comment
 {

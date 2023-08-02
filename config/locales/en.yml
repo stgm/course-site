@@ -63,6 +63,7 @@ en:
             optional: Optional
 
     hands:
+        assistance: Assistance
         staff_are_currently_available:
             one: One member of staff is available
             other: "%{count} staff are currently available"

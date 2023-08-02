@@ -1,24 +1,34 @@
 <% if Settings.hands_allow && current_user.valid_profile? %>
 
-<li class="dropdown d-none d-md-block">
-    <a href="#" id="ama-dd" class="nasv-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-        <div><%= bootstrap_icon "question-circle-fill", size: '24x24', style: 'vertical-align:-0.255em;' %><small><%= tag.span(Hand.waiting.count, class:'ms-1') if current_user.staff? %> Assistentie</small></div>
-    </a>
-    <div class="dropdown-menu dropdown-menu-end" id="assistance" class="mini-app-body assistance-app" data-controller="reload" data-reload-url-value="<%= hands_raise_path %>" data-reload-defer-value="true">
-        <%= render 'assistance' %>
+<div class="dropdown d-none d-md-block">
+    <button id="ama-dd" class="btn btn-link dropdown-toggle" type="button"
+            data-bs-toggle="dropdown" data-bs-auto-close="outside" accesskey="a">
+        <div>
+            <%= bootstrap_icon "question-circle-fill" %>
+            <label><%= t 'hands.assistance' %></label>
+        </div>
+    </button>
+    <div id="assistance" class="dropdown-menu dropdown-menu-end"
+         data-controller="reload"
+         data-reload-url-value="<%= hands_raise_path %>"
+         data-reload-defer-value="<%= !show_hands_automatically? %>">
+        <div class="m-3">
+            Loading...
+        </div>
     </div>
-</li>
+</div>
 
-<% if is_local_ip? && Settings.hands_location_bumper && current_user.student? && current_user.last_known_location.blank? %>
+<% if show_hands_automatically? %>
     <script>
-        document.getElementById("assistance").dataset.reloadDeferValue = false;
+    (new bootstrap.Dropdown('#ama-dd')).show();
+    document.getElementById("assistance").dataset.reloadDeferValue = false;
     </script>
 <% else %>
     <script>
+    console.log("HALLO!")
     document.getElementById('ama-dd').addEventListener('show.bs.dropdown', function(e) {
         document.getElementById("assistance").dataset.reloadDeferValue = false;
     }, { once: true} )
     </script>
-<% end %>
-
+    <% end %>
 <% end %>

@@ -1,6 +1,15 @@
-<li class="dropdown d-none d-md-block">
-    <a id="userMenuDropdown" class="dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"><div><%= bootstrap_icon 'person-fill', size: '24x24', style: 'vertical-align:-4px;' %><small><%= t('account.login_button') if !authenticated? %> Menu</small></div></a>
-    <div class="dropdown-menu dropdown-menu-end" id="user-menu" aria-labelledby="userMenuDropdown">
+<div class="dropdown d-none d-md-block">
+    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" accesskey="m">
+        <div>
+            <%= bootstrap_icon 'person-fill' %>
+            <% if authenticated? %>
+            <label>Menu</label>
+            <% else %>
+            <label><%= t('account.login_button') %></label>
+            <% end %>
+        </div>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" id="user-menu">
         <%= render partial: 'menu_items' %>
-    </div>
-</li>
+    </ul>
+</div>

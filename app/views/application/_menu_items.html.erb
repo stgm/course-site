@@ -4,9 +4,9 @@
 <%= menu_group(Schedule.many? ? current_schedule.name : nil) do %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
-    <% if Settings.hands_allow %>
+	<% if Settings.hands_allow %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill' %>
-    <% end %>
+	<% end %>
 	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', target: 'modal' %>
 	<%= menu_link 'Tests...', tests_path, icon: 'check', target: 'modal', condition: Settings.tests_present %>
 	<%= menu_link 'Set module...', edit_schedule_current_module_path(current_schedule), icon: 'calendar', target: 'modal', condition: current_schedule.can_admin_set_module? %>
@@ -25,9 +25,9 @@
 	<%= menu_link 'Course administration...', admin_course_path, icon: 'inboxes', target: 'modal' %>
 	<%= menu_link 'Site configuration...', admin_site_path, icon: 'wrench', target: 'modal' %>
 	<%= menu_link 'Edit permissions...', admin_users_path, icon: 'unlock', target: 'modal' %>
-    <% if Settings.hands_allow %>
+	<% if Settings.hands_allow %>
 	<%= menu_link 'Hands statistics...', hands_statistics_path, icon: 'bar-chart-line', target: 'modal' %>
-    <% end %>
+	<% end %>
 	<%= menu_link 'Update courseware', admin_update_path, icon: 'download', method: :post, data: { turbo: "false" } %>
 <% end %>
 

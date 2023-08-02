@@ -12,6 +12,12 @@ body.mini-app
     grid-template-columns: 1fr;
 }
 
+body.mini-app:not(:has(#navbar))
+{
+    grid-template-areas: "main";
+    grid-template-rows: 1fr;
+}
+
 // base container that will be framed on desktop, contains header + body
 .mini-app-container
 {

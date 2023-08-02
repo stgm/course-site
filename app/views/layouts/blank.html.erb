@@ -1,0 +1,13 @@
+<% content_for :body do %>
+
+<% @body_class = "mini-app" %>
+<% @theme_color = "#F4F9FF" %>
+
+<%= render 'alerts' %>
+
+<div class="mini-app-container">
+    <%= content_for?(:app) ? yield(:app) : yield %>
+</div>
+
+<% end %>
+<%= render template: "layouts/application" %>

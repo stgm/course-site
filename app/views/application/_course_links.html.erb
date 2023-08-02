@@ -2,19 +2,19 @@
 
 <% if alerts_for_current_schedule.any? %>
 <a href="/announcements">
-    <%= bootstrap_icon 'bell-fill' %><small><%= t(:announcements) %></small>
+    <%= bootstrap_icon 'bell-fill' %><label><%= t(:announcements) %></label>
 </a>
 <% end %>
 
 <% if current_user.submits.where("submitted_at is not null").any? %>
 <a href="/submissions">
-    <%= bootstrap_icon 'kanban' %><small><%= t(:submissions) %></small>
+    <%= bootstrap_icon 'kanban' %><label><%= t(:submissions) %></label>
 </a>
 <% end %>
 
 <% if current_schedule && current_schedule.page %>
 <a href="/syllabus">
-    <%= bootstrap_icon 'calendar' %><small><%= t(:syllabus) %></small>
+    <%= bootstrap_icon 'calendar' %><label><%= t(:syllabus) %></label>
 </a>
 <% end %>
 

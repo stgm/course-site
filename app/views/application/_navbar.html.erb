@@ -1,9 +1,16 @@
-<div id="navbar" class="shadosw-sm navbar navbar-expand-md flex-wrap column-gap-3 justify-items-start">
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+<div id="navbar"
+    class="navbar navbar-expand-md flex-wrap column-gap-3 justify-items-start">
+    <button class="navbar-toggler" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <%= render 'brand' %>
+
+    <ul id="navbar_links"
+        class="navbar-nav button-bar collapse navbar-collapse">
+        <%= render 'course_links' %>
+    </ul>
 
     <%# additional items as defined by the page template %>
     <%= yield :navbar_items %>
@@ -19,8 +26,7 @@
     <% end %>
 
     <% if !content_for(:navbar_items) %>
-    <ul id="navbar_links" class="navbar-nav button-bar collapse navbar-collapse navbarCollapsedContent">
-        <%= render 'course_links' %>
+    <ul id="navbar_links" class="navbar-nav button-bar collapse navbar-collapse">
         <%= render partial: 'hands_menu' %>
         <%= render 'menu' %>
     </ul>
