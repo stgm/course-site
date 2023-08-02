@@ -6,9 +6,11 @@
 <%= render 'navbar', remove_content: true %>
 <%= render 'alerts' %>
 
+<% unless Settings.hands_only && !current_user.staff? %>
 <div id="sidebar" class="offcanvas offcanvas-bottom" tabindex="-1" data-turbo-permanent>
     <%= render 'sidebar' %>
 </div>
+<% end %>
 
 <div class="mini-app-container">
     <%= content_for?(:app) ? yield(:app) : yield %>

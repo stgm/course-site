@@ -3,7 +3,7 @@
 <%= render 'navbar' %>
 <%= content_for?(:toolbar) ? yield(:toolbar) : nil %>
 
-<main class="<%= 'room-for-toc' if Settings.room_for_toc %>">
+<main class="<%= 'room-for-toc' if Settings.room_for_toc %>" style="overflow-x: scroll; min-height: calc(100vh - 4rem);">
     <%= render "alerts" %>
     <%= content_for?(:content) ? yield(:content) : yield %>
 </main>
