@@ -23,3 +23,19 @@
 <% Course.links.each do |title, url|  %>
 <%= link_to insert_icon(title).html_safe, url, class:"", target: url =~ /^http/i ? '_blank' : nil %>
 <% end %>
+
+<% if Settings.hands_allow %>
+<% unless current_user.assistant? %>
+<a href="/assistance" class="d-md-none">
+    <%= bootstrap_icon "question-circle" %>
+    <label><%= t 'hands.assistance' %></label>
+</a>
+<% end %>
+
+<% if current_user.staff? %>
+<a href="/hands" class="d-md-none">
+    <%= bootstrap_icon "people" %>
+    <label>Hands</label>
+</a>
+<% end %>
+<% end %>

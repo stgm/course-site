@@ -58,7 +58,7 @@
 <%= menu_group do %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns', condition: current_user.groups.any? || current_user.schedules.any? %>
-	<%= menu_link 'Grading', grading_index_path, icon: 'pen', condition: !Schedule.exist? || current_user.groups.any? || current_user.schedules.any? %>
+	<%= menu_link 'Grading', grading_index_path, icon: 'pen', condition: !Schedule.exists? || current_user.groups.any? || current_user.schedules.any? %>
 <% end %>
 
 <% end%>

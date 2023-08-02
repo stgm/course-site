@@ -1,45 +1,49 @@
 <div id="navbar"
-    class="navbar navbar-expand-md flex-wrap column-gap-3 justify-items-start">
+    class="navbar navbar-expand-md flex-wrap column-gap-3 row-gap-2 justify-items-start dropdown">
 
-    <% unless Settings.hands_only && !current_user.staff? %>
+    <% unless Settings.hands_only && !current_user.senior? %>
         <button class="navbar-toggler" type="button"
-            data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
-            <span class="navbar-toggler-icon"></span>
+            data-bs-toggle="collapse" data-bs-target="#navbar_links" aria-controls="navbar_links">
+            <%= bootstrap_icon 'grid-3x3-gap-fill' %>
         </button>
     <% end %>
 
     <%= render 'brand' %>
 
-    <% unless Settings.hands_only || defined?(remove_content) || content_for(:navbar_items) %>
+    <% unless defined?(remove_content) %>
+    <div class="flex-fill d-flex d-md-none"></div>
+    <button class="navbar-toggler" type="button"
+        data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <% end %>
+
+    <% unless Settings.hands_only && !current_user.senior? || content_for(:navbar_items) %>
         <ul id="navbar_links"
-            class="navbar-nav button-bar collapse navbar-collapse">
+            class="navbar-nav button-bar collapse navbar-collapse drsopdown-menu">
             <%= render 'course_links' %>
         </ul>
     <% end %>
 
-    <% unless Settings.hands_only && !current_user.staff? %>
+    <% unless Settings.hands_only && !current_user.senior? %>
         <%# additional items as defined by the page template %>
         <%= yield :navbar_items %>
 
             <%# spacer %>
-            <div class="flex-fill"></div>
+            <div class="flex-fill d-none d-md-block"></div>
 
-            <% unless defined?(remove_content) %>
             <%# default toolbar items %>
             <% if current_user.senior? %>
             <%= render partial: 'search' %>
             <% end %>
-            <% end %>
 
-            <% #if !content_for(:navbar_items) %>
-            <ul id="navbar_links" class="navbar-nav button-bar collapse navbar-collapse">
+            <ul class="navbar-nav button-bar collapse navbar-collapse">
                 <% unless defined?(remove_content) %>
                 <%= render partial: 'hands_menu' %>
                 <% end %>
                 <%= render 'menu' %>
             </ul>
-            <% #end %>
 
-        <%#end %>
     <% end %>
+
 </div>

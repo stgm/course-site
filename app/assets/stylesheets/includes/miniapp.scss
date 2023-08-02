@@ -8,7 +8,7 @@ body.mini-app
 
     display: grid;
     grid-template-areas: "navbar" "main";
-    grid-template-rows: 4rem 1fr;
+    grid-template-rows: max-content 1fr;
     grid-template-columns: 1fr;
 }
 
