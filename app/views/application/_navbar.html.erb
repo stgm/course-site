@@ -21,22 +21,25 @@
         <%# additional items as defined by the page template %>
         <%= yield :navbar_items %>
 
-        <% unless defined?(remove_content) %>
             <%# spacer %>
             <div class="flex-fill"></div>
 
+            <% unless defined?(remove_content) %>
             <%# default toolbar items %>
             <% if current_user.senior? %>
             <%= render partial: 'search' %>
             <% end %>
+            <% end %>
 
             <% #if !content_for(:navbar_items) %>
             <ul id="navbar_links" class="navbar-nav button-bar collapse navbar-collapse">
+                <% unless defined?(remove_content) %>
                 <%= render partial: 'hands_menu' %>
+                <% end %>
                 <%= render 'menu' %>
             </ul>
             <% #end %>
 
-        <% end %>
+        <%#end %>
     <% end %>
 </div>
