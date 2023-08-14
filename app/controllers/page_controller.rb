@@ -16,10 +16,9 @@ class PageController < ApplicationController
 
     def submit
         @subpages = @page.subpages.select{|x| x.title.downcase == 'submit'}
-        if @page.pset && current_user.can_submit?
-            @has_form = @page.pset.form
-            @submit = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
-            @allow_submit = @submit.blank? || @submit.may_be_resubmitted?
+        if @page.pset
+            @previous_submit = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
+            @allow_submit = Submit.allowed_for?(current_user, @page.pset)
         end
         @title = @page.title
     end
@@ -48,7 +47,7 @@ class PageController < ApplicationController
 
         @may_show_content = !@only_submit
         @may_show_questions = logged_in? && !@only_submit
-        @may_show_submit = @page.pset #&& current_user.can_submit?
+        @may_show_submit = @page.pset
     end
 
 end

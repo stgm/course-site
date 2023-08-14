@@ -5,51 +5,89 @@
     <h1>Submit</h1>
     <% end %>
     <% if @submit.present? %>
-        <% if @submit.submitted_at # student did actually submit herself %>
-        <p><%= bootstrap_icon 'check2-all' %> <strong><%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %></strong></p>
-        <% end %>
-
-        <% if @submit.grade_public? && !@submit.may_be_resubmitted? # grade has been published %>
-        <p><%= bootstrap_icon 'check2-all' %> <%= t 'submit.submit_is_graded' %></p>
-        <% elsif !@submit.may_be_resubmitted? # pset is locked for this user%>
-        <% elsif current_user.can_submit? %>
-        <p><%= bootstrap_icon 'check2-all' %> <%= t 'submit.until_deadline_new_version' %></p>
-        <% end %>
-    <% elsif Submit.available? && logged_in? %>
-        <p><%= t 'submit.instructions' %></p>
+    <% if @submit.submitted_at # student did actually submit herself %>
+    <p><%= bootstrap_icon 'check2-all' %> <strong><%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %></strong></p>
     <% end %>
 
-    <% if !Submit.available? %>
-    <p><strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.course_not_open' %></strong></p>
-    <% elsif not current_user.can_submit? %>
-    <p><strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.cant_not_logged_in' %></strong></p>
-    <% elsif not @allow_submit %>
-    <% if @submit.locked %>
+    <%# Mention the deadline first, but only if it is a hard deadline %>
+    <% if Course.deadlines_hard? && @page.pset.deadline.present? %>
     <p>
-        <strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.submit_locked' %></strong>
-        <%= t 'submit.submit_locked_explainer' %>
-    </p>
-    <% elsif !@submit.grade_public? %>
-    <p>
-        <strong><%= bootstrap_icon('exclamation-diamond') %> <%= t 'submit.cant_resubmit' %></strong>
-        <%= t 'submit.cant_resubmit_explainer' %>
+        <%= bootstrap_icon 'calendar3' %>
+        <% if @page.pset.deadline.past? %>
+        <%= t 'submit.deadline_was', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %>
+        <% else %>
+        <%= t 'submit.deadline_is', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %>
+        <% end %>
     </p>
     <% end %>
-    <% elsif @page.pset %>
+
+    <%# Mention if user has already submitted this problem before %>
+    <% if @previous_submit.present? && @previous_submit.submitted_at.present? %>
+    <p>
+        <strong>
+            <%= bootstrap_icon 'check2-all' %>
+            <%= t 'submit.you_submitted_ago',
+            time: time_ago_in_words_or_more_precise(@previous_submit.submitted_at) %>
+        </strong>
+    </p>
+    <% end %>
+
+    <%# Provide (re-)submit instructions %>
+    <% if @allow_submit && !@previous_submit.present? %>
+    <p>
+        <%= t 'submit.instructions' %>
+    </p>
+    <% elsif @allow_submit && @previous_submit.present? %>
+    <p>
+        <%= bootstrap_icon 'check2-all' %>
+        <%= t 'submit.until_deadline_new_version' %>
+    </p>
+    <% end %>
+
+    <%# Provide specific reasons for NOT being able to submit %>
+    <% if !@allow_submit %>
+
+    <% if @previous_submit&.grade_public? # grade has been published %>
+    <p>
+        <%= bootstrap_icon 'check2-all' %>
+        <%= t 'submit.submit_is_graded' %>
+    </p>
+    <% elsif !Submit.available? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <%= t 'submit.course_not_open' %>
+    </p>
+    <% elsif !current_user.can_submit? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <%= t 'submit.cant_not_logged_in' %>
+    </p>
+    <% elsif !@page.pset.submittable? && !@previous_submit&.grade_resubmit_exception? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <%= t 'submit.submit_closed' %>
+        <%= t 'submit.submit_closed_explainer' %>
+    </p>
+    <% end %>
+
+    <% end %>
+
+    <%# Submit files form %>
+    <% if @allow_submit %>
     <div class="card" id="submit-form">
         <div class="card-body">
             <%= render 'submit_form' %>
         </div>
     </div>
     <% end %>
-    
+
+    <%# Link to submissions page if user has submitted something before %>
     <% if logged_in? && current_user.submits.any? %>
     <p>
         <%= bootstrap_icon('kanban') %>
         <%= t('submit.see_submissions_page', submissions_page: link_to(t('submissions_page'), submissions_path)).html_safe %>
     </p>
     <% end %>
-    
 </section>
 
 <% end %>

@@ -13,14 +13,8 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewsTableColumnDropdown">
                     <li><h6 class="dropdown-header"><%= pset.name %></h6></li>
                     <li>
-                        <%= link_to "Lock submit for everyone", lock_for_all_schedule_submits_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Lock out all active students from submitting?" }, class: 'small dropdown-item' %>
-                        <%= link_to "Unlock submit for everyone", unlock_for_all_schedule_submits_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Allow submitting again for all active students?" }, class: 'small dropdown-item' %>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
                         <%= link_to "Publish all", publish_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, class: 'small dropdown-item' %>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
                     <% groups.each do |group, user_list|%>
                     <% if group %>
                     <%= link_to "Unpublish for #{group.name}", reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, class: 'small dropdown-item' %>

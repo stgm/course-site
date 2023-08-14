@@ -18,6 +18,19 @@ class Pset < ApplicationRecord
         super.merge GradingConfig.grades[name].to_h
     end
 
+    def deadline
+        begin
+            DateTime.strptime(config['deadline'], '%d/%m/%y %H:%M')
+        rescue
+            nil
+        end
+    end
+
+    def submittable?
+        # no hard deadlines, or no deadline for pset, or deadline not passed
+        !Course.deadlines_hard? || !deadline&.past?
+    end
+
     def submit_from(user)
         Submit.where(:user_id => user.id, :pset_id => id).first
     end

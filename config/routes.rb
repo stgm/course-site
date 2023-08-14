@@ -93,8 +93,6 @@ Rails.application.routes.draw do
 				post "close_and_mail_late"
 				get  "form_for_missing"
 				post "notify_missing"
-                post "lock_for_all"
-                post "unlock_for_all"
 			end
 		end
 
@@ -171,7 +169,6 @@ Rails.application.routes.draw do
 	resources :submits, only: [ :show, :create, :destroy, :update ] do
 		member do
 			post 'recheck'
-            patch 'unlock'
 		end
 	end
 
