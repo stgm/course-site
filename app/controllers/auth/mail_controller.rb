@@ -6,7 +6,7 @@ class Auth::MailController < ApplicationController
         !Auth::OpenController.available? || Settings.login_by_email
     end
 
-    layout 'app'
+    layout 'blank'
 
     def login
         # e-mail address form

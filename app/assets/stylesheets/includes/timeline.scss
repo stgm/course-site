@@ -1,85 +1,124 @@
 // CSS for the timeline feature
 
+#timeline
+{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--bs-gap, 1.5rem);
+
+    margin-left: -1rem;
+    margin-right: -1rem;
+}
+
+@media (min-width: 992px)
+{
+    #timeline
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #timeline:has(> div:only-child)
+    {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
 #timeline ul#links
 {
-	padding-left:0;
+    padding-left:0;
 }
 
 #timeline ul#links li
 {
-	list-style-type:none;
+    list-style-type:none;
 }
 
 #timeline h3
 {
-	margin-top:1.5em;
-	margin-left:.5em; margin-bottom:1em
+    margin-top:1.5em;
+    margin-left:.5em; margin-bottom:1em
 }
 
 #timeline .card
 {
-	background-color:$darker-light;
-	border:0;
-	margin-bottom:1rem;
+    background-color:$darker-light;
+    border:0;
+    margin-bottom:1rem;
+    border-radius: 0;
+}
+
+@media (min-width: 576px)
+{
+    #timeline .card
+    {
+        border-radius: 0.3rem;
+    }
 }
 
 #timeline .card:last-child, #timeline .card *:last-child
 {
-	margin-bottom:0;
+    margin-bottom:0;
+}
+
+#timeline .card-body
+{
+    display: inline-block;
+    margin-bottom: 2rem;
+    border-radius: 0;
 }
 
 #timeline .list-group-item
 {
-	border-color:#E5E5E5;
+    border-color:#E5E5E5;
 }
 
 #timeline .card-highlight
 {
-	background-color:#F3FAFF;
+    background-color:#F3FAFF;
 }
 
 #grade_buttons
 {
-	line-height:52px;
+    line-height:52px;
 }
 
 #timeline .btn .badge
 {
-	vertical-align:middle;
+    vertical-align:middle;
 }
 
 #timeline h5.card-title:last-child
 {
-	margin-bottom:0;
+    margin-bottom:0;
 }
 
 #timeline h5
 {
-	margin-top:0;
+    margin-top:0;
 }
 
 #timeline .card small
 {
-	display: block;
-	color:#49A1F6;
-	text-transform: uppercase;
-	font-size:x-small;
-	margin-bottom:0.25rem;
+    display: block;
+    color:#49A1F6;
+    text-transform: uppercase;
+    font-size:x-small;
+    margin-bottom:0.25rem;
 }
 
 #timeline .card small.author
 {
-	color:#8b9894;
+    color:#8b9894;
 }
 
 // only horizontal th elements get centered, as well as td elements
 // the left-most th column is left-aligned
 #overview table th:not([scope=col]), #overview table td
 {
-	text-align: center;
+    text-align: center;
 }
 
 #overview table th, #overview table td
 {
-	border-color:map-get($theme-colors, "light");
+    border-color:map-get($theme-colors, "light");
 }

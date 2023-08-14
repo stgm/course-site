@@ -1,5 +1,7 @@
 <% @page_name = t('account.login_or_register') %>
 
+<h1 class="fw-normal text-center"><%= Course.long_name %></h1>
+
 <div class="cards">
     <div>
         <p class="lead text-center">
@@ -15,7 +17,7 @@
     <% end %>
 
     <div>
-        <label for="email" class="mb-1">Your e-mail address</label>
+        <label for="email" class="mb-1"><%= t 'account.login_mail' %></label>
         <input name="email" type="email" autofocus required class="form-control" placeholder="<%= t('account.email_placeholder') %>">
     </div>
 

@@ -66,6 +66,7 @@ nl:
             optional: Optionele
 
     hands:
+        assistance: Assistentie
         staff_are_currently_available:
             one: Eén medewerker beschikbaar
             other: "%{count} medewerkers beschikbaar"

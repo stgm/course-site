@@ -227,18 +227,7 @@
 {
     #sidebar
     {
-        position: fixed;
-
-        width: 100%;
-
-        --bs-offcanvas-transition: transform 0.1s ease-in-out;
-
-        border-top:0;
-
-        .nav-head
-        {
-            margin-top: 0.5rem;
-        }
+        height: auto;
     }
 }
 

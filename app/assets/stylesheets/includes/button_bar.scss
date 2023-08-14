@@ -2,11 +2,12 @@
 {
     margin-right: -0.75rem;
     flex-grow: 0;
+    flex-direction: row !important;
 
-    > a, > li > a
+    > a, > .dropdown > button
     {
         display: block;
-        padding: 0.5rem 0.25rem;
+        padding: 0.35rem 0.25rem;
         border-radius: 0.25rem;
         flex: 0 0 0;
         flex-direction: column;
@@ -21,8 +22,9 @@
             flex-shrink: 0;
         }
 
-        small
+        label
         {
+            font-size: 0.8rem;
             display: block;
             line-height: 1;
             margin-top: 5px;
@@ -31,10 +33,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            cursor: inherit;
         }
     }
 
-    > li > a
+    > .dropdown > button
     {
         display: flex;
         flex-direction: row;
@@ -42,9 +45,21 @@
         justify-content: center;
     }
 
-    > a:hover, > li > a:hover
+    // remove toggle arrow from button and insert behind label
+    .dropdown-toggle:after
     {
-        background-color: #9BB8D9;
+        display:none;
+    }
+
+    .dropdown-toggle label::after {
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
     }
 }
 
@@ -52,13 +67,34 @@
 {
     #navbar
     {
-        padding: 0.25rem;
-
+        padding: 0.25rem 0.75rem;
     }
+
     .button-bar
     {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(3.5rem, 1fr));
+        margin-right: 0;
+
+        > a, > .dropdown > button
+        {
+            min-width: auto;
+        }
+
+        .dropdown > button > div
+        {
+            width: 100%;
+        }
+
+        label
+        {
+            font-size: 0.6rem !important;
+        }
+        
+        .dropdown-menu
+        {
+            position: absolute;
+        }
     }
 
     .button-bar.collapse {

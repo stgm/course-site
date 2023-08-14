@@ -4,6 +4,8 @@ class OverviewsController < ApplicationController
     before_action :require_staff
     before_action :require_senior, only: [ :show ]
 
+    layout 'navbar'
+
     def index
         if current_user.assistant?
             @accessible_schedules = Schedule.none

@@ -6,15 +6,16 @@ class Hands::HandsController < ApplicationController
     before_action :require_staff
 
     layout 'hands'
-	
+
     before_action do
         @group_name = params['group'] ||  current_user.groups.first&.name || current_user.full_designation.gsub("\n", " &ndash; ")
         @course_name = Schedule.count > 1 && current_schedule.name || Course.long_name
-    end	
+        @reload_path = hands_path
+    end
 
     def index
         redirect_to edit_hands_availability_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
-		
+
         @title = 'Hands'
         if params[:term]
             @users = User.where("name like ?", "%#{params[:term]}%").student
@@ -36,7 +37,7 @@ class Hands::HandsController < ApplicationController
     def show
         # catch erroneous GET requests for /hands/done
         raise ActionController::RoutingError.new("Huh?") if params[:id] == "done"
-		
+
         Hand.transaction do
             load_hand
             if current_user.assistant? && @hand.assist != current_user && !@hand.helpline

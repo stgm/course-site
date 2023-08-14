@@ -2,10 +2,10 @@ class HomeController < ApplicationController
 
     include NavigationHelper
 
-    before_action :authorize,     except: [ :index ]
-    before_action :require_staff, except: [ :index ]
+    before_action :authorize,     except: [ :index, :manifest ]
+    before_action :require_staff, except: [ :index, :manifest ]
 
-    layout 'app'
+    layout 'blank'
 
     def index
         if logged_in?

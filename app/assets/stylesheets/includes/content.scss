@@ -153,6 +153,11 @@ section, .sectionbody .content
 		border-top:1px solid #eee;
 	}
 
+    input, textarea
+    {
+        @extend .form-control;
+    }
+
 	textarea
 	{
 		margin-bottom:1rem;

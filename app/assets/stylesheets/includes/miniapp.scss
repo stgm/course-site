@@ -4,15 +4,26 @@
 body.mini-app
 {
     background-color: #F4F9FF;
-    display: flex;
     height: 100dvh; // app takes up full vertical height minus any chrome
-    flex-direction: column;
-    justify-content: center;
+
+    display: grid;
+    grid-template-areas: "navbar" "main";
+    grid-template-rows: max-content 1fr;
+    grid-template-columns: 1fr;
+}
+
+body.mini-app:not(:has(#navbar))
+{
+    grid-template-areas: "main";
+    grid-template-rows: 1fr;
 }
 
 // base container that will be framed on desktop, contains header + body
 .mini-app-container
 {
+    justify-self: center;
+    align-self: center;
+
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -70,6 +81,7 @@ body.mini-app
     {
         // on mobile the app is just a full-screen div
         height: 100%;
+        width: 100%;
         padding: 1rem 1rem 1.5rem 1rem;
     }
 }
@@ -89,7 +101,6 @@ body.mini-app
         height: 80%;
         width: 33%;
         min-width: 30rem;
-        margin: 0 auto;
 
         border: 1px solid #eff;
         border-radius: 40px;

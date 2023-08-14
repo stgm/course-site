@@ -185,9 +185,9 @@ module ApplicationHelper
 	
 	def menu_group(name=nil, &block)
 		[
-			name && tag.h6(name, class: 'dropdown-header'),
+			name && tag.li(tag.h6(name, class: 'dropdown-header')),
 			capture(&block),
-			tag.div(class: 'dropdown-divider')
+			tag.li(tag.div(class: 'dropdown-divider'))
 		].
 		compact.join.html_safe
 	end
@@ -197,11 +197,12 @@ module ApplicationHelper
 		return nil if !condition
 		options.merge! data: { 'turbo-frame' => target } if target
 		if options[:method].present?
-			button_to path, options.merge(class: 'dropdown-item') do
+			x = button_to path, options.merge(class: 'dropdown-item') do
 				bootstrap_icon(icon, class: 'me-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title
 			end
+			tag.li(x)
 		else
-			link_to bootstrap_icon(icon, class: 'me-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options
+			tag.li(link_to bootstrap_icon(icon, class: 'me-2', width: 16, height: 16, style: 'vertical-align:text-bottom') + title, path, options.merge({class: 'dropdown-item'}))
 		end
 	end
 
@@ -232,7 +233,7 @@ module ApplicationHelper
 	end
 	
 	def icon_with_label(icon, label)
-		"#{icon}<small>#{label}</small>".html_safe
+		"#{icon}<label>#{label}</label>".html_safe
 	end
 	
 end

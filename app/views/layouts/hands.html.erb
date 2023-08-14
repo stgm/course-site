@@ -1,37 +1,17 @@
-<% content_for :body do %>
-
-<% @body_class = "mini-app" %>
-<meta name="theme-color" content="#F4F9FF">
-
-<%= render "alerts" %>
-
-<div id="sidebar" class="offcanvas offcanvas-bottom" tabindex="-1" data-bs-backdrop="false" data-turbo-permanent>
-    <%= render 'sidebar' %>
-</div>
-
-<div class="mini-app-container">
-    <div class="mini-app-header">
-        <%= link_to bootstrap_icon('chat-text', width: '40', height: '40', style: 'color: #88C0FF'), '',
-            { 'data-bs-toggle' => "offcanvas", 'data-bs-target' => "#sidebar" } %>
-        <h1 class="display-4">Assistentie</h1>
-        <% if Settings.hands_groups %>
-        <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><%= @group_name %></button>
-            <ul class="dropdown-menu">
-                <% current_user.groups.each do |g| %>
-                <li><%= link_to g.name, hands_path(group: g.name), class: 'dropdown-item', aria: { current: 'page' } %></li>
-                <% end %>
-                <li><%= link_to '(all)', hands_path(group: 'all'), class: 'dropdown-item' %></li>
-            </ul>
-        </div>
-        <% else %>
-        <h3 class="fw-normal"><%= @course_name %></h3>
-        <% end %>
+<% content_for :app do %>
+<div class="mini-app-body hands-app">
+    <% if Settings.hands_groups %>
+    <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><%= @group_name %></button>
+        <ul class="dropdown-menu">
+            <% current_user.groups.each do |g| %>
+            <li><%= link_to g.name, hands_path(group: g.name), class: 'dropdown-item', aria: { current: 'page' } %></li>
+            <% end %>
+            <li><%= link_to '(all)', hands_path(group: 'all'), class: 'dropdown-item' %></li>
+        </ul>
     </div>
-    <div id="assistance" class="mini-app-body hands-app">
-        <%= yield %>
-    </div>
+    <% end %>
+    <%= yield %>
 </div>
-
 <% end %>
-<%= render template: "layouts/application" %>
+<%= render template: "layouts/app" %>

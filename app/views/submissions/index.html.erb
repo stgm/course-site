@@ -4,19 +4,19 @@
 
     <% if @overview_config.present? %>
 
-    <div id="timeline" class="grid">
-        <div class="g-col-12 g-col-xl-6">
+    <div id="timeline">
+        <div>
             <%= render partial: "grades_overview" %>
         </div>
-        <div class="g-col-xl-6">
+        <div>
             <%= render partial: "items/item", collection: @items %>
         </div>
     </div>
 
     <% else %>
 
-    <div id="timeline" class="grid">
-        <div class="g-col">
+    <div id="timeline">
+        <div>
             <%= render partial: "items/item", collection: @items %>
         </div>
     </div>

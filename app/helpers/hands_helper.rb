@@ -10,15 +10,23 @@ module HandsHelper
         foreground = (brightness > 160) ? "000" : "fff"
         return "color: \##{foreground}; background-color: \##{background}"
     end
-	
+
     def minutes_ago(datetime)
         ((DateTime.now - datetime.to_datetime) * 25 * 60).to_i
     end
-    
+
     def suggest_prompt
         t('hands.prompts').sample
     end
-    
+
+    # the hands dropdown should be shown if entering a location is "required"
+    def show_hands_automatically?
+        is_local_ip? &&
+        Settings.hands_location_bumper &&
+        current_user.student? &&
+        current_user.last_known_location.blank?
+    end
+
     def render_hand(hand: nil, user: nil, provide_suggestion: false)
         if hand.nil? && user.nil?
           raise ArgumentError, "You must provide either 'hand' or 'user' argument."
@@ -27,7 +35,7 @@ module HandsHelper
         logger.info I18n.locale
 
         if hand.present?
-            locals = { 
+            locals = {
                 user: hand.user,
                 location: hand.location,
                 waiting_since: hand.created_at,
@@ -48,7 +56,7 @@ module HandsHelper
             }
             render partial: "hand", locals: locals
         end
-        
+
     end
 
 end
