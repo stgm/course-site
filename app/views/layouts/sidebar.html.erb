@@ -1,17 +1,16 @@
 <% content_for :body do %>
-<div class="container-fluid">
-    <div class="row <%= 'room-for-toc' if Settings.room_for_toc %>">
 
-        <div id="sidebar" class="d-lg-flex align-items-stretch flex-column flex-shrink-0 align-items-stretch">
-            <%= render 'sidebar' %>
-        </div>
+<%= render 'navbar' %>
 
-        <div id="row-content" class="p-0">
-            <%= render "alerts" %>
-            <%= content_for?(:content) ? yield(:content) : yield %>
-        </div>
-
-    </div>
+<div id="sidebar" class="offcanvas offcanvas-bottom" tabindex="-1" data-bs-backdrop="false" data-turbo-permanent>
+    <%= render 'sidebar' %>
 </div>
+
+<main class="<%= 'room-for-toc' if Settings.room_for_toc %>">
+    <%= render "alerts" %>
+    <%= content_for?(:content) ? yield(:content) : yield %>
+</main>
+
 <% end %>
+
 <%= render template: "layouts/application" %>

@@ -2,6 +2,7 @@ class Page < ApplicationRecord
     has_many :subpages, dependent: :destroy
     has_one  :pset, dependent: :nullify  # psets should never be destroyed, because may have submits
     has_one  :schedule, dependent: :nullify  # a schedule may have this page linked as a syllabus
+    has_many :questions #, dependent: :destroy
 
     # Make sure the subpages are always ordered
     default_scope { order(:position, :title) }
@@ -23,5 +24,9 @@ class Page < ApplicationRecord
             url = File.join(repo['remote'].sub(/.git$/,''), 'raw', repo['branch'].to_s)
             return self.path.sub(/\Amaterials\/#{dir}/, url)
         end
+    end
+    
+    def self.syllabus
+        Current.user.schedule&.page || find_by_slug('')
     end
 end

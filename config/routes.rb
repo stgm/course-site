@@ -136,6 +136,9 @@ Rails.application.routes.draw do
 			put "done"
 		end
 	end
+    
+    resources :questions
+    resources :answers
 
     resources :assistance, only: [ :index ]
 
@@ -205,9 +208,9 @@ Rails.application.routes.draw do
 
 	# homepage
 	root to: "home#index"
-	get 'home/clone'
-	get 'syllabus',      to: 'page#syllabus'
-	get 'announcements', to: 'page#announcements'
+	get "home/clone"
+	get "syllabus",      to: "page#index", defaults: { slug: 'syllabus' }
+	get "announcements", to: "page#announcements"
 
 	# search
 	get  "search/autocomplete"
@@ -218,6 +221,10 @@ Rails.application.routes.draw do
 	resources :submissions, only: [ :index, :create ] do
 		get 'feedback'
 	end
+
+    get  "s/*slug" => "page#submit", as: "page_submit"
+    get  "q/syllabus" => "page#questions", defaults: { slug: 'syllabus' }
+    get  "q/*slug" => "page#questions"
 
 	# default route, for content pages (must be last!)
 	# ..with an exception for the /rails routes

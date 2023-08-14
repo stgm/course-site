@@ -1,0 +1,10 @@
+<turbo-frame id="reply_question_<%= @question.id %>">
+<% @answer = Answer.new(question_id: @question.id) %>
+<%= form_with model: @answer, html: {'data-turbo-frame' => "question_#{@question.id}"} do |form| %>
+<%= hidden_field(:answer, :question_id) %>
+<div class="field">
+    <%= form.rich_text_area :text, data: { controller: "disable-attachments" } %>
+</div>
+<%= form.submit 'Post', class: 'btn btn-primary btn-sm mt-3' %>
+<% end %>
+</turbo-frame>

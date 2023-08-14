@@ -5,9 +5,14 @@
 
 <%= render "alerts" %>
 
+<div id="sidebar" class="offcanvas offcanvas-bottom" tabindex="-1" data-bs-backdrop="false" data-turbo-permanent>
+    <%= render 'sidebar' %>
+</div>
+
 <div class="mini-app-container">
     <div class="mini-app-header">
-        <%= link_to bootstrap_icon('chat-text', width: '40', height: '40', style: 'color: #88C0FF'), hands_path %>
+        <%= link_to bootstrap_icon('chat-text', width: '40', height: '40', style: 'color: #88C0FF'), '',
+            { 'data-bs-toggle' => "offcanvas", 'data-bs-target' => "#sidebar" } %>
         <h1 class="display-4">Assistentie</h1>
         <% if Settings.hands_groups %>
         <div class="dropdown">

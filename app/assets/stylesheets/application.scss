@@ -10,7 +10,7 @@
  *
  */
 
-$background-color: #fdfaf8;
+$background-color: #fffdfc;
 
 $primary: #0087d9;
 $secondary: #71B1D9;
@@ -33,19 +33,28 @@ $min-contrast-ratio: 3;
 $enable-negative-margins: true;
 $link-decoration: none;
 
+$enable-grid-classes: false;
+$enable-cssgrid: true;
+
 @import "_katex";
 @import "bootstrap";
 
-@import "includes/navigation";
+@import "includes/sidebar";
+@import "includes/navbar";
+
 @import "includes/courselinks";
+@import "includes/page";
 @import "includes/content";
-@import "includes/elements";
+
 @import "includes/timeline";
 @import "includes/modal";
 @import "includes/grading";
 @import "includes/toc";
 @import "includes/miniapp";
 @import "includes/assistance";
+@import "includes/questions";
+@import "includes/submit";
+@import "includes/overview";
 
 @import "includes/theme";
 @import "includes/fonts";
@@ -54,6 +63,10 @@ $link-decoration: none;
 
 @import "includes/effects";
 @import "includes/inplace";
+@import "includes/button_bar";
 
 // includes responsive styles, so it goes last
 @import "includes/framework";
+
+@import "actiontext";
+@import "trix";

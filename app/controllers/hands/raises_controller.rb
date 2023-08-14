@@ -112,7 +112,7 @@ class Hands::RaisesController < ApplicationController
         @assist_available = User.where('available > ?', DateTime.now)
 
         respond_to do |format|
-            format.html { render 'location', layout: 'welcome' }
+            format.html { render 'location' }
         end
     end
 

@@ -1,0 +1,71 @@
+#page-tabs
+{
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    padding: 0;
+    margin-left: 0;
+    border-bottom: 1px solid adjust-color($background-color, $lightness: -10%);
+    background: linear-gradient(50deg, adjust-color($background-color, $lightness: -1%) 0%, #F4F4F4 100%);
+
+    li
+    {
+        list-style: none;
+        margin: 0;
+        border-right: 1px solid adjust-color($background-color, $lightness: -10%);
+    }
+
+    li a
+    {
+        display: inline-flex;
+        gap: .375rem;
+        align-items: center;
+        margin-bottom: -1px;
+        padding: 0.5rem 1rem;
+    }
+
+    li a.active
+    {
+        border-bottom: 1px solid $background-color;
+        background-color: $background-color;
+    }
+
+    li a:hover:not(.active)
+    {
+        background-color: #e5e1dd;
+//        color: white;
+    }
+}
+
+@media (max-width: 767px)
+{
+    // on mobile, stretch tab bar
+
+    #page-tabs li
+    {
+        flex: 1;
+    }
+
+    #page-tabs li a
+    {
+        justify-content: center;
+        width: 100%;
+    }
+
+    #page-tabs li:last-child
+    {
+        border-right: none;
+    }
+}
+
+@media (min-width: 768px)
+{
+    // on desktop, make tab buttons a bit wider
+
+    #page-tabs li a
+    {
+        padding: 0.5rem 2rem;
+    }
+}

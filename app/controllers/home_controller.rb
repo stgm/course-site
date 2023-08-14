@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     before_action :authorize,     except: [ :index ]
     before_action :require_staff, except: [ :index ]
 
-    layout 'welcome'
+    layout 'app'
 
     def index
         if logged_in?
@@ -37,6 +37,8 @@ class HomeController < ApplicationController
                 redirect_to syllabus_path
             else
                 # basic course info + login buttons
+                @page_name = t('account.login_or_register')
+                @course_name = "Course Website"
             end
         end
     end
@@ -47,6 +49,8 @@ class HomeController < ApplicationController
             User.first.update(schedule: Schedule.first)
             return redirect_to :root
         end
+        @page_name = "Set git repo"
+        @course_name = "Course Website"
     end
 
 end

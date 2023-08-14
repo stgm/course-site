@@ -1,4 +1,33 @@
 <% content_for :content do %>
-    <%= yield %>
+<ul id="page-tabs" class="nav">
+    <% if @may_show_content %>
+    <li class="nav-item">
+        <a class="nav-link <%= 'active' if action_name == 'index' || action_name == 'syllabus' %>"
+            aria-current="page" href="/<%= params[:slug] %>">
+            <%= bootstrap_icon 'clipboard-check' %> Inhoud
+        </a>
+    </li>
+    <% end %>
+    <% if @may_show_questions %>
+    <li class="nav-item">
+        <a class="nav-link <%= 'active' if action_name == 'questions' || action_name == 'questions_syllabus' %>"
+            href="/q/<%= params[:slug] %>">
+            <%= bootstrap_icon 'patch-question' %> Vragen
+        </a>
+    </li>
+    <% end %>
+    <% if @may_show_submit %>
+    <li class="nav-item">
+        <a class="nav-link <%= 'active' if action_name == 'submit' %>"
+            href="/s/<%= params[:slug] %>">
+            <%= bootstrap_icon 'box-seam' %> Submit
+            <% if @submit && @submit.submitted_at %>
+            <%= bootstrap_icon 'patch-check-fill', swidth: '16', sheight: '16', style: 'margin-left: 1rem' %>
+            <% end %>
+        </a>
+    </li>
+    <% end %>
+</ul>
+<%= yield %>
 <% end %>
 <%= render template: "layouts/sidebar" %>

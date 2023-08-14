@@ -1,22 +1,26 @@
-<div id="content">
+<section>
+
+    <h1><%= t 'submissions' %></h1>
+
     <% if @overview_config.present? %>
 
-    <div id="timeline" class="row flex-xl-row-reverse">
-        <div class="col-12 col-xl-6">
+    <div id="timeline" class="grid">
+        <div class="g-col-12 g-col-xl-6">
             <%= render partial: "grades_overview" %>
         </div>
-        <div class="col-xl-6">
+        <div class="g-col-xl-6">
             <%= render partial: "items/item", collection: @items %>
         </div>
     </div>
 
     <% else %>
 
-    <div id="timeline" class="row flex-xl-row-reverse">
-        <div class="col">
+    <div id="timeline" class="grid">
+        <div class="g-col">
             <%= render partial: "items/item", collection: @items %>
         </div>
     </div>
 
     <% end %>
-</div>
+
+</section>

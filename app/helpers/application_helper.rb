@@ -111,6 +111,7 @@ module ApplicationHelper
 		all_modules = SubModule.where(name:content).sort_by{|m| content.index(m.name)}
 		# combine the content links into a single hash
 		combined_content = all_modules.map(&:content_links).reduce({}, :merge)
+        logger.info combined_content.inspect
 		return content_tag(:li, links_to_ul(combined_content), class: "nav-item")
 	end
 	
@@ -146,7 +147,7 @@ module ApplicationHelper
 					remote: true,
 					checked: current_user.progress[page_name],
 					id: "progress_#{page_name.parameterize}_check",
-					class: "sform-check-input m-2",
+					class: "form-check-input",
 					onclick: "Rails.fire(this.form, 'submit');"
 				}
 			)
