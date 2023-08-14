@@ -137,6 +137,8 @@ Rails.application.routes.draw do
 		end
 	end
 
+    resources :assistance, only: [ :index ]
+
 	#--RESOURCES--------------------------------------------------------------------------------
 
 	scope path: '/manage' do

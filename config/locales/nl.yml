@@ -68,17 +68,59 @@ nl:
             one: Eén medewerker beschikbaar
             other: "%{count} medewerkers beschikbaar"
         request_assistance_in_class: "Zet jezelf hier in de rij voor een vraag:"
-        briefly_summarize: "Geef een korte samenvatting van je vraag"
+        good_morning: "Goedemorgen"
+        good_afternoon: "Goedemiddag"
+        good_evening: "Goedenavond"
+        good_night: "Goedenavond"
+        lets_check_you_in: "Check jezelf in."
+        entering_location: "Geef je %{location_type}"
+        save_my_location: "Sla mijn locatie op"
+        summary: "Samenvatting"
+        location: "Locatie"
+        briefly_summarize: "Geef aan wat je wil bespreken"
         subject: "Over welke opdracht gaat het?"
-        location: "Geef je locatie"
-        ask_for_assistance: "Verstuur aanvraag"
+        enter_location: "Vermeld je huidige %{type}"
+        ask_for_assistance: "Vraag om assistentie"
         posting_question: "Aanvraag wordt verstuurd..."
         you_are_number_1_in_line: "Je bent nummer %{number} in de wachtrij."
         wait_is_over: "Het wachten is voorbij!"
-        is_looking_to_help_you: "%{name} is op dit moment naar je op zoek om je te assisteren"
-        in_line: Je staat even in de wacht omdat je kort geleden geholpen bent!
+        is_looking_to_help_you: "%{name} is op dit moment naar je op zoek om je te assisteren."
+        in_line: Je staat even in de wacht omdat je kort geleden geholpen bent, en het is nogal druk!
         cancel_request: "Annuleren"
         link: "Geef je Zoom-link"
+        
+        prompts:
+            - "Aan welk project werk je momenteel en hoe kan ik je helpen?"
+            - "Ben je vandaag tegen uitdagingen aangelopen bij je programmeertaken?"
+            # - "Met welke programmeertaal voel je je het meest vertrouwd en waarom?"
+            - "Is er een specifiek programmeerconcept waar je graag verder in wilt duiken?"
+            - "Zijn er interessante programmeertechnieken die je recentelijk bent tegengekomen?"
+            - "Hoe pak je het oplossen van problemen aan wanneer je geconfronteerd wordt met een programmeertaak?"
+            - "Zijn er specifieke gebieden van programmeren waarin je graag wilt verbeteren?"
+            - "Wat heeft je gemotiveerd om programmeren als studierichting te kiezen?"
+            - "Heb je favoriete websites die je nuttig vindt bij het programmeren?"
+            - "Welke programmeerprojecten of ideeën vind je buiten deles gepassioneerd?"
+            - "Heb je onlangs nieuwe programmeertools of bibliotheken uitgeprobeerd?"
+            - "Hoe debug je meestal je code als je fouten tegenkomt?"
+            - "Wat is jouw voorkeur voor ontwikkelomgeving en waarom?"
+            - "Zijn er programmeerconcepten die je bijzonder uitdagend vindt?"
+            - "Werk je liever aan frontend- of backend-ontwikkeling?"
+            - "Heb je ooit bijgedragen aan een open-source project? Zo ja, welke?"
+            - "Wat is jouw favoriete aspect van programmeren en waarom?"
+            - "Volg je regelmatig bepaalde programmeerpatronen of best practices?"
+            - "Hoe blijf je op de hoogte van de nieuwste programmeertrends en technologieën?"
+            - "Wat advies zou je geven aan iemand die net begint met programmeren?"
+            - "Werk je liever aan soloprojecten of in een team samenwerken?"
+            - "Wat is de meest interessante bug of probleem die je hebt tegengekomen tijdens het programmeren?"
+            # - "Heb je ooit een grote codebase moeten refactoren? Hoe heb je dat aangepakt?"
+            - "Heb je strategieën om je tijd effectief te beheren tijdens het programmeren?"
+            - "Welke programmeerprojecten of oefeningen vond je het meest bevredigend?"
+            - "Zijn er programmeertalen die je in de toekomst graag zou willen leren?"
+            - "Heb je ooit een project gebouwd waar je bijzonder trots op bent? Vertel er eens over."
+            - "Welke programmeergerelateerde hobby's of zijprojecten beoefen je?"
+            - "Hoe ga je om met stress of frustratie bij het aanpakken van programmeeruitdagingen?"
+            - "Wat is je favoriete functie of tool?"
+            - "Neem je actief deel aan programmeergemeenschappen of forums?"
 
     account:
         login: Login met je UvA-studentenaccount
@@ -90,9 +132,10 @@ nl:
         validation_code: Vul je validatiecode in
         validation_code_in_mail: Deze ontvang je per e-mail, maar mogelijk vind je 'm in je spam-map!
         you_can_login: Welkom! Je kunt hier inloggen.
-        guest_needs_activation: Als je inlogt als gast (via e-mail) kun je geen opdrachten insturen tot je account is geactiveerd door de docent.
+        guest_needs_activation: "Let op: als je inlogt als gast (via e-mail) kun je geen opdrachten insturen tot je account is geactiveerd door de docent."
         login_via_uva: Login met UvA-account
         login_via_mail: Login als gast via mail
+        login_or_register: Login of registreer
         logout: Uitloggen
 
     activerecord:

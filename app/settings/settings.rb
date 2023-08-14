@@ -19,8 +19,10 @@ class Settings < RailsSettings::Base
         field :public_schedule
 
         field :hands_allow
+        field :hands_only
         field :hands_location
-        field :hands_bumper
+        field :hands_location_type, default: 'tafelnummer'
+        field :hands_location_bumper
         field :hands_link
         field :hands_groups
         field :hands_show_non_questions

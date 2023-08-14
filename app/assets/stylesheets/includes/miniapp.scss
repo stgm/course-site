@@ -1,0 +1,255 @@
+// A "mini app" is an app optimized for small sizes (e.g. phones). On desktop,
+// the full content is framed visually so it doesn't look weird.
+
+body.mini-app
+{
+    background-color: #F4F9FF;
+    display: flex;
+    height: 100dvh; // app takes up full vertical height minus any chrome
+    flex-direction: column;
+    justify-content: center;
+}
+
+// base container that will be framed on desktop, contains header + body
+.mini-app-container
+{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 1rem;
+  }
+
+.mini-app-header
+{
+    display: grid;
+    grid: 'a b' 'a c';
+    grid-template-columns: 3rem 1fr;
+    column-gap: 0.5rem;
+
+    a, svg { grid-area: a; }
+    h1  { grid-area: b; font-size: 2rem; margin-top: -0.25ex; }
+    h3  { grid-area: c; font-size: 1rem;}
+
+    .dropdown
+    {
+        line-height: 0;
+    }
+
+    .dropdown *
+    {
+        line-height: 1.2;
+    }
+
+    .dropdown button
+    {
+        padding: 0rem;
+        border: none;
+    }
+
+    > * { margin: 0; }
+}
+
+.mini-app-body
+{
+    flex: 1 1 auto;
+
+    .btn, button
+    {
+        border-radius: 50px !important;
+    }
+
+    a.list-group-item
+    {
+        border-radius: 40px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .mini-app-container
+    {
+        // on mobile the app is just a full-screen div
+        height: 100%;
+        padding: 1rem 1rem 1.5rem 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .mini-app-container
+    {
+        // here the app is a visual "card" on a blank page
+        height: 80%;
+        width: 33%;
+        min-width: 30rem;
+        margin: 0 auto;
+
+        border: 1px solid #eff;
+        border-radius: 40px;
+
+        background: linear-gradient(180deg, #E3F1FF, #FFFBE2) fixed !important;
+        box-shadow: 0px 10px 40px 9px rgba(0,0,0,0.1);
+
+        // allow the content to be scrolled
+        overflow: hidden;
+        
+        padding: 2rem;
+        row-gap: 2rem;
+    }
+}
+
+// ----------------------------------------------------------------------
+// Cards system for use in the mini app
+// ----------------------------------------------------------------------
+
+.mini-app
+{
+    // We assume either 1 or 2 cards arranged vertically
+    .cards
+    {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        width: 100%;
+        height: 100%;
+    }
+
+    // If first card is an image it assumes the image's natural height
+    .cards:has(> img:first-child)
+    {
+        grid-template-rows: minmax(0, auto) 1fr;
+    }
+
+    .cards:has(> :only-child)
+    {
+        grid-template-rows: 1fr;
+    }
+
+    .cards div.message > :only-child
+    {
+        margin: 0;
+    }
+
+    .cards div.message:has(> :only-child), .cards div.message.big
+    {
+        justify-content: center;
+    }
+
+    .cards div.message p
+    {
+        font-size: larger;
+    }
+
+    .cards div.message.big p
+    {
+        font-size: calc(1.425rem + 2.1vw);
+        font-weight: 300;
+        line-height: 1.25;
+    }
+
+    .cards div.message.big small
+    {
+        display: block;
+        font-size: 1.25rem;
+        line-height: 1.25;
+    }
+
+    .cards .btn
+    {
+        color: #000;
+        background-color: #ffc107;
+        border-color: #ffc107;
+    
+        margin: 0.5rem;
+        font-weight: bolder;
+    }
+
+    .cards > div, .cards > form
+    {
+        // set up the card content
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    
+    }
+
+    .cards > img
+    {
+        border-radius: 40px;
+        rotate: -0.5deg;
+    }
+
+    .cards > img:first-child
+    {
+        width: 100%;
+    }
+
+    .cards
+    {
+        .message
+        {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .cards
+        {
+            & > :first-child
+            {
+                rotate: -1deg;
+            }
+
+            & > :last-child
+            {
+                rotate: 0.75deg;
+            }
+        
+            & > :only-child
+            {
+                rotate: none;
+            }
+        }
+
+        .cards > div, .cards > form
+        {
+            // provide all cards with a visual card style
+            border-radius: 40px;
+            background: linear-gradient(170deg, #CAEAFF, #BAF7C8) fixed !important;
+            padding: 1.5rem;
+        }
+
+        .cards > img:first-child
+        {
+            // make a tiny bit smaller than bottom card
+            width: 95%;
+            margin: 0 auto;
+        }
+
+        .cards > :first-child,
+        {
+            background: linear-gradient(180deg, #CAEAFF, #E2F4FF) fixed !important;
+        }
+
+        .cards > :nth-child(2)
+        {
+            // pull up a little bit to overlap with top card somewhat elegantly
+            margin-top: -0.25rem;
+        }
+
+        .cards > img:first-child
+        {
+            min-height: 70%;
+            max-width: auto;
+            border-radius: 40px;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .cards
+        {
+            row-gap: 2rem;
+        }
+    }
+}

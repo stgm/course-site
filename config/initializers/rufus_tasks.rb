@@ -22,7 +22,5 @@ unless (defined?(Rails::Console) || File.split($0).last == 'rake')
     scheduler.cron '00 05 * * *' do
         # reset locations
         User.update_all(last_known_location: nil)
-        # reset hands that were never released
-        Hand.where("updated_at < ?", Date.today).where(done: false).update_all(done: true)
     end
 end

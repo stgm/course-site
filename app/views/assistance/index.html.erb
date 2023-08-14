@@ -1,0 +1,21 @@
+<% @body_class = "mini-app" %>
+<meta name="theme-color" content="#F4F9FF">
+
+<div class="mini-app-container">
+        <div class="mini-app-header">
+            <%= bootstrap_icon 'chat-text', width: '40', height: '40', style: 'color: #88C0FF' %>
+            <h1 class="display-4">Assistentie</h1>
+            <h3 class="fw-normal"><%= @course_name %></h3>
+        </div>
+        <div id="assistance" class="mini-app-body assistance-app">
+            <%= render 'assistance' %>
+        </div>
+    </div>
+</div>
+
+<script>
+    Rails.ajax({
+        url: '<%= hands_raise_path %>',
+        type: 'get'
+    });
+</script>

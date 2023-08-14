@@ -1,0 +1,20 @@
+{
+    "name": "Assist",
+    "display": "standalone",
+    "theme_color": "#F4F9FF",
+    "orientation": "portrait",
+    "start_url": "/",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/browser/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/browser/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

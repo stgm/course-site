@@ -2,6 +2,7 @@
 
 <% if current_schedule.present? %>
 <%= menu_group current_schedule.name do %>
+	<%= menu_link 'Assistance', assistance_index_path, icon: 'columns' %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
 	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', target: 'modal' %>

@@ -4,12 +4,12 @@
     <a href="#" id="ama-dd" class="nav-link dropdown-toggle rounded-pill" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
         <%= bootstrap_icon "question-circle-fill", size: '24x24', style: 'vertical-align:-0.255em;' %><%= tag.span(Hand.waiting.count, class:'ms-1') if current_user.staff? %>
     </a>
-    <div class="dropdown-menu dropdown-menu-end" id="ama-menu" aria-labelledby="ama-dd">
-        <%= render 'ama' %>
+    <div class="dropdown-menu dropdown-menu-end" id="assistance" aria-labelledby="ama-dd">
+        <%= render 'assistance' %>
     </div>
 </li>
 
-<% if is_local_ip? && Settings.hands_bumper && current_user.student? && current_user.last_known_location.blank? %>
+<% if is_local_ip? && Settings.hands_location_bumper && current_user.student? && current_user.last_known_location.blank? %>
     <script>
         Rails.ajax({
             url: '<%= hands_raise_path %>',
