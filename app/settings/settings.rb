@@ -35,6 +35,7 @@ class Settings < RailsSettings::Base
     end
 
     scope :features do
+        field :qa_allow
         field :hands_allow
         field :pages_enable_math
         field :webhook_secret

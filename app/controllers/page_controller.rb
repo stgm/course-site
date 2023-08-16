@@ -24,6 +24,7 @@ class PageController < ApplicationController
     end
 
     def questions
+        redirect_to({ action: :index }) if !@may_show_questions
         @title = @page.title
         @questions = @page.questions.includes(:user, :rich_text_text, answers: [:user, :rich_text_text] ).order(updated_at: :desc).all
     end
@@ -46,7 +47,7 @@ class PageController < ApplicationController
         @only_submit = @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
 
         @may_show_content = !@only_submit
-        @may_show_questions = logged_in? && !@only_submit
+        @may_show_questions = logged_in? && !@only_submit && Settings.qa_allow
         @may_show_submit = @page.pset
     end
 
