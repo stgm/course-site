@@ -137,6 +137,7 @@ en:
         login_via_mail: Guest login via mail
         login_or_register: Login or register
         logout: Log out
+        not_everyone_can_login: The course has been restricted to not allow students to login. Contact your teacher if you think this is in error.
 
     errors:
       messages:

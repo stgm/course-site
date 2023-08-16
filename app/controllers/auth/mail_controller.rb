@@ -48,7 +48,7 @@ class Auth::MailController < ApplicationController
                     session[:user_id] = @user.id
                     redirect_to root_url
                 else
-                    redirect_to root_url, alert: "The course has been restricted to not allow everyone to login. Contact your teacher if you think this is in error."
+                    redirect_to root_url, alert: t('account.not_everyone_can_login')
                 end
             end
         else

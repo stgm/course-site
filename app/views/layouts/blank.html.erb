@@ -3,9 +3,9 @@
 <% @body_class = "mini-app" %>
 <% @theme_color = "#F4F9FF" %>
 
-<%= render 'alerts' %>
 
 <div class="mini-app-container">
+    <%= render 'alerts' %>
     <%= content_for?(:app) ? yield(:app) : yield %>
 </div>
 

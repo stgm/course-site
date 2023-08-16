@@ -140,6 +140,7 @@ nl:
         login_via_mail: Login als gast via mail
         login_or_register: Login of registreer
         logout: Uitloggen
+        not_everyone_can_login: De cursus staat op dit moment dicht voor studenten. Neem contact op met je docent als je denkt dat dit niet klopt.
 
     activerecord:
       attributes:
