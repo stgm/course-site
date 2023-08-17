@@ -63,7 +63,7 @@
 
 <% end%>
 
-<% if !authenticated? %>
+<% if !logged_in? %>
 <% if Auth::OpenController.available? %>
 <%= menu_link "#{t('account.login_button')} via UvA", auth_open_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
 <% end %>

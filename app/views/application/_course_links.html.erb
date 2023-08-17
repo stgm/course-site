@@ -18,8 +18,6 @@
 </a>
 <% end %>
 
-<% end %>
-
 <% Course.links.each do |title, url|  %>
 <%= link_to insert_icon(title).html_safe, url, class:"", target: url =~ /^http/i ? '_blank' : nil %>
 <% end %>
@@ -38,4 +36,6 @@
     <label>Hands</label>
 </a>
 <% end %>
+<% end %>
+
 <% end %>

@@ -44,11 +44,12 @@ class PageController < ApplicationController
 
         raise ActionController::RoutingError.new('Not Found') and return if !@page
 
-        @only_submit = @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
+        @only_submit = @page.subpages.any? && @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
 
         @may_show_content = !@only_submit
         @may_show_questions = logged_in? && !@only_submit && Settings.qa_allow
         @may_show_submit = @page.pset
+        true
     end
 
 end

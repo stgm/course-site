@@ -13,7 +13,8 @@ module Authentication
     end
 
     def logged_in?
-        return authenticated? && current_user.present?
+        logger.info current_user.persisted?.inspect
+        return authenticated? && current_user.persisted?
     end
 
     def current_user

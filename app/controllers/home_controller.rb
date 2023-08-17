@@ -32,6 +32,7 @@ class HomeController < ApplicationController
                 redirect_to syllabus_path
             end
         else
+            logger.info "NOT logged in"
             if Page.find_by_slug('')
                 # public syllabus as welcome page
                 redirect_to syllabus_path

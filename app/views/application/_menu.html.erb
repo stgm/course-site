@@ -2,7 +2,7 @@
     <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" accesskey="m">
         <div>
             <%= bootstrap_icon 'person-fill' %>
-            <% if authenticated? %>
+            <% if logged_in? %>
             <label>Menu</label>
             <% else %>
             <label><%= t('account.login_button') %></label>
