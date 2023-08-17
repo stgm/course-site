@@ -1,6 +1,6 @@
 class Alert < ApplicationRecord
 
-	belongs_to :schedule
+	belongs_to :schedule, optional: true
 	delegate :name, to: :schedule, prefix: true
 
 	scope :having_schedule_or_nil, ->(schedule) do

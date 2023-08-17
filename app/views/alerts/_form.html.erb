@@ -33,7 +33,7 @@
 
 <div class="form-check ps-1 pb-1">
 	<label>
-		<input type="radio" name="alert[schedule_id]" <%= 'checked="checked"' if @alert.schedule_id.nil? %> required id="optionsRadios1" value="<%= nil %>" style="margin-top:0;"> (for everyone)
+		<input type="radio" name="alert[schedule_id]" <%= 'checked="checked"' if @alert.persisted? && @alert.schedule_id.nil? %> required id="optionsRadios1" value="<%= nil %>" style="margin-top:0;"> (for everyone)
 	</label>
 </div>
 
