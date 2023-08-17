@@ -24,7 +24,11 @@ module User::Schedulizable
     end
 
     def set_current_schedule!
-        self.schedule = Schedule.default
+        if !self.admin?
+            self.schedule = Schedule.default
+        else
+            self.schedule = Schedule.default || Schedule.first
+        end
         save!
     end
 

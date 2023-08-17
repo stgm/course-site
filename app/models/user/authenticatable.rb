@@ -35,7 +35,12 @@ module User::Authenticatable
             when 'before', 'after', 'archival'
                 return false
             when 'during'
-                return User.create!(user_data)
+                # if course is open, we also need a schedule to be open
+                if Schedule.default
+                    return User.create!(user_data)
+                else
+                    return false
+                end
             end
         end
     end
