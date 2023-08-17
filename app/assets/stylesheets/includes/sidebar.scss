@@ -32,15 +32,10 @@
     {
         max-width: 100%;
 
-        form
+        form button
         {
             overflow: hidden;
-
-            button
-            {
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
+            text-overflow: ellipsis;
         }
     }
 }

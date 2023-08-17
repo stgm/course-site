@@ -29,7 +29,9 @@ body.mini-app:not(:has(#navbar))
     flex-direction: column;
     justify-content: center;
     row-gap: 1rem;
-  }
+
+    grid-area: main;
+}
 
 .mini-app-header
 {
