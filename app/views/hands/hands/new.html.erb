@@ -1,7 +1,7 @@
 <div class="hands-show">
 
     <div class="flex-fill">
-        <%= render_hand user: @user, provide_suggestion: true %>
+        <%= render_hand user: @user %> <%#, provide_suggestion: true %>
     </div>
 
     <%= form_tag(hands_path(user_id: @user.id)) do %>
