@@ -1,7 +1,7 @@
 <div id="navbar"
     class="navbar navbar-expand-md flex-wrap column-gap-3 row-gap-2 justify-items-start dropdown">
 
-    <% unless Settings.hands_only && !current_user.senior? %>
+    <% unless Settings.hands_only && !current_user.senior? || !logged_in? %>
         <button class="navbar-toggler" type="button"
             data-bs-toggle="collapse" data-bs-target="#navbar_links" aria-controls="navbar_links">
             <%= bootstrap_icon 'grid-3x3-gap-fill' %>
@@ -11,11 +11,13 @@
     <%= render 'brand' %>
 
     <% unless defined?(remove_content) %>
+    <% if logged_in? %>
     <div class="flex-fill d-flex d-md-none"></div>
     <button class="navbar-toggler" type="button"
         data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <% end %>
     <% end %>
 
     <% unless Settings.hands_only && !current_user.senior? || content_for(:navbar_items) %>
@@ -37,7 +39,7 @@
             <%= render partial: 'search' %>
             <% end %>
 
-            <ul class="navbar-nav button-bar collapse navbar-collapse">
+            <ul class="navbar-nav button-bar <% if logged_in? %> collapse navbar-collapse <% end %>">
                 <% unless defined?(remove_content) %>
                 <%= render partial: 'hands_menu' %>
                 <% end %>
