@@ -7,7 +7,7 @@ module AttendanceRecorder
     end
 
     def delete_last_known_location
-        if !session[:last_seen_at] || session[:last_seen_at] < 12.hours.ago
+        if !session[:last_seen_at] || session[:last_seen_at] < 2.hours.ago
             current_user.update(last_known_location: nil)
         end
     end
