@@ -11,6 +11,8 @@ class Hands::HandsController < ApplicationController
         @group_name = params['group'] ||  current_user.groups.first&.name || current_user.full_designation.gsub("\n", " &ndash; ")
         @course_name = Schedule.count > 1 && current_schedule.name || Course.long_name
         @reload_path = hands_path
+
+        I18n.locale = 'en'
     end
 
     def index
@@ -23,7 +25,7 @@ class Hands::HandsController < ApplicationController
         else
             @my_hands = Hand.where(done:false, assist:current_user).order('created_at asc')
             @hands = Hand.where(done:false, assist:nil).order('hands.created_at asc')
-            @long_time_users = User.student.where("last_known_location is not null").where('last_seen_at > ? and last_seen_at < ? and (last_spoken_at < ? or last_spoken_at is null)', 4.hours.ago, 5.minutes.ago, Date.today).order('last_spoken_at asc')
+            @long_time_users = User.student.where("last_known_location is not null").where('last_seen_at > ? and last_seen_at < ? and (last_spoken_at < ? or last_spoken_at is null)', 1.hours.ago, 3.minutes.ago, Date.today).order('last_spoken_at asc').limit(5)
             if Settings.hands_groups && params[:group]!='all'
                 selected_group = Group.find_by_name(params['group'])
                 @group = current_user.groups.first

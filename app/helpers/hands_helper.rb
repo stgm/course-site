@@ -39,6 +39,7 @@ module HandsHelper
                 user: hand.user,
                 location: hand.location,
                 waiting_since: hand.created_at,
+                spoken_since: nil,
                 subject: hand.subject,
                 question: hand.help_question,
                 suggestion: nil
@@ -49,7 +50,8 @@ module HandsHelper
             locals = {
                 user: user,
                 location: user.last_known_location,
-                waiting_since: user.last_spoken_at,
+                waiting_since: nil,
+                spoken_since: user.last_spoken_at,
                 subject: 'Check in',
                 question: "Help this student check in for today. #{'They\'ve never had assistance before, so be sure to welcome them to the course and ask how they\'re getting started!' if user.last_spoken_at.nil?}",
                 suggestion: suggestion

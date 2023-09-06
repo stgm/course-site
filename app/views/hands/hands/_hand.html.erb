@@ -9,12 +9,13 @@
 <p>
     <small>
         <% if current_user.senior? %>
-        waiting for 
-        <% if waiting_since %>
-        <%= minutes_ago(waiting_since) %> minutes 
-        <% else %>
-        ever
-        <% end %>
+            <% if waiting_since %>
+            waiting for <%= minutes_ago(waiting_since) %> minutes 
+            <% elsif spoken_since %>
+            last spoken <%= time_ago_in_words(spoken_since) %> ago
+            <% else %>
+            we've never spoken to them before
+            <% end %>
         <% end %>
         <% if Settings.hands_location && !Settings.hands_link %>
             @ <%= location %>
