@@ -13,12 +13,19 @@
     <p>
         <%= bootstrap_icon 'calendar3' %>
         <% if @page.pset.deadline.past? %>
-        <strong><%= t 'submit.deadline_was', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %></strong>
+            <strong><%= t('submit.deadline_was', deadline: l(@page.pset.deadline, format: :deadline)).html_safe %></strong>
+            <% if Course.deadlines_hard? %>
+            <%= t 'submit.deadline_was_hard' %>
+            <% else %>
+            <%= t 'submit.deadline_was_soft'%>
+            <% end %>
         <% else %>
-        <strong><%= t 'submit.deadline_is', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %></strong>
-        <% end %>
-        <% if Course.deadlines_hard? %>
-        <%= t 'submit.deadline_hard' %>
+            <strong><%= t('submit.deadline_is', deadline: l(@page.pset.deadline, format: :deadline)).html_safe %></strong>
+            <% if Course.deadlines_hard? %>
+            <%= t 'submit.deadline_hard' %>
+            <% else %>
+            <%= t 'submit.deadline_soft'%>
+            <% end %>
         <% end %>
     </p>
     <% end %>

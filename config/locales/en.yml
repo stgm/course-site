@@ -43,9 +43,12 @@ en:
         you_submitted_ago: "You have submitted this problem set %{time}."
         see_submissions_page: "Check your submissions and feedback on the %{submissions_page}."
         until_deadline_new_version: 'Usually, you can submit another version until the deadline the passes.'
-        deadline_is: "The deadline is on %{date} at %{time}."
-        deadline_was: "The deadline was on %{date} at %{time}."
+        deadline_is: "The deadline is on %{deadline}."
+        deadline_was: "The deadline <u>expired</u> on %{deadline}."
         deadline_hard: "From that time, you will not be able to submit this assignment anymore."
+        deadline_soft: "From that time, you will still be able to submit this assignment, but it will be marked as late."
+        deadline_was_hard: "You will not be able to submit this assignment anymore."
+        deadline_was_soft: "You will still be able to submit this assignment, but it will be marked as late."
         files_submitted: "Submitted files:"
         check_results: "Check results"
         overview: "Results"
@@ -143,3 +146,10 @@ en:
     errors:
       messages:
         invalid: seems to be invalid
+
+    time:
+      formats:
+        default: "%a %d %b %Y %H:%M:%S %Z"
+        long: "%d %B %Y %H:%M"
+        short: "%a %d %b %H:%M"
+        deadline: "%A %d %b at %H:%M"
