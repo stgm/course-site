@@ -45,6 +45,7 @@ en:
         until_deadline_new_version: 'Usually, you can submit another version until the deadline the passes.'
         deadline_is: "The deadline is on %{date} at %{time}."
         deadline_was: "The deadline was on %{date} at %{time}."
+        deadline_hard: "From that time, you will not be able to submit this assignment anymore."
         files_submitted: "Submitted files:"
         check_results: "Check results"
         overview: "Results"

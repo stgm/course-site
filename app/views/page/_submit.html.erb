@@ -9,13 +9,16 @@
     <% end %>
 
     <%# Mention the deadline first, but only if it is a hard deadline %>
-    <% if Course.deadlines_hard? && @page.pset.deadline.present? %>
+    <% if @page.pset.deadline.present? %>
     <p>
         <%= bootstrap_icon 'calendar3' %>
         <% if @page.pset.deadline.past? %>
-        <%= t 'submit.deadline_was', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %>
+        <strong><%= t 'submit.deadline_was', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %></strong>
         <% else %>
-        <%= t 'submit.deadline_is', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %>
+        <strong><%= t 'submit.deadline_is', time: @page.pset.deadline.strftime("%H:%M"), date: @page.pset.deadline.strftime("%d %b") %></strong>
+        <% end %>
+        <% if Course.deadlines_hard? %>
+        <%= t 'submit.deadline_hard' %>
         <% end %>
     </p>
     <% end %>

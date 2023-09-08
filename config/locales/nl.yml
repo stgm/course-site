@@ -48,6 +48,7 @@ nl:
         until_deadline_new_version: 'Normaal kun je tot de deadline nog een nieuwe versie van je oplossing insturen.'
         deadline_is: "De deadline is op %{date} om %{time}."
         deadline_was: "De deadline was op %{date} om %{time}."
+        deadline_hard: "Vanaf die tijd zul je deze opdracht niet meer kunnen insturen."
         files_submitted: "Ingestuurde bestanden:"
         check_results: "Check-resultaten"
         overview: "Resultaten"

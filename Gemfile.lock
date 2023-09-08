@@ -148,8 +148,8 @@ GEM
     git (1.13.0)
       addressable (~> 2.8)
       rchardet (~> 1.8)
-    globalid (1.1.0)
-      activesupport (>= 5.0)
+    globalid (1.2.1)
+      activesupport (>= 6.1)
     groupdate (6.3.0)
       activesupport (>= 6.1)
     htmlentities (4.3.4)
@@ -227,7 +227,7 @@ GEM
       validate_email
       validate_url
       webfinger (~> 1.2)
-    pg (1.5.3)
+    pg (1.5.4)
     popper_js (2.11.8)
     public_suffix (5.0.3)
     puma (5.6.7)
@@ -307,14 +307,14 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sprockets (4.2.0)
+    sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.3-arm64-darwin)
+    sqlite3 (1.6.4-arm64-darwin)
     stimulus-rails (1.2.2)
       railties (>= 6.0.0)
     swd (1.3.0)
@@ -339,7 +339,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    web-console (4.2.0)
+    web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
