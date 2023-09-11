@@ -1,3 +1,4 @@
+<% first = true %>
 <% cache @submit do %>
     <% @files.each do |filename, contents| %>
     <div class="tab-pane <%= (first = false) || 'show active' if first %>" id="show-file-<%= filename.parameterize %>" role="tabpanel" aria-labelledby="home-tab">
