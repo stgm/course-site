@@ -80,7 +80,7 @@ module GradingConfig
             # remove weight 0 and bonus, only select pset names
             content['submits'] = content['submits']
                 .reject { |submit, weight| (weight == 0 || weight == 'bonus') }
-                .keys
+                # .keys
 
             # determine subgrades
             subgrades = []
