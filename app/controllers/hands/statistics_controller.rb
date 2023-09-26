@@ -8,7 +8,7 @@ class Hands::StatisticsController < ApplicationController
 	def show
 		@today = Hand.
 			includes(:assist).
-			where("created_at > ?", DateTime.yesterday.beginning_of_day).
+			where("created_at > ? OR done = ?", DateTime.yesterday.beginning_of_day, false).
 			order("created_at desc")
 
 		@chart_data = Hand.
