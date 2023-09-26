@@ -6,7 +6,7 @@ class Hands::RaisesController < ApplicationController
         @assist_available = User.where('available > ?', DateTime.now)
 
         # clear any old requests
-        current_user.hands.where("updated_at < ?", Date.today).where(done: false).update_all(done: true)
+        current_user.hands.where("updated_at < ?", Date.today).where(done: false).update_all(done: true, closed_at: Time.now.beginning_of_day)
 
         respond_to do |format|
             format.js do
@@ -58,7 +58,7 @@ class Hands::RaisesController < ApplicationController
 
     def destroy
         # does not actually *destroy*
-        Hand.where(user: current_user, done: false).update_all(done: true, closed_at: DateTime.now)
+        Hand.where(user: current_user, done: false).update(done: true, closed_at: DateTime.now)
         show
     end
 
