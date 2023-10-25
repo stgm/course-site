@@ -100,7 +100,7 @@ module Submit::AutoCheck::FeedbackFormatter
 		end
 		result << " #{description}\n"
 		if explanation.present?
-			result << "      #{explanation}\n"
+			result << explanation.split("\n").map{|x| "      #{x}\n"}.join
 		end
 		result
 	end
