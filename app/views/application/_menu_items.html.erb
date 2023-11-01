@@ -37,7 +37,7 @@
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
 <% end if Settings.hands_allow %>
 	
-<% if current_user.accessible_schedules.any? %>
+<% if current_user.accessible_schedules.any? || current_user.groups.any? %>
 <%= menu_group current_schedule.name do %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>

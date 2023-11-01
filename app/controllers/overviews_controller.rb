@@ -22,8 +22,11 @@ class OverviewsController < ApplicationController
             @overview = GradingConfig.overview
             render 'overview' and return
         elsif current_user.head?
-            redirect_back(fallback_location: '/', alert: "You haven't been assigned a schedule yet!") and return if current_user.schedules.empty?
-            slug = current_user.schedules.first
+            if current_user.schedules.empty? && current_user.groups.empty?
+                redirect_back(fallback_location: '/', alert: "You haven't been assigned a schedule yet!")
+                return
+            end
+            slug = current_user.schedule #current_user.schedules.first
             redirect_to(overview_path(slug)) and return if slug.present?
         elsif current_user.admin?
             # default to currently selected schedule
@@ -36,9 +39,20 @@ class OverviewsController < ApplicationController
 
     def show
         # check which schedules this user is allowed to view
-        @accessible_schedules = current_user.accessible_schedules
-        @selected_schedule = @accessible_schedules.friendly.find(params[:id])
-        @groups = current_user.groups.where(schedule: @selected_schedule) if !current_user.senior?
+        if current_user.head?
+            @accessible_schedules = current_user.accessible_schedules
+            if @accessible_schedules.any?
+                @selected_schedule = @accessible_schedules.friendly.find(params[:id])
+            else
+                @selected_schedule = current_user.schedule
+            end
+            @groups = current_user.groups.where(schedule: @selected_schedule) if current_user.accessible_schedules.none?
+            # raise
+        elsif current_user.admin?
+            @selected_schedule = Schedule.friendly.find(params[:id])
+        else
+            raise
+        end
         load_data
         render 'overview'
     end
@@ -50,7 +64,7 @@ class OverviewsController < ApplicationController
         @status = params[:status]
 
         @users = @selected_schedule.users.not_staff
-        @users = @users.where(group: @groups) if !current_user.senior? && @groups.any?
+        @users = @users.where(group: @groups) if current_user.head? && @accessible_schedules.none?
         @title = 'List users'
 
         @active_count = @users.status_active.count
