@@ -35,6 +35,7 @@ class Settings < RailsSettings::Base
     end
 
     scope :features do
+        field :ta_overview_allow, default: false
         field :qa_allow
         field :hands_allow
         field :pages_enable_math

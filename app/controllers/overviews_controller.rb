@@ -8,6 +8,7 @@ class OverviewsController < ApplicationController
 
     def index
         if current_user.assistant?
+            render plain: "404 Not Found", status: 404 and return unless Settings.ta_overview_allow
             @accessible_schedules = Schedule.none
             @groups = current_user.groups
             @users = User.where(group: @groups).not_staff.status_active
@@ -18,7 +19,6 @@ class OverviewsController < ApplicationController
             @subs = Submit.indexed_by_pset_and_user_for @users
 
             @grouped_users = @users.group_by(&:group)
-            logger.info @grouped_users.keys
             @overview = GradingConfig.overview
             render 'overview' and return
         elsif current_user.head?
