@@ -22,7 +22,6 @@ class OverviewsController < ApplicationController
             @overview = GradingConfig.overview
             render 'overview' and return
         elsif current_user.head?
-            @accessible_schedules = current_user.accessible_schedules
             if current_user.schedules.empty? && current_user.groups.empty?
                 redirect_back(fallback_location: '/', alert: "You haven't been assigned a schedule yet!")
                 return
@@ -40,8 +39,8 @@ class OverviewsController < ApplicationController
 
     def show
         # check which schedules this user is allowed to view
+        @accessible_schedules = current_user.accessible_schedules
         if current_user.head?
-            @accessible_schedules = current_user.accessible_schedules
             if @accessible_schedules.any?
                 @selected_schedule = @accessible_schedules.friendly.find(params[:id])
             else
