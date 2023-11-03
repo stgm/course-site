@@ -20,7 +20,7 @@ class Pset < ApplicationRecord
 
     def deadline
         begin
-            DateTime.strptime(config['deadline'], '%d/%m/%y %H:%M')
+            Time.zone.strptime(config['deadline'], '%d/%m/%y %H:%M')
         rescue
             nil
         end
