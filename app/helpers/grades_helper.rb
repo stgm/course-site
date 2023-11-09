@@ -93,6 +93,16 @@ module GradesHelper
 
 	def grade_bg_type(grade)
 		return 'bg-light' if grade.blank? or !grade.public?
+
+		if self.pset.grade_type == :points
+			case grade.assigned_grade
+			when 0
+				'bg-danger'
+			when 1.., -1
+				'bg-success'
+			end
+		end
+
 		case grade.assigned_grade
 		when 6.5..20.0, -1
 			'bg-success'
