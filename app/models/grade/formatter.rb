@@ -4,7 +4,7 @@ module Grade::Formatter
     def format
         current_grade = assigned_grade
         return '--' if current_grade.blank?
-        case config&.fetch('type', nil) || 'float'
+        case self.type || 'float'
         when 'points'
             return current_grade.to_i.to_s
         when 'integer'

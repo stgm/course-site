@@ -18,6 +18,10 @@ class Grade < ApplicationRecord
 
     scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
 
+    def type
+        pset.grade_type
+    end
+
     def sufficient?
         published? && (assigned_grade >= 5.5 || assigned_grade == -1)
     end

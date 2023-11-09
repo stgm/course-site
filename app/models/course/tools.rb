@@ -28,7 +28,7 @@ class Course::Tools
                 p.automatic = p.config.present? && p.config["automatic"].present?
                 # get potential type from final grade config
                 calc_type = GradingConfig.all.
-                            select { |k,v| v['submits'] && v['submits']['algorithms'] }.
+                            select { |k,v| v['submits'] && v['submits'][name] }.
                             map{ |k,v| v['type'] }.compact&.first
                 p.grade_type = definition['type'] || calc_type || :float
                 p.test = definition['is_test'] || false
