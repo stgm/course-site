@@ -8,6 +8,7 @@ class Submit::Webdav::Uploader
         client = Submit::Webdav::Client.new
         files.each do |filename, file|
             client.upload(@base_path, filename, file.read)
+            file.rewind
         end
     end
 
