@@ -86,7 +86,9 @@ class SubmissionsController < ApplicationController
     end
 
     def upload_files_to_check_server
-        @token = Submit::AutoCheck::Sender.new(@attachments.zipped, @pset.config['check'], api_check_result_do_url).start
+        @attachments.zipped do |zip|
+            @token = Submit::AutoCheck::Sender.new(zip, @pset.config['check'], api_check_result_do_url).start
+        end
     end
 
     def should_upload_to_plag_server?

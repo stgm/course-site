@@ -138,11 +138,12 @@ class Submit < ApplicationRecord
         pset.deadline.present? && submitted_at.present? && submitted_at > pset.deadline
     end
 
-	def recheck(host)
-		zip = Attachments.new(self.all_files.to_h).zipped
-		token = Submit::AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
-		self.update(check_token: token)
-	end
+    def recheck(host)
+        Attachments.new(self.all_files.to_h).zipped do |zip|
+            token = Submit::AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
+            self.update(check_token: token)
+        end
+    end
 
     def self.indexed_by_pset_and_user_for(users)
         # @all_indexed_by_pset_and_user ||=
