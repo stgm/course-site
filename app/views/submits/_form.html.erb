@@ -104,7 +104,7 @@
 			<%= button_to submit_path(id: @submit.id, referer: request.referer), method: :delete, data: { confirm: "Sure? This removes proof of student submitting. If you want to delete the grade, just empty the text field and save the grade." }, class: 'dropdown-item', form: { "data-turbo-frame" => "modal" } do "Destroy Submit" end if @submit %>
 			<% end %>
 			<% if current_user.admin? && @submit.checkable? %>
-			<%= button_to recheck_submit_path(id: @submit.id), method: :post, data: { confirm: "Sure?" }, class: 'dropdown-item' do "Re-check" end if @submit %>
+			<%= button_to recheck_submit_path(id: @submit.id), method: :post, data: { confirm: "Sure?", "turbo-frame": "modal" }, class: 'dropdown-item' do "Re-check" end if @submit %>
 			<% end %>
 			<% if current_user.senior? %>
 			<% if @grade.persisted? %>
