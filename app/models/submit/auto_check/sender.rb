@@ -29,7 +29,11 @@ class Submit::AutoCheck::Sender
 			config_opts = @config.slice('slug', 'repo', 'args')
 			
 			response = endpoint.post(opts.merge(config_opts))
-			return JSON.parse(response.body)['id']
+			parsed = JSON.parse(response.body)['id']
+			if !parsed
+				return "FOUT: {opts.merge(config_opts)}"
+			end
+			return parsed
 		rescue RestClient::ExceptionWithResponse => e
 			return "FOUT: {@zipped_attachments.inspect}"
 		end
