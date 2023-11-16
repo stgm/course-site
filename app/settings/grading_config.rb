@@ -42,7 +42,7 @@ module GradingConfig
 
         # include final grade components that were marked as "show progress"
         r = all.select { |c,v| v['show_progress'] || v['show_overview'] }.
-            map { |c,v| [c, v['submits'].map {|k,v| psets[k]}] }
+            map { |c,v| [c, v['submits'].map {|name, weight| [psets[name], weight]}] }
 
         # include all final grades at the end
         r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
