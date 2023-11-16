@@ -17,9 +17,9 @@
 									<strong><%= name.humanize %></strong>
 								</p>
 								<div class="mb-3">
-									<% psets.each do |pset, submit| %>
+									<% psets.each do |pset, (submit, weight)| %>
 									<div class="d-inline-block rounded <%= grade_bg_type(@subs[[pset.id, @student.id]].grade) if @subs[[pset.id, @student.id]].present? %>">
-										<%= grade_button(@student, pset, @subs[[pset.id, @student.id]], true, true) %>
+										<%= grade_button(@student, pset, @subs[[pset.id, @student.id]], weight, true, true) %>
 									</div>
 									<% end %>
 								</div>

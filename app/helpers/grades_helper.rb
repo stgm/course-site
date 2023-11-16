@@ -48,11 +48,12 @@ module GradesHelper
 		return grade.to_s
 	end
 
-	def grade_button(user, pset, submit, change=true, include_name=false)
+	def grade_button(user, pset, submit, weight=nil, change=true, include_name=false)
 		if submit
 			if grade = submit.grade
+                formatted_grade = grade.format(weight)
 				link_to \
-					make_label(pset.name, grade.format, include_name),
+					make_label(pset.name, formatted_grade, include_name),
 					submit,
 					class: "grade-button btn btn-sm #{'late' if submit.late?}",
 					data: { trigger: 'modal', 'turbo-frame' => 'modal' }

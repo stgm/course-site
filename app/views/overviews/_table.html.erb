@@ -6,7 +6,7 @@
         <th>&nbsp;</th>
 
         <% @overview.each do |name, psets| %>
-        <% psets.each_with_index do |(pset, submit), index| %>
+        <% psets.each_with_index do |(pset, weight), index| %>
         <th style="<%= 'border-left: 1.5px solid black;' if index==0 %>">
             <div class="dropdown">
                 <button id="overviewsTableColumnDropdown" class="btn px-1 py-0 btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
@@ -76,10 +76,10 @@
             <% end %>
         </td>
         <% @overview.each do |name, psets| %>
-            <% psets.each_with_index do |(pset, submit), index| %>
+            <% psets.each_with_index do |(pset, weight), index| %>
                 <td class="<%= grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present? %>"
                     style="<%= 'border-left: 1.5px solid black;' if index==0 %>">
-                    <%= grade_button(user, pset, @subs[[pset.id, user.id]], true, true) %>
+                    <%= grade_button(user, pset, @subs[[pset.id, user.id]], weight, true, true) %>
                 </td>
             <% end %>
         <% end %>
