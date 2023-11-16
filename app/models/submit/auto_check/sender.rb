@@ -31,7 +31,7 @@ class Submit::AutoCheck::Sender
 			response = endpoint.post(opts.merge(config_opts))
 			return JSON.parse(response.body)['id']
 		rescue RestClient::ExceptionWithResponse => e
-			return @zipped_attachments.inspect
+			return "FOUT: {@zipped_attachments.inspect}"
 		end
 		
 	end
