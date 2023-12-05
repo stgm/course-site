@@ -12,7 +12,7 @@ class GradingController < ApplicationController
 	def index
 		load_grading_list
 		# immediately redirect to first thing that might be graded
-		if g = @to_grade.first
+		if g = @to_grade&.first
 			redirect_to grading_path(g, params.permit(:pset, :group, :status))
 		else
 			redirect_back fallback_location: '/', alert: "There's nothing to grade from your grading groups!"
