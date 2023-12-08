@@ -17,7 +17,7 @@ body.grading
 {
     display: grid;
     grid-template-areas: "navbar" "toolbar" "main";
-    grid-template-rows: 4rem 2rem 1fr;
+    grid-template-rows: 4rem min-content 1fr;
     grid-template-columns: 1fr;
 
     #navbar { grid-area: navbar; }
