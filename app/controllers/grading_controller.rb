@@ -15,30 +15,33 @@ class GradingController < ApplicationController
 		if g = @to_grade&.first
 			redirect_to grading_path(g, params.permit(:pset, :group, :status))
 		else
-			redirect_back fallback_location: '/', alert: "There's nothing to grade from your grading groups!"
+			redirect_out
 		end
 	end
-	
+
 	# GET /grading/:submit_id
 	def show
 		# get everything that user has access to
 		load_grading_list
 
 		# get out if nothing to grade
-		redirect_back(fallback_location: '/', alert: "There's nothing to grade from your grading groups!") and return if @to_grade.first.blank?
-		
+		if @to_grade.none?
+			redirect_out
+			return
+		end
+
 		# extract all psets that are to be graded by user (before filtering)
 		@psets_to_grade = Pset.find(@to_grade.pluck(:pset_id))
-		
+
 		# apply filters to selection
 		filter_grading_list
-		
+
 		# reload without filters if nothing to grade with filters
 		redirect_to({ action: :index }) and return if @to_grade.first.blank?
-		
+
 		# load the selected submit and any grade that might be attached
 		@submit = Submit.includes(:grade, :user, :pset).find(params[:submit_id])
-		
+
 		# load a different submit if the current submit does not belong to the current selection
 		redirect_to grading_path(@to_grade.first, params.permit(:pset, :group, :status)) if not @to_grade.include?(@submit)
 
@@ -48,10 +51,10 @@ class GradingController < ApplicationController
 
 		# load other grades for summarizing
 		@grades = Grade.joins(:submit).includes(:submit).where('submits.user_id = ?', @submit.user.id).order('submits.created_at desc')
-		
+
 		@title = "Grading"
 	end
-	
+
 	# GET /grading/:submit_id/download
 	def download
 		@submit = Submit.find(params[:grading_submit_id])
@@ -65,11 +68,11 @@ class GradingController < ApplicationController
 		# TODO some of the constraints can be moved to model
 		@grades = Grade.where("grade is not null or calculated_grade is not null").joins(:user).unfinished.where(users: { status: 'active' }).where(grader: current_user)
 		@grades.update(status: Grade.statuses[:finished])#, updated_at: DateTime.now)
-		redirect_back fallback_location: '/'
+		redirect_back fallback_location: '/', alert: "Thank you for grading with us today!"
 	end
-	
+
 	private
-	
+
 	def load_grading_list
 		if !Schedule.exists? #current_user.admin? || !Schedule.exists?
 			# admins get everything to be graded (in all schedules and groups)
@@ -93,7 +96,7 @@ class GradingController < ApplicationController
 
 		redirect_back(fallback_location: '/', alert: "You haven't been assigned grading groups yet!") if not @to_grade
 	end
-	
+
 	def filter_grading_list
 		if params[:group]
 			@to_grade = @to_grade.where(users: { group_id: params[:group] })
@@ -105,5 +108,13 @@ class GradingController < ApplicationController
 			@to_grade = @to_grade.where(psets: { name: params[:pset] })
 		end
 	end
-	
+
+	def redirect_out
+		if not request.referer&.match?(/grading/)
+			redirect_back(fallback_location: '/', alert: "There's nothing to grade from your grading groups!") and return
+		else
+			redirect_to :root
+		end
+	end
+
 end
