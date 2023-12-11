@@ -8,26 +8,39 @@
     <p><%= bootstrap_icon 'check2-all' %> <strong><%= t 'submit.you_submitted_ago', time: time_ago_in_words(@submit.submitted_at) %></strong></p>
     <% end %>
 
+    <% if !Submit.available? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <%= t 'submit.course_not_open' %>
+    </p>
+    <% else %>
+
     <%# Mention the deadline first, but only if it is a hard deadline %>
     <% if @page.pset.deadline.present? %>
     <p>
         <%= bootstrap_icon 'calendar3' %>
         <% if @page.pset.deadline.past? %>
             <strong><%= t('submit.deadline_was', deadline: l(@page.pset.deadline, format: :deadline)).html_safe %></strong>
-            <% if Course.deadlines_hard? %>
+            <% if @allow_submit %>
+            <% if Course.deadlines_hard? || @page.pset.deadline_hard? %>
             <%= t 'submit.deadline_was_hard' %>
             <% else %>
             <%= t 'submit.deadline_was_soft'%>
             <% end %>
+            <% end %>
         <% else %>
             <strong><%= t('submit.deadline_is', deadline: l(@page.pset.deadline, format: :deadline)).html_safe %></strong>
-            <% if Course.deadlines_hard? %>
+            <% if @allow_submit %>
+            <% if Course.deadlines_hard? || @page.pset.deadline_hard? %>
             <%= t 'submit.deadline_hard' %>
             <% else %>
             <%= t 'submit.deadline_soft'%>
             <% end %>
+            <% end %>
         <% end %>
     </p>
+    <% end %>
+
     <% end %>
 
     <%# Mention if user has already submitted this problem before %>
@@ -60,11 +73,6 @@
     <p>
         <%= bootstrap_icon 'check2-all' %>
         <%= t 'submit.submit_is_graded' %>
-    </p>
-    <% elsif !Submit.available? %>
-    <p>
-        <%= bootstrap_icon('exclamation-diamond') %>
-        <%= t 'submit.course_not_open' %>
     </p>
     <% elsif !current_user.can_submit? %>
     <p>

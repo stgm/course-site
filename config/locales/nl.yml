@@ -47,7 +47,7 @@ nl:
         see_submissions_page: "Bekijk je inzendingen en feedback op de %{submissions_page}."
         until_deadline_new_version: 'Normaal kun je tot de deadline nog een nieuwe versie van je oplossing insturen.'
         deadline_is: "De deadline is op %{deadline}."
-        deadline_was: "De deadline is <u>verstreken</u> op %{deadline}."
+        deadline_was: "De deadline van de opdracht is <u>verstreken</u> op %{deadline}."
         deadline_hard: "Vanaf die tijd zul je deze opdracht niet meer kunnen insturen."
         deadline_soft: "Vanaf die tijd kun je de opdracht nog insturen, maar deze wordt als te laat gemarkeerd."
         deadline_was_hard: "Je kunt deze opdracht niet meer insturen."

@@ -26,9 +26,14 @@ class Pset < ApplicationRecord
         end
     end
 
+    def deadline_hard?
+        !!config['deadline_hard']
+    end
+
     def submittable?
         # no hard deadlines, or no deadline for pset, or deadline not passed
-        !Course.deadlines_hard? || !deadline&.past?
+        !(Course.deadlines_hard? && deadline&.past?) &&
+        !(self.config['deadline_hard'] && deadline&.past?)
     end
 
     def submit_from(user)
