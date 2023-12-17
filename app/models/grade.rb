@@ -19,7 +19,7 @@ class Grade < ApplicationRecord
     scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
 
     def type
-        grading_config.type
+        grading_config['type']
     end
 
     def sufficient?
