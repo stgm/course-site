@@ -1,3 +1,5 @@
+# NOTE: this is not included into User, but directly exposes module methods instead
+
 module User::FinalGradeCalculator
     def self.run_for(grading_config, user_grade_list)
         # tries to calculate all kinds of final grades
@@ -13,7 +15,7 @@ module User::FinalGradeCalculator
     def self.final_grade_from_partial_grades(grading_config, relevant_parts, user_grade_list)
         # attempt to calculate each partial grade
         weighted_partial_grades = relevant_parts.collect do |partial_name, weight|
-            partial_config = grading_config.all[partial_name]
+            partial_config = grading_config.components[partial_name]
             if partial_config['type'] == 'points'
                 [partial_name, grade_from_points_from_submits(partial_config, user_grade_list), weight]
             elsif partial_config['type'] == 'maximum'
