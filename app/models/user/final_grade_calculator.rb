@@ -12,7 +12,7 @@ module User::FinalGradeCalculator
 
     def self.final_grade_from_partial_grades(grading_config, relevant_parts, user_grade_list)
         # attempt to calculate each partial grade
-        weighted_partial_grades = config.collect do |partial_name, weight|
+        weighted_partial_grades = relevant_parts.collect do |partial_name, weight|
             partial_config = grading_config.all[partial_name]
             if partial_config['type'] == 'points'
                 [partial_name, grade_from_points_from_submits(partial_config, user_grade_list), weight]
