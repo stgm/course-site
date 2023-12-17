@@ -2,6 +2,7 @@ class Grade < ApplicationRecord
     include Storage, SubGrades, Properties, Calculator, Formatter
 
     belongs_to :submit, touch: true
+    delegate :grading_config, to: :submit
 
     has_one :user, through: :submit
     delegate :name, to: :user, prefix: true, allow_nil: true
@@ -9,7 +10,6 @@ class Grade < ApplicationRecord
 
     has_one :pset, through: :submit
     delegate :name, to: :pset, prefix: true, allow_nil: true
-    delegate :config, to: :pset, allow_nil: true
 
     belongs_to :grader, class_name: "User"
     delegate :name, to: :grader, prefix: true, allow_nil: true
@@ -19,7 +19,7 @@ class Grade < ApplicationRecord
     scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
 
     def type
-        pset.grade_type
+        grading_config.type
     end
 
     def sufficient?

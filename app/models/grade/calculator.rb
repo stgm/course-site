@@ -9,7 +9,7 @@ module Grade::Calculator
         # This always runs, even if no subgrades have been changed. This is to ensure that grades are also recalculated after the grade formula has changed.
         calculated_grade = calculate_grade
         if calculated_grade.present?
-            case self.pset.grade_type
+            case self.type
             when 'float', 'points'
                 # calculated_grade = calculated_grade
             else # integer, pass
@@ -22,14 +22,8 @@ module Grade::Calculator
     end
 
     def calculate_grade
-        calculations = GradingConfig.grades
-        return nil if calculations.nil?
-
-        pset_name = self.pset.name
-        return nil if calculations[pset_name].nil? or calculations[pset_name]['calculation'].nil?
-
         begin
-            cg = self.subgrades.instance_eval(calculations[pset_name]['calculation'])
+            cg = self.subgrades.instance_eval(grading_config['calculation'])
         rescue
             cg = nil
         end

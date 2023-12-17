@@ -57,10 +57,10 @@
 			<%= button_to admin_user_set_role_path(@student, user: { role: :head }), method: :patch, class: 'dropdown-item' do 'Make head' end %>
 			<%= button_to admin_user_set_role_path(@student, user: { role: :admin }), method: :patch, class: 'dropdown-item' do 'Make admin' end %>
 			<%= button_to admin_user_set_role_path(@student, user: { role: :student, schedule_id: nil }), method: :patch, class: 'dropdown-item' do 'Undo admin' end %>
-			<% if User::FinalGradeAssigner.available? %>
+			<% if @student.can_assign_final_grade? %>
 			<div class="dropdown-divider"></div>
 			<%= button_to calculate_final_grade_user_path(@student), method: :post, class: 'dropdown-item' do 'Calculate any final grade' end %>
-			<% GradingConfig.final_grade_names.each do |grade_name| %>
+			<% @student.grading_config.final_grade_names.each do |grade_name| %>
 			<%= button_to calculate_final_grade_user_path(@student, grades: grade_name), method: :post, class: 'dropdown-item' do "Calculate #{grade_name.humanize}" end %>
 			<% end %>
 			<% end %>

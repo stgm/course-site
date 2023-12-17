@@ -14,33 +14,47 @@ class Course::Tools
     def self.clean_psets
         # GRADES
         # checks all grades defined in grading.yml, adds them with config
-        if GradingConfig.grades.any?
+        config = GradingConfig.base
+        if config.grades.any?
             Pset.update_all(order: nil)
             counter = 1
-            GradingConfig.grades.each do |name, definition|
+            config.grades.each do |name, definition|
                 p = Pset.where(name: name).first_or_create
 
                 # set order
                 p.order = counter
                 counter += 1
 
-                # set a few flags from config for easier queries later on
+                # set a few flags from config for easier queries later on TODO
                 p.automatic = p.config.present? && p.config["automatic"].present?
                 # get potential type from final grade config
-                calc_type = GradingConfig.all.
-                            select { |k,v| v['submits'] && v['submits'][name] }.
+                calc_type = config.components.
+                            select { |k,v| v['submits'][name] }.
                             map{ |k,v| v['type'] }.compact&.first
-                p.grade_type = definition['type'] || calc_type || :float
+                p.grade_type = definition['type'] || calc_type || :float # TODO
                 p.test = definition['is_test'] || false
                 p.save
             end
 
-            GradingConfig.calculation.each do |name, formula|
+            config.calculation.each do |name, formula|
                 p = Pset.where(name: name).first_or_create
                 p.order = counter
                 counter += 1
+                p.final = true
                 p.grade_type = :float
                 p.save
+            end
+
+            Schedule.all.map(&:name).each do |schedule_name|
+                schedule_config = GradingConfig.with_schedule(schedule_name)
+                schedule_config.calculation.each do |name, formula|
+                    p = Pset.where(name: name).first_or_create
+                    p.order = counter
+                    counter += 1
+                    p.final = true
+                    p.grade_type = :float
+                    p.save
+                end
             end
         end
 

@@ -3,11 +3,10 @@ module Submit::AutoCheck::ScoreCalculator
 	extend ActiveSupport::Concern
 	
 	def automatic_scores
-		f = pset.config
-		return {} if f.nil? || f['automatic'].nil?
+		return {} if grading_config.nil? || grading_config['automatic'].nil?
 
 		# take all automatic rules and use it to create hash of grades
-		results = f['automatic'].transform_values do |rule|
+		results = grading_config['automatic'].transform_values do |rule|
 			begin
 				self.instance_eval(rule)
 			rescue

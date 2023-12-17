@@ -49,15 +49,13 @@ class Submit < ApplicationRecord
         Settings.registration_phase.in?(['during', 'after']) && Submit::Webdav::Client.available? || Rails.env.development?
     end
 
-    def self.allowed_for?(user, pset)
-        return false if !self.available?
+    def allow_new_submit?
+        return false if !Submit.available?
         return false if !user.can_submit?
 
-        submit = Submit.where(user: user, pset: pset).first
-
-        ( pset.submittable? && submit.blank?             ) ||
-        ( pset.submittable? && !submit.grade_sufficient? ) ||
-        (!pset.submittable? && submit&.grade_resubmit_exception?)
+        ( self.submittable? && !self.persisted?        ) ||
+        ( self.submittable? && !self.grade_sufficient? ) ||
+        (!self.submittable? && self.grade_resubmit_exception?)
 
         # false if generally submittable but already sufficient+published
         # false if not submittable anymore and not exception
@@ -121,6 +119,39 @@ class Submit < ApplicationRecord
 		return result
 	end
 
+    def grading_config
+        # extract grading config grade config
+        gc = user.schedule.grading_config.grades[pset_name]&.to_h || {}
+
+        # extract grade component config
+        cc = user.schedule.grading_config.components.
+            select { |k,v| v['submits'][pset_name] }.
+            map{ |k,v| v }&.first&.
+            # select{ |k,v| !k.in? ['show_progress', 'submits'] } || {}
+            select{ |k,v| k.in? ['deadline'] } || {}
+
+        # cc overwrites our config, and gc overwrites that
+        pset.submit_config.merge(cc).merge(gc)
+    end
+
+    def deadline
+        begin
+            Time.zone.strptime(grading_config['deadline'], '%d/%m/%y %H:%M')
+        rescue
+            nil
+        end
+    end
+
+    def deadline_hard?
+        !!grading_config['deadline_hard']
+    end
+
+    def submittable?
+        # no hard deadlines, or no deadline for pset, or deadline not passed
+        !(Course.deadlines_hard? && self.deadline&.past?) &&
+        !(self.deadline_hard? && self.deadline&.past?)
+    end
+
 	def filenames
 		# combine filesnames for submitted files in old and new system
 		submitted_files + files.map(&:filename)
@@ -131,16 +162,16 @@ class Submit < ApplicationRecord
 	end
 
 	def checkable?
-		pset.check_config.present?
+		(grading_config && grading_config['check']).present?
 	end
 
     def late?
-        pset.deadline.present? && submitted_at.present? && submitted_at > pset.deadline
+        deadline.present? && submitted_at.present? && submitted_at > deadline
     end
 
     def recheck(host)
         Attachments.new(self.all_files.to_h).zipped do |zip|
-            token = Submit::AutoCheck::Sender.new(zip, self.pset.config['check'], host).start
+            token = Submit::AutoCheck::Sender.new(zip, pset_config['check'], host).start
             self.update(check_token: token)
         end
     end

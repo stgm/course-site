@@ -1,19 +1,19 @@
 module User::FinalGradeCalculator
-    def self.run_for(user_grade_list)
+    def self.run_for(grading_config, user_grade_list)
         # tries to calculate all kinds of final grades
 
         grades = {}
-        GradingConfig.calculation.each do |name, parts|
-            grades[name] = final_grade_from_partial_grades(parts, user_grade_list)
+        grading_config.calculation.each do |name, relevant_parts|
+            grades[name] = final_grade_from_partial_grades(grading_config, relevant_parts, user_grade_list)
         end
 
         return grades # { final: '6.0', resit: '0.0' }
     end
 
-    def self.final_grade_from_partial_grades(config, user_grade_list)
+    def self.final_grade_from_partial_grades(grading_config, relevant_parts, user_grade_list)
         # attempt to calculate each partial grade
         weighted_partial_grades = config.collect do |partial_name, weight|
-            partial_config = GradingConfig.all[partial_name]
+            partial_config = grading_config.all[partial_name]
             if partial_config['type'] == 'points'
                 [partial_name, grade_from_points_from_submits(partial_config, user_grade_list), weight]
             elsif partial_config['type'] == 'maximum'

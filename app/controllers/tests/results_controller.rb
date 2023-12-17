@@ -11,12 +11,13 @@ class Tests::ResultsController < Tests::TestsController
 
     def show
         @pset = Pset.find_by_id(params[:test_id])
+        @pset_config = Submit.find_or_initialize_by(user: current_user, pset: @pset).grading_config
         @psets = Pset.all
 
         if current_user.groups.any?
             @groups = current_user.groups
-        elsif current_user.accessible_schedules.any?
-            @groups = current_user.accessible_schedules.map(&:groups).flatten
+        elsif current_user.schedule.present?
+            @groups = current_user.schedule.groups
         else
             render plain: "No students"
         end

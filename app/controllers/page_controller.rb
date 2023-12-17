@@ -17,8 +17,9 @@ class PageController < ApplicationController
     def submit
         @subpages = @page.subpages.select{|x| x.title.downcase == 'submit'}
         if @page.pset
-            @previous_submit = Submit.where(:user_id => current_user.id, :pset_id => @page.pset.id).first
-            @allow_submit = Submit.allowed_for?(current_user, @page.pset)
+            @submit = Submit.find_or_initialize_by(user: current_user, pset: @page.pset)
+            @allow_submit = @submit.allow_new_submit?
+            @deadline = @submit.deadline
         end
         @title = @page.title
     end

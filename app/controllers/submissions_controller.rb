@@ -1,5 +1,7 @@
 class SubmissionsController < ApplicationController
 
+    include NavigationHelper
+
     before_action :authorize
     before_action :load_pset, :check_permission_to_submit, :validate_attachment_size, only: [ :create ]
 
@@ -12,7 +14,7 @@ class SubmissionsController < ApplicationController
         raise ActionController::RoutingError.new('Not Found') if @items.empty?
 
         # overview table
-        @overview_config = GradingConfig.overview_config
+        @overview_config = current_schedule.grading_config.overview_config
         @grades_by_pset = @student.submits.joins(:grade).includes(:grade, :pset).where(grades: { status: Grade.statuses[:published] }).to_h { |item| [item.pset.name, item.grade] }
 
         @title = t(:submissions)
@@ -51,7 +53,7 @@ class SubmissionsController < ApplicationController
     end
 
     def check_permission_to_submit
-        if not Submit.allowed_for?(current_user, @pset)
+        if not Submit.find_or_initialize_by(user: current_user, pset: @pset).allow_new_submit?
             redirect_back(
             fallback_location: '/',
             alert: "Sorry, you can't submit this problem. Consult your teacher if you think this is in error.")
@@ -82,21 +84,21 @@ class SubmissionsController < ApplicationController
     end
 
     def should_perform_auto_check?
-        Submit::AutoCheck::Sender.enabled? && @pset.config['check'].present?
+        Submit::AutoCheck::Sender.enabled? && @pset.submit_config['check'].present?
     end
 
     def upload_files_to_check_server
         @attachments.zipped do |zip|
-            @token = Submit::AutoCheck::Sender.new(zip, @pset.config['check'], api_check_result_do_url).start
+            @token = Submit::AutoCheck::Sender.new(zip, @pset.submit_config['check'], api_check_result_do_url).start
         end
     end
 
     def should_upload_to_plag_server?
-        !current_user.staff? && @pset.config['plag'].present?
+        !current_user.staff? && @pset.submit_config['plag'].present?
     end
 
     def upload_files_to_plag_server
-        uploader = Submit::Plag::Uploader.new(@pset.config['plag'].merge({ student: current_user.defacto_student_identifier }))
+        uploader = Submit::Plag::Uploader.new(@pset.submit_config['plag'].merge({ student: current_user.defacto_student_identifier }))
         uploader.upload(@attachments.zipped)
         uploader.close
     end

@@ -1,5 +1,7 @@
 class OverviewsController < ApplicationController
 
+    include NavigationHelper
+
     before_action :authorize
     before_action :require_staff
     before_action :require_senior, only: [ :show ]
@@ -19,7 +21,7 @@ class OverviewsController < ApplicationController
             @subs = Submit.indexed_by_pset_and_user_for @users
 
             @grouped_users = @users.group_by(&:group)
-            @overview = GradingConfig.overview
+            @overview = current_schedule.grading_config.overview
             render 'overview' and return
         elsif current_user.head?
             if current_user.schedules.empty? && current_user.groups.empty?
@@ -92,7 +94,7 @@ class OverviewsController < ApplicationController
 
         @grouped_users = @users.group_by(&:group)
 
-        @overview = GradingConfig.overview
+        @overview = @selected_schedule.grading_config.overview
     end
 
 end

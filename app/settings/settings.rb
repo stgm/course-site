@@ -4,6 +4,7 @@ class Settings < RailsSettings::Base
         field :course, default: {}
         field :materials, default: {}
         field :grading, default: {}
+        field :schedule_grading, default: {}
     end
 
     scope :accounts do

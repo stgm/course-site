@@ -12,7 +12,7 @@ module Submit::AutoCheck::Receiver
 	end
 
 	def create_auto_grade(send_mail=true)
-		if self.pset.config['auto_publish']
+		if self.grading_config['auto_publish']
 			# create a create if needed
 			grade = self.grade || self.build_grade
 		

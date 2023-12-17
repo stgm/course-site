@@ -1,11 +1,11 @@
 module User::FinalGradeAssigner
-    def self.available?
-        GradingConfig.calculation.present?
+    def can_assign_final_grade?()
+        grading_config.calculation.present?
     end
 
     def assign_final_grade(grader, *args)
         # calculate all possible grades
-        grades = User::FinalGradeCalculator.run_for(self.all_submits)
+        grades = User::FinalGradeCalculator.run_for(grading_config, self.all_submits)
 
         # extract only requested grades if needed
         options = args.extract_options!
