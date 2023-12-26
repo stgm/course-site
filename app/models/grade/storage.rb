@@ -2,11 +2,11 @@ module Grade::Storage
     extend ActiveSupport::Concern
 
     def grade
-        (g = super) && (g/10.0).round(1)
+        (g = super) && (g/10.0)
     end
 
     def calculated_grade
-        (g = super) && (g/10.0).round(1)
+        (g = super) && (g/10.0)
     end
 
     def grade=(new_grade)
@@ -28,5 +28,9 @@ module Grade::Storage
                 super(10.0 * new_grade.to_i)
             end
         end
+    end
+
+    def calculated_grade=(new_grade)
+        super((new_grade * 10.0).round)
     end
 end

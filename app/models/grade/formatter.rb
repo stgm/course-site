@@ -7,9 +7,14 @@ module Grade::Formatter
         case self.type || 'float'
         when 'points'
             if current_grade == -1 && weight.present?
+                # display full points
                 return weight.to_s
-            else
+            elsif current_grade.to_i == current_grade
+                # display integer grade
                 return current_grade.to_i.to_s
+            else
+                # display decimal grade if decimals are available
+                return current_grade.to_s
             end
         when 'integer'
             return current_grade.to_i.to_s
