@@ -85,7 +85,6 @@ class GradingController < ApplicationController
 		end
 
 		if @to_grade.blank?
-			logger.info "redir now"
 			redirect_out("You haven't been assigned grading groups yet!")
 		end
 	end
@@ -103,7 +102,6 @@ class GradingController < ApplicationController
 	end
 
 	def redirect_out(message=nil)
-		logger.info message.inspect
 		message ||= "There's nothing to grade from your grading groups!"
 		if not request.referer&.match?(/grading/)
 			redirect_back(fallback_location: '/', alert: message) and return
