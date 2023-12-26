@@ -11,7 +11,7 @@ module Grade::Storage
 
     def grade=(new_grade)
         if new_grade.blank? # erases the grade
-            return super(nil)
+            super(nil)
         elsif new_grade.class == String
             new_grade.sub!(/,/,'.')
             case self.pset.grade_type
@@ -31,6 +31,10 @@ module Grade::Storage
     end
 
     def calculated_grade=(new_grade)
-        super((new_grade * 10.0).round)
+        if new_grade.blank?
+            super(nil)
+        else
+            super((new_grade * 10.0).round)
+        end
     end
 end
