@@ -8,28 +8,18 @@ class GradingController < ApplicationController
 	before_action :authorize
 	before_action :require_staff
 
+	before_action :load_grading_list, only: [ :index, :show ]
+
 	# GET /grading
 	def index
-		load_grading_list
 		# immediately redirect to first thing that might be graded
 		if g = @to_grade&.first
 			redirect_to grading_path(g, params.permit(:pset, :group, :status))
-		else
-			redirect_out
 		end
 	end
 
 	# GET /grading/:submit_id
 	def show
-		# get everything that user has access to
-		load_grading_list
-
-		# get out if nothing to grade
-		if @to_grade.none?
-			redirect_out
-			return
-		end
-
 		# extract all psets that are to be graded by user (before filtering)
 		@psets_to_grade = Pset.find(@to_grade.pluck(:pset_id))
 
@@ -94,7 +84,10 @@ class GradingController < ApplicationController
 			@to_grade = Submit.to_grade
 		end
 
-		redirect_back(fallback_location: '/', alert: "You haven't been assigned grading groups yet!") if not @to_grade
+		if @to_grade.blank?
+			logger.info "redir now"
+			redirect_out("You haven't been assigned grading groups yet!")
+		end
 	end
 
 	def filter_grading_list
@@ -109,9 +102,11 @@ class GradingController < ApplicationController
 		end
 	end
 
-	def redirect_out
+	def redirect_out(message=nil)
+		logger.info message.inspect
+		message ||= "There's nothing to grade from your grading groups!"
 		if not request.referer&.match?(/grading/)
-			redirect_back(fallback_location: '/', alert: "There's nothing to grade from your grading groups!") and return
+			redirect_back(fallback_location: '/', alert: message) and return
 		else
 			redirect_to :root
 		end
