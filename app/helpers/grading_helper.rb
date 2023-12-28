@@ -4,6 +4,9 @@ module GradingHelper
             format_form_contents(contents)
         else
             if contents.kind_of? ActiveStorage::Attachment
+                if contents.blob.byte_size == 0
+                    return tag.div "This file was 0 bytes when uploaded"
+                end
                 concat link_to 'Download', 
                     rails_storage_proxy_path(contents, disposition: 'attachment'),
                     class: 'btn btn-small btn-light position-absolute end-0',
