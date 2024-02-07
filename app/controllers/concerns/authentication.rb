@@ -13,15 +13,23 @@ module Authentication
     end
 
     def logged_in?
-        logger.info current_user.persisted?.inspect
         return authenticated? && current_user.persisted?
     end
 
     def current_user
-        @current_user ||= 
-            session[:user_id].present? &&
-            User.find_by(id: session[:user_id]) ||
-            User.new # Blank user for logged out purposes
+        if @current_user.blank?
+            u = session[:user_id].present? && User.find_by(id: session[:user_id])
+            Rails.logger.info(u.inspect)
+            if User === u
+                # got a user object from db
+                # auto-assign default schedule upon first user load
+                u.set_current_schedule! if u.schedule.blank?
+            else
+                # blank user for anonymous session
+                u = User.new
+            end
+            @current_user = u
+        end
         Current.user = @current_user
     end
 
