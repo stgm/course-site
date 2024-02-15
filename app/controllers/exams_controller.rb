@@ -22,7 +22,7 @@ class ExamsController < ApplicationController
         @submit.update(exam_code: code)
 
         # redirect to external editor with post url and code
-        redirect_to "https://uvapl.github.io/examide/?url=#{json_exam_url}&id=#{code}", allow_other_host: true
+        redirect_to "http://localhost:8009/?url=#{json_exam_url}&id=#{code}", allow_other_host: true
     end
 
     def json
@@ -40,15 +40,19 @@ class ExamsController < ApplicationController
     def post
         headers['Access-Control-Allow-Origin'] = '*'
 
-        # allow posting new files for current exam,
+        # allow posting new files for current exam
+        @exam = Pset.find(params[:id])
 
         # but only with the submit code
-        @submit = Submit.where(exam_code: params[:code]).first
+        @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
 
         # only allow updates as long as no grade was created for this submit
         if @submit.grade.blank? && !@submit.locked
             @submit.files.purge
-            @submit.files.attach(params.permit(files: []))
+            permitted = params.permit(files: {})
+            permitted[:files].each do |filename, attachment|
+                @submit.files.attach(io: attachment.open, filename: filename)
+            end
             render status: :accepted, plain: 'OK' and return
         end
 
