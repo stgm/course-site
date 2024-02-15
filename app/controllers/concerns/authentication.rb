@@ -19,7 +19,6 @@ module Authentication
     def current_user
         if @current_user.blank?
             u = session[:user_id].present? && User.find_by(id: session[:user_id])
-            Rails.logger.info(u.inspect)
             if User === u
                 # got a user object from db
                 # auto-assign default schedule upon first user load

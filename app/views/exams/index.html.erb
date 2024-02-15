@@ -1,0 +1,3 @@
+<% @exams.each do |e| %>
+<%= button_to e.name, exam_url(id: e.id), method: :post,  data: { turbo: false } %><br>
+<% end %>

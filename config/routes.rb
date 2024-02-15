@@ -134,7 +134,7 @@ Rails.application.routes.draw do
 			put "done"
 		end
 	end
-	
+
 	resources :questions
 	resources :answers
 
@@ -188,6 +188,14 @@ Rails.application.routes.draw do
 	resource :todo do
 		get 'watch_list'
 		get 'show'
+	end
+
+	resources :exams, only: [:index] do
+		member do
+			post 'create'
+			post 'post'
+			get  'json'
+		end
 	end
 
 	#--EXTERNAL APIs----------------------------------------------------------------------------

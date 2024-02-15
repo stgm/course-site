@@ -20,6 +20,10 @@ module GradingConfig
         all['tests'] || {}
     end
 
+    def self.exams
+        self.grades.select{|name, config| config['exam'] == true}.map{|name,_| name}
+    end
+
     def self.load(new_settings)
         Settings.grading = new_settings
     end
