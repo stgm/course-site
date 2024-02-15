@@ -1,6 +1,7 @@
 class ExamsController < ApplicationController
 
     before_action :authorize, except: [:json, :post]
+    skip_before_action :verify_authenticity_token, only: [:post]
 
     layout 'sidebar'
 
@@ -27,7 +28,9 @@ class ExamsController < ApplicationController
     def json
         # get exam config, including files and base contents
         @exam = Pset.find(params[:id])
-        
+
+        headers['Access-Control-Allow-Origin'] = '*'
+
         render json: {
             postback: post_exam_url,
             tabs: @exam.config['files'].map{|k,v| v}.inject { |all, h| all.merge(h) }
@@ -35,19 +38,21 @@ class ExamsController < ApplicationController
     end
 
     def post
+        headers['Access-Control-Allow-Origin'] = '*'
+
         # allow posting new files for current exam,
-        @exam = Pset.find_by_name(params[:name])
 
         # but only with the submit code
-        @submit = Submit.find(pset: @exam, exam_code: params[:code])
+        @submit = Submit.where(exam_code: params[:code]).first
 
         # only allow updates as long as no grade was created for this submit
         if @submit.grade.blank? && !@submit.locked
-            @submit.update(files: params[:files])
-            render status: :accepted
+            @submit.files.purge
+            @submit.files.attach(params.permit(files: []))
+            render status: :accepted, plain: 'OK' and return
         end
 
-        render status: :locked
+        render status: :locked, plain: 'locked'
     end
 
     private
