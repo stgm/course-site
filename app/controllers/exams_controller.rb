@@ -22,7 +22,7 @@ class ExamsController < ApplicationController
         @submit.update(exam_code: code)
 
         # redirect to external editor with post url and code
-        redirect_to "http://localhost:8009/?url=#{json_exam_url}&code=#{code}", allow_other_host: true
+        redirect_to "https://uvapl.github.io/examide/?url=#{json_exam_url}&code=#{code}", allow_other_host: true
     end
 
     def json
