@@ -22,7 +22,12 @@ class ExamsController < ApplicationController
         @submit.update(exam_code: code)
 
         # redirect to external editor with post url and code
-        redirect_to "https://uvapl.github.io/examide/?url=#{json_exam_url}&code=#{code}", allow_other_host: true
+        params = "url=#{json_exam_url}&code=#{code}"
+        if Rails.env.development?
+            redirect_to "http://localhost:8009/?#{params}"
+        else
+            redirect_to "https://uvapl.github.io/examide/?url=#{params}", allow_other_host: true
+        end
     end
 
     def json
@@ -32,6 +37,8 @@ class ExamsController < ApplicationController
         headers['Access-Control-Allow-Origin'] = '*'
 
         render json: {
+            course_name: Course.long_name,
+            exam_name: @exam.name.humanize,
             postback: post_exam_url,
             tabs: @exam.config['files'].map{|k,v| v}.inject { |all, h| all.merge(h) }
         }
