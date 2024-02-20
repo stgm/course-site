@@ -26,7 +26,7 @@ class ExamsController < ApplicationController
         if Rails.env.development?
             redirect_to "http://localhost:8009/?#{params}"
         else
-            redirect_to "https://uvapl.github.io/examide/?url=#{params}", allow_other_host: true
+            redirect_to "https://uvapl.github.io/examide/?#{params}", allow_other_host: true
         end
     end
 
