@@ -53,6 +53,10 @@ class ExamsController < ApplicationController
         # but only with the submit code
         @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
 
+        if @submit.blank
+            render status: :not_found, plain: 'your data is invalid' and return
+        end
+
         # only allow updates as long as no grade was created for this submit
         if @submit.grade.blank? && !@submit.locked
             @submit.files.purge
