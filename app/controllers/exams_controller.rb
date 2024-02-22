@@ -64,6 +64,7 @@ class ExamsController < ApplicationController
             permitted[:files].each do |filename, attachment|
                 @submit.files.attach(io: attachment.open, filename: filename)
             end
+            @submit.update(submitted_at: DateTime.now)
             render status: :accepted, plain: 'OK' and return
         end
 
