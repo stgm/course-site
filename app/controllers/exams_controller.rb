@@ -33,15 +33,23 @@ class ExamsController < ApplicationController
     def json
         # get exam config, including files and base contents
         @exam = Pset.find(params[:id])
+        @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
 
-        headers['Access-Control-Allow-Origin'] = '*'
+        if @submit.blank?
+            render status: :bad_request, plain: 'what you sent is invalid' and return
+        end
 
-        render json: {
+        config = {
             course_name: Course.long_name,
             exam_name: @exam.name.humanize,
             postback: post_exam_url,
             tabs: @exam.config['files'].map{|k,v| v}.inject { |all, h| all.merge(h) }
         }
+
+        config['locked'] = true if !@submit.grade.blank? || @submit.locked
+
+        headers['Access-Control-Allow-Origin'] = '*'
+        render json: config
     end
 
     def post
