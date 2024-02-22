@@ -53,7 +53,7 @@ class ExamsController < ApplicationController
         # but only with the submit code
         @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
 
-        if @submit.blank
+        if @submit.blank?
             render status: :not_found, plain: 'your data is invalid' and return
         end
 
