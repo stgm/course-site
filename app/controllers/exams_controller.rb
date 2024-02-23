@@ -46,7 +46,7 @@ class ExamsController < ApplicationController
             tabs: @exam.config['files'].map{|k,v| v}.inject { |all, h| all.merge(h) }
         }
 
-        config['locked'] = true if !@submit.grade.blank? || @submit.locked
+        config['locked'] = true if !@submit.grade.blank? or @submit.locked
 
         headers['Access-Control-Allow-Origin'] = '*'
         render json: config
