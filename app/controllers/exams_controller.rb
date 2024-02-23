@@ -35,7 +35,7 @@ class ExamsController < ApplicationController
         @exam = Pset.find(params[:id])
         @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
 
-        if @submit.blank?
+        if params[:code].blank? || @submit.blank?
             render status: :bad_request, plain: 'what you sent is invalid' and return
         end
 
