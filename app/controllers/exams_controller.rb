@@ -8,7 +8,7 @@ class ExamsController < ApplicationController
     def index
         # get all exams from config that may be submitted
         # allow student to choose one and start
-        @exams = Pset.where(name: GradingConfig.exams)
+        @exams = Pset.includes(:submits).where(name: GradingConfig.exams, submits: { user: current_user })
     end
 
     def create
