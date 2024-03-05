@@ -169,6 +169,7 @@ Rails.application.routes.draw do
 	resources :submits, only: [ :show, :create, :destroy, :update ] do
 		member do
 			post 'recheck'
+			get  'download'
 		end
 	end
 
@@ -226,6 +227,7 @@ Rails.application.routes.draw do
 	# pages
 	resources :submissions, only: [ :index, :create ] do
 		get 'feedback'
+		get 'download'
 	end
 
 	get	 "s/*slug" => "page#submit", as: "page_submit"
