@@ -21,8 +21,12 @@ class Page < ApplicationRecord
         elsif self.path.start_with?("materials")
             dir = self.path.match(/\Amaterials\/([^\/]*)/)[1]
             repo = Settings.materials[dir]
-            url = File.join(repo['remote'].sub(/.git$/,''), 'raw', repo['branch'].to_s)
-            return self.path.sub(/\Amaterials\/#{dir}/, url)
+            if repo.present?
+                url = File.join(repo['remote'].sub(/.git$/,''), 'raw', repo['branch'].to_s)
+                return self.path.sub(/\Amaterials\/#{dir}/, url)
+            else
+                return "materials-dir named #{dir} does not exist (anymore)"
+            end
         end
     end
     

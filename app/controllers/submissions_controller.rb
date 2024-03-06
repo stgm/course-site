@@ -1,6 +1,7 @@
 class SubmissionsController < ApplicationController
 
     include NavigationHelper
+    include ActiveStorage::SendZip
 
     before_action :authorize
     before_action :load_pset, :check_permission_to_submit, :validate_attachment_size, only: [ :create ]
@@ -36,6 +37,15 @@ class SubmissionsController < ApplicationController
         @formatted_feedback = submit.formatted_auto_feedback
         @formatted_feedback = '(no data)' if @formatted_feedback.blank?
         render layout: 'modal'
+    end
+
+    def download
+        submit = current_user.submits.find(params[:submission_id])
+        if submit.files.count > 1
+            send_zip submit.files, filename: "#{submit.pset.name.dasherize}-#{submit.user.name.parameterize}-#{submit.submitted_at.to_fs(:number)}.zip"
+        else
+            redirect_to rails_storage_proxy_path(submit.files.first, disposition: 'attachment')
+        end
     end
 
     private

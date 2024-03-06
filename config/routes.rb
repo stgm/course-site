@@ -134,7 +134,7 @@ Rails.application.routes.draw do
 			put "done"
 		end
 	end
-	
+
 	resources :questions
 	resources :answers
 
@@ -169,6 +169,7 @@ Rails.application.routes.draw do
 	resources :submits, only: [ :show, :create, :destroy, :update ] do
 		member do
 			post 'recheck'
+			get  'download'
 		end
 	end
 
@@ -188,6 +189,14 @@ Rails.application.routes.draw do
 	resource :todo do
 		get 'watch_list'
 		get 'show'
+	end
+
+	resources :exams, only: [:index] do
+		member do
+			post 'create'
+			post 'post'
+			get  'json'
+		end
 	end
 
 	#--EXTERNAL APIs----------------------------------------------------------------------------
@@ -218,6 +227,7 @@ Rails.application.routes.draw do
 	# pages
 	resources :submissions, only: [ :index, :create ] do
 		get 'feedback'
+		get 'download'
 	end
 
 	get	 "s/*slug" => "page#submit", as: "page_submit"

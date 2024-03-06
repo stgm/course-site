@@ -66,5 +66,6 @@ gem 'importmap-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 
-# used by ActiveStorage to get image previews
+# used by ActiveStorage
 gem 'image_processing', '~> 1.12'
+gem 'active_storage-send_zip'

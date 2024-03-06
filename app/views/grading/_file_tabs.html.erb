@@ -1,17 +1,21 @@
 <% @files.each do |filename, contents| %>
 <li class="nav-item">
-	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#show-file-<%= filename.parameterize %>" role="tab"><%= filename.html_safe %></a>
+    <a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#show-file-<%= filename.parameterize %>" role="tab"><%= filename.html_safe %></a>
 </li>
 <% end %>
 
 <% if @submit.has_auto_feedback? %>
 <li class="nav-item">
-	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#file-check" role="tab">Check</a>
+    <a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#file-check" role="tab">Check</a>
 </li>
 <% end %>
 
 <% if @submit.has_run_log? %>
 <li class="nav-item">
-	<a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#file-log" role="tab">Log</a>
+    <a class="nav-link <%= (first = false) || 'active' if first %>" id="home-tab" data-bs-toggle="tab" href="#file-log" role="tab">Log</a>
 </li>
 <% end %>
+
+<li class="nav-item ms-auto">
+    <%= link_to 'Download', download_submit_path(@submit), class: 'nav-link', data: { turbo: false } %>
+</li>

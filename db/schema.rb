@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_25_125508) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_14_134514) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -265,6 +265,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_25_125508) do
     t.string "check_token"
     t.text "form_contents"
     t.boolean "locked", default: false, null: false
+    t.string "exam_code"
     t.index ["pset_id"], name: "index_submits_on_pset_id"
     t.index ["user_id"], name: "index_submits_on_user_id"
   end

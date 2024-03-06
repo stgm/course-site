@@ -64,8 +64,6 @@ module User::FinalGradeCalculator
     def self.get_points_total(grades)
         grades = fill_missing(grades, 0)
         grades.map do |g|
-            # 0 points for a 0-weight grade means that something compulsory is missing
-            return 0 if g[2] == 0 and g[1] == 0
             if g[1] == -1
                 # pass means they get full credit
                 g[2]
