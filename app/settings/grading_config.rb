@@ -86,9 +86,15 @@ class GradingConfig
             invalid_grade_names = all_submit_names.map { |k,v| [k,v.select { |name| !@config['grades'].include?(name) }] }.select { |k,v| v.any? }.map{|k,v| "#{k}->#{v.join(',')}"}
             if invalid_grade_names.any?
                 @errors << "Problem loading grading.yml. Some grades were specified as part of the final grade, but could not be found in the grades section: #{invalid_grade_names.join('; ')}."
-                return @errors
             end
         end
+
+        grade_components = self.calculation.values.map(&:keys).flatten
+        missing_components = grade_components.select{|name| !name.in? self.components.keys}
+        if missing_components.size > 0
+            @errors << "Problem loading grading.yml. Final grade component definitions are mentioned but undefined: #{missing_components.join('; ')}."
+        end
+
         return @errors
     end
 
