@@ -1,5 +1,7 @@
 class ExamsController < ApplicationController
 
+    include NavigationHelper
+
     before_action :authorize, except: [:json, :post]
     skip_before_action :verify_authenticity_token, only: [:post]
 
@@ -8,7 +10,7 @@ class ExamsController < ApplicationController
     def index
         # get all exams from config that may be submitted
         # allow student to choose one and start
-        @exams = Pset.includes(:submits).where(name: GradingConfig.exams, submits: { user: current_user })
+        @exams = Pset.includes(:submits).where(name: current_schedule.grading_config.exams, submits: { user: current_user })
     end
 
     def create
