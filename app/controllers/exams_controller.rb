@@ -31,6 +31,8 @@ class ExamsController < ApplicationController
     end
 
     def json
+        headers['Access-Control-Allow-Origin'] = '*'
+
         # get exam config, including files and base contents
         @exam = Pset.find(params[:id])
         @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
@@ -48,7 +50,6 @@ class ExamsController < ApplicationController
 
         config['locked'] = true if !@submit.grade.blank? or @submit.locked
 
-        headers['Access-Control-Allow-Origin'] = '*'
         render json: config
     end
 
