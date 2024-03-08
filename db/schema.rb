@@ -183,6 +183,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_14_134514) do
     t.text "config"
     t.integer "mod_id"
     t.boolean "test", default: false
+    t.boolean "final", default: false
     t.index ["mod_id"], name: "index_psets_on_mod_id"
     t.index ["page_id"], name: "index_psets_on_page_id"
   end

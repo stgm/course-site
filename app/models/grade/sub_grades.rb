@@ -21,7 +21,7 @@ module Grade::SubGrades
         val.each do |k,v|
             # get type from grading config
             begin
-                grade_type = config['subgrades'][k]
+                grade_type = grading_config['subgrades'][k]
             rescue
                 grade_type = "integer"
             end

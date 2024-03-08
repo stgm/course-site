@@ -7,6 +7,7 @@ module User::Schedulizable
         belongs_to :current_module, class_name: "ScheduleSpan", optional: true
 
         delegate :name, to: :schedule, prefix: true, allow_nil: true
+        delegate :grading_config, to: :schedule
 
         before_save :set_current_module, if: :schedule_id_changed?
     end

@@ -38,6 +38,14 @@ class Schedule < ApplicationRecord
         Schedule.where(id: Settings.public_schedule).first
     end
 
+    def grading_config
+        GradingConfig.with_schedule(self)
+    end
+
+    def defines_final_grades?
+        grading_config.calculation.present?
+    end
+
     def default_span(only_public)
         if only_public
             self.schedule_spans.all_public.order(:rank).first

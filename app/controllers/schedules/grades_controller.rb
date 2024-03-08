@@ -42,7 +42,7 @@ class Schedules::GradesController < Schedules::ApplicationController
 	# Try to assign all students a final grade.
 	def assign_all_final
 		# feature has to be enabled by supplying a grading.yml
-		raise ActionController::RoutingError.new('Not Found') if not User::FinalGradeAssigner.available?
+		raise ActionController::RoutingError.new('Not Found') if not @schedule.grading_config.calculation.present?
 
 		@schedule.users.status_active.each do |student|
 			student.assign_final_grade(current_user, only: params[:grades])

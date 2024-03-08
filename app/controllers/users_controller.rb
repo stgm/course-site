@@ -1,6 +1,8 @@
 # TODO factor out search
 class UsersController < ApplicationController
 
+    include NavigationHelper
+
     before_action :authorize
     before_action :require_admin, except: [:show, :search]
     before_action :require_staff, only: [:show, :search]
@@ -36,7 +38,7 @@ class UsersController < ApplicationController
 
             @subs = @student.submits.includes(:grade).index_by{|i| [i.pset_id, i.user_id]}
 
-            @overview = GradingConfig.overview
+            @overview = @student.grading_config.overview
         else
             @items = @student.notes.includes(:author).order(created_at: :desc)
             render 'notes'
@@ -68,8 +70,8 @@ class UsersController < ApplicationController
 
     def calculate_final_grade
         # feature has to be enabled by supplying a grading.yml
-        raise ActionController::RoutingError.new('Not Found') if not User::FinalGradeAssigner.available?
         @user = @user_scope.find(params[:id])
+        raise ActionController::RoutingError.new('Not Found') if not @user.can_assign_final_grade?
         result = @user.assign_final_grade(current_user, only: params[:grades])
         redirect_to @user
     end

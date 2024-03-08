@@ -2,8 +2,8 @@
 <table class="table table-borderless" class="w-100">
 	<tr>
 		<th class="p-1">Name</th>
-		<% if @pset.config %>
-		<% @pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
+		<% if @pset.submit_config(current_schedule) %>
+		<% @pset.submit_config(current_schedule)['subgrades'].each do |subgrade_name, subgrade_type| %>
 		<th class="p-1"><%= subgrade_name.capitalize %></th>
 		<% end %>
 		<% end %>
@@ -14,9 +14,9 @@
 		<td class="p-1">
 			<input type="text" readonly class="form-control-plaintext" id="staticEmail" value="<%= s.name %>">
 		</td>
-		<% if @pset.config %>
+		<% if @pset.submit_config(current_schedule) %>
 		<% bla = s.submits.where(pset_id: @pset.id).first%>
-		<% @pset.config['subgrades'].each do |subgrade_name, subgrade_type| %>
+		<% @pset.submit_config(current_schedule)['subgrades'].each do |subgrade_name, subgrade_type| %>
 		<td class="p-1">
 			<input type="text" name="grades[<%= s.id %>][subgrades][<%= subgrade_name %>]" class="form-control form-control-sm" placeholder="" value="<%= bla.grade.subgrades[subgrade_name] if bla && bla.grade %>">
 		</td>

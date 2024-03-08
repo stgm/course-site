@@ -154,9 +154,11 @@ class Course::Loader
     end
 
     def load_grading_info(file)
+        page = load_page(file.parent_path)
         if config = read_config(file)
-            GradingConfig.load config
-            @errors += GradingConfig.validate
+            schedule_name = page.title != '.' ? page.title : nil
+            GradingConfig.load config, schedule_name
+            @errors += GradingConfig.with_schedule(schedule_name).validate
         end
     end
 

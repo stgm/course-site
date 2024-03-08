@@ -25,10 +25,9 @@ class Schedules::CurrentModulesController < ApplicationController
 
 	# Show final grades to be exported as official results.
 	def to_export
-		final_grade_names = Settings.grading['calculation'].keys
-		@psets = Pset.where(name: final_grade_names)
+		# TODO grade export currently just uses the base config
+		@psets = Pset.where(name: GradingConfig.base.final_grade_names)
 
-		# TODO @schedule.grades...
 		@grades = Grade.
 			joins([submit: :pset]).
 			includes(user: [:schedule, :group]).
@@ -44,8 +43,8 @@ class Schedules::CurrentModulesController < ApplicationController
 
 	# Mark final grades as exported.
 	def to_export_do
-		final_grade_names = Settings.grading['calculation'].keys
-		@psets = Pset.where(name: final_grade_names)
+		# TODO grade export currently just uses the base config
+		@psets = Pset.where(name: GradingConfig.base.final_grade_names)
 		@grades = Grade.joins([submit: :pset]).includes(user: [:schedule, :group]).where(submits: { pset_id: @psets }).published
 		@grades.update_all(status: Grade.statuses['exported'])
 		redirect_back fallback_location: '/'

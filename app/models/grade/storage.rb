@@ -14,14 +14,14 @@ module Grade::Storage
             super(nil)
         elsif new_grade.class == String
             new_grade.sub!(/,/,'.')
-            case self.pset.grade_type
+            case self.type
             when 'float', 'points'
                 super(10.0 * new_grade.to_f)
             else # integer, pass
                 super(10.0 * new_grade.to_i)
             end
         else
-            case self.pset.grade_type
+            case self.type
             when 'float', 'points'
                 super(10.0 * new_grade.to_f)
             else # integer, pass
