@@ -119,18 +119,20 @@ class Submit < ApplicationRecord
 		return result
 	end
 
+    # compose grading config for this pset+user combo
     def grading_config
-        # extract grading config grade config
+        # get config for this pset from general grading config
         gc = user.schedule.grading_config.grades[pset_name]&.to_h || {}
 
-        # extract grade component config
+        # get grade component config (ONLY for deadline currently)
         cc = user.schedule.grading_config.components.
             select { |k,v| v['submits'][pset_name] }.
             map{ |k,v| v }&.first&.
             # select{ |k,v| !k.in? ['show_progress', 'submits'] } || {}
             select{ |k,v| k.in? ['deadline'] } || {}
 
-        # cc overwrites our config, and gc overwrites that
+        # base on pset's submit.yml,
+        # cc overwrites our own config, and gc overwrites that
         pset.submit_config.merge(cc).merge(gc)
     end
 
