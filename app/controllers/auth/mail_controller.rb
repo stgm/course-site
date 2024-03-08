@@ -10,7 +10,6 @@ class Auth::MailController < ApplicationController
 
     def login
         # e-mail address form
-        logger.info flash.inspect
     end
 
     def create

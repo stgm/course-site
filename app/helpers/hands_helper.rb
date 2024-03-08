@@ -32,8 +32,6 @@ module HandsHelper
           raise ArgumentError, "You must provide either 'hand' or 'user' argument."
         end
 
-        logger.info I18n.locale
-
         if hand.present?
             locals = {
                 user: hand.user,
