@@ -31,7 +31,7 @@ class Course::Tools
                 calc_type = config.components.
                             select { |k,v| v['submits'][name] }.
                             map{ |k,v| v['type'] }.compact&.first
-                p.grade_type = definition['type'] || calc_type || :float # TODO
+                p.grade_type = definition['type'] || calc_type || :float
                 p.test = definition['is_test'] || false
                 p.save
             end
@@ -41,6 +41,7 @@ class Course::Tools
                 p.order = counter
                 counter += 1
                 p.final = true
+                p.config = { 'type' => 'float' }
                 p.grade_type = :float
                 p.save
             end
@@ -52,6 +53,7 @@ class Course::Tools
                     p.order = counter
                     counter += 1
                     p.final = true
+                    p.config = { 'type' => 'float' }
                     p.grade_type = :float
                     p.save
                 end

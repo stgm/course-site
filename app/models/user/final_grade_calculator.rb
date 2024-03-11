@@ -38,6 +38,12 @@ module User::FinalGradeCalculator
     def self.grade_from_points_from_submits(config, user_grade_list)
         grades = collect_grades_from_submits(config['submits'], user_grade_list)
 
+        # if any specified grade has weight 0 it should be required,
+        # thus yields lowest grade if not present
+        if grades.select{|name, grade, weight| weight == 0 && (grade.nil? || grade == 0)}.present?
+            return 1
+        end
+
         if config['attempt_required'] && missing_data?(grades)
             return :not_attempted
         end

@@ -24,8 +24,10 @@ module Grade::Storage
             case self.type
             when 'float', 'points'
                 super(10.0 * new_grade.to_f)
-            else # integer, pass
+            when 'integer', 'pass'
                 super(10.0 * new_grade.to_i)
+            else
+                super(10.0 * new_grade.to_f)
             end
         end
     end
