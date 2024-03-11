@@ -47,7 +47,7 @@ class ExamsController < ApplicationController
             course_name: Course.long_name,
             exam_name: @exam.name.humanize,
             postback: post_exam_url,
-            tabs: @exam.config['files'].map{|k,v| v}.inject { |all, h| all.merge(h) }
+            tabs: @submit.grading_config['files'].map{|k,v| v}.inject { |all, h| all.merge(h) }
         }
 
         config['locked'] = true if !@submit.grade.blank? or @submit.locked
