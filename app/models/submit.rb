@@ -122,11 +122,11 @@ class Submit < ApplicationRecord
     # compose grading config for this pset+user combo
     def grading_config
         # get config for this pset from general grading config
-        gc = user.schedule.grading_config.grades[pset_name]&.to_h || {}
+        gc = user.schedule.grading_config.grades[pset.name]&.to_h || {}
 
         # get grade component config (ONLY for deadline currently)
         cc = user.schedule.grading_config.components.
-            select { |k,v| v['submits'][pset_name] }.
+            select { |k,v| v['submits'][pset.name] }.
             map{ |k,v| v }&.first&.
             # select{ |k,v| !k.in? ['show_progress', 'submits'] } || {}
             select{ |k,v| k.in? ['deadline'] } || {}
@@ -181,7 +181,7 @@ class Submit < ApplicationRecord
     def self.indexed_by_pset_and_user_for(users)
         # @all_indexed_by_pset_and_user ||=
         where(user: users).
-        includes(grade: :pset).
+        includes([{ user: :schedule }, :pset, :grade]).
         index_by{|i| [i.pset_id, i.user_id]}
     end
 

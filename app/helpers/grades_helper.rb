@@ -48,39 +48,39 @@ module GradesHelper
 		return grade.to_s
 	end
 
-	def grade_button(user, pset, submit, weight=nil, change=true, include_name=false)
-		if submit
-			if grade = submit.grade
+    def grade_button(user, pset, submit, weight=nil, change=true, include_name=false)
+        if submit
+            if grade = submit.grade
                 formatted_grade = grade.format(weight)
-				link_to \
-					make_label(pset.name, formatted_grade, include_name),
-					submit,
-					class: "grade-button btn btn-sm #{'late' if submit.late?}",
-					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
-			else
-				link_to \
-					make_label(pset.name, "S", include_name),
-					submit,
-					class: "grade-button btn btn-sm #{'late' if submit.late?}",
-					data: { trigger: 'modal', 'turbo-frame' => 'modal' }
-			end
-		else
-			if current_user.senior?
-				button_to \
-					submits_path(submit: { pset_id: pset.id, user_id: user.id }),
-					method: :post,
-					class: "grade-button btn btn-sm btn-light auto-hide",
-					data: { trigger: 'modal', confirm: 'Would you like to enter a grade for this unsubmitted pset?' },
-					form: { class: 'd-inline', data: { 'turbo-frame' => 'modal' } } do
-						make_label(pset.name, "--", include_name)
-					end
-			else
-				tag.div(class: "grade-button btn btn-sm") do
-					make_label(pset.name, "--", include_name)
-				end
-			end
-		end
-	end
+                link_to \
+                    make_label(pset.name, formatted_grade, include_name),
+                    submit,
+                    class: "grade-button btn btn-sm #{'late' if submit.late?}",
+                    data: { trigger: 'modal', 'turbo-frame' => 'modal' }
+            else
+                link_to \
+                    make_label(pset.name, "S", include_name),
+                    submit,
+                    class: "grade-button btn btn-sm #{'late' if submit.late?}",
+                    data: { trigger: 'modal', 'turbo-frame' => 'modal' }
+            end
+        else
+            if current_user.senior?
+                # this button is linked to the single form created in _table.html.erb
+                button_tag \
+                    form: 'new_grade_form',
+                    formaction: submits_path(submit: { pset_id: pset.id, user_id: user.id }),
+                    class: "grade-button btn btn-sm btn-light auto-hide",
+                    data: { 'turbo-frame' => 'modal', trigger: 'modal', confirm: 'Would you like to enter a grade for this unsubmitted pset?' } do
+                        make_label(pset.name, "--", include_name)
+                    end
+            else
+                tag.div(class: "grade-button btn btn-sm") do
+                    make_label(pset.name, "--", include_name)
+                end
+            end
+        end
+    end
 
 	def make_label(name, grade, include_name)
 		if include_name

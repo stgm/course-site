@@ -5,7 +5,7 @@ var modalBrowser;
 function hookupModals()
 {
 	// wait for user confirmation before showing modal for these buttons
-	document.querySelectorAll('a[data-turbo-frame=modal], form[data-turbo-frame=modal] button').forEach(
+	document.querySelectorAll('a[data-turbo-frame=modal], form[data-turbo-frame=modal] button, button[data-turbo-frame=modal]').forEach(
 		(elt) => {
 			elt.addEventListener('confirm:complete',
 				(e, response) => {
