@@ -19,6 +19,10 @@ class Pset < ApplicationRecord
         config
     end
 
+    def grading_config(schedule)
+        schedule.grading_config.grades[name]
+    end
+
     def is_final_grade?
         self.final
     end
