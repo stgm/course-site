@@ -13,7 +13,7 @@ class GradingConfig
     end
 
     def initialize(schedule_name=nil)
-        @config = (Settings.grading || {}).merge(Settings.schedule_grading[schedule_name] || {})
+        @config = merge_configs Settings.grading || {}, Settings.schedule_grading[schedule_name] || {}
     end
 
     def grades
@@ -130,6 +130,19 @@ class GradingConfig
         end
 
         return overview
+    end
+
+    private
+
+    def merge_configs(grades1, grades2)
+        first_without_grades = grades1.except(:templates, :grades)
+        second_without_grades = grades2.except(:templates, :grades)
+
+        merged_grades = (grades1['grades'] || {}).merge(grades2['grades'] || {})
+        merged_rest = first_without_grades.merge(second_without_grades)
+        merged_rest['grades'] = merged_grades
+
+        return merged_rest
     end
 
 end
