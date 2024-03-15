@@ -173,7 +173,7 @@ class Submit < ApplicationRecord
 
     def recheck(host)
         Attachments.new(self.all_files.to_h).zipped do |zip|
-            token = Submit::AutoCheck::Sender.new(zip, pset_config['check'], host).start
+            token = Submit::AutoCheck::Sender.new(zip, grading_config['check'], host).start
             self.update(check_token: token)
         end
     end
