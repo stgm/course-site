@@ -37,7 +37,9 @@ class GradingConfig
     end
 
     def tests
-        @config['tests'] || {}
+        grades.select { |name, config|
+            config['is_test'] == true || config['exam']
+        }.map{|name,_| name}
     end
 
     def components
@@ -65,23 +67,6 @@ class GradingConfig
         categories.map{|cat| [cat, @config[cat]['submits'].keys]}
     end
 
-    # for the admin grading overview
-    def overview(schedule_name=nil)
-        psets = Pset.order(:order).index_by &:name
-
-        # include final grade components that were marked as "show progress"
-        r = @config.select { |c,v| v['show_progress'] || v['show_overview'] }.
-            map { |c,v| [c, v['submits'].map {|name, weight| [psets[name], weight]}] }
-
-        # include all final grades at the end
-        r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
-
-        # if nothing's there, include all assignments
-        r = [["Assignments", Pset.order(:order)]] if r.blank?
-
-        return r
-    end
-
     def validate
         @errors = []
         progress_categories = @config.select { |category, value| value['show_progress'] }
@@ -104,6 +89,24 @@ class GradingConfig
         end
 
         return @errors
+    end
+
+    # for the admin grading overview
+    def overview
+        psets = Pset.order(:order).index_by &:name
+        puts psets.keys.inspect
+
+        # include final grade components that were marked as "show progress"
+        r = @config.select { |c,v| v['show_progress'] || v['show_overview'] }.
+            map { |c,v| [c, v['submits'].map {|name, weight| [psets[name], weight]}] }
+
+        # include all final grades at the end
+        r = r + [["Final", final_grade_names.map {|k,v| psets[k]}]] if final_grade_names.any?
+
+        # if nothing's there, include all assignments
+        r = [["Assignments", Pset.order(:order)]] if r.blank?
+
+        return r
     end
 
     def overview_config

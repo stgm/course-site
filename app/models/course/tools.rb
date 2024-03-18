@@ -12,57 +12,45 @@ class Course::Tools
     # Walks all psets named in course.yml and ranks them in the database
     #
     def self.clean_psets
-        # GRADES
-        # checks all grades defined in grading.yml, adds them with config
+        Pset.update_all(order: nil)
+        counter = 1
+
         config = GradingConfig.base
-        if config.grades.any?
-            Pset.update_all(order: nil)
-            counter = 1
-            config.grades.each do |name, definition|
-                p = Pset.where(name: name).first_or_create
-
-                # set order
-                p.order = counter
-                counter += 1
-
-                # set a few flags from config for easier queries later on TODO
-                p.automatic = p.config.present? && p.config["automatic"].present?
-                # get potential type from final grade config
-                calc_type = config.components.
-                            select { |k,v| v['submits'][name] }.
-                            map{ |k,v| v['type'] }.compact&.first
-                p.grade_type = definition['type'] || calc_type || :float
-                p.test = definition['is_test'] || false
-                p.save
-            end
-
-            config.calculation.each do |name, formula|
-                p = Pset.where(name: name).first_or_create
-                p.order = counter
-                counter += 1
-                p.final = true
-                p.config = { 'type' => 'float' }
-                p.grade_type = :float
-                p.save
-            end
-
-            Schedule.all.map(&:name).each do |schedule_name|
-                schedule_config = GradingConfig.with_schedule(schedule_name)
-                schedule_config.calculation.each do |name, formula|
-                    p = Pset.where(name: name).first_or_create
-                    p.order = counter
-                    counter += 1
-                    p.final = true
-                    p.config = { 'type' => 'float' }
-                    p.grade_type = :float
-                    p.save
-                end
-            end
+        config.grades.each do |name, definition|
+            self.register_grade(name, counter)
+            counter += 1
+        end
+        config.calculation.each do |name, formula|
+            self.register_final_grade(name, counter)
+            counter += 1
         end
 
-        # TESTS
-        # check if any grades are "tests" (for easy data entry on exams), sets flag
-        Settings.tests_present = Pset.where(test:true).any?
+        Schedule.all.map(&:name).each do |schedule_name|
+            schedule_config = GradingConfig.with_schedule(schedule_name)
+            schedule_config.grades.each do |name, definition|
+                self.register_grade(name, counter)
+                counter += 1
+            end
+            schedule_config.calculation.each do |name, formula|
+                self.register_final_grade(name, counter)
+                counter += 1
+            end
+        end
+    end
+
+    def self.register_grade(name, order)
+        p = Pset.where(name: name).first_or_create
+        p.order = order
+        p.automatic = p.config.present? && p.config["automatic"].present?
+        p.save
+    end
+
+    def self.register_final_grade(name, order)
+        p = Pset.where(name: name).first_or_create
+        p.order = order
+        p.final = true
+        p.config = { 'type' => 'float' }
+        p.save
     end
 
     # Generate a tree of (nested) sections and pages

@@ -15,10 +15,13 @@ class Pset < ApplicationRecord
         files.map { |h,f| f }.flatten.uniq
     end
 
+    # provides just the config from submit.yml (filenames to be submitted)
     def submit_config(schedule=nil)
         config
     end
 
+    # provides the full grading config based on general and schedule-specific
+    # configs
     def grading_config(schedule)
         schedule.grading_config.grades[name]
     end

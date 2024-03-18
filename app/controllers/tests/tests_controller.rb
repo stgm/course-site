@@ -1,12 +1,14 @@
 class Tests::TestsController < ApplicationController
 
-	before_action :authorize
-	before_action :require_senior
-	
-	layout 'modal'
+    include NavigationHelper
 
-	def index
-		@psets = Pset.where(test: true).order(:order)
-	end
+    before_action :authorize
+    before_action :require_senior
+
+    layout 'modal'
+
+    def index
+        @psets = Pset.where(name: current_schedule.grading_config.tests).order(:order)
+    end
 
 end
