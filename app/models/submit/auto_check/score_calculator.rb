@@ -31,10 +31,12 @@ module Submit::AutoCheck::ScoreCalculator
 				return check_results[tool]["results"].count { |x| x["passed"].present? } / check_results[tool]["results"].size.to_f
 			when "checkpy"
 				if check_results[tool].is_a?(Array)
-					return check_results[tool].collect { |f| f["nPassed"] }.sum
+					results_array = check_results[tool]
 				elsif check_results[tool].is_a?(Hash)
-					return [check_results[tool]].collect { |f| f["nPassed"] }.sum
+					results_array = [check_results[tool]]
 				end
+				return check_results[tool].collect { |f| f["nPassed"] }.sum.to_f /
+					check_results[tool].collect { |f| f["nTests"] }.sum
 			end
 		end
 	end
