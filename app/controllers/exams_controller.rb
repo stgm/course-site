@@ -51,7 +51,7 @@ class ExamsController < ApplicationController
             buttons: @exam.config['buttons']&.map{|f| [f['name'], f['commands']] }.to_h
         }
 
-        config['locked'] = true if @exam.locked || !@submit.grade.blank? || @submit.locked
+        config['locked'] = true if @exam.locked || @submit.grade.present? || @submit.locked
 
         render json: config
     end
@@ -70,7 +70,7 @@ class ExamsController < ApplicationController
         end
 
         # only allow updates as long as no grade was created for this submit
-        if @submit.grade.blank? && !@submit.locked
+        if @exam.locked.false? && @submit.grade.blank? && !@submit.locked
             @submit.files.purge
             permitted = params.permit(files: {})
             permitted[:files].each do |filename, attachment|
