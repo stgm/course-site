@@ -2,6 +2,7 @@ class Pset < ApplicationRecord
 
     belongs_to :page, optional: true
 
+    has_one :exam
     has_many :submits
     has_many :grades, through: :submits
 

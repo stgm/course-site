@@ -43,6 +43,18 @@ class Course::Tools
         p.order = order
         p.automatic = p.config.present? && p.config["automatic"].present?
         p.save
+
+        # create or delete associated exam record if config has { exam: true }
+        if p.config.present? && p.config["exam"].present?
+            Exam.find_or_create_by!(pset: p) do |exam|
+                if p.config["files"].present?
+                    # convert submit.yml files to what's needed for exam config storage
+                    exam.config = { "files" => p.config["files"]["required"].collect{|k,v| { 'name' => k, 'template' => v } } }
+                end
+            end
+        else
+            Exam.find_by(pset: p)&.destroy!
+        end
     end
 
     def self.register_final_grade(name, order)

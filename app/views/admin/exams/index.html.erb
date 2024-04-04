@@ -1,0 +1,9 @@
+<% content_for :title do %>
+<h1>Exam administration</h1>
+<% end %>
+
+<div class="list-group">
+<% @exams.all.each do |exam| %>
+<%= link_to exam.name.titleize, edit_admin_exam_path(exam), class: 'list-group-item list-group-item-action' %>
+<% end %>
+</div>

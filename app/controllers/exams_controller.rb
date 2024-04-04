@@ -10,17 +10,17 @@ class ExamsController < ApplicationController
     def index
         # get all exams from config that may be submitted
         # allow student to choose one and start
-        @exams = Pset.includes(:submits).where(name: current_schedule.grading_config.exams)
+        @exams = Exam.joins(:pset).includes(pset: :submits).order(:name)
     end
 
     def create
-        @exam = Pset.find(params[:id])
+        @exam = Exam.includes(:pset).find(params[:id])
 
         # create submit for this exam for this student (if needed!)
-        @submit = Submit.find_or_create_by!(pset: @exam, user: current_user)
+        @submit = Submit.find_or_create_by!(pset: @exam.pset, user: current_user)
 
         # create a (new) submit code and add to submit
-        code = SecureRandom.hex
+        code = SecureRandom.hex(32)
         @submit.update(exam_code: code)
 
         # redirect to external editor with post url and code
@@ -36,8 +36,8 @@ class ExamsController < ApplicationController
         headers['Access-Control-Allow-Origin'] = '*'
 
         # get exam config, including files and base contents
-        @exam = Pset.find(params[:id])
-        @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
+        @exam = Exam.includes(:pset).find(params[:id])
+        @submit = Submit.where(pset: @exam.pset, exam_code: params[:code]).first
 
         if params[:code].blank? || @submit.blank?
             render status: :bad_request, plain: 'what you sent is invalid' and return
@@ -45,9 +45,10 @@ class ExamsController < ApplicationController
 
         config = {
             course_name: Course.long_name,
-            exam_name: @exam.name.humanize,
+            exam_name: @exam.pset.name.humanize,
             postback: post_exam_url,
-            tabs: @submit.grading_config['files'].map{|k,v| v}.inject { |all, h| all.merge(h) }
+            tabs: @exam.config['files'].map{|f| [f['name'], f['template']] }.to_h,
+            buttons: @exam.config['buttons'].map{|f| [f['name'], f['commands']] }.to_h
         }
 
         config['locked'] = true if !@submit.grade.blank? or @submit.locked
@@ -59,10 +60,10 @@ class ExamsController < ApplicationController
         headers['Access-Control-Allow-Origin'] = '*'
 
         # allow posting new files for current exam
-        @exam = Pset.find(params[:id])
+        @exam = Exam.includes(:pset).find(params[:id])
 
         # but only with the submit code
-        @submit = Submit.where(pset: @exam, exam_code: params[:code]).first
+        @submit = Submit.where(pset: @exam.pset, exam_code: params[:code]).first
 
         if @submit.blank?
             render status: :not_found, plain: 'your data is invalid' and return

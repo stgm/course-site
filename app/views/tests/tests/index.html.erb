@@ -1,6 +1,9 @@
-<div class="list-group">
-	<% @psets.each do |p| %>
-	<%= link_to p.name.titleize, test_results_path(p.id), class: 'list-group-item list-group-item-action' %>
-	<% end %>
-</div>
+<% content_for :title do %>
+<h1>Grade entry for tests</h1>
+<% end %>
 
+<div class="list-group">
+    <% @psets.each do |p| %>
+    <%= link_to p.name.titleize, test_results_path(p.id), class: 'list-group-item list-group-item-action' %>
+    <% end %>
+</div>

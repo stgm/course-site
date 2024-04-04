@@ -22,6 +22,7 @@
 <% end %>
 
 <%= menu_group 'Course' do %>
+	<%= menu_link 'Exams...', admin_exams_path, icon: 'droplet', target: 'modal' %>
 	<%= menu_link 'Course administration...', admin_course_path, icon: 'inboxes', target: 'modal' %>
 	<%= menu_link 'Site configuration...', admin_site_path, icon: 'wrench', target: 'modal' %>
 	<%= menu_link 'Edit permissions...', admin_users_path, icon: 'unlock', target: 'modal' %>

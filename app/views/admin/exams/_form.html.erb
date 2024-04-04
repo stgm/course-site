@@ -1,0 +1,73 @@
+<%= form_with(model: [ :admin, @exam ], id: 'exam_form') do |f| %>
+
+<% if @exam.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this alert from being saved:</h2>
+
+    <ul>
+        <% @exam.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>
+
+<div class="form-check ps-1 pb-1">
+    <label><%= f.check_box :locked %> Lock this exam, disallowing any submissions</label>
+</div>
+
+<hr>
+
+<% @exam.config['files']&.each do |file| %>
+<div class="">
+    <%= label_tag file['name'], nil, class: 'form-label fw-bold' %>
+    <%= text_field_tag 'exam[config][files][][name]', file['name'], class: 'form-control' %>
+</div>
+<div class="mb-3">
+    <details>
+        <summary>Edit template</summary>
+        <%= text_area_tag 'exam[config][files][][template]', file['template'], class: 'form-control', rows: 10 %>
+    </details>
+</div>
+<hr>
+<% end %>
+
+<div class="">
+    <%= label_tag 'New template name:', nil, class: 'form-label fw-bold' %>
+    <%= text_field_tag 'exam[config][files][][name]', '', class: 'form-control' %>
+</div>
+<div class="mb-3">
+    <details>
+        <summary>Edit template</summary>
+        <%= text_area_tag 'exam[config][files][][template]', '', class: 'form-control', rows: 10 %>
+    </details>
+</div>
+
+<hr>
+
+<% @exam.config['buttons']&.each do |button| %>
+<div class="">
+    <%= label_tag button['name'], nil, class: 'form-label fw-bold' %>
+    <%= text_field_tag 'exam[config][buttons][][name]', button['name'], class: 'form-control' %>
+</div>
+<div class="mb-3">
+    <details>
+        <summary>Edit commands</summary>
+        <%= text_area_tag 'exam[config][buttons][][commands]', button['commands'], class: 'form-control', rows: 10 %>
+    </details>
+</div>
+<hr>
+<% end %>
+
+<div class="">
+    <%= label_tag 'New button name:', nil, class: 'form-label fw-bold' %>
+    <%= text_field_tag 'exam[config][buttons][][name]', '', class: 'form-control' %>
+</div>
+<div class="mb-3">
+    <details>
+        <summary>Edit commands</summary>
+        <%= text_area_tag 'exam[config][buttons][][template]', '', class: 'form-control', rows: 10 %>
+    </details>
+</div>
+
+<% end %>

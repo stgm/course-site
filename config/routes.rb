@@ -191,13 +191,19 @@ Rails.application.routes.draw do
 		get 'show'
 	end
 
-	resources :exams, only: [:index] do
-		member do
-			post 'create'
-			post 'post'
-			get  'json'
-		end
-	end
+    resources :exams, only: [:index] do
+        member do
+            post 'create'
+            post 'post'
+            get  'json'
+        end
+    end
+
+    namespace :admin do
+        resources :exams, only: [:index, :edit, :update] do
+            post 'run_checks'
+        end
+    end
 
 	#--EXTERNAL APIs----------------------------------------------------------------------------
 
