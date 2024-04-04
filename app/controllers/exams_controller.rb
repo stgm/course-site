@@ -51,7 +51,7 @@ class ExamsController < ApplicationController
             buttons: @exam.config['buttons'].map{|f| [f['name'], f['commands']] }.to_h
         }
 
-        config['locked'] = true if !@submit.grade.blank? or @submit.locked
+        config['locked'] = true if @exam.locked || !@submit.grade.blank? || @submit.locked
 
         render json: config
     end

@@ -3,7 +3,7 @@
 <% @exams.each do |e| %>
 <p>
     <%= button_to e.name.humanize, exam_url(id: e.id), method: :post,  class: 'btn btn-secondary', data: { turbo: false } %>
-    <% if e.pset.submits.any? &&
+    <% if e.locked? || e.pset.submits.any? &&
         (e.pset.submits.first.grade.present? || e.pset.submits.first.locked?) %>
     Locked
     <% end %>
