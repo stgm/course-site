@@ -13,7 +13,8 @@ class GradingConfig
     end
 
     def initialize(schedule_name=nil)
-        @config = merge_configs Settings.grading || {}, Settings.schedule_grading[schedule_name] || {}
+        @config = merge_configs Settings.grading || {},
+                                Settings.schedule_grading[schedule_name] || {}
     end
 
     def grades

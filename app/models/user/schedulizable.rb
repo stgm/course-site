@@ -7,13 +7,16 @@ module User::Schedulizable
         belongs_to :current_module, class_name: "ScheduleSpan", optional: true
 
         delegate :name, to: :schedule, prefix: true, allow_nil: true
-        delegate :grading_config, to: :schedule
 
         before_save :set_current_module, if: :schedule_id_changed?
     end
 
     def valid_schedule?
         self.schedule.present?
+    end
+
+    def grading_config
+        schedule&.grading_config || GradingConfig.base
     end
 
     def check_current_schedule!
