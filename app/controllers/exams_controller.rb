@@ -70,7 +70,7 @@ class ExamsController < ApplicationController
         end
 
         # only allow updates as long as no grade was created for this submit
-        if @exam.locked.false? && @submit.grade.blank? && !@submit.locked
+        if !@exam.locked && @submit.grade.blank? && !@submit.locked
             @submit.files.purge
             permitted = params.permit(files: {})
             permitted[:files].each do |filename, attachment|
