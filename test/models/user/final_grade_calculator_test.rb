@@ -7,10 +7,17 @@ class User::FinalGradeCalculatorTest < ActiveSupport::TestCase
     end
 
     test "grade" do
-        assert_equal 7, User::FinalGradeCalculator.run_for(User.first.all_submits)['berekening_op_gemiddelde']
-        assert_equal 8, User::FinalGradeCalculator.run_for(User.first.all_submits)['eindcijfer']
-        assert_equal 9, User::FinalGradeCalculator.run_for(User.second.all_submits)['eindcijfer']
-        assert_equal 8.5, User::FinalGradeCalculator.run_for(User.first.all_submits)['berekening_op_punten']
+        grading_config = User.first.grading_config
+        @calculator = User::FinalGradeCalculator.new(grading_config)
+
+        assert_equal 7, @calculator.run(User.first.all_submits)['berekening_op_gemiddelde']
+        assert_equal 8, @calculator.run(User.first.all_submits)['eindcijfer']
+        assert_equal 8.5, @calculator.run(User.first.all_submits)['berekening_op_punten']
+
+        grading_config = User.first.grading_config
+        @calculator = User::FinalGradeCalculator.new(grading_config)
+
+        assert_equal 9, @calculator.run(User.second.all_submits)['eindcijfer']
     end
 
 end

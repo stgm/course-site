@@ -1,29 +1,48 @@
 # NOTE: this is not included into User, but directly exposes module methods instead
 
-module User::FinalGradeCalculator
-    def self.run_for(grading_config, user_grade_list)
+class User::FinalGradeCalculator
+
+    def initialize(grading_config)
+        @grading_config = grading_config
+        @debug = []
+    end
+
+    def run(user_grade_list)
         # tries to calculate all kinds of final grades
 
         grades = {}
-        grading_config.calculation.each do |name, relevant_parts|
-            grades[name] = final_grade_from_partial_grades(grading_config, relevant_parts, user_grade_list)
+        @grading_config.calculation.each do |name, relevant_parts|
+            @debug << "#{name} #{DateTime.current}\n"
+            grades[name] = final_grade_from_partial_grades(relevant_parts, user_grade_list)
+        end
+
+        if @debug
+            grades['_debug'] = @debug
         end
 
         return grades # { final: '6.0', resit: '0.0' }
     end
 
-    def self.final_grade_from_partial_grades(grading_config, relevant_parts, user_grade_list)
+    def final_grade_from_partial_grades(relevant_parts, user_grade_list)
         # attempt to calculate each partial grade
         weighted_partial_grades = relevant_parts.collect do |partial_name, weight|
-            partial_config = grading_config.components[partial_name]
+            partial_config = @grading_config.components[partial_name]
             if partial_config['type'] == 'points'
-                [partial_name, grade_from_points_from_submits(partial_config, user_grade_list), weight]
+                res = grade_from_points_from_submits(partial_config, user_grade_list)
+                @debug << "- #{partial_name}: grade_from_points_from_submits -> #{res}"
+                [partial_name, res, weight]
             elsif partial_config['type'] == 'maximum'
-                [partial_name, maximum_grade_from_submits(partial_config, user_grade_list), weight]
+                res = maximum_grade_from_submits(partial_config, user_grade_list)
+                @debug << "- #{partial_name}: maximum_grade_from_submits -> #{res}"
+                [partial_name, res, weight]
             else
-                [partial_name, average_grade_from_submits(partial_config, user_grade_list), weight]
+                res = average_grade_from_submits(partial_config, user_grade_list)
+                @debug << "- #{partial_name}: average_grade_from_submits -> #{res}"
+                [partial_name, res, weight]
             end
         end
+
+        @debug << "\n\n"
 
         # if any of the partial grades has failed, propagate this result immediately
         partial_grades = weighted_partial_grades.map{|g| g[1]}
@@ -35,7 +54,7 @@ module User::FinalGradeCalculator
     end
 
     # calculate subgrade based on per-assignment points
-    def self.grade_from_points_from_submits(config, user_grade_list)
+    def grade_from_points_from_submits(config, user_grade_list)
         grades = collect_grades_from_submits(config['submits'], user_grade_list)
 
         # if any specified grade has weight 0 it should be required,
@@ -59,7 +78,7 @@ module User::FinalGradeCalculator
         return grade
     end
 
-    def self.get_points_potential(grades, config)
+    def get_points_potential(grades, config)
         if config.present?
             return config
         else
@@ -67,7 +86,7 @@ module User::FinalGradeCalculator
         end
     end
 
-    def self.get_points_total(grades)
+    def get_points_total(grades)
         grades = fill_missing(grades, 0)
         grades.map do |g|
             if g[1] == -1
@@ -80,7 +99,7 @@ module User::FinalGradeCalculator
         end.sum
     end
 
-    def self.points_to_grade(points, potential_points)
+    def points_to_grade(points, potential_points)
         proportion = points / potential_points.to_f
         grade = proportion * 9 + 1
         # if total and potential are both 0 we get NaN
@@ -88,7 +107,7 @@ module User::FinalGradeCalculator
         return grade
     end
 
-    def self.maximum_grade_from_submits(config, user_grade_list)
+    def maximum_grade_from_submits(config, user_grade_list)
         grades = collect_grades_from_submits(config['submits'], user_grade_list)
 
         # if some of the assignments were not handed in or graded, we
@@ -114,8 +133,8 @@ module User::FinalGradeCalculator
 
         return grade
     end
-    
-    def self.average_grade_from_submits(config, user_grade_list)
+
+    def average_grade_from_submits(config, user_grade_list)
         grades = collect_grades_from_submits(config['submits'], user_grade_list)
 
         # missing data for something like an exam receives a "not attempted" note
@@ -149,7 +168,7 @@ module User::FinalGradeCalculator
         return grade
     end
 
-    def self.total_bonus(grades)
+    def total_bonus(grades)
         # remove any zero/non grades from the bonus list
         bonuses = grades.reject{|g| g[1] == nil || g[1] == 0}
 
@@ -162,11 +181,11 @@ module User::FinalGradeCalculator
                 g[1] * g[2]
             end
         end
-        
+
         return count_bonuses.sum
     end
 
-    def self.collect_grades_from_submits(config, user_grade_list, **kwargs)
+    def collect_grades_from_submits(config, user_grade_list, **kwargs)
         grades = config.collect do |grade_name, weight|
             # if no user_grade_list[grade_name] exists this will enter 'nil' into the resulting array
             grade = user_grade_list[grade_name] && user_grade_list[grade_name].assigned_grade
@@ -175,7 +194,7 @@ module User::FinalGradeCalculator
         end
     end
 
-    def self.convert_pass_to_10(grade)
+    def convert_pass_to_10(grade)
         if grade == -1
             return 10
         else
@@ -183,12 +202,12 @@ module User::FinalGradeCalculator
         end
     end
 
-    def self.missing_data?(grades)
+    def missing_data?(grades)
         # any of the grades are missing
         grades.select{|g| g[1]==nil }.any?
     end
 
-    def self.fill_missing(grades, value)
+    def fill_missing(grades, value)
         grades.map do |g|
             if g[1].blank?
                 [g[0], value, g[2]]
@@ -198,12 +217,12 @@ module User::FinalGradeCalculator
         end
     end
 
-    def self.zeroed_data?(grades)
+    def zeroed_data?(grades)
         # any of the grades are zeroed
         grades.select{|g| g[1]==0 }.any?
     end
 
-    def self.drop_lowest_from(grades)
+    def drop_lowest_from(grades)
         # only removes lowest if there is more than 1 grade
         return grades if grades.length <= 1
         min = grades.min { |x,y| x[1] <=> y[1] }
@@ -211,14 +230,14 @@ module User::FinalGradeCalculator
         grades
     end
 
-    def self.calculate_average(grades)
+    def calculate_average(grades)
         # multiply each grade by its weight
         total = grades.inject(0) { |total, (name, grade, weight)| total += grade * weight }
         weight = grades.map{|g| g[2]}.sum
         return total.to_f / weight
     end
 
-    def self.uva_round(grade)
+    def uva_round(grade)
         return 5 if grade >= 4.75 && grade < 5.5
         return 6 if grade >= 5.5 && grade < 6.25
         return 10 if grade > 10

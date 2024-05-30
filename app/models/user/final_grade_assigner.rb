@@ -5,7 +5,10 @@ module User::FinalGradeAssigner
 
     def assign_final_grade(grader, *args)
         # calculate all possible grades
-        grades = User::FinalGradeCalculator.run_for(grading_config, self.all_submits)
+        calculator = User::FinalGradeCalculator.new(grading_config)
+        grades = calculator.run(self.all_submits)
+
+        debug_results = grades.delete('_debug')
 
         # extract only requested grades if needed
         options = args.extract_options!
@@ -24,6 +27,9 @@ module User::FinalGradeAssigner
                 # only change if grade hasn't been published yet
                 if not ['published', 'exported'].include?(final.grade.status)
                     final.grade.grade = grade
+
+                    final.grade.notes ||= ''
+                    final.grade.notes += debug_results.join("\n")
 
                     # only if the grade is different from before we go through
                     if final.grade.grade_changed?
