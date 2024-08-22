@@ -196,7 +196,7 @@ GEM
     method_source (1.1.0)
     mime-types (3.5.2)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2024.0806)
+    mime-types-data (3.2024.0820)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     mini_racer (0.13.0)
@@ -293,7 +293,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rexml (3.3.5)
+    rexml (3.3.6)
       strscan
     ruby-vips (2.2.2)
       ffi (~> 1.12)
