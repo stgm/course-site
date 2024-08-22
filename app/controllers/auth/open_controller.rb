@@ -56,6 +56,7 @@ class Auth::OpenController < ApplicationController
         # find existing user or create new (if possible)
         if user = User.authenticate(user_data)
             session[:user_id] = user.id
+            session[:user_mail] = user.mail
             redirect_to root_url
         else
             redirect_to root_url, alert: t('account.not_everyone_can_login')

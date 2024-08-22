@@ -1,4 +1,5 @@
 module Authentication
+
     extend ActiveSupport::Concern
 
     included do
@@ -9,7 +10,7 @@ module Authentication
     # decides if any of the auth methods is satisfied
     # may also be used by controller methods to make decisions
     def authenticated?
-        return session[:user_id].present?
+        return session[:user_id].present? && session[:user_mail].present?
     end
 
     def logged_in?
@@ -18,7 +19,7 @@ module Authentication
 
     def current_user
         if @current_user.blank?
-            u = session[:user_id].present? && User.find_by(id: session[:user_id])
+            u = authenticated? && User.find_by(id: session[:user_id], mail: session[:user_mail])
             if User === u
                 # got a user object from db
                 # auto-assign default schedule upon first user load

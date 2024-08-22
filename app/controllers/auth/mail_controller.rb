@@ -45,6 +45,7 @@ class Auth::MailController < ApplicationController
                 # find existing user or create new (if possible)
                 if @user = User.authenticate({ mail: mail })
                     session[:user_id] = @user.id
+                    session[:user_mail] = mail
                     redirect_to root_url
                 else
                     redirect_to root_url, alert: t('account.not_everyone_can_login')
