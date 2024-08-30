@@ -23,7 +23,7 @@ module Authentication
             if User === u
                 # got a user object from db
                 # auto-assign default schedule upon first user load
-                u.set_current_schedule! if u.schedule.blank?
+                u.set_current_schedule! if u.schedule.blank? && !Schedule.many_registerable?
             else
                 # blank user for anonymous session
                 u = User.new
