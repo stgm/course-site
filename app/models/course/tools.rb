@@ -46,7 +46,7 @@ class Course::Tools
 
         # create or delete associated exam record if config has { exam: true }
         if p.config.present? && p.config["exam"].present?
-            exam = Exam.find_or_initialize_by!(pset: p)
+            exam = Exam.find_or_initialize_by(pset: p)
             if p.config["files"].present?
                 # convert submit.yml files to what's needed for exam config storage
                 exam.config = { "files" => p.config["files"]["required"].collect{|k,v| { 'name' => k, 'template' => v } } }
