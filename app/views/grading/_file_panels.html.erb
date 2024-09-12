@@ -6,12 +6,12 @@
 
 <% if @submit.has_auto_feedback? %>
 <div class="tab-pane <%= (first = false) || 'show active' if first %>" id="file-check" role="tabpanel" aria-labelledby="home-tab">
-    <code><pre><%= @submit.formatted_auto_feedback %></code></pre>
+    <pre><%= @submit.formatted_auto_feedback %></pre>
 </div>
 <% end %>
 
 <% if @submit.has_run_log? %>
 <div class="tab-pane <%= (first = false) || 'show active' if first %>" id="file-log" role="tabpanel" aria-labelledby="home-tab">
-    <code><pre><%= @submit.formatted_run_log %></code></pre>
+    <pre><%= @submit.formatted_run_log %></pre>
 </div>
 <% end %>
