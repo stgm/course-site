@@ -55,6 +55,7 @@ class Submit < ApplicationRecord
 
         ( self.submittable? && !self.persisted?        ) ||
         ( self.submittable? && !self.grade_sufficient? ) ||
+        ( self.submittable? && self.grade_sufficient? && self.grading_config['allow_resubmit'] ) ||
         (!self.submittable? && self.grade_resubmit_exception?)
 
         # false if generally submittable but already sufficient+published
