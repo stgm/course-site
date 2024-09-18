@@ -29,7 +29,7 @@ class Admin::UsersController < ApplicationController
             # bulk user invite, assume everything is valid
             params[:user][:infos].split("\n").each do |user_info|
                 if user_info.strip.size > 0
-                    parsed = user_info.match /(?:"?([^"]*)"?\s)?(?:<?(.+@[^> ]+)>?)/
+                    parsed = user_info.match /(?:"?([^"]*?)"?\s*)?<\s*(.+@[^> ]+)\s*>/
                     name = parsed[1]
                     mail = parsed[2]
                     begin
