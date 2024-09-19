@@ -93,6 +93,7 @@ Rails.application.routes.draw do
 				post "close_and_mail_late"
 				get	 "form_for_missing"
 				post "notify_missing"
+                post "recheck"
 			end
 		end
 
