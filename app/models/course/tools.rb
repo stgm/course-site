@@ -47,9 +47,12 @@ class Course::Tools
         # create or delete associated exam record if config has { exam: true }
         if p.config.present? && p.config["exam"].present?
             exam = Exam.find_or_initialize_by(pset: p)
+            exam.config = {}
             if p.config["files"].present?
-                # convert submit.yml files to what's needed for exam config storage
-                exam.config = { "files" => p.config["files"]["required"].collect{|k,v| { 'name' => k, 'template' => v } } }
+                exam.config = exam.config.deep_merge({ "files" => p.config["files"]["required"].collect{|k,v| { 'name' => k, 'template' => v } } })
+            end
+            if p.config["buttons"].present?
+                exam.config = exam.config.deep_merge({ "buttons" => p.config["buttons"].collect{|k,v| { 'name' => k, 'commands' => v } } })
             end
             exam.save
         else
