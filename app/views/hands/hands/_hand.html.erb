@@ -1,7 +1,7 @@
 <% if Schedule.many? || Schedule.first&.groups&.many? %>
 <%= simple_format(user.full_designation, { class: 'float-end badge bg-secondary', style: get_colors_for_text(user.full_designation) }, wrapper_tag: 'span') %>
 <% end %>
-<h5><strong><%= user.name %></strong></h5>
+<h5><strong><%= user.name_with_pronouns %></strong></h5>
 <% if Settings.hands_link && location.present? %>
 <%= link_to location, location || "no location", target: "_blank" %>
 <% end %>

@@ -145,6 +145,10 @@ nl:
         login_or_register: Login of registreer
         logout: Uitloggen
         not_everyone_can_login: De cursus staat op dit moment dicht voor studenten. Neem contact op met je docent als je denkt dat dit niet klopt.
+        first_last_name: Je voornaam en achternaam
+        pronouns_or_leave_blank: Je voornaamwoorden (of laat leeg)
+        pronoun_examples: 'Bijvoorbeeld: zij/haar, hen/hun, hij/hem, die/die.'
+        your_schedule: Jouw schema
 
     activerecord:
       attributes:

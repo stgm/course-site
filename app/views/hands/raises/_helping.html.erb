@@ -7,7 +7,7 @@
         <img src="<%= @assist.avatar %>" style="max-width: 200px; max-height: 150px;">
         <% end %>
         <p>
-            <%= t "hands.is_looking_to_help_you", name: @assist.name.split[0] %>
+            <%= t "hands.is_looking_to_help_you", name: @assist.first_name_with_pronouns %>
         </p>
         <%= link_to(t("hands.cancel_request"), hands_raise_path, method: :delete, remote: true, class: 'btn btn-warning mt-3') if @question.claimed_at < 60.minutes.ago %>
     </div>

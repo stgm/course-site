@@ -52,7 +52,7 @@ class ProfileController < ApplicationController
         params[:user][:name].strip!
 
         # create user if possible
-        user_params = params.require(:user).permit(:name, :schedule_id)
+        user_params = params.require(:user).permit(:name, :pronouns, :schedule_id)
         @user = current_user
         @user.assign_attributes({schedule_id: Schedule.default.try(:id)}.merge(user_params))
         if @user.save

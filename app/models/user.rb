@@ -25,12 +25,6 @@ class User < ApplicationRecord
         items = items.sort { |a,b| b.sortable_date <=> a.sortable_date }
     end
 
-    def designation
-        if Schedule.many?
-            group_name || schedule_name
-        end
-    end
-
     def full_designation
         result = ""
 

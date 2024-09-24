@@ -53,6 +53,7 @@ class UsersController < ApplicationController
         @user = @user_scope.find(params[:id])
         @user.update!(params.require(:user).permit(
             :name,
+            :pronouns,
             :status,
             :alarm,
             :status_description,

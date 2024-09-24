@@ -142,6 +142,10 @@ en:
         login_or_register: Login or register
         logout: Log out
         not_everyone_can_login: The course has been restricted to not allow students to login. Contact your teacher if you think this is in error.
+        first_last_name: Your first and last name
+        pronouns_or_leave_blank: Your pronouns (or leave blank)
+        pronoun_examples: 'For example: she/her, they/them, he/him, ze/hir.'
+        your_schedule: Your schedule
 
     errors:
       messages:

@@ -9,8 +9,14 @@
     <div></div>
 
     <div class="">
-        <label for="user_name" class="mb-1">Your first and last name</label>
+        <label for="user_name" class="mb-1"><%= t('account.first_last_name') %>:</label>
         <%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
+    </div>
+
+    <div class="">
+        <label for="user_pronouns" class="mb-1"><%= t('account.pronouns_or_leave_blank') %>:</label>
+        <%= text_field_tag('user[pronouns]', (current_user.pronouns if current_user), class:'form-control', autofocus:true, pattern: "\\w{2,8}\\/\\w{2,8}") %>
+        <div class="form-text"><%= t('account.pronoun_examples') %></div>
     </div>
 
     <% if @user %>
@@ -19,7 +25,7 @@
 
     <% if Schedule.where(self_register: true).count > 1 %>
     <div class="mt-3">
-        <label class="mb-1">Your schedule</label>
+        <label class="mb-1"><%= t('account.your_schedule') %>:</label>
 
         <% Schedule.where(self_register: true).each do |schedule| %>
         <div class="form-check ps-1">
