@@ -25,6 +25,8 @@ en:
     modules: "modules"
     other: "other"
 
+    cancel: "Cancel"
+
     grading:
         error: "error"
         insufficient: "insufficient"
@@ -139,6 +141,7 @@ en:
         guest_needs_activation: "Note: when you log in as guest (via e-mail) you will not be able to submit assignments until your account is activated by a teacher."
         login_via_uva: Login via UvA account
         login_via_mail: Guest login via mail
+        login_via_pin: Login using PIN
         login_or_register: Login or register
         logout: Log out
         not_everyone_can_login: The course has been restricted to not allow students to login. Contact your teacher if you think this is in error.
@@ -146,6 +149,10 @@ en:
         pronouns_or_leave_blank: Your pronouns (or leave blank)
         pronoun_examples: 'For example: she/her, they/them, he/him, ze/hir.'
         your_schedule: Your schedule
+        enter_pin_code: Enter your exam code and PIN. If login does not work, please raise your hand to alert a teacher.
+        exam_code: Exam code
+        pin_code: PIN
+        you_can_login_exam: Welcome! You can now login using your PIN to take the exam.
 
     errors:
       messages:

@@ -2,18 +2,27 @@
 <div class="mini-app-body cards text-center sd-flex sflex-column sjustify-content-between sh-100">
     <div>
         <p class="lead mt-4 mb-5">
+            <% if Settings.registration_phase == 'exam' %>
+            <%= t('account.you_can_login_exam') %>
+            <% else %>
             <%= t('account.you_can_login') %>
             <% if Auth::MailController.available? %>
             <%= t('account.guest_needs_activation') %>
             <% end %>
+            <% end %>
         </p>
     </div>
     <div class="justify-content-md-end">
+        <% if Settings.registration_phase != 'exam' %>
         <% if Auth::OpenController.available? %>
         <%= link_to t('account.login_via_uva'), auth_open_login_path, class: "btn btn-primary btn-lg fw-normal px-4", data: { turbo: "false" } %>
         <% end %>
         <% if Auth::MailController.available? %>
         <%= link_to t('account.login_via_mail'), auth_mail_login_path, class: "btn btn-outline-secondary btn-lg fw-normal px-4", data: { turbo: "false" } %>
+        <% end %>
+        <% end %>
+        <% if Auth::PinController.available? %>
+        <%= link_to t('account.login_via_pin'), auth_pin_login_path, class: "btn btn-outline-secondary btn-lg fw-normal px-4", data: { turbo: "false" } %>
         <% end %>
     </div>
 </div>

@@ -54,6 +54,18 @@
             </ul>
         </div>
     </button>
+    <button type="submit" name="settings[registration_phase]" value="exam" class="list-group-item list-group-item-action">
+        <div class="me-auto">
+            <div class="fw-bold">
+                <%= bootstrap_icon('exclamation-triangle') %> Exam mode
+                <% if Settings.registration_phase == 'exam' %><div class="float-end">✅ selected</div><% end %>
+            </div>
+            <ul class="mb-0">
+                <li>Admins can login</li>
+                <li>Students can only login using PIN</li>
+            </ul>
+        </div>
+    </button>
 </div>
 <% end %>
 

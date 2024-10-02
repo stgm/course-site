@@ -5,11 +5,11 @@
 <div class="cards">
     <div>
         <p class="lead text-center">
-            <%= t('account.guest_needs_activation') %>
+            <%= t('account.enter_pin_code') %>
         </p>
     </div>
 
-    <%= form_tag(auth_mail_create_path, 
+    <%= form_tag(auth_pin_validate_path,
         class: 'mini-app-body d-flex justify-content-between flex-column') do |form| %>
 
     <% if flash[:alert] %>
@@ -17,8 +17,16 @@
     <% end %>
 
     <div>
-        <label for="email" class="mb-1"><%= t 'account.login_mail' %></label>
-        <input name="email" type="email" autofocus required class="form-control" placeholder="<%= t('account.email_placeholder') %>">
+        <div class="mb-3">
+            <label for="exam_code" class="mb-1"><%= t('account.exam_code') %></label>
+            <input name="exam_code" type="text" autofocus required
+                class="form-control" maxlength="6" size="6" autocomplete="off">
+        </div>
+        <div>
+            <label for="pin_code" class="mb-1"><%= t('account.pin_code') %></label>
+            <input name="pin_code" type="text" autofocus required
+                class="form-control" maxlength="4" size="4" autocomplete="off">
+        </div>
     </div>
 
     <div class="d-flex justify-content-between">

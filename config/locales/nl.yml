@@ -27,6 +27,7 @@ nl:
 
     grade: "Cijfer"
     points: "Punten"
+    cancel: "Annuleren"
 
     grading:
         error: "probleem"
@@ -142,6 +143,7 @@ nl:
         guest_needs_activation: "Let op: als je inlogt als gast (via e-mail) kun je geen opdrachten insturen tot je account is geactiveerd door de docent."
         login_via_uva: Login met UvA-account
         login_via_mail: Login als gast via mail
+        login_via_pin: Login met pincode
         login_or_register: Login of registreer
         logout: Uitloggen
         not_everyone_can_login: De cursus staat op dit moment dicht voor studenten. Neem contact op met je docent als je denkt dat dit niet klopt.
@@ -149,6 +151,10 @@ nl:
         pronouns_or_leave_blank: Je voornaamwoorden (of laat leeg)
         pronoun_examples: 'Bijvoorbeeld: zij/haar, hen/hun, hij/hem, die/die.'
         your_schedule: Jouw schema
+        enter_pin_code: Vul je tentamencode en pincode in. Als het inloggen niet werkt, steek dan je hand op om een docent te waarschuwen.
+        exam_code: Tentamencode
+        pin_code: Pincode
+        you_can_login_exam: Welkom! Je kunt nu inloggen met pincode om tentamen te doen.
 
     activerecord:
       attributes:

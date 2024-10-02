@@ -10,6 +10,7 @@ class Settings < RailsSettings::Base
     scope :accounts do
         field :registration_phase, default: 'before'
         field :login_by_email, default: true
+        field :exam_code, default: nil
     end
 
     scope :site do

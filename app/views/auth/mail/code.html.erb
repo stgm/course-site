@@ -22,7 +22,7 @@
     </div>
 
     <div class="d-flex justify-content-between">
-        <%= link_to 'Cancel', auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
+        <%= link_to t('cancel'), auth_session_logout_path, class: 'btn btn-outline-secondary', data: { turbo: "false" } %>
         <input type="submit" class="btn btn-primary"  value="<%= t('account.continue_button') %> &rarr;">
     </div>
 

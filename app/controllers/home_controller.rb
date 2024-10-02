@@ -32,7 +32,7 @@ class HomeController < ApplicationController
                 redirect_to syllabus_path
             end
         else
-            if Page.find_by_slug('')
+            if Settings.registration_phase != 'exam' && Page.find_by_slug('')
                 # public syllabus as welcome page
                 redirect_to syllabus_path
             else

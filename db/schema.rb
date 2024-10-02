@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_24_150656) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_02_082750) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -328,6 +328,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_24_150656) do
     t.string "organization"
     t.string "unsubscribe_token"
     t.string "pronouns"
+    t.string "pin"
+    t.string "last_known_ip"
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
     t.index ["status"], name: "index_users_on_status"

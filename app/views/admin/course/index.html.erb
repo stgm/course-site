@@ -6,6 +6,8 @@
 
 <%= render partial: 'settings', layout: 'modal_card', locals: { title: 'Registration options', subtitle: nil }%>
 
+<%= render partial: 'exam_code', layout: 'modal_card', locals: { title: 'Set exam code', subtitle: nil }%>
+
 <%= render partial: 'new_user', layout: 'modal_card', locals: { title: 'Invite a user', subtitle: nil }%>
 
 <% if Schedule.any? %>

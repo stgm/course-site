@@ -16,6 +16,10 @@ Rails.application.routes.draw do
 			post 'validate'
 			get 'login'
 		end
+        namespace :pin do
+            get 'login'
+            post 'validate'
+        end
 	end
 
 	#--ADMIN------------------------------------------------------------------------------------
@@ -147,7 +151,8 @@ Rails.application.routes.draw do
 
 		resources :users, only: [ :index, :show, :edit, :update ] do
 			collection do
-				get	 'search'
+				get 'search'
+                post 'assign_pins'
 			end
 			member do
 				post  'calculate_final_grade'
@@ -202,6 +207,9 @@ Rails.application.routes.draw do
 
     namespace :admin do
         resources :exams, only: [:index, :edit, :update] do
+            collection do
+                get 'list_codes'
+            end
             post 'run_checks'
         end
     end

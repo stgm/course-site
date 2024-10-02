@@ -11,14 +11,23 @@ module User::Authenticatable
             end
         end
 
+        def self.authenticate_by_pin(pin)
+            if Settings.registration_phase == 'exam' && user = User.find_by_pin(pin)
+                return user
+            end
+        end
+
         # finds existing users to login, but also checks whether login is allowed at this time
         def self.authenticate_existing(user)
             case Settings.registration_phase
-            when 'before'
+            when 'before', 'exam'
+                # any staff can login
                 return user.staff? && user
             when 'during', 'after'
+                # anyone can login
                 return user
             when 'archival'
+                # only admins can login
                 return user.admin? && user
             end
         end

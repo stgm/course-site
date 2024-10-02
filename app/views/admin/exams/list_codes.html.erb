@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Naam</th>
+            <th scope="col">Studentnummer</th>
+            <th scope="col">Pincode</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @users.each do |user| %>
+        <tr>
+            <td><%= user.name %></td>
+            <td><%= user.login %></td>
+            <td><%= user.pin%></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>

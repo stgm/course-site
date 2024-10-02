@@ -1,0 +1,36 @@
+<%= change_setting_form('exam_code', 'Code:') %>
+
+<%= button_to 'Assign Pins', assign_pins_users_path,
+    method: :post,
+    remote: true,
+    data: { turbo_action: 'replace', turbo_method: 'post', confirm: 'This will disable any old codes!' },
+    id: 'assign-pins-button',
+    class: 'btn btn-primary' %>
+
+<div id="success-message" style="display:none;">PINs assigned successfully!</div>
+
+<script>
+    document.addEventListener('turbo:submit-start', function(event) {
+      if (event.target.action.includes('/assign_pins')) {
+        const button = document.getElementById('assign-pins-button');
+        button.disabled = true;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Assigning...';
+      }
+    });
+
+    document.addEventListener('turbo:submit-end', function(event) {
+      const response = event.detail.fetchResponse;
+      response.json().then(data => {
+        const button = document.getElementById('assign-pins-button');
+        const successMessage = document.getElementById('success-message');
+    
+        if (data.success) {
+          successMessage.style.display = 'block';
+          button.innerHTML = 'Assigned!';
+        } else {
+          button.disabled = false;
+          button.innerHTML = 'Assign Pins';
+        }
+      });
+    });
+</script>

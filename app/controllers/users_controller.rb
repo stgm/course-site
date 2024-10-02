@@ -62,7 +62,8 @@ class UsersController < ApplicationController
             :notes,
             :schedule_id,
             :group_id,
-            :student_number))
+            :student_number,
+            :last_known_ip))
         respond_to do |format|
             format.js { head :ok }
             format.html { redirect_to @user }
@@ -75,6 +76,16 @@ class UsersController < ApplicationController
         raise ActionController::RoutingError.new('Not Found') if not @user.can_assign_final_grade?
         result = @user.assign_final_grade(current_user, only: params[:grades])
         redirect_to @user
+    end
+
+    def assign_pins
+        users = User.not_staff
+        unique_codes = (1111..9999).to_a.sample(users.size)
+
+        users.each_with_index do |user, index|
+            user.update(pin: unique_codes[index])
+        end
+        render json: true
     end
 
     private

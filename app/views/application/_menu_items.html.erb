@@ -65,11 +65,14 @@
 <% end%>
 
 <% if !logged_in? %>
+<% if Auth::PinController.available? %>
+<%= menu_link t('account.login_via_pin'), auth_pin_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
+<% end %>
 <% if Auth::OpenController.available? %>
-<%= menu_link "#{t('account.login_button')} via UvA", auth_open_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
+<%= menu_link t('account.login_via_uva'), auth_open_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
 <% end %>
 <% if Auth::MailController.available? %>
-<%= menu_link "#{t('account.login_button')} via e-mail", auth_mail_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
+<%= menu_link t('account.login_via_mail'), auth_mail_login_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
 <% end %>
 <% else %>
 <%= menu_link t('account.logout'), auth_session_logout_path, icon: 'box-arrow-right', data: { turbo: "false" } %>

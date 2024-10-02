@@ -30,6 +30,10 @@ class Admin::ExamsController < ApplicationController
         end
     end
 
+    def list_codes
+        @users = User.not_admin.order(:name)
+    end
+
     def run_checks
         # run checks for all unchecked submissions for an exam
         # use the exam check config

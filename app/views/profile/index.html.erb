@@ -10,7 +10,7 @@
 
     <div class="">
         <label for="user_name" class="mb-1"><%= t('account.first_last_name') %>:</label>
-        <%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true) %>
+        <%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true, autocomplete:'name') %>
     </div>
 
     <div class="">
