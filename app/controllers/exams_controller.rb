@@ -46,6 +46,10 @@ class ExamsController < ApplicationController
             render status: :bad_request, plain: 'what you sent is invalid' and return
         end
 
+        if Settings.registration_phase == 'exam' && @submit.user.last_known_ip != request.remote_ip
+            render status: :precondition_failed, plain: 'wrong ip' and return
+        end
+
         config = {
             course_name: Course.long_name,
             exam_name: @exam.pset.name.humanize,
@@ -54,7 +58,17 @@ class ExamsController < ApplicationController
             buttons: @exam.config['buttons']&.map{|f| [f['name'], f['commands']] }.to_h
         }
 
-        config['locked'] = true if @exam.locked || @submit.grade.present? || @submit.locked
+        # if submitted previously, copy older contents into config
+        # this is particularly useful if an exam has to be resumed from
+        # another computer - which does not have a local cache of the files
+        # if the local cache is present, that will take precedence anyway
+        config[:tabs].merge! @submit.all_files.map{|x| [x[0], x[1].download]}.to_h
+
+        if @exam.locked || @submit.grade.present? || @submit.locked
+            config[:locked] = true
+            config[:tabs] = nil
+            config[:buttons] = nil
+        end
 
         render json: config
     end
@@ -67,9 +81,13 @@ class ExamsController < ApplicationController
 
         # but only with the submit code
         @submit = Submit.where(pset: @exam.pset, exam_code: params[:code]).first
-
         if @submit.blank?
             render status: :not_found, plain: 'your data is invalid' and return
+        end
+
+        # and, when in exam mode, only if the current ip matches login ip
+        if Settings.registration_phase == 'exam' && @submit.user.last_known_ip != request.remote_ip
+            render status: :precondition_failed, plain: 'wrong ip' and return
         end
 
         # only allow updates as long as no grade was created for this submit
