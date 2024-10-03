@@ -49,7 +49,7 @@ class PageController < ApplicationController
 
         @may_show_content = !@only_submit
         @may_show_questions = logged_in? && !@only_submit && Settings.qa_allow
-        @may_show_submit = @page.pset
+        @may_show_submit = @page.pset && @page.pset.exam.blank?
         true
     end
 

@@ -52,6 +52,7 @@ class Submit < ApplicationRecord
     def allow_new_submit?
         return false if !Submit.available?
         return false if !user.can_submit?
+        return false if pset.exam.present?
 
         ( self.submittable? && !self.persisted?        ) ||
         ( self.submittable? && !self.grade_sufficient? ) ||
