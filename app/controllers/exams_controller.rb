@@ -30,9 +30,9 @@ class ExamsController < ApplicationController
         # redirect to external editor with post url and code
         params = "url=#{json_exam_url}&code=#{code}"
         if Rails.env.development?
-            redirect_to "http://localhost:8009/?#{params}"
+            redirect_to "http://localhost:8009/exam.html?#{params}"
         else
-            redirect_to "https://ide.proglab.nl/?#{params}", allow_other_host: true
+            redirect_to "https://ide.proglab.nl/exam.html?#{params}", allow_other_host: true
         end
     end
 
