@@ -10,7 +10,7 @@ class ExamsController < ApplicationController
     def index
         # get all exams from config that may be submitted
         # allow student to choose one and start
-        @exams = Exam.joins(:pset).includes(pset: :submits).order(:name)
+        @exams = Exam.joins(:pset).order(:name)
         @exams = @exams.where(locked: false) if !current_user.admin?
         if Settings.registration_phase == 'exam'
             render layout: 'blank' and return
