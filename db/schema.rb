@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_02_082750) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_15_131221) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_02_082750) do
 
   create_table "exams", force: :cascade do |t|
     t.integer "pset_id", null: false
-    t.boolean "locked"
+    t.boolean "locked", default: true
     t.text "config"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
