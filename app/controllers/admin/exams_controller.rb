@@ -31,7 +31,9 @@ class Admin::ExamsController < ApplicationController
     end
 
     def list_codes
-        @users = User.not_admin.order(:name)
+        @users = User.includes(:group, :schedule).not_admin #.order(:name)
+        @groups = User.includes(:group, :schedule).not_admin.order('schedules.name, groups.name, users.name').group_by {|u| [u.schedule_name, u.group_name]}
+        render layout: false
     end
 
     def run_checks
