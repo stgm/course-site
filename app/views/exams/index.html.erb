@@ -1,12 +1,18 @@
 <section class="markdown" id="exams-content">
     <h1>Tentamens</h1>
-<% @exams.each do |e| %>
-<p>
-    <%= button_to e.name.humanize, exam_url(id: e.id), method: :post,  class: 'btn btn-secondary', data: { turbo: false } %>
-    <% if e.locked? || e.pset.submits.any? &&
-        (e.pset.submits.first.grade.present? || e.pset.submits.first.locked?) %>
-    Locked
-    <% end %>
-</p>
-<% end %>
+    <table class="table table-hover table-borderless align-middle">
+        <% @exams.each do |exam| %>
+        <tr>
+            <td><%= exam.name.humanize %></td>
+            <td>
+                <% if exam.locked? || (s = Submit.where(user: current_user, pset: exam.pset).first) &&
+                    (s.grade.present? || s.locked?) %>
+                (locked)
+                <% else %>
+                <%= button_to exam.name.humanize, exam_url(id: exam.id), method: :post,  class: 'btn btn-secondary', data: { turbo: false } %>
+                <% end %>
+            </td>
+        </tr>
+        <% end %>
+    </table>
 </section>
