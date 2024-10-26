@@ -197,21 +197,23 @@ Rails.application.routes.draw do
 		get 'show'
 	end
 
-    resources :exams, only: [:index] do
+    if defined?(Plugins::Exam)
+      resources :exams, only: [:index] do
         member do
-            post 'create'
-            post 'post'
-            get  'json'
+          post 'create'
+          post 'post'
+          get  'json'
         end
-    end
+      end
 
-    namespace :admin do
+      namespace :admin do
         resources :exams, only: [:index, :edit, :update] do
-            collection do
-                get 'list_codes'
-            end
-            post 'run_checks'
+          collection do
+            get 'list_codes'
+          end
+          post 'run_checks'
         end
+      end
     end
 
 	#--EXTERNAL APIs----------------------------------------------------------------------------

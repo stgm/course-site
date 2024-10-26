@@ -1,0 +1,10 @@
+<% content_for :title do %>
+<h1>Edit <%= @exam.name.titleize %></h1>
+<% end %>
+
+<%= render 'form' %>
+
+<% content_for :footer do %>
+<%= render partial: 'admin/exams/back' %>
+<%= submit_tag 'Save exam config', form: 'exam_form', class: 'ms-auto btn btn-primary' %>
+<% end %>
