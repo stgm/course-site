@@ -49,7 +49,7 @@ class ProfileController < ApplicationController
 
     def save # POST
         # remove leading and trailing space to give the user some slack
-        params[:user][:name].strip!
+        params[:user][:name].strip! if params[:user][:name]
 
         # create user if possible
         user_params = params.require(:user).permit(:name, :pronouns, :schedule_id)

@@ -10,7 +10,11 @@
 
     <div class="">
         <label for="user_name" class="mb-1"><%= t('account.first_last_name') %>:</label>
+        <% if current_user && (current_user.name.blank? || !current_user.valid? && current_user.errors.select{|e| e.attribute == :name}.present?) %>
         <%= text_field_tag('user[name]', (current_user.name if current_user), required:true, class:'form-control', autofocus:true, autocomplete:'name') %>
+        <% else %>
+        <%= text_field_tag(nil, (current_user.name if current_user), required:true, class:'form-control', autofocus:true, disabled:true) %>
+        <% end %>
     </div>
 
     <div class="">
