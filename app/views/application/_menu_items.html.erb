@@ -77,3 +77,7 @@
 <% else %>
 <%= menu_link t('account.logout'), auth_session_logout_path, icon: 'box-arrow-right', data: { turbo: "false" } %>
 <% end %>
+
+<% registered_menu_items.each do |item| %>
+  <%= menu_link item[:name], item[:path], item[:options] %>
+<% end %>
