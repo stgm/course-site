@@ -58,7 +58,8 @@
 
 <% if current_user.senior? %>
 <div class=" d-flex mt-3 mb-0 justify-content-end">
-	<%= button_to reject_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to assign 0 grade and publish?" }, class: 'btn btn-secondary ms-2' do "Reject" end %>
+	<%= button_to recheck_submit_path(id: @submit.id), method: :post, class: 'btn btn-secondary ms-2', data: { confirm: "Sure to re-run checks?" } do "Re-check" end %>
+	<%= button_to reject_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to assign 0 grade and publish?" }, class: 'btn btn-secondary ms-2' do "Re-ject" end %>
 	<% if current_user.admin? || current_user.senior? && !@grade.published? %>
 		<%= button_to reopen_grade_path(id: @grade.id), method: :patch, data: { confirm: "Sure to re-open for editing?" }, class: 'btn btn-secondary ms-2' do "Re-open" end %>
 	<% end %>
