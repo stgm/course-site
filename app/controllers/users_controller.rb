@@ -63,6 +63,7 @@ class UsersController < ApplicationController
             :schedule_id,
             :group_id,
             :student_number,
+            :pin,
             :last_known_ip))
         respond_to do |format|
             format.js { head :ok }
