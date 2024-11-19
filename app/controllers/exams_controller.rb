@@ -66,7 +66,7 @@ class ExamsController < ApplicationController
         # if the local cache is present, that will take precedence anyway
         config[:tabs].merge! @submit.all_files.map{|x| [x[0], x[1].download]}.to_h
 
-        if @exam.locked || @submit.grade.present? || @submit.locked
+        if !@exam.allow_taking? || @submit.grade.present? || @submit.locked
             config[:locked] = true
             config[:tabs] = nil
             config[:buttons] = nil
@@ -93,7 +93,7 @@ class ExamsController < ApplicationController
         end
 
         # only allow updates as long as no grade was created for this submit
-        if !@exam.locked && @submit.grade.blank? && !@submit.locked
+        if @exam.allow_taking? && @submit.grade.blank? && !@submit.locked
             @submit.files.purge
             permitted = params.permit(files: {})
             permitted[:files].each do |filename, attachment|
