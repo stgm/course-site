@@ -11,6 +11,7 @@ class Settings < RailsSettings::Base
         field :registration_phase, default: 'before'
         field :login_by_email, default: true
         field :exam_code, default: nil
+        field :exam_show_personal, default: false
     end
 
     scope :site do

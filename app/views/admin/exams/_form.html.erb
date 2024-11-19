@@ -16,6 +16,10 @@
     <label><%= f.check_box :locked %> Lock this exam, disallowing any submissions</label>
 </div>
 
+<div class="form-check ps-1 pb-1">
+    <label><%= f.check_box :current_exam %> Show this exam when exam mode is active</label>
+</div>
+
 <hr>
 
 <% @exam.config['files']&.each do |file| %>

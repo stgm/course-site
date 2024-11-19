@@ -5,7 +5,8 @@
         <tr>
             <td><%= exam.name.humanize %></td>
             <td>
-                <% if exam.locked? || (s = Submit.where(user: current_user, pset: exam.pset).first) &&
+                <% if !exam.allow_taking? ||
+                    (s = Submit.where(user: current_user, pset: exam.pset).first) &&
                     (s.grade.present? || s.locked?) %>
                 (locked)
                 <% else %>

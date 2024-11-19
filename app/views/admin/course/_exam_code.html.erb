@@ -1,5 +1,7 @@
 <%= change_setting_form('exam_code', 'Code:') %>
 
+<%= toggle_setting_form('exam_show_personal', 'Show personal exam codes in student menu') %>
+
 <%= button_to 'Assign Pins', assign_pins_users_path,
     method: :post,
     remote: true,
