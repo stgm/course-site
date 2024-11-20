@@ -11,7 +11,9 @@ URL: <%= link_to submit.url, submit.url %>
 	<li><code class="text-body"><%= name %></code></li>
 	<% end %>
 </ul>
+<% if Settings.registration_phase != 'exam' %>
 <%= link_to 'Download', submission_download_path(submit), class: 'btn btn-sm btn-secondary', data: { turbo: false } %>
+<% end %>
 <% end %>
 <% if submit.has_auto_feedback? %>
 <%= link_to t("check_results"), submission_feedback_path(submit), class:"btn btn-sm btn-secondary", target: 'modal' %>
