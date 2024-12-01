@@ -23,6 +23,10 @@ class Auth::MailController < ApplicationController
                 redirect_to auth_mail_login_path, alert: 'The address you entered is a login, but not a valid email' and return
             end
         end
+
+        # bail out invisibly if registration is not open
+        redirect_to root_url, alert: t('account.not_everyone_can_login') and return if !User.authenticate({ mail: params[:email].downcase })
+
         # user has entered e-mail address
         session[:login_email] = mail = params[:email].downcase
         # generate 6-digit hex code for e-mail
