@@ -96,7 +96,7 @@ class SubmissionsController < ApplicationController
     def should_perform_auto_check?
         Submit::AutoCheck::Sender.enabled? &&
             @pset.submit_config['check'].present? &&
-            @pset.grading_config['autocheck'] != false
+            @pset.submit_config['autocheck'] != false
     end
 
     def upload_files_to_check_server
