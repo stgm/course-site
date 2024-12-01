@@ -131,7 +131,7 @@ class Submit < ApplicationRecord
             select { |k,v| v['submits'][pset.name] }.
             map{ |k,v| v }&.first&.
             # select{ |k,v| !k.in? ['show_progress', 'submits'] } || {}
-            select{ |k,v| k.in? ['deadline'] } || {}
+            select{ |k,v| k.in? ['deadline', 'deadline_hard'] } || {}
 
         # base on pset's submit.yml,
         # cc overwrites our own config, and gc overwrites that
