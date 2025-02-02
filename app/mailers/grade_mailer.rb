@@ -6,7 +6,7 @@ class GradeMailer < ApplicationMailer
         @course_name = Course.short_name
         @grade_name = grade.pset.name
         @feedback = grade.comments
-        if Settings.grading && Settings.grading['grades'][grade.submit.pset.name] && !Settings.grading['grades'][grade.submit.pset.name]['hide_calculated']
+        if grade.grading_config['hide_calculated']
             @grade = grade.assigned_grade
         else
             @grade = grade.grade
