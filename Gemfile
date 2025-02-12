@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~>7.0.0'
 
+# lock for dep, remove after upgrade to rails 7.1 or higher
+gem 'concurrent-ruby', '1.3.4'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
