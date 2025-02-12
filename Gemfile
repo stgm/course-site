@@ -8,7 +8,6 @@ gem 'bootsnap', require: false
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 1.4'
-gem 'pg'
 
 # Use Puma as the app server
 gem 'puma', '~> 5.6'
@@ -24,6 +23,7 @@ group :production do
     gem 'mini_racer'
     gem 'exception_notification'
     gem 'azure-storage-blob', '~> 2.0', require: false # active storage client
+    gem 'pg'
 end
 
 # assets

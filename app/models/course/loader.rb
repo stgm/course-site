@@ -24,6 +24,9 @@ class Course::Loader
             # main load event
             load_all_changes
 
+            # check all grading.ymls for error reporting
+            validate_grading
+
             # finishing touches
             Course::Tools.prune_empty_pages
             Course::Tools.clean_psets if @grading_changed
@@ -158,7 +161,13 @@ class Course::Loader
         if config = read_config(file)
             schedule_name = page.title != '.' ? page.title : nil
             GradingConfig.load config, schedule_name
-            @errors += GradingConfig.with_schedule(schedule_name).validate
+        end
+    end
+
+    def validate_grading
+        @errors += GradingConfig.base.validate
+        GradingConfig.each_schedule do |schedule|
+            @errors += GradingConfig.with_schedule(schedule).validate
         end
     end
 

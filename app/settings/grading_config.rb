@@ -12,9 +12,14 @@ class GradingConfig
         end
     end
 
+    def self.each_schedule(&block)
+        Settings.schedule_grading.keys.each(&block)
+    end
+
     def initialize(schedule_name=nil)
         @config = merge_configs Settings.grading || {},
                                 Settings.schedule_grading[schedule_name] || {}
+        @schedule_name = schedule_name || 'Base'
     end
 
     def grades
@@ -51,7 +56,7 @@ class GradingConfig
         if schedule_name.blank?
             Settings.grading = new_settings
         else
-            pp { schedule_name => new_settings }
+            # pp { schedule_name => new_settings }
             Settings.schedule_grading = Settings.schedule_grading.merge({ schedule_name => new_settings })
         end
     end
@@ -73,20 +78,20 @@ class GradingConfig
         progress_categories = @config.select { |category, value| value['show_progress'] }
         if progress_categories.any?
             if @config['grades'].blank?
-                @errors << "Problem loading grading.yml. There are grading categories like #{progress_categories.first.first} but no grades section is present specifying how to calculate grades."
+                @errors << "Problem loading grading.yml for #{@schedule_name}. There are grading categories like #{progress_categories.first.first} but no grades section is present specifying how to calculate grades."
                 return @errors
             end
             all_submit_names = progress_categories.map { |k,v| [k,v['submits'].keys] }
-            invalid_grade_names = all_submit_names.map { |k,v| [k,v.select { |name| !@config['grades'].include?(name) }] }.select { |k,v| v.any? }.map{|k,v| "#{k}->#{v.join(',')}"}
+            invalid_grade_names = all_submit_names.map { |k,v| [k,v.select { |name| !@config['grades'].include?(name) }] }.select { |k,v| v.any? }.map{|k,v| "#{k}/#{v.join(',')}"}
             if invalid_grade_names.any?
-                @errors << "Problem loading grading.yml. Some grades were specified as part of the final grade, but could not be found in the grades section: #{invalid_grade_names.join('; ')}."
+                @errors << "Problem loading grading.yml for #{@schedule_name}. Grades #{invalid_grade_names.join('; ')} are defined, but matching names could not be found in the grades section."
             end
         end
 
         grade_components = self.calculation.values.map(&:keys).flatten
         missing_components = grade_components.select{|name| !name.in? self.components.keys}
         if missing_components.size > 0
-            @errors << "Problem loading grading.yml. Final grade component definitions are mentioned but undefined: #{missing_components.join('; ')}."
+            @errors << "Problem loading grading.yml for #{@schedule_name}. Final grade component definitions are used but undefined: #{missing_components.join('; ')}."
         end
 
         return @errors

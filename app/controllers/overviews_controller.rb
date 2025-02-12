@@ -53,10 +53,14 @@ class OverviewsController < ApplicationController
         elsif current_user.admin?
             @selected_schedule = Schedule.friendly.find(params[:id])
         else
-            raise
+            render status: :forbidden and return
         end
         load_data
-        render 'overview'
+        begin
+            render 'overview'
+        rescue
+            redirect_to :root, alert: "Overview CRASHED, please reload courseware to check config files."
+        end
     end
 
     private

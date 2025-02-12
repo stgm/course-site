@@ -70,7 +70,9 @@ class Course::Git
     end
 
     def changes_since(hash)
-        @git.diff(hash).name_status.map do |path,flag|
+        # diff previously loaded commit with HEAD
+        # if we leave out HEAD, it will also include uncommitted changes
+        @git.diff(hash, 'HEAD').name_status.map do |path,flag|
             Change.new(@basedir, @repodir, Pathname.new(path), flag)
         end
     end
