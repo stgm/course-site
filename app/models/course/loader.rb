@@ -157,8 +157,19 @@ class Course::Loader
     end
 
     def load_grading_info(file)
-        page = load_page(file.parent_path)
-        if config = read_config(file)
+        if file.type == 'D'
+            # deleted in git means empty it out
+            page = load_page(file.parent_path)
+            schedule_name = page.title != '.' ? page.title : nil
+            GradingConfig.load nil, schedule_name
+        else
+            begin
+                config = read_config(file, true)
+            rescue
+                # ignores malformed input
+                return
+            end
+            page = load_page(file.parent_path)
             schedule_name = page.title != '.' ? page.title : nil
             GradingConfig.load config, schedule_name
         end
@@ -228,12 +239,16 @@ class Course::Loader
 
     # Reads the config file and returns the contents
     #
-    def read_config(file)
+    def read_config(file, exception=false)
         begin
             return YAML.load(file.read, aliases: true)
         rescue => e
-            @errors << "#{file.path} was in an unreadable format. Error message: #{e.message}."
-            return nil
+            @errors << "#{file.path} was in an unreadable format. This change will be ignored! Please fix and update again. Error message: #{e.message}."
+            if exception
+                raise
+            else
+                return nil
+            end
         end
     end
 end

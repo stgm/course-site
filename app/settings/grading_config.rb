@@ -38,10 +38,6 @@ class GradingConfig
         grades.select{|name, config| config['exam'] == true}.map{|name,_| name}
     end
 
-    def self.load(new_settings)
-        Settings.grading = new_settings
-    end
-
     def tests
         grades.select { |name, config|
             config['is_test'] == true || config['exam']
@@ -56,7 +52,6 @@ class GradingConfig
         if schedule_name.blank?
             Settings.grading = new_settings
         else
-            # pp { schedule_name => new_settings }
             Settings.schedule_grading = Settings.schedule_grading.merge({ schedule_name => new_settings })
         end
     end
@@ -100,7 +95,6 @@ class GradingConfig
     # for the admin grading overview
     def overview
         psets = Pset.order(:order).index_by &:name
-        puts psets.keys.inspect
 
         # include final grade components that were marked as "show progress"
         r = @config.select { |c,v| v['show_progress'] || v['show_overview'] }.

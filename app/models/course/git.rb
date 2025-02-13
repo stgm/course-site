@@ -53,14 +53,17 @@ class Course::Git
             # git magic root hash to get all changes, ever
             '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
         else
-            # Settings["git_version_#{@repodir}"]
             Settings.git_version[@repodir.to_s] || Settings.find_by_var("git_version_#{@repodir}")&.value
         end
     end
 
     def store_version
-        Rails.logger.info "New git version: #{current_version}"
-        Settings.git_version = Settings.git_version.merge({ @repodir.to_s => current_version })
+        if current_version != previous_version
+            Rails.logger.info "- New git version: #{current_version}"
+            Settings.git_version = Settings.git_version.merge({ @repodir.to_s => current_version })
+        else
+            Rails.logger.info "- Same version as before"
+        end
     end
 
     def get_remote_branch
@@ -95,6 +98,10 @@ class Course::Git
 
         def type
             @flag
+        end
+
+        def size
+            file.size
         end
 
         def read
