@@ -14,8 +14,8 @@ module GradingHelper
                             single_dollar_math_markdown(NBConverter.new(contents.download).run),
                             class: 'ipynb'
                         )
-                    rescue
-                        tag.div "No JSON found"
+                    # rescue
+                    #     tag.div "No JSON found"
                     end
                 when 'markdown', 'md'
                     simple_markdown(contents.download.bytes.pack("c*").force_encoding("UTF-8"))
@@ -78,7 +78,13 @@ module GradingHelper
             @notebook['cells'].each do |cell|
                 case cell['cell_type']
                 when 'markdown'
-                    write cell['source'].join
+                    if Array === cell['source']
+                        # most of the time a md cell is an array of strings
+                        write cell['source'].join
+                    else
+                        # but sometime's it just a string, apparently
+                        write cell['source']
+                    end
                 when 'code'
                     write fence
                     newline
