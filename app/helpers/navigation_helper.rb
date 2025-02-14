@@ -25,12 +25,12 @@ module NavigationHelper
 
 	def prev_module
 		# retrieve previous module from here, accounting for student/admin permissions
-		current_user.current_module.previous(current_user.student?)
+		current_user.current_module&.previous(current_user.student?)
 	end
 
 	def next_module
 		# retrieve next module from here, accounting for student/admin permissions
-		current_user.current_module.next(current_user.student?)
+		current_user.current_module&.next(current_user.student?)
 	end
 
 	def alerts_for_current_schedule
