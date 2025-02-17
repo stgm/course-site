@@ -3,7 +3,7 @@ module User::Profileable
 
     included do
         serialize :progress, coder: YAML, type: Hash
-        enum status: [:active, :registered, :inactive, :done], _default: 'registered', _prefix: 'status'
+        enum :status, { active: 0, registered: 1, inactive: 2, done: 3 }, default: :registered, prefix: :status
         scope :watching, -> { where(alarm: true) }
     end
 

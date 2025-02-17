@@ -7,7 +7,7 @@ class Pset < ApplicationRecord
     has_many :grades, through: :submits
 
     # TODO remove?
-    enum grade_type: [:integer, :float, :pass, :percentage, :points]
+    enum :grade_type, { integer: 0, float: 1, pass: 2, percentage: 3, points: 4 }
 
     serialize :files, coder: YAML, type: Hash
     serialize :config, coder: YAML, type: Hash

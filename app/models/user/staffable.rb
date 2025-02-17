@@ -2,7 +2,7 @@ module User::Staffable
     extend ActiveSupport::Concern
 
     included do
-        enum role: [:guest, :student, :assistant, :head, :admin], _default: 'student'
+        enum :role, { guest: 0, student: 1, assistant: 2, head: 3, admin: 4 }, default: :student
 
         # permissions for heads/tas
         has_and_belongs_to_many :groups
