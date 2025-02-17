@@ -3,7 +3,7 @@ module Grade::SubGrades
 
     included do
         # creates OpenStruct from serialized data to ensure method access in grading formulas
-        serialize :subgrades, SubGrades
+        serialize :subgrades, coder: SubGrades
 
         after_initialize do
             # this adds automatic grades to the subgrades quite aggressively

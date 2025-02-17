@@ -9,8 +9,8 @@ class Pset < ApplicationRecord
     # TODO remove?
     enum grade_type: [:integer, :float, :pass, :percentage, :points]
 
-    serialize :files, Hash
-    serialize :config, Hash
+    serialize :files, coder: YAML, type: Hash
+    serialize :config, coder: YAML, type: Hash
 
     def all_filenames
         files.map { |h,f| f }.flatten.uniq

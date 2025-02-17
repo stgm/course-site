@@ -1,6 +1,6 @@
 class SubModule < ApplicationRecord
 
-	serialize :content_links
+	serialize :content_links, coder: YAML
 	
 	def load(content, path)
 		self.content_links = prepend_path(content, path)

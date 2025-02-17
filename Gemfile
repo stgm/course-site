@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>7.0.0'
+gem 'rails', '~>7.1.0'
 
 # lock for dep, remove after upgrade to rails 7.1 or higher
 gem 'concurrent-ruby', '1.3.4'
@@ -13,7 +13,7 @@ gem 'bootsnap', require: false
 gem 'sqlite3', '~> 1.4'
 
 # Use Puma as the app server
-gem 'puma', '~> 5.6'
+gem 'puma'
 
 group :development do
     # shut up icon requests

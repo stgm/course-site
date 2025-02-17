@@ -3,7 +3,7 @@ class Exam < ApplicationRecord
     belongs_to :pset
     delegate :name, to: :pset
 
-    serialize :config, Hash
+    serialize :config, coder: YAML, type: Hash
 
     def allow_taking?
         (Settings.registration_phase == 'exam' && self.current_exam) ||
