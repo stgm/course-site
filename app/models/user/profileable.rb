@@ -2,7 +2,7 @@ module User::Profileable
     extend ActiveSupport::Concern
 
     included do
-        serialize :progress, Hash
+        serialize :progress, coder: YAML, type: Hash
         enum status: [:active, :registered, :inactive, :done], _default: 'registered', _prefix: 'status'
         scope :watching, -> { where(alarm: true) }
     end

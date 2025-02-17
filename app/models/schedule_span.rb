@@ -1,7 +1,7 @@
 class ScheduleSpan < ApplicationRecord
 
     belongs_to :schedule
-    serialize :content
+    serialize :content, coder: YAML
 
     scope :all_public, -> { where('public = ? OR publish_at < ?', true, DateTime.now) }
     scope :accessible, -> { Current.user.staff? && all || all_public }

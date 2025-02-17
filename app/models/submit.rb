@@ -23,10 +23,10 @@ class Submit < ApplicationRecord
 
 	has_many_attached :files
 
-	serialize :submitted_files, Array  # deprecated for move to active_storage
-	serialize :file_contents, Hash     # deprecated for move to active_storage
-	serialize :form_contents
-	serialize :check_results, default: {}
+	serialize :submitted_files, coder: YAML, type: Array  # deprecated for move to active_storage
+	serialize :file_contents, coder: YAML, type: Hash     # deprecated for move to active_storage
+	serialize :form_contents, coder: YAML
+	serialize :check_results, coder: YAML, default: {}
 
 	# TODO only hide stuff that's not been autograded if autograding is actually enabled
 	scope :to_grade,  -> do
