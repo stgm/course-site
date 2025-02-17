@@ -1,3 +1,6 @@
+# TODO remove openstruct dependency or decide to keep it
+require 'ostruct'
+
 module Grade::SubGrades
     extend ActiveSupport::Concern
 

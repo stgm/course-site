@@ -33,9 +33,9 @@ module CourseSite
         # These settings can be overridden in specific environments using the files
         # in config/environments, which are processed later.
         #
-        # config.time_zone = "Central Time (US & Canada)"
         # config.eager_load_paths << Rails.root.join("extras")
         config.time_zone = 'Amsterdam'
+
         config.action_mailer.smtp_settings = {
             address: ENV["MAILER_ADDRESS"],
             domain: ENV["MAILER_DOMAIN"],
@@ -46,12 +46,12 @@ module CourseSite
 
         config.active_record.yaml_column_permitted_classes = [HashWithIndifferentAccess]
 
-        # Don't generate system test files.
-        config.generators.system_tests = nil
-
         config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
             min_threads: 1,
             max_threads: 1,
             idletime: 600.seconds
+
+        # Don't generate system test files.
+        config.generators.system_tests = nil
     end
 end

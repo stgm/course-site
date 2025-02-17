@@ -71,19 +71,20 @@ class SubmissionsController < ApplicationController
     end
 
     def collect_attachments
-        @attachments = Attachments.new(params.permit(f: {})[:f].to_h)
-        @form_contents = params.permit(form: {})[:form].try(:to_hash)
+        @attachments = Attachments.new(params.fetch(:f, {}).permit!.to_h)
+        @form_contents = params.fetch(:form, {}).permit!.to_h
     end
 
     def upload_attachments_to_webdav
         @submit_folder_name ||= @pset.name + "__" + Time.now.to_i.to_s
 
         submission_path = File.join(
-        '/',
-        Settings.archive_base_folder,    # /Submit
-        Settings.archive_course_folder,  # /course name
-        current_user.defacto_student_identifier, # /student ID
-        @submit_folder_name)             # /mario__21981289
+            '/',
+            Settings.archive_base_folder,    # /Submit
+            Settings.archive_course_folder,  # /course name
+            current_user.defacto_student_identifier, # /student ID
+            @submit_folder_name              # /mario__21981289
+        )
 
         uploader = Submit::Webdav::Uploader.new(submission_path)
         uploader.upload(@attachments.all)
@@ -118,12 +119,13 @@ class SubmissionsController < ApplicationController
     def record_submission
         submit = Submit.where(user: current_user, pset: @pset).first_or_initialize
         submit.record(
-        used_login: current_user.defacto_student_identifier,
-        archive_folder_name: @submit_folder_name,
-        url: params[:url],
-        attachments: @attachments,
-        form_contents: @form_contents,
-        check_token: @token)
+            used_login: current_user.defacto_student_identifier,
+            archive_folder_name: @submit_folder_name,
+            url: params[:url],
+            attachments: @attachments,
+            form_contents: @form_contents,
+            check_token: @token
+        )
     end
 
 end
