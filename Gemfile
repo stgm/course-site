@@ -1,30 +1,29 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>7.2.0'
-
-# lock for dep, remove after upgrade to rails 7.1 or higher
-gem 'concurrent-ruby', '1.3.4'
+gem 'rails', '~>8.0.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
+gem 'sqlite3', '>= 2.1'
 
 # Use Puma as the app server
-gem 'puma'
+gem 'puma', '>= 5.0'
 
 group :development do
     # shut up icon requests
     gem 'listen'
     gem 'quiet_safari'
     gem 'web-console'
+    gem 'brakeman', require: false
+    gem 'rubocop-rails-omakase', require: false
 end
 
 group :production do
     gem 'mini_racer'
-    gem 'exception_notification'
+    gem 'exception_notification', github: 'smartinez87/exception_notification', ref: '26441fb'
     gem 'azure-storage-blob', '~> 2.0', require: false # active storage client
     gem 'pg'
 end
@@ -37,11 +36,11 @@ gem 'sass-rails'
 gem 'friendly_id'
 
 # connectivity
-gem 'git', '1.13.0'         # git for ingesting course materials
-gem 'rack-cas'    # login system
+gem 'git', '1.13.0'  # git for ingesting course materials
+gem 'rack-cas'       # login system
 gem 'openid_connect'
-gem 'curb'        # webdav client for uploading archival files
-gem 'rest-client' # for sending submits to the autocheck server
+gem 'curb'           # webdav client for uploading archival files
+gem 'rest-client'    # for sending submits to the autocheck server
 
 # manages settings in database
 gem 'rails-settings-cached'
