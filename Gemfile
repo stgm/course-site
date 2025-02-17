@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>7.1.0'
+gem 'rails', '~>7.2.0'
 
 # lock for dep, remove after upgrade to rails 7.1 or higher
 gem 'concurrent-ruby', '1.3.4'

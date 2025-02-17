@@ -2,7 +2,7 @@ module Grade::Properties
     extend ActiveSupport::Concern
 
     included do
-        enum status: [:unfinished, :finished, :published, :discussed, :exported]
+        enum :status, { unfinished: 0, finished: 1, published: 2, discussed: 3, exported: 4 }
         before_save :unpublicize_if_no_grade
     end
 
