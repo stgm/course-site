@@ -1,5 +1,6 @@
 module User::FinalGradeAssigner
-    def can_assign_final_grade?()
+
+    def can_assign_final_grade?
         grading_config.calculation.present?
     end
 
@@ -8,7 +9,7 @@ module User::FinalGradeAssigner
         calculator = User::FinalGradeCalculator.new(grading_config)
         grades = calculator.run(self.all_submits)
 
-        debug_results = grades.delete('_debug')
+        debug_results = grades.delete("_debug")
 
         # extract only requested grades if needed
         options = args.extract_options!
@@ -21,20 +22,20 @@ module User::FinalGradeAssigner
             if grade.present? # there really is an assignable grade
 
                 # find the submit and grade object
-                final = self.submits.where(pset:Pset.where(name: name).first).first_or_create
+                final = self.submits.where(pset: Pset.where(name: name).first).first_or_create
                 final.create_grade if !final.grade
 
                 # only change if grade hasn't been published yet
-                if not ['published', 'exported'].include?(final.grade.status)
+                if not [ "published", "exported" ].include?(final.grade.status)
                     final.grade.grade = grade
 
-                    final.grade.notes ||= ''
+                    final.grade.notes ||= ""
                     final.grade.notes += debug_results.join("\n")
 
                     # only if the grade is different from before we go through
                     if final.grade.grade_changed?
                         final.grade.grader = grader
-                        final.grade.status = Grade.statuses['finished']
+                        final.grade.status = Grade.statuses["finished"]
                         final.grade.save
                     end
                 end
@@ -57,4 +58,5 @@ module User::FinalGradeAssigner
             return grade
         end
     end
+
 end

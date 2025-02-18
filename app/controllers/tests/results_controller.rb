@@ -5,7 +5,7 @@ class Tests::ResultsController < Tests::TestsController
     before_action :authorize
     before_action :require_senior
 
-    layout 'modal'
+    layout "modal"
 
     def index
         @psets = Pset.where(name: current_schedule.grading_config.tests).order(:order)
@@ -24,7 +24,7 @@ class Tests::ResultsController < Tests::TestsController
             render plain: "No students"
         end
 
-        @students = User.student.where(group: @groups).order('lower(name)')
+        @students = User.student.where(group: @groups).order("lower(name)")
     end
 
     def update

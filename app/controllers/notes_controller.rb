@@ -3,18 +3,18 @@ class NotesController < ApplicationController
     before_action :require_staff
     before_action :require_admin, only: :index
 
-    before_action :set_note, only: [:show, :edit, :update]
-    before_action :check_permission, only: [:show, :edit, :update]
+    before_action :set_note, only: [ :show, :edit, :update ]
+    before_action :check_permission, only: [ :show, :edit, :update ]
 
     def index
         @notes = Note.includes(:student).where(log: false).order(created_at: :desc).limit(30)
         @max_submits = 30
         @students = User.student.not_status_inactive.
-            includes(:group, { submits: [:pset, :grade] }).
+            includes(:group, { submits: [ :pset, :grade ] }).
             order("groups.name").
             order(:id).
             group_by(&:group)
-        render layout: 'sidebar'
+        render layout: "sidebar"
     end
 
     def show

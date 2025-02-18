@@ -5,21 +5,21 @@ class Admin::UsersController < ApplicationController
     before_action :authorize
     before_action :require_admin
 
-    layout 'modal'
+    layout "modal"
 
     # Show user permissions modal.
     def index
         @users = User.staff.order(:role, :name)
         @schedules = Schedule.order(:name)
-        @groups = Group.includes(:schedule).order('schedules.name').order('groups.name')
+        @groups = Group.includes(:schedule).order("schedules.name").order("groups.name")
     end
 
     def new
         @user = User.new
         if params[:multiple]
-            render 'new_multiple'
+            render "new_multiple"
         else
-            render 'new'
+            render "new"
         end
     end
 
@@ -36,7 +36,7 @@ class Admin::UsersController < ApplicationController
                         User.create!(name: name, mail: mail, schedule_id: params[:user][:schedule_id], role: params[:user][:role])
                     rescue ActiveRecord::RecordNotUnique
                         if u = User.find(mail: mail)
-                            
+
                         end
                     end
                 end
@@ -48,7 +48,7 @@ class Admin::UsersController < ApplicationController
             if @user.save
                 redirect_to user_path(@user.id)
             else
-                render 'new'
+                render "new"
             end
         end
     end

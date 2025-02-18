@@ -8,15 +8,15 @@ class Settings < RailsSettings::Base
     end
 
     scope :accounts do
-        field :registration_phase, default: 'before'
+        field :registration_phase, default: "before"
         field :login_by_email, default: true
         field :exam_code, default: nil
         field :exam_show_personal, default: false
     end
 
     scope :site do
-        field :git_repo, default: ENV['GITHUB_BASE']
-        field :git_branch, default: ENV['GITHUB_BRANCH']
+        field :git_repo, default: ENV["GITHUB_BASE"]
+        field :git_branch, default: ENV["GITHUB_BRANCH"]
         field :send_grade_mails, default: false
         field :room_for_toc
         field :public_schedule
@@ -26,7 +26,7 @@ class Settings < RailsSettings::Base
         field :hands_allow
         field :hands_only
         field :hands_location
-        field :hands_location_type, default: 'tafelnummer'
+        field :hands_location_type, default: "tafelnummer"
         field :hands_location_bumper
         field :hands_link
         field :hands_groups

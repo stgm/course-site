@@ -17,7 +17,7 @@ class User::FinalGradeCalculator
         end
 
         if @debug
-            grades['_debug'] = @debug
+            grades["_debug"] = @debug
         end
 
         return grades # { final: '6.0', resit: '0.0' }
@@ -27,25 +27,25 @@ class User::FinalGradeCalculator
         # attempt to calculate each partial grade
         weighted_partial_grades = relevant_parts.collect do |partial_name, weight|
             partial_config = @grading_config.components[partial_name]
-            if partial_config['type'] == 'points'
+            if partial_config["type"] == "points"
                 res = grade_from_points_from_submits(partial_config, user_grade_list)
                 @debug << "- #{partial_name}: grade_from_points_from_submits -> #{res}"
-                [partial_name, res, weight]
-            elsif partial_config['type'] == 'maximum'
+                [ partial_name, res, weight ]
+            elsif partial_config["type"] == "maximum"
                 res = maximum_grade_from_submits(partial_config, user_grade_list)
                 @debug << "- #{partial_name}: maximum_grade_from_submits -> #{res}"
-                [partial_name, res, weight]
+                [ partial_name, res, weight ]
             else
                 res = average_grade_from_submits(partial_config, user_grade_list)
                 @debug << "- #{partial_name}: average_grade_from_submits -> #{res}"
-                [partial_name, res, weight]
+                [ partial_name, res, weight ]
             end
         end
 
         @debug << "\n\n"
 
         # if any of the partial grades has failed, propagate this result immediately
-        partial_grades = weighted_partial_grades.map{|g| g[1]}
+        partial_grades = weighted_partial_grades.map { |g| g[1] }
         return :not_attempted if partial_grades.include? :not_attempted
         return :missing_data  if partial_grades.include? :missing_data
         return :insufficient  if partial_grades.include? :insufficient
@@ -55,23 +55,23 @@ class User::FinalGradeCalculator
 
     # calculate subgrade based on per-assignment points
     def grade_from_points_from_submits(config, user_grade_list)
-        grades = collect_grades_from_submits(config['submits'], user_grade_list)
+        grades = collect_grades_from_submits(config["submits"], user_grade_list)
 
         # if any specified grade has weight 0 it should be required,
         # thus yields lowest grade if not present
-        if grades.select{|name, grade, weight| weight == 0 && (grade.nil? || grade == 0)}.present?
+        if grades.select { |name, grade, weight| weight == 0 && (grade.nil? || grade == 0) }.present?
             return 1
         end
 
-        if config['attempt_required'] && missing_data?(grades)
+        if config["attempt_required"] && missing_data?(grades)
             return :not_attempted
         end
 
-        potential = get_points_potential(grades, config['maximum'])
+        potential = get_points_potential(grades, config["maximum"])
         total = get_points_total(grades)
         grade = points_to_grade(total, potential)
 
-        if config['minimum'] && grade < config['minimum']
+        if config["minimum"] && grade < config["minimum"]
             return :insufficient
         end
 
@@ -108,7 +108,7 @@ class User::FinalGradeCalculator
     end
 
     def maximum_grade_from_submits(config, user_grade_list)
-        grades = collect_grades_from_submits(config['submits'], user_grade_list)
+        grades = collect_grades_from_submits(config["submits"], user_grade_list)
 
         # if some of the assignments were not handed in or graded, we
         # do not allow this strategy to produce a grade (fill in 0 as
@@ -117,17 +117,17 @@ class User::FinalGradeCalculator
             return :missing_data
         end
 
-        max_grade = grades.max{|g1, g2| g1[1] <=> g2[1]}
+        max_grade = grades.max { |g1, g2| g1[1] <=> g2[1] }
         grade = max_grade[1]
 
         # add any bonus grades
-        if config['bonus'].present?
-            bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
+        if config["bonus"].present?
+            bonuses = collect_grades_from_submits(config["bonus"], user_grade_list)
             grade += total_bonus(bonuses)
-            grade = [10, grade].min
+            grade = [ 10, grade ].min
         end
 
-        if config['minimum'] && average < config['minimum']
+        if config["minimum"] && average < config["minimum"]
             return :insufficient
         end
 
@@ -135,33 +135,33 @@ class User::FinalGradeCalculator
     end
 
     def average_grade_from_submits(config, user_grade_list)
-        grades = collect_grades_from_submits(config['submits'], user_grade_list)
+        grades = collect_grades_from_submits(config["submits"], user_grade_list)
 
         # missing data for something like an exam receives a "not attempted" note
-        return :not_attempted if config['attempt_required'] && missing_data?(grades)
+        return :not_attempted if config["attempt_required"] && missing_data?(grades)
 
         # deal with missing data: if allowed, fill with default; else immediately cancel
-        if missing_data?(grades) && config['fill_missing'].present?
-            grades = fill_missing(grades, config['fill_missing'])
+        if missing_data?(grades) && config["fill_missing"].present?
+            grades = fill_missing(grades, config["fill_missing"])
         elsif missing_data?(grades)
             return :missing_data
         end
 
         # zeroed data for something like tests receives an "insufficient"
-        return :insufficient if config['required'] && zeroed_data?(grades)
+        return :insufficient if config["required"] && zeroed_data?(grades)
 
-        grades = drop_lowest_from(grades) if config['drop'] == :lowest
+        grades = drop_lowest_from(grades) if config["drop"] == :lowest
         grade = calculate_average(grades)
 
         # add any bonus grades
-        if config['bonus'].present?
-            bonuses = collect_grades_from_submits(config['bonus'], user_grade_list)
+        if config["bonus"].present?
+            bonuses = collect_grades_from_submits(config["bonus"], user_grade_list)
             grade += total_bonus(bonuses)
-            grade = [10, grade].min
+            grade = [ 10, grade ].min
         end
 
         # two similar kinds of "insufficient", one for minimum grade, and one for failed tests
-        if config['minimum'] && grade < config['minimum']
+        if config["minimum"] && grade < config["minimum"]
             return :insufficient
         end
 
@@ -170,7 +170,7 @@ class User::FinalGradeCalculator
 
     def total_bonus(grades)
         # remove any zero/non grades from the bonus list
-        bonuses = grades.reject{|g| g[1] == nil || g[1] == 0}
+        bonuses = grades.reject { |g| g[1] == nil || g[1] == 0 }
 
         # sum all and add to grade
         count_bonuses = bonuses.map do |g|
@@ -190,7 +190,7 @@ class User::FinalGradeCalculator
             # if no user_grade_list[grade_name] exists this will enter 'nil' into the resulting array
             grade = user_grade_list[grade_name] && user_grade_list[grade_name].assigned_grade
             grade = convert_pass_to_10(grade) if kwargs.key?(:convert_pass_to_10)
-            [grade_name, grade, weight]
+            [ grade_name, grade, weight ]
         end
     end
 
@@ -204,28 +204,28 @@ class User::FinalGradeCalculator
 
     def missing_data?(grades)
         # any of the grades are missing
-        grades.select{|g| g[1]==nil }.any?
+        grades.select { |g| g[1]==nil }.any?
     end
 
     def fill_missing(grades, value)
         grades.map do |g|
             if g[1].blank?
-                [g[0], value, g[2]]
+                [ g[0], value, g[2] ]
             else
-                [g[0], g[1], g[2]]
+                [ g[0], g[1], g[2] ]
             end
         end
     end
 
     def zeroed_data?(grades)
         # any of the grades are zeroed
-        grades.select{|g| g[1]==0 }.any?
+        grades.select { |g| g[1]==0 }.any?
     end
 
     def drop_lowest_from(grades)
         # only removes lowest if there is more than 1 grade
         return grades if grades.length <= 1
-        min = grades.min { |x,y| x[1] <=> y[1] }
+        min = grades.min { |x, y| x[1] <=> y[1] }
         grades.delete(min)
         grades
     end
@@ -233,7 +233,7 @@ class User::FinalGradeCalculator
     def calculate_average(grades)
         # multiply each grade by its weight
         total = grades.inject(0) { |total, (name, grade, weight)| total += grade * weight }
-        weight = grades.map{|g| g[2]}.sum
+        weight = grades.map { |g| g[2] }.sum
         return total.to_f / weight
     end
 

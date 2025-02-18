@@ -3,7 +3,7 @@ class Admin::SiteController < ApplicationController
     before_action :authorize
     before_action :require_admin
 
-    layout 'modal'
+    layout "modal"
 
     # Show all available site configuration options.
     def index
@@ -13,7 +13,7 @@ class Admin::SiteController < ApplicationController
     # Allows changing arbitrary settings in the settings model.
     def settings
         if setting = params["settings"]
-            setting.each do |k,v|
+            setting.each do |k, v|
                 v = v == "1" if v == "1" or v == "0"
                 Settings.send "#{k}=", v
             end
@@ -26,8 +26,8 @@ class Admin::SiteController < ApplicationController
     end
 
     def set_git_version
-        repo = '.' #params['repo']
-        version = params['version']
+        repo = "." # params['repo']
+        version = params["version"]
         logger.info "SETTING GIT VERSION #{version}"
         Settings.git_version = Settings.git_version.merge({ repo => version })
         head :ok
@@ -37,12 +37,12 @@ class Admin::SiteController < ApplicationController
     def set_git_repo
         if Settings.git_repo.present?
             # refuse to set new repo if already present (because we don't have delete/replace functionality)
-            redirect_back fallback_location: '/', alert: 'You already cloned a repo once!'
+            redirect_back fallback_location: "/", alert: "You already cloned a repo once!"
         else
             Settings.git_repo = params[:repo_url]
             Settings.git_branch = params[:repo_branch]
             Course::Loader.new.run
-            redirect_back fallback_location: '/', notice: 'The course content was successfully cloned.'
+            redirect_back fallback_location: "/", notice: "The course content was successfully cloned."
         end
     end
 

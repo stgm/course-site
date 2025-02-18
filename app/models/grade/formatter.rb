@@ -1,11 +1,12 @@
 module Grade::Formatter
+
     extend ActiveSupport::Concern
 
-    def format(weight=nil)
+    def format(weight = nil)
         current_grade = assigned_grade
-        return '--' if current_grade.blank?
-        case self.type || 'float'
-        when 'points'
+        return "--" if current_grade.blank?
+        case self.type || "float"
+        when "points"
             if current_grade == -1 && weight.present?
                 # display full points
                 return weight.to_s
@@ -16,11 +17,11 @@ module Grade::Formatter
                 # display decimal grade if decimals are available
                 return current_grade.to_s
             end
-        when 'integer'
+        when "integer"
             return current_grade.to_i.to_s
-        when 'pass'
-            if current_grade.between?(-1,0)
-                return (current_grade==-1 && 'v' || 'x')
+        when "pass"
+            if current_grade.between?(-1, 0)
+                return (current_grade==-1 && "v" || "x")
             else
                 return current_grade.to_s
             end
@@ -28,4 +29,5 @@ module Grade::Formatter
             return current_grade.to_s
         end
     end
+
 end

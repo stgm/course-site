@@ -3,7 +3,7 @@ class Course::Tools
     #
     def self.prune_empty_pages
         # find all pages having no subpages
-        to_delete = Page.includes(:subpages).where(:subpages => { :id => nil }).pluck(:id)
+        to_delete = Page.includes(:subpages).where(subpages: { id: nil }).pluck(:id)
 
         # remove those pages and disassociate any related psets
         Page.where("id in (?)", to_delete).destroy_all
@@ -49,10 +49,10 @@ class Course::Tools
             exam = Exam.find_or_initialize_by(pset: p)
             exam.config = {}
             if p.config["files"].present?
-                exam.config = exam.config.deep_merge({ "files" => p.config["files"]["required"].collect{|k,v| { 'name' => k, 'template' => v } } })
+                exam.config = exam.config.deep_merge({ "files" => p.config["files"]["required"].collect { |k, v| { "name" => k, "template" => v } } })
             end
             if p.config["buttons"].present?
-                exam.config = exam.config.deep_merge({ "buttons" => p.config["buttons"].collect{|k,v| { 'name' => k, 'commands' => v } } })
+                exam.config = exam.config.deep_merge({ "buttons" => p.config["buttons"].collect { |k, v| { "name" => k, "commands" => v } } })
             end
             exam.save
         else
@@ -64,7 +64,7 @@ class Course::Tools
         p = Pset.where(name: name).first_or_create
         p.order = order
         p.final = true
-        p.config = { 'type' => 'float' }
+        p.config = { "type" => "float" }
         p.save
     end
 
@@ -75,7 +75,7 @@ class Course::Tools
         res = {}
 
         ps.each do |p|
-            hash = hashify_path(p.slug.split('/'), p.slug, p.title)
+            hash = hashify_path(p.slug.split("/"), p.slug, p.title)
             res.deep_merge! hash unless p.slug.blank?
         end
 

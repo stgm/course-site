@@ -3,17 +3,17 @@ class Auth::PinController < ApplicationController
     # Facilitates login by pin
 
     def self.available?
-        Settings.registration_phase == 'exam'
+        Settings.registration_phase == "exam"
     end
 
-    layout 'blank'
+    layout "blank"
 
     def login
         # pincode form
     end
 
     def validate
-        if  Settings.registration_phase == 'exam' &&
+        if  Settings.registration_phase == "exam" &&
             Settings.exam_code &&
             params[:exam_code].size >= 5 &&
             params[:pin_code].size == 4 &&

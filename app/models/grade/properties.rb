@@ -1,4 +1,5 @@
 module Grade::Properties
+
     extend ActiveSupport::Concern
 
     included do
@@ -28,4 +29,5 @@ module Grade::Properties
         self.status = Grade.statuses[:unfinished] if self.assigned_grade.blank?
         true
     end
+
 end

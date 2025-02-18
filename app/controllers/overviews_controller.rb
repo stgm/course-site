@@ -6,7 +6,7 @@ class OverviewsController < ApplicationController
     before_action :require_staff
     before_action :require_senior, only: [ :show ]
 
-    layout 'navbar'
+    layout "navbar"
 
     def index
         if current_user.assistant?
@@ -15,20 +15,20 @@ class OverviewsController < ApplicationController
             @groups = current_user.groups
             @users = User.where(group: @groups).not_staff.status_active
             @users = @users.
-                includes(:group, { submits: [:pset, :grade] }).
+                includes(:group, { submits: [ :pset, :grade ] }).
                 order("groups.name").
                 order(:name)
             @subs = Submit.indexed_by_pset_and_user_for @users
 
             @grouped_users = @users.group_by(&:group)
             @overview = current_schedule.grading_config.overview
-            render 'overview' and return
+            render "overview" and return
         elsif current_user.head?
             if current_user.schedules.empty? && current_user.groups.empty?
-                redirect_back(fallback_location: '/', alert: "You haven't been assigned a schedule yet!")
+                redirect_back(fallback_location: "/", alert: "You haven't been assigned a schedule yet!")
                 return
             end
-            slug = current_user.schedule #current_user.schedules.first
+            slug = current_user.schedule # current_user.schedules.first
             redirect_to(overview_path(slug)) and return if slug.present?
         elsif current_user.admin?
             # default to currently selected schedule
@@ -36,7 +36,7 @@ class OverviewsController < ApplicationController
             redirect_to(overview_path(slug)) and return if slug.present?
         end
 
-        redirect_back(fallback_location: '/', alert: 'No schedules') and return if slug.blank?
+        redirect_back(fallback_location: "/", alert: "No schedules") and return if slug.blank?
     end
 
     def show
@@ -57,7 +57,7 @@ class OverviewsController < ApplicationController
         end
         load_data
         begin
-            render 'overview'
+            render "overview"
         rescue
             redirect_to :root, alert: "Overview CRASHED, please reload courseware to check config files."
         end
@@ -71,7 +71,7 @@ class OverviewsController < ApplicationController
 
         @users = @selected_schedule.users.not_staff
         @users = @users.where(group: @groups) if current_user.head? && @accessible_schedules.none?
-        @title = 'List users'
+        @title = "List users"
 
         @active_count = @users.status_active.count
         @registered_count = @users.status_registered.count
@@ -79,18 +79,18 @@ class OverviewsController < ApplicationController
         @done_count = @users.status_done.count
 
         @users = @users.
-            includes(:group, { submits: [:pset, :grade] }).
+            includes(:group, { submits: [ :pset, :grade ] }).
             order("groups.name").
             order(:name)
 
         case params[:status]
-        when 'active'
+        when "active"
             @users = @users.status_active
-        when 'registered'
+        when "registered"
             @users = @users.status_registered
-        when 'inactive'
+        when "inactive"
             @users = @users.status_inactive
-        when 'done'
+        when "done"
             @users = @users.status_done
         end
 
