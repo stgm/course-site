@@ -1,4 +1,5 @@
 module User::Profileable
+
     extend ActiveSupport::Concern
 
     included do
@@ -41,4 +42,5 @@ module User::Profileable
     def valid_profile?
         return self.persisted? && !self.name.blank?
     end
+
 end

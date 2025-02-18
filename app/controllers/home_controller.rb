@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     before_action :authorize,     except: [ :index, :manifest ]
     before_action :require_staff, except: [ :index, :manifest ]
 
-    layout 'blank'
+    layout "blank"
 
     def index
         if logged_in?
@@ -14,7 +14,7 @@ class HomeController < ApplicationController
                 redirect_to profile_path
             elsif !current_user.valid_schedule? && Schedule.many_registerable?
                 redirect_to profile_path
-            elsif current_user.admin? && !Settings.git_version.key?('.')
+            elsif current_user.admin? && !Settings.git_version.key?(".")
                 # allow connecting course materials git
                 redirect_to home_clone_path
             elsif Settings.hands_only && !current_user.staff?
@@ -32,12 +32,12 @@ class HomeController < ApplicationController
                 redirect_to syllabus_path
             end
         else
-            if Settings.registration_phase != 'exam' && Page.find_by_slug('')
+            if Settings.registration_phase != "exam" && Page.find_by_slug("")
                 # public syllabus as welcome page
                 redirect_to syllabus_path
             else
                 # basic course info + login buttons
-                @page_name = t('account.login_or_register')
+                @page_name = t("account.login_or_register")
                 @course_name = "Course Website"
             end
         end

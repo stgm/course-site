@@ -1,7 +1,8 @@
 # TODO remove openstruct dependency or decide to keep it
-require 'ostruct'
+require "ostruct"
 
 module Grade::SubGrades
+
     extend ActiveSupport::Concern
 
     included do
@@ -12,7 +13,7 @@ module Grade::SubGrades
             # this adds automatic grades to the subgrades quite aggressively
             if !self.persisted? && self.submit.present?
                 # add any newly found autogrades to the subgrades as default
-                self.submit.automatic_scores.each do |k,v|
+                self.submit.automatic_scores.each do |k, v|
                     self.subgrades[k] = v if not self.subgrades[k].present?
                 end
             end
@@ -21,10 +22,10 @@ module Grade::SubGrades
 
     def subgrades=(val)
         # take this opportunity to convert any stringified stuff to numbers
-        val.each do |k,v|
+        val.each do |k, v|
             # get type from grading config
             begin
-                grade_type = grading_config['subgrades'][k]
+                grade_type = grading_config["subgrades"][k]
             rescue
                 grade_type = "integer"
             end
@@ -48,10 +49,11 @@ module Grade::SubGrades
 
         def self.load(value)
             if value.present?
-                OpenStruct.new YAML.safe_load(value, permitted_classes: [Symbol, OpenStruct])
+                OpenStruct.new YAML.safe_load(value, permitted_classes: [ Symbol, OpenStruct ])
             else
                 OpenStruct.new
             end
         end
     end
+
 end

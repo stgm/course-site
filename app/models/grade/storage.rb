@@ -1,4 +1,5 @@
 module Grade::Storage
+
     extend ActiveSupport::Concern
 
     def grade
@@ -13,18 +14,18 @@ module Grade::Storage
         if new_grade.blank? # erases the grade
             super(nil)
         elsif new_grade.class == String
-            new_grade.sub!(/,/,'.')
+            new_grade.sub!(/,/, ".")
             case self.type
-            when 'float', 'points'
+            when "float", "points"
                 super(10.0 * new_grade.to_f)
             else # integer, pass
                 super(10.0 * new_grade.to_i)
             end
         else
             case self.type
-            when 'float', 'points'
+            when "float", "points"
                 super(10.0 * new_grade.to_f)
-            when 'integer', 'pass'
+            when "integer", "pass"
                 super(10.0 * new_grade.to_i)
             else
                 super(10.0 * new_grade.to_f)
@@ -39,4 +40,5 @@ module Grade::Storage
             super((new_grade * 10.0).round)
         end
     end
+
 end

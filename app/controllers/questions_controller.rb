@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
     def index
         @page = Page.where(slug: params[:slug]).first
         @questions = @page.questions.order(updated_at: :desc).all
-        render 'page/questions'
+        render "page/questions"
     end
 
     def show

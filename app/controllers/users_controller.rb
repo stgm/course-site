@@ -4,11 +4,11 @@ class UsersController < ApplicationController
     include NavigationHelper
 
     before_action :authorize
-    before_action :require_admin, except: [:show, :search]
-    before_action :require_staff, only: [:show, :search]
+    before_action :require_admin, except: [ :show, :search ]
+    before_action :require_staff, only: [ :show, :search ]
     before_action :set_user_scope
 
-    layout 'modal'
+    layout "modal"
 
     def search
         if params[:text] != ""
@@ -36,12 +36,12 @@ class UsersController < ApplicationController
             @attend = @student.attendance_records.group_by_day(:cutoff, format: "%d %B %Y").count
             @items = @student.notes.includes(:author).order(created_at: :desc)
 
-            @subs = @student.submits.includes(:grade).index_by{|i| [i.pset_id, i.user_id]}
+            @subs = @student.submits.includes(:grade).index_by { |i| [ i.pset_id, i.user_id ] }
 
             @overview = @student.grading_config.overview
         else
             @items = @student.notes.includes(:author).order(created_at: :desc)
-            render 'notes'
+            render "notes"
         end
     end
 
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
     def calculate_final_grade
         # feature has to be enabled by supplying a grading.yml
         @user = @user_scope.find(params[:id])
-        raise ActionController::RoutingError.new('Not Found') if not @user.can_assign_final_grade?
+        raise ActionController::RoutingError.new("Not Found") if not @user.can_assign_final_grade?
         result = @user.assign_final_grade(current_user, only: params[:grades])
         redirect_to @user
     end

@@ -6,7 +6,7 @@ class Auth::MailController < ApplicationController
         !Auth::OpenController.available? || Settings.login_by_email
     end
 
-    layout 'blank'
+    layout "blank"
 
     def login
         # e-mail address form
@@ -16,16 +16,16 @@ class Auth::MailController < ApplicationController
         entry = params[:email].downcase
         parsed = Mail::Address.new entry
         if parsed.address != entry || parsed.domain.split(".").length <= 1
-            redirect_to auth_mail_login_path, alert: 'Email seems invalid' and return
+            redirect_to auth_mail_login_path, alert: "Email seems invalid" and return
         end
         if uva_details = /\A([\d]+)@((?:[-a-z0-9]+\.)*uva\.nl)\z/i.match(entry)
-            if uva_details[2].downcase == 'uva.nl' || uva_details[2].downcase == 'student.uva.nl'
-                redirect_to auth_mail_login_path, alert: 'The address you entered is a login, but not a valid email' and return
+            if uva_details[2].downcase == "uva.nl" || uva_details[2].downcase == "student.uva.nl"
+                redirect_to auth_mail_login_path, alert: "The address you entered is a login, but not a valid email" and return
             end
         end
 
         # bail out invisibly if registration is not open
-        redirect_to root_url, alert: t('account.not_everyone_can_login') and return if !User.authenticate({ mail: params[:email].downcase })
+        redirect_to root_url, alert: t("account.not_everyone_can_login") and return if !User.authenticate({ mail: params[:email].downcase })
 
         # user has entered e-mail address
         session[:login_email] = mail = params[:email].downcase
@@ -52,7 +52,7 @@ class Auth::MailController < ApplicationController
                     session[:user_mail] = mail
                     redirect_to root_url
                 else
-                    redirect_to root_url, alert: t('account.not_everyone_can_login')
+                    redirect_to root_url, alert: t("account.not_everyone_can_login")
                 end
             end
         else

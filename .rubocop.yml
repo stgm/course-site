@@ -1,0 +1,31 @@
+inherit_gem:
+    rubocop-rails-omakase: rubocop.yml
+
+Layout/IndentationWidth:
+    Width: 4
+
+Bundler/OrderedGems:
+    Enabled: false
+
+Style/ClassAndModuleChildren:
+    Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+    Enabled: false
+
+Style/FrozenStringLiteralComment:
+    Enabled: false
+
+Layout/EmptyLinesAroundModuleBody:
+    EnforcedStyle: empty_lines
+
+Style/RedundantReturn:
+    Enabled: false
+
+Layout/CaseIndentation:
+    EnforcedStyle: case
+
+AllCops:
+    Exclude:
+        - "db/**/*.rb"
+        - "test/**/*"

@@ -1,6 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
 
-    default from: ENV['MAILER_FROM'],
+    default from: ENV["MAILER_FROM"],
         "List-Unsubscribe": "<mailto:help@proglab.nl?subject=afmelding%20cursus>",
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"
 

@@ -1,7 +1,7 @@
 module HandsHelper
 
     def get_colors_for_text(t)
-        background = Digest::SHA1.hexdigest(t).slice(0,6)
+        background = Digest::SHA1.hexdigest(t).slice(0, 6)
         rgbval = background.hex
         r = rgbval >> 16
         g = (rgbval & 65280) >> 8
@@ -16,7 +16,7 @@ module HandsHelper
     end
 
     def suggest_prompt
-        t('hands.prompts').sample
+        t("hands.prompts").sample
     end
 
     # the hands dropdown should be shown if entering a location is "required"
@@ -50,13 +50,12 @@ module HandsHelper
                 location: user.last_known_location,
                 waiting_since: nil,
                 spoken_since: user.last_spoken_at,
-                subject: 'Check in',
+                subject: "Check in",
                 question: "Help this student check in for today. #{'They\'ve never had assistance before, so be sure to welcome them to the course and ask how they\'re getting started!' if user.last_spoken_at.nil?}",
                 suggestion: suggestion
             }
             render partial: "hand", locals: locals
         end
-
     end
 
 end

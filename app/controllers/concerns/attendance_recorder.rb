@@ -1,4 +1,5 @@
 module AttendanceRecorder
+
     extend ActiveSupport::Concern
 
     included do
@@ -13,11 +14,12 @@ module AttendanceRecorder
     end
 
     def register_attendance
-        if ( !session[:last_seen_at] || session[:last_seen_at] &&
-              session[:last_seen_at] < 15.minutes.ago ) &&
+        if (!session[:last_seen_at] || session[:last_seen_at] &&
+              session[:last_seen_at] < 15.minutes.ago) &&
               logged_in?
             session[:last_seen_at] = Time.now
             AttendanceRecord.create_for_user(current_user, request_from_local_network?)
         end
     end
+
 end

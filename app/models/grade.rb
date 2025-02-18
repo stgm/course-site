@@ -16,10 +16,10 @@ class Grade < ApplicationRecord
     delegate :initials, to: :grader, prefix: true, allow_nil: true
     before_validation :assign_grader_if_needed
 
-    scope :showable, -> { where(status: [Grade.statuses[:published], Grade.statuses[:exported]]) }
+    scope :showable, -> { where(status: [ Grade.statuses[:published], Grade.statuses[:exported] ]) }
 
     def type
-        grading_config['type']
+        grading_config["type"]
     end
 
     def sufficient?

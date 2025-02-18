@@ -1,4 +1,4 @@
-unless (defined?(Rails::Console) || File.split($0).last == 'rake')
+unless defined?(Rails::Console) || File.split($0).last == "rake"
     scheduler = Rufus::Scheduler.new
 
     # If you want to change the mailing frequency, note that this frequency is
@@ -6,9 +6,9 @@ unless (defined?(Rails::Console) || File.split($0).last == 'rake')
     # and one for making sure only grades of a certain age are emailed, to allow
     # for corrections within that timeframe.
 
-    scheduler.every '55m' do
+    scheduler.every "55m" do
         if GradeMailer.available?
-            Grade.where("grades.mailed_at is null").published.where("grades.updated_at > ?", 1.day.ago).where("grades.updated_at < ?", 2.hours.ago).joins([:submit]).find_each do |g|
+            Grade.where("grades.mailed_at is null").published.where("grades.updated_at > ?", 1.day.ago).where("grades.updated_at < ?", 2.hours.ago).joins([ :submit ]).find_each do |g|
                 if g.comments.present?
                     GradeMailer.new_mail(g).deliver
                     ActiveRecord::Base.transaction do
@@ -19,7 +19,7 @@ unless (defined?(Rails::Console) || File.split($0).last == 'rake')
         end
     end
 
-    scheduler.cron '00 05 * * *' do
+    scheduler.cron "00 05 * * *" do
         # reset locations
         User.update_all(last_known_location: nil)
     end

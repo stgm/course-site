@@ -10,12 +10,12 @@ class PageController < ApplicationController
 
     def index
         redirect_to page_submit_path(slug: params[:slug]) and return if @only_submit
-        @subpages = @page.subpages.select{|x| x.title.downcase != 'submit'}
+        @subpages = @page.subpages.select { |x| x.title.downcase != "submit" }
         @title = @page.title
     end
 
     def submit
-        @subpages = @page.subpages.select{|x| x.title.downcase == 'submit'}
+        @subpages = @page.subpages.select { |x| x.title.downcase == "submit" }
         if @page.pset
             @submit = Submit.find_or_initialize_by(user: current_user, pset: @page.pset)
             @allow_submit = @submit.allow_new_submit?
@@ -27,7 +27,7 @@ class PageController < ApplicationController
     def questions
         redirect_to({ action: :index }) if !@may_show_questions
         @title = @page.title
-        @questions = @page.questions.includes(:user, :rich_text_text, answers: [:user, :rich_text_text] ).order(updated_at: :desc).all
+        @questions = @page.questions.includes(:user, :rich_text_text, answers: [ :user, :rich_text_text ]).order(updated_at: :desc).all
     end
 
     def announcements
@@ -37,15 +37,15 @@ class PageController < ApplicationController
     private
 
     def load_page_components
-        if params[:slug] == 'syllabus'
+        if params[:slug] == "syllabus"
             @page = Page.syllabus
         else
             @page = Page.where(slug: params[:slug]).includes(:subpages).first
         end
 
-        raise ActionController::RoutingError.new('Not Found') and return if !@page
+        raise ActionController::RoutingError.new("Not Found") and return if !@page
 
-        @only_submit = @page.subpages.any? && @page.subpages.select{|x| x.title.downcase != 'submit'}.none?
+        @only_submit = @page.subpages.any? && @page.subpages.select { |x| x.title.downcase != "submit" }.none?
 
         @may_show_content = !@only_submit
         @may_show_questions = logged_in? && !@only_submit && Settings.qa_allow

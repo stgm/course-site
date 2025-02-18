@@ -3,7 +3,7 @@ class Hands::RaisesController < ApplicationController
     before_action :authorize
 
     def show
-        @assist_available = User.where('available > ?', DateTime.now)
+        @assist_available = User.where("available > ?", DateTime.now)
 
         # clear any old requests
         current_user.hands.where("updated_at < ?", Date.today).where(done: false).update_all(done: true, closed_at: Time.now.beginning_of_day)
@@ -19,7 +19,7 @@ class Hands::RaisesController < ApplicationController
                 elsif Settings.hands_location_bumper && !Settings.hands_link && current_user.last_known_location.blank? &&
                       (is_local_ip? || Settings.hands_only)
                     location_small
-                elsif Hand.where(done: false).count > 6 && current_user.hands.where("closed_at > ?", 20.minutes.ago).where(success:true).any?
+                elsif Hand.where(done: false).count > 6 && current_user.hands.where("closed_at > ?", 20.minutes.ago).where(success: true).any?
                     line
                 else
                     form
@@ -48,7 +48,7 @@ class Hands::RaisesController < ApplicationController
                 hand.update(done: false, assist_id: nil, help_question: params[:question], subject: params[:subject], location: params[:location])
             else
                 # create a completely new one
-                hand = Hand.create(user:current_user, help_question: params[:question], subject: params[:subject], location: params[:location])
+                hand = Hand.create(user: current_user, help_question: params[:question], subject: params[:subject], location: params[:location])
                 current_user.update!(last_known_location: params[:location])
             end
         end
@@ -70,24 +70,24 @@ class Hands::RaisesController < ApplicationController
         current_time = Time.now.to_i
         midnight = Time.now.beginning_of_day.to_i
         noon = Time.now.middle_of_day.to_i
-        five_pm = Time.now.change(:hour => 17 ).to_i
-        eight_pm = Time.now.change(:hour => 20 ).to_i
+        five_pm = Time.now.change(hour: 17).to_i
+        eight_pm = Time.now.change(hour: 20).to_i
 
         @greeting = case
                     when midnight.upto(noon).include?(current_time)
-                        t('hands.good_morning')
+                        t("hands.good_morning")
                     when noon.upto(five_pm).include?(current_time)
-                        t('hands.good_afternoon')
+                        t("hands.good_afternoon")
                     when five_pm.upto(eight_pm).include?(current_time)
-                        t('hands.good_evening')
+                        t("hands.good_evening")
                     when eight_pm.upto(midnight + 1.day).include?(current_time)
-                        t('hands.good_night')
-                    end
+                        t("hands.good_night")
+        end
 
-        @assist_available = User.where('available > ?', DateTime.now)
+        @assist_available = User.where("available > ?", DateTime.now)
 
         respond_to do |format|
-            format.js { render 'location' }
+            format.js { render "location" }
         end
     end
 
@@ -95,40 +95,40 @@ class Hands::RaisesController < ApplicationController
         current_time = Time.now.to_i
         midnight = Time.now.beginning_of_day.to_i
         noon = Time.now.middle_of_day.to_i
-        five_pm = Time.now.change(:hour => 17 ).to_i
-        eight_pm = Time.now.change(:hour => 20 ).to_i
+        five_pm = Time.now.change(hour: 17).to_i
+        eight_pm = Time.now.change(hour: 20).to_i
 
         @greeting = case
                     when midnight.upto(noon).include?(current_time)
-                        t('hands.good_morning')
+                        t("hands.good_morning")
                     when noon.upto(five_pm).include?(current_time)
-                        t('hands.good_afternoon')
+                        t("hands.good_afternoon")
                     when five_pm.upto(eight_pm).include?(current_time)
-                        t('hands.good_evening')
+                        t("hands.good_evening")
                     when eight_pm.upto(midnight + 1.day).include?(current_time)
-                        t('hands.good_night')
-                    end
+                        t("hands.good_night")
+        end
 
-        @assist_available = User.where('available > ?', DateTime.now)
+        @assist_available = User.where("available > ?", DateTime.now)
 
         respond_to do |format|
-            format.html { render 'location' }
+            format.html { render "location" }
         end
     end
 
     def form
-        render 'form'
+        render "form"
     end
 
     def line
-        render 'line'
+        render "line"
     end
 
     def waiting
-        @number = Hand.where(done:false, assist:nil).where("created_at < (?)", @question.created_at).count + 1
+        @number = Hand.where(done: false, assist: nil).where("created_at < (?)", @question.created_at).count + 1
 
         respond_to do |format|
-            format.js { render 'waiting' }
+            format.js { render "waiting" }
         end
     end
 
@@ -137,7 +137,7 @@ class Hands::RaisesController < ApplicationController
         @assist = @hand.assist
 
         respond_to do |format|
-            format.js { render 'helping' }
+            format.js { render "helping" }
         end
     end
 

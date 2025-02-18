@@ -19,9 +19,10 @@ require "action_view/railtie"
 Bundler.require(*Rails.groups)
 
 module CourseSite
+
     class Application < Rails::Application
         # Initialize configuration defaults for originally generated Rails version.
-        config.load_defaults 7.1
+        config.load_defaults 8.0
 
         # Please, add to the `ignore` list any other `lib` subdirectories that do
         # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -34,7 +35,7 @@ module CourseSite
         # in config/environments, which are processed later.
         #
         # config.eager_load_paths << Rails.root.join("extras")
-        config.time_zone = 'Amsterdam'
+        config.time_zone = "Amsterdam"
 
         config.action_mailer.smtp_settings = {
             address: ENV["MAILER_ADDRESS"],
@@ -44,7 +45,7 @@ module CourseSite
             password: ENV["MAILER_PASS"]
         }
 
-        config.active_record.yaml_column_permitted_classes = [HashWithIndifferentAccess]
+        config.active_record.yaml_column_permitted_classes = [ HashWithIndifferentAccess ]
 
         config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
             min_threads: 1,
@@ -54,4 +55,5 @@ module CourseSite
         # Don't generate system test files.
         config.generators.system_tests = nil
     end
+
 end

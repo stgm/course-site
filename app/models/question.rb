@@ -2,7 +2,7 @@ class Question < ApplicationRecord
 
     belongs_to :user
     belongs_to :page
-    
+
     has_many :answers
 
     has_rich_text :text

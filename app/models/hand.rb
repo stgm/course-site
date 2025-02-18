@@ -8,7 +8,7 @@ class Hand < ApplicationRecord
 
     scope :waiting, -> { where(assist_id: nil).where.not(done: true) }
     scope :successfully_helped, -> { where(success: true) }
-    scope :total_duration, -> { sum('(JulianDay(closed_at) - JulianDay(claimed_at)) * 60 * 24').round }
+    scope :total_duration, -> { sum("(JulianDay(closed_at) - JulianDay(claimed_at)) * 60 * 24").round }
 
     after_validation do |hand|
         if hand.done
@@ -21,14 +21,14 @@ class Hand < ApplicationRecord
 
     after_save do |hand|
         hand.user.notes.create(
-            text: "Hand #{hand.id} -> #{hand.previous_changes.map{ |k,v| [k, v[1]] }}",
+            text: "Hand #{hand.id} -> #{hand.previous_changes.map { |k, v| [ k, v[1] ] }}",
             author: hand.user,
             log: true
         )
     end
 
     def user_last_seen
-        if attend = self.user.attendance_records.order('cutoff desc').first
+        if attend = self.user.attendance_records.order("cutoff desc").first
             attend.cutoff
         else
             nil

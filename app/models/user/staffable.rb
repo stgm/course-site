@@ -1,4 +1,5 @@
 module User::Staffable
+
     extend ActiveSupport::Concern
 
     included do
@@ -12,8 +13,8 @@ module User::Staffable
         has_many :authored_grades, class_name: "Grade", foreign_key: "grader_id"
         has_many :authored_notes, class_name: "Note", foreign_key: "author_id"
 
-        scope :staff, -> { where(role: [:admin, :assistant, :head]) }
-        scope :not_staff, -> { where.not(role: [:admin, :assistant, :head]) }
+        scope :staff, -> { where(role: [ :admin, :assistant, :head ]) }
+        scope :not_staff, -> { where.not(role: [ :admin, :assistant, :head ]) }
     end
 
     def staff?
@@ -32,4 +33,5 @@ module User::Staffable
             self.schedules
         end
     end
+
 end

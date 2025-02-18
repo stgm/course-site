@@ -58,7 +58,7 @@ class Schedule < ApplicationRecord
         !self_service && schedule_spans.any?
     end
 
-    def load(contents, schedule_page=nil)
+    def load(contents, schedule_page = nil)
         # this method accepts the yaml contents of a schedule file
 
         # save the NAME of the current schedule item, to restore later
@@ -73,7 +73,7 @@ class Schedule < ApplicationRecord
             if components
                 _, name_string, date_string = *components
                 # parse into date object
-                date = Date.strptime(date_string, '%d/%m/%y')
+                date = Date.strptime(date_string, "%d/%m/%y")
                 name = name_string
             else
                 date = nil
@@ -89,7 +89,7 @@ class Schedule < ApplicationRecord
         end
 
         # remove spans that were apparently deleted
-        schedule_spans.where.not(id:touched_spans).delete_all
+        schedule_spans.where.not(id: touched_spans).delete_all
 
         # restore 'current' item
         update_attribute(:current, backup_position && self.schedule_spans.find_by_name(backup_position))

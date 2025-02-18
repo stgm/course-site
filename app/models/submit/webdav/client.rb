@@ -26,10 +26,10 @@ class Submit::Webdav::Client
     end
 
     def create_path(path)
-        segments = path.split('/').reject{|x|x.empty?}
+        segments = path.split("/").reject { |x|x.empty? }
 
         # create the full path segment by segment if it doesn't exist
-        current = ''
+        current = ""
         segments.each do |segment|
             current = File.join(current, segment)
             create_directory_if_not_exists(current)
@@ -37,7 +37,7 @@ class Submit::Webdav::Client
     end
 
     def create_directory_if_not_exists(path)
-        @c.url = @base.delete_suffix('/') + path
+        @c.url = @base.delete_suffix("/") + path
         @c.get
         if @c.response_code == 404
             @c.http :MKCOL

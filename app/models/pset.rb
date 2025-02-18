@@ -13,11 +13,11 @@ class Pset < ApplicationRecord
     serialize :config, coder: YAML, type: Hash
 
     def all_filenames
-        files.map { |h,f| f }.flatten.uniq
+        files.map { |h, f| f }.flatten.uniq
     end
 
     # provides just the config from submit.yml (filenames to be submitted)
-    def submit_config(schedule=nil)
+    def submit_config(schedule = nil)
         config
     end
 

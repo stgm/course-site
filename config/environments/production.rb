@@ -42,10 +42,10 @@ Rails.application.configure do
   config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!)
-  config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info')
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # Prevent health checks from clogging up the logs.
-  config.silence_healthcheck_path = '/up'
+  config.silence_healthcheck_path = "/up"
 
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
@@ -91,11 +91,11 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.rack_cas.server_url = ENV['CAS_BASE_URL']
+  config.rack_cas.server_url = ENV["CAS_BASE_URL"]
 end
 
 Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
-    email_prefix: '[ERROR] ',
-    sender_address: %{"notifier" <#{ENV['COURSE_SITE_ERROR_RECIPIENT']}>},
-    exception_recipients: %w{martijn@stgm.nl}
+    email_prefix: "[ERROR] ",
+    sender_address: %("notifier" <#{ENV['COURSE_SITE_ERROR_RECIPIENT']}>),
+    exception_recipients: %w[martijn@stgm.nl]
 }

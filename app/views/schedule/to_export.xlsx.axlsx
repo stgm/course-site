@@ -1,16 +1,16 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Grades") do |sheet|
-	labels = ["schedule", "group", "id", "name", "type", "grade"]
-	sheet.add_row labels
+    labels = [ "schedule", "group", "id", "name", "type", "grade" ]
+    sheet.add_row labels
 
-	@grades.each do |g|
-		data = []
-		data << (g.user && g.user.schedule && g.user.schedule.name || "")
-		data << (g.user && g.user.group && g.user.group.name || "")
-		data << (g.user && g.user.defacto_student_identifier || "")
-		data << g.user_name
-		data << g.pset_name
-		data << g.assigned_grade
-		sheet.add_row data
-	end
+    @grades.each do |g|
+        data = []
+        data << (g.user && g.user.schedule && g.user.schedule.name || "")
+        data << (g.user && g.user.group && g.user.group.name || "")
+        data << (g.user && g.user.defacto_student_identifier || "")
+        data << g.user_name
+        data << g.pset_name
+        data << g.assigned_grade
+        sheet.add_row data
+    end
 end
