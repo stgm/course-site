@@ -32,7 +32,7 @@ end
 
 # assets
 gem "sprockets-rails"
-gem "sass-rails"
+gem "dartsass-sprockets"
 
 # slug generator
 gem "friendly_id"
@@ -62,8 +62,8 @@ gem "rubyzip", "~> 2.3.0", require: "zip"
 gem "caxlsx_rails"
 
 # front-end
-gem "bootstrap", "~> 5.3.0.alpha3"
-gem "autoprefixer-rails", "~> 10.2.5"
+gem "bootstrap", "~> 5.3.3"
+# gem "autoprefixer-rails", "~> 10.2.5"
 gem "coderay"
 gem "groupdate"
 gem "importmap-rails"
