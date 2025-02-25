@@ -3,19 +3,21 @@ source "https://rubygems.org"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~>8.0.1"
 
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 
 # Use Puma as the app server
 gem "puma", ">= 5.0"
 
+# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
+gem "solid_cache"
+gem "solid_queue"
+# gem "solid_cable"
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
+
 group :development do
-    # shut up icon requests
-    gem "listen"
-    gem "quiet_safari"
     gem "web-console"
     gem "brakeman", require: false
     gem "rubocop-rails-omakase", require: false
