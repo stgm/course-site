@@ -1,0 +1,16 @@
+default: &default
+
+    grade_emails:
+        # If you want to change the mailing frequency, note that this frequency is
+        # present in two places in this code. One for running the scheduler regularly,
+        # and one for making sure only grades of a certain age are emailed, to allow
+        # for corrections within that timeframe.
+        command: "GradeMailer.periodic_round"
+        schedule: every 25 minutes
+
+    reset_locations:
+        command: "User.update_all(last_known_location: nil)"
+        schedule: "00 05 * * *"
+
+production: *default
+development: *default

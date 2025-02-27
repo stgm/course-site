@@ -47,9 +47,6 @@ gem "rest-client"    # for sending submits to the autocheck server
 # manages settings in database
 gem "rails-settings-cached"
 
-# scheduled email sending for grades
-gem "rufus-scheduler"
-
 # content
 gem "kramdown"
 gem "asciidoctor"
