@@ -47,10 +47,10 @@ module CourseSite
 
         config.active_record.yaml_column_permitted_classes = [ HashWithIndifferentAccess ]
 
-        config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
-            min_threads: 1,
-            max_threads: 1,
-            idletime: 600.seconds
+        # config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
+        #     min_threads: 1,
+        #     max_threads: 1,
+        #     idletime: 600.seconds
 
         # Don't generate system test files.
         config.generators.system_tests = nil
