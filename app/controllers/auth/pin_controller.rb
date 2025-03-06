@@ -15,7 +15,7 @@ class Auth::PinController < ApplicationController
     def validate
         if  Settings.registration_phase == 'exam' &&
             Settings.exam_code &&
-            params[:exam_code].size == 6 &&
+            params[:exam_code].size >= 5 &&
             params[:pin_code].size == 4 &&
             Settings.exam_code == params[:exam_code] &&
             @user = User.authenticate_by_pin(params[:pin_code])
