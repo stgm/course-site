@@ -10,12 +10,14 @@ module GradingHelper
                 case contents.filename.extension
                 when 'ipynb'
                     begin
+                        downloaded = contents.download
                         tag.div(
-                            single_dollar_math_markdown(NBConverter.new(contents.download).run),
+                            single_dollar_math_markdown(NBConverter.new(downloaded).run),
                             class: 'ipynb'
                         )
-                    # rescue
-                    #     tag.div "No JSON found"
+                    rescue
+                        tag.div tag.p("No valid JSON found in notebook file, showing first 100 characters: ") + 
+                                tag.pre(downloaded[0, 100])
                     end
                 when 'markdown', 'md'
                     simple_markdown(contents.download.bytes.pack("c*").force_encoding("UTF-8"))
