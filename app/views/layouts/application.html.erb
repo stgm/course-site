@@ -28,6 +28,9 @@
 </head>
 
 <body class="<%= @body_class || controller.controller_name %>">
+    <% if current_user.staff? %>
+    <%= form_tag submits_path(), method: :post, id: 'new_grade_form' do end %>
+    <% end %>
     <%= content_for?(:body) ? yield(:body) : yield %>
     <%= render partial: "modal_browser" %>
 </body>
