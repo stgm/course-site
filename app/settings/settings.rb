@@ -21,6 +21,8 @@ class Settings < RailsSettings::Base
         field :room_for_toc
         field :public_schedule
 
+        field :exam_base_url, default: "https://ide.proglab.nl/exam.html"
+
         field :hands_allow
         field :hands_only
         field :hands_location
