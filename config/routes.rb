@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+    root to: "home#index"
+
     #--LOGIN------------------------------------------------------------------------------------
 
     namespace :auth do
@@ -24,6 +27,8 @@ Rails.application.routes.draw do
     #--ADMIN------------------------------------------------------------------------------------
 
     namespace :admin do
+        mount MissionControl::Jobs::Engine, at: "/jobs"
+
         # site-wide settings, often used only once
         get "site", to: "site#index"
         namespace :site do
@@ -225,7 +230,6 @@ Rails.application.routes.draw do
     #--CONTENT----------------------------------------------------------------------------------
 
     # homepage
-    root to: "home#index"
     get "manifest.json", to: "home#manifest"
     get "home/clone"
     get "syllabus",		 to: "page#index", defaults: { slug: "syllabus" }

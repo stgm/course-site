@@ -238,6 +238,16 @@ GEM
     mini_racer (0.16.0)
       libv8-node (~> 18.19.0.0)
     minitest (5.25.4)
+    mission_control-jobs (1.0.2)
+      actioncable (>= 7.1)
+      actionpack (>= 7.1)
+      activejob (>= 7.1)
+      activerecord (>= 7.1)
+      importmap-rails (>= 1.2.1)
+      irb (~> 1.13)
+      railties (>= 7.1)
+      stimulus-rails
+      turbo-rails
     msgpack (1.8.0)
     multipart-post (2.4.1)
     mutex_m (0.3.0)
@@ -386,8 +396,6 @@ GEM
       logger
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    rufus-scheduler (3.9.2)
-      fugit (~> 1.1, >= 1.11.1)
     sass-embedded (1.85.1-arm64-darwin)
       google-protobuf (~> 4.29)
     sassc-embedded (1.80.4)
@@ -479,6 +487,7 @@ DEPENDENCIES
   kramdown
   kramdown-math-katex
   mini_racer
+  mission_control-jobs
   openid_connect
   pg
   puma (>= 5.0)
@@ -488,7 +497,6 @@ DEPENDENCIES
   rest-client
   rubocop-rails-omakase
   rubyzip (~> 2.3.0)
-  rufus-scheduler
   solid_cache
   solid_queue
   sprockets-rails
