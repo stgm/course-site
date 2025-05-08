@@ -3,9 +3,9 @@ class Auth::OpenController < ApplicationController
     # Facilitates login by OpenID as configured in the environment
 
     def self.available?
-        ENV['OIDC_CLIENT_ID'].present? &&
-        ENV['OIDC_CLIENT_SECRET'].present? &&
-        ENV['OIDC_HOST'].present?
+        ENV["OIDC_CLIENT_ID"].present? &&
+        ENV["OIDC_CLIENT_SECRET"].present? &&
+        ENV["OIDC_HOST"].present?
     end
 
     def login
@@ -13,7 +13,7 @@ class Auth::OpenController < ApplicationController
     end
 
     def callback
-        if params[:error] == 'access_denied'
+        if params[:error] == "access_denied"
             redirect_to root_url and return
         end
 
@@ -35,15 +35,15 @@ class Auth::OpenController < ApplicationController
 
         login = info.subject.downcase
         email = info.email.downcase
-        name = info.nickname.gsub(/\A\.\ /, '')
+        name = info.nickname.gsub(/\A\.\ /, "")
 
         # extract UvA student number from string
         student_number =
-            info.raw_attributes['schac_personal_unique_code'].try(:first).try do |urn|
-                urn.match(/urn:schac:personalUniqueCode:nl:local:uva.nl:studentid:(.*)/).try{|x| x[1]}
+            info.raw_attributes["schac_personal_unique_code"].try(:first).try do |urn|
+                urn.match(/urn:schac:personalUniqueCode:nl:local:uva.nl:studentid:(.*)/).try { |x| x[1] }
             end
 
-        affiliation = JSON(info.raw_attributes['eduperson_affiliation'])
+        affiliation = JSON(info.raw_attributes["eduperson_affiliation"])
 
         user_data = {
             login: login,
@@ -59,7 +59,7 @@ class Auth::OpenController < ApplicationController
             session[:user_mail] = user.mail
             redirect_to root_url
         else
-            redirect_to root_url, alert: t('account.not_everyone_can_login')
+            redirect_to root_url, alert: t("account.not_everyone_can_login")
         end
     end
 
@@ -67,13 +67,13 @@ class Auth::OpenController < ApplicationController
 
     def client
         @client ||= OpenIDConnect::Client.new(
-        identifier: ENV['OIDC_CLIENT_ID'],
-        secret: ENV['OIDC_CLIENT_SECRET'],
+        identifier: ENV["OIDC_CLIENT_ID"],
+        secret: ENV["OIDC_CLIENT_SECRET"],
         redirect_uri: auth_open_callback_url,
-        host: ENV['OIDC_HOST'],
-        authorization_endpoint: '/oidc/authorize',
-        token_endpoint: '/oidc/token',
-        userinfo_endpoint: '/oidc/userinfo'
+        host: ENV["OIDC_HOST"],
+        authorization_endpoint: "/oidc/authorize",
+        token_endpoint: "/oidc/token",
+        userinfo_endpoint: "/oidc/userinfo"
         )
     end
 
@@ -89,7 +89,7 @@ class Auth::OpenController < ApplicationController
     end
 
     def scope
-        default_scope = %w(openid)
+        default_scope = %w[openid]
 
         # Add scope for social provider if social login is requested
         if params[:provider].present?

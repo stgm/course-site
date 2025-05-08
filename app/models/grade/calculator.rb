@@ -1,4 +1,5 @@
 module Grade::Calculator
+
     extend ActiveSupport::Concern
 
     included do
@@ -12,7 +13,7 @@ module Grade::Calculator
         calculated_grade = calculate_grade
         if calculated_grade.present?
             case self.type
-            when 'float', 'points'
+            when "float", "points"
                 # calculated_grade = calculated_grade
             else # integer, pass
                 calculated_grade = calculated_grade.round
@@ -25,11 +26,12 @@ module Grade::Calculator
 
     def calculate_grade
         begin
-            cg = self.subgrades.instance_eval(grading_config['calculation'])
+            cg = self.subgrades.instance_eval(grading_config["calculation"])
         rescue
             cg = nil
         end
 
         return cg
     end
+
 end

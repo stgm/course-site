@@ -19,18 +19,24 @@ require "action_view/railtie"
 Bundler.require(*Rails.groups)
 
 module CourseSite
+
     class Application < Rails::Application
         # Initialize configuration defaults for originally generated Rails version.
-        config.load_defaults 7.0
+        config.load_defaults 8.0
+
+        # Please, add to the `ignore` list any other `lib` subdirectories that do
+        # not contain `.rb` files, or that should not be reloaded or eager loaded.
+        # Common ones are `templates`, `generators`, or `middleware`, for example.
+        config.autoload_lib(ignore: %w[assets tasks])
 
         # Configuration for the application, engines, and railties goes here.
         #
         # These settings can be overridden in specific environments using the files
         # in config/environments, which are processed later.
         #
-        # config.time_zone = "Central Time (US & Canada)"
         # config.eager_load_paths << Rails.root.join("extras")
-        config.time_zone = 'Amsterdam'
+        config.time_zone = "Amsterdam"
+
         config.action_mailer.smtp_settings = {
             address: ENV["MAILER_ADDRESS"],
             domain: ENV["MAILER_DOMAIN"],
@@ -39,14 +45,19 @@ module CourseSite
             password: ENV["MAILER_PASS"]
         }
 
-        config.active_record.yaml_column_permitted_classes = [HashWithIndifferentAccess]
+        config.active_record.yaml_column_permitted_classes = [ HashWithIndifferentAccess ]
 
-        # Can be deleted after load_defaults 7.0
-        config.active_storage.variant_processor = :vips
+        # config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
+        #     min_threads: 1,
+        #     max_threads: 1,
+        #     idletime: 600.seconds
 
-        config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new \
-            min_threads: 1,
-            max_threads: 1,
-            idletime: 600.seconds
+        # Don't generate system test files.
+        config.generators.system_tests = nil
+
+        config.mission_control.jobs.base_controller_class = "AdminController"
+        config.mission_control.jobs.http_basic_auth_enabled = false
+
     end
+
 end

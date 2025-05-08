@@ -1,4 +1,5 @@
 module User::Groupable
+
     extend ActiveSupport::Concern
 
     included do
@@ -9,4 +10,5 @@ module User::Groupable
 
         before_save :reset_group, if: :schedule_id_changed?
     end
+
 end

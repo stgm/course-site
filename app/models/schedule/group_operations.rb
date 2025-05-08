@@ -1,5 +1,6 @@
 # Import and generate group assignments for a schedule.
 module Schedule::GroupOperations
+
     extend ActiveSupport::Concern
 
     def add_group(name)
@@ -40,7 +41,7 @@ module Schedule::GroupOperations
 
         extract_user_info(paste).each do |user_info|
             if !user_info[1].blank?
-                group = Group.where(:name => user_info[1], schedule_id: self.id).first_or_create
+                group = Group.where(name: user_info[1], schedule_id: self.id).first_or_create
             else
                 group = nil
             end
@@ -63,24 +64,24 @@ module Schedule::GroupOperations
             # decide on column contents
             unless @group_column
                 down_line = line.map(&:downcase)
-                @group_column = down_line.index('group') || 10
-                @name_columns = down_line.index('name') && [down_line.index('name')] || [4, 3, 2]
-                @email_column = down_line.index('mail') || down_line.index('mail') || 5
-                @id_columns = down_line.index('id') && [down_line.index('id')] || [0, 1]
+                @group_column = down_line.index("group") || 10
+                @name_columns = down_line.index("name") && [ down_line.index("name") ] || [ 4, 3, 2 ]
+                @email_column = down_line.index("mail") || down_line.index("mail") || 5
+                @id_columns = down_line.index("id") && [ down_line.index("id") ] || [ 0, 1 ]
 
                 # if this line did actually contain column headers it's time to skip to the next one
-                next if down_line.index('group')
+                next if down_line.index("group")
             end
 
             # extract info
-            user_id = line.values_at(*@id_columns).uniq#.join(',')
+            user_id = line.values_at(*@id_columns).uniq# .join(',')
             group_name = line[@group_column]
-            group_name = nil if group_name.blank? || group_name.downcase == 'no group'
-            user_name = line.values_at(*@name_columns).join(' ')
+            group_name = nil if group_name.blank? || group_name.downcase == "no group"
+            user_name = line.values_at(*@name_columns).join(" ")
             user_mail = line[@email_column]
 
             # add to final result
-            result << [user_id, group_name, user_name, user_mail]
+            result << [ user_id, group_name, user_name, user_mail ]
         end
         return result
     end
@@ -94,4 +95,5 @@ module Schedule::GroupOperations
             end
         end
     end
+
 end

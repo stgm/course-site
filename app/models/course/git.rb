@@ -1,8 +1,8 @@
 # Get remote git data, either by pulling existing, or cloning anew.
 #
 class Course::Git
-    LOCAL_DIR = Pathname.new('public')
-    def initialize(base, repo, remote, branch='main')
+    LOCAL_DIR = Pathname.new("public")
+    def initialize(base, repo, remote, branch = "main")
         @basedir = Pathname.new(base)
         @repodir = Pathname.new(repo)
 
@@ -23,7 +23,7 @@ class Course::Git
 
     def update!
         begin
-            @git.pull 'origin', @git.current_branch
+            @git.pull "origin", @git.current_branch
         rescue Git::GitExecuteError
             return false
         end
@@ -40,7 +40,7 @@ class Course::Git
     private
 
     def current_version
-        @git.object('HEAD').sha
+        @git.object("HEAD").sha
     end
 
     def new?
@@ -51,7 +51,7 @@ class Course::Git
     def previous_version
         if new?
             # git magic root hash to get all changes, ever
-            '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
+            "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
         else
             Settings.git_version[@repodir.to_s] || Settings.find_by_var("git_version_#{@repodir}")&.value
         end
@@ -68,14 +68,14 @@ class Course::Git
 
     def get_remote_branch
         remote_branch = Settings.git_branch
-        remote_branch = 'master' if remote_branch.blank?
+        remote_branch = "master" if remote_branch.blank?
         return remote_branch
     end
 
     def changes_since(hash)
         # diff previously loaded commit with HEAD
         # if we leave out HEAD, it will also include uncommitted changes
-        @git.diff(hash, 'HEAD').name_status.map do |path,flag|
+        @git.diff(hash, "HEAD").name_status.map do |path, flag|
             Change.new(@basedir, @repodir, Pathname.new(path), flag)
         end
     end
@@ -134,9 +134,9 @@ class Course::Git
 
         def slug
             (@repo + @path).to_s
-            .split('/')
-            .map{|c| split_info(c)[2].parameterize}
-            .join('/')
+            .split("/")
+            .map { |c| split_info(c)[2].parameterize }
+            .join("/")
         end
 
         def title

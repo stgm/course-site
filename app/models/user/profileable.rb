@@ -1,9 +1,10 @@
 module User::Profileable
+
     extend ActiveSupport::Concern
 
     included do
-        serialize :progress, Hash
-        enum status: [:active, :registered, :inactive, :done], _default: 'registered', _prefix: 'status'
+        serialize :progress, coder: YAML, type: Hash
+        enum :status, { active: 0, registered: 1, inactive: 2, done: 3 }, default: :registered, prefix: :status
         scope :watching, -> { where(alarm: true) }
     end
 
@@ -41,4 +42,5 @@ module User::Profileable
     def valid_profile?
         return self.persisted? && !self.name.blank?
     end
+
 end

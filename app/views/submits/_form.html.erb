@@ -8,7 +8,7 @@
 	<div class="badge bg-secondary" data-auto-save-target="badge"></div>
 
 	<%= hidden_field_tag :commit, :autosave %>
-	<%= grade_form.hidden_field :submit_id %>
+	<%= form.hidden_field :id %>
 	<%#= grade_form.hidden_field :grader_id %>
 
 	<% if @grade.grader != current_user && @grade.updated_at && @grade.updated_at > 10.minutes.ago %>
@@ -53,14 +53,14 @@
 		<% if subgrade_type == 'integer' || subgrade_type == 'float' %>
 		<div class="mb-2 flex-fill">
 			<label for="input_<%= subgrade_name %>" class="control-label ms-1 mb-0"><%= subgrade_name.capitalize %><% if @submit.automatic_scores[subgrade_name] %>(<%= @submit.automatic_scores[subgrade_name] %>)<% end %></label>
-			<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="submit[grade_attributes[subgrades[<%= subgrade_name %>]]]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
+			<input type="text" class="form-control form-control-sm" id="input_<%= subgrade_name %>" name="submit[grade_attributes][subgrades][<%= subgrade_name %>]" placeholder="" value="<%= @grade.subgrades[subgrade_name] if @grade.subgrades %>">
 		</div>
 		<% elsif subgrade_type == 'boolean' %>
 		<div class="mb-2">
 			<div class="checkbox">
 				<label>
-					<%= hidden_field_tag "submit[grade_attributes[subgrades[#{subgrade_name}]]]", 0 %>
-					<%= check_box_tag "submit[grade_attributes[subgrades[#{subgrade_name}]]]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.humanize %>
+					<%= hidden_field_tag "submit[grade_attributes][subgrades][#{subgrade_name}]", 0 %>
+					<%= check_box_tag "submit[grade_attributes][subgrades][#{subgrade_name}]", -1, @grade.subgrades && @grade.subgrades[subgrade_name] && !@grade.subgrades[subgrade_name].zero? %> <%= subgrade_name.humanize %>
 				</label>
 			</div>
 		</div>

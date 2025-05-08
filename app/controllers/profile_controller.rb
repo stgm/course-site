@@ -6,7 +6,7 @@ class ProfileController < ApplicationController
 
     def index
         return head(:not_found) if current_user.valid_profile? && current_user.valid_schedule?
-        render layout: 'blank'
+        render layout: "blank"
     end
 
     def ping
@@ -15,12 +15,12 @@ class ProfileController < ApplicationController
 
     def prev
         current_user.update(current_module: prev_module) if prev_module
-        render partial: 'sidebar_content'
+        render partial: "sidebar_content"
     end
 
     def next
         current_user.update(current_module: next_module) if next_module
-        render partial: 'sidebar_content'
+        render partial: "sidebar_content"
     end
 
     def set_module
@@ -28,17 +28,17 @@ class ProfileController < ApplicationController
         if mod = ScheduleSpan.accessible.where(id: params[:module]).first
             current_user.update(current_module: mod)
         end
-        render partial: 'sidebar_content'
+        render partial: "sidebar_content"
     end
 
     def set_schedule
         current_user.update(schedule_id: params[:schedule_id])
-        redirect_back fallback_location: '/'
+        redirect_back fallback_location: "/"
     end
 
     def save_progress
         if items = params["progress"]
-            items.each do |k,v|
+            items.each do |k, v|
                 v = v == "1" if v == "1" or v == "0"
                 current_user.progress[k] = v
                 current_user.save
@@ -54,11 +54,11 @@ class ProfileController < ApplicationController
         # create user if possible
         user_params = params.require(:user).permit(:name, :pronouns, :schedule_id)
         @user = current_user
-        @user.assign_attributes({schedule_id: Schedule.default.try(:id)}.merge(user_params))
+        @user.assign_attributes({ schedule_id: Schedule.default.try(:id) }.merge(user_params))
         if @user.save
             redirect_to :root
         else
-            render 'index', status: :unprocessable_entity
+            render "index", status: :unprocessable_entity
         end
     end
 

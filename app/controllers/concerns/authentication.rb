@@ -40,7 +40,7 @@ module Authentication
 
     # before_action to require a user to be logged in
     def authorize
-        redirect_to(root_path) && return if not logged_in?
+        redirect_to(main_app.root_path) && return if not logged_in?
         redirect_to profile_path if !current_user.valid_profile?
     end
 

@@ -1,36 +1,36 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Grades") do |sheet|
-	labels = ["ID", "Name","Attendance","Spoken"]
-	labels << "schedule"
-	labels << "group"
-	labels << "status"
-	@psets.each do |pset|
-		labels << pset.name
-	end
-	sheet.add_row labels
+    labels = [ "ID", "Name", "Attendance", "Spoken" ]
+    labels << "schedule"
+    labels << "group"
+    labels << "status"
+    @psets.each do |pset|
+        labels << pset.name
+    end
+    sheet.add_row labels
 
-	@users.each do |user|
-		subs = user.submits.group_by(&:pset_id)
-		# submitted = false
-		data = []
-		data << user.defacto_student_identifier
-		data << user.name
-		data << user.attendance_records.count
-		data << user.hands.where(success:true).count
-		data << (user.schedule && user.schedule.name || "")
-		data << (user.group && user.group.name || "")
-		data << user.status.to_s
-		@psets.each do |pset|
-			if (g = grade_for(subs[pset.id])) == ""
-				data << ""
-			elsif g == -1
-				data << "pass"
-			elsif g == 0
-				data << "fail"
-			else
-				data << grade_for(subs[pset.id])
-			end
-		end
-		sheet.add_row data
-	end
+    @users.each do |user|
+        subs = user.submits.group_by(&:pset_id)
+        # submitted = false
+        data = []
+        data << user.defacto_student_identifier
+        data << user.name
+        data << user.attendance_records.count
+        data << user.hands.where(success: true).count
+        data << (user.schedule && user.schedule.name || "")
+        data << (user.group && user.group.name || "")
+        data << user.status.to_s
+        @psets.each do |pset|
+            if (g = grade_for(subs[pset.id])) == ""
+                data << ""
+            elsif g == -1
+                data << "pass"
+            elsif g == 0
+                data << "fail"
+            else
+                data << grade_for(subs[pset.id])
+            end
+        end
+        sheet.add_row data
+    end
 end

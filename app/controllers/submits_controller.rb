@@ -5,10 +5,10 @@ class SubmitsController < ApplicationController
     include ActiveStorage::SendZip
 
     before_action :authorize
-    before_action :require_senior, except: [:show, :update, :download]
-    before_action :require_staff, only: [:show, :update, :download]
+    before_action :require_senior, except: [ :show, :update, :download ]
+    before_action :require_staff, only: [ :show, :update, :download ]
 
-    layout 'modal'
+    layout "modal"
 
     # Submit and grade editor.
     def show
@@ -17,7 +17,7 @@ class SubmitsController < ApplicationController
 
     # Create a completely new submit (without student interaction).
     def create
-        submit = Submit.where(params[:submit].permit([:pset_id, :user_id])).first_or_create
+        submit = Submit.where(params[:submit].permit([ :pset_id, :user_id ])).first_or_create
         redirect_to submit
     end
 
@@ -29,7 +29,7 @@ class SubmitsController < ApplicationController
             @submit.update! params.require(:submit).permit!
         end
 
-        if params[:commit] == 'autosave'
+        if params[:commit] == "autosave"
             head :ok
         else
             redirect_to @submit
@@ -42,7 +42,7 @@ class SubmitsController < ApplicationController
         if submit.files.count > 1
             send_zip submit.files, filename: "#{submit.pset.name.dasherize}-#{submit.user.name.parameterize}-#{submit.submitted_at.to_fs(:number)}.zip"
         else
-            redirect_to rails_storage_proxy_path(submit.files.first, disposition: 'attachment')
+            redirect_to rails_storage_proxy_path(submit.files.first, disposition: "attachment")
         end
     end
 

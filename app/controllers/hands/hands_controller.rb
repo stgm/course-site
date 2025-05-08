@@ -5,29 +5,29 @@ class Hands::HandsController < ApplicationController
     before_action :authorize
     before_action :require_staff
 
-    layout 'hands'
+    layout "hands"
 
     before_action do
-        @group_name = params['group'] ||  current_user.groups.first&.name || current_user.full_designation.gsub("\n", " &ndash; ")
+        @group_name = params["group"] ||  current_user.groups.first&.name || current_user.full_designation.gsub("\n", " &ndash; ")
         @course_name = Schedule.count > 1 && current_schedule.name || Course.long_name
         @reload_path = hands_path
 
-        I18n.locale = 'en'
+        I18n.locale = "en"
     end
 
     def index
         redirect_to edit_hands_availability_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
 
-        @title = 'Hands'
+        @title = "Hands"
         if params[:term]
             @users = User.where("name like ?", "%#{params[:term]}%").student
-            render 'search'
+            render "search"
         else
-            @my_hands = Hand.where(done:false, assist:current_user).order('created_at asc')
-            @hands = Hand.where(done:false, assist:nil).order('hands.created_at asc')
-            @long_time_users = User.student.where("last_known_location is not null").where('last_seen_at > ? and last_seen_at < ? and (last_spoken_at < ? or last_spoken_at is null)', 1.hours.ago, 3.minutes.ago, Date.today).order('last_spoken_at asc').limit(5)
-            if Settings.hands_groups && params[:group]!='all'
-                selected_group = Group.find_by_name(params['group'])
+            @my_hands = Hand.where(done: false, assist: current_user).order("created_at asc")
+            @hands = Hand.where(done: false, assist: nil).order("hands.created_at asc")
+            @long_time_users = User.student.where("last_known_location is not null").where("last_seen_at > ? and last_seen_at < ? and (last_spoken_at < ? or last_spoken_at is null)", 1.hours.ago, 3.minutes.ago, Date.today).order("last_spoken_at asc").limit(5)
+            if Settings.hands_groups && params[:group]!="all"
+                selected_group = Group.find_by_name(params["group"])
                 @group = current_user.groups.first
                 @hands = @hands.includes(:user).where(users: { group: selected_group || @group })
                 @long_time_users = @long_time_users.where(users: { group: selected_group || @group })
@@ -52,18 +52,18 @@ class Hands::HandsController < ApplicationController
             end
         end
 
-        @title = 'Hand'
+        @title = "Hand"
     end
 
     def new
         load_user
-        @title = 'Hands'
+        @title = "Hands"
     end
 
     def create
         load_user
         create_hand
-        redirect_to action: 'index', only_path: true
+        redirect_to action: "index", only_path: true
     end
 
     def search
@@ -75,7 +75,7 @@ class Hands::HandsController < ApplicationController
             load_hand
             if auto_claim_hand
                 # flash[:notice] = "Go and help this one!"
-                redirect_back fallback_location: '/'
+                redirect_back fallback_location: "/"
             else
                 # flash[:alert] = "Someone was ahead of you!"
                 redirect_to hands_path and return
@@ -89,13 +89,13 @@ class Hands::HandsController < ApplicationController
         if not h.success
             Hands::HandsMailer.cancelled(h, current_user.name.split.first).deliver
         end
-        redirect_to action: 'index', only_path: true
+        redirect_to action: "index", only_path: true
     end
 
     def helpline
         h = Hand.find(params[:id])
         h.update(helpline: true, assist: nil)
-        redirect_to action: 'index', only_path: true
+        redirect_to action: "index", only_path: true
     end
 
     private

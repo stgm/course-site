@@ -58,7 +58,7 @@ class Attachments
     end
 
     def file_names
-        @files.map { |file,info| info.original_filename }
+        @files.map { |file, info| info.original_filename }
     end
 
     def zipped(&block)
@@ -74,7 +74,7 @@ class Attachments
                 zipfile.open &block
             end
         else
-            zipfile = Zip::OutputStream.write_buffer(::LUploadIO.new('file.zip')) do |zio|
+            zipfile = Zip::OutputStream.write_buffer(::LUploadIO.new("file.zip")) do |zio|
                 @files.each do |filename, file|
                     zio.put_next_entry(filename)
                     if file.class == String
@@ -93,17 +93,16 @@ class Attachments
             zipfile.rewind if zipfile.respond_to?(:rewind)
             yield zipfile
         end
-
     end
 
     private
 
     def text_file?(name)
-        return [".py", ".c", ".txt", ".html", ".css", ".h", ".java"].include?(File.extname(name)) || name == "Makefile"
+        return [ ".py", ".c", ".txt", ".html", ".css", ".h", ".java" ].include?(File.extname(name)) || name == "Makefile"
     end
 
     def notebook_file?(name)
-        return [".ipynb"].include?(File.extname(name))
+        return [ ".ipynb" ].include?(File.extname(name))
     end
 
 end
