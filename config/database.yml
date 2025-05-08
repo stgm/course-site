@@ -27,13 +27,13 @@ test:
 
 production:
   primary:
-    adapter: sqlite3
-    database: <%= ENV['DATABASE_NAME'].presence || "db/production.sqlite3" %>
+    <<: *default
+    database: <%= ENV['DATABASE_NAME'].presence || "storage/production.sqlite3" %>
     username: <%= ENV['DATABASE_USER'].presence || "default_user" %>
     password: <%= ENV['DATABASE_PASSWORD'].presence || "default_password" %>
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    timeout: 5000
   queue:
     <<: *default
-    database: storage/production_queue.sqlite3
+    database: <%= ENV['DATABASE_NAME'].presence || "storage/production_queue.sqlite3" %>_queue
+    username: <%= ENV['DATABASE_USER'].presence || "default_user" %>
+    password: <%= ENV['DATABASE_PASSWORD'].presence || "default_password" %>
     migrations_paths: db/queue_migrate
