@@ -57,6 +57,7 @@ class ExamsController < ApplicationController
             exam_name: @submit.user.name, # @exam.pset.name.humanize,
             postback: post_exam_url,
             tabs: @exam.config["files"]&.map { |f| [ f["name"], f["template"] ] }.to_h,
+            hidden_tabs: @exam.config["hidden_files"]&.map { |f| [ f["name"], f["template"] ] }.to_h,
             buttons: @exam.config["buttons"]&.map { |f| [ f["name"], f["commands"] ] }.to_h
         }
 

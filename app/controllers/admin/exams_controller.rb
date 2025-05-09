@@ -20,8 +20,9 @@ class Admin::ExamsController < ApplicationController
 
         params.permit!
 
-        params[:exam][:config][:files]   =   params[:exam][:config][:files].select { |i| i["name"].present? }
-        params[:exam][:config][:buttons] = params[:exam][:config][:buttons].select { |i| i["name"].present? }
+        params[:exam][:config][:files]        = params[:exam][:config][:files].select { |i| i["name"].present? }
+        params[:exam][:config][:hidden_files] = params[:exam][:config][:hidden_files].select { |i| i["name"].present? }
+        params[:exam][:config][:buttons]      = params[:exam][:config][:buttons].select { |i| i["name"].present? }
 
         if @exam.update(params[:exam]) # make safe
             redirect_to admin_exams_path

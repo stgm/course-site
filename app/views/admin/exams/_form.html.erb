@@ -21,6 +21,7 @@
 </div>
 
 <hr>
+<%#-- TEMPLATES -- %>
 
 <% @exam.config['files']&.each do |file| %>
 <div class="">
@@ -48,6 +49,35 @@
 </div>
 
 <hr>
+<%#-- HIDDEN TEMPLATES -- %>
+
+<% @exam.config['hidden_files']&.each do |file| %>
+<div class="">
+    <%= label_tag file['name'], nil, class: 'form-label fw-bold' %>
+    <%= text_field_tag 'exam[config][hidden_files][][name]', file['name'], class: 'form-control' %>
+</div>
+<div class="mb-3">
+    <details>
+        <summary>Edit hidden template</summary>
+        <%= text_area_tag 'exam[config][hidden_files][][template]', file['template'], class: 'form-control', rows: 10 %>
+    </details>
+</div>
+<hr>
+<% end %>
+
+<div class="">
+    <%= label_tag 'New hidden template name:', nil, class: 'form-label fw-bold' %>
+    <%= text_field_tag 'exam[config][hidden_files][][name]', '', class: 'form-control' %>
+</div>
+<div class="mb-3">
+    <details>
+        <summary>Edit template</summary>
+        <%= text_area_tag 'exam[config][hidden_files][][template]', '', class: 'form-control', rows: 10 %>
+    </details>
+</div>
+
+<hr>
+<%#-- BUTTONS -- %>
 
 <% @exam.config['buttons']&.each do |button| %>
 <div class="">
