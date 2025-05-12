@@ -95,12 +95,8 @@ class ExamsController < ApplicationController
 
         # only allow updates as long as no grade was created for this submit
         if @exam.allow_taking? && @submit.grade.blank? && !@submit.locked
-            @submit.files.purge
-            permitted = params.permit(files: {})
-            permitted[:files].each do |filename, attachment|
-                @submit.files.attach(io: attachment.open, filename: filename)
-            end
-            @submit.update(submitted_at: DateTime.now)
+            @submit.files = params[:files].values if params[:files].present?
+            @submit.update(submitted_at: Time.zone.now)
             render status: :accepted, plain: "OK" and return
         end
 
