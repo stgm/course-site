@@ -47,7 +47,7 @@ class Course::Tools
         # create or delete associated exam record if config has { exam: true }
         if p.config.present? && p.config["exam"].present?
             exam = Exam.find_or_initialize_by(pset: p)
-            # exam.config = {}
+            # exam.config = {} # do not delete previous content
             if p.config["files"].present?
                 exam.config = exam.config.deep_merge({ "files" => p.config["files"]["required"].collect { |k, v| { "name" => k, "template" => v } } })
             end
