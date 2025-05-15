@@ -24,8 +24,11 @@ class SubmitsController < ApplicationController
     def update
         @submit = Submit.includes(:grade).find(params[:id])
 
-        if current_user.senior? || @submit.grade.blank? || @submit.grade.unfinished?
-            # update submit but also the linked grade
+        # ensure presence of grade object when grade info is also submitted
+        @submit.build_grade if @submit.grade.nil? && params[:submit][:grade_attributes].present?
+
+        if current_user.senior? || @submit.grade.unfinished?
+            # update submit and the linked grade
             @submit.update! params.require(:submit).permit!
         end
 

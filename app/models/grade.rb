@@ -1,7 +1,7 @@
 class Grade < ApplicationRecord
     include Storage, SubGrades, Properties, Calculator, Formatter
 
-    belongs_to :submit, touch: true
+    belongs_to :submit, inverse_of: :grade, touch: true
     delegate :grading_config, to: :submit
 
     has_one :user, through: :submit
