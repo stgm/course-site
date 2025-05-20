@@ -3,6 +3,9 @@ class ExamsController < ApplicationController
     include NavigationHelper
 
     before_action :authorize, except: [ :json, :post ]
+
+    before_action :prepare_exam_context, only: [ :json, :post ]
+
     skip_before_action :verify_authenticity_token, only: [ :post ]
 
     layout "sidebar"
@@ -15,42 +18,29 @@ class ExamsController < ApplicationController
             render layout: "blank" and return
         end
         @exams = Exam.joins(:pset).order(:name)
-        @exams = @exams.where(locked: false) if !current_user.admin?
+        # only show subselection of active exams for non-admins
+        @exams = @exams.where(locked: false) unless current_user.admin?
     end
 
+    # student starts a new exam session - this can also be a resumption
     def create
         @exam = Exam.includes(:pset).find(params[:id])
 
         # create submit for this exam for this student (if needed!)
         @submit = Submit.find_or_create_by!(pset: @exam.pset, user: current_user)
 
-        # create a (new) submit code and add to submit
+        # we do not want >1 simultaneous sessions, which is why we
+        # create a new submit code each time
         code = SecureRandom.hex(32)
         @submit.update(exam_code: code)
 
         # redirect to external editor with post url and code
         params = "url=#{json_exam_url}&code=#{code}"
-        # if Rails.env.development?
-        #     redirect_to "http://localhost:8009/exam.html?#{params}"
-        # else
-            redirect_to "#{Settings.exam_base_url}?#{params}", allow_other_host: true
-        # end
+        redirect_to "#{Settings.exam_base_url}?#{params}", allow_other_host: true
     end
 
     def json
         headers["Access-Control-Allow-Origin"] = "*"
-
-        # get exam config, including files and base contents
-        @exam = Exam.includes(:pset).find(params[:id])
-        @submit = Submit.where(pset: @exam.pset, exam_code: params[:code]).first
-
-        if params[:code].blank? || @submit.blank?
-            render status: :bad_request, plain: "what you sent is invalid" and return
-        end
-
-        if Settings.registration_phase == "exam" && @submit.user.last_known_ip != request.remote_ip
-            render status: :precondition_failed, plain: "wrong ip" and return
-        end
 
         config = {
             course_name: Course.short_name,
@@ -67,34 +57,23 @@ class ExamsController < ApplicationController
         # if the local cache is present, that will take precedence anyway
         config[:tabs].merge! @submit.all_files.map { |x| [ x[0], x[1].download ] }.to_h
 
-        if !@exam.allow_taking? || @submit.grade.present? || @submit.locked
+        # only allow initializing editor as long as no grade was created for this submit
+        unless exam_is_open_for_user?
             config[:locked] = true
             config[:tabs] = nil
+            config[:hidden_tabs] = nil
             config[:buttons] = nil
         end
 
         render json: config
     end
 
+    # allow posting new files for current exam
     def post
         headers["Access-Control-Allow-Origin"] = "*"
 
-        # allow posting new files for current exam
-        @exam = Exam.includes(:pset).find(params[:id])
-
-        # but only with the submit code
-        @submit = Submit.where(pset: @exam.pset, exam_code: params[:code]).first
-        if @submit.blank?
-            render status: :not_found, plain: "your data is invalid" and return
-        end
-
-        # and, when in exam mode, only if the current ip matches login ip
-        if Settings.registration_phase == "exam" && @submit.user.last_known_ip != request.remote_ip
-            render status: :precondition_failed, plain: "wrong ip" and return
-        end
-
         # only allow updates as long as no grade was created for this submit
-        if @exam.allow_taking? && @submit.grade.blank? && !@submit.locked
+        if exam_is_open_for_user?
             @submit.files = params[:files].values if params[:files].present?
             @submit.update(submitted_at: Time.zone.now)
             render status: :accepted, plain: "OK" and return
@@ -105,4 +84,24 @@ class ExamsController < ApplicationController
 
     private
 
+    def prepare_exam_context
+        @exam = Exam.includes(:pset).find(params[:id])
+        @submit = Submit.includes(:user).find_by(pset: @exam.pset, exam_code: params[:code])
+
+        if params[:code].blank? || @submit.blank?
+            render status: :bad_request, plain: "what you sent is invalid" and return
+        end
+
+        if ip_check_failed?(@submit)
+            render status: :precondition_failed, plain: "wrong ip" and return
+        end
+    end
+
+    def ip_check_failed?(submit)
+        Settings.registration_phase == "exam" && submit.user.last_known_ip != request.remote_ip
+    end
+
+    def exam_is_open_for_user?
+        @submit.user.admin? || (@exam.allow_taking? && @submit.grade.blank? && !@submit.locked)
+    end
 end

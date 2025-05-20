@@ -5,12 +5,17 @@
         <tr>
             <td><%= exam.name.humanize %></td>
             <td>
-                <% if !exam.allow_taking? ||
-                    (s = Submit.where(user: current_user, pset: exam.pset).first) &&
-                    (s.grade.present? || s.locked?) %>
-                (locked)
+                <% if current_user.admin? %>
+                <%= button_to exam.name.humanize, exam_url(id: exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
+                <%# check if the exam would be locked for a student %>
+                <% if !exam.allow_taking? %>
+                <span class="text-muted ms-2">(locked for students)</span>
+                <% end %>
                 <% else %>
-                <%= button_to exam.name.humanize, exam_url(id: exam.id), method: :post,  class: 'btn btn-secondary', data: { turbo: false } %>
+                <% s = Submit.find_by(user: current_user, pset: exam.pset) %>
+                <% if exam.allow_taking? && (!s || (s.grade.blank? && !s.locked?)) %>
+                <%= button_to exam.name.humanize, exam_url(id: exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
+                <% end %>
                 <% end %>
             </td>
         </tr>
