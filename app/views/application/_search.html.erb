@@ -1,6 +1,18 @@
-<div id="search" class="dropdown autocomplete d-none d-lg-block navbarSupportedContent flex-grow-0 ms-auto">
-    <form id="student-search-form" data-bs-toggle="dropdown" action="<%= search_users_path %>" method="get" data-remote="true">
-        <input id="student-search" name="text" type="text" autocomplete="off" class="form-control form-control-sm border-secondary" placeholder="Find student" aria-label="Find student">
+<div id="search"
+    class="dropdown autocomplete d-none d-lg-block navbarSupportedContent flex-grow-0 ms-auto"
+    data-controller="autocomplete">
+    <%# below lacks the normal data-bs-toggle = dropdown %>
+    <form id="student-search-form"
+        action="<%= search_users_path %>"
+        method="get"
+        data-turbo-frame="search-results-frame"
+        data-autocomplete-target="form">
+        <input id="student-search" name="text" type="text" autocomplete="off"
+            data-autocomplete-target="input"
+            class="form-control form-control-sm border-secondary"
+            placeholder="Find student" aria-label="Find student">
     </form>
-    <div id="search-results" class="dropdown-menu autocomplete-results w-100" role="menu"></div>
+    <turbo-frame id="search-results-frame" class="autocomplete-results"
+        data-autocomplete-target="results"></turbo-frame>
+    <button type="submit" hidden></button>
 </div>

@@ -22,7 +22,7 @@ class UsersController < ApplicationController
             @results = []
         end
         respond_to do |format|
-            format.js
+            format.html { render partial: 'search' }
         end
     end
 

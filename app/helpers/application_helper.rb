@@ -147,15 +147,15 @@ module ApplicationHelper
 
     # create a remote form for toggling a user's progress for a page
     def toggle_progress_form(page_name)
-        form_for(:progress, url: profile_save_progress_path(), remote: true) do |form|
-            form.check_box(page_name,
-                {
-                    remote: true,
-                    checked: current_user.progress[page_name],
-                    id: "progress_#{page_name.parameterize}_check",
-                    class: "form-check-input",
-                    onclick: "Rails.fire(this.form, 'submit');"
-                }
+        form_for :progress,
+                 url: profile_save_progress_path,
+                 method: :post,
+                 data: { controller: 'toggle-form' } do |form|
+            form.check_box(
+                page_name,
+                checked: current_user.progress[page_name],
+                id: nil,
+                class: "form-check-input"
             )
         end
     end

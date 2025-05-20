@@ -17,6 +17,6 @@ export default class extends Controller {
     {
         this.inputTarget.value = event.target.dataset.value;
         this.activateButton(event.target);
-        Rails.fire(event.target.form, 'submit');
+        event.target.form.requestSubmit();
     }
 }

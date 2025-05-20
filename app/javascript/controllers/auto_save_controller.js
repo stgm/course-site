@@ -17,7 +17,7 @@ export default class extends Controller {
                 this.badgeTarget.innerHTML = 'unsaved';
                 clearTimeout(saveTimeout);             // typing delays autosaving
                 saveTimeout = setTimeout(function() {
-                    Rails.fire(form, 'submit')
+                    form.requestSubmit();
                     badge.innerHTML = 'saved';
                 }, 500);   // this is the autosave interval
             })

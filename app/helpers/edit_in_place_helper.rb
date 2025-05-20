@@ -14,9 +14,9 @@ module EditInPlaceHelper
         form_options = options[:form] ||= {}
 
         capture do
-            form_for(object, form_options.merge(url: url, remote: true)) do |form|
+            form_for(object, form_options.merge(url: url, data: { controller: 'toggle-form' })) do |form|
                 concat hidden_field_tag(:id)
-                concat form.check_box item, { checked: value, id: "check_#{id}", onchange: "Rails.fire(this.form, 'submit');" }
+                concat form.check_box item, checked: value, id: "check_#{id}"
                 if label_content.present?
                     concat " <label for='check_#{id}'>".html_safe
                     concat label_content

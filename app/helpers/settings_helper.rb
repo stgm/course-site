@@ -27,8 +27,7 @@ module SettingsHelper
                         {
                             checked: Settings.send("#{setting_name}"),
                             id: "settings_#{setting_name}_check",
-                            class: "form-check-input",
-                            onclick: "Rails.fire(this.form, 'submit');"
+                            class: "form-check-input"
                         }
                     ))
                     concat(tag.label label, class: "form-check-label", for: "settings_#{setting_name}_check")
@@ -38,7 +37,7 @@ module SettingsHelper
     end
 
     def settings_form(setting_name)
-        form_for(:settings, url: admin_site_settings_path()) do |form|
+        form_for(:settings, url: admin_site_settings_path(), data: { controller: 'toggle-form' }) do |form|
             yield form
         end
     end

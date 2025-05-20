@@ -1,3 +1,6 @@
+<turbo-frame id="search-results-frame">
+<% if @results.any? %>
+<div id="search-results" class="dropdown-menu show w-100" role="menu">
 <% @results.each do |r| %>
 <%= link_to(r, class:"dropdown-item text-truncate", onclick: "modalBrowser.show(); document.getElementById('search-results').classList.remove('show');", "data-turbo-frame": 'modal') do %>
 <%= r.name %>
@@ -8,4 +11,6 @@
 <% if r.status_inactive? %><span class="badge bg-warning">inactive</span><% end %>
 <% if !r.student? %><span class="badge bg-secondary"><%= r.role %></span><% end %>
 <% end %>
-<% end if @results %>
+<% end %>
+<% end %>
+</div></turbo-frame>
