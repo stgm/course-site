@@ -155,7 +155,6 @@ Rails.application.routes.draw do
         resources :users, only: [ :index, :show, :edit, :update ] do
             collection do
                 get "search"
-                post "assign_pins"
             end
             member do
                 post  "calculate_final_grade"
@@ -208,11 +207,18 @@ Rails.application.routes.draw do
     end
 
     namespace :admin do
-        resources :exams, only: [ :index, :edit, :update ] do
+        resources :exams, only: [ :show, :index, :edit, :update ] do
             collection do
+                post "start_exam_mode"
+                post "stop_exam_mode"
+                post "assign_codes"
                 get "list_codes"
             end
-            post "run_checks"
+            member do
+                post "run_checks"
+                patch "toggle"
+                patch "toggle_student"
+            end
         end
     end
 

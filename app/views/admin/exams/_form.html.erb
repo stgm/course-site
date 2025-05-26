@@ -1,5 +1,9 @@
 <%= form_with(model: [ :admin, @exam ], id: 'exam_form') do |f| %>
 
+<div class="form-check ps-1 pb-1">
+    <label><%= f.check_box :locked %> Lock this exam. When <strong>un</strong>locked, students can use it for practice outside of exam sessions. The setting has no effect during exam sessions.</label>
+</div>
+
 <% if @exam.errors.any? %>
 <div id="error_explanation">
     <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this alert from being saved:</h2>
@@ -12,96 +16,92 @@
 </div>
 <% end %>
 
-<div class="form-check ps-1 pb-1">
-    <label><%= f.check_box :locked %> Lock this exam, disallowing any submissions</label>
+<div class="card mb-3">
+    <h5 class="card-header">Templates</h5>
+    <div class="card-body">
+        <%#-- TEMPLATES -- %>
+        <% @exam.config['files']&.each do |file| %>
+        <div class="row align-items-stretch">
+            <div class="col-3 d-flex flex-column align-items-stretch">
+                <%= text_field_tag 'exam[config][files][][name]', file['name'], class: 'form-control' %>
+                <a href="#" class="btn btn-link p-0 text-light mt-auto align-self-start"      onclick="let r = this.closest('.row'); r.nextElementSibling.remove(); r.remove(); return false;" title="Delete">
+                    <%= bootstrap_icon('trash') %>
+                </a>
+            </div>
+            <div class="col-9">
+                <%= text_area_tag 'exam[config][files][][template]', file['template'], class: 'form-control', rows: 5 %>
+            </div>
+        </div>
+        <hr>
+        <% end %>
+        <div class="row align-items-stretch">
+        <div class="col-3 d-flex flex-column align-items-stretch">
+            <%= text_field_tag 'exam[config][files][][name]', '', class: 'form-control', placeholder: 'Type name to add' %>
+        </div>
+        <div class="col-9">
+            <%= text_area_tag 'exam[config][files][][template]', '', class: 'form-control', rows: 5 %>
+        </div>
+        </div>
+    </div>
 </div>
 
-<div class="form-check ps-1 pb-1">
-    <label><%= f.check_box :current_exam %> Show this exam when exam mode is active</label>
+<div class="card mb-3">
+    <h5 class="card-header">Hidden templates</h5>
+    <div class="card-body">
+        <%#-- HIDDEN TEMPLATES -- %>
+        <% @exam.config['hidden_files']&.each do |file| %>
+        <div class="row align-items-stretch">
+            <div class="col-3 d-flex flex-column align-items-stretch">
+                <%= text_field_tag 'exam[config][hidden_files][][name]', file['name'], class: 'form-control' %>
+                <a href="#" class="btn btn-link p-0 text-light mt-auto align-self-start"      onclick="let r = this.closest('.row'); r.nextElementSibling.remove(); r.remove(); return false;" title="Delete">
+                    <%= bootstrap_icon('trash') %>
+                </a>
+            </div>
+            <div class="col-9">
+                <%= text_area_tag 'exam[config][hidden_files][][template]', file['template'], class: 'form-control', rows: 5 %>
+            </div>
+        </div>
+        <hr>
+        <% end %>
+        <div class="row align-items-stretch">
+            <div class="col-3 d-flex flex-column align-items-stretch">
+                <%= text_field_tag 'exam[config][hidden_files][][name]', '', class: 'form-control', placeholder: 'Type name to add' %>
+            </div>
+            <div class="col-9">
+                <%= text_area_tag 'exam[config][hidden_files][][template]', '', class: 'form-control', rows: 5 %>
+            </div>
+        </div>
+    </div>
 </div>
 
-<hr>
-<%#-- TEMPLATES -- %>
+<div class="card">
+    <h5 class="card-header">Buttons</h5>
+    <div class="card-body">
+        <%#-- BUTTONS -- %>
+        <% @exam.config['buttons']&.each do |button| %>
+        <div class="row align-items-stretch">
+            <div class="col-3 d-flex flex-column align-items-stretch">
+                <%= text_field_tag 'exam[config][buttons][][name]', button['name'], class: 'form-control' %>
+                <a href="#" class="btn btn-link p-0 text-light mt-auto align-self-start"      onclick="let r = this.closest('.row'); r.nextElementSibling.remove(); r.remove(); return false;" title="Delete">
+                    <%= bootstrap_icon('trash') %>
+                </a>
+            </div>
+            <div class="col-9">
+                <%= text_area_tag 'exam[config][buttons][][commands]', button['commands'], class: 'form-control', rows: 5 %>
+            </div>
+        </div>
+        <hr>
+        <% end %>
 
-<% @exam.config['files']&.each do |file| %>
-<div class="">
-    <%= label_tag file['name'], nil, class: 'form-label fw-bold' %>
-    <%= text_field_tag 'exam[config][files][][name]', file['name'], class: 'form-control' %>
-</div>
-<div class="mb-3">
-    <details>
-        <summary>Edit template</summary>
-        <%= text_area_tag 'exam[config][files][][template]', file['template'], class: 'form-control', rows: 10 %>
-    </details>
-</div>
-<hr>
-<% end %>
-
-<div class="">
-    <%= label_tag 'New template name:', nil, class: 'form-label fw-bold' %>
-    <%= text_field_tag 'exam[config][files][][name]', '', class: 'form-control' %>
-</div>
-<div class="mb-3">
-    <details>
-        <summary>Edit template</summary>
-        <%= text_area_tag 'exam[config][files][][template]', '', class: 'form-control', rows: 10 %>
-    </details>
-</div>
-
-<hr>
-<%#-- HIDDEN TEMPLATES -- %>
-
-<% @exam.config['hidden_files']&.each do |file| %>
-<div class="">
-    <%= label_tag file['name'], nil, class: 'form-label fw-bold' %>
-    <%= text_field_tag 'exam[config][hidden_files][][name]', file['name'], class: 'form-control' %>
-</div>
-<div class="mb-3">
-    <details>
-        <summary>Edit hidden template</summary>
-        <%= text_area_tag 'exam[config][hidden_files][][template]', file['template'], class: 'form-control', rows: 10 %>
-    </details>
-</div>
-<hr>
-<% end %>
-
-<div class="">
-    <%= label_tag 'New hidden template name:', nil, class: 'form-label fw-bold' %>
-    <%= text_field_tag 'exam[config][hidden_files][][name]', '', class: 'form-control' %>
-</div>
-<div class="mb-3">
-    <details>
-        <summary>Edit template</summary>
-        <%= text_area_tag 'exam[config][hidden_files][][template]', '', class: 'form-control', rows: 10 %>
-    </details>
-</div>
-
-<hr>
-<%#-- BUTTONS -- %>
-
-<% @exam.config['buttons']&.each do |button| %>
-<div class="">
-    <%= label_tag button['name'], nil, class: 'form-label fw-bold' %>
-    <%= text_field_tag 'exam[config][buttons][][name]', button['name'], class: 'form-control' %>
-</div>
-<div class="mb-3">
-    <details>
-        <summary>Edit commands</summary>
-        <%= text_area_tag 'exam[config][buttons][][commands]', button['commands'], class: 'form-control', rows: 10 %>
-    </details>
-</div>
-<hr>
-<% end %>
-
-<div class="">
-    <%= label_tag 'New button name:', nil, class: 'form-label fw-bold' %>
-    <%= text_field_tag 'exam[config][buttons][][name]', '', class: 'form-control' %>
-</div>
-<div class="mb-3">
-    <details>
-        <summary>Edit commands</summary>
-        <%= text_area_tag 'exam[config][buttons][][commands]', '', class: 'form-control', rows: 10 %>
-    </details>
+        <div class="row align-items-stretch">
+            <div class="col-3 d-flex flex-column align-items-stretch">
+                <%= text_field_tag 'exam[config][buttons][][name]', '', class: 'form-control', placeholder: 'Type name to add' %>
+            </div>
+            <div class="col-9">
+                <%= text_area_tag 'exam[config][buttons][][commands]', '', class: 'form-control', rows: 5 %>
+            </div>
+        </div>
+    </div>
 </div>
 
 <% end %>

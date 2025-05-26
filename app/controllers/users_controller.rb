@@ -79,16 +79,6 @@ class UsersController < ApplicationController
         redirect_to @user
     end
 
-    def assign_pins
-        users = User.not_staff
-        unique_codes = (1111..9999).to_a.sample(users.size)
-
-        users.each_with_index do |user, index|
-            user.update(pin: unique_codes[index], last_known_ip: nil)
-        end
-        render json: true
-    end
-
     private
 
     # limits user operations to the scope allowed for the current user

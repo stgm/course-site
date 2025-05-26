@@ -1,3 +1,7 @@
+<% if Settings.registration_phase == 'exam' %>
+    <%= bootstrap_icon('exclamation-triangle') %> Exam mode is active! Go to <%= link_to "Exams", admin_exams_path, data: { turbo: false } %> to manage.
+<% else %>
+
 <%= settings_form '' do %>
 <%= hidden_field_tag 'redirect', admin_course_path %>
 
@@ -54,20 +58,9 @@
             </ul>
         </div>
     </button>
-    <button type="submit" name="settings[registration_phase]" value="exam" class="list-group-item list-group-item-action">
-        <div class="me-auto">
-            <div class="fw-bold">
-                <%= bootstrap_icon('exclamation-triangle') %> Exam mode
-                <% if Settings.registration_phase == 'exam' %><div class="float-end">✅ selected</div><% end %>
-            </div>
-            <ul class="mb-0">
-                <li>Admins can login</li>
-                <li>Students can only login using PIN</li>
-            </ul>
-        </div>
-    </button>
 </div>
 <% end %>
+<% end%>
 
 <% if Auth::OpenController.available? %>
 <%= toggle_setting_form('login_by_email', 'Allow login by e-mail token in addition to login by OpenID') %>
