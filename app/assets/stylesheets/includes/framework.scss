@@ -25,7 +25,7 @@ body.grading
     #toolbar { grid-area: toolbar; }
 }
 
-body.overviews
+body.overviews, body.exams
 {
     display: grid;
     grid-template-areas: "navbar" "main";

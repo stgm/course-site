@@ -1,13 +1,97 @@
-<% content_for :title do %>
-<h1>Exam administration</h1>
-<% end %>
+<div class="p-5 container">
 
-<div class="list-group">
-<% @exams.all.each do |exam| %>
-<%= link_to exam.name.titleize, edit_admin_exam_path(exam), class: 'list-group-item list-group-item-action' %>
-<% end %>
-</div>
+    <% if Settings.registration_phase == 'exam' %>
+    <div class="alert alert-warning d-flex align-items-center" role="alert">
+        <%= bootstrap_icon('exclamation-triangle') %>
+        <div class="ms-2">
+            Exam mode is active for <strong><%= Exam.find(Settings.exam_current).name.capitalize %></strong>!
+            <%= link_to 'Go to exam session overview', admin_exam_path(id: Settings.exam_current) %>
+        </div>
+        <%= form_with url: stop_exam_mode_admin_exams_path, class: 'ms-auto' do |f| %>
+        <%= f.submit "STOP Exam Mode".html_safe, class: 'btn btn-outline-warning', data: { turbo: false, confirm: 'You are exiting exam mode. No submissions are possible after doing that.' } %>
+        <% end %>
+        </p>
+    </div>
+    <% end %>
 
-<div class="list-group mt-5">
-<%= link_to "Code list", list_codes_admin_exams_path, class: 'list-group-item list-group-item-action', data: { turbo: false } %>
+    <div class="row">
+
+        <div class="col">
+            <h4 class="mt-4">All available exams</h4>
+                    <ul class="list-group">
+                        <% @exams.all.each do |exam| %>
+                        <li class="list-group-item d-flex align-items-center gap-3">
+                            <p class="mb-0">
+                                <strong class="fs-5 me-4"><%= exam.name.titleize %></strong>
+                                <%= 'practice' if !exam.locked? %>
+                            </p>
+
+
+                            <div class="button-bar ms-auto me-0" style="display: inline-flex; gap: 0.5rem;">
+                                <%= link_to "#{bootstrap_icon('menu-button-wide')} <label>Settings</label>".html_safe, edit_admin_exam_path(exam), data: { 'turbo-frame' => 'modal' }, class: 'btn' %>
+                                <%= button_to "#{bootstrap_icon('layout-text-window-reverse')} <label>Test in IDE</label>".html_safe, exam_url(id: exam.id), method: :post, class: 'btn ', data: { turbo: false } %>
+                            </div>
+                        </li>
+                        <% end %>
+                    </ul>
+        </div>
+
+        <div class="col">
+            <h4 class="mt-4">Exam session preparation</h4>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <label class="col-3 col-form-label col-form-label-sm text-end">Access code:</label>
+                        <div class="col-9">
+                            <%= change_setting_form('exam_code', 'This code must be 6 characters long.', label_position: :below, pattern: '\w{6}', required: true, maxlength: 6, validate: true) %>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-3 col-form-label col-form-label-sm text-end">Personal codes:</label>
+                        <div class="col-9">
+                            <% unless Settings.registration_phase == 'exam' %>
+                            <%= button_to 'Assign new', assign_codes_admin_exams_path, method: :post, data:
+                            { confirm: 'This will disable any old codes!' }, id: 'assign-pins-button', class: 'btn btn-primary'
+                            %>
+                            <p class="small">Resets IP locks and assign new access codes to all students in the course.</p>
+                            <% end %>
+                            <%= link_to "Print code list", list_codes_admin_exams_path, class: 'btn btn-primary', data: { turbo: false } %></p>
+                            <% unless Settings.registration_phase == 'exam' %>
+                            <%= toggle_setting_form('exam_show_personal', 'Show personal code on exam page') %>
+                            <% end %>
+                        </div>
+                    </div>
+                    <% unless Settings.registration_phase == 'exam' %>
+                    <div class="row">
+                        <label class="col-3 col-form-label col-form-label-sm text-end">Start exam:</label>
+                        <div class="col-9 pt-1">
+                            <%= form_with url: start_exam_mode_admin_exams_path do |f| %>
+                            <%= f.collection_radio_buttons :exam_id, @exams.all.each, :id, :name do |b| %>
+                            <div class="form-check">
+                                <%= b.radio_button(class: 'form-check-input', required: true) %>
+                                <%= b.label { b.text.titleize } %>
+                            </div>
+                            <% end %>
+                            <p class="pt-2">
+                                <%= f.submit "Start Exam Mode".html_safe, class: 'btn btn-outline-warning', data: { turbo: false, confirm: 'You are starting exam mode. Students must login using a PIN and can only take the selected exam.' } %>
+                            </p>
+                            <% end %>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+            <div class="small">
+                <p class="mb-0">Note:</p>
+                <ul>
+                    <li>When in exam mode, (re-)logging in using an access code plus a personal PIN is required, or else the exam can't be opened.</li>
+                    <li>When a student logs in using their assigned PIN for the first time, their current IP address is used to lock the session.</li>
+                    <li>When logging in again using that same PIN, the IP address needs to be the same, or the login will not be accepted. IPs can be reset by exam admins.</li>
+                </ul>
+            </p>
+
+        </div>
+
+
+    </div>
 </div>

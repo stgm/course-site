@@ -1,21 +1,16 @@
 <section class="markdown" id="exams-content">
     <h1>Tentamens</h1>
+    <% if Settings.exam_show_personal %>
+    Persoonlijke code: <%= current_user.pin || 'onbekend' %>
+    <% end %>
+
     <table class="table table-hover table-borderless align-middle">
         <% @exams.each do |exam| %>
         <tr>
             <td><%= exam.name.humanize %></td>
             <td>
-                <% if current_user.admin? %>
+                <% if exam.open_for_user?(current_user) %>
                 <%= button_to exam.name.humanize, exam_url(id: exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
-                <%# check if the exam would be locked for a student %>
-                <% if !exam.allow_taking? %>
-                <span class="text-muted ms-2">(locked for students)</span>
-                <% end %>
-                <% else %>
-                <% s = Submit.find_by(user: current_user, pset: exam.pset) %>
-                <% if exam.allow_taking? && (!s || (s.grade.blank? && !s.locked?)) %>
-                <%= button_to exam.name.humanize, exam_url(id: exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
-                <% end %>
                 <% end %>
             </td>
         </tr>

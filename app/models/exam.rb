@@ -7,8 +7,17 @@ class Exam < ApplicationRecord
 
     def allow_taking?
         # in exam mode, only show "current" exams
-        (Settings.registration_phase == "exam" && self.current_exam) ||
+        (Settings.registration_phase == "exam" && Settings.exam_current == self.id) ||
         # outside of exam mode, only show unlocked exams (e.g. practice)
         (Settings.registration_phase != "exam" && !self.locked?)
     end
+
+    def open_for_user?(user)
+        @open_for_user ||= {}
+        @open_for_user[user.id] ||= begin
+            submit = Submit.find_by(user: user, pset: pset)
+            user.admin? || allow_taking? && (submit.nil? || !submit.locked?)
+        end
+    end
+
 end

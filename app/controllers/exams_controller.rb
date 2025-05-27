@@ -8,18 +8,19 @@ class ExamsController < ApplicationController
 
     skip_before_action :verify_authenticity_token, only: [ :post ]
 
-    layout "sidebar"
-
+    # get all exams from config that may be submitted
+    # allow student to choose one and start
     def index
-        # get all exams from config that may be submitted
-        # allow student to choose one and start
+        @body_class = 'exam_list'
         if Settings.registration_phase == "exam"
-            @exams = Exam.joins(:pset).order(:name).where(current_exam: true)
-            render layout: "blank" and return
+            # single choice if exam mode
+            @exams = Exam.where(id: Settings.exam_current)
+            render layout: "blank"
+        else
+            # list all practice exams
+            @exams = Exam.joins(:pset).order(:name).where(locked: false)
+            render layout: "sidebar"
         end
-        @exams = Exam.joins(:pset).order(:name)
-        # only show subselection of active exams for non-admins
-        @exams = @exams.where(locked: false) unless current_user.admin?
     end
 
     # student starts a new exam session - this can also be a resumption
@@ -89,19 +90,24 @@ class ExamsController < ApplicationController
         @submit = Submit.includes(:user).find_by(pset: @exam.pset, exam_code: params[:code])
 
         if params[:code].blank? || @submit.blank?
-            render status: :bad_request, plain: "what you sent is invalid" and return
+            render status: :bad_request, plain: "incorrect" and return
         end
 
-        if ip_check_failed?(@submit)
+        if exam_session_active? && !@submit.user.admin? && !ip_checks_out?(@submit)
+            # only if exam is active plus non-admin user, cancel on wrong IP address
             render status: :precondition_failed, plain: "wrong ip" and return
         end
     end
 
-    def ip_check_failed?(submit)
-        Settings.registration_phase == "exam" && submit.user.last_known_ip != request.remote_ip
+    def exam_session_active?
+        Settings.registration_phase == "exam"
+    end
+
+    def ip_checks_out?(submit)
+        submit.user.last_known_ip == request.remote_ip
     end
 
     def exam_is_open_for_user?
-        @submit.user.admin? || (@exam.allow_taking? && @submit.grade.blank? && !@submit.locked)
+        @exam.open_for_user?(@submit.user)
     end
 end

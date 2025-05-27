@@ -1,19 +1,23 @@
 module SettingsHelper
 
     # create a remote form for saving a text setting in the Settings model
-    def change_setting_form(setting_name, label)
-        settings_form(setting_name) do |form|
+    def change_setting_form(setting_name, label, **options)
+        label_position = options.delete(:label_position) || :above
+        validate = options.delete(:validate) || false
+        form_classes = validate && 'was-validated' || ''
+        settings_form(setting_name, class: form_classes) do |form|
             tag.div class: " mb-2" do
-                concat(tag.label label, for: "settings_#{setting_name}_input", class: "small")
+                concat(tag.label label, for: "settings_#{setting_name}_input", class: "small") if label_position == :above
                 concat(tag.div(class: "input-group") do
-                    concat(form.text_field(setting_name, {
+                    concat(form.text_field(setting_name, options.merge({
                         type: "text",
                         class: "form-control",
                         id: "settings_#{setting_name}_input",
                         value: Settings.send("#{setting_name}")
-                    }))
+                    })))
                     concat(tag.button "Save", type: "submit", class: "btn btn-primary")
                 end)
+                concat(tag.label label, for: "settings_#{setting_name}_input", class: "small") if label_position == :below
             end
         end
     end
@@ -36,8 +40,9 @@ module SettingsHelper
         end
     end
 
-    def settings_form(setting_name)
-        form_for(:settings, url: admin_site_settings_path(), data: { controller: 'toggle-form' }) do |form|
+    def settings_form(setting_name, **options)
+        form_classes = options.delete(:class) || ''
+        form_for(:settings, url: admin_site_settings_path(), data: { controller: 'toggle-form setting-text-form' }, class: form_classes) do |form|
             yield form
         end
     end

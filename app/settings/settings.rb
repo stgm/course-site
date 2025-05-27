@@ -10,6 +10,7 @@ class Settings < RailsSettings::Base
     scope :accounts do
         field :registration_phase, default: "before"
         field :login_by_email, default: true
+        field :exam_current, type: :integer, default: nil
         field :exam_code, default: nil
         field :exam_show_personal, default: false
     end
@@ -21,7 +22,7 @@ class Settings < RailsSettings::Base
         field :room_for_toc
         field :public_schedule
 
-        field :exam_base_url, default: "https://ide.proglab.nl/exam.html"
+        field :exam_base_url, default: ENV["COURSE_SITE_EXAM_SERVER"] || "https://ide.proglab.nl/exam.html"
 
         field :hands_allow
         field :hands_only

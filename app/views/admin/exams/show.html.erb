@@ -1,0 +1,61 @@
+<div class="p-5 container">
+
+    <% if Settings.registration_phase == 'exam' %>
+    <%= form_with url: stop_exam_mode_admin_exams_path, class: "float-end" do |f| %>
+    <%= f.submit "STOP Exam Mode".html_safe, class: 'btn btn-outline-warning', data: { turbo: false, confirm: 'You are exiting exam mode. No submissions are possible after doing that.' } %>
+    <% end %>
+    <% end %>
+
+    <h5><%= @exam.name.titlecase %></h5>
+
+    <p>Code: <%= Settings.exam_code %></p>
+
+    <% if @students.any? %>
+    <h6>Active students:</h6>
+
+    <div class="list-group">
+        <% @students.each do |submit| %>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <%= link_to submit, class: "text-decoration-none flex-grow-1", data: { 'turbo-frame' => 'modal' } do %>
+            <div>
+                <p class="mb-1 mb-0"><%= submit.user_name %> <small class="text-body-secondary"><%= submit.user.pin %> / <%= submit.user.last_known_ip %></small></p>
+
+            </div>
+            <small class="text-body-secondary"><%= time_ago_in_words(submit.submitted_at) %> geleden</small>
+            <% end %>
+
+            <div class="ms-3">
+                <div class="form-check form-switch">
+                    <%= checkbox_for(submit, :locked, submit.locked, toggle_student_admin_exam_path(@exam, submit_id: submit.id), form: { class: 'form-switch' }, class: 'form-check-input' ) do 'Locked' end %>
+                </div>
+            </div>
+        </div>
+        <% end %>
+    </div>
+    <% end %>
+
+    <% if @longer_ago.any? %>
+    <h6>Older:</h6>
+
+    <div class="list-group">
+        <% @longer_ago.each do |submit| %>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <%= link_to submit, class: "text-decoration-none flex-grow-1", data: { 'turbo-frame' => 'modal' } do %>
+            <div>
+                <p class="mb-1 mb-0"><%= submit.user_name %> <small class="text-body-secondary"><%= submit.user.pin %> / <%= submit.user.last_known_ip %></small></p>
+
+            </div>
+            <small class="text-body-secondary"><%= time_ago_in_words(submit.submitted_at) %> geleden</small>
+            <% end %>
+
+            <div class="ms-3">
+                <div class="form-check form-switch">
+                    <%= checkbox_for(submit, :locked, submit.locked, toggle_student_admin_exam_path(@exam, submit_id: submit.id), form: { class: 'form-switch' }, class: 'form-check-input' ) do 'Locked' end %>
+                </div>
+            </div>
+        </div>
+        <% end %>
+    </div>
+    <% end %>
+
+</div>

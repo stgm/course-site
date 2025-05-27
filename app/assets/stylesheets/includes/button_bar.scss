@@ -4,9 +4,9 @@
     flex-grow: 0;
     flex-direction: row !important;
 
-    > a, > .dropdown > button
+    > a, > .dropdown > button, > form > button
     {
-        display: block;
+//        display: block;
         padding: 0.35rem 0.25rem;
         border-radius: 0.25rem;
         flex: 0 0 0;
