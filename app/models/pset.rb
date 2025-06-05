@@ -21,6 +21,14 @@ class Pset < ApplicationRecord
         config
     end
 
+    def url
+        config['url']
+    end
+
+    def git_repo
+        config['git_repo']
+    end
+
     # provides the full grading config based on general and schedule-specific
     # configs
     def grading_config(schedule)

@@ -39,6 +39,7 @@ en:
     submit:
         instructions: Submit your solution here. Some assignments may be automatically checked for correctness, others will be assessed manually.
         url_field: Paste URL of your project here
+        git_repo_field: Paste URL of your code repository here
         button: "Submit"
         answers_will_be_submitted: Your answers in the form above will be submitted.
         you_submitted: "You submitted %{name}"

@@ -22,4 +22,6 @@ class Group < ApplicationRecord
     has_many :submits, -> { where(users: { status: "active" }) }, through: :users
     has_many :grades, -> { where(users: { status: "active" }) }, through: :submits
 
+    has_many :git_repos, as: :owner
+
 end

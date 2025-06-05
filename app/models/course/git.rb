@@ -62,7 +62,7 @@ class Course::Git
             Rails.logger.info "- New git version: #{current_version}"
             Settings.git_version = Settings.git_version.merge({ @repodir.to_s => current_version })
         else
-            Rails.logger.info "- Same version as before"
+            Rails.logger.info "- Same version as before #{current_version}"
         end
     end
 

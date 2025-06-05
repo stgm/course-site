@@ -41,6 +41,7 @@ nl:
     submit:
         instructions: Stuur hier je oplossing in. Sommige opdrachten kunnen meteen automatisch gecheckt worden, en andere worden handmatig nagekeken.
         url_field: Geef de URL van je project
+        git_repo_field: Geef de URL van je code-repository
         button: "Insturen"
         answers_will_be_submitted: Je antwoorden in het formulier hierboven worden ingestuurd.
         you_submitted: "Je hebt %{name} ingezonden"

@@ -28,4 +28,15 @@
 <p class="mt-4"><%= t 'submit.url_field' %>: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
 <% end %>
 
+<% if @page.pset.git_repo %>
+<% if @page.pset.git_repo['group'].present? && current_user.group.blank? %>
+<p>You are not assigned to a group so you can't submit a repo yet.</p>
+<% else %>
+<p class="mt-4 insput-group">
+    <%= t 'submit.git_repo_field' %>:
+    <%= text_field_tag 'git_repo', nil, required:true, class:'form-control', placeholder: @page.pset.git_repo['placeholder'] || nil, pattern: @page.pset.git_repo['pattern'] || nil, validate: true %>
+</p>
+<% end %>
+<% end %>
+
 <p class="mt-4 mb-0 text-end"><%= submit_tag t('submit.button'), class:'btn btn-primary' %></p>

@@ -27,8 +27,9 @@ class SubmissionsController < ApplicationController
         upload_attachments_to_webdav  if should_upload_to_webdav?
         upload_files_to_check_server  if should_perform_auto_check?
         record_submission
+        record_git_repo               if should_record_git_repo?
         upload_files_to_plag_server   if should_upload_to_plag_server?
-        redirect_back fallback_location: "/"
+        redirect_back fallback_location: "/" unless performed?
     end
 
     # Shows automatic check feedback for a single submission.
@@ -126,6 +127,70 @@ class SubmissionsController < ApplicationController
             form_contents: @form_contents,
             check_token: @token
         )
+    end
+
+    def should_record_git_repo?
+        @pset.git_repo.present? && params['git_repo'].present?
+    end
+
+    def record_git_repo
+        git_repo_params = params.require(:git_repo)#.permit(:org, :repo)
+        is_group_repo = @pset.git_repo && @pset.git_repo['group']
+
+        owner =
+            if is_group_repo
+                if current_user.group.nil?
+                    return redirect_back(
+                                fallback_location: "/",
+                                alert: "Sorry, you must be in a group to create this repository."
+                              )
+                end
+                current_user.group
+            else
+                current_user
+            end
+
+        url = params[:git_repo]
+        unless url.is_a?(String) && url.include?("github.com/")
+            return redirect_back(
+                fallback_location: "/",
+                alert: "Invalid GitHub URL."
+            )
+        end
+
+        org, repo = parse_github_url(url)
+        if org.nil? || repo.nil?
+            return redirect_back(
+                fallback_location: "/",
+                alert: "Could not extract org and repo from the URL."
+            )
+        end
+
+        git_repo = GitRepo.find_or_initialize_by(owner: owner)
+        git_repo.provider = "github"
+        git_repo.org = org
+        git_repo.repo = repo
+
+        if git_repo.save
+            #redirect_back(fallback_location: "/")
+        else
+            redirect_back(
+                fallback_location: "/",
+                alert: git_repo.errors.full_messages.to_sentence
+            )
+        end
+    end
+
+    def parse_github_url(url)
+        uri = URI.parse(url)
+        path_parts = uri.path.delete_prefix("/").split("/")
+        return if path_parts.size < 2
+
+        org = path_parts[0]
+        repo = path_parts[1].sub(/\.git$/, "") # Strip trailing `.git`
+        [org, repo]
+    rescue URI::InvalidURIError
+        [nil, nil]
     end
 
 end

@@ -73,3 +73,5 @@ gem "turbo-rails"
 # used by ActiveStorage
 gem "image_processing", "~> 1.12"
 gem "active_storage-send_zip"
+
+gem "octokit"

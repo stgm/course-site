@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_17_144015) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_02_145840) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -83,6 +83,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_144015) do
     t.datetime "updated_at", null: false
     t.boolean "current_exam", default: false
     t.index ["pset_id"], name: "index_exams_on_pset_id"
+  end
+
+  create_table "git_repos", force: :cascade do |t|
+    t.string "provider", default: "github", null: false
+    t.string "org", null: false
+    t.string "repo", null: false
+    t.string "owner_type", null: false
+    t.integer "owner_id", null: false
+    t.string "latest_commit_hash"
+    t.string "latest_commit_message"
+    t.datetime "latest_commit_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_git_repos_on_owner"
   end
 
   create_table "grades", force: :cascade do |t|

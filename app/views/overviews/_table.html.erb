@@ -1,9 +1,14 @@
 <table id="grade-table" class="table table-sm table-borderless table-responsive">
 
+    <%# bulk ops header row %>
     <% if current_user.admin? %>
     <tr class="sticky-1">
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+
+        <% if GitRepo.any? %>
+        <th></th>
+        <% end %>
 
         <% @overview.each do |name, psets| %>
         <% psets.each_with_index do |(pset, weight), index| %>
@@ -32,9 +37,14 @@
     </tr>
     <% end %>
 
+    <%# assignment groups header row %>
     <tr class="sticky-2">
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+
+        <% if GitRepo.any? %>
+        <th>git</th>
+        <% end %>
 
         <% @overview.each do |group, psets| %>
         <th colspan="<%= psets.length %>" style="border-left: 1.5px solid black;">
@@ -43,6 +53,7 @@
         <% end %>
     </tr>
 
+    <%# actual students, in groups %>
     <% groups.each do |group, user_list|%>
     <tr>
         <th class="py-2" colspan="2">
@@ -54,6 +65,11 @@
             <% end %>
             (<%= user_list.size %>)
         </th>
+        <% if GitRepo.any? %>
+            <th>
+                <%= link_to bootstrap_icon('git'), group.git_repos.first.url, target: '_new' if group&.git_repos&.any? %>
+            </th>
+        <% end %>
     </tr>
     <% user_list.each do |user| %>
     <% cache [user, current_user.senior?], expires_in: 6.hours do %>
@@ -79,6 +95,16 @@
             <% end %>
             <% end %>
         </td>
+        <% if GitRepo.any? %>
+        <td>
+            <%= link_to bootstrap_icon('git'), user.git_repos.first.url, target: '_new' if user.git_repos.any? %>
+            <%= link_to \
+                make_label('git', 'git', false),
+                user.git_repos.first,
+                class: "grade-button btn btn-sm",
+                data: { trigger: "modal", "turbo-frame" => "modal" } %>
+        </td>
+        <% end %>
         <% @overview.each do |name, psets| %>
             <% psets.each_with_index do |(pset, weight), index| %>
                 <td class="<%= grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present? %>"
@@ -87,7 +113,6 @@
                 </td>
             <% end %>
         <% end %>
-        
     </tr>
     <% end %>
     <% end %>

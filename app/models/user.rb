@@ -9,6 +9,8 @@ class User < ApplicationRecord
     # Utilities
     include ChangeLogger, FinalGradeAssigner
 
+    has_many :git_repos, as: :owner, class_name: 'GitRepo'
+
     validates :mail, email: true
     validates_uniqueness_of :mail
     validates_format_of :name, with: /\A\S{2,}(\s+\S+)+\z/, unless: Proc.new { |u| u.name.blank? }, message: ->(a, e) { "#{e[:value]} #{I18n.t('errors.messages.invalid')} #{a.student_number}" }

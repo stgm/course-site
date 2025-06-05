@@ -180,6 +180,9 @@ Rails.application.routes.draw do
         end
     end
 
+    # creation is done via submit
+    resources :git_repos, only: [ :show ]
+
     get "profile" => "profile#index"
     namespace :profile do
         post "save"
@@ -232,6 +235,8 @@ Rails.application.routes.draw do
     namespace :api do
         resources :test_results, only: [ :create ]
     end
+
+    post "/git_repos/:id/webhook", to: "api/git_repo_webhooks#receive"
 
     #--CONTENT----------------------------------------------------------------------------------
 

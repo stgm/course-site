@@ -11,7 +11,8 @@
             form_cache_target: "form",
             form_size_validator_max_size_mb_value: "9",
             action: "input->form-cache#saveToLocalStorage submit->form-size-validator#validate submit->form-cache#clearLocalStorage"
-        }
+        },
+        class: 'was-validated'
     }
     ) do %>
 
