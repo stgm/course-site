@@ -66,10 +66,10 @@
                         <label class="col-3 col-form-label col-form-label-sm text-end">Start exam:</label>
                         <div class="col-9 pt-1">
                             <%= form_with url: start_exam_mode_admin_exams_path do |f| %>
-                            <%= f.collection_radio_buttons :exam_id, @exams.all.each, :id, :name do |b| %>
+                            <%= f.collection_radio_buttons :exam_id, @exams.all.each, :id, :name_with_code do |b| %>
                             <div class="form-check">
                                 <%= b.radio_button(class: 'form-check-input', required: true) %>
-                                <%= b.label { b.text.titleize } %>
+                                <%= b.label %>
                             </div>
                             <% end %>
                             <p class="pt-2">

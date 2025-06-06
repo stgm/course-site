@@ -52,6 +52,10 @@ class ExamsController < ApplicationController
             buttons: @exam.config["buttons"]&.map { |f| [ f["name"], f["commands"] ] }.to_h
         }
 
+        if @exam.eval_code.present?
+            config[:eval_link] = "https://studentfeedback.uva.nl/login?code=#{@exam.eval_code}"
+        end
+
         # if submitted previously, copy older contents into config
         # this is particularly useful if an exam has to be resumed from
         # another computer - which does not have a local cache of the files

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_02_145840) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_06_090242) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -82,6 +82,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_145840) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "current_exam", default: false
+    t.string "eval_code"
     t.index ["pset_id"], name: "index_exams_on_pset_id"
   end
 

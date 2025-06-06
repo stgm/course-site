@@ -20,4 +20,11 @@ class Exam < ApplicationRecord
         end
     end
 
+    def name_with_code
+        if eval_code.present?
+            "#{name.titleize} (#{eval_code})"
+        else
+            name.titleize
+        end
+    end
 end

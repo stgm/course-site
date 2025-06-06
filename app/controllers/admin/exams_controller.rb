@@ -28,7 +28,7 @@ class Admin::ExamsController < ApplicationController
     def update
         @exam = Exam.find(params[:id])
 
-        permitted = params.expect(exam: [ :locked, config: {} ])
+        permitted = params.expect(exam: [ :locked, :eval_code, config: {} ])
 
         if params[:commit] == 'Save templates' && permitted[:config].present?
             permitted[:config][:files]        = permitted[:config][:files].select { |i| i["name"].present? }

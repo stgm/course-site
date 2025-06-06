@@ -4,6 +4,11 @@
     <label><%= f.check_box :locked %> Lock this exam. When <strong>un</strong>locked, students can use it for practice outside of exam sessions. The setting has no effect during exam sessions.</label>
 </div>
 
+<div class="form-check ps-1 pb-1">
+    <%= f.label(:eval_code)%>
+    <%= f.text_field :eval_code %>
+</div>
+
 <% if @exam.errors.any? %>
 <div id="error_explanation">
     <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this alert from being saved:</h2>
