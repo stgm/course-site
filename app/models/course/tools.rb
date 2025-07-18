@@ -5,7 +5,7 @@ class Course::Tools
         # find all pages having no subpages
         to_delete = Page.includes(:subpages).where(subpages: { id: nil }).pluck(:id)
 
-        # remove those pages and disassociate any related psets
+        # remove those pages and dissociate any related psets
         Page.where("id in (?)", to_delete).destroy_all
     end
 
@@ -36,6 +36,10 @@ class Course::Tools
                 counter += 1
             end
         end
+
+        Pset.where(order: nil).each do |pset|
+            self.register_exam pset
+        end
     end
 
     def self.register_grade(name, order)
@@ -46,21 +50,27 @@ class Course::Tools
 
         # create or delete associated exam record if config has { exam: true }
         if p.config.present? && p.config["exam"].present?
-            exam = Exam.find_or_initialize_by(pset: p)
-            # exam.config = {} # do not delete previous content
-            if p.config["files"].present?
-                exam.config = exam.config.deep_merge({ "files" => p.config["files"]["required"].collect { |k, v| { "name" => k, "template" => v } } })
-            end
-            if p.config["hidden_files"].present?
-                exam.config = exam.config.deep_merge({ "hidden_files" => p.config["hidden_files"]["required"].collect { |k, v| { "name" => k, "template" => v } } })
-            end
-            if p.config["buttons"].present?
-                exam.config = exam.config.deep_merge({ "buttons" => p.config["buttons"].collect { |k, v| { "name" => k, "commands" => v } } })
-            end
-            exam.save
+            self.register_exam(p)
         else
             Exam.find_by(pset: p)&.destroy!
         end
+    end
+
+    # inspect a pset object for the presence of exam config,
+    # and add an associated exam if needed
+    def self.register_exam(pset)
+        exam = Exam.find_or_initialize_by(pset: pset)
+        # exam.config = {} # do not delete previous content
+        if pset.config["files"].present?
+            exam.config = exam.config.deep_merge({ "files" => pset.config["files"]["required"].collect { |k, v| { "name" => k, "template" => v } } })
+        end
+        if pset.config["hidden_files"].present?
+            exam.config = exam.config.deep_merge({ "hidden_files" => pset.config["hidden_files"]["required"].collect { |k, v| { "name" => k, "template" => v } } })
+        end
+        if pset.config["buttons"].present?
+            exam.config = exam.config.deep_merge({ "buttons" => pset.config["buttons"].collect { |k, v| { "name" => k, "commands" => v } } })
+        end
+        exam.save
     end
 
     def self.register_final_grade(name, order)
