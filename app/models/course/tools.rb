@@ -59,6 +59,13 @@ class Course::Tools
     # inspect a pset object for the presence of exam config,
     # and add an associated exam if needed
     def self.register_exam(pset)
+        # if this is called on a pset without exam config, remove the exam record (which is just an information holder)
+        if pset.config.blank? || pset.config["exam"].blank?
+            Exam.find_by(pset: pset)&.destroy
+            return
+        end
+
+        # otherwise add the exam record
         exam = Exam.find_or_initialize_by(pset: pset)
         # exam.config = {} # do not delete previous content
         if pset.config["files"].present?
