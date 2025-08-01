@@ -27,9 +27,12 @@ module Submit::AutoCheck::Receiver
             grade.grader = User.admin.first
             grade.save
 
-            # if the results do not appear OK, send an e-mail
+            # if the results do not appear OK, send an e-mail (with throttling)
             if send_mail && grade.calculated_grade == 0
-                GradeMailer.bad_submit(self).deliver
+                if self.user.should_send_bad_submit_email?
+                    GradeMailer.bad_submit(self).deliver
+                    self.user.record_bad_submit_email_sent
+                end
             end
         end
     end
