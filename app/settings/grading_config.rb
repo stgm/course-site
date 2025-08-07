@@ -97,16 +97,21 @@ class GradingConfig
         psets = Pset.order(:order).index_by &:name
 
         # include final grade components that were marked as "show progress"
-        r = @config.select { |c, v| v["show_progress"] || v["show_overview"] }.
-            map { |c, v| [ c, v["submits"].map { |name, weight| [ psets[name], weight ] } ] }
+        r = @config.
+            select { |c, v| v["show_progress"] || v["show_overview"] }.
+            map { |c, v| [ c, should_summarize(v), v["submits"].map { |name, weight| [ psets[name], weight ] } ] }
 
         # include all final grades at the end
-        r = r + [ [ "Final", final_grade_names.map { |k, v| psets[k] } ] ] if final_grade_names.any?
+        r = r + [ [ "Final", nil, final_grade_names.map { |k, v| psets[k] } ] ] if final_grade_names.any?
 
         # if nothing's there, include all assignments
-        r = [ [ "Assignments", Pset.order(:order) ] ] if r.blank?
+        r = [ [ "Assignments", nil, Pset.order(:order) ] ] if r.blank?
 
         return r
+    end
+
+    def should_summarize(component_config)
+        return component_config["small_block_overview"].present? ? :blocks : nil
     end
 
     def overview_config
@@ -117,7 +122,6 @@ class GradingConfig
             # remove weight 0 and bonus, only select pset names
             content["submits"] = content["submits"]
                 .reject { |submit, weight| (weight == 0 || weight == "bonus") }
-            # .keys
 
             # determine subgrades
             subgrades = []

@@ -1,0 +1,8 @@
+<td style="border-left: 1.5px solid black;">
+  <div class="activity-grid">
+    <% psets.each do |pset, weight| %>
+      <% completed = @subs[[pset.id, user.id]].present? %>
+      <div class="activity-cell <%= completed ? 'completed' : 'incomplete' %>"></div>
+    <% end %>
+  </div>
+</td>

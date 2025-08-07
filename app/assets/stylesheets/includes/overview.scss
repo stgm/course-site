@@ -134,3 +134,23 @@ span.bubble {
     color: var(--bs-dark) !important;
     background-color: #a2e8c2 !important;
 }
+
+//****************************************************************************
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(10px, 1fr));
+  gap: 2px;
+  max-width: 100px;
+}
+
+.activity-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: #e0e0e0; /* incomplete = light gray */
+}
+
+.activity-cell.completed {
+  background-color: #2ecc71; /* completed = green */
+}
