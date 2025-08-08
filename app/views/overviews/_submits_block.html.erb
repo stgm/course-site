@@ -2,7 +2,8 @@
   <div class="activity-grid">
     <% psets.each do |pset, weight| %>
       <% completed = @subs[[pset.id, user.id]].present? %>
-      <div class="activity-cell <%= completed ? 'completed' : 'incomplete' %>"></div>
+      <div class="activity-cell
+          <%= grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present? %>"></div>
     <% end %>
   </div>
 </td>

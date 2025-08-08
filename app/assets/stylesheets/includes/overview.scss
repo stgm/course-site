@@ -129,6 +129,29 @@ span.bubble {
     background-color: #dffbe4 !important;
 }
 
+#grade-table div.bg-light
+{
+    background-color: #ccc !important;
+}
+
+#grade-table div.bg-danger
+{
+    position: relative;
+}
+
+#grade-table div.bg-danger::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid black;
+    transform: rotate(45deg) translate(2px, -0.75px) ;
+    transform-origin: top left;
+    pointer-events: none;
+}
+
 .grade-button.btn-warning, #grade-table td.bg-warning
 {
     color: var(--bs-dark) !important;
@@ -148,7 +171,7 @@ span.bubble {
   width: 10px;
   height: 10px;
   border-radius: 2px;
-  background-color: #e0e0e0; /* incomplete = light gray */
+  background-color: #f8f8f8; /* incomplete = light gray */
 }
 
 .activity-cell.completed {
