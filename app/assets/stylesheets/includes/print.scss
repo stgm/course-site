@@ -7,17 +7,17 @@
 {
 	body
 	{
-		padding-top:3rem;
+		padding-top:0;
 		background-color:transparent ! important;
 	}
-	
+
 	#sidebar, #navbar, footer, ul.nav, #content > h1, iframe,
 	#schedule-column, #comments-column, .embed,
 	section#submit-content, #float-nav, .alert
 	{
 		display:none !important;
 	}
-	
+
 	.home, .page, .boxes
 	{
 		#sidebar, #content
@@ -28,14 +28,14 @@
 			}
 		}
 	}
-	
+
 	#markdown-toc
 	{
 		float:none !important;
 		position:initial !important;
 		border:0 !important;
 		padding:0 !important;
-		
+
 		a
 		{
 			text-decoration:none;
@@ -56,12 +56,12 @@
 		max-width:auto;
 		margin-right:0 !important;
 	}
-    
+
 	#content, #content p
 	{
 		font-size:10pt ! important;
 	}
-	
+
 	#content h1
 	{
 		margin:0; padding:0;
@@ -77,7 +77,24 @@
 	{
 		resize:none;
 	}
-	
+
+	section
+    {
+        font-size: 10pt;
+        h1
+    	{
+           	font-size: 20pt;
+    	}
+        h2
+        {
+            font-size: 17pt;
+        }
+        h3
+        {
+            font-size: 15pt;
+        }
+    }
+
 	#content blockquote
 	{
 		margin-left:0;
@@ -98,7 +115,7 @@
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
-	
+
 	section pre
 	{
 		border: 1pt solid gray;
@@ -109,6 +126,6 @@
 		size: auto;   /* auto is the initial value */
 
 		/* this affects the margin in the printer settings */
-		margin: 20mm 40mm 20mm 0mm;
+		/* margin: 20mm 20mm 20mm 20mm; */
 	}
 }
