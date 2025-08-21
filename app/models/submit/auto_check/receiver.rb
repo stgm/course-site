@@ -2,6 +2,9 @@ module Submit::AutoCheck::Receiver
 
     extend ActiveSupport::Concern
 
+    # Saves incoming check results.
+    # Takes the "result" object returned by the check server and stores it raw.
+    # Other functions will then analyze the object.
     def register_auto_check_results(json)
         # save the raw results
         self.check_token = nil
