@@ -7,9 +7,11 @@ class User < ApplicationRecord
     include Submitter, HandRaiser, Attendee, Notee
 
     # Utilities
-    include ChangeLogger, FinalGradeAssigner
+    include ChangeLogger, FinalGradeAssigner, BadSubmitEmailThrottler
 
     has_many :git_repos, as: :owner, class_name: 'GitRepo'
+
+    serialize :bad_submit_email_timestamps, coder: YAML, type: Array, default: []
 
     validates :mail, email: true
     validates_uniqueness_of :mail
