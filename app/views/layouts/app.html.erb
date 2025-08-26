@@ -6,7 +6,7 @@
 <%= render 'navbar', remove_content: true %>
 <%= render 'alerts' %>
 
-<div class="mini-app-container">
+<div class="mini-app-container" style="grid-area: main;">
     <%= content_for?(:app) ? yield(:app) : yield %>
 </div>
 
