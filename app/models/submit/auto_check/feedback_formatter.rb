@@ -21,7 +21,7 @@ module Submit::AutoCheck::FeedbackFormatter
     end
 
     def format_check(description, explanation)
-        result == " #{description}\n"
+        result = " #{description}\n"
         if explanation.present?
             # indent extra info, even if multi-line
             result << explanation.split("\n").map { |x| "      #{x}\n" }.join
