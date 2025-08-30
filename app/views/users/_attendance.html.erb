@@ -20,11 +20,10 @@ grid = AttendanceGridPresenter.new(
       <% date = grid.date_for(week_idx, day_idx) %>
       <div
         class="block border rounded"
-        style="width:20px;height:20px;justify-self:center;<%= grid.attendance_style(date) %>"
+        style="<%= grid.box_style(date) %>"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
-        title="<%= "#{date.strftime('%a %d %b')}: #{grid.hours_label(date)}" %>"
-        data-bs-title="<%= "#{date.strftime('%a %d %b %Y')}: #{grid.hours_label(date)}" %>">
+        data-bs-title="<%= "#{date.strftime('%a %d %b')}: #{grid.hours_label(date)}" %>">
       </div>
     <% end %>
   <% end %>

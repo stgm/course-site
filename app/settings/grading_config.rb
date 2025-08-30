@@ -140,7 +140,7 @@ class GradingConfig
     end
 
     def settings
-        @config['_settings']
+        @config["_settings"]
     end
 
     private
