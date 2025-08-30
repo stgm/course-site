@@ -139,6 +139,10 @@ class GradingConfig
         return overview
     end
 
+    def settings
+        @config['_settings']
+    end
+
     private
 
     def merge_configs(grades1, grades2)

@@ -39,13 +39,7 @@
 
 	<div class="tab-pane show" id="submit-attendance" role="tabpanel" aria-labelledby="submit-attendance-tab">
 		<p>Last seen: <%= @student.last_seen_at&.to_fs(:long) %></p>
-		<div class="barchart d-flex align-items-end" style="height:8rem;">
-			<% @attend.each do |dat, count| %>
-			<a href="#" data-bs-toggle="tooltip" data-bs-title="<%= dat %>" class="progress-bar bg-success justify-content-end" style="width:1rem; height: <%= count/12.0*100+1 %>%">
-				<div style="font-size: 0.25rem;"><%= dat.split(" ").first %></div>
-			</a>
-			<% end %>
-		</div>
+		<%= render 'attendance' %>
 	</div>
 
 	<div class="tab-pane show" id="submit-hands" role="tabpanel" aria-labelledby="submit-hands-tab">

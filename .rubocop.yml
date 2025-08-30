@@ -2,7 +2,12 @@ inherit_gem:
     rubocop-rails-omakase: rubocop.yml
 
 Layout/IndentationWidth:
+    Enabled: true
     Width: 4
+
+Layout/IndentationConsistency:
+    Enabled: true
+    EnforcedStyle: normal
 
 Bundler/OrderedGems:
     Enabled: false

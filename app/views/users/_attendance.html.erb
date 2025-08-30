@@ -1,0 +1,31 @@
+<%
+grid = AttendanceGridPresenter.new(
+  config: current_user.grading_config.settings,
+  first_attendance: current_user.attendance_records.first&.cutoff&.to_date,
+  counts: @attend
+)
+%>
+
+<div class="grid text-center" style="--bs-columns: <%= grid.weeks + 1 %>; --bs-gap: 0;">
+  <div></div>
+
+  <% (1 + grid.offset..grid.weeks + grid.offset).each do |week_label| %>
+    <div><%= week_label %></div>
+  <% end %>
+
+  <% grid.day_abbrs_mo_su.each_with_index do |abbr, day_idx| %>
+    <div><%= abbr %></div>
+
+    <% grid.week_indices.each do |week_idx| %>
+      <% date = grid.date_for(week_idx, day_idx) %>
+      <div
+        class="block border rounded"
+        style="width:20px;height:20px;justify-self:center;<%= grid.attendance_style(date) %>"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="<%= "#{date.strftime('%a %d %b')}: #{grid.hours_label(date)}" %>"
+        data-bs-title="<%= "#{date.strftime('%a %d %b %Y')}: #{grid.hours_label(date)}" %>">
+      </div>
+    <% end %>
+  <% end %>
+</div>
