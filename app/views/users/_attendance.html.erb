@@ -6,7 +6,7 @@ grid = AttendanceGridPresenter.new(
 )
 %>
 
-<div class="grid text-center" style="--bs-columns: <%= grid.weeks + 1 %>; --bs-gap: 0;">
+<div class="grid text-center small" style="--bs-columns: <%= grid.weeks + 1 %>; --bs-gap: 4px;">
   <div></div>
 
   <% (1 + grid.offset..grid.weeks + grid.offset).each do |week_label| %>

@@ -69,11 +69,15 @@ class AttendanceGridPresenter
     end
 
     def box_style(date)
-        base = "width:20px;height:20px;justify-self:center;"
+        base = "--bs-border-radius:2px;"
         base << attendance_style(date)
 
         # thicker border for today
-        base << "--bs-border-color: black; --bs-border-width: 4px;" if today?(date)
+        if today?(date)
+            base << "--bs-border-color: black; --bs-border-width: 3px;"
+        else
+            base << "--bs-border-width: 0;"
+        end
 
         base
     end
