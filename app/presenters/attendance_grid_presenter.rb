@@ -105,7 +105,7 @@ class AttendanceGridPresenter
         return @end_date if defined?(@end_date)
         base_end = config_end || inferred_end_from_attendance
         # attendance can extend later
-        la = last_attendance&.end_of_week(:sunday)
+        la = last_attendance&.end_of_week(:monday)
         @end_date = [ base_end, la ].compact.max
     end
 
