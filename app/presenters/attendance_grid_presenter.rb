@@ -128,7 +128,7 @@ class AttendanceGridPresenter
           nil
     end
 
-  private
+  # private
 
     def config_present?
         config.respond_to?(:[]) && config.is_a?(Hash)

@@ -1,7 +1,7 @@
 <%
 grid = AttendanceGridPresenter.new(
-  config: current_user.grading_config.settings,
-  first_attendance: current_user.attendance_records.first&.cutoff&.to_date,
+  config: student.grading_config.settings,
+  first_attendance: student.attendance_records.first&.cutoff&.to_date,
   counts: @attend,
   confirmed_counts: @attend_confirmed
 )
