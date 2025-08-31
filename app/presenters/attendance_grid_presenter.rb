@@ -1,12 +1,13 @@
 class AttendanceGridPresenter
-    attr_reader :config, :first_attendance, :last_attendance, :counts
+    attr_reader :config, :first_attendance, :last_attendance, :counts, :confirmed_counts
 
-    def initialize(config: nil, first_attendance: nil, last_attendance: nil, counts: {})
+    def initialize(config: nil, first_attendance: nil, last_attendance: nil, counts: {}, confirmed_counts: {})
         @config           = config
         @first_attendance = to_date_or_nil(first_attendance)
         @last_attendance  = to_date_or_nil(last_attendance)
         # Expect Date keys; coerce if needed
         @counts = counts.transform_keys { |k| to_date_or_nil(k) }.compact
+        @confirmed_counts = confirmed_counts.transform_keys { |k| to_date_or_nil(k) }.compact
     end
 
     # ---------- Public API used by the partial ----------
@@ -48,24 +49,32 @@ class AttendanceGridPresenter
         counts[date] || 0
     end
 
-    def attendance_hours(date)
-        (counts[date] || 0).to_f
+    def confirmed_attendance_count(date)
+        confirmed_counts[date] || 0
     end
 
     def hours_label(date)
-        hrs = attendance_hours(date).to_i
+        hrs = attendance_count(date)
+        chrs = confirmed_attendance_count(date)
         unit = "h"
-        "#{hrs}#{unit}"
+        label = "#{hrs}#{unit}"
+        label << "(#{chrs}#{unit})" if chrs >0
+        label
     end
 
     # Simple color ramp (inline style); adjust as desired
     def attendance_style(date)
         c = attendance_count(date)
+        f = confirmed_attendance_count(date)
         return "background-color: #f8f9fa;" if c <= 0
 
         max = (counts.values.max || 1).to_f
         t = [ [ c / max, 0.15 ].max, 1.0 ].min
-        "background-color: rgba(25, 135, 84, #{t});"
+        if f == 0
+            "background-color: rgba(25, 135, 84, #{t});"
+        else
+            "background-color: rgba(25, 135, 194, #{c});"
+        end
     end
 
     def box_style(date)

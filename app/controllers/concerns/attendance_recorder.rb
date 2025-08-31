@@ -14,11 +14,10 @@ module AttendanceRecorder
     end
 
     def register_attendance
-        if (!session[:last_seen_at] || session[:last_seen_at] &&
-              session[:last_seen_at] < 15.minutes.ago) &&
-              logged_in?
+        if (!session[:last_seen_at] ||
+             session[:last_seen_at] && session[:last_seen_at] < 1.minutes.ago) && logged_in?
             session[:last_seen_at] = Time.now
-            current_user.log_attendance(request_from_local_network?)
+            current_user.log_attendance ip: request.remote_ip
         end
     end
 

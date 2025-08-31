@@ -25,7 +25,12 @@ class Hands::HandsController < ApplicationController
         else
             @my_hands = Hand.where(done: false, assist: current_user).order("created_at asc")
             @hands = Hand.where(done: false, assist: nil).order("hands.created_at asc")
-            @long_time_users = User.student.where("last_known_location is not null").where("last_seen_at > ? and last_seen_at < ? and (last_spoken_at < ? or last_spoken_at is null)", 1.hours.ago, 3.minutes.ago, Date.today).order("last_spoken_at asc").limit(5)
+            @long_time_users = User.student
+                .where("last_known_location is not null or location_confirmed = 0")
+                .where("last_seen_at > ? and last_seen_at < ?", 1.hour.ago, 0.minutes.ago)
+                .where("last_spoken_at < ? or last_spoken_at is null or location_confirmed = 0", Date.today)
+                .order("last_spoken_at asc")
+                .limit(5)
             if Settings.hands_groups && params[:group]!="all"
                 selected_group = Group.find_by_name(params["group"])
                 @group = current_user.groups.first

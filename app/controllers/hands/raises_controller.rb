@@ -31,6 +31,7 @@ class Hands::RaisesController < ApplicationController
     def set_location
         if !params[:location].blank?
             current_user.update!(last_known_location: params[:location])
+            current_user.set_current_location(location: params[:location])
         end
 
         # index

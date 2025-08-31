@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_06_090242) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_31_161348) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -72,6 +72,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_090242) do
     t.integer "user_id"
     t.datetime "cutoff"
     t.boolean "local", default: false
+    t.string "location"
+    t.string "ip"
+    t.boolean "confirmed", default: false, null: false
     t.index ["user_id"], name: "index_attendance_records_on_user_id"
   end
 
@@ -346,6 +349,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_090242) do
     t.string "pronouns"
     t.string "pin"
     t.string "last_known_ip"
+    t.boolean "location_confirmed", default: false, null: false
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
     t.index ["status"], name: "index_users_on_status"
