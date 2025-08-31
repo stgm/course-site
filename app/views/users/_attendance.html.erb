@@ -7,14 +7,14 @@ grid = AttendanceGridPresenter.new(
 %>
 
 <div class="grid text-center small" style="--bs-columns: <%= grid.weeks + 1 %>; --bs-gap: 4px;">
-  <div></div>
+  <div class="text-start">Week:</div>
 
   <% (1 + grid.offset..grid.weeks + grid.offset).each do |week_label| %>
     <div><%= week_label %></div>
   <% end %>
 
   <% grid.day_abbrs_mo_su.each_with_index do |abbr, day_idx| %>
-    <div><%= abbr %></div>
+    <div class="text-start"><%= abbr %></div>
 
     <% grid.week_indices.each do |week_idx| %>
       <% date = grid.date_for(week_idx, day_idx) %>
