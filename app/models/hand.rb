@@ -15,7 +15,8 @@ class Hand < ApplicationRecord
             hand.user.update_attribute(:last_spoken_at, DateTime.now)
         end
         if hand.success
-            AttendanceRecord.create_for_user(hand.user, true)
+            # when using hands, assume that student is attending (true)
+            hand.user.log_attendance(true)
         end
     end
 

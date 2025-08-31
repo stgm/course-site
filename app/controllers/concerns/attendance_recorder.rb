@@ -18,7 +18,7 @@ module AttendanceRecorder
               session[:last_seen_at] < 15.minutes.ago) &&
               logged_in?
             session[:last_seen_at] = Time.now
-            AttendanceRecord.create_for_user(current_user, request_from_local_network?)
+            current_user.log_attendance(request_from_local_network?)
         end
     end
 
