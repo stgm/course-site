@@ -26,7 +26,7 @@ class Hands::HandsController < ApplicationController
             @my_hands = Hand.where(done: false, assist: current_user).order("created_at asc")
             @hands = Hand.where(done: false, assist: nil).order("hands.created_at asc")
             @long_time_users = User.student
-                .where("last_known_location is not null or location_confirmed = ?", false)
+                .where("last_known_location is not null and location_confirmed = ?", false)
                 .where("last_seen_at > ? and last_seen_at < ?", 1.hour.ago, 0.minutes.ago)
                 .where("last_spoken_at < ? or last_spoken_at is null or location_confirmed = ?", Date.today, false)
                 .order("last_spoken_at asc")

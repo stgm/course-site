@@ -39,6 +39,9 @@
 
 	<div class="tab-pane show" id="submit-attendance" role="tabpanel" aria-labelledby="submit-attendance-tab">
 		<p>Last seen: <%= @student.last_seen_at&.to_fs(:long) %></p>
+		<p>Last spoken: <%= @student.last_spoken_at&.to_fs(:long) %></p>
+		<p>Location: <kbd><%= @student.last_known_location %></kbd></p>
+		<p>Confirmed: <%= @student.location_confirmed? %><p>
 		<%= render partial: 'attendance', locals: { student: @student } %>
 	</div>
 

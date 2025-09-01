@@ -9,14 +9,14 @@
 <p>
     <small>
         <% if waiting_since %>
-        waiting for <%= minutes_ago(waiting_since) %> minutes 
+        waiting for <%= minutes_ago(waiting_since) %> minutes
         <% elsif spoken_since %>
-        last spoken <%= time_ago_in_words(spoken_since) %> ago
+        <!-- last spoken <%= time_ago_in_words(spoken_since) %> ago -->
         <% else %>
         we've never spoken to them before
         <% end %>
-        <% if Settings.hands_location && !Settings.hands_link %>
-            @ <%= location %>
+        <% if Settings.hands_location && !Settings.hands_link %><br>
+            location: <%= location %>
         <% end %>
     </small>
 </p>

@@ -51,7 +51,7 @@ module HandsHelper
                 waiting_since: nil,
                 spoken_since: user.last_spoken_at,
                 subject: "Check in",
-                question: "This student need a check-in. #{'They\'ve never had assistance before, so be sure to welcome them to the course and ask how they\'re getting started!' if user.last_spoken_at.nil?}",
+                question: "This student needs a check-in. #{'They\'ve never had assistance before, so be sure to welcome them to the course and ask how they\'re getting started!' if user.last_spoken_at.nil?}",
                 suggestion: suggestion
             }
             render partial: "hand", locals: locals
