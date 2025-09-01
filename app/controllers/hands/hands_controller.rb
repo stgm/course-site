@@ -30,7 +30,6 @@ class Hands::HandsController < ApplicationController
                 .where("last_seen_at > ? and last_seen_at < ?", 1.hour.ago, 0.minutes.ago)
                 .where("last_spoken_at < ? or last_spoken_at is null or location_confirmed = ?", Date.today, false)
                 .order("last_spoken_at asc")
-                .limit(5)
             if Settings.hands_groups && params[:group]!="all"
                 selected_group = Group.find_by_name(params["group"])
                 @group = current_user.groups.first
