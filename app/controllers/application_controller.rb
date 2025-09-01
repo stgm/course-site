@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
     # automatically loads current_user and Current.user
     include Authentication
 
+    helper_method :is_local_ip?
+
     rescue_from ActionController::InvalidAuthenticityToken do |exception|
         flash[:alert] = "Warning: you were logged out since you last loaded this page. If you just submitted, please login and try again."
         redirect_back fallback_location: "/"

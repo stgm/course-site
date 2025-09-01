@@ -166,21 +166,6 @@ module ApplicationHelper
         description.sub("[", '<span class="badge">').sub("]", "</span>").html_safe
     end
 
-    def is_local_ip?
-        # begin
-        # 	location = Resolv.getname(request.remote_ip)
-        # rescue Resolv::ResolvError
-        # 	location = "untraceable"
-        # end
-        # return location =~ /^(wcw|1x).*uva.nl$/ || location == 'localhost'
-        return !!(request.remote_ip =~ /^145\.18\..*$/) ||
-               !!(request.remote_ip =~ /^145\.109\..*$/) ||
-               !!(request.remote_ip =~ /^195\.169\..*$/) ||
-               !!(request.remote_ip =~ /^100\.70\..*$/) ||
-               request.remote_ip == "::1" ||
-               request.remote_ip == "127.0.0.1"
-    end
-
     def menu_group(name = nil, &block)
         [
             name && tag.li(tag.h6(name, class: "dropdown-header")),
