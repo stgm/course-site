@@ -34,9 +34,12 @@ module User::Attendee
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
             ar.confirmed = true
+            ar.location ||= last_known_location
             ar.save!
 
-            update_columns(last_seen_at: now, location_confirmed: true)
+            update_columns(
+                last_seen_at: now,
+                location_confirmed: true)
             take_attendance
 
             backfill_contiguous_confirmations!(ar)
@@ -90,6 +93,9 @@ module User::Attendee
     # If the previous hour was confirmed and ip+location match, set current confirmed=true.
     def infer_confirmation_from_previous!(record, cutoff)
         prev = attendance_records.find_by(cutoff: cutoff - 1.hour)
+        if record.location.blank? && prev&.location.present?
+            record.location = prev.location
+        end
         if prev&.confirmed? &&
            prev.location.present? && prev.location == record.location &&
            prev.ip.present?       && prev.ip       == record.ip
