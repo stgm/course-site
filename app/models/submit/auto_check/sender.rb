@@ -35,7 +35,7 @@ class Submit::AutoCheck::Sender
             end
             return parsed
         rescue RestClient::ExceptionWithResponse => e
-            return "FOUT: {@zipped_attachments.inspect}"
+            return "FOUT: #{@zipped_attachments.inspect} #{e}"
         end
     end
 

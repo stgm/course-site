@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
 
     def is_local_ip?
         return !!(request.remote_ip =~ /^145\.18\..*$/) ||
+               !!(request.remote_ip =~ /^145\.90\..*$/) ||
                !!(request.remote_ip =~ /^145\.109\..*$/) ||
                !!(request.remote_ip =~ /^145\.3\..*$/) ||
                !!(request.remote_ip =~ /^195\.169\..*$/) ||
