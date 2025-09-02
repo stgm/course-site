@@ -16,11 +16,16 @@ module User::Attendee
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
             ar.ip = ip if ip
-
+            ar.location = last_known_location unless ar.location.present?
             infer_confirmation_from_previous!(ar, cutoff) unless ar.confirmed?
-
             ar.save!
-            update_columns(last_seen_at: now, location_confirmed: ar.confirmed?)
+
+            # if was already confirmed and ip now know, try to confirm earlier hours as well
+            backfill_contiguous_confirmations!(ar)
+
+            update_columns(
+                last_seen_at: now,
+                location_confirmed: ar.confirmed?)
             take_attendance
         end
     end
@@ -34,7 +39,6 @@ module User::Attendee
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
             ar.confirmed = true
-            ar.location ||= last_known_location
             ar.save!
 
             update_columns(
