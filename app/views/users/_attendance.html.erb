@@ -29,3 +29,24 @@ grid = AttendanceGridPresenter.new(
     <% end %>
   <% end %>
 </div>
+
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th>Hour</th>
+      <th>Location</th>
+      <th>IP Address</th>
+      <th>Confirmed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @attend_raw.each do |attend| %>
+      <tr>
+        <td><%= attend.cutoff.strftime('%H') %></td>
+        <td><%= attend.location %></td>
+        <td><%= attend.ip %></td>
+        <td><%= attend.confirmed %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
