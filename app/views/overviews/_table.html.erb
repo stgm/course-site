@@ -92,7 +92,9 @@
             <% end %>
             <% if user.last_known_location %>
             <span aria-hidden="true" data-bs-toggle="tooltip" title="<%= user.last_known_location %>">L</span>
-            <% end %><br>
+            <% end %>
+            <% if user.location_confirmed? %>C<% end %>
+            <br>
             <% if current_user.senior? %>
                 <%= best_in_place user, :status_description, as: :input %>
             <% end %>
