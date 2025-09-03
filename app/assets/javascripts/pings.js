@@ -1,15 +1,16 @@
-function keepalive() {
-	Rails.ajax({
-	   type: "GET",
-	   url: "/profile/ping"
-	 }); 
-	setTimeout(function(){
-		keepalive();
-	}, 1800000);
+async function keepalive() {
+  try {
+    await fetch("/profile/ping", {
+      method: "GET",
+      credentials: "same-origin"
+    });
+  } catch (error) {
+    // Silently ignore errors
+  }
+
+  setTimeout(keepalive, 600000); // schedule next ping in 10 minutes
 }
 
-document.addEventListener('ready', function() {
-	setTimeout(function(){
-		keepalive();
-	}, 1800000);
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(keepalive, 2000);
 });

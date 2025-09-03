@@ -10,6 +10,7 @@ class ProfileController < ApplicationController
     end
 
     def ping
+        current_user.log_attendance ip: request.remote_ip
         head :ok
     end
 

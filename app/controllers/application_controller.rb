@@ -21,12 +21,12 @@ class ApplicationController < ActionController::Base
     end
 
     def is_local_ip?
-        return !!(request.remote_ip =~ /^145\.18\..*$/) ||
-               !!(request.remote_ip =~ /^145\.90\..*$/) ||
-               !!(request.remote_ip =~ /^145\.109\..*$/) ||
-               !!(request.remote_ip =~ /^145\.3\..*$/) ||
-               !!(request.remote_ip =~ /^195\.169\..*$/) ||
-               !!(request.remote_ip =~ /^100\.70\..*$/) ||
+        return !!(request.remote_ip =~ /^145\.18\..*$/) ||  # fixed?
+               !!(request.remote_ip =~ /^145\.90\..*$/) ||  # SP eduroam
+               !!(request.remote_ip =~ /^145\.109\..*$/) || # SP byods
+               !!(request.remote_ip =~ /^145\.3\..*$/) ||   # eduvpn
+               !!(request.remote_ip =~ /^195\.169\..*$/) || # ?
+               !!(request.remote_ip =~ /^100\.70\..*$/) ||  # ?
                request.remote_ip == "::1" ||
                request.remote_ip == "127.0.0.1"
     end

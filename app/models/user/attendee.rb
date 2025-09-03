@@ -15,12 +15,11 @@ module User::Attendee
 
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
-            ar.ip = ip if ip
-            ar.location = last_known_location unless ar.location.present?
-            infer_confirmation_from_previous!(ar, cutoff) unless ar.confirmed?
+            ar.ip = ip
+            infer_from_previous!(ar, cutoff) unless ar.confirmed?
             ar.save!
 
-            # if was already confirmed and ip now know, try to confirm earlier hours as well
+            # if already confirmed and ip now known, try to confirm earlier hours as well
             backfill_contiguous_confirmations!(ar)
 
             update_columns(
@@ -31,7 +30,12 @@ module User::Attendee
     end
 
     # 2) Confirm attendance (set confirmed: true for the current hour),
-    #    then backfill contiguous previous hours while ip+location match.
+    #    then backfill contiguous previous hours where ip+location match.
+    # Called when staff checks student in from question queue (hands).
+    #
+    # Note that the IP may not be filled if confirmation comes when student
+    # has not loaded the site this hour. However, in that case the record
+    # may be augmented as soon as the student pings the site.
     def confirm_attendance!
         now = Time.current
         cutoff = now.beginning_of_hour
@@ -41,35 +45,32 @@ module User::Attendee
             ar.confirmed = true
             ar.save!
 
+            # try to confirm earlier hours as well
+            backfill_contiguous_confirmations!(ar)
+
             update_columns(
                 last_seen_at: now,
                 location_confirmed: true)
             take_attendance
-
-            backfill_contiguous_confirmations!(ar)
         end
     end
 
     # 3) Set/update the current location string.
+    # Called when user reports location from the popup.
     #    - If location changes, confirmation is reset to false.
-    #    - If still false, we may infer confirmation from the previous hour when ip+location match.
     def set_current_location(location:)
         now = Time.current
         cutoff = now.beginning_of_hour
 
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
-            location_changed = ar.location != location
+
             ar.location = location
-
-            # reset confirmation if location changed
-            ar.confirmed = false if location_changed
-
-            infer_confirmation_from_previous!(ar, cutoff) unless ar.confirmed?
-
+            if ar.location_changed?
+                ar.confirmed = false
+                update_columns(location_confirmed: false)
+            end
             ar.save!
-            update_columns(last_seen_at: now)
-            take_attendance
         end
     end
 
@@ -95,11 +96,19 @@ module User::Attendee
     private
 
     # If the previous hour was confirmed and ip+location match, set current confirmed=true.
-    def infer_confirmation_from_previous!(record, cutoff)
+    def infer_from_previous!(record, cutoff)
         prev = attendance_records.find_by(cutoff: cutoff - 1.hour)
-        if record.location.blank? && prev&.location.present?
+
+        # copy location from previous hour if still same IP
+        if prev&.ip.present? &&
+           prev.ip == record.ip &&
+           record.location.blank? &&
+           prev&.location.present?
             record.location = prev.location
         end
+
+        # copy confirmation from previous if same IP and same location
+        # (e.g. if student manually reported new location we need manual confirmation)
         if prev&.confirmed? &&
            prev.location.present? && prev.location == record.location &&
            prev.ip.present?       && prev.ip       == record.ip
