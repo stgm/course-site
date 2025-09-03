@@ -13,6 +13,12 @@
             placeholder="Find student" aria-label="Find student">
     </form>
     <turbo-frame id="search-results-frame" class="autocomplete-results"
-        data-autocomplete-target="results"></turbo-frame>
+        data-autocomplete-target="results">
+            <div id="search-results"
+                 class="autocomplete-menu w-100"
+                 role="listbox"
+                 data-autocomplete-target="menu">
+            </div>
+        </turbo-frame>
     <button type="submit" hidden></button>
 </div>

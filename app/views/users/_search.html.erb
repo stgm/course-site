@@ -1,6 +1,6 @@
 <turbo-frame id="search-results-frame">
 <% if @results.any? %>
-<div id="search-results" class="dropdown-menu show w-100" role="menu">
+<div id="search-results" class="autocomplete-menu w-100" role="menu" data-autocomplete-target="menu">
 <% @results.each do |r| %>
 <%= link_to(r, class:"dropdown-item text-truncate", onclick: "modalBrowser.show(); document.getElementById('search-results').classList.remove('show');", "data-turbo-frame": 'modal') do %>
 <%= r.name %>

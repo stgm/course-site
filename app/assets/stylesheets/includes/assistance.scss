@@ -2,7 +2,12 @@
 // div#assistance in the navbar/sidebar is a dropdown, which can contain
 // the assistance application
 
-#assistance.dropdown-menu
+.autocomplete-menu
+{
+    @extend .dropdown-menu;
+}
+
+#assistance.autocomplete-menu
 {
     width:300px;
     padding: 0.75rem;
@@ -42,12 +47,12 @@
             display:none;
         }
     }
-    
+
     .message
     {
         text-align: center;
     }
-    
+
     .message.big
     {
         margin-top: 1rem;
@@ -123,7 +128,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        
+
         & h5
         {
             margin-top: -4rem;
