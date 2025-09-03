@@ -8,13 +8,28 @@ module Submit::AutoCheck::FeedbackFormatter
 
     def formatted_auto_feedback
         return "" if self.check_results.blank?
-        checks = self.check_results["checks"]
+        runs = self.check_results["runs"]
 
-        # if there is no results object, an error must have occurred
+        # we might have older type check results in the db
+        return "Legacy check results can't be displayed, please re-submit if needed." if self.check_results["checks"].present?
+
+        # if there is no runs object, an error must have occurred
         # during startup
-        return self.check_results["error"]["value"] if checks.nil?
+        return self.check_results["error"]["value"] if runs.nil?
 
-        # now generate basic feedback from each item
+        if runs.size == 1
+            # present just the results of the checks of this single run
+            format_run(runs[0]["checks"])
+        else
+            runs.map do |run|
+                # include name of checked program/slug
+                run["name"] + "\n" +
+                format_run(run["checks"])
+            end.join
+        end
+    end
+
+    def format_run(checks)
         checks.map do |item|
             format_check(item["description"], item["message"])
         end.join
