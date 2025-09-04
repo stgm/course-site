@@ -162,9 +162,10 @@ span.bubble {
 
 .activity-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(10px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
   gap: 2px;
-  max-width: 100px;
+  max-width: 62px;
+  padding: 0 2px;
 }
 
 .activity-cell {
