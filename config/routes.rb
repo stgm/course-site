@@ -144,6 +144,8 @@ Rails.application.routes.draw do
         end
     end
 
+    get "attendance", to: "hands/attendance#index"
+
     resources :questions
     resources :answers
 

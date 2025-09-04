@@ -1,0 +1,18 @@
+<% @groups.each do |group_name, users| %>
+
+<h1><%= group_name %></h1>
+
+<ul>
+<% users.each do |user| %>
+    <li>
+        <%= user.name %>
+        /
+        <%= user.last_seen_at&.to_fs(:short) %>
+        /
+        <%= user.location_confirmed? && "C" %>
+        <%= link_to "check in", new_hand_path(user_id: user.id) %>
+    </li>
+<% end %>
+</ul>
+
+<% end %>
