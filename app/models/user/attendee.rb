@@ -43,6 +43,7 @@ module User::Attendee
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
             ar.confirmed = true
+            infer_from_previous!(ar, cutoff) # copy location if needed
             ar.save!
 
             # try to confirm earlier hours as well
