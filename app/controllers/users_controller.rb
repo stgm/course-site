@@ -36,7 +36,7 @@ class UsersController < ApplicationController
             @attend = @student.attendance_records.group_by_day(:cutoff, format: "%d %B %Y").count
             @attend_confirmed = @student.attendance_records.where(confirmed: true).group_by_day(:cutoff, format: "%d %B %Y").count
             @attend_raw = @student.attendance_records
-                .where("cutoff > ?", Date.today.beginning_of_day)
+                .where("cutoff > ?", Date.today.beginning_of_day).order(:cutoff)
             @items = @student.notes.includes(:author).order(created_at: :desc)
 
             @subs = @student.submits.includes(:grade).index_by { |i| [ i.pset_id, i.user_id ] }
