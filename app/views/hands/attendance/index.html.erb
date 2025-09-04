@@ -1,11 +1,11 @@
 <% @groups.each do |group_name, users| %>
 
-<h1><%= group_name %></h1>
+<h3 class="mt-4"><%= group_name %></h3>
 
 <ul>
 <% users.each do |user| %>
     <li>
-        <%= user.name %>
+        <%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
         /
         <%= user.last_seen_at&.to_fs(:short) %>
         /
