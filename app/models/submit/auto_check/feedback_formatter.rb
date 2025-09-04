@@ -15,7 +15,7 @@ module Submit::AutoCheck::FeedbackFormatter
 
         # if there is no runs object, an error must have occurred
         # during startup
-        return self.check_results["error"]["value"] if runs.nil?
+        return self.check_results if runs.nil?
 
         if runs.size == 1
             # present just the results of the checks of this single run
