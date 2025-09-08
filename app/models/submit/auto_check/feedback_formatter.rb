@@ -11,7 +11,7 @@ module Submit::AutoCheck::FeedbackFormatter
         runs = self.check_results["runs"]
 
         # we might have older type check results in the db
-        return "Legacy check results can't be displayed, please re-submit if needed." if self.check_results["checks"].present?
+        return "Legacy check results can't be displayed, please re-submit if needed." if self.check_results["checks"].present? || (runs && runs[0] && runs[0]["results"])
 
         # if there is no runs object, an error must have occurred
         # during startup

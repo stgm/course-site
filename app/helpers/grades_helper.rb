@@ -42,6 +42,7 @@ module GradesHelper
 
     def translate_subgrade(grade)
         return "" if grade.nil?
+        return "NaN" if grade.is_a?(Float) and grade.nan?
         return t("grading.done_yes") if grade == -1 && !grade.is_a?(Float)
         return t("grading.done_no") if grade == 0
         return grade.to_i.to_s if grade == grade.to_i
