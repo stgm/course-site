@@ -137,6 +137,7 @@ Rails.application.routes.draw do
             # heads
             resource :statistics, as: "hands_statistics", only: [ :show ]
             post "confirm_location"
+            post "clear_all_locations"
         end
         member do
             put "dib"

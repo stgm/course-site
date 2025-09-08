@@ -31,3 +31,5 @@
     </div>
   <% end %>
 </div>
+
+<%= button_to 'Clear all confirmations (end of class)', clear_all_locations_hands_path, method: :post, data: { confirm: "Dangerous game you're playing!", turbo: false }, class: 'btn btn-sm btn-danger mt-5' %>

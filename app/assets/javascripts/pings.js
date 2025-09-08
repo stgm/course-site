@@ -11,6 +11,7 @@ async function keepalive() {
   setTimeout(keepalive, 600000); // schedule next ping in 10 minutes
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(keepalive, 2000);
-});
+// Ping is disabled for now.
+// document.addEventListener("DOMContentLoaded", () => {
+//   setTimeout(keepalive, 2000);
+// });

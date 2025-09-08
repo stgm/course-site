@@ -6,26 +6,32 @@ module User::Attendee
         has_many :attendance_records
     end
 
-    # 1) Log the current hit with just an IP.
-    #    - Upserts the current-hour record and sets ip.
-    #    - If previous hour was confirmed and both ip+location match, also confirm this record.
+    # 1) Log the current hit with an IP address
+    #    - Context:
+    #    - (c1) student could be new today -> new record, no inference of attendance
+    #    - (c2) or logging another hour -> inference of attendance
+    #    - (c3) or already confirmed by staff -> augment record with ip and poss. location
+    #
+    # Tasks:
+    #    - Upsert the current-hour record and sets ip
+    #    - if (c2) and both ip+location match, also confirm this record
     def log_attendance(ip:)
         now = Time.current
         cutoff = now.beginning_of_hour
 
         ApplicationRecord.transaction do
+            # update current hour log
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
             ar.ip = ip
-            infer_from_previous!(ar, cutoff) unless ar.confirmed? # copy loc + confirm
+            ar.location = last_known_location
+            ar.confirmed = location_confirmed if same_location_as_previous_hour(ar)
             ar.save!
 
-            # if already confirmed and ip now known, try to confirm earlier hours as well
+            # try to confirm earlier hours as well
             backfill_contiguous_confirmations!(ar)
 
-            update_columns(
-                last_seen_at: now,
-                last_known_location: ar.location,
-                location_confirmed: ar.confirmed?)
+            # update user properties
+            update_columns(last_seen_at: now, location_confirmed: ar.confirmed)
             take_attendance
         end
     end
@@ -42,17 +48,17 @@ module User::Attendee
         cutoff = now.beginning_of_hour
 
         ApplicationRecord.transaction do
-            ar = attendance_records.where(cutoff: cutoff).first_or_initialize
-            ar.confirmed = confirmed
-            infer_from_previous!(ar, cutoff) # copy location if needed
-            ar.save!
+            # update current hour log
+            if ar = attendance_records.where(cutoff: cutoff).first#_or_initialize
+                ar.confirmed = confirmed
+                ar.save!
 
-            # try to confirm earlier hours as well
-            backfill_contiguous_confirmations!(ar)
+                # try to confirm earlier hours as well
+                backfill_contiguous_confirmations!(ar)
+            end
 
-            update_columns(
-                last_seen_at: now,
-                location_confirmed: confirmed)
+            # update user
+            update_columns(last_seen_at: now, location_confirmed: confirmed)
             take_attendance
         end
     end
@@ -65,12 +71,14 @@ module User::Attendee
         cutoff = now.beginning_of_hour
 
         ApplicationRecord.transaction do
+            # update current hour log
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
-
             ar.location = location
             if ar.location_changed?
                 ar.confirmed = false
-                update_columns(location_confirmed: false)
+                update_columns(
+                    last_known_location: location,
+                    location_confirmed: false)
             end
             ar.save!
         end
@@ -97,28 +105,15 @@ module User::Attendee
 
     private
 
-    # If the previous hour was confirmed and ip+location match, set current confirmed=true.
-    def infer_from_previous!(record, cutoff)
-        prev = attendance_records.find_by(cutoff: cutoff - 1.hour)
-
-        # copy location from previous hour if still same IP
-        if prev&.ip.present? &&
-           prev.ip == record.ip &&
-           record.location.blank? &&
-           prev&.location.present?
-            record.location = prev.location
-        end
-
-        # copy confirmation from previous if same IP and same location
-        # (e.g. if student manually reported new location we need manual confirmation)
-        if prev&.confirmed? &&
-           prev.location.present? && prev.location == record.location &&
-           prev.ip.present?       && prev.ip       == record.ip
-            record.confirmed = true
-        end
+    def same_location_as_previous_hour(record)
+        prev = attendance_records.find_by(cutoff: record.cutoff - 1.hour)
+        logger.info(record)
+        prev&.location.present? && prev.location == record.location &&
+         prev.ip.present?       && prev.ip       == record.ip
     end
 
-    # Walk backwards hour-by-hour, flipping confirmed=true while ip+location match and hours are contiguous.
+    # Walk backwards hour-by-hour, flipping confirmed=true
+    # as long as ip+location match and hours are contiguous.
     def backfill_contiguous_confirmations!(current_record)
         return unless current_record.confirmed?
 

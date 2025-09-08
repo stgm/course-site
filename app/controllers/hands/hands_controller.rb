@@ -72,10 +72,14 @@ class Hands::HandsController < ApplicationController
 
     def confirm_location
         load_user
-        @user.confirm_location!(params[:location][:confirmed]) #if params[:location][:confirmed]
+        @user.confirm_location!(params[:location][:confirmed])
         redirect_back fallback_location: attendance_path
     end
 
+    def clear_all_locations
+        User.student.active.where(schedule:current_schedule).update_all(location_confirmed: false)
+        redirect_back fallback_location: attendance_path
+    end
 
     def search
     end
