@@ -20,11 +20,13 @@ module User::Attendee
         cutoff = now.beginning_of_hour
 
         ApplicationRecord.transaction do
-            # update current hour log
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
+            prev = attendance_records.find_by(cutoff: record.cutoff - 1.hour)
+
+            # update current hour log
             ar.ip = ip
-            ar.location = last_known_location
-            ar.confirmed = location_confirmed if same_location_as_previous_hour(ar)
+            ar.location = last_known_location if same_ip_as_previous_hour(ar, prev)
+            ar.confirmed = location_confirmed if same_location_as_previous_hour(ar, prev)
             ar.save!
 
             # try to confirm earlier hours as well
@@ -105,9 +107,11 @@ module User::Attendee
 
     private
 
-    def same_location_as_previous_hour(record)
-        prev = attendance_records.find_by(cutoff: record.cutoff - 1.hour)
-        logger.info(record)
+    def same_ip_as_previous_hour(record, prev)
+        prev.ip.present?       && prev.ip       == record.ip
+    end
+
+    def same_location_as_previous_hour(record, prev)
         prev&.location.present? && prev.location == record.location &&
          prev.ip.present?       && prev.ip       == record.ip
     end
