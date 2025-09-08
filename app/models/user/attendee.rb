@@ -30,10 +30,12 @@ module User::Attendee
             ar.save!
 
             # try to confirm earlier hours as well
-            backfill_contiguous_confirmations!(ar)
+            # backfill_contiguous_confirmations!(ar)
 
             # update user properties
-            update_columns(last_seen_at: now, location_confirmed: ar.confirmed)
+            props = { last_seen_at: now, location_confirmed: ar.confirmed }
+            props[:last_known_location] = nil if !ar.confirmed # delete loc if new IP
+            update_columns(props)
             take_attendance
         end
     end
@@ -56,7 +58,7 @@ module User::Attendee
                 ar.save!
 
                 # try to confirm earlier hours as well
-                backfill_contiguous_confirmations!(ar)
+                # backfill_contiguous_confirmations!(ar)
             end
 
             # update user
