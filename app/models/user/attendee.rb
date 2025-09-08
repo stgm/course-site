@@ -108,7 +108,7 @@ module User::Attendee
     private
 
     def same_ip_as_previous_hour(record, prev)
-        prev.ip.present?       && prev.ip       == record.ip
+        prev&.ip.present?       && prev.ip       == record.ip
     end
 
     def same_location_as_previous_hour(record, prev)
