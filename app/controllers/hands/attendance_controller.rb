@@ -17,7 +17,11 @@ class Hands::AttendanceController < ApplicationController
 
     def index
         @title = "Hands"
-        @groups = User.student.order(:last_known_location, :name).group_by(&:last_known_location)
+        @grouped_users = User.student
+            .active
+            .where(schedule: current_schedule)
+            .order(:last_known_location, :name)
+            .group_by(&:last_known_location)
 
         if Settings.hands_groups && params[:group]!="all"
             selected_group = Group.find_by_name(params["group"])
