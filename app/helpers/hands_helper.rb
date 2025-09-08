@@ -58,4 +58,17 @@ module HandsHelper
         end
     end
 
+    def toggle_checkin_form(user)
+        form_for(:location, url: confirm_location_hands_path(user_id: user.id), data: { controller: 'toggle-form setting-text-form' }, class: 'form-switch d-inline') do |form|
+                    concat(form.check_box("confirmed",
+                        {
+                            checked: user.location_confirmed,
+                            id: "user_#{user.id}_attend",
+                            class: "form-check-input"
+                        }
+                    ))
+                    #concat(tag.label 'attend', class: "form-check-label", for: "user_#{user.id}_attend")
+        end
+    end
+
 end

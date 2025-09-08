@@ -1,18 +1,33 @@
-<% @groups.each do |group_name, users| %>
+<div style="display:flex; flex-wrap:wrap; gap:24px; align-items:stretch;" class="mt-4">
+  <% @groups.each do |group_name, users| %>
+    <div style="
+      display:flex; gap:16px; align-items:flex-start;
+      flex: 1 1 360px;
+      max-width: 33%;
+      box-sizing:border-box;
+    ">
+      <!-- The rectangular table with centered group label -->
+      <div style="
+        flex:0 0 180px; height:120px;
+        border:2px solid #111827; border-radius:4px;
+        display:flex; align-items:center; justify-content:center;
+        font-weight:700; text-align:center; padding:8px; line-height:1.2;
+      ">
+        <%= group_name %>
+      </div>
 
-<h3 class="mt-4"><%= group_name %></h3>
+      <!-- Students to the right of the table -->
+      <ul style="margin:0; padding:0; list-style:none; font-size:14px;">
+        <% users.each do |user| %>
+          <li style="margin:4px 0;">
+            <%= link_to user.name, user, data: { toggle: "modal" }, target: "modal", style: "text-decoration:none;" %>
+            <span><%= user.last_seen_at&.to_fs(:time) %>
 
-<ul>
-<% users.each do |user| %>
-    <li>
-        <%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
-        /
-        <%= user.last_seen_at&.to_fs(:short) %>
-        /
-        <%= user.location_confirmed? && "C" %>
-        <%= link_to "check in", new_hand_path(user_id: user.id) %>
-    </li>
-<% end %>
-</ul>
-
-<% end %>
+              <%= toggle_checkin_form(user) %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

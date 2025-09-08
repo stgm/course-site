@@ -136,6 +136,7 @@ Rails.application.routes.draw do
             resource :availability, as: "hands_availability", only: [ :edit, :update ]
             # heads
             resource :statistics, as: "hands_statistics", only: [ :show ]
+            post "confirm_location"
         end
         member do
             put "dib"

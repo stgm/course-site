@@ -70,6 +70,13 @@ class Hands::HandsController < ApplicationController
         redirect_to action: "index", only_path: true
     end
 
+    def confirm_location
+        load_user
+        @user.confirm_location!(params[:location][:confirmed]) #if params[:location][:confirmed]
+        redirect_back fallback_location: attendance_path
+    end
+
+
     def search
     end
 

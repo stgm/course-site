@@ -16,7 +16,7 @@ class Hand < ApplicationRecord
         end
         if hand.success
             # when using hands, assume that student is attending (true)
-            hand.user.confirm_attendance!
+            hand.user.confirm_location!
         end
     end
 

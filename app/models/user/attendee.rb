@@ -37,13 +37,13 @@ module User::Attendee
     # Note that the IP may not be filled if confirmation comes when student
     # has not loaded the site this hour. However, in that case the record
     # may be augmented as soon as the student pings the site.
-    def confirm_attendance!
+    def confirm_location!(confirmed=true)
         now = Time.current
         cutoff = now.beginning_of_hour
 
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
-            ar.confirmed = true
+            ar.confirmed = confirmed
             infer_from_previous!(ar, cutoff) # copy location if needed
             ar.save!
 
@@ -52,7 +52,7 @@ module User::Attendee
 
             update_columns(
                 last_seen_at: now,
-                location_confirmed: true)
+                location_confirmed: confirmed)
             take_attendance
         end
     end
