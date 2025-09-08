@@ -21,7 +21,7 @@ module User::Attendee
 
         ApplicationRecord.transaction do
             ar = attendance_records.where(cutoff: cutoff).first_or_initialize
-            prev = attendance_records.find_by(cutoff: record.cutoff - 1.hour)
+            prev = attendance_records.find_by(cutoff: ar.cutoff - 1.hour)
 
             # update current hour log
             ar.ip = ip
