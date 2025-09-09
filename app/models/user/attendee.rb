@@ -34,7 +34,7 @@ module User::Attendee
 
             # update user properties
             props = { last_seen_at: now, location_confirmed: ar.confirmed }
-            props[:last_known_location] = nil if !ar.confirmed # delete loc if new IP
+            props[:last_known_location] = nil if !same_ip_as_previous_hour(ar, prev)
             update_columns(props)
             take_attendance
         end
