@@ -22,6 +22,7 @@ module Submit::AutoCheck::ScoreCalculator
     # this method may be called in grading.yml grade formulas
     def correctness_score
         return nil unless self.check_results&.dig("summary").present?
+        return nil unless self.check_results["summary"]["total_check_count"] > 0
         self.check_results["summary"]["passed_check_count"].to_f /
             self.check_results["summary"]["total_check_count"]
     end
