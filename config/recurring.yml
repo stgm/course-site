@@ -8,9 +8,13 @@ default: &default
         command: "GradeMailer.periodic_round"
         schedule: every 25 minutes
 
-    reset_locations:
-        command: "User.update_all(last_known_location: nil)"
+    reset_user_locations:
+        command: "User.update_all(last_known_location: nil, location_confirmed: false)"
         schedule: "00 05 * * *"
+
+    remove_stale_hands:
+        command: "Hand.remove_all_stale"
+        schedule: "00 10 * * *"
 
 production: *default
 development: *default

@@ -100,9 +100,9 @@ class Hands::HandsController < ApplicationController
 
     def done
         h = Hand.find(params[:id])
-        h.update(done: true, success: params[:success], evaluation: params[:evaluation], note: params[:note], progress: params[:progress], closed_at: DateTime.now)
+        h.update(done: true, success: params[:success], evaluation: params[:evaluation], note: params[:note], progress: params[:progress], closed_at: DateTime.current)
         if not h.success
-            Hands::HandsMailer.cancelled(h, current_user.name.split.first).deliver
+            Hands::HandsMailer.cancelled(h, current_user.name.split.first).deliver_later
         end
         redirect_to action: "index", only_path: true
     end

@@ -28,6 +28,12 @@ class Hand < ApplicationRecord
         )
     end
 
+    def self.remove_all_stale
+        Hand.waiting.update_all done: true,
+            evaluation: "Stale question removed from queue at night",
+            closed_at: DateTime.current
+    end
+
     def user_last_seen
         if attend = self.user.attendance_records.order("cutoff desc").first
             attend.cutoff
