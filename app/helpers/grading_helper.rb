@@ -17,7 +17,7 @@ module GradingHelper
                             class: "ipynb"
                         )
                     rescue
-                        tag.div tag.p("No valid JSON found in notebook file, showing first 100 characters: ") + 
+                        tag.div tag.p("No valid JSON found in notebook file, showing first 100 characters: ") +
                                 tag.pre(downloaded[0, 100])
                     end
                 when "markdown", "md"
@@ -25,7 +25,9 @@ module GradingHelper
                 when "html"
                     tag.div sanitize(contents.download), class: "ipynb"
                 when "txt", "sql", "c", "py"
-                    if contents.filename.extension == "txt"
+                    if contents.blob.byte_size > 1.megabyte
+                        tag.div "Attachment is weirdly large"
+                    elsif contents.filename.extension == "txt"
                         simple_format(
                             contents.download.encode("UTF-8", undef: :replace, replace: "?")
                         )
