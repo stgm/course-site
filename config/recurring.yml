@@ -14,7 +14,7 @@ default: &default
 
     remove_stale_hands:
         command: "Hand.remove_all_stale"
-        schedule: "00 10 * * *"
+        schedule: "00 01 * * *"
 
 production: *default
 development: *default
