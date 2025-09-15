@@ -71,8 +71,8 @@ nl:
             required: Benodigde
             optional: Optionele
         check_delay:
-            one: "Omdat je deze opdracht al eerder hebt ingestuurd duurt de automatische check ongeveer ongeveer %{count} minuut."
-            other: "Omdat je deze opdracht al eerder hebt ingestuurd duurt de automatische check ongeveer ongeveer %{count} minuten."
+            one: "Omdat je deze opdracht al eerder hebt ingestuurd duurt de automatische check ongeveer %{count} minuut."
+            other: "Omdat je deze opdracht al eerder hebt ingestuurd duurt de automatische check ongeveer %{count} minuten."
 
     hands:
         assistance: Assistentie
