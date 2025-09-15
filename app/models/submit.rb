@@ -77,7 +77,7 @@ class Submit < ApplicationRecord
 
     def record(used_login: nil, archive_folder_name: nil, url: nil, attachments: nil, check_token: nil, form_contents: nil)
         # basic info
-        self.submitted_at = Time.now
+        self.submitted_at = Time.current
         self.used_login = used_login
         self.folder_name = archive_folder_name
 

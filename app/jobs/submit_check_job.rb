@@ -20,8 +20,7 @@ class SubmitCheckJob < ApplicationJob
         end
 
         submit.update!(
-          check_token: token,
-          submitted_at: Time.current
+          check_token: token
         )
     end
 end
