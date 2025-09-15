@@ -5,6 +5,17 @@
 .autocomplete-menu
 {
     @extend .dropdown-menu;
+    display: block;
+}
+
+.autocomplete-menu:empty
+{
+    display: none;
+}
+
+.autocomplete-menu.hidden
+{
+    display: none;
 }
 
 #assistance.autocomplete-menu, #assistance.dropdown-menu

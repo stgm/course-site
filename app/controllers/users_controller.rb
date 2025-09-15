@@ -11,13 +11,11 @@ class UsersController < ApplicationController
     layout "modal"
 
     def search
-        if params[:text] != ""
-            @results = @user_scope.
-                includes(:logins).
-                where("lower(users.name) like ? or users.student_number like ?", "%#{params[:text].downcase}%", "%#{params[:text]}%").
-                references(:logins).
-                limit(10).
-                order(:name)
+        if params[:text].present?
+            query = I18n.transliterate(params[:text].downcase)
+            logger.info(query)
+            @results = @user_scope.all.select { |u| I18n.transliterate(u.name.downcase)&.include?(query) || u.student_number&.include?(query) }.first(10)
+            logger.info(@results)
         else
             @results = []
         end

@@ -1,6 +1,6 @@
 <div id="search"
     class="dropdown autocomplete d-none d-lg-block navbarSupportedContent flex-grow-0 ms-auto"
-    data-controller="autocomplete">
+    data-controller="autocomplete" data-autocomplete-target="widget">
     <%# below lacks the normal data-bs-toggle = dropdown %>
     <form id="student-search-form"
         action="<%= search_users_path %>"
@@ -17,8 +17,7 @@
             <div id="search-results"
                  class="autocomplete-menu w-100"
                  role="listbox"
-                 data-autocomplete-target="menu">
-            </div>
+                 data-autocomplete-target="menu"></div>
         </turbo-frame>
     <button type="submit" hidden></button>
 </div>

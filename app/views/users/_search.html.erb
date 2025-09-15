@@ -1,16 +1,13 @@
-<turbo-frame id="search-results-frame">
-<% if @results.any? %>
-<div id="search-results" class="autocomplete-menu w-100" role="menu" data-autocomplete-target="menu">
-<% @results.each do |r| %>
+<turbo-frame id="search-results-frame" class="autocomplete-results" data-autocomplete-target="results">
+    <div id="search-results" class="autocomplete-menu w-100" role="menu" data-autocomplete-target="menu"><% @results.each do |r| %>
 <%= link_to(r, class:"dropdown-item text-truncate", onclick: "modalBrowser.show(); document.getElementById('search-results').classList.remove('show');", "data-turbo-frame": 'modal') do %>
 <%= r.name %>
-<% if r.schedule%>
+<% if r.schedule %>
 <span class="badge bg-info"><%= r.schedule.name %></span>
 <% end %>
 <% if r.status_done? %><span class="badge bg-success">done</span><% end %>
 <% if r.status_inactive? %><span class="badge bg-warning">inactive</span><% end %>
 <% if !r.student? %><span class="badge bg-secondary"><%= r.role %></span><% end %>
 <% end %>
-<% end %>
-<% end %>
-</div></turbo-frame>
+<% end %></div>
+</turbo-frame>

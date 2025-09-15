@@ -1,10 +1,19 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-    static targets = ["form", "input", "results", "menu"];
+    static targets = ["form", "input", "results", "menu", "widget"];
     activeIndex = -1;
 
     connect() {
+        this.widgetTarget.addEventListener("focusout", () => { console.log('hide');
+            setTimeout(() => {
+                if (!this.widgetTarget.contains(document.activeElement)) {
+                    this.hideMenu();
+                }
+            },100);
+        });
+        this.widgetTarget.addEventListener("focusin", () => { console.log('show'); this.showMenu()});
+
         // submit on change
         this.inputTarget.addEventListener("input", () => this.formTarget.requestSubmit());
         this.inputTarget.addEventListener("paste", () => this.formTarget.requestSubmit());
@@ -13,16 +22,12 @@ export default class extends Controller {
         this.inputTarget.addEventListener("keydown", (e) => {
             if (e.key === "ArrowDown") {
                 e.preventDefault();
-                this.syncVisibility();
                 if (this.items.length) this.setActive(0, { focus: true });
             } else if (e.key === "ArrowUp") {
                 e.preventDefault();
-                this.syncVisibility();
                 if (this.items.length) this.setActive(this.items.length - 1, { focus: true });
             } else if (e.key === "Escape") {
-                this.inputTarget.value = "";
-                this.formTarget.requestSubmit();
-                this.hideMenu();
+                this.clearInput();
             }
         });
 
@@ -34,13 +39,15 @@ export default class extends Controller {
         // when frame updates, ensure visibility matches content
         this.element.addEventListener("turbo:frame-load", (e) => {
             if (e.target.id !== "search-results-frame") return;
-            this.syncVisibility();
         });
-
-        this.syncVisibility();
     }
 
     // --- helpers ---
+    clearInput() {
+        this.inputTarget.value = "";
+        this.formTarget.requestSubmit();
+    }
+
     get items() {
         const root = this.menuTarget || this.resultsTarget;
         return Array.from(root.querySelectorAll(".dropdown-item:not([disabled])"));
@@ -48,25 +55,16 @@ export default class extends Controller {
 
     showMenu() {
         if (!this.menuTarget) return;
-        this.menuTarget.classList.add("show");
+        this.menuTarget.classList.remove("hidden");
         this.menuTarget.setAttribute("aria-hidden", "false");
         this.inputTarget.setAttribute("aria-expanded", "true");
     }
 
     hideMenu() {
         if (!this.menuTarget) return;
-        this.menuTarget.classList.remove("show");
+        this.menuTarget.classList.add("hidden");
         this.menuTarget.setAttribute("aria-hidden", "true");
         this.inputTarget.setAttribute("aria-expanded", "false");
-        this.clearActive();
-    }
-
-    syncVisibility() {
-        if (this.items.length && this.inputTarget.value.trim() !== "") {
-            this.showMenu();
-        } else {
-            this.hideMenu();
-        }
     }
 
     // --- active item management ---
@@ -120,10 +118,11 @@ export default class extends Controller {
             case " ":
                 e.preventDefault();
                 if (this.activeIndex >= 0) this.items[this.activeIndex].click();
+                this.clearInput();
                 break;
             case "Escape":
                 e.preventDefault();
-                this.hideMenu();
+                this.clearInput();
                 this.inputTarget.focus();
                 break;
             case "Tab":
@@ -140,7 +139,8 @@ export default class extends Controller {
     }
 
     onMenuClick(_e) {
-        this.hideMenu(); // allow Turbo/anchor default navigation
+        console.log("menu")
+        this.clearInput();
     }
 }
 
