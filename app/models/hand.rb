@@ -29,9 +29,9 @@ class Hand < ApplicationRecord
     end
 
     def self.remove_all_stale
-        Hand.waiting.update_all done: true,
+        Hand.waiting.update_all(done: true,
             evaluation: "Stale question removed from queue at night",
-            closed_at: DateTime.current
+            closed_at: DateTime.current)
     end
 
     def user_last_seen

@@ -68,6 +68,9 @@ en:
         file_groups:
             required: Required
             optional: Optional
+        check_delay:
+            one: "Because you've submitted this problem before, the automatic checks will take about %{count} minute."
+            other: "Because you've submitted this problem before, the automatic checks will take about %{count} minutes."
 
     hands:
         assistance: Assistance

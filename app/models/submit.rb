@@ -90,9 +90,9 @@ class Submit < ApplicationRecord
         self.form_contents = form_contents
 
         # reset auto checks
-        self.check_token = check_token
         self.check_results = nil
         self.auto_graded = false
+        increment_attempts!
 
         self.save
 
@@ -170,15 +170,27 @@ class Submit < ApplicationRecord
         (grading_config && grading_config["check"]).present?
     end
 
+    def current_check_delay
+        prior_attempts = attempts_count.to_i # number of times already attempted
+        seconds = [[prior_attempts, 5].min, 0].max * 60
+        seconds.seconds
+    end
+
+    def increment_attempts!
+      increment!(:attempts_count)
+    end
+
     def late?
         deadline.present? && submitted_at.present? && submitted_at > deadline
     end
 
     def recheck(host)
-        Attachments.new(self.all_files.to_h).zipped do |zip|
-            token = Submit::AutoCheck::Sender.new(zip, grading_config["check"], host).start
-            self.update(check_token: token)
-        end
+        SubmitCheckJob.perform_later(
+            id,
+            tool_config: pset.submit_config["check"],
+            callback_url: host,
+            run_immediately: true
+        )
     end
 
     def self.indexed_by_pset_and_user_for(users)

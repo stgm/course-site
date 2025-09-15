@@ -25,8 +25,8 @@ class SubmissionsController < ApplicationController
     def create
         collect_attachments
         upload_attachments_to_webdav  if should_upload_to_webdav?
-        upload_files_to_check_server  if should_perform_auto_check?
         record_submission
+        upload_files_to_check_server  if should_perform_auto_check?
         record_git_repo               if should_record_git_repo?
         upload_files_to_plag_server   if should_upload_to_plag_server?
         redirect_back fallback_location: "/" unless performed?
@@ -96,14 +96,20 @@ class SubmissionsController < ApplicationController
     end
 
     def should_perform_auto_check?
-        Submit::AutoCheck::Sender.enabled? &&
+        CheckSender.enabled? &&
             @pset.submit_config["check"].present? &&
             @pset.submit_config["autocheck"] != false
     end
 
     def upload_files_to_check_server
         @attachments.zipped do |zip|
-            @token = Submit::AutoCheck::Sender.new(zip, @pset.submit_config["check"], api_check_result_do_url).start
+            SubmitCheckJob.
+                set(wait: @submit.current_check_delay).
+                perform_later(
+                    @submit.id,
+                    tool_config: @pset.submit_config["check"],
+                    callback_url: api_check_result_do_url
+                )
         end
     end
 
@@ -118,14 +124,13 @@ class SubmissionsController < ApplicationController
     end
 
     def record_submission
-        submit = Submit.where(user: current_user, pset: @pset).first_or_initialize
-        submit.record(
+        @submit = Submit.where(user: current_user, pset: @pset).first_or_initialize
+        @submit.record(
             used_login: current_user.defacto_student_identifier,
             archive_folder_name: @submit_folder_name,
             url: params[:url],
             attachments: @attachments,
             form_contents: @form_contents,
-            check_token: @token
         )
     end
 

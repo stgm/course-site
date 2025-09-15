@@ -70,6 +70,9 @@ nl:
         file_groups:
             required: Benodigde
             optional: Optionele
+        check_delay:
+            one: "Omdat je deze opdracht al eerder hebt ingestuurd duurt de automatische check ongeveer ongeveer %{count} minuut."
+            other: "Omdat je deze opdracht al eerder hebt ingestuurd duurt de automatische check ongeveer ongeveer %{count} minuten."
 
     hands:
         assistance: Assistentie
@@ -97,7 +100,7 @@ nl:
         in_line: Je staat even in de wacht omdat je kort geleden geholpen bent, en het is nogal druk!
         cancel_request: "Annuleren"
         link: "Geef je Zoom-link"
-        
+
         prompts:
             - "Aan welk project werk je momenteel en hoe kan ik je helpen?"
             - "Ben je vandaag tegen uitdagingen aangelopen bij je programmeertaken?"

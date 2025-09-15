@@ -72,6 +72,10 @@
         <%= bootstrap_icon 'check2-all' %>
         <%= t 'submit.until_deadline_new_version' %>
     </p>
+    <p>
+        <%= bootstrap_icon 'hourglass-bottom' %>
+        <%= t 'submit.check_delay', count: @submit.current_check_delay / 60 %>
+    </p>
     <% end %>
 
     <%# Provide specific reasons for NOT being able to submit %>
