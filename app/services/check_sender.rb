@@ -22,7 +22,7 @@ class CheckSender
             opts = {
                 file: @zipped_attachments,
                 password: @server_secret,
-                webhook: 'https://minprog.requestcatcher.com/test',# @callback_url,
+                webhook: @callback_url,
                 multipart: true
             }
             # and add slug/repo/args from the config file
