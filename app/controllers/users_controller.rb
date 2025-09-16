@@ -14,7 +14,7 @@ class UsersController < ApplicationController
         if params[:text].present?
             query = I18n.transliterate(params[:text].downcase)
             logger.info(query)
-            @results = @user_scope.all.select { |u| I18n.transliterate(u.name.downcase)&.include?(query) || u.student_number&.include?(query) }.first(10)
+            @results = @user_scope.all.select { |u| I18n.transliterate(u.name&.downcase)&.include?(query) || u.student_number&.include?(query) }.first(10)
             logger.info(@results)
         else
             @results = []

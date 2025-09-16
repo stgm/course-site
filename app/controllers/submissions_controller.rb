@@ -29,7 +29,7 @@ class SubmissionsController < ApplicationController
         upload_files_to_check_server  if should_perform_auto_check?
         record_git_repo               if should_record_git_repo?
         upload_files_to_plag_server   if should_upload_to_plag_server?
-        redirect_back fallback_location: "/" unless performed?
+        redirect_to submissions_path unless performed?
     end
 
     # Shows automatic check feedback for a single submission.

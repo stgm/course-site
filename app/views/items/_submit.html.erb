@@ -1,20 +1,70 @@
-<small><%= date_span(submit.submitted_at)%></small>
-<h5 class="card-title"><%= t "submit.you_submitted", name: submit.pset.name %></h5>
+<div class="card-header">
+    <small><%= date_span(submit.submitted_at)%></small>
+    <h5 class="card-title"><%= submit.pset.name.humanize %></h5>
+</div>
 
-<% if submit.url %>
-URL: <%= link_to submit.url, submit.url %>
-<% end %>
-<% if submit.filenames.any? %>
-<p class="mb-1"><%= t "submit.files_submitted" %></p>
-<ul class="ps-4">
-	<% submit.filenames.each do |name| %>
-	<li><code class="text-body"><%= name %></code></li>
-	<% end %>
-</ul>
-<% if Settings.registration_phase != 'exam' %>
-<%= link_to 'Download', submission_download_path(submit), class: 'btn btn-sm btn-secondary', data: { turbo: false } %>
-<% end %>
-<% end %>
-<% if submit.has_auto_feedback? %>
-<%= link_to t("check_results"), submission_feedback_path(submit), class:"btn btn-sm btn-secondary", target: 'modal' %>
+<div class="card-body">
+
+    <% if submit.url %>
+        <h6>URL:</h6>
+        <ul>
+            <li><%= link_to submit.url, submit.url %></li>
+        </ul>
+    <% end %>
+
+    <% if submit.filenames.any? %>
+        <h6><%= t("submit.files_submitted") %>:</h6>
+        <%#= render partial: 'separator', locals: { title: t("submit.files_submitted") } %>
+        <!--<p class="mb-1"><%= t "submit.files_submitted" %></p>-->
+        <ul class="ps-4">
+       	<% submit.filenames.each do |name| %>
+       	<li><code class="text-body"><%= name %></code></li>
+       	<% end %>
+        </ul>
+    <% end %>
+
+    <% if grade = submit.grade %>
+       <% if grade.published? || grade.exported? %>
+        <h6><%= t("submit.grade") %>:</h6>
+
+        <ul class="ps-4">
+               	<% if grade.grading_config['subgrades'] && !grade.grading_config['hide_subgrades'] %>
+              		<% grade.grading_config['subgrades'].each_pair do |subgrade_name, unin| %>
+              		<% k=subgrade_name %>
+              		<% v=grade.subgrades[k] %>
+              		<li><%= k.capitalize %> → <%= translate_subgrade(v) %></li>
+              		<% end %>
+               	<% end %>
+
+               	<% if !grade.grading_config || !grade.grading_config['hide_calculated'] %>
+               	<li> Grade <span class="badge bg-primary"><%= translate_grade(grade.assigned_grade) %></span></li>
+               	<% end %>
+        </ul>
+
+        <% if grade.comments %>
+            <h6>Comments:</h6>
+            <%= simple_markdown(grade.comments) %>
+        <% end %>
+
+        <p>
+            <small><%= date_span(grade.updated_at)%>
+            <%= t(:by) %> <%= grade.grader_name || "Graderbot" %>
+            </small>
+        </p>
+        <% end %>
+    <% end %>
+
+</div>
+
+<%# ----footer---- %>
+
+<% if submit.filenames.any? || submit.has_auto_feedback? %>
+    <div class="card-footer">
+    <% if submit.filenames.any? && Settings.registration_phase != 'exam' %>
+        <%= link_to 'Download', submission_download_path(submit), class: 'btn btn-sm btn-secondary', data: { turbo: false } %>
+    <% end %>
+    <% if submit.has_auto_feedback? %>
+        <%= link_to t("check_results"), submission_feedback_path(submit), class:"btn btn-sm btn-secondary", target: 'modal' %>
+    <% end %>
+    </div>
 <% end %>
