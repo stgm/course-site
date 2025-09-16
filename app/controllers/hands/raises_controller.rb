@@ -68,11 +68,11 @@ class Hands::RaisesController < ApplicationController
     def location_small
         # https://stackoverflow.com/questions/29997836/how-to-show-a-greeting-message-through-out-the-day
 
-        current_time = Time.now.to_i
-        midnight = Time.now.beginning_of_day.to_i
-        noon = Time.now.middle_of_day.to_i
-        five_pm = Time.now.change(hour: 17).to_i
-        eight_pm = Time.now.change(hour: 20).to_i
+        current_time = Time.current.to_i
+        midnight = Time.current.beginning_of_day.to_i
+        noon = Time.current.middle_of_day.to_i
+        five_pm = Time.current.change(hour: 17).to_i
+        eight_pm = Time.current.change(hour: 20).to_i
 
         @greeting = case
                     when midnight.upto(noon).include?(current_time)
@@ -85,7 +85,7 @@ class Hands::RaisesController < ApplicationController
                         t("hands.good_night")
         end
 
-        @assist_available = User.where("available > ?", DateTime.now)
+        @assist_available = User.where("available > ?", DateTime.current)
 
         respond_to do |format|
             format.js { render "location" }
@@ -93,11 +93,11 @@ class Hands::RaisesController < ApplicationController
     end
 
     def location
-        current_time = Time.now.to_i
-        midnight = Time.now.beginning_of_day.to_i
-        noon = Time.now.middle_of_day.to_i
-        five_pm = Time.now.change(hour: 17).to_i
-        eight_pm = Time.now.change(hour: 20).to_i
+        current_time = Time.current.to_i
+        midnight = Time.current.beginning_of_day.to_i
+        noon = Time.current.middle_of_day.to_i
+        five_pm = Time.current.change(hour: 17).to_i
+        eight_pm = Time.current.change(hour: 20).to_i
 
         @greeting = case
                     when midnight.upto(noon).include?(current_time)
