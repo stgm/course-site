@@ -12,10 +12,12 @@ class UsersController < ApplicationController
 
     def search
         if params[:text].present?
-            query = I18n.transliterate(params[:text].downcase)
-            logger.info(query)
-            @results = @user_scope.all.select { |u| I18n.transliterate(u.name&.downcase)&.include?(query) || u.student_number&.include?(query) }.first(10)
-            logger.info(@results)
+            if params[:text] == '---'
+                @results = @user_scope.where(name: nil)
+            else
+                query = I18n.transliterate(params[:text].downcase)
+                @results = @user_scope.where.not(name: nil).select { |u| I18n.transliterate(u.name&.downcase)&.include?(query) || u.student_number&.include?(query) }.first(10)
+            end
         else
             @results = []
         end
