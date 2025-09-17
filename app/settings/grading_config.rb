@@ -76,7 +76,10 @@ class GradingConfig
                 @errors << "Problem loading grading.yml for #{@schedule_name}. There are grading categories like #{progress_categories.first.first} but no grades section is present specifying how to calculate grades."
                 return @errors
             end
-            all_submit_names = progress_categories.map { |k, v| [ k, v["submits"].keys ] }
+            all_submit_names = progress_categories.filter_map do |k, v|
+                submits = v["submits"]
+                [ k, submits.keys ] if submits
+            end
             invalid_grade_names = all_submit_names.map { |k, v| [ k, v.select { |name| !@config["grades"].include?(name) } ] }.select { |k, v| v.any? }.map { |k, v| "#{k}/#{v.join(',')}" }
             if invalid_grade_names.any?
                 @errors << "Problem loading grading.yml for #{@schedule_name}. Grades #{invalid_grade_names.join('; ')} are defined, but matching names could not be found in the grades section."
@@ -115,28 +118,35 @@ class GradingConfig
     end
 
     def overview_config
-        # determine the categories to show
+        # determine the overall categories to show
         overview = @config.select { |category, value| value["show_progress"] }
 
         overview.each do |category, content|
-            # remove weight 0 and bonus, only select pset names
+            # remove psets having weight 0 or bonus, only select pset names
             content["submits"] = content["submits"]
                 .reject { |submit, weight| (weight == 0 || weight == "bonus") }
 
-            # determine subgrades
+            # determine subgrades if any
             subgrades = []
             show_calculated = false
             content["submits"].each do |submit, weight|
-                if !self.grades[submit]["hide_subgrades"] && self.grades[submit]["subgrades"].present?
-                    subgrades += self.grades[submit]["subgrades"].keys
+                if grades[submit].present?
+                    if may_show_subgrades?(submit)
+                        subgrades += self.grades[submit]["subgrades"].keys
+                    end
+                    show_calculated = true if !self.grades[submit]["hide_calculated"]
                 end
-                show_calculated = true if !self.grades[submit]["hide_calculated"]
             end
             content["subgrades"] = subgrades.uniq
             content["show_calculated"] = show_calculated
         end
 
         return overview
+    end
+
+    def may_show_subgrades?(submit)
+        !grades[submit]["hide_subgrades"] &&
+        grades[submit]["subgrades"].present?
     end
 
     def settings
