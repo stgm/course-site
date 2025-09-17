@@ -10,7 +10,7 @@ default: &default
 
     reset_user_locations:
         command: "User.update_all(last_known_location: nil, location_confirmed: false)"
-        schedule: "00 05 * * *"
+        schedule: "00 02 * * *"
 
     remove_stale_hands:
         command: "Hand.remove_all_stale"
