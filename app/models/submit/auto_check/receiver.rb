@@ -32,7 +32,7 @@ module Submit::AutoCheck::Receiver
 
             # if the results do not appear OK, send an e-mail
             if send_mail && grade.calculated_grade == 0
-                GradeMailer.bad_submit(self).deliver
+                GradeMailer.bad_submit(self).deliver_later
             end
         end
     end
