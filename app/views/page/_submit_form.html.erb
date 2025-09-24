@@ -24,8 +24,12 @@
 
 <% end %>
 
-<% if @page.pset.url %>
-<p class="mt-4"><%= t 'submit.url_field' %>: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
+<% if @page.pset.url == true %>
+    <%# url field is literally 'true' %>
+    <p class="mt-4"><%= t 'submit.url_field' %>: <%= text_field_tag 'url', nil, required:true, class:'form-control' %></p>
+<% elsif @page.pset.url.present? %>
+    <%# regex provided %>
+    <p class="mt-4"><%= t 'submit.url_field' %>: <%= text_field_tag 'url', nil, required:true, class:'form-control', pattern: @page.pset.url %></p>
 <% end %>
 
 <% if @page.pset.git_repo %>
