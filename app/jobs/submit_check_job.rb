@@ -3,7 +3,7 @@ class SubmitCheckJob < ApplicationJob
 
     # Retries on transient HTTP-ish errors; tune attempts/types as you like
     retry_on(Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNRESET,
-             wait: :exponentially_longer, attempts: 5)
+             wait: :polynomially_longer, attempts: 5)
 
     # If the Submit got deleted, just drop the job
     discard_on ActiveRecord::RecordNotFound
