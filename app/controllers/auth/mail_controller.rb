@@ -25,7 +25,10 @@ class Auth::MailController < ApplicationController
         end
 
         # bail out invisibly if registration is not open
-        redirect_to root_url, alert: t("account.not_everyone_can_login") and return if !User.authenticate({ mail: params[:email].downcase })
+        if !User.authenticate({ mail: params[:email].downcase })
+            Rails.logger.info "Login denied for user"
+            redirect_to root_url, alert: t("account.not_everyone_can_login") and return
+        end
 
         # user has entered e-mail address
         session[:login_email] = mail = params[:email].downcase
