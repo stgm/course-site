@@ -29,13 +29,13 @@ Rails.application.configure do
   config.active_storage.service = ENV.fetch("RAILS_ACTIVE_STORAGE_SERVICE", :azure)
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  config.assume_ssl = true
+  # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.hosts << "localhost"
   config.hosts << "127.0.0.1"
   config.force_ssl = false
-  config.assume_ssl
+  # config.assume_ssl
   # config.force_ssl = true
   # config.action_controller.forgery_protection_origin_check = false
   # config.action_dispatch.trusted_proxies = []
