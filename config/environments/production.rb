@@ -35,7 +35,7 @@ Rails.application.configure do
   config.hosts << "localhost"
   config.hosts << "127.0.0.1"
   config.force_ssl = false
-  # config.assume_ssl
+  config.assume_ssl = false
   # config.force_ssl = true
   # config.action_controller.forgery_protection_origin_check = false
   # config.action_dispatch.trusted_proxies = []
