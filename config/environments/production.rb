@@ -35,9 +35,10 @@ Rails.application.configure do
   config.hosts << "localhost"
   config.hosts << "127.0.0.1"
   config.force_ssl = false
+  config.assume_ssl
   # config.force_ssl = true
-  config.action_controller.forgery_protection_origin_check = false
-  config.action_dispatch.trusted_proxies = []
+  # config.action_controller.forgery_protection_origin_check = false
+  # config.action_dispatch.trusted_proxies = []
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
