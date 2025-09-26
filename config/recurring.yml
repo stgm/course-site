@@ -1,20 +1,20 @@
-default: &default
+# default: &default
 
-    grade_emails:
-        # If you want to change the mailing frequency, note that this frequency is
-        # present in two places in this code. One for running the scheduler regularly,
-        # and one for making sure only grades of a certain age are emailed, to allow
-        # for corrections within that timeframe.
-        command: "GradeMailer.periodic_round"
-        schedule: every 25 minutes
+#     # grade_emails:
+#     #     # If you want to change the mailing frequency, note that this frequency is
+#     #     # present in two places in this code. One for running the scheduler regularly,
+#     #     # and one for making sure only grades of a certain age are emailed, to allow
+#     #     # for corrections within that timeframe.
+#     #     command: "GradeMailer.periodic_round"
+#     #     schedule: every 25 minutes
 
-    reset_user_locations:
-        command: "User.update_all(last_known_location: nil, location_confirmed: false)"
-        schedule: "00 02 * * *"
+#     # reset_user_locations:
+#     #     command: "User.update_all(last_known_location: nil, location_confirmed: false)"
+#     #     schedule: "00 02 * * *"
 
-    remove_stale_hands:
-        command: "Hand.remove_all_stale"
-        schedule: "00 01 * * *"
+#     # remove_stale_hands:
+#     #     command: "Hand.remove_all_stale"
+#     #     schedule: "00 01 * * *"
 
-production: *default
-development: *default
+# production: *default
+# development: *default

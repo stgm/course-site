@@ -33,6 +33,7 @@ class Auth::MailController < ApplicationController
         code = SecureRandom.hex(3)
         # hash it for later check
         session[:login_secret] = Digest::SHA256.hexdigest(code)
+        Rails.logger.info session[:login_secret] if User.count == 1
         AuthMailer.with(mail: mail, code: code).login_code.deliver_later
         redirect_to auth_mail_code_path
     end
