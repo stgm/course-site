@@ -29,7 +29,16 @@ class SubmissionsController < ApplicationController
         upload_files_to_check_server  if should_perform_auto_check?
         record_git_repo               if should_record_git_repo?
         upload_files_to_plag_server   if should_upload_to_plag_server?
-        redirect_to submissions_path unless performed?
+        redirect_to submissions_path, notice: "Submit successful." unless performed?
+    rescue WebdavUploader::Error => e
+        redirect_back_or_to submissions_path, alert: (
+            "NOTE: The submit <strong>FAILED</strong> for technical reasons.<br>" \
+            "Please try once more in a few minutes.<br>" \
+            "<br>" \
+            "If this problem persists, send an e-mail to your teacher!<br>" \
+            "<br>" \
+            "Message for teacher: " + e.message
+        ).html_safe
     end
 
     # Shows automatic check feedback for a single submission.
@@ -87,12 +96,12 @@ class SubmissionsController < ApplicationController
             @submit_folder_name              # /mario__21981289
         )
 
-        uploader = Submit::Webdav::Uploader.new(submission_path)
+        uploader = WebdavUploader.new(submission_path)
         uploader.upload(@attachments.all)
     end
 
     def should_upload_to_webdav?
-        Submit::Webdav::Client.available?
+        WebdavUploader.fully_configured?
     end
 
     def should_perform_auto_check?

@@ -47,7 +47,9 @@ class Submit < ApplicationRecord
     end
 
     def self.available?
-        Settings.registration_phase.in?([ "during", "after" ]) && Submit::Webdav::Client.available? || Rails.env.development?
+        Settings.registration_phase.in?([ "during", "after" ]) &&
+        (WebdavUploader.fully_configured? ||
+            Rails.env.development?)
     end
 
     def allow_new_submit?
@@ -94,7 +96,7 @@ class Submit < ApplicationRecord
         self.auto_graded = false
         increment_attempts!
 
-        self.save
+        self.save!
 
         user.update(last_submitted_at: self.submitted_at)
 
