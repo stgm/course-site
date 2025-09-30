@@ -24,15 +24,15 @@ ExceptionNotification.configure do |config|
   # Email notifier sends notifications by email.
   config.add_notifier :email, {
       email_prefix: "[ERROR] ",
-      sender_address: %("notifier" <#{ENV['COURSE_SITE_ERROR_RECIPIENT']}>),
-      exception_recipients: %w[martijn@stgm.nl]
+      sender_address: %("MinProg Admin" <m.stegeman@uva.nl>),
+      exception_recipients: %w[m.stegeman@uva.nl]
   }
 
   # This used to be in production.rb
   # Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
   #     email_prefix: "[ERROR] ",
   #     sender_address: %("notifier" <#{ENV['COURSE_SITE_ERROR_RECIPIENT']}>),
-  #     exception_recipients: %w[martijn@stgm.nl]
+  #     exception_recipients: %w[m.stegeman@uva.nl]
   # }
 
 
