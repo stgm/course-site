@@ -173,7 +173,7 @@ class Submit < ApplicationRecord
     end
 
     def current_check_delay
-        prior_attempts = attempts_count.to_i # number of times already attempted
+        prior_attempts = attempts_count.to_i - 1 # number of times already attempted
         seconds = [[prior_attempts, 5].min, 0].max * 60
         seconds.seconds
     end
