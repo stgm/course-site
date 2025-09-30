@@ -24,7 +24,7 @@ ExceptionNotification.configure do |config|
   # Email notifier sends notifications by email.
   config.add_notifier :email, {
       email_prefix: "[ERROR] ",
-      sender_address: %("MinProg Admin" <m.stegeman@uva.nl>),
+      sender_address: %("Proglab Help" <help@proglab.nl>),
       exception_recipients: %w[m.stegeman@uva.nl]
   }
 
