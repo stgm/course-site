@@ -31,6 +31,7 @@ class SubmissionsController < ApplicationController
         upload_files_to_plag_server   if should_upload_to_plag_server?
         redirect_to submissions_path, notice: "Submit successful." unless performed?
     rescue WebdavUploader::Error => e
+        ExceptionNotifier.notify_exception(e)
         redirect_back_or_to submissions_path, alert: (
             "NOTE: The submit <strong>FAILED</strong> for technical reasons.<br>" \
             "Please try once more in a few minutes.<br>" \

@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     #--ADMIN------------------------------------------------------------------------------------
 
     namespace :admin do
-        mount MissionControl::Jobs::Engine, at: "/jobs"
+        # mount MissionControl::Jobs::Engine, at: "/jobs"
 
         # site-wide settings, often used only once
         get "site", to: "site#index"

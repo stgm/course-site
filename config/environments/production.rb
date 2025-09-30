@@ -26,7 +26,7 @@ Rails.application.configure do
   # config.asset_host = "http://assets.example.com"
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = ENV.fetch("RAILS_ACTIVE_STORAGE_SERVICE", :azure)
+  config.active_storage.service = ENV.fetch("RAILS_ACTIVE_STORAGE_SERVICE", :azure) if ENV['AZURE_STORAGE_ACCOUNT'].present?
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true
@@ -94,9 +94,3 @@ Rails.application.configure do
 
   config.rack_cas.server_url = ENV["CAS_BASE_URL"]
 end
-
-Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
-    email_prefix: "[ERROR] ",
-    sender_address: %("notifier" <#{ENV['COURSE_SITE_ERROR_RECIPIENT']}>),
-    exception_recipients: %w[martijn@stgm.nl]
-}

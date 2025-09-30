@@ -11,11 +11,11 @@ gem "puma", ">= 5.0"
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"
-gem "solid_queue"
+# gem "solid_queue"
 # gem "solid_cable"
 
 # Queue monitor
-gem "mission_control-jobs"
+# gem "mission_control-jobs"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -26,9 +26,10 @@ group :development do
     gem "rubocop-rails-omakase", require: false
 end
 
+gem "exception_notification"
+
 group :production do
     gem "mini_racer"
-    gem "exception_notification", github: "smartinez87/exception_notification", ref: "26441fb"
     gem "azure-storage-blob", "~> 2.0", require: false # active storage client
     gem "pg"
 end
