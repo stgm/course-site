@@ -90,11 +90,10 @@ class SubmissionsController < ApplicationController
         @submit_folder_name ||= @pset.name + "__" + Time.now.to_i.to_s
 
         submission_path = File.join(
-            "/",
-            Settings.archive_base_folder,    # /Submit
-            Settings.archive_course_folder,  # /course name
+            Settings.archive_base_folder,            # Submit
+            Settings.archive_course_folder,          # /course name
             current_user.defacto_student_identifier, # /student ID
-            @submit_folder_name              # /mario__21981289
+            @submit_folder_name                      # /mario__21981289
         )
 
         uploader = WebdavUploader.new(submission_path)

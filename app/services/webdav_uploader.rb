@@ -9,14 +9,16 @@ class WebdavUploader
                Settings.archive_course_folder.present?
     end
 
-    def initialize(base_path)
-        @base_path = base_path
+    def initialize(submit_path)
+        # Submit/course_name/student_id/submit_0000000000/
+        @submit_path = submit_path.delete_suffix("/") + "/"
 
-        @base = Settings.webdav_base
+        # https://.../webdav/
+        @base = Settings.webdav_base.delete_suffix("/") + "/"
         @user = Settings.webdav_user
         @pass = Settings.webdav_pass
 
-        @c = Curl::Easy.new(@base)
+        @c = Curl::Easy.new
         @c.http_auth_types = :basic
         @c.username = @user
         @c.password = @pass
@@ -26,15 +28,15 @@ class WebdavUploader
     # rewind each file after sending
     def upload(files)
         files.each do |filename, file|
-            upload_file(@base_path, filename, file.read)
+            upload_file(filename, file.read)
             file.rewind
         end
     end
 
     # Upload a single file
-    def upload_file(path, filename, contents)
-        create_path(path)
-        @c.url = @base + File.join(path, filename)
+    def upload_file(filename, contents)
+        create_path(@submit_path)
+        @c.url = URI.join(@base, @submit_path, filename)
         @c.http_put contents
         raise Error, @c.status if !@c.status.start_with?("20")
     rescue => e
@@ -48,12 +50,12 @@ class WebdavUploader
         current = ""
         segments.each do |segment|
             current = File.join(current, segment)
-            create_directory_if_not_exists(current)
+            create_directory_if_not_exists(current.delete_prefix("/"))
         end
     end
 
     def create_directory_if_not_exists(path)
-        @c.url = @base.delete_suffix("/") + path
+        @c.url = URI.join(@base, path)
         @c.get
         if @c.response_code == 404
             @c.http :MKCOL
