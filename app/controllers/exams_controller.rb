@@ -3,6 +3,7 @@ class ExamsController < ApplicationController
     include NavigationHelper
 
     before_action :authorize, except: [ :json, :post ]
+    before_action :require_active_user
 
     before_action :prepare_exam_context, only: [ :json, :post ]
 

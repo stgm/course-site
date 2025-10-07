@@ -57,4 +57,8 @@ module Authentication
         head :forbidden unless current_user.admin? or current_user.assistant? or current_user.head?
     end
 
+    def require_active_user
+        head :forbidden unless current_user.staff? || current_user.can_submit?
+    end
+
 end

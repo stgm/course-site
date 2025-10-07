@@ -18,7 +18,7 @@ class Hands::AttendanceController < ApplicationController
     def index
         @title = "Hands"
         @grouped_users = User.student
-            .active
+            .status_active_or_registered
             .where(schedule: current_schedule)
             .order(:last_known_location, :name)
             .group_by(&:last_known_location)

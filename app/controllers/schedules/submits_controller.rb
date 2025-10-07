@@ -15,7 +15,7 @@ class Schedules::SubmitsController < Schedules::ApplicationController
     def notify_missing
         load_schedule
         @pset = Pset.find(params[:pset_id])
-        @users = @schedule.users.not_staff.where(status: [ :active, :registered ]).who_did_not_submit(@pset)
+        @users = @schedule.users.not_staff.status_active_or_registered.who_did_not_submit(@pset)
         @users.each do |u|
             NonSubmitMailer.new_mail(u, @pset, params[:text]).deliver_later
         end
@@ -25,7 +25,7 @@ class Schedules::SubmitsController < Schedules::ApplicationController
     def recheck
         load_schedule
         pset = Pset.find(params[:pset_id])
-        @users = @schedule.users.not_staff.where(status: [ :active, :registered ])
+        @users = @schedule.users.not_staff.status_active_or_registered
         @schedule.submits.joins(:user).where(pset_id: pset.id, user: @users).find_each do |submit|
             submit.recheck(api_check_result_do_url)
         end

@@ -86,6 +86,11 @@
         <%= bootstrap_icon 'check2-all' %>
         <%= t 'submit.submit_is_graded' %>
     </p>
+    <% elsif !current_user.status_active_or_registered? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <%= t 'submit.cant_not_active' %>
+    </p>
     <% elsif !current_user.can_submit? %>
     <p>
         <%= bootstrap_icon('exclamation-diamond') %>

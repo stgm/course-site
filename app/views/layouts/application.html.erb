@@ -27,6 +27,16 @@
     <%= javascript_importmap_tags %>
 </head>
 
+<% if current_user&.persisted? && !current_user.staff? && !current_user.can_submit? %>
+<div class="alert alert-danger alert-dismissible fade show" style="grid-area: alert;">
+    <% if !current_user.status_active_or_registered? %>
+	<%= t('submit.cant_not_active') %>
+    <% else %>
+    <%= t('submit.cant_not_logged_in') %>
+    <% end %>
+</div>
+<% end %>
+
 <body class="<%= @body_class || controller.controller_name %>">
     <% if current_user.staff? %>
     <%= form_tag submits_path(), method: :post, id: 'new_grade_form' do end %>

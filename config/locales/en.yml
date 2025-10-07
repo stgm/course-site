@@ -60,7 +60,8 @@ en:
         submit_is_graded: "Your submission was graded, so you can't submit any new versions."
         at_the_end_of_page: 'Submit your solution at the end of the page'
         course_not_open: 'This course does not currently accept submissions.'
-        cant_not_logged_in: "You can't submit a solution because you are not activated as a student."
+        cant_not_logged_in: "You can't submit assignments because your account is not activated as a student account."
+        cant_not_active: "You can't submit assignments because you have been marked as inactive for this course. Please get in touch with the course coordinator."
         cant_resubmit: "You can't currently submit."
         cant_resubmit_explainer: "Your solution is queued for assessment, so you can't submit a new solution now. Check back later to see the results or to re-submit. If you think you should be able to submit, feel free to contact the course's staff!"
         submit_closed: "This problem is closed for further submissions."

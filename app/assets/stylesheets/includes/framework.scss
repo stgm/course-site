@@ -45,6 +45,12 @@ body.overviews, body.exams
         grid-template-columns: 18rem 1fr;
     }
 
+    body:has(.alert)
+    {
+        grid-template-areas: "alert alert" "navbar navbar" "sidebar main";
+        grid-template-rows: 4rem 4rem 1fr;
+    }
+
     #navbar
     {
         grid-area: navbar;

@@ -77,7 +77,10 @@ class Hands::HandsController < ApplicationController
     end
 
     def clear_all_locations
-        User.student.active.where(schedule:current_schedule).update_all(location_confirmed: false)
+        User.student.where(schedule:current_schedule).update_all(
+            location_confirmed: false,
+            last_known_location: nil
+        )
         redirect_back fallback_location: attendance_path
     end
 

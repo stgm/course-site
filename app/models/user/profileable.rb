@@ -6,7 +6,11 @@ module User::Profileable
         serialize :progress, coder: YAML, type: Hash
         enum :status, { active: 0, registered: 1, inactive: 2, done: 3 }, default: :registered, prefix: :status
         scope :watching, -> { where(alarm: true) }
-        scope :active, -> { where(status: [:active, :registered]) }
+        scope :status_active_or_registered, -> { where(status: [:active, :registered]) }
+    end
+
+    def status_active_or_registered?
+        status.in?([ 'active', 'registered' ])
     end
 
     def name_with_pronouns
