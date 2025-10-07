@@ -67,7 +67,7 @@
     <p>
         <%= t 'submit.instructions' %>
     </p>
-    <% elsif @allow_submit && @submit.persisted? %>
+    <% elsif @allow_submit && @submit.persisted? && (Course.deadlines_hard? || @submit.deadline_hard?) %>
     <p>
         <%= bootstrap_icon 'check2-all' %>
         <%= t 'submit.until_deadline_new_version' %>
