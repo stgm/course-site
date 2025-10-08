@@ -7,6 +7,7 @@
 	<% if Settings.hands_allow %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill' %>
 	<% end %>
+	<%= menu_link 'Exams', admin_exams_path, icon: 'droplet' %>
 	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', target: 'modal' %>
 	<%= menu_link 'Tests...', tests_path, icon: 'check', target: 'modal', condition: current_schedule.grading_config.tests.any? %>
 	<%= menu_link 'Set module...', edit_schedule_current_module_path(current_schedule), icon: 'calendar', target: 'modal', condition: current_schedule.can_admin_set_module? %>
@@ -22,7 +23,6 @@
 <% end %>
 
 <%= menu_group 'Course' do %>
-	<%= menu_link 'Exams', admin_exams_path, icon: 'droplet' %>
 	<%= menu_link 'Course administration...', admin_course_path, icon: 'inboxes', target: 'modal' %>
 	<%= menu_link 'Site configuration...', admin_site_path, icon: 'wrench', target: 'modal' %>
 	<%= menu_link 'Edit permissions...', admin_users_path, icon: 'unlock', target: 'modal' %>
@@ -37,7 +37,7 @@
 <%= menu_group do %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
 <% end if Settings.hands_allow %>
-	
+
 <% if current_user.accessible_schedules.any? || current_user.groups.any? %>
 <%= menu_group current_schedule.name do %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns' %>
