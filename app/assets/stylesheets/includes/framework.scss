@@ -45,10 +45,19 @@ body.overviews, body.exams
         grid-template-columns: 18rem 1fr;
     }
 
-    body:has(.alert)
+    body:has(.alert-top)
     {
-        grid-template-areas: "alert alert" "navbar navbar" "sidebar main";
-        grid-template-rows: 4rem 4rem 1fr;
+        grid-template-areas: "navbar navbar" "alert alert"  "sidebar main";
+        grid-template-rows:  4rem 3rem 1fr;
+    }
+
+    .alert-top
+    {
+         grid-area: alert;
+         background-color: rgba(255, 167, 167, 1);
+         display: grid;
+         place-items: center;
+         padding: initial;
     }
 
     #navbar

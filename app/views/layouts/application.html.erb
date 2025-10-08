@@ -28,7 +28,7 @@
 </head>
 
 <% if current_user&.persisted? && !current_user.staff? && !current_user.can_submit? %>
-<div class="alert alert-danger alert-dismissible fade show" style="grid-area: alert;">
+<div class="alert alert-danger alert-top fade show">
     <% if !current_user.status_active_or_registered? %>
 	<%= t('submit.cant_not_active') %>
     <% else %>

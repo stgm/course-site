@@ -1,4 +1,8 @@
-<%= form_with url: test_results_path(@pset), method: :patch do |f| %>
+<% content_for :title do %>
+<h1>Grade entry for <%= @pset.name %></h1>
+<% end %>
+
+<%= form_with url: test_results_path(@pset), id: 'test_grades_form', method: :patch do |f| %>
 <table class="table table-borderless" class="w-100">
 	<tr>
 		<th class="p-1">Name</th>
@@ -28,8 +32,10 @@
 	</tr>
 	<% end %>
 </table>
-<div class="mt-3 actions clearfix">
-	<%= link_to 'Back to list', tests_path, class: 'btn btn-light' %>
-	<%= f.submit class: 'btn btn-primary float-end', data: { loading: 'Saving!' } %>
-</div>
+<% end %>
+
+<% content_for :footer do %>
+<%= link_to 'Back to list', tests_path, class: 'btn btn-light' %>
+Note: nothing is autosaved. ENTER also saves and reloads.
+<%= submit_tag 'Save', form: 'test_grades_form', class: 'ms-auto btn btn-primary', data: { loading: 'Saving!' } %>
 <% end %>
