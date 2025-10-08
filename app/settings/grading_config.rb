@@ -17,6 +17,8 @@ class GradingConfig
     end
 
     def initialize(schedule_name = nil)
+        # takes content from the base grading.yml
+        # and overwrites with content from the schedule grading.yml
         @config = merge_configs Settings.grading || {},
                                 Settings.schedule_grading[schedule_name] || {}
         @schedule_name = schedule_name || "Base"
@@ -156,14 +158,21 @@ class GradingConfig
     private
 
     def merge_configs(grades1, grades2)
-        first_without_grades = grades1.except(:templates, :grades)
-        second_without_grades = grades2.except(:templates, :grades)
+        result = grades1.except(:templates)
 
-        merged_grades = (grades1["grades"] || {}).merge(grades2["grades"] || {})
-        merged_rest = first_without_grades.merge(second_without_grades)
-        merged_rest["grades"] = merged_grades
+        grades2.except(:templates).each do |key, value|
+            if key == "grades"
+                result["grades"] ||= {}
+                value.each do |grade, props|
+                    result["grades"][grade] ||= {}
+                    result["grades"][grade].merge!(props) if props.is_a?(Hash)
+                end
+            else
+                result[key] = value
+            end
+        end
 
-        return merged_rest
+        result
     end
 
 end
