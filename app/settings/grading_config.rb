@@ -70,9 +70,13 @@ class GradingConfig
         categories.map { |cat| [ cat, @config[cat]["submits"].keys ] }
     end
 
+    def categories_for_progress
+        @config.select { |category, value| value && (value["show_progress"] || value["show_overview"]) }
+    end
+
     def validate
         @errors = []
-        progress_categories = @config.select { |category, value| value["show_progress"] }
+        progress_categories = categories_for_progress
         if progress_categories.any?
             if @config["grades"].blank?
                 @errors << "Problem loading grading.yml for #{@schedule_name}. There are grading categories like #{progress_categories.first.first} but no grades section is present specifying how to calculate grades."
