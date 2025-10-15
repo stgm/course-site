@@ -112,22 +112,33 @@
 
 #sidebar .nav-link, .materials-nav .nav-link
 {
-    display: inline-flex;
-    padding: 0.25rem 0.5rem;
+    padding: 0.35rem 0.45rem;
     flex: 1 1 auto !important; // fill
-    gap: 0.5rem;
     border-radius: 0.25rem !important;
+
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    svg
+    {
+        flex: 1 0 content;
+        height: auto;
+        padding-top: 1px;
+    }
 
     .badge
     {
-        align-self: flex-start;
+        height: 1.35rem;
+
+        /* align-self: flex-start; */
         padding: 3px 4px;
         border-radius: 4px;
 
         // align to the right
         margin-left: auto;
         margin-top: -0rem;
-        margin-right: -0.25rem;
+        /* margin-right: -0.25rem; */
 
         border: 1px solid $secondary;
         color: $secondary;
