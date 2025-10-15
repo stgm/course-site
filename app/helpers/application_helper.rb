@@ -163,7 +163,8 @@ module ApplicationHelper
     # convert [markup] in a string into a bootstrap badge span
     #
     def insert_badge(description)
-        description.sub("[", '<span class="badge">').sub("]", "</span>").html_safe
+        iconified = description.gsub(/\[icon:([\w-]+)\]/) { bootstrap_icon($1) }
+        iconified.sub("[", '<span class="badge">').sub("]", "</span>").html_safe
     end
 
     def menu_group(name = nil, &block)
