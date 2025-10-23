@@ -30,7 +30,8 @@ module ApplicationHelper
                                coderay_css: :class,
                                coderay_tab_width: 4,
                                enable_coderay: true,
-                               coderay_line_numbers: nil).to_custom_html.html_safe
+                               coderay_line_numbers: nil,
+                               context: self).to_course_site_html.html_safe
     end
 
     def simple_markdown(text)
@@ -43,7 +44,8 @@ module ApplicationHelper
                                    coderay_css: :class,
                                    coderay_tab_width: 4,
                                    enable_coderay: true,
-                                   coderay_line_numbers: nil).to_custom_html.html_safe
+                                   coderay_line_numbers: nil,
+                                   context: self).to_course_site_html.html_safe
         rescue
             return ""
         end
@@ -59,7 +61,8 @@ module ApplicationHelper
                                    coderay_css: :class,
                                    coderay_tab_width: 4,
                                    enable_coderay: true,
-                                   coderay_line_numbers: nil).to_custom_html.html_safe
+                                   coderay_line_numbers: nil,
+                                   context: self).to_course_site_html.html_safe
         rescue
             return ""
         end

@@ -6,6 +6,8 @@ class Admin::ExamsController < ApplicationController
     layout "navbar"
 
     def index
+        return head(:not_found) if Exam.none?
+
         # get all exams from config that may be submitted
         # allow student to choose one and start
         @exams = Exam.includes(:pset).order("psets.name")

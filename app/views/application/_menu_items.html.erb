@@ -7,7 +7,7 @@
 	<% if Settings.hands_allow %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill' %>
 	<% end %>
-	<%= menu_link 'Exams', admin_exams_path, icon: 'droplet' %>
+	<%= menu_link 'Exams', admin_exams_path, icon: 'droplet', condition: Exam.any? %>
 	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', target: 'modal' %>
 	<%= menu_link 'Tests...', tests_path, icon: 'check', target: 'modal', condition: current_schedule.grading_config.tests.any? %>
 	<%= menu_link 'Set module...', edit_schedule_current_module_path(current_schedule), icon: 'calendar', target: 'modal', condition: current_schedule.can_admin_set_module? %>
