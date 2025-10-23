@@ -1,4 +1,6 @@
 class CourseSiteHtml < Kramdown::Converter::Html
+    include Rails.application.routes.url_helpers
+
     def initialize(root, options)
         super
         @view = options[:context]
