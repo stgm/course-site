@@ -59,7 +59,6 @@ $enable-cssgrid: true;
 @import "includes/theme";
 @import "includes/fonts";
 @import "includes/tweaks";
-@import "includes/print";
 
 @import "includes/effects";
 @import "includes/inplace";
@@ -67,6 +66,7 @@ $enable-cssgrid: true;
 
 // includes responsive styles, so it goes last
 @import "includes/framework";
+@import "includes/print";
 
 @import "actiontext";
 @import "trix";
