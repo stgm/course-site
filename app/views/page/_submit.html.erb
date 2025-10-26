@@ -5,30 +5,70 @@
     <h1>Submit</h1>
     <% end %>
 
-    <%# Mention if user has already submitted this problem before %>
-    <% if @submit.submitted_at.present? %>
+    <%# Provide (re-)submit instructions %>
+    <% if @allow_submit && !@submit.persisted? %>
     <p>
-        <strong>
-            <%= bootstrap_icon 'check2-all' %>
-            <%= t 'submit.you_submitted_ago',
-            time: time_ago_in_words_or_more_precise(@submit.submitted_at) %>
-        </strong>
+        <%= t 'submit.instructions' %>
     </p>
     <% end %>
+
+
+    <%# Provide specific reasons for NOT being able to submit %>
+    <% if !@allow_submit %>
 
     <% if !Submit.available? %>
     <p>
         <%= bootstrap_icon('exclamation-diamond') %>
-        <%= t 'submit.course_not_open' %>
+        <strong><%= t 'submit.course_not_open' %></strong>
     </p>
-    <% else %>
+    <% elsif @submit.grade_public? # grade has been published %>
+    <p>
+        <%= bootstrap_icon 'check2-all' %>
+        <strong><%= t 'submit.submit_is_graded' %></strong>
+    </p>
+    <% elsif !current_user.status_active_or_registered? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <strong><%= t 'submit.cant_not_active' %></strong>
+    </p>
+    <% elsif !current_user.can_submit? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <strong><%= t 'submit.cant_not_logged_in' %></strong>
+    </p>
+    <% elsif not @allow_submit %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <strong><%= t 'submit.submit_closed' %></strong>
+        <%= t 'submit.submit_closed_explainer' %>
+    </p>
+    <% end %>
+
+    <% end %>
+
+    <%# Mention if user has already submitted this problem before %>
+    <% if @submit.submitted_at.present? %>
+    <p>
+            <%= bootstrap_icon 'check2-all' %>
+            <%= t 'submit.you_submitted_ago',
+            time: time_ago_in_words_or_more_precise(@submit.submitted_at) %>
+    </p>
+    <% end %>
+
+    <%# Generic resubmit mention, mutually exclusive with the deadline block below %>
+    <% if @allow_submit && @submit.persisted? && !@deadline.present? %>
+    <p>
+        <%= bootstrap_icon 'check2-all' %>
+        <%= t 'submit.until_deadline_new_version' %>
+    </p>
+    <% end %>
 
     <%# Mention the deadline first, but only if it is a hard deadline %>
     <% if @deadline.present? %>
     <p>
         <%= bootstrap_icon 'calendar3' %>
         <% if @deadline.past? %>
-            <strong><%= t('submit.deadline_was', deadline: l(@deadline, format: :deadline)).html_safe %></strong>
+            <%= t('submit.deadline_was', deadline: l(@deadline, format: :deadline)).html_safe %>
             <% if @allow_submit %>
             <% if Course.deadlines_hard? || @submit.deadline_hard? %>
             <%= t 'submit.deadline_was_hard' %>
@@ -37,7 +77,7 @@
             <% end %>
             <% end %>
         <% else %>
-            <strong><%= t('submit.deadline_is', deadline: l(@deadline, format: :deadline)).html_safe %></strong>
+            <%= t('submit.deadline_is', deadline: l(@deadline, format: :deadline)).html_safe %>
             <% if @allow_submit %>
             <% if Course.deadlines_hard? || @submit.deadline_hard? %>
             <%= t 'submit.deadline_hard' %>
@@ -49,63 +89,6 @@
     </p>
     <% end %>
 
-    <% end %>
-
-    <%# Mention if user has already submitted this problem before %>
-    <% if @previous_submit.present? && @previous_submit.submitted_at.present? %>
-    <p>
-        <strong>
-            <%= bootstrap_icon 'check2-all' %>
-            <%= t 'submit.you_submitted_ago',
-            time: time_ago_in_words_or_more_precise(@previous_submit.submitted_at) %>
-        </strong>
-    </p>
-    <% end %>
-
-    <%# Provide (re-)submit instructions %>
-    <% if @allow_submit && !@submit.persisted? %>
-    <p>
-        <%= t 'submit.instructions' %>
-    </p>
-    <% elsif @allow_submit && @submit.persisted? && (Course.deadlines_hard? || @submit.deadline_hard?) %>
-    <p>
-        <%= bootstrap_icon 'check2-all' %>
-        <%= t 'submit.until_deadline_new_version' %>
-    </p>
-    <p>
-        <%= bootstrap_icon 'hourglass-bottom' %>
-        <%= t 'submit.check_delay', count: @submit.current_check_delay / 60 %>
-    </p>
-    <% end %>
-
-    <%# Provide specific reasons for NOT being able to submit %>
-    <% if !@allow_submit %>
-
-    <% if @submit.grade_public? # grade has been published %>
-    <p>
-        <%= bootstrap_icon 'check2-all' %>
-        <%= t 'submit.submit_is_graded' %>
-    </p>
-    <% elsif !current_user.status_active_or_registered? %>
-    <p>
-        <%= bootstrap_icon('exclamation-diamond') %>
-        <%= t 'submit.cant_not_active' %>
-    </p>
-    <% elsif !current_user.can_submit? %>
-    <p>
-        <%= bootstrap_icon('exclamation-diamond') %>
-        <%= t 'submit.cant_not_logged_in' %>
-    </p>
-    <% elsif not @allow_submit %>
-    <p>
-        <%= bootstrap_icon('exclamation-diamond') %>
-        <%= t 'submit.submit_closed' %>
-        <%= t 'submit.submit_closed_explainer' %>
-    </p>
-    <% end %>
-
-    <% end %>
-
     <%# Submit files form %>
     <% if @allow_submit %>
     <div class="card" id="submit-form">
@@ -113,6 +96,13 @@
             <%= render 'submit_form' %>
         </div>
     </div>
+    <% end %>
+
+    <% if @allow_submit && @submit.persisted? && (Course.deadlines_hard? || @submit.deadline_hard?) %>
+    <p>
+        <%= bootstrap_icon 'hourglass-bottom' %>
+        <%= t 'submit.check_delay', count: @submit.current_check_delay / 60 %>
+    </p>
     <% end %>
 
     <%# Link to submissions page if user has submitted something before %>

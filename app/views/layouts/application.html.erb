@@ -27,6 +27,12 @@
     <%= javascript_importmap_tags %>
 </head>
 
+<% if Settings.submit_disabled %>
+<div class="alert alert-danger alert-top fade show">
+    <%= Settings.submit_disabled %>
+</div>
+<% end %>
+
 <% if current_user&.persisted? && !current_user.staff? && !current_user.can_submit? %>
 <div class="alert alert-danger alert-top fade show">
     <% if !current_user.status_active_or_registered? %>

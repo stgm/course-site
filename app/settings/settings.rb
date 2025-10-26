@@ -48,7 +48,8 @@ class Settings < RailsSettings::Base
         field :webhook_secret
     end
 
-    scope :archival do
+    scope :submit_system do
+        field :submit_disabled, default: false, readonly: true
         field :webdav_base
         field :webdav_user
         field :webdav_pass
