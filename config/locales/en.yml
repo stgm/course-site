@@ -74,6 +74,9 @@ en:
             one: "Because you've submitted this problem before, the automatic checks will take about %{count} minute."
             other: "Because you've submitted this problem before, the automatic checks will take about %{count} minutes."
 
+    exam:
+        is_currently_locked: "\"%{exam_name}\" is currently locked."
+
     hands:
         assistance: Assistance
         staff_are_currently_available:

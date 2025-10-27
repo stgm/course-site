@@ -28,8 +28,10 @@ class ExamsController < ApplicationController
     def create
         @exam = Exam.includes(:pset).find(params[:id])
 
-        if @exam.locked? && !current_user.senior?
-            redirect_back_or_to root_path, alert: "No access!" and return
+        if @exam.locked? && @exam.id != Settings.exam_current && !current_user.senior?
+            redirect_back_or_to root_path,
+                alert: t('exam.is_currently_locked', exam_name: @exam.name.humanize)
+            return
         end
 
         # create submit for this exam for this student (if needed!)
