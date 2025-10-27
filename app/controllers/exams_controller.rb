@@ -28,7 +28,8 @@ class ExamsController < ApplicationController
     def create
         @exam = Exam.includes(:pset).find(params[:id])
 
-        if @exam.locked? && @exam.id != Settings.exam_current && !current_user.senior?
+        if  @exam.locked? &&
+            !(Settings.registration_phase == "exam" && @exam.id == Settings.exam_current) && !current_user.senior?
             redirect_back_or_to root_path,
                 alert: t('exam.is_currently_locked', exam_name: @exam.name.humanize)
             return
