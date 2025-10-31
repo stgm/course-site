@@ -49,7 +49,8 @@ class Settings < RailsSettings::Base
     end
 
     scope :submit_system do
-        field :submit_disabled, default: "It's not possible to submit assignments this weekend. Try again from Monday at 10:00.", readonly: true
+        # "It's not possible to submit assignments this weekend. Try again from Monday at 10:00."
+        field :submit_disabled, default: false, readonly: true
         field :webdav_base
         field :webdav_user
         field :webdav_pass

@@ -173,8 +173,8 @@ class Submit < ApplicationRecord
         (grading_config && grading_config["check"]).present?
     end
 
-    def current_check_delay
-        prior_attempts = attempts_count.to_i # number of times already attempted
+    def current_check_delay(correction=0)
+        prior_attempts = attempts_count.to_i + correction # number of times already attempted
         seconds = [[prior_attempts, 5].min, 0].max * 60
         seconds.seconds
     end
@@ -188,7 +188,7 @@ class Submit < ApplicationRecord
     end
 
     def recheck(host)
-        SubmitCheckJob.perform_later(
+        SubmitCheckJob.perform_now(
             id,
             tool_config: pset.submit_config["check"],
             callback_url: host,

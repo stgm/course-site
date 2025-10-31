@@ -113,8 +113,8 @@ class SubmissionsController < ApplicationController
     def upload_files_to_check_server
         @attachments.zipped do |zip|
             SubmitCheckJob.
-                set(wait: @submit.current_check_delay).
-                perform_later(
+                # set(wait: @submit.current_check_delay(-1)).
+                perform_now(
                     @submit.id,
                     tool_config: @pset.submit_config["check"],
                     callback_url: api_check_result_do_url
