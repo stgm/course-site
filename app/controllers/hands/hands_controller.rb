@@ -77,7 +77,7 @@ class Hands::HandsController < ApplicationController
     end
 
     def clear_all_locations
-        User.student.where(schedule:current_schedule).update_all(
+        User.where(schedule:current_schedule).update_all(
             location_confirmed: false,
             last_known_location: nil
         )
