@@ -50,7 +50,7 @@ class Settings < RailsSettings::Base
 
     scope :submit_system do
         # "It's not possible to submit assignments this weekend. Try again from Monday at 10:00."
-        field :submit_disabled, default: "Due to technical reasons submitting is not possible currently. It is hopefully fixed tomorrow morning. You can still work on your assignments, just not submit them.", readonly: true
+        field :submit_disabled, default: "Due to technical reasons submitting is not currently possible. It is hopefully fixed tomorrow morning. You can still work on your assignments, just not submit them.", readonly: true
         field :webdav_base
         field :webdav_user
         field :webdav_pass
