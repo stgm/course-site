@@ -33,8 +33,8 @@ class UsersController < ApplicationController
         if current_user.senior?
             @schedules = Schedule.all
             @groups = @student.schedule && @student.schedule.groups.order(:name) || []
-            @attend = @student.attendance_records.group_by_day(:cutoff, format: "%d %B %Y").count
-            @attend_confirmed = @student.attendance_records.where(confirmed: true).group_by_day(:cutoff, format: "%d %B %Y").count
+            @attend = @student.attendance_records.group_by_day(:cutoff).count
+            @attend_confirmed = @student.attendance_records.where(confirmed: true).group_by_day(:cutoff).count
             @attend_raw = @student.attendance_records
                 .where("cutoff > ?", Date.today.beginning_of_day).order(:cutoff)
             @items = @student.notes.includes(:author).order(created_at: :desc)
