@@ -22,11 +22,19 @@ wb.add_worksheet(name: "Grades") do |sheet|
         data << user.status.to_s
         @psets.each do |pset|
             if (g = grade_for(subs[pset.id])) == ""
-                data << ""
+                if pset.final
+                    data << "NAP"
+                else
+                    data << ""
+                end
             elsif g == -1
                 data << "pass"
             elsif g == 0
-                data << "fail"
+                if pset.final
+                    data << "NAV"
+                else
+                    data << "fail"
+                end
             else
                 data << grade_for(subs[pset.id])
             end
