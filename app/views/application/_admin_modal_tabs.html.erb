@@ -1,0 +1,23 @@
+<% tabs = {
+  Announcements: "/manage/alerts",
+  "Course admin": "/admin/course",
+  "Base settings": "/admin/site",
+  Permissions: "/admin/users",
+}
+if current_schedule.grading_config.tests.any?
+  tabs.merge!({ "Test admin": "/tests" })
+end
+tabs.merge!({ "Hands statistics": "/hands/statistics" }) if Settings.hands_allow %>
+
+<ul class="nav nav-tabs">
+  <% tabs.each_with_index do |(tab_name, route), index| %>
+    <li class="nav-item">
+      <a
+        class="nav-link <%= 'active' if request.fullpath.starts_with? route %>"
+        aria-current="page"
+        href="<%= route %>"
+        accesskey="<%= index+1 %>"
+      ><%= tab_name %></a>
+    </li>
+  <% end %>
+</ul>
