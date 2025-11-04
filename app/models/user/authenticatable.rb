@@ -32,6 +32,18 @@ module User::Authenticatable
             end
         end
 
+        def self.allow_new_registrations?
+            case Settings.registration_phase
+            when "before"
+                return false unless User.none?
+            when "after", "archival"
+                return false
+            when "during"
+                return false unless Schedule.default
+            end
+            return true
+        end
+
         # creates a new user, but only if allowed at this time
         def self.authenticate_new(user_data)
             case Settings.registration_phase
@@ -41,7 +53,7 @@ module User::Authenticatable
                 else
                     return false
                 end
-            when "before", "after", "archival"
+            when "after", "archival"
                 return false
             when "during"
                 # if course is open, we also need a schedule to be open
