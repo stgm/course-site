@@ -59,6 +59,10 @@ class Settings < RailsSettings::Base
         field :archive_base_folder, default: "Submit", validates: { presence: true }
     end
 
+    scope :export do
+       field :export_nap_final_grades, default: true
+    end
+
     field :git_version, default: {}
 
 end

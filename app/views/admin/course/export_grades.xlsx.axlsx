@@ -22,7 +22,7 @@ wb.add_worksheet(name: "Grades") do |sheet|
         data << user.status.to_s
         @psets.each do |pset|
             if (g = grade_for(subs[pset.id])) == ""
-                if pset.final
+                if pset.final && Settings.export_nap_final_grades
                     data << "NAP"
                 else
                     data << ""

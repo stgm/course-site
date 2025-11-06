@@ -1,45 +1,67 @@
 <%= form_with(model: @alert, id: 'alert_form') do |f| %>
 
-<% if @alert.errors.any? %>
-<div id="error_explanation">
-	<h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
+  <% if @alert.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@alert.errors.count, "error") %>
+        prohibited this alert from being saved:</h2>
 
-	<ul>
-		<% @alert.errors.full_messages.each do |message| %>
-		<li><%= message %></li>
-		<% end %>
-	</ul>
-</div>
-<% end %>
+      <ul>
+        <% @alert.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<div class="mb-3">
-	<%= f.label :title %><br>
-	<%= f.text_field :title, class: 'form-control', autofocus:true, required:true %>
-</div>
-<div class="mb-3">
-	<%= f.label :body %><br>
-	<%= f.text_area :body, class: 'form-control', rows: 10, required:true %>
-</div>
-<div class="form-check ps-1 pb-1">
-	<label><%= f.check_box :published %> Publish in announcements</label>
-</div>
-<div class="form-check ps-1 mb-3">
-	<% if AlertMailer.available? %>
-	<label><%= check_box_tag :send_mail %> Send an e-mail with the current text (now!)</label>
-	<% else %>
-	<label class="text-warning"><%= check_box_tag :send_mail, '0', false, disabled: true %> Can't send e-mails because an address hasn't been configured in the site config</label>
-	<% end %>
-</div>
+  <div class="mb-3">
+    <%= f.label :title %><br>
+    <%= f.text_field :title, class: "form-control", autofocus: true, required: true %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :body %><br>
+    <%= f.text_area :body, class: "form-control", rows: 10, required: true %>
+  </div>
+  <div class="form-check ps-1 pb-1">
+    <label><%= f.check_box :published %>
+      Publish in announcements</label>
+  </div>
 
-<div class="form-check ps-1 pb-1">
-	<label>
-		<input type="radio" name="alert[schedule_id]" <%= 'checked="checked"' if @alert.persisted? && @alert.schedule_id.nil? %> required id="optionsRadios1" value="<%= nil %>" style="margin-top:0;"> (for everyone)
-	</label>
-</div>
+  <% if AlertMailer.available? %>
+    <div class="form-check ps-1 pb-1">
+      <label><%= checkbox_tag :send_mail, '1', false, onclick: "document.getElementById('send_mail_to_done').disabled = !this.checked;" %>
+        Send an e-mail with the current text (now!)</label>
+    </div>
+    <div class="form-check ps-1 pb-3">
+      <label><%= checkbox_tag :send_mail_to_done, disabled: true %>
+        Also send it to "done" students</label>
+    </div>
+  <% else %>
+    <div class="form-check ps-1 pb-3">
+      <label class="text-warning"><%= checkbox_tag :send_mail, "0", false, disabled: true %>
+        Can't send e-mails because an address hasn't been configured in the
+        site config</label>
+    </div>
+  <% end %>
 
-<%= f.collection_radio_buttons(:schedule_id, Schedule.all, :id, :name) do |b|
-	content_tag(:div, class: 'form-check ps-1 pb-1') { b.label { b.radio_button + " " + b.text } }
-end %>
+  <div class="form-check ps-1 pb-1">
+    <label>
+      <input
+        type="radio"
+        name="alert[schedule_id]"
+        <%= 'checked="checked"' if @alert.persisted? && @alert.schedule_id.nil? %>
+        required
+        id="optionsRadios1"
+        value="<%= nil %>"
+        style="margin-top:0;"
+      >
+      (for everyone)
+    </label>
+  </div>
 
+  <%= f.collection_radio_buttons(:schedule_id, Schedule.all, :id, :name) do |b|
+    content_tag(:div, class: "form-check ps-1 pb-1") do
+      b.label { b.radio_button + " " + b.text }
+    end
+  end %>
 
 <% end %>

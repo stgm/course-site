@@ -1,2 +1,4 @@
+<%= toggle_setting_form('export_nap_final_grades', 'Export NAP for empty final grades') %>
+
 <%= link_to 'Export grades XSLX', admin_course_export_grades_path(format: 'xlsx'), class: 'btn btn-outline-primary', data: { turbo: false } %>
 <%= link_to 'Export grades overview', admin_course_export_grades_path(format: 'html'), class: 'btn btn-outline-primary', data: { turbo: false } %>

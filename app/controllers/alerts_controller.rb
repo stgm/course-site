@@ -67,11 +67,19 @@ class AlertsController < ApplicationController
 
     def send_mail
         if not alert_params[:schedule_id].blank?
-            recipients = (Schedule.find(alert_params[:schedule_id]).users.status_active_or_registered + Schedule.find(alert_params[:schedule_id]).users.staff).uniq
+            scope = Schedule.find(alert_params[:schedule_id]).users
         else
-            recipients = (User.status_active_or_registered + User.staff).uniq
+            scope = User
         end
+        recipients = scope.status_active_or_registered + scope.staff
+        recipients += scope.status_done if params[:send_mail_to_done]
+        recipients.uniq!
         recipients.each do |user|
+            user.notes.create(
+                text: "Sent e-mail: #{@alert.title}",
+                author: Current.user,
+                log: true
+            )
             AlertMailer.alert_message(user, @alert).deliver_later
         end
     end
