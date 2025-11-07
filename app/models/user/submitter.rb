@@ -24,6 +24,10 @@ module User::Submitter
         self.grades.group_by { |i| i.submit.pset.name }.each_with_object({}) { |(k, v), o| o[k] = v[0] }
     end
 
+    def recent_submit_count
+        self.submits.where("updated_at > ?", 3.hours.ago).count
+    end
+
     def final_grade
         "N/A"
     end
