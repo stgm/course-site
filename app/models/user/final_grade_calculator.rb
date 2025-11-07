@@ -70,7 +70,6 @@ class User::FinalGradeCalculator
         potential = get_points_potential(grades, config["maximum"])
         total = get_points_total(grades, config["maximum"])
         grade = points_to_grade(total, potential)
-        raise
 
         if config["minimum"] && grade < config["minimum"]
             return :insufficient
