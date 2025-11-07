@@ -68,8 +68,9 @@ class User::FinalGradeCalculator
         end
 
         potential = get_points_potential(grades, config["maximum"])
-        total = get_points_total(grades)
+        total = get_points_total(grades, config["maximum"])
         grade = points_to_grade(total, potential)
+        raise
 
         if config["minimum"] && grade < config["minimum"]
             return :insufficient
@@ -87,9 +88,9 @@ class User::FinalGradeCalculator
         end
     end
 
-    def get_points_total(grades)
+    def get_points_total(grades, maximum)
         grades = fill_missing(grades, 0)
-        grades.map do |g|
+        base_points = grades.map do |g|
             if g[1] == -1
                 # pass means they get full credit
                 g[2]
@@ -98,6 +99,11 @@ class User::FinalGradeCalculator
                 g[1]
             end
         end.sum
+        if maximum.present?
+            return [maximum, base_points].min
+        else
+            return base_points
+        end
     end
 
     def points_to_grade(points, potential_points)

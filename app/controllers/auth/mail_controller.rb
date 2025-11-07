@@ -25,8 +25,8 @@ class Auth::MailController < ApplicationController
         end
 
         # bail out invisibly if registration is not open
-        unless  User.authenticate_existing({ mail: params[:email].downcase }) ||
-                User.allow_new_registrations?
+        unless User.find_by_mail(params[:email].downcase) ||
+               User.allow_new_registrations?
             redirect_to root_url, alert: t("account.not_everyone_can_login") and return
         end
 
