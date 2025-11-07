@@ -78,11 +78,12 @@ class User::FinalGradeCalculator
         return grade
     end
 
-    def get_points_potential(grades, config)
-        if config.present?
-            return config
+    def get_points_potential(grades, maximum)
+        base_points = grades.map(&:third).sum
+        if maximum.present?
+            return [maximum, base_points].min
         else
-            return grades.map(&:third).sum
+            return base_points
         end
     end
 
