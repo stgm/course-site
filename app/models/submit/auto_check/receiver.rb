@@ -10,7 +10,7 @@ module Submit::AutoCheck::Receiver
         self.check_token = nil
         self.check_results = json
 
-        create_auto_grade
+        create_auto_grade submitted_at < 3.minutes.ago
         self.save
     end
 
