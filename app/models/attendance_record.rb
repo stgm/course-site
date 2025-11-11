@@ -9,6 +9,7 @@ class AttendanceRecord < ApplicationRecord
 
         users_with_recent_records = AttendanceRecord
           .where(cutoff: [ previous_hour, current_hour ])
+          .where(confirmed: true)
           .select(:user_id)
 
         User
