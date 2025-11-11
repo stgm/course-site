@@ -63,6 +63,10 @@ class Settings < RailsSettings::Base
        field :export_nap_final_grades, default: true
     end
 
+    scope :cleanup do
+        field :reset_stale_locations, default: DateTime.new(1970)
+    end
+
     field :git_version, default: {}
 
 end

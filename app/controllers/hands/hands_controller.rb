@@ -16,7 +16,10 @@ class Hands::HandsController < ApplicationController
     end
 
     def index
+        # TODO before_actions:
         redirect_to edit_hands_availability_path and return unless current_user.senior? || (current_user.available && current_user.available > DateTime.now)
+
+        AttendanceRecord.reset_stale_locations
 
         @title = "Hands"
         if params[:term]
