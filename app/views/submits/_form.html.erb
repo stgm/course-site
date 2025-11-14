@@ -41,7 +41,7 @@
 		<label for="submit_grade_attributes_comments" class="control-label">Focus points </label>
 		<%= grade_form.text_area :comments, class: 'form-control', rows: 10, autofocus:true %>
 	</div>
-	
+
 	<div class="mb-2">
 		<label for="submit_grade_attributes_notes" class="control-label">Internal notes </label>
 		<%= grade_form.text_area :notes, class: 'form-control', rows: 3 %>
@@ -68,7 +68,7 @@
 		<% end %>
 		<% end %>
 	</div>
-			
+
 	<% if current_user.admin? || not(@submit.grading_config['subgrades'] && @submit.grading_config['calculation']) %>
 	<div class="mb-2">
 		<label for="submit_grade_attributes_grade" class="control-label ms-1 mb-0">Grade
@@ -81,7 +81,7 @@
 		</div>
 	</div>
 	<% end %>
-	
+
 <% end %>
 
 <% end %>
@@ -107,6 +107,11 @@
 			<%= button_to recheck_submit_path(id: @submit.id), method: :post, data: { confirm: "Sure?", "turbo-frame": "modal" }, class: 'dropdown-item' do "Re-check" end if @submit %>
 			<% end %>
 			<% if current_user.senior? %>
+			<% if @submit.locked? %>
+			<%= button_to submit_path(@submit), method: :patch, params: { submit: { locked: false } }, data: { confirm: "Sure to unlock?" }, class: 'dropdown-item' do bootstrap_icon('lock-fill') + " Locked" end %>
+			<% else %>
+			<%= button_to submit_path(@submit), method: :patch, params: { submit: { locked: true } }, data: { confirm: "Sure to lock?" }, class: 'dropdown-item' do bootstrap_icon('unlock-fill') + "Not locked" end %>
+			<% end %>
 			<% if @grade.persisted? %>
 			<%= button_to publish_grade_path(@grade), method: :patch, data: { confirm: "Sure?" }, class: 'dropdown-item' do "Publish" end %>
 			<% end%>
