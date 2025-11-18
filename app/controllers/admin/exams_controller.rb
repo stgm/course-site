@@ -78,7 +78,7 @@ class Admin::ExamsController < ApplicationController
 
     def list_codes
         @users = User.includes(:group, :schedule).not_admin # .order(:name)
-        @schedules = @users.group_by { |u| u.schedule.name }
+        @schedules = @users.group_by { |u| u.schedule_name }
         @groups = User.includes(:group, :schedule).not_admin.order("schedules.name, groups.name, users.name").group_by { |u| [ u.schedule_name, u.group_name ] }
         render layout: false
     end
