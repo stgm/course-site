@@ -19,6 +19,32 @@
     </tbody>
 </table>
 
+<h1>Op schema</h1>
+
+<% @schedules.each do |schedule, users| %>
+<h2><%= schedule %>
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Naam</th>
+            <th scope="col">Schema</th>
+            <th scope="col">Groep</th>
+            <th scope="col">Pincode</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% users.each do |user| %>
+        <tr>
+            <td><%= user.name %></td>
+            <td><%= user.schedule_name %></td>
+            <td><%= user.group_name %></td>
+            <td><%= user.pin%></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+<% end %>
+
 <h1>Op groep</h1>
 
 <% @groups.each do |group, users| %>
