@@ -1,14 +1,24 @@
 <div class="hands-show">
 
-    <div class="flex-fill">
-        <%= render_hand user: @user %> <%#, provide_suggestion: true %>
-    </div>
+  <div class="flex-fill">
+    <%= render_hand user: @user %>
+    <%#, provide_suggestion: true %>
+  </div>
 
-    <%= form_tag(hands_path(user_id: @user.id)) do %>
+  <%= form_tag(hands_path(user_id: @user.id)) do %>
     <%#= render partial: 'form' %>
     <div class="d-grid gap-2 d-md-flex ">
-        <button type="submit" class="btn btn-primary">Mark as done</button>
+      <%= button_tag "Found and spoken",
+      type: :submit,
+      name: "status",
+      value: "found",
+      class: "btn btn-primary" %>
+      <%= button_tag "Student not at location",
+      type: :submit,
+      name: "status",
+      value: "not_found",
+      class: "btn btn-warning" %>
     </div>
-    <% end %>
+  <% end %>
 
 </div>

@@ -88,6 +88,12 @@ module User::Attendee
         end
     end
 
+    def remove_current_location
+        update_columns(
+            last_known_location: nil,
+            location_confirmed: false)
+    end
+
     def take_attendance
         symbols = "▁▂▃▄▅▆▇█"
         user_attendance = attendance_records

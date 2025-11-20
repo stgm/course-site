@@ -69,7 +69,16 @@ class Hands::HandsController < ApplicationController
 
     def create
         load_user
-        create_hand
+        if params[:status] == "not_found"
+            @user.remove_current_location
+        else
+            create_hand
+        end
+        redirect_to action: "index", only_path: true
+    end
+
+    def destroy
+        load_user
         redirect_to action: "index", only_path: true
     end
 
