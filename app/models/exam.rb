@@ -12,6 +12,12 @@ class Exam < ApplicationRecord
         (Settings.registration_phase != "exam" && !self.locked?)
     end
 
+    # lock the submit of anyone who took this exam
+    # so if we re-open the exam they cannot automatically open it
+    def lock_existing_students
+        pset.submits.update_all(locked: true)
+    end
+
     def open_for_user?(user)
         @open_for_user ||= {}
         @open_for_user[user.id] ||= begin

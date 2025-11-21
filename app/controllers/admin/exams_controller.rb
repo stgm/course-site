@@ -90,8 +90,17 @@ class Admin::ExamsController < ApplicationController
     end
 
     def stop_exam_mode
+        exam_id = Settings.exam_current
+
+        # stop exam mode
         Settings.exam_current = nil
         Settings.registration_phase = "during"
+
+        # lock this exam for all students (who took it) individually
+        # so they can't just continue the same exam when we open it
+        # for new students
+        Exam.find(exam_id).lock_existing_students
+
         redirect_to admin_exams_path
     end
 
