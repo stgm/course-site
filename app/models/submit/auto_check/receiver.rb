@@ -10,11 +10,11 @@ module Submit::AutoCheck::Receiver
         self.check_token = nil
         self.check_results = json
 
-        create_auto_grade submitted_at < 3.minutes.ago
+        create_auto_grade
         self.save
     end
 
-    def create_auto_grade(send_mail = true)
+    def create_auto_grade
         if self.grading_config["auto_publish"]
             # create a create if needed
             grade = self.grade || self.build_grade
@@ -31,10 +31,16 @@ module Submit::AutoCheck::Receiver
             grade.save
 
             # if the results do not appear OK, send an e-mail
-            if send_mail && grade.calculated_grade == 0
-                GradeMailer.bad_submit(self).deliver_later
-            end
+            send_email_notification
         end
+    end
+
+    def send_email_notification
+        # only send mails if submitted longer than 3 minutes ago
+        if Settings.send_grade_mails && grade.calculated_grade == 0 && submitted_at < 3.minutes.ago
+            GradeMailer.bad_submit(self).deliver_later
+        end
+
     end
 
 end
