@@ -52,6 +52,28 @@ module Schedule::GroupOperations
         end
     end
 
+    def grouped_users(status)
+        selected_users = users.not_staff.
+            includes(:group).
+            order("groups.name").
+            order(:name)
+
+        case status
+        when "active"
+            filtered_users = selected_users.status_active
+        when "registered"
+            filtered_users = selected_users.status_registered
+            # raise
+        when "inactive"
+            filtered_users = selected_users.status_inactive
+        when "done"
+            filtered_users = selected_users.status_done
+        end
+
+        filtered_users.group_by(&:group)
+
+    end
+
     private
 
     def extract_user_info(paste)

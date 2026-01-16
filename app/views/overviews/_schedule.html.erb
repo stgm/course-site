@@ -1,3 +1,12 @@
+<h5 style="background-color: lightgray">
+  <%= schedule.name %>
+  <% if @selected_schedule.blank? %>
+  <%= render partial: 'schedule_operations', locals: { schedule: schedule } %>
+  <% end %>
+</h5>
+
+<% schedule_overview_config = schedule.grading_config.overview %>
+
 <table id="grade-table" class="table table-sm table-borderless table-responsive">
 
     <%# bulk ops header row %>
@@ -10,7 +19,7 @@
         <th></th>
         <% end %>
 
-        <% @overview.each do |name, flag, psets| %>
+        <% schedule_overview_config.each do |name, flag, psets| %>
             <% if flag == :blocks %>
                 <th></th>
             <% else %>
@@ -21,15 +30,16 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewsTableColumnDropdown">
                             <li><h6 class="dropdown-header"><%= pset.name %></h6></li>
                             <li>
-                                <%= link_to "Publish all", publish_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, class: 'small dropdown-item' %>
+                                <%= link_to "Publish all", publish_schedule_grades_path(schedule_slug: schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, class: 'small dropdown-item' %>
                             </li>
                             <li>
-                                <%= link_to "Run checks for all", recheck_schedule_submits_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Run checks for all submits for this assignment?" }, class: 'small dropdown-item' %>
+                                <%= link_to "Run checks for all", recheck_schedule_submits_path(schedule_slug: schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Run checks for all submits for this assignment?" }, class: 'small dropdown-item' %>
                             </li>
                             <hr>
-                            <% groups.each do |group, user_list| %>
+                            <%# groups.each do |group, user_list| %>
+                            <% schedule.users.group_by(&:group).each do |group, user_list| %>
                             <% if group %>
-                            <%= link_to "Unpublish for #{group.name}", reopen_schedule_grades_path(schedule_slug: @selected_schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, class: 'small dropdown-item' %>
+                            <%= link_to "Unpublish for #{group.name}", reopen_schedule_grades_path(schedule_slug: schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, class: 'small dropdown-item' %>
                             <% end %>
                             <% end %>
                         </ul>
@@ -50,7 +60,7 @@
         <th>git</th>
         <% end %>
 
-        <% @overview.each do |group, flag, psets| %>
+        <% schedule_overview_config.each do |group, flag, psets| %>
             <% if flag == :blocks %>
             <th style="border-left: 1.5px solid black; width: 3rem;">
                 <%= group.titleize.split.last.first(5) %>
@@ -65,7 +75,7 @@
     </tr>
 
     <%# actual students, in groups %>
-    <% groups.each do |group, user_list| %>
+    <% schedule.grouped_users(params[:status]).each do |group, user_list| %>
     <tr>
         <th class="py-2" colspan="2">
             <% if group %>
@@ -121,7 +131,7 @@
             <% end %>
         </td>
         <% end %>
-        <% @overview.each do |name, flag, psets| %>
+        <% schedule_overview_config.each do |name, flag, psets| %>
             <% if flag == :blocks %>
                 <%= render partial: 'submits_block', locals: { user: user, name: name, flag: flag, psets: psets } %>
             <% else %>

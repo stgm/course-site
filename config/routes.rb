@@ -63,7 +63,10 @@ Rails.application.routes.draw do
 
     #--BULK OPS---------------------------------------------------------------------------------
 
-    resources :overviews, only: [ :index ] do
+    resources :overviews, only: [] do
+        collection do
+            get "(/status/:status)", to: "overviews#index", as: "", defaults: { status: "active" }
+        end
         member do
             get "/status/:status", to: "overviews#show", as: "", defaults: { status: "active" }
         end

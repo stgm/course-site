@@ -34,6 +34,12 @@ class Settings < RailsSettings::Base
         field :hands_show_non_questions
     end
 
+    scope :grading do
+        field :grading_single_overview_page, default: false
+        field :grading_set_status_done_when_final_grade, default: true
+        field :grading_overview_for_tas, default: false
+    end
+
     scope :cache do
         field :page_tree
         field :tests_present
@@ -41,7 +47,6 @@ class Settings < RailsSettings::Base
     end
 
     scope :features do
-        field :ta_overview_allow, default: false
         field :qa_allow
         field :hands_allow
         field :pages_enable_math

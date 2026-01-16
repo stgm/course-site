@@ -42,9 +42,16 @@ class Grade < ApplicationRecord
     private
 
     def set_user_status_to_done_if_final_grade
-        if sufficient? && pset.is_final_grade? && Current.user.present? && Current.user.admin?
+        if allow_user_status_to_done? && sufficient? && pset.is_final_grade? && Current.user.present? && Current.user.admin?
             user.status_done!
         end
+    end
+
+    def allow_user_status_to_done?
+        Settings.grading_set_status_done_when_final_grade &&
+        sufficient? &&
+        pset.is_final_grade? &&
+        Current.user.present? && Current.user.admin?
     end
 
     def assign_grader_if_needed

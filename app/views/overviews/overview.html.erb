@@ -1,5 +1,10 @@
 <%= render partial: 'tabs' %>
-<%= render partial: 'table', locals: { groups: @grouped_users, psets: @psets } %>
+
+<% if Settings.grading_single_overview_page && current_user.admin? %>
+<%= render partial: 'schedule', collection: @schedules %>
+<% else %>
+<%= render partial: 'schedule', collection: [@selected_schedule] %>
+<% end %>
 
 <script type="text/javascript" charset="utf-8">
 	enableTooltips();

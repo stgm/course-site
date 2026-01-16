@@ -34,4 +34,8 @@ module User::Staffable
         end
     end
 
+    def accessible_groups
+        self.groups
+    end
+
 end

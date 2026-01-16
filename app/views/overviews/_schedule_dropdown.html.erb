@@ -1,0 +1,20 @@
+<% if !Settings.grading_single_overview_page && @accessible_schedules.size > 1 %>
+  <div class="dropdown">
+    <button
+      class="btn btn-primary btn-sm dropdown-toggle"
+      type="button"
+      id="overviewScheduleDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <%= @name %>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="overviewScheduleDropdown">
+      <% @accessible_schedules.each do |schedule| %>
+        <%= link_to schedule.name,
+        overview_path(schedule),
+        class: "dropdown-item" + class_if(schedule == @selected_schedule, "active") %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
