@@ -64,6 +64,10 @@ class Schedule < ApplicationRecord
         # save the NAME of the current schedule item, to restore later
         backup_position = current.name if current
 
+        if config = contents.extract!("_description")
+            update(description: config["_description"])
+        end
+
         # create all items
         touched_spans = []
         rank = 0
