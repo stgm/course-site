@@ -32,7 +32,7 @@
         <label class="mb-1"><%= t('account.your_schedule') %>:</label>
 
         <% Schedule.where(self_register: true).each do |schedule| %>
-        <div class="form-check ps-1">
+        <div class="form-check ps-1 d-flex align-items-baseline gap-1">
             <input type="radio" name="user[schedule_id]" required id="optionsRadios<%= schedule.id %>" value="<%= schedule.id %>" <%= 'checked' if current_user && current_user.schedule && current_user.schedule.id == schedule.id %>>
             <label for="optionsRadios<%= schedule.id %>">
                 <%= schedule.description || schedule.name %>
