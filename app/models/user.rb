@@ -20,7 +20,7 @@ class User < ApplicationRecord
     def items(with_private = false)
         items = []
         # show all submits for psets that are _not_ a module
-        items += submits.includes(:pset).where("submitted_at is not null").to_a
+        items += submits.includes(:pset).to_a
         # items += grades.includes(:pset, :submit, :grader).showable.to_a
         # items += hands.includes(:assist).to_a if with_private
         items += notes.includes(:author).to_a if with_private
