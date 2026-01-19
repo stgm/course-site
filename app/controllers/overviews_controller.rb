@@ -68,7 +68,7 @@ class OverviewsController < ApplicationController
         if current_user.schedule.present?
             redirect_to overview_path(current_user.schedule)
         else
-            redirect_back fallback_location: "/", alert: "No schedules"
+            redirect_back fallback_location: "/", alert: "You do not have a schedule yourself."
         end
     end
 

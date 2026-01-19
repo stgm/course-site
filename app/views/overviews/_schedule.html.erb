@@ -6,6 +6,7 @@
 </h5>
 
 <% schedule_overview_config = schedule.grading_config.overview %>
+<% groups = schedule.grouped_users(params[:status], @accessible_groups) %>
 
 <table id="grade-table" class="table table-sm table-borderless table-responsive">
 
@@ -36,8 +37,7 @@
                                 <%= link_to "Run checks for all", recheck_schedule_submits_path(schedule_slug: schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Run checks for all submits for this assignment?" }, class: 'small dropdown-item' %>
                             </li>
                             <hr>
-                            <%# groups.each do |group, user_list| %>
-                            <% schedule.users.group_by(&:group).each do |group, user_list| %>
+                            <% groups.each do |group, user_list| %>
                             <% if group %>
                             <%= link_to "Unpublish for #{group.name}", reopen_schedule_grades_path(schedule_slug: schedule.slug, pset_id: pset.id, group_id: group.id), method: :post, data: { confirm: "Re-open all grades for this assignment for this group?" }, class: 'small dropdown-item' %>
                             <% end %>
@@ -75,7 +75,7 @@
     </tr>
 
     <%# actual students, in groups %>
-    <% schedule.grouped_users(params[:status]).each do |group, user_list| %>
+    <% groups.each do |group, user_list| %>
     <tr>
         <th class="py-2" colspan="2">
             <% if group %>

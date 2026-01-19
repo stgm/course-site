@@ -52,11 +52,13 @@ module Schedule::GroupOperations
         end
     end
 
-    def grouped_users(status)
+    def grouped_users(status, group_filter=nil)
         selected_users = users.not_staff.
             includes(:group).
             order("groups.name").
             order(:name)
+
+        selected_users = selected_users.where("group": group_filter) if group_filter.present?
 
         case status
         when "active"
