@@ -9,7 +9,7 @@ module ApplicationHelper
     end
 
     def date_span(date)
-        "<span>#{l date, format: :short}".html_safe
+        "<span>#{l date, format: :short}".html_safe if date.present?
     end
 
     def time_ago_in_words_or_more_precise(time)

@@ -41,7 +41,7 @@
                	<% end %>
         </ul>
 
-        <% if grade.comments %>
+        <% if grade.comments.present? %>
             <h6>Comments:</h6>
             <%= simple_markdown(grade.comments) %>
         <% end %>

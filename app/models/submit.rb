@@ -75,7 +75,7 @@ class Submit < ApplicationRecord
     end
 
     def sortable_date
-        submitted_at
+        submitted_at || grade&.updated_at || Date.current
     end
 
     def record(used_login: nil, archive_folder_name: nil, url: nil, attachments: nil, check_token: nil, form_contents: nil)
