@@ -8,9 +8,10 @@ class OverviewsController < ApplicationController
     before_action :check_permissions
 
     layout "navbar"
+    helper_method :present_single_overview?
 
     def index
-        if Settings.grading_single_overview_page && current_user.admin?
+        if present_single_overview?
             show_all_schedules
         else
             redirect_to_default_schedule
@@ -18,8 +19,10 @@ class OverviewsController < ApplicationController
     end
 
     def show
+        redirect_to overviews_path and return if present_single_overview?
+
         load_accessible_schedules
-        load_accessible_groups if @accessible_schedules.none?
+        load_accessible_groups
 
         if @accessible_schedules.blank? && @accessible_groups.blank?
             redirect_back fallback_location: "/",
@@ -44,6 +47,10 @@ class OverviewsController < ApplicationController
     end
 
     private
+
+    def present_single_overview?
+        Settings.grading_single_overview_page && current_user.admin?
+    end
 
     def check_permissions
         if current_user.assistant? &&
@@ -101,7 +108,7 @@ class OverviewsController < ApplicationController
     end
 
     def load_relevant_users
-        if @accessible_schedules&.any? && Settings.grading_single_overview_page
+        if @accessible_schedules&.any? && present_single_overview?
             # all schedules on single page
             @users = User.not_staff.where(schedule: @accessible_schedules)
         elsif @accessible_groups&.any?

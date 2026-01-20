@@ -52,20 +52,22 @@ module Schedule::GroupOperations
         end
     end
 
-    def grouped_users(status, group_filter=nil)
+    def grouped_users(status, accessible_schedules, accessible_groups=nil)
         selected_users = users.not_staff.
             includes(:group).
             order("groups.name").
             order(:name)
 
-        selected_users = selected_users.where("group": group_filter) if group_filter.present?
+        # raise
+        if !accessible_schedules.include?(self) && accessible_groups.present?
+            selected_users = selected_users.where("group": accessible_groups)
+        end
 
         case status
         when "active"
             filtered_users = selected_users.status_active
         when "registered"
             filtered_users = selected_users.status_registered
-            # raise
         when "inactive"
             filtered_users = selected_users.status_inactive
         when "done"

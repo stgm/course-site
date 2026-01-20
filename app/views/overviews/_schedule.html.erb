@@ -6,7 +6,7 @@
 </h5>
 
 <% schedule_overview_config = schedule.grading_config.overview %>
-<% groups = schedule.grouped_users(params[:status], @accessible_groups) %>
+<% groups = schedule.grouped_users(params[:status], @accessible_schedules, @accessible_groups) %>
 
 <table id="grade-table" class="table table-sm table-borderless table-responsive">
 
