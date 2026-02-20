@@ -59,8 +59,12 @@ module Schedule::GroupOperations
             order(:name)
 
         # raise
-        if !accessible_schedules.include?(self) && accessible_groups.present?
-            selected_users = selected_users.where("group": accessible_groups)
+        if !accessible_schedules.include?(self)
+            if accessible_groups.present?
+                selected_users = selected_users.where("group": accessible_groups)
+            # else
+            #     return []
+            end
         end
 
         case status
