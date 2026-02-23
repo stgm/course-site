@@ -16,6 +16,8 @@
 </li>
 <% end %>
 
+<% if @submit.files.any? %>
 <li class="nav-item ms-auto">
     <%= link_to 'Download', download_submit_path(@submit), class: 'nav-link', data: { turbo: false } %>
 </li>
+<% end %>

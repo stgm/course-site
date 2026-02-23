@@ -44,7 +44,7 @@ class SubmitsController < ApplicationController
         submit = Submit.find(params[:id])
         if submit.files.count > 1
             send_zip submit.files, filename: "#{submit.pset.name.dasherize}-#{submit.user.name.parameterize}-#{submit.submitted_at.to_fs(:number)}.zip"
-        else
+        elsif submit.files.count == 1
             redirect_to rails_storage_proxy_path(submit.files.first, disposition: "attachment")
         end
     end
