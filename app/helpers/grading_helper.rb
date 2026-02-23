@@ -17,8 +17,8 @@ module GradingHelper
                             class: "ipynb"
                         )
                     rescue
-                        tag.div tag.p("No valid JSON found in notebook file, showing first 100 characters: ") +
-                                tag.pre(downloaded[0, 100])
+                        tag.div tag.p("No valid JSON found in notebook file, showing first 100 characters if available: ") +
+                                tag.pre(downloaded && downloaded[0, 100])
                     end
                 when "markdown", "md"
                     simple_markdown(contents.download.bytes.pack("c*").force_encoding("UTF-8"))
