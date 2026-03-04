@@ -9,8 +9,8 @@
 				<% if alert.published %><span class="badge rounded-pill bg-secondary">Published</span><% end %>
 			</h5>
 			<p class="card-text"><%= alert.body %></p>
-			<%= link_to 'Edit', edit_alert_path(alert), class: 'btn btn-outline-primary' %>
-			<%= button_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-primary' %>
+			<%= link_to t('helpers.submit.alert.edit'), edit_alert_path(alert), class: 'btn btn-outline-primary' %>
+			<%= button_to t('helpers.submit.alert.destroy'), alert, method: :delete, data: { confirm: t('helpers.confirm.sure') }, class: 'btn btn-outline-primary' %>
 		</div>
 	</div>
 	<% end %>
@@ -22,5 +22,5 @@
 <% end %>
 
 <% content_for :footer do %>
-<%= link_to 'New announcement', new_alert_path, class: 'btn btn-outline-primary ms-auto' %>
+<%= link_to t('helpers.submit.alert.new'), new_alert_path, class: 'btn btn-outline-primary ms-auto' %>
 <% end %>

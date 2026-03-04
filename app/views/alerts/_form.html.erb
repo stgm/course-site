@@ -21,46 +21,56 @@
     <%= f.label :body %><br>
     <%= f.text_area :body, class: "form-control", rows: 10, required: true %>
   </div>
-  <div class="form-check ps-1 pb-1">
-    <label><%= f.check_box :published %>
-      Publish in announcements</label>
+  <div class="form-check pb-1">
+    <%= f.check_box :published, class: "form-check-input" %>
+    <%= f.label :published, class: "form-check-label" %>
   </div>
 
   <% if AlertMailer.available? %>
-    <div class="form-check ps-1 pb-1">
-      <label><%= checkbox_tag :send_mail, '1', false, onclick: "document.getElementById('send_mail_to_done').disabled = !this.checked;" %>
-        Send an e-mail with the current text (now!)</label>
+    <div class="form-check pb-1">
+      <%= checkbox_tag :send_mail,
+      "1",
+      false,
+      onclick:
+        "document.getElementById('send_mail_to_done').disabled = !this.checked;",
+      class: "form-check-input" %>
+      <%= label_tag :send_mail,
+      t("helpers.label.alert.send_mail"),
+      class: "form-check-label" %>
     </div>
-    <div class="form-check ps-1 pb-3">
-      <label><%= checkbox_tag :send_mail_to_done, disabled: true %>
-        Also send it to "done" students</label>
+    <div class="form-check pb-3">
+      <%= checkbox_tag :send_mail_to_done, disabled: true, class: "form-check-input" %>
+      <%= label_tag :send_mail_to_done,
+      t("helpers.label.alert.send_mail_to_done"),
+      class: "form-check-label" %>
     </div>
   <% else %>
     <div class="form-check ps-1 pb-3">
-      <label class="text-warning"><%= checkbox_tag :send_mail, "0", false, disabled: true %>
-        Can't send e-mails because an address hasn't been configured in the
-        site config</label>
+      <%= checkbox_tag :send_mail, "0", false, disabled: true, class: "form-check-input" %>
+      <%= label_tag :send_mail,
+      t("helpers.label.alert.send_mail_disabled"),
+      class: "form-check-label" %>
     </div>
   <% end %>
 
-  <div class="form-check ps-1 pb-1">
-    <label>
-      <input
-        type="radio"
-        name="alert[schedule_id]"
-        <%= 'checked="checked"' if @alert.persisted? && @alert.schedule_id.nil? %>
-        required
-        id="optionsRadios1"
-        value="<%= nil %>"
-        style="margin-top:0;"
-      >
-      (for everyone)
-    </label>
+  <div class="form-check pb-1">
+    <input
+      type="radio"
+      name="alert[schedule_id]"
+      <%= 'checked="checked"' if @alert.persisted? && @alert.schedule_id.nil? %>
+      required
+      id="alert_schedule_id_0"
+      value="<%= nil %>"
+      class="form-check-input"
+    >
+    <%# send to everyone %>
+    <%= f.label :schedule_id_0, class: "form-check-label" %>
   </div>
 
   <%= f.collection_radio_buttons(:schedule_id, Schedule.all, :id, :name) do |b|
-    content_tag(:div, class: "form-check ps-1 pb-1") do
-      b.label { b.radio_button + " " + b.text }
+    content_tag(:div, class: "form-check pb-1") do
+      b.radio_button(class: "form-check-input") +
+        b.label(class: "form-check-label") { b.text }
     end
   end %>
 

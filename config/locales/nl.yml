@@ -165,16 +165,49 @@ nl:
         pin_code: Pincode
         you_can_login_exam: Welkom! Je kunt nu inloggen met pincode om tentamen te doen.
 
+    helpers:
+        select:
+            prompt: Maak een keuze
+        confirm:
+            sure: Zeker weten?
+        submit:
+            create: "%{model} toevoegen"
+            submit: "%{model} opslaan"
+            update: "%{model} bijwerken"
+            alert:
+                back: Terug naar lijst
+                create: Toevoegen
+                submit: Mededeling opslaan
+                new: Nieuwe mededeling
+                edit: Wijzigen
+                destroy: Verwijderen
+        label:
+            alert:
+                title: Onderwerp
+                body: Bericht (je mag basic Markdown gebruiken)
+                published: Zichtbaar voor studenten bij de mededelingen
+                send_mail: Stuur een e-mail met de huidige tekst (nu!)
+                send_mail_to_done: Stuur de mail óók naar studenten die "done" zijn
+                send_mail_disabled: |
+                    Kan geen e-mails sturen omdat er geen mailadres is geconfigureerd
+                schedule_id_0: (voor alle studenten)
+
+    alerts:
+        new:
+            title: Nieuwe mededeling
+
     activerecord:
-      attributes:
-        user:
-          name: Naam
-      errors:
-        messages:
-          record_invalid: 'Validatie mislukt: %{errors}'
-          restrict_dependent_destroy:
-            has_one: Kan item niet verwijderen omdat %{record} afhankelijk is
-            has_many: Kan item niet verwijderen omdat afhankelijke %{record} bestaan
+        models:
+            alert: Mededeling
+        attributes:
+            user:
+                name: Naam
+        errors:
+            messages:
+                record_invalid: 'Validatie mislukt: %{errors}'
+                restrict_dependent_destroy:
+                    has_one: Kan item niet verwijderen omdat %{record} afhankelijk is
+                    has_many: Kan item niet verwijderen omdat afhankelijke %{record} bestaan
 
     date:
       abbr_day_names:
@@ -313,13 +346,7 @@ nl:
         header:
           one: "%{model} niet opgeslagen: 1 fout gevonden"
           other: "%{model} niet opgeslagen: %{count} fouten gevonden"
-    helpers:
-      select:
-        prompt: Maak een keuze
-      submit:
-        create: "%{model} toevoegen"
-        submit: "%{model} opslaan"
-        update: "%{model} bijwerken"
+
     number:
       currency:
         format:

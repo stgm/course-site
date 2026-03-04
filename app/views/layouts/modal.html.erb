@@ -1,25 +1,28 @@
 <turbo-frame id="modal">
   <div class="modal-content">
-    <div id="modal-browser-header">
+    <div class="modal-sidebar">
+      <%= render partial: "admin/modal_tabs" %>
+    </div>
+    <div class="modal-main">
       <% if content_for?(:title) %>
-        <%= yield(:title) %>
-      <% else %>
-        <%= render partial: "admin_modal_tabs" %>
+        <div id="modal-browser-header">
+          <%= yield(:title) %>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
       <% end %>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-      ></button>
-    </div>
-    <div id="modal-browser-body">
-      <%= yield %>
-    </div>
-    <% if content_for?(:footer) %>
-      <div id="modal-browser-footer">
-        <%= yield(:footer) %>
+      <div id="modal-browser-body">
+        <%= yield %>
       </div>
-    <% end %>
+      <% if content_for?(:footer) %>
+        <div id="modal-browser-footer">
+          <%= yield(:footer) %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </turbo-frame>

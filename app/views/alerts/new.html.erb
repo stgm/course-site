@@ -1,10 +1,12 @@
 <% content_for :title do %>
-<h1>New announcement</h1>
+  <h1><%= t ".title" %></h1>
 <% end %>
 
-<%= render 'form' %>
+<%= render "form" %>
 
 <% content_for :footer do %>
-	<%= render partial: 'alerts/back' %>
-	<%= submit_tag 'Save announcement', form: 'alert_form', class: 'ms-auto btn btn-primary float-end' %>
+  <%= render partial: "alerts/back" %>
+  <%= submit_tag t("helpers.submit.alert.submit"),
+  form: "alert_form",
+  class: "ms-auto btn btn-primary float-end" %>
 <% end %>

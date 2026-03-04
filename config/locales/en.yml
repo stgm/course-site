@@ -163,6 +163,25 @@ en:
         pin_code: PIN
         you_can_login_exam: Welcome! You can now login using your PIN to take the exam.
 
+    helpers:
+        # select:
+        #     prompt: Maak een keuze
+        # submit:
+        #     create: "%{model} toevoegen"
+        #     submit: "%{model} opslaan"
+        #     update: "%{model} bijwerken"
+        confirm:
+            sure: Are you sure?
+        label:
+            alert:
+                body: Message (you can use basic Markdown)
+                published: Show to students in the announcements list
+                send_mail: Send an e-mail with the current text (now!)
+                send_mail_to_done: Also send it to students whose status is "done"
+                send_mail_disabled: |
+                    Can't send e-mails because an address hasn't been configured in the site config
+                schedule_id_0: (for everyone)
+
     errors:
       messages:
         invalid: seems to be invalid

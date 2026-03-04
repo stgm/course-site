@@ -45,12 +45,12 @@ summary
     box-shadow: none;
 }
 
-#sidebar
+#sidebar, .modal-sidebar
 {
     background: linear-gradient(50deg, adjust-color(#F4F4F4, $lightness: -2%) 0%, #F4F4F4 100%);
 }
 
-#sidebar
+#sidebar, .modal-sidebar
 {
     border-color: adjust-color($background-color, $lightness: -5%);
 
@@ -199,4 +199,3 @@ main:has(#page_form)
         border-top: 1px solid #ccc;
     }
 }
-
