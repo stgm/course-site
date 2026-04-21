@@ -22,6 +22,9 @@ Rails.application.configure do
   config.consider_all_requests_local = true
   config.cache_store = :null_store
 
+  # Disable Rack::Attack throttling in tests (cache is :null_store)
+  Rack::Attack.enabled = false
+
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
 

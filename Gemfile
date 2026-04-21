@@ -44,6 +44,7 @@ gem "friendly_id"
 # connectivity
 gem "git", "1.13.0"  # git for ingesting course materials
 gem "rack-cas"       # login system
+gem "rack-attack"    # rate limiting for login endpoints
 gem "openid_connect"
 gem "curb"           # webdav client for uploading archival files
 gem "rest-client"    # for sending submits to the autocheck server

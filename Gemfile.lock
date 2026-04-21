@@ -278,6 +278,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.6)
+    rack-attack (6.8.0)
+      rack (>= 1.0, < 4)
     rack-cas (0.16.1)
       addressable (~> 2.3)
       nokogiri (~> 1.5)
@@ -470,6 +472,7 @@ DEPENDENCIES
   openid_connect
   pg
   puma (>= 5.0)
+  rack-attack
   rack-cas
   rails (~> 8.0.1)
   rails-settings-cached
