@@ -239,10 +239,6 @@ Rails.application.routes.draw do
 
     post "api/check_result/do", to: "api/check_result#do"
 
-    namespace :api do
-        resources :test_results, only: [ :create ]
-    end
-
     post "/git_repos/:id/webhook", to: "api/git_repo_webhooks#receive"
 
     #--CONTENT----------------------------------------------------------------------------------
