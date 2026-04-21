@@ -17,6 +17,11 @@ class Auth::OpenController < ApplicationController
             redirect_to root_url and return
         end
 
+        # verify state to prevent CSRF on the OAuth flow
+        unless params[:state].present? && params[:state] == session.delete(:oidc_state)
+            redirect_to root_url, alert: t("account.not_everyone_can_login") and return
+        end
+
         # authorization response
         code = params[:code]
 
@@ -78,13 +83,11 @@ class Auth::OpenController < ApplicationController
     end
 
     def authorization_uri
-        state = SecureRandom.hex(16)
-        nonce = SecureRandom.hex(16)
+        session[:oidc_state] = SecureRandom.hex(16)
 
         client.authorization_uri(
         scope: scope,
-        state: state,
-        nonce: nonce
+        state: session[:oidc_state]
         )
     end
 
