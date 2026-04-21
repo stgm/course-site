@@ -92,14 +92,7 @@ class Auth::OpenController < ApplicationController
     end
 
     def scope
-        default_scope = %w[openid]
-
-        # Add scope for social provider if social login is requested
-        if params[:provider].present?
-            default_scope << params[:provider]
-        else
-            default_scope
-        end
+        %w[openid]
     end
 
     def user_info(token)
