@@ -49,6 +49,7 @@ class Api::TestResultsController < ApplicationController
     private
 
     def restrict_access
+        # TODO move to ENV flag or something like that
         unless [ "127.0.0.1", "::1" ].include? request.remote_ip
             request.body.rewind
             payload_body = request.body.read
