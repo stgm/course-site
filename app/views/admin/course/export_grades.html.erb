@@ -84,7 +84,7 @@
                 </td>
                 <% if sub.grade.comments.present? %>
             </tr><tr>
-                <td colspan="6"><%= simple_markdown(sub.grade.comments) %></td>
+                <td colspan="6"><%= render_markdown(sub.grade.comments) %></td>
             </tr><tr>
                 <% end %>
                 <% else %>

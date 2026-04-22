@@ -43,7 +43,7 @@
 
         <% if grade.comments.present? %>
             <h6>Comments:</h6>
-            <%= simple_markdown(grade.comments) %>
+            <%= render_markdown(grade.comments) %>
         <% end %>
 
         <p>

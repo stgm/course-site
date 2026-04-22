@@ -22,7 +22,7 @@
 
 <% @subpages.each_with_index do |subpage, index| %>
     <section class="markdown" id="<%= subpage.slug %>-content">
-        <%= markdown(subpage.content, @page) %>
+        <%= render_markdown(subpage.content, asset_prefix: @page.public_url, trusted: true) %>
     </section>
 <% end %>
 

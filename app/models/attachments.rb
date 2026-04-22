@@ -50,7 +50,7 @@ class Attachments
             elsif notebook_file?(name)
                 file.rewind
                 source = file.read
-                html = simple_markdown(GradingHelper::NBConverter.new(source).run)
+                html = render_markdown(GradingHelper::NBConverter.new(source).run, single_dollar_math: true)
                 presentable_files[name+".html"] = html
             end
         end

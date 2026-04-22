@@ -12,14 +12,14 @@
 <div class="">
 	<label for="grade_comments" class="control-label">Feedback</label>
 	<div class="border rounded p-2">
-	<%= @grade.comments.present? && simple_markdown(@grade.comments) || '<p>(none)</p>'.html_safe %>
+	<%= @grade.comments.present? && render_markdown(@grade.comments) || '<p>(none)</p>'.html_safe %>
 	</div>
 </div>
 
 <div class="">
 	<label for="" class="control-label">Internal notes</label>
 	<div class="border rounded p-2">
-	<%= @grade.notes.present? && simple_markdown(@grade.notes) || '<p>(none)</p>'.html_safe %>
+	<%= @grade.notes.present? && render_markdown(@grade.notes) || '<p>(none)</p>'.html_safe %>
 	</div>
 </div>
 

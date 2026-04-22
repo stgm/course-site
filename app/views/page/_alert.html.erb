@@ -2,6 +2,6 @@
 	<div class="card-body p-lg-5">
 		<small><%= date_span(alert.created_at)%></small>
 		<h4 class="card-title"><%= alert.title %></h4>
-		<%= simple_markdown(alert.body) %>
+		<%= render_markdown(alert.body) %>
 	</div>
 </div>

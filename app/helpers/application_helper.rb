@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+    include ActionView::Helpers::SanitizeHelper
+    include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::OutputSafetyHelper
+
     def html_tag_with_language(&block)
         if Course.language
             tag.html(lang: Course.language, &block)
@@ -20,52 +24,24 @@ module ApplicationHelper
         end
     end
 
-    def markdown(text, page_context)
-        Kramdown::Document.new(text,
-                               auto_ids: true,
-                               asset_prefix: page_context.public_url,
-                               parse_block_html: true,
-                               toc_levels: 2..3,
-                               math_engine: :katex,
-                               coderay_css: :class,
-                               coderay_tab_width: 4,
-                               enable_coderay: true,
-                               coderay_line_numbers: nil,
-                               context: self).to_course_site_html.html_safe
-    end
-
-    def simple_markdown(text)
-        begin
-            Kramdown::Document.new(text,
-                                   auto_ids: true,
-                                   parse_block_html: true,
-                                   toc_levels: 2..3,
-                                   math_engine: :katex,
-                                   coderay_css: :class,
-                                   coderay_tab_width: 4,
-                                   enable_coderay: true,
-                                   coderay_line_numbers: nil,
-                                   context: self).to_course_site_html.html_safe
-        rescue
-            return ""
-        end
-    end
-
-    def single_dollar_math_markdown(text)
-        begin
-            Kramdown::Document.new(text.gsub(/(?<!\$)\$(?!\$)/, "$$"),
-                                   auto_ids: true,
-                                   parse_block_html: true,
-                                   toc_levels: 2..3,
-                                   math_engine: :katex,
-                                   coderay_css: :class,
-                                   coderay_tab_width: 4,
-                                   enable_coderay: true,
-                                   coderay_line_numbers: nil,
-                                   context: self).to_course_site_html.html_safe
-        rescue
-            return ""
-        end
+    def render_markdown(text, asset_prefix: nil, single_dollar_math: false, trusted: false)
+        source = single_dollar_math ? text.gsub(/(?<!\$)\$(?!\$)/, "$$") : text
+        options = {
+            auto_ids: true,
+            parse_block_html: trusted,  # raw HTML blocks only for trusted (staff-authored) content
+            toc_levels: 2..3,
+            math_engine: :katex,
+            coderay_css: :class,
+            coderay_tab_width: 4,
+            enable_coderay: true,
+            coderay_line_numbers: nil,
+            context: self
+        }
+        options[:asset_prefix] = asset_prefix if asset_prefix
+        html = Kramdown::Document.new(source, options).to_course_site_html
+        trusted ? html.html_safe : sanitize(html)
+    rescue => e
+        content_tag(:p, "Could not render markdown (#{e.class}: #{e.message})")
     end
 
     def title
