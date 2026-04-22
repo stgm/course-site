@@ -31,7 +31,7 @@ class GradingFormulaEvaluator
     return nil if formula.blank?
     return nil if formula.count("(") > MAX_PARENS
     tokens = tokenize(formula).reject { |t| t.type == :space }
-    Parser.new(tokens, variables).parse.to_f.round(1)
+    Evaluator.new(tokens, variables).evaluate.to_f.round(1)
   rescue
     nil
   end
@@ -52,15 +52,15 @@ class GradingFormulaEvaluator
     tokens
   end
 
-  class Parser
+  class Evaluator
     def initialize(tokens, variables)
       @tokens = tokens
       @pos    = 0
       @vars   = variables
     end
 
-    def parse
-      val = parse_or
+    def evaluate
+      val = eval_or
       raise "unexpected token: #{current.inspect}" if @pos < @tokens.length
       val
     end
@@ -77,31 +77,31 @@ class GradingFormulaEvaluator
     end
 
     # logical — uses Ruby value semantics so `(x >= 9) && x || 0` works
-    def parse_or
-      left = parse_and
+    def eval_or
+      left = eval_and
       while match?(:or)
         consume
-        right = parse_and
+        right = eval_and
         left = left || right
       end
       left
     end
 
-    def parse_and
-      left = parse_comparison
+    def eval_and
+      left = eval_comparison
       while match?(:and)
         consume
-        right = parse_comparison
+        right = eval_comparison
         left = left && right
       end
       left
     end
 
-    def parse_comparison
-      left = parse_additive
+    def eval_comparison
+      left = eval_additive
       if match?(:lt, :gt, :lte, :gte, :eq, :neq)
         op = consume.type
-        right = parse_additive
+        right = eval_additive
         left = case op
                when :lt  then left < right
                when :gt  then left > right
@@ -114,36 +114,36 @@ class GradingFormulaEvaluator
       left
     end
 
-    def parse_additive
-      left = parse_multiplicative
+    def eval_additive
+      left = eval_multiplicative
       while match?(:plus, :minus)
         op = consume.type
-        right = parse_multiplicative
+        right = eval_multiplicative
         left = op == :plus ? left + right : left - right
       end
       left
     end
 
-    def parse_multiplicative
-      left = parse_unary
+    def eval_multiplicative
+      left = eval_unary
       while match?(:star, :slash)
         op = consume.type
-        right = parse_unary
+        right = eval_unary
         left = op == :star ? left * right : left / right
       end
       left
     end
 
-    def parse_unary
+    def eval_unary
       if match?(:minus)
         consume
-        return -parse_unary
+        return -eval_unary
       end
-      parse_postfix
+      eval_postfix
     end
 
-    def parse_postfix
-      val = parse_primary
+    def eval_postfix
+      val = eval_primary
       while match?(:floor, :ceil, :round)
         op = consume.type
         val = case op
@@ -155,7 +155,7 @@ class GradingFormulaEvaluator
       val
     end
 
-    def parse_primary
+    def eval_primary
       tok = current
       case tok&.type
       when :number
@@ -175,7 +175,7 @@ class GradingFormulaEvaluator
         end
       when :lparen
         consume
-        val = parse_or
+        val = eval_or
         raise "expected ')'" unless match?(:rparen)
         consume
         val
