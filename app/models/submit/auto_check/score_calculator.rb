@@ -7,13 +7,7 @@ module Submit::AutoCheck::ScoreCalculator
 
         # take all automatic rules and use it to create hash of grades
         results = grading_config["automatic"].transform_values do |rule|
-            begin
-                # evaluate grade formula from config, giving access to
-                # the current instance
-                self.instance_eval(rule)
-            rescue
-                nil
-            end
+            GradingFormulaEvaluator.evaluate(rule, correctness_score: correctness_score)
         end
 
         return results

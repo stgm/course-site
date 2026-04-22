@@ -25,13 +25,9 @@ module Grade::Calculator
     end
 
     def calculate_grade
-        begin
-            cg = self.subgrades.instance_eval(grading_config["calculation"])
-        rescue
-            cg = nil
-        end
-
-        return cg
+        GradingFormulaEvaluator.evaluate(grading_config["calculation"], subgrades.to_h)
+    rescue
+        nil
     end
 
 end
