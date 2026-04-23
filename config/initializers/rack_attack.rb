@@ -8,7 +8,7 @@ class Rack::Attack
 
   # Throttle OTP validation: 24-bit code space needs brute-force protection.
   # 5 attempts per IP per minute, then blocked until the window resets.
-  throttle("auth/mail/validate", limit: 5, period: 1.minute) do |req|
+  throttle("auth/mail/validate", limit: 2, period: 1.minute) do |req|
     req.ip if req.path == "/auth/mail/validate" && req.post?
   end
 
