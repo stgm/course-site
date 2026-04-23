@@ -1,6 +1,13 @@
 class Auth::PinController < ApplicationController
 
     # Facilitates login by pin, for exams
+    #
+    # Note: PIN codes are not meant to be hard to guess or anything
+    # the intended use is:
+    # - secret exam code only available in exam room
+    # - pin is used to identify students uniquely
+    # - successful logins are locked to ip/machine, unless manually unlocked
+    # - student identity is checked with login any time during exam
 
     def self.available?
         Settings.registration_phase == "exam"
