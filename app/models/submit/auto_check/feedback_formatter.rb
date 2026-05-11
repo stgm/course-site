@@ -30,6 +30,7 @@ module Submit::AutoCheck::FeedbackFormatter
     end
 
     def format_run(checks)
+        return "no check results found" if checks.blank?
         checks.map do |item|
             format_check(item["description"], item["message"])
         end.join
