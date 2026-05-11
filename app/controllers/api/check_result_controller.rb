@@ -4,19 +4,13 @@ class Api::CheckResultController < ApplicationController
 
     def do
         submit = Submit.find_by_check_token(params["id"])
-
-        unless submit
-            head :unauthorized and return
+        if submit
+            results = params["result"]
+            # TODO insert validator
+            results.permit!
+            submit.register_auto_check_results(results.to_h)
+            head :ok
         end
-
-        results = params.require(:result).permit(
-            summary: [ :total_check_count, :passed_check_count ],
-            runs: [ :name, { results: [ :description, :log, :message, :passed ] } ],
-            error: [ :value ]
-        )
-
-        submit.register_auto_check_results(results.to_h)
-        head :ok
     end
 
 end
