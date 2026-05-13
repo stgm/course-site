@@ -3,8 +3,8 @@ class NotesController < ApplicationController
     before_action :require_staff
     before_action :require_admin, only: :index
 
-    before_action :set_note, only: [ :show, :edit, :update ]
-    before_action :check_permission, only: [ :show, :edit, :update ]
+    before_action :set_note,            only: [ :show, :edit, :update, :destroy ]
+    before_action :require_note_author, only: [ :edit, :update, :destroy ]
 
     def index
         @notes = Note.includes(:student).where(log: false).order(created_at: :desc).limit(30)
@@ -42,10 +42,8 @@ class NotesController < ApplicationController
         @note = Note.find(params[:id])
     end
 
-    def check_permission
-        current_user.admin? ||
-        @note.author == current_user ||
-        current_user.students.find(@note.student)
+    def require_note_author
+        head :forbidden unless current_user.admin? || @note.author == current_user
     end
 
     def note_params

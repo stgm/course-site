@@ -38,4 +38,27 @@ module User::Staffable
         self.groups
     end
 
+    # Returns an AR relation of non-staff users visible to this staff member.
+    #
+    # Rule (per schedule):
+    #   - Schedule assigned, no groups from that schedule → all students in that schedule
+    #   - Schedule assigned, groups from that schedule → only those groups
+    #   - Group assigned, no schedule assigned → only that group
+    #   - Admin → everyone
+    #   - Nothing assigned → nobody
+    def accessible_students
+        return User.all   if admin?
+        return User.none  if schedules.none? && groups.none?
+
+        # Schedules where I have no specific group → full-schedule access
+        schedules_without_my_groups = schedules.where.not(id: groups.select(:schedule_id))
+
+        scopes = [
+            (User.not_staff.where(group: groups)                         if groups.any?),
+            (User.not_staff.where(schedule: schedules_without_my_groups) if schedules_without_my_groups.any?)
+        ].compact
+
+        scopes.any? ? scopes.reduce { |combined, s| combined.or(s) } : User.none
+    end
+
 end
