@@ -11,7 +11,7 @@ class Api::CheckResultController < ApplicationController
 
         results = params.require(:result).permit(
             summary: [ :total_check_count, :passed_check_count ],
-            runs: [ :name, { results: [ :description, :log, :message, :passed ] } ],
+            runs: [ :name, checks: [ :description, :log, :message, :passed ] ],
             error: [ :value ]
         )
 
