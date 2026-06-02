@@ -31,8 +31,10 @@ class Tests::ResultsController < Tests::TestsController
         # render text: params.inspect and return
         grades = params[:grades]
         pset_id = params[:test_id]
+        allowed_ids = current_user.accessible_students.ids.to_set
 
         grades.each do |user_id, info|
+            next unless allowed_ids.include?(user_id.to_i)
             notes = info[:notes]
             subgrades = info[:subgrades]
             # check if any of the subgrades has been filled

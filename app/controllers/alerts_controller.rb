@@ -66,10 +66,13 @@ class AlertsController < ApplicationController
     end
 
     def send_mail
-        if not alert_params[:schedule_id].blank?
-            scope = Schedule.find(alert_params[:schedule_id]).users
+        if alert_params[:schedule_id].present?
+            schedule = current_user.accessible_schedules.find(alert_params[:schedule_id])
+            scope = schedule.users
+        elsif current_user.admin?
+            scope = User.where(schedule: current_user.accessible_schedules)
         else
-            scope = User
+
         end
         recipients = scope.status_active_or_registered + scope.staff
         recipients += scope.status_done if params[:send_mail_to_done]

@@ -1,53 +1,83 @@
+<p>For assistants and heads, you can assign schedules, automatically giving
+  access to all groups in that schedule. You can also assign individual groups;
+  in that case they will not have access to other groups in the schedule.</p>
 
 <table class="table table-sm table-borderless">
-	<tr>
-		<th>Name</th>
-		<th>Role</th>
-		<th>Grade schedules</th>
-		<th>Grade groups</th>
-	</tr>
+  <tr>
+    <th>Name</th>
+    <th>Role</th>
+    <th>Grade schedules</th>
+    <th>Grade groups</th>
+  </tr>
 
-<% @users.each do |user| %>
-	<tr>
-		<td><%= link_to user.name, user %></td>
-		<td>
-			<%= user.role %>
-		</td>
-		<td>
-			<%= turbo_frame_tag "user_#{user.id}_schedule_permissions" do %>
-			<div id="schedule_permissions_<%= user.id %>">
-			<%= render partial: 'schedule_permissions', locals: { schedules: user.schedules, user: user } %>
-			</div>
-			<div class="btn-group">
-				<button id="addGroupDropdown" type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-					<%= bootstrap_icon 'plus' %>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="addGroupDropdown">
-					<% @schedules.each do |schedule| %>
-					<%= button_to schedule.name, admin_user_add_schedule_permission_path(user_id: user.id, schedule_id: schedule.id), method: :post, class:"dropdown-item", style: "font-size: smaller !important;" %>
-					<% end %>
-				</ul>
-			</div>
-			<% end %>
-		</td>
-		<td>
-			<%= turbo_frame_tag "user_#{user.id}_group_permissions" do %>
-			<div id="group_permissions_<%= user.id %>">
-			<%= render partial: 'group_permissions', locals: { groups: user.groups, user: user } %>
-			</div>
-			<div class="btn-group">
-				<button id="addScheduleDropdown" type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-					<%= bootstrap_icon 'plus' %>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="addScheduleDropdown">
-					<% @groups.each do |group| %>
-					<%= button_to "#{group.schedule.name} - #{group.name}", admin_user_add_group_permission_path(user_id: user.id, group_id: group.id), method: :post, class:"dropdown-item", style: "font-size: smaller !important;" %>
-					<% end %>
-				</ul>
-			</div>
-			<% end %>
-		</td>
-	</tr>
-<% end %>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.name, user %></td>
+      <td>
+        <%= user.role %>
+      </td>
+      <td>
+        <%= turbo_frame_tag "user_#{user.id}_schedule_permissions" do %>
+          <div id="schedule_permissions_<%= user.id %>">
+            <%= render partial: "schedule_permissions",
+            locals: {
+              schedules: user.schedules,
+              user: user,
+            } %>
+          </div>
+          <div class="btn-group">
+            <button
+              id="addGroupDropdown"
+              type="button"
+              class="btn btn-light btn-sm dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <%= bootstrap_icon "plus" %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="addGroupDropdown">
+              <% @schedules.each do |schedule| %>
+                <%= button_to schedule.name,
+                admin_user_add_schedule_permission_path(
+                  user_id: user.id,
+                  schedule_id: schedule.id,
+                ),
+                method: :post,
+                class: "dropdown-item",
+                style: "font-size: smaller !important;" %>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </td>
+      <td>
+        <%= turbo_frame_tag "user_#{user.id}_group_permissions" do %>
+          <div id="group_permissions_<%= user.id %>">
+            <%= render partial: "group_permissions", locals: { groups: user.groups, user: user } %>
+          </div>
+          <div class="btn-group">
+            <button
+              id="addScheduleDropdown"
+              type="button"
+              class="btn btn-light btn-sm dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <%= bootstrap_icon "plus" %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="addScheduleDropdown">
+              <% @groups.each do |group| %>
+                <%= button_to "#{group.schedule.name} - #{group.name}",
+                admin_user_add_group_permission_path(user_id: user.id, group_id: group.id),
+                method: :post,
+                class: "dropdown-item",
+                style: "font-size: smaller !important;" %>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
 
 </table>

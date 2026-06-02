@@ -28,7 +28,9 @@ class GradesController < ApplicationController
     private
 
     def set_grade
-        @grade = Grade.find(params[:id])
+        @grade = Grade.joins(submit: :user)
+                      .where(submits: { user_id: current_user.accessible_students })
+                      .find(params[:id])
     end
 
 end
