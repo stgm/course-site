@@ -25,6 +25,11 @@ class Schedules::SubmitsController < Schedules::ApplicationController
     def recheck
         load_schedule
         pset = Pset.find(params[:pset_id])
+
+        if pset.submit_config["check"].blank?
+            return redirect_back fallback_location: "/", alert: "#{pset.name} has no checks configured."
+        end
+
         @users = @schedule.users.not_staff.status_active_or_registered
         @schedule.submits.joins(:user).where(pset_id: pset.id, user: @users).find_each do |submit|
             submit.recheck(api_check_result_do_url)

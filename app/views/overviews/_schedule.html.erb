@@ -34,7 +34,11 @@
                                 <%= link_to "Publish all", publish_schedule_grades_path(schedule_slug: schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Publish all grades for this assignment?" }, class: 'small dropdown-item' %>
                             </li>
                             <li>
-                                <%= link_to "Run checks for all", recheck_schedule_submits_path(schedule_slug: schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Run checks for all submits for this assignment?" }, class: 'small dropdown-item' %>
+                                <% if pset.submit_config["check"].present? %>
+                                    <%= link_to "Run checks for all", recheck_schedule_submits_path(schedule_slug: schedule.slug, pset_id: pset.id), method: :post, data: { confirm: "Run checks for all submits for this assignment?" }, class: 'small dropdown-item' %>
+                                <% else %>
+                                    <span class="small dropdown-item disabled text-muted">Run checks for all (no checks)</span>
+                                <% end %>
                             </li>
                             <hr>
                             <% groups.each do |group, user_list| %>
