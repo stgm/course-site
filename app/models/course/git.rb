@@ -2,9 +2,14 @@
 #
 class Course::Git
     LOCAL_DIR = Pathname.new("public")
+    # Matches git's fatal messages for an inaccessible remote: no credentials
+    # available (private repo over HTTPS) or the remote flat out refusing.
+    AUTH_FAILURE = /could not read username|authentication failed|permission denied|repository not found/i
+
     def initialize(base, repo, remote, branch = "main")
         @basedir = Pathname.new(base)
         @repodir = Pathname.new(repo)
+        @error = nil
 
         target = LOCAL_DIR + @basedir
         target.mkdir unless target.exist?
@@ -13,11 +18,26 @@ class Course::Git
             begin
                 @git = Git.open(repo)
             rescue ArgumentError
-                @git = Git.clone(
-                    remote,
-                    repo,
-                    branch: branch)
+                begin
+                    @git = Git.clone(
+                        remote,
+                        repo,
+                        branch: branch)
+                rescue Git::GitExecuteError => e
+                    @error = e.message
+                end
             end
+        end
+    end
+
+    # Returns nil if the repo cloned/opened fine, otherwise a human-readable
+    # explanation of what went wrong.
+    def error
+        return nil unless @error
+        if @error =~ AUTH_FAILURE
+            "could not access the remote repository (it may be private or require credentials)"
+        else
+            "could not clone the remote repository (#{@error.lines.first&.strip})"
         end
     end
 

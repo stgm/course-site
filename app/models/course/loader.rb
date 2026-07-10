@@ -63,6 +63,11 @@ class Course::Loader
         Rails.logger.info "Updating course from #{repo['remote']}"
         git = Course::Git.new(base_dir, repo_dir, repo["remote"], repo["branch"])
 
+        if error = git.error
+            @errors << "Repo #{repo_dir} #{error}."
+            return
+        end
+
         if !git.update!
             @errors << "Repo #{repo_dir} could not be updated. You can simply try again."
             return
