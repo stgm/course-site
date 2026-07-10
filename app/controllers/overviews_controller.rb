@@ -10,6 +10,8 @@ class OverviewsController < ApplicationController
     layout "navbar"
     helper_method :present_single_overview?
 
+    VALID_STATUSES = %w[active registered inactive done].freeze
+
     def index
         if present_single_overview?
             show_all_schedules
@@ -20,6 +22,11 @@ class OverviewsController < ApplicationController
 
     def show
         redirect_to overviews_path and return if present_single_overview?
+
+        if params[:status].present? && !VALID_STATUSES.include?(params[:status])
+            redirect_to root_url, alert: "Unknown status \"#{params[:status]}\"."
+            return
+        end
 
         load_accessible_schedules
         load_accessible_groups
