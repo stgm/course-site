@@ -14,8 +14,12 @@ class Auth::MailController < ApplicationController
 
     def create
         entry = params[:email].downcase
-        parsed = Mail::Address.new entry
-        if parsed.address != entry || parsed.domain.split(".").length <= 1
+        begin
+            parsed = Mail::Address.new entry
+        rescue Mail::Field::ParseError
+            redirect_to auth_mail_login_path, alert: "Email seems invalid" and return
+        end
+        if parsed.address != entry || parsed.domain.nil? || parsed.domain.split(".").length <= 1
             redirect_to auth_mail_login_path, alert: "Email seems invalid" and return
         end
         if uva_details = /\A([\d]+)@((?:[-a-z0-9]+\.)*uva\.nl)\z/i.match(entry)
