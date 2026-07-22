@@ -34,6 +34,16 @@ class Settings < RailsSettings::Base
         field :hands_show_non_questions
     end
 
+    # Embedding the separate multi-tenant "hands" app as a student widget. This
+    # is additive: the local hands feature above is unaffected.
+    scope :hands_embed do
+        field :hands_embed_enabled, default: false
+        field :hands_embed_url, default: ENV["HANDS_EMBED_URL"]
+        field :hands_embed_slug, default: ENV["HANDS_EMBED_SLUG"]
+        field :hands_embed_secret, default: ENV["HANDS_EMBED_SECRET"]
+        field :hands_embed_site_label, default: ENV["HANDS_EMBED_SITE_LABEL"]
+    end
+
     scope :grading do
         field :grading_single_overview_page, default: false
         field :grading_set_status_done_when_final_grade, default: true

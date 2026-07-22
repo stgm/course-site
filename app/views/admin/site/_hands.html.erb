@@ -8,3 +8,12 @@
 <% end %>
 <%= toggle_setting_form('hands_show_non_questions', 'Show people who haven\'t asked questions for a while') %>
 <%= change_setting_form('hands_location_type', 'What kind of location is required') %>
+
+<hr>
+<h5>Embedded hands app (separate service)</h5>
+<p class="text-muted small">Embed the standalone multi-tenant hands app as a navbar widget. Independent of the local queue above.</p>
+<%= toggle_setting_form('hands_embed_enabled', 'Show the embedded hands widget in the navbar') %>
+<%= change_setting_form('hands_embed_url', 'Hands app base URL (e.g. https://hands.example.org)') %>
+<%= change_setting_form('hands_embed_slug', 'Course domain slug on the hands app') %>
+<%= change_setting_form('hands_embed_secret', 'Link secret for that course domain') %>
+<%= change_setting_form('hands_embed_site_label', 'Label tagging activity from this site (defaults to hostname)') %>

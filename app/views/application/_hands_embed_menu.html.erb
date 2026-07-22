@@ -1,0 +1,76 @@
+<% if Settings.hands_embed_enabled && Settings.hands_embed_url.present? && current_user.valid_profile? %>
+    <%# All widget logic (JS, Action Cable, markup) is served by the hands app;
+        course-site only provides a mount point, the same-origin token endpoint,
+        and loads the hands app's widget script. Kept alive across Turbo
+        navigations via data-turbo-permanent + a stable id. %>
+    <li class="nav-item dropdown d-none d-md-block" id="hands-embed-nav" data-turbo-permanent>
+        <button id="external-hands" class="btn btn-link dropdown-toggle" type="button"
+                data-bs-toggle="dropdown" data-bs-auto-close="outside" accesskey="a">
+            <div>
+                <%= bootstrap_icon "question-circle-fill" %>
+                <label><%= t 'hands.assistance' %></label>
+            </div>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end p-0">
+            <%# The widget renders inside a Shadow DOM attached to this element and
+                brings its own styling, so no host classes are needed here. %>
+            <div id="hands-embed-widget">Loading…</div>
+        </div>
+    </li>
+    <%# .to_json, not bare interpolation: ERB escapes for HTML, but a <script>
+        body is a raw-text element where entities are never decoded, so an
+        escaped quote or ampersand would silently corrupt the config rather than
+        arrive as itself. %>
+    <script>
+        window.HandsEmbed = {
+            tokenUrl: <%= hands_embed_token_path.to_json.html_safe %>,
+            handsUrl: <%= Settings.hands_embed_url.to_s.to_json.html_safe %>,
+            mount: "#hands-embed-widget"
+        };
+    </script>
+    <script src="<%= Settings.hands_embed_url %>/embed/widget.js" async></script>
+
+    <%# Popping the menu open unprompted is a decision split across the two apps:
+        the widget reports when it is showing something worth interrupting for,
+        and we decide whether this person may be interrupted at all. Focusing the
+        field on open is handled by the widget itself, which is the only side
+        that can reach into its shadow root. %>
+    <script>
+        (function () {
+            var toggle = document.getElementById("external-hands");
+            var mount = document.getElementById("hands-embed-widget");
+            if (!toggle || !mount) return;
+
+            var mayInterrupt = <%= hands_embed_may_interrupt?.to_json.html_safe %>;
+
+            <%# Open once per state rather than once per run of attention: every
+                new thing the widget has to say (check in, you're in line, someone
+                is helping you) earns one pop, but re-renders of the state the
+                student already saw — a shifting queue position, a different
+                assistant — never reopen a menu they closed. %>
+            function consider() {
+                var state = mount.dataset.handsState || "";
+                if (mount.dataset.handsAttention !== "true") {
+                    delete mount.dataset.handsOpenedFor;
+                    return;
+                }
+                if (!mayInterrupt || mount.dataset.handsOpenedFor === state) return;
+                mount.dataset.handsOpenedFor = state;
+                bootstrap.Dropdown.getOrCreateInstance(toggle).show();
+            }
+
+            <%# The nav item is data-turbo-permanent, so it and the running widget
+                outlive navigation — and during a Turbo render this script sees a
+                placeholder in their place, so it only ever gets here when the
+                navbar is freshly rendered. Bind once (the listener rides along on
+                the preserved element and is what drives every later update) and
+                consider immediately, in case the widget rendered first. %>
+            if (!toggle.dataset.handsBound) {
+                toggle.dataset.handsBound = "1";
+                mount.addEventListener("hands:state", consider);
+            }
+            consider();
+        })();
+    </script>
+
+<% end %>

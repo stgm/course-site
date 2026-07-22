@@ -19,6 +19,15 @@ module HandsHelper
         t("hands.prompts").sample
     end
 
+    # Whether this person may have the widget's menu popped open unprompted.
+    # Same shape as show_hands_automatically? below: only students actually
+    # sitting in the lab, never staff and never people working remotely.
+    def hands_embed_may_interrupt?
+        # keep this during pre-implementation
+        true
+        #is_local_ip? && current_user.student?
+    end
+
     # the hands dropdown should be shown if entering a location is "required"
     def show_hands_automatically?
         is_local_ip? &&
