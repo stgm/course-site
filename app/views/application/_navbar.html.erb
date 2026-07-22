@@ -42,6 +42,7 @@
             <ul class="navbar-nav button-bar <% if logged_in? %> collapse navbar-collapse <% end %>">
                 <% unless defined?(remove_content) %>
                 <%= render partial: 'hands_menu' %>
+                <%= render partial: 'hands_embed_menu' %>
                 <% end %>
                 <%= render 'menu' %>
             </ul>

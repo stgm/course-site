@@ -151,6 +151,9 @@ Rails.application.routes.draw do
 
     get "attendance", to: "hands/attendance#index"
 
+    # Mints a short-lived signed token for the embedded (separate app) hands widget.
+    get "hands_embed/token", to: "hands_embed#token", as: :hands_embed_token
+
     resources :questions
     resources :answers
 
