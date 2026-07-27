@@ -165,6 +165,80 @@ nl:
         pin_code: Pincode
         you_can_login_exam: Welkom! Je kunt nu inloggen met pincode om tentamen te doen.
 
+    # de pdf- en xlsx-bestanden in de archiefdownload
+    archive:
+        exported_on: "geëxporteerd op %{date}"
+        grades:
+            title: "Export van de cursus"
+            no_students: "Geen enkele student in dit schema heeft iets ingeleverd."
+            no_submits: "Niets ingeleverd."
+            not_graded: "niet nagekeken"
+            header:
+                pset: "opdracht"
+                submitted: "ingeleverd"
+                graded: "nagekeken"
+                grade: "cijfer"
+                grader: "nakijker"
+                subgrades: "onderdelen"
+        announcements:
+            none: "Geen mededelingen."
+        final_grades:
+            title: "Hoe het eindcijfer wordt berekend"
+            intro: "Een eindcijfer komt in drie stappen tot stand. Elke opdracht krijgt een beoordeling, opdrachten worden samengevoegd tot onderdelen, en de onderdelen samen vormen het eindcijfer. Dit document beschrijft alle drie de stappen voor dit schema, zoals ze waren ingesteld op het moment van exporteren."
+            none: "Voor dit schema wordt geen eindcijfer automatisch berekend."
+            heading: "Eindcijfer: %{name}"
+            weighted_average: "Dit cijfer is het gewogen gemiddelde van de onderdelen hieronder, waarbij het gewicht het aantal punten is dat het onderdeel bijdraagt."
+            same_as: "Dit cijfer wordt op precies dezelfde manier berekend als %{name}: dezelfde onderdelen, met dezelfde gewichten, hierboven beschreven."
+            compared_to: "Ten opzichte van %{name}: %{differences}."
+            not_repeated: "De onderdelen %{names} zijn gelijk aan hierboven en worden hier niet herhaald."
+            component_heading: "Onderdeel: %{name}"
+            component_is: "Het cijfer voor dit onderdeel is %{strategy}."
+            component_undefined: "Onderdeel %{name} wordt gebruikt maar is niet gedefinieerd."
+            not_defined: "niet gedefinieerd"
+            bonus_label: "%{name} (bonus)"
+            header:
+                component: "onderdeel"
+                weight: "gewicht"
+                based_on: "gebaseerd op"
+                assignment: "opdracht"
+                points_available: "te behalen punten"
+                type: "soort"
+                parts: "onderdelen van het cijfer"
+                formula: "formule"
+            strategy:
+                points: "het aantal behaalde punten gedeeld door het aantal te behalen punten, omgerekend naar een cijfer van 1 tot 10"
+                maximum: "het hoogste van de cijfers voor de opdrachten"
+                average: "het gewogen gemiddelde van de cijfers voor de opdrachten"
+            difference:
+                used_instead: "%{name} (gewicht %{weight}) wordt in plaats daarvan gebruikt"
+                not_used: "%{name} wordt niet gebruikt"
+                other_weight: "%{name} telt voor %{weight} in plaats van %{previous}"
+            rule:
+                minimum: "Een cijfer van %{minimum} of hoger is vereist; daaronder wordt het eindcijfer onvoldoende (0)."
+                maximum: "Er tellen maximaal %{maximum} punten mee voor dit onderdeel."
+                attempt_required: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt er geen eindcijfer berekend."
+                fill_missing: "Ontbrekende cijfers tellen als %{value}."
+                missing_cancels: "Een ontbrekend cijfer voor een van de opdrachten betekent dat er geen eindcijfer wordt berekend."
+                required: "Een opdracht met een 0 maakt het eindcijfer onvoldoende (0)."
+                drop_lowest: "Het laagste cijfer voor een opdracht telt niet mee."
+                bonus: "Bonusopdrachten komen er bovenop, tot een maximumcijfer van 10."
+                zero_weight_required: "Een opdracht met gewicht 0 is verplicht: zonder cijfer daarvoor wordt dit onderdeel een 1."
+                deadline: "Deadline: %{deadline}."
+            rounding:
+                title: "Afronding"
+                intro: "Het berekende eindcijfer wordt afgerond volgens de regels van de universiteit:"
+                rules:
+                    - "cijfers vanaf 4,75 tot (maar niet inclusief) 5,5 worden een 5"
+                    - "cijfers vanaf 5,5 tot (maar niet inclusief) 6,25 worden een 6"
+                    - "alle andere cijfers worden afgerond op een half punt"
+                    - "alles boven de 10 wordt een 10"
+                note: "Als een onderdeel niet kon worden bepaald, wordt er helemaal geen eindcijfer geregistreerd; is aan een vereiste voorwaarde niet voldaan, dan is het eindcijfer een 0."
+            assignments:
+                title: "Hoe elke opdracht wordt beoordeeld"
+                intro: "Nakijkers vullen de onderdelen in die staan onder 'onderdelen van het cijfer'. De formule laat zien hoe die onderdelen samen het cijfer voor de opdracht vormen. Staat er geen formule, dan vult de nakijker het cijfer rechtstreeks in."
+                automatic: "%{name} (automatisch)"
+                note: "Een onderdeel dat is gemarkeerd als automatisch wordt ingevuld door de automatische controles die op een inzending draaien; een nakijker kan het daarna nog aanpassen. Een onderdeel dat een voldoende/onvoldoende is, telt bij een voldoende voor de volle punten en bij een onvoldoende als 0."
+
     activerecord:
       attributes:
         user:

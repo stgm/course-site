@@ -50,7 +50,7 @@ class Admin::CourseController < ApplicationController
     def archive
         send_data CourseArchive.new.to_zip,
             type: "application/zip",
-            filename: "course-archive-#{Date.current.iso8601}.zip"
+            filename: CourseArchive.filename
     end
 
     #

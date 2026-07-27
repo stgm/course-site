@@ -163,6 +163,80 @@ en:
         pin_code: PIN
         you_can_login_exam: Welcome! You can now login using your PIN to take the exam.
 
+    # the pdf and xlsx files in the archive download
+    archive:
+        exported_on: "exported on %{date}"
+        grades:
+            title: "Course export"
+            no_students: "No students in this schedule submitted anything."
+            no_submits: "No submits."
+            not_graded: "not graded"
+            header:
+                pset: "assignment"
+                submitted: "submitted"
+                graded: "graded"
+                grade: "grade"
+                grader: "grader"
+                subgrades: "parts"
+        announcements:
+            none: "No announcements."
+        final_grades:
+            title: "How the final grade is calculated"
+            intro: "A final grade is built up in three steps. Every assignment gets a grade, assignments are combined into components, and the components are combined into the final grade. This document describes all three steps for this schedule, as they were configured at the time of export."
+            none: "No final grade is calculated automatically for this schedule."
+            heading: "Final grade: %{name}"
+            weighted_average: "This grade is the weighted average of the components below, where the weight is the number of points the component contributes."
+            same_as: "This grade is calculated in exactly the same way as %{name}: the same components, with the same weights, described above."
+            compared_to: "Compared to %{name}: %{differences}."
+            not_repeated: "The components %{names} are the same as above and are not repeated here."
+            component_heading: "Component: %{name}"
+            component_is: "The grade for this component is %{strategy}."
+            component_undefined: "Component %{name} is used but not defined."
+            not_defined: "not defined"
+            bonus_label: "%{name} (bonus)"
+            header:
+                component: "component"
+                weight: "weight"
+                based_on: "based on"
+                assignment: "assignment"
+                points_available: "points available"
+                type: "type"
+                parts: "parts of the grade"
+                formula: "formula"
+            strategy:
+                points: "points earned divided by points available, converted to a grade from 1 to 10"
+                maximum: "the highest of the assignment grades"
+                average: "the weighted average of the assignment grades"
+            difference:
+                used_instead: "%{name} (weight %{weight}) is used instead"
+                not_used: "%{name} is not used"
+                other_weight: "%{name} counts for %{weight} instead of %{previous}"
+            rule:
+                minimum: "A grade of %{minimum} or higher is required; below that the final grade becomes insufficient (0)."
+                maximum: "At most %{maximum} points count towards this component."
+                attempt_required: "All assignments must have been attempted; if any is missing, no final grade is calculated."
+                fill_missing: "Missing grades count as %{value}."
+                missing_cancels: "A missing grade for any assignment means no final grade is calculated."
+                required: "Any assignment graded 0 makes the final grade insufficient (0)."
+                drop_lowest: "The lowest assignment grade is dropped."
+                bonus: "Bonus assignments are added on top, up to a maximum grade of 10."
+                zero_weight_required: "An assignment with weight 0 is required: without a grade for it, this component becomes a 1."
+                deadline: "Deadline: %{deadline}."
+            rounding:
+                title: "Rounding"
+                intro: "The calculated final grade is rounded following the university rules:"
+                rules:
+                    - "grades from 4.75 up to (but not including) 5.5 become 5"
+                    - "grades from 5.5 up to (but not including) 6.25 become 6"
+                    - "all other grades are rounded to the nearest half point"
+                    - "anything above 10 becomes 10"
+                note: "If a component could not be determined, no final grade is registered at all; if a required condition was not met, the final grade is a 0."
+            assignments:
+                title: "How each assignment is graded"
+                intro: "Graders enter the parts listed under 'parts of the grade'. The formula shows how those parts are combined into the grade for the assignment. Where no formula is given, the grader enters the grade directly."
+                automatic: "%{name} (automatic)"
+                note: "A part marked as automatic is filled in by the automatic checks that run on a submission; a grader can still change it. A part that is a pass/fail counts as full points when passed and as 0 when failed."
+
     errors:
       messages:
         invalid: seems to be invalid
