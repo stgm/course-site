@@ -316,6 +316,28 @@ class CourseArchive
     # final grade calculation
     #
 
+    # prawn-table only has one way to size columns: it measures the content, and then
+    # divides any left over width in proportion to how wide each column could get. A
+    # column holding a long comma separated list therefore swallows the page and leaves
+    # the short columns at their bare content width, so say what the columns should be
+    #
+    #                     component  weight  share  condition  based on
+    COMPONENT_COLUMNS =  [ 0.20,     0.09,   0.09,  0.27,      0.35 ].freeze
+    #                     assignment  type  parts  formula
+    ASSIGNMENT_COLUMNS = [ 0.26,      0.12, 0.31,  0.31 ].freeze
+    #                     assignment  weight
+    SUBMITS_COLUMNS =    [ 0.72,      0.28 ].freeze
+
+    def draw_table(pdf, rows, columns, width: pdf.bounds.width, padding: 3)
+        pdf.table(rows,
+            header: true,
+            width: width,
+            column_widths: columns.map { |part| part * width },
+            cell_style: { size: 8, padding: padding }) do
+            row(0).font_style = :bold
+        end
+    end
+
     # explains, in prose and tables, how every final grade of this schedule is
     # calculated, so that an exam committee can follow it without reading grading.yml
     #
@@ -373,9 +395,7 @@ class CourseArchive
                 pdf_safe(component ? component["submits"].keys.join(", ") : t("archive.final_grades.not_defined"))
             ]
         end
-        pdf.table(rows, header: true, width: pdf.bounds.width, cell_style: { size: 8, padding: 4 }) do
-            row(0).font_style = :bold
-        end
+        draw_table(pdf, rows, COMPONENT_COLUMNS, padding: 4)
         pdf.move_down 10
 
         differences = reference ? component_differences(reference.last, components) : []
@@ -482,9 +502,7 @@ class CourseArchive
             rows << [ pdf_safe(t("archive.final_grades.bonus_label", name: name)), weight.to_s ]
         end
 
-        pdf.table(rows, header: true, width: pdf.bounds.width / 2, cell_style: { size: 8, padding: 3 }) do
-            row(0).font_style = :bold
-        end
+        draw_table(pdf, rows, SUBMITS_COLUMNS, width: pdf.bounds.width / 2)
         pdf.move_down 10
     end
 
@@ -564,9 +582,7 @@ class CourseArchive
             ]
         end
 
-        pdf.table(rows, header: true, width: pdf.bounds.width, cell_style: { size: 8, padding: 3 }) do
-            row(0).font_style = :bold
-        end
+        draw_table(pdf, rows, ASSIGNMENT_COLUMNS)
         pdf.move_down 8
         pdf.text pdf_safe(t("archive.final_grades.assignments.note")), size: 9
     end
