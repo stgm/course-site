@@ -1,9 +1,9 @@
 # Builds a single zip with everything needed to archive the course:
 #
 #   grades.xlsx                      all grades, same data as the xlsx export button
-#   grades-with-feedback.pdf         per-student grades and feedback, one page per student
-#   schedules/<slug>/grades.xlsx     the same two files, but only for this schedule
+#   schedules/<slug>/grades.xlsx     the same, but only for this schedule
 #   schedules/<slug>/grades-with-feedback.pdf
+#                                    grades and feedback, one page per student
 #   schedules/<slug>/syllabus.pdf    the schedule's syllabus page
 #   schedules/<slug>/announcements.pdf
 #   schedules/<slug>/final-grades.pdf
@@ -20,11 +20,16 @@ class CourseArchive
     # the scopes for the grade exports, shared with Admin::CourseController#export_grades;
     # without a schedule these cover the whole course
     #
+    # everything the grade exports touch per student; without this the exports fire a
+    # handful of queries per student and per submit
+    #
+    PRELOADS = [ :logins, :group, :schedule, { submits: [ :pset, { grade: :grader } ] } ].freeze
+
     def self.grade_export_scopes(schedule = nil)
-        users = User.student.joins(:submits).distinct
+        users = User.student.joins(:submits).distinct.includes(PRELOADS)
         psets = Pset.joins(:submits).distinct.order(:order)
         # all users who ever submitted something, students or not
-        students = User.joins(:submits).distinct.order(:name)
+        students = User.joins(:submits).distinct.order(:name).includes(PRELOADS)
 
         if schedule
             users = users.where(schedule: schedule)
@@ -68,8 +73,10 @@ class CourseArchive
     end
 
     def add_entries(zip)
+        # the course-wide xlsx covers every schedule; the per-student feedback is only
+        # written per schedule, because rendering every student twice doubles the time
+        # the whole archive takes
         add_entry(zip, "grades.xlsx") { |io| grades_xlsx(io) }
-        add_entry(zip, "grades-with-feedback.pdf") { |io| grades_overview_pdf(io) }
 
         Schedule.order(:name).each do |schedule|
             dir = "schedules/#{schedule.slug}"
@@ -152,10 +159,8 @@ class CourseArchive
                 pdf.move_down 4
 
                 rows = grade_rows(student)
-                if rows.size > 1
-                    pdf.table(rows, header: true, width: pdf.bounds.width, cell_style: { size: 7, padding: 3 }) do
-                        row(0).font_style = :bold
-                    end
+                if rows.any?
+                    draw_grade_rows(pdf, rows)
                 else
                     pdf.text pdf_safe(t("archive.grades.no_submits")), size: 8
                 end
@@ -164,32 +169,87 @@ class CourseArchive
     end
 
     def grade_rows(student)
-        rows = [ %w[pset submitted graded grade grader subgrades].map { |key| pdf_safe(t("archive.grades.header.#{key}")) } ]
-
-        student.submits.each do |submit|
+        student.submits.flat_map do |submit|
             grade = submit.grade
             if grade.present?
-                rows << [
+                rows = [ [
                     pdf_safe(submit.pset&.name),
                     submit.created_at.strftime("%d-%m-%Y %H:%M"),
                     grade.updated_at.strftime("%d-%m-%Y %H:%M"),
                     pdf_safe(helpers.translate_grade(grade.assigned_grade)),
                     pdf_safe(grade.grader_name),
                     pdf_safe(grade.subgrades.to_h.values.join(" / "))
-                ]
-                if grade.comments.present?
-                    rows << [ { content: pdf_safe(grade.comments), colspan: 6 } ]
-                end
+                ] ]
+                # a comment spans the full width on a line of its own
+                rows << [ pdf_safe(grade.comments) ] if grade.comments.present?
+                rows
             else
-                rows << [
+                [ [
                     pdf_safe(submit.pset&.name),
                     submit.created_at.strftime("%d-%m-%Y %H:%M"),
-                    { content: pdf_safe(t("archive.grades.not_graded")), colspan: 4 }
-                ]
+                    pdf_safe(t("archive.grades.not_graded")), "", "", ""
+                ] ]
             end
         end
+    end
 
-        rows
+    # how the six columns divide up the page
+    GRADE_COLUMNS = [ 0.20, 0.12, 0.12, 0.06, 0.16, 0.34 ].freeze
+
+    # laid out by hand rather than with prawn-table: for a few thousand rows the table
+    # implementation spends most of its time measuring cells to fit column widths, and
+    # these columns have known contents
+    #
+    ROW_HEIGHT = 9
+    FONT_SIZE = 7
+
+    def draw_grade_rows(pdf, rows)
+        widths = GRADE_COLUMNS.map { |part| part * pdf.bounds.width }
+        header = %w[pset submitted graded grade grader subgrades].map { |key| pdf_safe(t("archive.grades.header.#{key}")) }
+
+        draw_columns(pdf, header, widths, style: :bold)
+        rows.each do |row|
+            if row.size == 1
+                # a comment flows over as many lines as it needs; prawn breaks the page
+                pdf.text row.first, size: FONT_SIZE, style: :italic
+                pdf.move_down 2
+            else
+                draw_columns(pdf, row, widths, header: header)
+            end
+        end
+        pdf.move_down 4
+    end
+
+    # one submit on one line. draw_text puts the string down without any layout work,
+    # which is an order of magnitude cheaper than text_box or prawn-table; the columns
+    # hold names, dates and grades, so a line that does not fit is the exception
+    #
+    def draw_columns(pdf, cells, widths, style: :normal, header: nil)
+        if pdf.cursor < ROW_HEIGHT + 4
+            pdf.start_new_page
+            # repeat the header when a student's rows run onto the next page
+            draw_columns(pdf, header, widths, style: :bold) if header
+        end
+
+        baseline = pdf.cursor - FONT_SIZE
+        left = 0
+        pdf.font("Helvetica", style: style) do
+            cells.each_with_index do |text, column|
+                pdf.draw_text fit_to_column(pdf, text.to_s, widths[column] - 4), at: [ left, baseline ], size: FONT_SIZE
+                left += widths[column]
+            end
+        end
+        pdf.move_down ROW_HEIGHT + 2
+    end
+
+    def fit_to_column(pdf, text, width)
+        return text if text.empty?
+        full = pdf.width_of(text, size: FONT_SIZE)
+        return text if full <= width
+
+        # cut proportionally, the font is close enough to uniform for this
+        keep = [ (text.length * width / full).to_i - 3, 1 ].max
+        "#{text[0, keep]}..."
     end
 
     #
