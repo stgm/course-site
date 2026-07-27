@@ -43,6 +43,7 @@ Rails.application.routes.draw do
         get "course", to: "course#index"
         namespace :course do
             get	  "export_grades"		  # done
+            get	  "archive"				  # done
             patch "schedule_registration" # done
             patch "schedule_self_service" # done
             patch "page_update"			  # done

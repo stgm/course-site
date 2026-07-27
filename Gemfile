@@ -1,5 +1,9 @@
 source "https://rubygems.org"
 
+# for ruby
+gem "ostruct"
+gem "matrix"  # no longer a default gem in ruby 4, needed by prawn
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~>8.0.1"
 
@@ -62,6 +66,11 @@ gem "kramdown-math-katex"
 # XLSX generation
 gem "rubyzip", "~> 2.3.0", require: "zip"
 gem "caxlsx_rails"
+
+# PDF generation
+gem "prawn"
+gem "prawn-table", require: "prawn/table"
+gem "prawn-html"
 
 # front-end
 gem "bootstrap", "~> 5.3.3"

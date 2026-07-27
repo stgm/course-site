@@ -34,17 +34,23 @@ class Admin::CourseController < ApplicationController
     # export all course grades in XLSX or HTML format (archiving)
     #
     def export_grades
-        @users = User.student.joins(:submits).uniq
-        @psets = Pset.joins(:submits).distinct.order(:order)
+        @users, @psets, @students = CourseArchive.grade_export_scopes
         @title = "Export grades"
-
-        # all users who ever submitted something
-        @students = User.joins(:submits).distinct.order(:name)
 
         respond_to do |format|
             format.xlsx
             format.html { render layout: false }
         end
+    end
+
+    #
+    # download a single zip with everything needed to archive the course:
+    # grades (xlsx + pdf) and a syllabus and announcements pdf per schedule
+    #
+    def archive
+        send_data CourseArchive.new.to_zip,
+            type: "application/zip",
+            filename: "course-archive-#{Date.current.iso8601}.zip"
     end
 
     #
