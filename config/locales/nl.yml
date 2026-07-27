@@ -211,11 +211,18 @@ nl:
                 points: "het aantal behaalde punten gedeeld door het aantal te behalen punten, omgerekend naar een cijfer van 1 tot 10"
                 maximum: "het hoogste van de cijfers voor de opdrachten"
                 average: "het gewogen gemiddelde van de cijfers voor de opdrachten"
+                single: "het cijfer voor de opdracht %{name}"
+                single_pass: "een 10 wanneer de opdracht %{name} is behaald, en anders een 1"
+                single_points:
+                    one: "het resultaat van de opdracht %{name}, omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punt een 10 oplevert"
+                    other: "het resultaat van de opdracht %{name}, omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punten een 10 opleveren"
             condition:
                 none: "-"
                 minimum: "minimaal %{minimum}"
                 required: "geen opdracht met een 0"
-                attempt_required: "alle opdrachten gemaakt"
+                attempt_required:
+                    one: "gemaakt en ingeleverd"
+                    other: "alle opdrachten gemaakt"
                 zero_weight_required: "opdrachten met gewicht 0 verplicht"
             difference:
                 used_instead: "%{name} (gewicht %{weight}) wordt in plaats daarvan gebruikt"
@@ -224,7 +231,9 @@ nl:
             rule:
                 minimum: "Een cijfer van %{minimum} of hoger is vereist; daaronder wordt het eindcijfer onvoldoende (0)."
                 maximum: "Er tellen maximaal %{maximum} punten mee voor dit onderdeel."
-                attempt_required: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt er geen eindcijfer berekend."
+                attempt_required:
+                    one: "Het onderdeel moet zijn gemaakt en ingeleverd; ontbreekt het, dan wordt er geen eindcijfer berekend."
+                    other: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt er geen eindcijfer berekend."
                 missing_cancels: "Een ontbrekend cijfer voor een van de opdrachten betekent dat er geen eindcijfer wordt berekend."
                 missing_scores_zero: "Een opdracht die ontbreekt levert 0 punten op, maar de punten ervan tellen wel mee bij de te behalen punten."
                 missing_counts_as: "Een opdracht die ontbreekt telt als het cijfer %{value}."

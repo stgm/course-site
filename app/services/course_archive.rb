@@ -436,7 +436,10 @@ class CourseArchive
         conditions = []
         conditions << t("archive.final_grades.condition.minimum", minimum: component["minimum"]) if component["minimum"]
         conditions << t("archive.final_grades.condition.required") if component["required"]
-        conditions << t("archive.final_grades.condition.attempt_required") if component["attempt_required"]
+        if component["attempt_required"]
+            # with a single assignment "all assignments attempted" reads as a mistake
+            conditions << t("archive.final_grades.condition.attempt_required", count: component["submits"].size)
+        end
         if component["type"] == "points" && component["submits"].value?(0)
             conditions << t("archive.final_grades.condition.zero_weight_required")
         end
@@ -465,12 +468,34 @@ class CourseArchive
         differences
     end
 
-    # the three strategies of User::FinalGradeCalculator, in words
+    # the strategies of User::FinalGradeCalculator, in words. A component built from a
+    # single assignment goes through the same code, but "the average of the grades" or
+    # "points earned out of points available" only confuses a reader when there is one
+    # grade, so those are worded separately
     #
-    def component_strategy(component)
-        strategy = component&.[]("type")
+    def component_strategy(component, config)
+        submits = component["submits"].to_h
+        if submits.size == 1
+            name, weight = submits.first
+            return single_submit_strategy(component, config, name, weight)
+        end
+
+        strategy = component["type"]
         strategy = "average" unless strategy.in?([ "points", "maximum" ])
         t("archive.final_grades.strategy.#{strategy}")
+    end
+
+    def single_submit_strategy(component, config, name, weight)
+        return t("archive.final_grades.strategy.single", name: name) unless component["type"] == "points"
+
+        # a pass counts for the full weight, so a points component of one pass/fail
+        # assignment can only ever come out as a 10 or a 1
+        if config.grades[name].to_h["type"] == "pass"
+            return t("archive.final_grades.strategy.single_pass", name: name)
+        end
+
+        maximum = [ component["maximum"], weight ].compact.min
+        t("archive.final_grades.strategy.single_points", name: name, count: maximum)
     end
 
     def describe_component(pdf, config, component_name)
@@ -483,7 +508,7 @@ class CourseArchive
 
         pdf.text pdf_safe(t("archive.final_grades.component_heading", name: component_name)), size: 11, style: :bold
         pdf.move_down 3
-        pdf.text pdf_safe(t("archive.final_grades.component_is", strategy: component_strategy(component))), size: 9
+        pdf.text pdf_safe(t("archive.final_grades.component_is", strategy: component_strategy(component, config))), size: 9
 
         rules = component_rules(component)
         if rules.any?
@@ -512,7 +537,7 @@ class CourseArchive
         rules = []
         rules << rule(:minimum, minimum: component["minimum"]) if component["minimum"]
         rules << rule(:maximum, maximum: component["maximum"]) if component["maximum"]
-        rules << rule(:attempt_required) if component["attempt_required"]
+        rules << rule(:attempt_required, count: component["submits"].size) if component["attempt_required"]
         rules << missing_rule(component)
         rules << rule(:required) if component["required"]
         rules << rule(:drop_lowest) if component["drop"].to_s == "lowest"
