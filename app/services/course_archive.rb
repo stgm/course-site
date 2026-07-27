@@ -361,12 +361,15 @@ class CourseArchive
         pdf.text pdf_safe(t("archive.final_grades.weighted_average")), size: 10
         pdf.move_down 6
 
-        rows = [ %w[component weight based_on].map { |key| pdf_safe(t("archive.final_grades.header.#{key}")) } ]
+        rows = [ %w[component weight share condition based_on].map { |key| pdf_safe(t("archive.final_grades.header.#{key}")) } ]
+        total_weight = components.values.sum
         components.each do |component_name, weight|
             component = config.components[component_name]
             rows << [
                 pdf_safe(component_name),
                 weight.to_s,
+                weight_share(weight, total_weight),
+                pdf_safe(component_condition(component)),
                 pdf_safe(component ? component["submits"].keys.join(", ") : t("archive.final_grades.not_defined"))
             ]
         end
@@ -395,6 +398,31 @@ class CourseArchive
             described << component_name
         end
         pdf.move_down 6
+    end
+
+    # weights are proportional, so the share of the total says more than the weight itself
+    #
+    def weight_share(weight, total_weight)
+        return "" if total_weight.to_f.zero?
+        percentage = weight * 100.0 / total_weight
+        format(percentage.round(1) == percentage.round ? "%d%%" : "%.1f%%", percentage)
+    end
+
+    # the conditions a component must meet before it counts, summarised for the overview table
+    #
+    def component_condition(component)
+        return "" if component.blank?
+
+        conditions = []
+        conditions << t("archive.final_grades.condition.minimum", minimum: component["minimum"]) if component["minimum"]
+        conditions << t("archive.final_grades.condition.required") if component["required"]
+        conditions << t("archive.final_grades.condition.attempt_required") if component["attempt_required"]
+        if component["type"] == "points" && component["submits"].value?(0)
+            conditions << t("archive.final_grades.condition.zero_weight_required")
+        end
+        return t("archive.final_grades.condition.none") if conditions.empty?
+
+        conditions.join("; ")
     end
 
     # what sets this final grade apart from the one described earlier
@@ -467,14 +495,28 @@ class CourseArchive
         rules << rule(:minimum, minimum: component["minimum"]) if component["minimum"]
         rules << rule(:maximum, maximum: component["maximum"]) if component["maximum"]
         rules << rule(:attempt_required) if component["attempt_required"]
-        rules << rule(:fill_missing, value: component["fill_missing"]) if component["fill_missing"].present?
-        rules << rule(:missing_cancels) if !component["fill_missing"].present? && component["type"].blank?
+        rules << missing_rule(component)
         rules << rule(:required) if component["required"]
         rules << rule(:drop_lowest) if component["drop"].to_s == "lowest"
         rules << rule(:bonus) if component["bonus"].present?
         rules << rule(:zero_weight_required) if component["type"] == "points" && component["submits"].value?(0)
         rules << rule(:deadline, deadline: component["deadline"]) if component["deadline"].present?
-        rules
+        rules.compact
+    end
+
+    # how a missing (not handed in, not graded) assignment affects the component;
+    # `fill_missing` only has meaning for the average strategy, because points are
+    # always counted as 0 when missing, and the maximum strategy always cancels
+    #
+    def missing_rule(component)
+        return rule(:missing_scores_zero) if component["type"] == "points"
+        return rule(:missing_cancels) if component["type"] == "maximum"
+
+        fill = component["fill_missing"]
+        return rule(:missing_cancels) if fill.blank?
+        return rule(:missing_counts_as, value: fill) if fill.is_a?(Numeric)
+
+        rule(:missing_allowed)
     end
 
     def rule(name, **options)
