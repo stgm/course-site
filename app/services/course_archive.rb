@@ -207,12 +207,14 @@ class CourseArchive
         widths = GRADE_COLUMNS.map { |part| part * pdf.bounds.width }
         header = %w[pset submitted graded grade grader subgrades].map { |key| pdf_safe(t("archive.grades.header.#{key}")) }
 
+        pdf.line_width = 0.25
         draw_columns(pdf, header, widths, style: :bold)
         rows.each do |row|
             if row.size == 1
                 # a comment flows over as many lines as it needs; prawn breaks the page
                 pdf.text row.first, size: FONT_SIZE, style: :italic
                 pdf.move_down 2
+                draw_rule(pdf)
             else
                 draw_columns(pdf, row, widths, header: header)
             end
@@ -231,15 +233,31 @@ class CourseArchive
             draw_columns(pdf, header, widths, style: :bold) if header
         end
 
-        baseline = pdf.cursor - FONT_SIZE
+        top = pdf.cursor
+        baseline = top - FONT_SIZE
         left = 0
         pdf.font("Helvetica", style: style) do
             cells.each_with_index do |text, column|
-                pdf.draw_text fit_to_column(pdf, text.to_s, widths[column] - 4), at: [ left, baseline ], size: FONT_SIZE
+                pdf.draw_text fit_to_column(pdf, text.to_s, widths[column] - 4), at: [ left + 2, baseline ], size: FONT_SIZE
                 left += widths[column]
             end
         end
         pdf.move_down ROW_HEIGHT + 2
+
+        # the grid, drawn by hand because there is no table to draw it
+        draw_rule(pdf)
+        left = 0
+        ([ 0 ] + widths).each do |width|
+            left += width
+            pdf.stroke_vertical_line pdf.cursor + 2, top + 2, at: left
+        end
+    end
+
+    # named draw_rule, not rule: the final grade section already has a rule() that
+    # returns the wording of a grading rule
+    #
+    def draw_rule(pdf)
+        pdf.stroke_horizontal_line 0, pdf.bounds.width, at: pdf.cursor + 2
     end
 
     def fit_to_column(pdf, text, width)
@@ -275,7 +293,7 @@ class CourseArchive
     end
 
     def announcements_pdf(io, schedule)
-        alerts = Alert.having_schedule_or_nil(schedule).where(published: true)
+        alerts = Alert.having_schedule_or_nil(schedule).where(published: true).order(created_at: :asc)
 
         pdf_document(io) do |pdf|
             pdf_heading(pdf, t(:announcements), schedule)
