@@ -1,7 +1,7 @@
 class SubmissionsController < ApplicationController
 
     include NavigationHelper
-    include ActiveStorage::SendZip
+    include SubmitDownloading
 
     before_action :authorize
     before_action :load_pset, :check_permission_to_submit, :validate_attachment_size, only: [ :create ]
@@ -53,7 +53,7 @@ class SubmissionsController < ApplicationController
     def download
         submit = current_user.submits.find(params[:submission_id])
         if submit.files.count > 1
-            send_zip submit.files, filename: "#{submit.pset.name.dasherize}-#{submit.user.name.parameterize}-#{submit.submitted_at.to_fs(:number)}.zip"
+            send_submit_zip submit, filename: "#{submit.pset.name.dasherize}-#{submit.user.name.parameterize}-#{submit.submitted_at.to_fs(:number)}.zip"
         else
             redirect_to rails_storage_proxy_path(submit.files.first, disposition: "attachment")
         end
@@ -110,16 +110,15 @@ class SubmissionsController < ApplicationController
             @pset.submit_config["autocheck"] != false
     end
 
+    # the job zips the submit itself, from the files it just recorded
     def upload_files_to_check_server
-        @attachments.zipped do |zip|
-            SubmitCheckJob.
-                # set(wait: @submit.current_check_delay(-1)).
-                perform_now(
-                    @submit.id,
-                    tool_config: @pset.submit_config["check"],
-                    callback_url: api_check_result_do_url
-                )
-        end
+        SubmitCheckJob.
+            # set(wait: @submit.current_check_delay(-1)).
+            perform_now(
+                @submit.id,
+                tool_config: @pset.submit_config["check"],
+                callback_url: api_check_result_do_url
+            )
     end
 
     def should_upload_to_plag_server?
@@ -128,8 +127,11 @@ class SubmissionsController < ApplicationController
 
     def upload_files_to_plag_server
         uploader = Submit::Plag::Uploader.new(@pset.submit_config["plag"].merge({ student: current_user.defacto_student_identifier }))
-        uploader.upload(@attachments.zipped)
-        uploader.close
+        begin
+            @attachments.zipped { |zip| uploader.upload(zip.path) }
+        ensure
+            uploader.close
+        end
     end
 
     def record_submission

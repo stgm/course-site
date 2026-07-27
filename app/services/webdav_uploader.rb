@@ -25,19 +25,22 @@ class WebdavUploader
     end
 
     # Upload from an array of open file objects
-    # rewind each file after sending
+    # curb reads each file to EOF, so rewind on both sides: the file has to start at 0
+    # to be sent whole, and later steps of the submit read it again afterwards
     def upload(files)
         files.each do |filename, file|
-            upload_file(filename, file.read)
+            file.rewind
+            upload_file(filename, file)
             file.rewind
         end
     end
 
-    # Upload a single file
-    def upload_file(filename, contents)
+    # Upload a single file. Pass an IO rather than a String where you can: curb
+    # streams anything that responds to #read straight off disk.
+    def upload_file(filename, body)
         create_path(@submit_path)
         @c.url = URI.join(@base, @submit_path, filename)
-        @c.http_put contents
+        @c.http_put body
         raise Error, @c.status if !@c.status.start_with?("20")
     rescue => e
         raise Error, "connection to archival server failed (#{e})"

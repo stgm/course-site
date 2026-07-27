@@ -8,7 +8,12 @@
 #   schedules/<slug>/announcements.pdf
 #   schedules/<slug>/final-grades.pdf
 #
-# Everything is generated synchronously and in memory; there is no job runner.
+# Everything is generated synchronously; there is no job runner. Nothing is kept in
+# memory as a whole: each document is rendered into its own temp file and copied into
+# the archive, which is itself a temp file. Peak memory is one document's worth of
+# Prawn/axlsx bookkeeping, not the size of the archive.
+#
+#   CourseArchive.new.write_to("/tmp/archive.zip")   # from the console
 #
 class CourseArchive
 
@@ -37,30 +42,45 @@ class CourseArchive
         "#{course}-archives-#{Date.current.iso8601}.zip"
     end
 
-    def to_zip
-        # the request already sets the locale, but the archive is also generated from
-        # the console every now and then
-        I18n.with_locale(Course.language || I18n.default_locale) { build_zip }
+    # Returns the archive as a closed Tempfile. In a request, hand it to Rack so it is
+    # cleaned up once the response has been sent (see Admin::CourseController#archive).
+    #
+    def to_tempfile
+        with_locale do
+            ZipWriter.to_tempfile(basename: "course-archive") { |zip| add_entries(zip) }
+        end
+    end
+
+    # Writes the archive to a path of your choosing; convenient from the console.
+    #
+    def write_to(path)
+        with_locale { Zip::OutputStream.open(path) { |zip| add_entries(zip) } }
+        path
     end
 
     private
 
-    def build_zip
-        Zip::OutputStream.write_buffer do |zip|
-            add_entry(zip, "grades.xlsx") { grades_xlsx }
-            add_entry(zip, "grades-with-feedback.pdf") { grades_overview_pdf }
+    # the request already sets the locale, but the archive is also generated from
+    # the console every now and then
+    #
+    def with_locale(&block)
+        I18n.with_locale(Course.language || I18n.default_locale, &block)
+    end
 
-            Schedule.order(:name).each do |schedule|
-                dir = "schedules/#{schedule.slug}"
-                add_entry(zip, "#{dir}/grades.xlsx") { grades_xlsx(schedule) }
-                add_entry(zip, "#{dir}/grades-with-feedback.pdf") { grades_overview_pdf(schedule) }
-                if schedule.page.present?
-                    add_entry(zip, "#{dir}/syllabus.pdf") { syllabus_pdf(schedule) }
-                end
-                add_entry(zip, "#{dir}/announcements.pdf") { announcements_pdf(schedule) }
-                add_entry(zip, "#{dir}/final-grades.pdf") { final_grades_pdf(schedule) }
+    def add_entries(zip)
+        add_entry(zip, "grades.xlsx") { |io| grades_xlsx(io) }
+        add_entry(zip, "grades-with-feedback.pdf") { |io| grades_overview_pdf(io) }
+
+        Schedule.order(:name).each do |schedule|
+            dir = "schedules/#{schedule.slug}"
+            add_entry(zip, "#{dir}/grades.xlsx") { |io| grades_xlsx(io, schedule) }
+            add_entry(zip, "#{dir}/grades-with-feedback.pdf") { |io| grades_overview_pdf(io, schedule) }
+            if schedule.page.present?
+                add_entry(zip, "#{dir}/syllabus.pdf") { |io| syllabus_pdf(io, schedule) }
             end
-        end.string
+            add_entry(zip, "#{dir}/announcements.pdf") { |io| announcements_pdf(io, schedule) }
+            add_entry(zip, "#{dir}/final-grades.pdf") { |io| final_grades_pdf(io, schedule) }
+        end
     end
 
     def helpers
@@ -78,10 +98,16 @@ class CourseArchive
     # write one entry, but never let a single broken page kill the whole download:
     # on failure the zip gets an error note in place of the file
     #
+    # the document is generated into a scratch file first, so that a generator that
+    # fails halfway has not already written a truncated entry into the archive
+    #
     def add_entry(zip, filename)
-        contents = yield
-        zip.put_next_entry(filename)
-        zip.write(contents)
+        Tempfile.create([ "archive-entry", File.extname(filename) ], binmode: true) do |scratch|
+            yield scratch
+            scratch.rewind
+            zip.put_next_entry(filename)
+            IO.copy_stream(scratch, zip)
+        end
     rescue => e
         Rails.logger.error("CourseArchive: could not generate #{filename}: #{e.class}: #{e.message}")
         zip.put_next_entry("#{filename}.ERROR.txt")
@@ -92,22 +118,25 @@ class CourseArchive
     # grades
     #
 
-    def grades_xlsx(schedule = nil)
+    # caxlsx_rails always hands back a String, so this one entry is still built in
+    # memory; it is by far the smallest of the documents here
+    #
+    def grades_xlsx(io, schedule = nil)
         users, psets, students = self.class.grade_export_scopes(schedule)
-        ApplicationController.render(
+        io.write(ApplicationController.render(
             template: "admin/course/export_grades",
             formats: [ :xlsx ],
             assigns: { users: users, psets: psets, students: students, title: "Export grades" }
-        )
+        ))
     end
 
     # the PDF equivalent of admin/course/export_grades.html.erb: a page per student
     # with all their submits and grades
     #
-    def grades_overview_pdf(schedule = nil)
+    def grades_overview_pdf(io, schedule = nil)
         _users, _psets, students = self.class.grade_export_scopes(schedule)
 
-        pdf_document(landscape: true) do |pdf|
+        pdf_document(io, landscape: true) do |pdf|
             title = t("archive.grades.title")
             title = "#{title} - #{schedule.name}" if schedule
             pdf.text pdf_safe(title), size: 18, style: :bold
@@ -170,10 +199,10 @@ class CourseArchive
     # the syllabus is the page linked to the schedule; Page.syllabus resolves the same
     # thing but only for the currently logged in user, so go through the schedule here
     #
-    def syllabus_pdf(schedule)
+    def syllabus_pdf(io, schedule)
         page = schedule.page
 
-        pdf_document do |pdf|
+        pdf_document(io) do |pdf|
             pdf_heading(pdf, t(:syllabus), schedule)
 
             page.subpages.each_with_index do |subpage, index|
@@ -185,10 +214,10 @@ class CourseArchive
         end
     end
 
-    def announcements_pdf(schedule)
+    def announcements_pdf(io, schedule)
         alerts = Alert.having_schedule_or_nil(schedule).where(published: true)
 
-        pdf_document do |pdf|
+        pdf_document(io) do |pdf|
             pdf_heading(pdf, t(:announcements), schedule)
 
             if alerts.empty?
@@ -212,10 +241,10 @@ class CourseArchive
     # explains, in prose and tables, how every final grade of this schedule is
     # calculated, so that an exam committee can follow it without reading grading.yml
     #
-    def final_grades_pdf(schedule)
+    def final_grades_pdf(io, schedule)
         config = schedule.grading_config
 
-        pdf_document do |pdf|
+        pdf_document(io) do |pdf|
             pdf_heading(pdf, t("archive.final_grades.title"), schedule)
 
             if config.calculation.blank?
@@ -438,7 +467,10 @@ class CourseArchive
         text.to_s.encode("Windows-1252", invalid: :replace, undef: :replace, replace: "?").encode("UTF-8")
     end
 
-    def pdf_document(landscape: false)
+    # renders straight into the given IO, so the finished PDF is never also held as a
+    # String; prawn still keeps the document itself in memory until it is rendered
+    #
+    def pdf_document(io, landscape: false)
         # text is transliterated by pdf_safe, so the warning about the built-in fonts
         # not supporting UTF-8 is only noise
         Prawn::Fonts::AFM.hide_m17n_warning = true
@@ -449,7 +481,7 @@ class CourseArchive
             margin: 36
         )
         yield pdf
-        pdf.render
+        pdf.render(io)
     end
 
     def pdf_heading(pdf, what, schedule)

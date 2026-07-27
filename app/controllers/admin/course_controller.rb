@@ -48,9 +48,15 @@ class Admin::CourseController < ApplicationController
     # grades (xlsx + pdf) and a syllabus and announcements pdf per schedule
     #
     def archive
-        send_data CourseArchive.new.to_zip,
+        file = CourseArchive.new.to_tempfile
+
+        # Rack::TempfileReaper unlinks this once the response has been sent
+        (request.env["rack.tempfiles"] ||= []) << file
+
+        send_file file.path,
             type: "application/zip",
-            filename: CourseArchive.filename
+            filename: CourseArchive.filename,
+            disposition: "attachment"
     end
 
     #

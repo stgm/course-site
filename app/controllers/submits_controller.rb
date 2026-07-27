@@ -2,7 +2,7 @@
 # -only course heads need access.
 class SubmitsController < ApplicationController
 
-    include ActiveStorage::SendZip
+    include SubmitDownloading
 
     before_action :authorize
     before_action :require_senior, except: [ :show, :update, :download ]
@@ -43,7 +43,7 @@ class SubmitsController < ApplicationController
     def download
         submit = Submit.find(params[:id])
         if submit.files.count > 1
-            send_zip submit.files, filename: "#{submit.pset.name.dasherize}-#{submit.user.name.parameterize}-#{submit.submitted_at.to_fs(:number)}.zip"
+            send_submit_zip submit, filename: "#{submit.pset.name.dasherize}-#{submit.user.name.parameterize}-#{submit.submitted_at.to_fs(:number)}.zip"
         elsif submit.files.count == 1
             redirect_to rails_storage_proxy_path(submit.files.first, disposition: "attachment")
         end

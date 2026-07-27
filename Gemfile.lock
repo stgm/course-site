@@ -44,9 +44,6 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    active_storage-send_zip (0.5.0)
-      rails (> 5.2)
-      rubyzip (>= 2.1.0, < 4.0)
     activejob (8.0.5)
       activesupport (= 8.0.5)
       globalid (>= 0.3.6)
@@ -477,7 +474,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  active_storage-send_zip
   asciidoctor
   azure-storage-blob (~> 2.0)
   bootsnap
