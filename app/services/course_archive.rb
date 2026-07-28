@@ -325,12 +325,17 @@ class CourseArchive
         pdf.move_down CELL_PADDING
         bottom = pdf.cursor
 
+        # note the last page before going anywhere: go_to_page moves page_number along
+        last_page = pdf.page_number
         pdf.float do
-            (first_page..pdf.page_number).each do |page|
+            (first_page..last_page).each do |page|
                 pdf.go_to_page(page)
+                # a comment that runs onto the next page closes the top there itself; no
+                # row broke the page, so nothing else draws that edge
+                draw_rule(pdf) unless page == first_page
                 draw_edges(pdf,
                     page == first_page ? top : pdf.bounds.top,
-                    page == pdf.page_number ? bottom : 0)
+                    page == last_page ? bottom : 0)
             end
         end
         draw_rule(pdf)
