@@ -293,7 +293,7 @@ class CourseArchive
     end
 
     def announcements_pdf(io, schedule)
-        alerts = Alert.having_schedule_or_nil(schedule).where(published: true).order(created_at: :asc)
+        alerts = Alert.having_schedule_or_nil(schedule).where(published: true).reorder(created_at: :asc)
 
         pdf_document(io) do |pdf|
             pdf_heading(pdf, t(:announcements), schedule)
