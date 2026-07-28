@@ -415,8 +415,7 @@ class CourseArchive
 
         repeated = components.keys.select { |name| described.include?(name) }
         if repeated.any?
-            pdf.text pdf_safe(t("archive.final_grades.not_repeated", names: repeated.join(", "))),
-                size: 9, style: :italic
+            pdf.text pdf_safe(repeated_summary(repeated)), size: 9, style: :italic
             pdf.move_down 8
         end
 
@@ -426,6 +425,10 @@ class CourseArchive
             described << component_name
         end
         pdf.move_down 6
+    end
+
+    def repeated_summary(names)
+        t("archive.final_grades.not_repeated", count: names.size, names: names.join(", "))
     end
 
     # weights are proportional, so the share of the total says more than the weight itself
@@ -486,12 +489,6 @@ class CourseArchive
     # grade, so those are worded separately
     #
     def component_strategy(component, config)
-        submits = component["submits"].to_h
-        if submits.size == 1
-            name, weight = submits.first
-            return single_submit_strategy(component, config, name, weight)
-        end
-
         strategy = component["type"]
         strategy = "average" unless strategy.in?([ "points", "maximum" ])
         # the points available are worth naming: they are what the grade is measured against
@@ -508,16 +505,18 @@ class CourseArchive
         [ component["maximum"], total ].compact.min
     end
 
-    def single_submit_strategy(component, config, name, weight)
-        return t("archive.final_grades.strategy.single", name: name) unless component["type"] == "points"
+    # how the one assignment of a component turns into the component grade. Only a points
+    # component converts anything: elsewhere the grade carries over unchanged
+    #
+    def single_submit_note(component, config)
+        return nil unless component["type"] == "points"
 
+        name = component["submits"].to_h.keys.first
         # a pass counts for the full weight, so a points component of one pass/fail
         # assignment can only ever come out as a 10 or a 1
-        if config.grades[name].to_h["type"] == "pass"
-            return t("archive.final_grades.strategy.single_pass", name: name)
-        end
+        return rule(:single_pass, name: name) if config.grades[name].to_h["type"] == "pass"
 
-        t("archive.final_grades.strategy.single_points", name: name, count: points_available(component))
+        rule(:single_points, name: name, count: points_available(component))
     end
 
     def describe_component(pdf, config, component_name)
@@ -530,14 +529,32 @@ class CourseArchive
 
         pdf.text pdf_safe(t("archive.final_grades.component_heading", name: component_name)), size: 11, style: :bold
         pdf.move_down 3
-        pdf.text pdf_safe(t("archive.final_grades.component_is", strategy: component_strategy(component, config))), size: 9
+
+        # a component of one assignment simply is that assignment; describing it as an
+        # average or as points out of points only obscures that
+        single = component["submits"].to_h.size == 1
+        if single
+            pdf.text pdf_safe(t("archive.final_grades.component_is_single",
+                name: component["submits"].to_h.keys.first)), size: 9
+        else
+            pdf.text pdf_safe(t("archive.final_grades.component_is",
+                strategy: component_strategy(component, config))), size: 9
+        end
 
         rules = component_rules(component)
+        rules.unshift(single_submit_note(component, config)) if single
+        rules = rules.compact
         if rules.any?
             pdf.move_down 3
             rules.each { |rule| pdf.text pdf_safe("- #{rule}"), size: 9 }
         end
         pdf.move_down 5
+
+        # the table would hold a single row saying what the sentence already said
+        if single
+            pdf.move_down 5
+            return
+        end
 
         label = component["type"] == "points" ? "points_available" : "weight"
         rows = [ [

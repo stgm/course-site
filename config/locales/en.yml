@@ -188,10 +188,13 @@ en:
             weighted_average: "This grade is the weighted average of the components below, where the weight is the number of points the component contributes."
             single_component: "This grade consists of a single component, described below, which therefore counts for the whole."
             same_as: "This grade is calculated in exactly the same way as %{name}: the same components, with the same weights, described above."
-            compared_to: "Compared to %{name}: %{differences}."
-            not_repeated: "The components %{names} are the same as above and are not repeated here."
+            compared_to: "Components as compared to %{name}: %{differences}."
+            not_repeated:
+                one: "The component %{names} is the same as above and is not repeated here."
+                other: "The components %{names} are the same as above and are not repeated here."
             component_heading: "Component: %{name}"
             component_is: "The grade for this component is %{strategy}."
+            component_is_single: "The grade for this component is determined entirely by %{name}."
             component_undefined: "Component %{name} is used but not defined."
             not_defined: "not defined"
             bonus_label: "%{name} (bonus)"
@@ -212,11 +215,6 @@ en:
                     other: "points earned divided by the %{count} points available, converted to a grade from 1 to 10"
                 maximum: "the highest of the assignment grades"
                 average: "the weighted average of the assignment grades"
-                single: "the grade for %{name}"
-                single_pass: "a 10 when %{name} has been passed, and a 1 otherwise"
-                single_points:
-                    one: "the result for %{name}, converted to a grade from 1 to 10, where %{count} point makes a 10"
-                    other: "the result for %{name}, converted to a grade from 1 to 10, where %{count} points make a 10"
             condition:
                 none: "-"
                 minimum: "at least %{minimum}"
@@ -226,10 +224,14 @@ en:
                     other: "all assignments attempted"
                 zero_weight_required: "assignments with weight 0 required"
             difference:
-                used_instead: "%{name} (weight %{weight}) is used instead"
-                not_used: "%{name} is not used"
+                used_instead: "%{name} (weight %{weight}) is added"
+                not_used: "%{name} is removed"
                 other_weight: "%{name} counts for %{weight} instead of %{previous}"
             rule:
+                single_pass: "This component counts as a 10 when %{name} has been passed, and as a 1 otherwise."
+                single_points:
+                    one: "The result for %{name} is converted to a grade from 1 to 10, where %{count} point makes a 10."
+                    other: "The result for %{name} is converted to a grade from 1 to 10, where %{count} points make a 10."
                 minimum: "A grade of %{minimum} or higher is required; below that the final grade becomes NAV."
                 maximum: "At most %{maximum} points count towards this component."
                 attempt_required:

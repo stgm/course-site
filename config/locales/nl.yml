@@ -190,10 +190,13 @@ nl:
             weighted_average: "Dit cijfer is het gewogen gemiddelde van de onderdelen hieronder, waarbij het gewicht het aantal punten is dat het onderdeel bijdraagt."
             single_component: "Dit cijfer bestaat uit één onderdeel, dat hieronder wordt beschreven en dus voor het geheel meetelt."
             same_as: "Dit cijfer wordt op precies dezelfde manier berekend als %{name}: dezelfde onderdelen, met dezelfde gewichten, hierboven beschreven."
-            compared_to: "Ten opzichte van %{name}: %{differences}."
-            not_repeated: "De onderdelen %{names} zijn gelijk aan hierboven en worden hier niet herhaald."
+            compared_to: "Onderdelen ten opzichte van %{name}: %{differences}."
+            not_repeated:
+                one: "Het onderdeel %{names} is gelijk aan hierboven en wordt hier niet herhaald."
+                other: "De onderdelen %{names} zijn gelijk aan hierboven en worden hier niet herhaald."
             component_heading: "Onderdeel: %{name}"
             component_is: "Het cijfer voor dit onderdeel is %{strategy}."
+            component_is_single: "Het cijfer voor dit onderdeel wordt geheel bepaald door de opdracht %{name}."
             component_undefined: "Onderdeel %{name} wordt gebruikt maar is niet gedefinieerd."
             not_defined: "niet gedefinieerd"
             bonus_label: "%{name} (bonus)"
@@ -214,11 +217,6 @@ nl:
                     other: "het aantal behaalde punten gedeeld door de %{count} te behalen punten, omgerekend naar een cijfer van 1 tot 10"
                 maximum: "het hoogste van de cijfers voor de opdrachten"
                 average: "het gewogen gemiddelde van de cijfers voor de opdrachten"
-                single: "het cijfer voor de opdracht %{name}"
-                single_pass: "een 10 wanneer de opdracht %{name} is behaald, en anders een 1"
-                single_points:
-                    one: "het resultaat van de opdracht %{name}, omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punt een 10 oplevert"
-                    other: "het resultaat van de opdracht %{name}, omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punten een 10 opleveren"
             condition:
                 none: "-"
                 minimum: "minimaal %{minimum}"
@@ -228,10 +226,14 @@ nl:
                     other: "alle opdrachten gemaakt"
                 zero_weight_required: "opdrachten met gewicht 0 verplicht"
             difference:
-                used_instead: "%{name} (gewicht %{weight}) wordt in plaats daarvan gebruikt"
-                not_used: "%{name} wordt niet gebruikt"
+                used_instead: "%{name} (gewicht %{weight}) is toegevoegd"
+                not_used: "%{name} is verwijderd"
                 other_weight: "%{name} telt voor %{weight} in plaats van %{previous}"
             rule:
+                single_pass: "Dit onderdeel telt als een 10 wanneer de opdracht %{name} is behaald, en anders een 1."
+                single_points:
+                    one: "Het resultaat van de opdracht %{name} wordt omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punt een 10 oplevert."
+                    other: "Het resultaat van de opdracht %{name} wordt omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punten een 10 opleveren."
                 minimum: "Een cijfer van %{minimum} of hoger is vereist; daaronder wordt het eindcijfer NAV."
                 maximum: "Er tellen maximaal %{maximum} punten mee voor dit onderdeel."
                 attempt_required:
