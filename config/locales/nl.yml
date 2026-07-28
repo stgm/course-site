@@ -169,7 +169,7 @@ nl:
     archive:
         exported_on: "geëxporteerd op %{date}"
         grades:
-            title: "Export van de cursus"
+            title: "Cijfers"
             no_students: "Geen enkele student in dit schema heeft iets ingeleverd."
             no_submits: "Niets ingeleverd."
             final_grades: "Eindcijfers"
@@ -184,7 +184,7 @@ nl:
         announcements:
             none: "Geen mededelingen."
         final_grades:
-            title: "Hoe het eindcijfer wordt berekend"
+            title: "Cijferberekening"
             intro: "Een eindcijfer komt in drie stappen tot stand. Elke opdracht krijgt een beoordeling, opdrachten worden samengevoegd tot onderdelen, en de onderdelen samen vormen het eindcijfer. Dit document beschrijft alle berekeningen zoals ze waren ingesteld op het moment van exporteren."
             none: "Voor dit schema wordt geen eindcijfer automatisch berekend."
             heading: "Eindcijferberekening: %{name}"

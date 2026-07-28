@@ -167,7 +167,7 @@ en:
     archive:
         exported_on: "exported on %{date}"
         grades:
-            title: "Course export"
+            title: "Grades"
             no_students: "No students in this schedule submitted anything."
             no_submits: "No submits."
             final_grades: "Final grades"
@@ -182,7 +182,7 @@ en:
         announcements:
             none: "No announcements."
         final_grades:
-            title: "How the final grade is calculated"
+            title: "Grade calculation"
             intro: "A final grade is built up in three steps. Every assignment gets a grade, assignments are combined into components, and the components are combined into the final grade. This document describes all calculations, as they were configured at the time of export."
             none: "No final grade is calculated automatically for this schedule."
             heading: "Final grade calculation: %{name}"

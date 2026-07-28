@@ -144,12 +144,7 @@ class CourseArchive
         _users, _psets, students = self.class.grade_export_scopes(schedule)
 
         pdf_document(io, landscape: true) do |pdf|
-            title = t("archive.grades.title")
-            title = "#{title} - #{schedule.name}" if schedule
-            pdf.text pdf_safe(title), size: 18, style: :bold
-            pdf.text pdf_safe(Course.long_name), size: 11
-            pdf.text pdf_safe(t("archive.exported_on", date: export_date).upcase_first), size: 11
-            pdf.move_down 10
+            pdf_heading(pdf, t("archive.grades.title"), schedule)
 
             pdf.text pdf_safe(t("archive.grades.no_students")), size: 10 if students.empty?
 
@@ -366,12 +361,11 @@ class CourseArchive
         page = schedule.page
 
         pdf_document(io) do |pdf|
-            pdf_heading(pdf, t(:syllabus), schedule)
+            pdf.text pdf_safe(export_line(schedule)), size: 9, align: :right
+            pdf.move_down 12
 
             page.subpages.each_with_index do |subpage, index|
                 pdf.start_new_page if index > 0
-                pdf.text pdf_safe(subpage.title), size: 14, style: :bold
-                pdf.move_down 6
                 append_markdown(pdf, subpage.content, asset_prefix: page.public_url, trusted: true)
             end
         end
@@ -792,9 +786,49 @@ class CourseArchive
     end
 
     def pdf_heading(pdf, what, schedule)
-        pdf.text pdf_safe("#{what} - #{schedule.name}"), size: 16, style: :bold
-        pdf.text pdf_safe("#{Course.long_name} - #{t('archive.exported_on', date: export_date)}"), size: 9
+        pdf.text pdf_safe(document_title(what, schedule)), size: 16, style: :bold
+        pdf.text pdf_safe(export_line(schedule)), size: 9
         pdf.move_down 12
+    end
+
+    # "23 maart 2026 - 29 mei 2026, geexporteerd op 28 juli 2026 13:49"; the period comes
+    # from _settings in the schedule's grading.yml and is simply left out when not set
+    #
+    def export_line(schedule = nil)
+        parts = [ schedule && schedule_period(schedule), t("archive.exported_on", date: export_date) ]
+        parts.compact.join(", ").upcase_first
+    end
+
+    def schedule_period(schedule)
+        settings = schedule.grading_config.settings.to_h
+        starts = config_date(settings["start_date"])
+        ends = config_date(settings["end_date"])
+        return nil unless starts && ends
+
+        "#{I18n.l(starts, format: :long)} - #{I18n.l(ends, format: :long)}"
+    end
+
+    # dates in grading.yml are written as 23/3/26, but yaml turns an iso date into a Date
+    #
+    def config_date(value)
+        return value if value.respond_to?(:strftime)
+        Date.strptime(value.to_s, "%d/%m/%y")
+    rescue Date::Error, TypeError
+        nil
+    end
+
+    # "Cijfers Programmeren 2 - Lente", or without the schedule when the course only
+    # runs one: naming it then says nothing
+    #
+    def document_title(what, schedule)
+        title = "#{what} #{Course.long_name}"
+        title += " - #{schedule.name}" if schedule && several_schedules?
+        title
+    end
+
+    def several_schedules?
+        return @several_schedules unless @several_schedules.nil?
+        @several_schedules = Schedule.count > 1
     end
 
     # render markdown through the same helper the site uses, then feed the HTML to
