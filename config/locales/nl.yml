@@ -188,6 +188,7 @@ nl:
             none: "Voor dit schema wordt geen eindcijfer automatisch berekend."
             heading: "Eindcijferberekening: %{name}"
             weighted_average: "Dit cijfer is het gewogen gemiddelde van de onderdelen hieronder, waarbij het gewicht het aantal punten is dat het onderdeel bijdraagt."
+            single_component: "Dit cijfer bestaat uit één onderdeel, dat hieronder wordt beschreven en dus voor het geheel meetelt."
             same_as: "Dit cijfer wordt op precies dezelfde manier berekend als %{name}: dezelfde onderdelen, met dezelfde gewichten, hierboven beschreven."
             compared_to: "Ten opzichte van %{name}: %{differences}."
             not_repeated: "De onderdelen %{names} zijn gelijk aan hierboven en worden hier niet herhaald."
@@ -208,7 +209,9 @@ nl:
                 parts: "onderdelen van het cijfer"
                 formula: "formule"
             strategy:
-                points: "het aantal behaalde punten gedeeld door het aantal te behalen punten, omgerekend naar een cijfer van 1 tot 10"
+                points:
+                    one: "het aantal behaalde punten gedeeld door het ene te behalen punt, omgerekend naar een cijfer van 1 tot 10"
+                    other: "het aantal behaalde punten gedeeld door de %{count} te behalen punten, omgerekend naar een cijfer van 1 tot 10"
                 maximum: "het hoogste van de cijfers voor de opdrachten"
                 average: "het gewogen gemiddelde van de cijfers voor de opdrachten"
                 single: "het cijfer voor de opdracht %{name}"
@@ -229,7 +232,7 @@ nl:
                 not_used: "%{name} wordt niet gebruikt"
                 other_weight: "%{name} telt voor %{weight} in plaats van %{previous}"
             rule:
-                minimum: "Een cijfer van %{minimum} of hoger is vereist; daaronder wordt het eindcijfer onvoldoende (0)."
+                minimum: "Een cijfer van %{minimum} of hoger is vereist; daaronder wordt het eindcijfer NAV."
                 maximum: "Er tellen maximaal %{maximum} punten mee voor dit onderdeel."
                 attempt_required:
                     one: "Het onderdeel moet zijn gemaakt en ingeleverd; ontbreekt het, dan wordt er geen eindcijfer berekend."
@@ -238,7 +241,7 @@ nl:
                 missing_scores_zero: "Een opdracht die ontbreekt levert 0 punten op, maar de punten ervan tellen wel mee bij de te behalen punten."
                 missing_counts_as: "Een opdracht die ontbreekt telt als het cijfer %{value}."
                 missing_allowed: "Een opdracht die ontbreekt blokkeert de berekening niet."
-                required: "Een opdracht met een 0 maakt het eindcijfer onvoldoende (0)."
+                required: "Een opdracht met een 0 maakt het eindcijfer NAV."
                 drop_lowest: "Het laagste cijfer voor een opdracht telt niet mee."
                 bonus: "Bonusopdrachten komen er bovenop, tot een maximumcijfer van 10."
                 zero_weight_required: "Een opdracht met gewicht 0 is verplicht: zonder cijfer daarvoor wordt dit onderdeel een 1."
@@ -251,7 +254,7 @@ nl:
                     - "cijfers vanaf 5,5 tot (maar niet inclusief) 6,25 worden een 6"
                     - "alle andere cijfers worden afgerond op een half punt"
                     - "alles boven de 10 wordt een 10"
-                note: "Als een onderdeel niet kon worden bepaald, wordt er helemaal geen eindcijfer geregistreerd; is aan een vereiste voorwaarde niet voldaan, dan is het eindcijfer een 0."
+                note: "Als een onderdeel niet kon worden bepaald, wordt er helemaal geen eindcijfer geregistreerd; is aan een vereiste voorwaarde niet voldaan, dan is het eindcijfer NAV."
             assignments:
                 title: "Hoe elke opdracht wordt beoordeeld"
                 intro: "Nakijkers vullen de onderdelen in die staan onder 'onderdelen van het cijfer'. De formule laat zien hoe die onderdelen samen het cijfer voor de opdracht vormen. Staat er geen formule, dan vult de nakijker het cijfer rechtstreeks in."

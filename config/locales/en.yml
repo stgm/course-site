@@ -186,6 +186,7 @@ en:
             none: "No final grade is calculated automatically for this schedule."
             heading: "Final grade calculation: %{name}"
             weighted_average: "This grade is the weighted average of the components below, where the weight is the number of points the component contributes."
+            single_component: "This grade consists of a single component, described below, which therefore counts for the whole."
             same_as: "This grade is calculated in exactly the same way as %{name}: the same components, with the same weights, described above."
             compared_to: "Compared to %{name}: %{differences}."
             not_repeated: "The components %{names} are the same as above and are not repeated here."
@@ -206,7 +207,9 @@ en:
                 parts: "parts of the grade"
                 formula: "formula"
             strategy:
-                points: "points earned divided by points available, converted to a grade from 1 to 10"
+                points:
+                    one: "points earned divided by the single point available, converted to a grade from 1 to 10"
+                    other: "points earned divided by the %{count} points available, converted to a grade from 1 to 10"
                 maximum: "the highest of the assignment grades"
                 average: "the weighted average of the assignment grades"
                 single: "the grade for %{name}"
@@ -227,7 +230,7 @@ en:
                 not_used: "%{name} is not used"
                 other_weight: "%{name} counts for %{weight} instead of %{previous}"
             rule:
-                minimum: "A grade of %{minimum} or higher is required; below that the final grade becomes insufficient (0)."
+                minimum: "A grade of %{minimum} or higher is required; below that the final grade becomes NAV."
                 maximum: "At most %{maximum} points count towards this component."
                 attempt_required:
                     one: "The assignment must have been attempted and submitted; if it is missing, no final grade is calculated."
@@ -236,7 +239,7 @@ en:
                 missing_scores_zero: "An assignment that is missing scores 0 points, but its points still count towards the points available."
                 missing_counts_as: "An assignment that is missing counts as the grade %{value}."
                 missing_allowed: "An assignment that is missing does not block the calculation."
-                required: "Any assignment graded 0 makes the final grade insufficient (0)."
+                required: "Any assignment graded 0 makes the final grade NAV."
                 drop_lowest: "The lowest assignment grade is dropped."
                 bonus: "Bonus assignments are added on top, up to a maximum grade of 10."
                 zero_weight_required: "An assignment with weight 0 is required: without a grade for it, this component becomes a 1."
@@ -249,7 +252,7 @@ en:
                     - "grades from 5.5 up to (but not including) 6.25 become 6"
                     - "all other grades are rounded to the nearest half point"
                     - "anything above 10 becomes 10"
-                note: "If a component could not be determined, no final grade is registered at all; if a required condition was not met, the final grade is a 0."
+                note: "If a component could not be determined, no final grade is registered at all; if a required condition was not met, the final grade is NAV."
             assignments:
                 title: "How each assignment is graded"
                 intro: "Graders enter the parts listed under 'parts of the grade'. The formula shows how those parts are combined into the grade for the assignment. Where no formula is given, the grader enters the grade directly."

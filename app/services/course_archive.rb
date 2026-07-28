@@ -323,6 +323,8 @@ class CourseArchive
     #
     #                     component  weight  share  condition  based on
     COMPONENT_COLUMNS =  [ 0.20,     0.09,   0.09,  0.27,      0.35 ].freeze
+    #                            component  share  condition  based on
+    SINGLE_COMPONENT_COLUMNS = [ 0.22,      0.09,  0.30,      0.39 ].freeze
     #                     assignment  type  parts  formula
     ASSIGNMENT_COLUMNS = [ 0.26,      0.12, 0.31,  0.31 ].freeze
     #                     assignment  weight
@@ -380,25 +382,31 @@ class CourseArchive
             return
         end
 
-        pdf.text pdf_safe(t("archive.final_grades.weighted_average")), size: 10
+        # a single component has nothing to weigh against anything
+        single = components.size == 1
+        pdf.text pdf_safe(t("archive.final_grades.#{single ? 'single_component' : 'weighted_average'}")), size: 10
         pdf.move_down 6
 
-        rows = [ %w[component weight share condition based_on].map { |key| pdf_safe(t("archive.final_grades.header.#{key}")) } ]
+        headers = single ? %w[component share condition based_on] : %w[component weight share condition based_on]
+        rows = [ headers.map { |key| pdf_safe(t("archive.final_grades.header.#{key}")) } ]
         total_weight = components.values.sum
         components.each do |component_name, weight|
             component = config.components[component_name]
-            rows << [
-                pdf_safe(component_name),
-                weight.to_s,
+            row = [ pdf_safe(component_name) ]
+            row << weight.to_s unless single
+            row += [
                 weight_share(weight, total_weight),
                 pdf_safe(component_condition(component)),
                 pdf_safe(component ? component["submits"].keys.join(", ") : t("archive.final_grades.not_defined"))
             ]
+            rows << row
         end
-        draw_table(pdf, rows, COMPONENT_COLUMNS, padding: 4)
+        draw_table(pdf, rows, single ? SINGLE_COMPONENT_COLUMNS : COMPONENT_COLUMNS, padding: 4)
         pdf.move_down 10
 
-        differences = reference ? component_differences(reference.last, components) : []
+        # only worth comparing when the two grades actually have components in common;
+        # a resit built from entirely different parts is not a variation on the first
+        differences = shares_components?(reference, components) ? component_differences(reference.last, components) : []
         if differences.any?
             pdf.text pdf_safe(t("archive.final_grades.compared_to",
                 name: reference.first, differences: differences.join("; "))), size: 10
@@ -448,6 +456,10 @@ class CourseArchive
         conditions.join("; ")
     end
 
+    def shares_components?(reference, components)
+        reference.present? && (reference.last.keys & components.keys).any?
+    end
+
     # what sets this final grade apart from the one described earlier
     #
     def component_differences(reference, components)
@@ -482,7 +494,18 @@ class CourseArchive
 
         strategy = component["type"]
         strategy = "average" unless strategy.in?([ "points", "maximum" ])
+        # the points available are worth naming: they are what the grade is measured against
+        return t("archive.final_grades.strategy.points", count: points_available(component)) if strategy == "points"
+
         t("archive.final_grades.strategy.#{strategy}")
+    end
+
+    # what User::FinalGradeCalculator#get_points_potential arrives at: the weights of the
+    # assignments, but never more than an explicit maximum
+    #
+    def points_available(component)
+        total = component["submits"].to_h.values.sum
+        [ component["maximum"], total ].compact.min
     end
 
     def single_submit_strategy(component, config, name, weight)
@@ -494,8 +517,7 @@ class CourseArchive
             return t("archive.final_grades.strategy.single_pass", name: name)
         end
 
-        maximum = [ component["maximum"], weight ].compact.min
-        t("archive.final_grades.strategy.single_points", name: name, count: maximum)
+        t("archive.final_grades.strategy.single_points", name: name, count: points_available(component))
     end
 
     def describe_component(pdf, config, component_name)
