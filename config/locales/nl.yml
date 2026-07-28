@@ -172,6 +172,7 @@ nl:
             title: "Export van de cursus"
             no_students: "Geen enkele student in dit schema heeft iets ingeleverd."
             no_submits: "Niets ingeleverd."
+            final_grades: "Eindcijfers"
             not_graded: "niet nagekeken"
             header:
                 pset: "opdracht"

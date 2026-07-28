@@ -153,12 +153,14 @@ class CourseArchive
 
             pdf.text pdf_safe(t("archive.grades.no_students")), size: 10 if students.empty?
 
+            groups = component_groups(schedule&.grading_config)
+
             students.each_with_index do |student, index|
                 pdf.start_new_page if index > 0
                 pdf.text pdf_safe("#{student.name} (#{student.defacto_student_identifier})"), size: 12, style: :bold
                 pdf.move_down 4
 
-                rows = grade_rows(student)
+                rows = grade_rows(student, groups)
                 if rows.any?
                     draw_grade_rows(pdf, rows)
                 else
@@ -168,29 +170,65 @@ class CourseArchive
         end
     end
 
-    def grade_rows(student)
-        student.submits.flat_map do |submit|
-            grade = submit.grade
-            if grade.present?
-                rows = [ [
-                    pdf_safe(submit.pset&.name),
-                    submit.created_at.strftime("%d-%m-%Y %H:%M"),
-                    grade.updated_at.strftime("%d-%m-%Y %H:%M"),
-                    pdf_safe(helpers.translate_grade(grade.assigned_grade)),
-                    pdf_safe(grade.grader_name),
-                    pdf_safe(grade.subgrades.to_h.values.join(" / "))
-                ] ]
-                # a comment spans the full width on a line of its own
-                rows << [ pdf_safe(grade.comments) ] if grade.comments.present?
-                rows
-            else
-                [ [
-                    pdf_safe(submit.pset&.name),
-                    submit.created_at.strftime("%d-%m-%Y %H:%M"),
-                    pdf_safe(t("archive.grades.not_graded")), "", "", ""
-                ] ]
-            end
+    # "correctness: 3 / style: 2" rather than "3 / 2": the numbers mean nothing on their own
+    #
+    def subgrade_summary(grade)
+        grade.subgrades.to_h.map { |name, value| "#{name}: #{value.presence || '-'}" }.join(" / ")
+    end
+
+    # the components of the schedule, each with the assignments that make it up, plus a
+    # closing group for the final grades. Nil when the course does not grade by component
+    # at all, in which case every submit is simply listed
+    #
+    def component_groups(config)
+        return nil if config.blank? || config.components.blank?
+
+        groups = config.components.map do |name, component|
+            [ name, component["submits"].to_h.keys + component["bonus"].to_h.keys ]
         end
+        groups << [ t("archive.grades.final_grades"), config.calculation.keys ] if config.calculation.present?
+        groups
+    end
+
+    # rows are tagged: [ :section, title ], [ :row, cells ] or [ :comment, text ]
+    #
+    def grade_rows(student, groups = nil)
+        submits = student.submits.to_a
+        return submits.flat_map { |submit| submit_rows(submit) } if groups.blank?
+
+        rows = groups.flat_map do |title, assignments|
+            matching = submits.select { |submit| assignments.include?(submit.pset&.name) }
+                .sort_by { |submit| [ assignments.index(submit.pset.name), submit.created_at ] }
+            next [] if matching.empty?
+
+            [ [ :section, title ] ] + matching.flat_map { |submit| submit_rows(submit) }
+        end
+
+        # an archive should never silently drop everything a student handed in
+        rows.presence || submits.flat_map { |submit| submit_rows(submit) }
+    end
+
+    def submit_rows(submit)
+        grade = submit.grade
+        unless grade.present?
+            return [ [ :row, [
+                pdf_safe(submit.pset&.name),
+                submit.created_at.strftime("%d-%m-%Y %H:%M"),
+                pdf_safe(t("archive.grades.not_graded")), "", "", ""
+            ] ] ]
+        end
+
+        rows = [ [ :row, [
+            pdf_safe(submit.pset&.name),
+            submit.created_at.strftime("%d-%m-%Y %H:%M"),
+            grade.updated_at.strftime("%d-%m-%Y %H:%M"),
+            pdf_safe(helpers.translate_grade(grade.assigned_grade)),
+            pdf_safe(grade.grader_name),
+            pdf_safe(subgrade_summary(grade))
+        ] ] ]
+        # a comment spans the full width on a line of its own
+        rows << [ :comment, pdf_safe(grade.comments) ] if grade.comments.present?
+        rows
     end
 
     # how the six columns divide up the page
@@ -203,20 +241,25 @@ class CourseArchive
     ROW_HEIGHT = 9
     FONT_SIZE = 7
 
+    def grade_column_widths(pdf)
+        GRADE_COLUMNS.map { |part| part * pdf.bounds.width }
+    end
+
     def draw_grade_rows(pdf, rows)
-        widths = GRADE_COLUMNS.map { |part| part * pdf.bounds.width }
+        widths = grade_column_widths(pdf)
         header = %w[pset submitted graded grade grader subgrades].map { |key| pdf_safe(t("archive.grades.header.#{key}")) }
 
         pdf.line_width = 0.25
+        draw_rule(pdf)
         draw_columns(pdf, header, widths, style: :bold)
-        rows.each do |row|
-            if row.size == 1
-                # a comment flows over as many lines as it needs; prawn breaks the page
-                pdf.text row.first, size: FONT_SIZE, style: :italic
-                pdf.move_down 2
-                draw_rule(pdf)
+        rows.each do |kind, content|
+            case kind
+            when :comment
+                draw_comment(pdf, content)
+            when :section
+                draw_columns(pdf, [ content ], [ pdf.bounds.width ], style: :bold, header: header)
             else
-                draw_columns(pdf, row, widths, header: header)
+                draw_columns(pdf, content, widths, header: header)
             end
         end
         pdf.move_down 4
@@ -229,8 +272,13 @@ class CourseArchive
     def draw_columns(pdf, cells, widths, style: :normal, header: nil)
         if pdf.cursor < ROW_HEIGHT + 4
             pdf.start_new_page
-            # repeat the header when a student's rows run onto the next page
-            draw_columns(pdf, header, widths, style: :bold) if header
+            # repeat the header when a student's rows run onto the next page; the header
+            # always spans the grade columns, whatever this row does
+            if header
+                # close the top of the continued table
+                draw_rule(pdf)
+                draw_columns(pdf, header, grade_column_widths(pdf), style: :bold)
+            end
         end
 
         top = pdf.cursor
@@ -258,6 +306,32 @@ class CourseArchive
     #
     def draw_rule(pdf)
         pdf.stroke_horizontal_line 0, pdf.bounds.width, at: pdf.cursor + 2
+    end
+
+    # a comment flows over as many lines as it needs and prawn breaks the page for it, so
+    # the side edges are drawn afterwards, once it is known where the text ended up
+    #
+    def draw_comment(pdf, text)
+        first_page = pdf.page_number
+        top = pdf.cursor
+
+        pdf.text text, size: FONT_SIZE, style: :italic
+        pdf.move_down 2
+        bottom = pdf.cursor
+
+        pdf.float do
+            (first_page..pdf.page_number).each do |page|
+                pdf.go_to_page(page)
+                draw_edges(pdf,
+                    page == first_page ? top : pdf.bounds.top,
+                    page == pdf.page_number ? bottom : 0)
+            end
+        end
+        draw_rule(pdf)
+    end
+
+    def draw_edges(pdf, top, bottom)
+        [ 0, pdf.bounds.width ].each { |x| pdf.stroke_vertical_line bottom + 2, top + 2, at: x }
     end
 
     def fit_to_column(pdf, text, width)

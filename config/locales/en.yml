@@ -170,6 +170,7 @@ en:
             title: "Course export"
             no_students: "No students in this schedule submitted anything."
             no_submits: "No submits."
+            final_grades: "Final grades"
             not_graded: "not graded"
             header:
                 pset: "assignment"
