@@ -220,6 +220,7 @@ nl:
             condition:
                 none: "-"
                 minimum: "minimaal %{minimum}"
+                passed: "behaald"
                 required: "geen opdracht met een 0"
                 attempt_required:
                     one: "gemaakt en ingeleverd"

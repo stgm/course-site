@@ -396,7 +396,7 @@ class CourseArchive
             row << weight.to_s unless single
             row += [
                 weight_share(weight, total_weight),
-                pdf_safe(component_condition(component)),
+                pdf_safe(component_condition(component, config)),
                 pdf_safe(component ? component["submits"].keys.join(", ") : t("archive.final_grades.not_defined"))
             ]
             rows << row
@@ -441,16 +441,21 @@ class CourseArchive
 
     # the conditions a component must meet before it counts, summarised for the overview table
     #
-    def component_condition(component)
+    def component_condition(component, config)
         return "" if component.blank?
 
         conditions = []
-        conditions << t("archive.final_grades.condition.minimum", minimum: component["minimum"]) if component["minimum"]
-        conditions << t("archive.final_grades.condition.required") if component["required"]
         if component["attempt_required"]
             # with a single assignment "all assignments attempted" reads as a mistake
             conditions << t("archive.final_grades.condition.attempt_required", count: component["submits"].size)
         end
+        if single_pass_required?(component, config)
+            # "at least 5.5" for a pass/fail assignment only means it has to be passed
+            conditions << t("archive.final_grades.condition.passed")
+        elsif component["minimum"]
+            conditions << t("archive.final_grades.condition.minimum", minimum: component["minimum"])
+        end
+        conditions << t("archive.final_grades.condition.required") if component["required"]
         if component["type"] == "points" && component["submits"].value?(0)
             conditions << t("archive.final_grades.condition.zero_weight_required")
         end

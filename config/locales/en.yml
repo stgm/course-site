@@ -218,6 +218,7 @@ en:
             condition:
                 none: "-"
                 minimum: "at least %{minimum}"
+                passed: "passed"
                 required: "no assignment graded 0"
                 attempt_required:
                     one: "attempted and submitted"
