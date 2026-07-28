@@ -8,11 +8,15 @@ module GradesHelper
         number == number.to_i ? number.to_i : number
     end
 
+    # a grade entered by hand overrules the one the formula calculates, exactly like
+    # Grade#assigned_grade, which is what the site shows and what the final grade
+    # calculation uses
+    #
     def grade_for(submit)
         if submit
             submitted = submit[0]
             if submitted.grade and not (submitted.grade.calculated_grade.blank? && submitted.grade.grade.blank?)
-                return submitted.grade.calculated_grade || submitted.grade.grade
+                return submitted.grade.assigned_grade
             end
         end
         return ""

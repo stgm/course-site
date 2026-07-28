@@ -240,6 +240,7 @@ class CourseArchive
     #
     ROW_HEIGHT = 9
     FONT_SIZE = 7
+    CELL_PADDING = 2
 
     def grade_column_widths(pdf)
         GRADE_COLUMNS.map { |part| part * pdf.bounds.width }
@@ -286,7 +287,8 @@ class CourseArchive
         left = 0
         pdf.font("Helvetica", style: style) do
             cells.each_with_index do |text, column|
-                pdf.draw_text fit_to_column(pdf, text.to_s, widths[column] - 4), at: [ left + 2, baseline ], size: FONT_SIZE
+                pdf.draw_text fit_to_column(pdf, text.to_s, widths[column] - 2 * CELL_PADDING),
+                    at: [ left + CELL_PADDING, baseline ], size: FONT_SIZE
                 left += widths[column]
             end
         end
@@ -315,8 +317,12 @@ class CourseArchive
         first_page = pdf.page_number
         top = pdf.cursor
 
-        pdf.text text, size: FONT_SIZE, style: :italic
-        pdf.move_down 2
+        # inset like any other cell: the columns are drawn 2pt in from their edges
+        pdf.move_down CELL_PADDING
+        pdf.indent(CELL_PADDING, CELL_PADDING) do
+            pdf.text text, size: FONT_SIZE, style: :italic
+        end
+        pdf.move_down CELL_PADDING
         bottom = pdf.cursor
 
         pdf.float do

@@ -28,12 +28,12 @@ wb.add_worksheet(name: "Grades") do |sheet|
                     data << ""
                 end
             elsif g == -1
-                data << "pass"
+                data << t("grading.sufficient")
             elsif g == 0
                 if pset.final
                     data << "NAV"
                 else
-                    data << "fail"
+                    data << t("grading.insufficient")
                 end
             else
                 data << grade_for(subs[pset.id])
