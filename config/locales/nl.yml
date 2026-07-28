@@ -231,6 +231,7 @@ nl:
                 other_weight: "%{name} telt voor %{weight} in plaats van %{previous}"
             rule:
                 single_pass: "Dit onderdeel telt als een 10 wanneer de opdracht %{name} is behaald, en anders een 1."
+                single_pass_required: "Dit onderdeel telt als een 10 wanneer de opdracht %{name} is behaald, en anders een NAV."
                 single_points:
                     one: "Het resultaat van de opdracht %{name} wordt omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punt een 10 oplevert."
                     other: "Het resultaat van de opdracht %{name} wordt omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punten een 10 opleveren."
@@ -240,7 +241,7 @@ nl:
                     one: "Het onderdeel moet zijn gemaakt en ingeleverd; ontbreekt het, dan wordt er geen eindcijfer berekend."
                     other: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt er geen eindcijfer berekend."
                 missing_cancels: "Een ontbrekend cijfer voor een van de opdrachten betekent dat er geen eindcijfer wordt berekend."
-                missing_scores_zero: "Een opdracht die ontbreekt levert 0 punten op, maar de punten ervan tellen wel mee bij de te behalen punten."
+                missing_scores_zero: "Een opdracht die ontbreekt levert 0 punten op."
                 missing_counts_as: "Een opdracht die ontbreekt telt als het cijfer %{value}."
                 missing_allowed: "Een opdracht die ontbreekt blokkeert de berekening niet."
                 required: "Een opdracht met een 0 maakt het eindcijfer NAV."

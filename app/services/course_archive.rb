@@ -514,9 +514,23 @@ class CourseArchive
         name = component["submits"].to_h.keys.first
         # a pass counts for the full weight, so a points component of one pass/fail
         # assignment can only ever come out as a 10 or a 1
-        return rule(:single_pass, name: name) if config.grades[name].to_h["type"] == "pass"
+        if config.grades[name].to_h["type"] == "pass"
+            return rule(single_pass_required?(component, config) ? :single_pass_required : :single_pass, name: name)
+        end
 
         rule(:single_points, name: name, count: points_available(component))
+    end
+
+    # a single pass/fail assignment scoring points fails the minimum whenever it is not
+    # passed, so the component is either a 10 or a NAV and the minimum needs no bullet
+    # of its own
+    #
+    def single_pass_required?(component, config)
+        submits = component["submits"].to_h
+        return false unless component["type"] == "points" && submits.size == 1
+        return false unless component["minimum"].to_f > 1
+
+        config.grades[submits.keys.first].to_h["type"] == "pass"
     end
 
     def describe_component(pdf, config, component_name)
@@ -541,7 +555,8 @@ class CourseArchive
                 strategy: component_strategy(component, config))), size: 9
         end
 
-        rules = component_rules(component)
+        # the note about a required pass already says what happens below the minimum
+        rules = component_rules(component, skip_minimum: single_pass_required?(component, config))
         rules.unshift(single_submit_note(component, config)) if single
         rules = rules.compact
         if rules.any?
@@ -572,12 +587,14 @@ class CourseArchive
 
     # the exceptions and extra conditions that User::FinalGradeCalculator applies
     #
-    def component_rules(component)
+    def component_rules(component, skip_minimum: false)
         rules = []
-        rules << rule(:minimum, minimum: component["minimum"]) if component["minimum"]
+        rules << rule(:minimum, minimum: component["minimum"]) if component["minimum"] && !skip_minimum
         rules << rule(:maximum, maximum: component["maximum"]) if component["maximum"]
         rules << rule(:attempt_required, count: component["submits"].size) if component["attempt_required"]
-        rules << missing_rule(component)
+        # when every assignment must have been attempted, what happens to a missing
+        # grade has already been said
+        rules << missing_rule(component) unless component["attempt_required"]
         rules << rule(:required) if component["required"]
         rules << rule(:drop_lowest) if component["drop"].to_s == "lowest"
         rules << rule(:bonus) if component["bonus"].present?

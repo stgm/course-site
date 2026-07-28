@@ -229,6 +229,7 @@ en:
                 other_weight: "%{name} counts for %{weight} instead of %{previous}"
             rule:
                 single_pass: "This component counts as a 10 when %{name} has been passed, and as a 1 otherwise."
+                single_pass_required: "This component counts as a 10 when %{name} has been passed, and as a NAV otherwise."
                 single_points:
                     one: "The result for %{name} is converted to a grade from 1 to 10, where %{count} point makes a 10."
                     other: "The result for %{name} is converted to a grade from 1 to 10, where %{count} points make a 10."
@@ -238,7 +239,7 @@ en:
                     one: "The assignment must have been attempted and submitted; if it is missing, no final grade is calculated."
                     other: "All assignments must have been attempted; if any is missing, no final grade is calculated."
                 missing_cancels: "A missing grade for any assignment means no final grade is calculated."
-                missing_scores_zero: "An assignment that is missing scores 0 points, but its points still count towards the points available."
+                missing_scores_zero: "An assignment that is missing scores 0 points."
                 missing_counts_as: "An assignment that is missing counts as the grade %{value}."
                 missing_allowed: "An assignment that is missing does not block the calculation."
                 required: "Any assignment graded 0 makes the final grade NAV."
