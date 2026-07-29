@@ -197,14 +197,12 @@ en:
             component_is: "The grade for this component is %{strategy}."
             component_is_single: "The grade for this component is determined entirely by %{name}."
             component_undefined: "Component %{name} is used but not defined."
-            not_defined: "not defined"
             bonus_label: "%{name} (bonus)"
             header:
                 component: "component"
                 weight: "weight"
                 share: "share"
-                condition: "condition"
-                based_on: "based on"
+                condition: "requirement"
                 assignment: "assignment"
                 points_available: "points available"
                 type: "type"
@@ -213,7 +211,7 @@ en:
             strategy:
                 points:
                     one: "points earned divided by the single point available, converted to a grade from 1 to 10"
-                    other: "points earned divided by the %{count} points available, converted to a grade from 1 to 10"
+                    other: "points earned divided by the maximum of %{count}, converted to a grade from 1 to 10"
                 maximum: "the highest of the assignment grades"
                 average: "the weighted average of the assignment grades"
             condition:
@@ -224,7 +222,7 @@ en:
                 attempt_required:
                     one: "attempted and submitted"
                     other: "all assignments attempted"
-                zero_weight_required: "assignments with weight 0 required"
+                zero_weight_required: "one or more assignments are required to receive a course grade"
             difference:
                 used_instead: "%{name} (weight %{weight}) is added"
                 not_used: "%{name} is removed"
@@ -236,18 +234,18 @@ en:
                     one: "The result for %{name} is converted to a grade from 1 to 10, where %{count} point makes a 10."
                     other: "The result for %{name} is converted to a grade from 1 to 10, where %{count} points make a 10."
                 minimum: "A grade of %{minimum} or higher is required; below that the final grade becomes NAV."
-                maximum: "At most %{maximum} points count towards this component."
+                maximum: "At most %{maximum} points count towards this component, any more are not counted."
                 attempt_required:
-                    one: "The assignment must have been attempted and submitted; if it is missing, no final grade is calculated."
-                    other: "All assignments must have been attempted; if any is missing, no final grade is calculated."
-                missing_cancels: "A missing grade for any assignment means no final grade is calculated."
+                    one: "The assignment must have been attempted and submitted; if it is missing, this final grade is not calculated."
+                    other: "All assignments must have been attempted; if any is missing, this final grade is not calculated."
+                missing_cancels: "If the grade for any assignment is missing, this final grade is not calculated."
                 missing_scores_zero: "An assignment that is missing scores 0 points."
                 missing_counts_as: "An assignment that is missing counts as the grade %{value}."
                 missing_allowed: "An assignment that is missing does not block the calculation."
                 required: "Any assignment graded 0 makes the final grade NAV."
                 drop_lowest: "The lowest assignment grade is dropped."
                 bonus: "Bonus assignments are added on top, up to a maximum grade of 10."
-                zero_weight_required: "An assignment with weight 0 is required: without a grade for it, this component becomes a 1."
+                zero_weight_required: "An assignment with weight 0 is required: without a grade for it, this component becomes a NAV."
                 deadline: "Deadline: %{deadline}."
             rounding:
                 title: "Rounding"
@@ -257,7 +255,7 @@ en:
                     - "grades from 5.5 up to (but not including) 6.25 become 6"
                     - "all other grades are rounded to the nearest half point"
                     - "anything above 10 becomes 10"
-                note: "If a component could not be determined, no final grade is registered at all; if a required condition was not met, the final grade is NAV."
+                note: "If a component could not be determined, that final grade is not registered; other final grades that do not use the component are still calculated. If a required condition was not met, the final grade is NAV."
             assignments:
                 title: "How each assignment is graded"
                 intro: "Graders enter the parts listed under 'parts of the grade'. The formula shows how those parts are combined into the grade for the assignment. Where no formula is given, the grader enters the grade directly."

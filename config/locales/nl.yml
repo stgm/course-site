@@ -199,14 +199,12 @@ nl:
             component_is: "Het cijfer voor dit onderdeel is %{strategy}."
             component_is_single: "Het cijfer voor dit onderdeel wordt geheel bepaald door de opdracht %{name}."
             component_undefined: "Onderdeel %{name} wordt gebruikt maar is niet gedefinieerd."
-            not_defined: "niet gedefinieerd"
             bonus_label: "%{name} (bonus)"
             header:
                 component: "onderdeel"
                 weight: "gewicht"
                 share: "aandeel"
-                condition: "voorwaarde"
-                based_on: "gebaseerd op"
+                condition: "minimumeis"
                 assignment: "opdracht"
                 points_available: "te behalen punten"
                 type: "soort"
@@ -215,7 +213,7 @@ nl:
             strategy:
                 points:
                     one: "het aantal behaalde punten gedeeld door het ene te behalen punt, omgerekend naar een cijfer van 1 tot 10"
-                    other: "het aantal behaalde punten gedeeld door de %{count} te behalen punten, omgerekend naar een cijfer van 1 tot 10"
+                    other: "het aantal behaalde punten gedeeld door het maximum van %{count}, omgerekend naar een cijfer van 1 tot 10"
                 maximum: "het hoogste van de cijfers voor de opdrachten"
                 average: "het gewogen gemiddelde van de cijfers voor de opdrachten"
             condition:
@@ -226,7 +224,7 @@ nl:
                 attempt_required:
                     one: "gemaakt en ingeleverd"
                     other: "alle opdrachten gemaakt"
-                zero_weight_required: "opdrachten met gewicht 0 verplicht"
+                zero_weight_required: "één of meer opdrachten zijn verplicht om een eindcijfer te verkrijgen"
             difference:
                 used_instead: "%{name} (gewicht %{weight}) is toegevoegd"
                 not_used: "%{name} is verwijderd"
@@ -236,20 +234,20 @@ nl:
                 single_pass_required: "Dit onderdeel telt als een 10 wanneer de opdracht %{name} is behaald, en anders een NAV."
                 single_points:
                     one: "Het resultaat van de opdracht %{name} wordt omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punt een 10 oplevert."
-                    other: "Het resultaat van de opdracht %{name} wordt omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punten een 10 opleveren."
+                    other: "Het resultaat van de opdracht %{name} wordt omgerekend naar een cijfer van 1 tot 10, waarbij %{count} punten een 10 oplevert."
                 minimum: "Een cijfer van %{minimum} of hoger is vereist; daaronder wordt het eindcijfer NAV."
-                maximum: "Er tellen maximaal %{maximum} punten mee voor dit onderdeel."
+                maximum: "Er tellen maximaal %{maximum} punten mee voor dit onderdeel, daarboven wordt afgekapt."
                 attempt_required:
-                    one: "Het onderdeel moet zijn gemaakt en ingeleverd; ontbreekt het, dan wordt er geen eindcijfer berekend."
-                    other: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt er geen eindcijfer berekend."
-                missing_cancels: "Een ontbrekend cijfer voor een van de opdrachten betekent dat er geen eindcijfer wordt berekend."
+                    one: "Het onderdeel moet zijn gemaakt en ingeleverd; ontbreekt het, dan wordt dit eindcijfer niet berekend."
+                    other: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt dit eindcijfer niet berekend."
+                missing_cancels: "Ontbreekt het cijfer voor een van de opdrachten, dan wordt dit eindcijfer niet berekend."
                 missing_scores_zero: "Een opdracht die ontbreekt levert 0 punten op."
                 missing_counts_as: "Een opdracht die ontbreekt telt als het cijfer %{value}."
                 missing_allowed: "Een opdracht die ontbreekt blokkeert de berekening niet."
                 required: "Een opdracht met een 0 maakt het eindcijfer NAV."
                 drop_lowest: "Het laagste cijfer voor een opdracht telt niet mee."
                 bonus: "Bonusopdrachten komen er bovenop, tot een maximumcijfer van 10."
-                zero_weight_required: "Een opdracht met gewicht 0 is verplicht: zonder cijfer daarvoor wordt dit onderdeel een 1."
+                zero_weight_required: "Een opdracht met gewicht 0 is verplicht: zonder cijfer daarvoor wordt dit onderdeel een NAV."
                 deadline: "Deadline: %{deadline}."
             rounding:
                 title: "Afronding"
@@ -259,7 +257,7 @@ nl:
                     - "cijfers vanaf 5,5 tot (maar niet inclusief) 6,25 worden een 6"
                     - "alle andere cijfers worden afgerond op een half punt"
                     - "alles boven de 10 wordt een 10"
-                note: "Als een onderdeel niet kon worden bepaald, wordt er helemaal geen eindcijfer geregistreerd; is aan een vereiste voorwaarde niet voldaan, dan is het eindcijfer NAV."
+                note: "Als een onderdeel niet kon worden bepaald, wordt dat eindcijfer niet geregistreerd; andere eindcijfers die dat onderdeel niet gebruiken worden gewoon berekend. Is aan een vereiste voorwaarde niet voldaan, dan is het eindcijfer NAV."
             assignments:
                 title: "Hoe elke opdracht wordt beoordeeld"
                 intro: "Nakijkers vullen de onderdelen in die staan onder 'onderdelen van het cijfer'. De formule laat zien hoe die onderdelen samen het cijfer voor de opdracht vormen. Staat er geen formule, dan vult de nakijker het cijfer rechtstreeks in."

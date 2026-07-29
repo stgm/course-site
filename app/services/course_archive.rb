@@ -400,10 +400,10 @@ class CourseArchive
     # column holding a long comma separated list therefore swallows the page and leaves
     # the short columns at their bare content width, so say what the columns should be
     #
-    #                     component  weight  share  condition  based on
-    COMPONENT_COLUMNS =  [ 0.20,     0.09,   0.09,  0.27,      0.35 ].freeze
-    #                            component  share  condition  based on
-    SINGLE_COMPONENT_COLUMNS = [ 0.22,      0.09,  0.30,      0.39 ].freeze
+    #                     component  weight  share  condition
+    COMPONENT_COLUMNS =  [ 0.28,     0.10,   0.10,  0.52 ].freeze
+    #                            component  share  condition
+    SINGLE_COMPONENT_COLUMNS = [ 0.30,      0.10,  0.60 ].freeze
     #                     assignment  type  parts  formula
     ASSIGNMENT_COLUMNS = [ 0.26,      0.12, 0.31,  0.31 ].freeze
     #                     assignment  weight
@@ -466,18 +466,14 @@ class CourseArchive
         pdf.text pdf_safe(t("archive.final_grades.#{single ? 'single_component' : 'weighted_average'}")), size: 10
         pdf.move_down 6
 
-        headers = single ? %w[component share condition based_on] : %w[component weight share condition based_on]
+        headers = single ? %w[component share condition] : %w[component weight share condition]
         rows = [ headers.map { |key| pdf_safe(t("archive.final_grades.header.#{key}")) } ]
         total_weight = components.values.sum
         components.each do |component_name, weight|
             component = config.components[component_name]
             row = [ pdf_safe(component_name) ]
             row << weight.to_s unless single
-            row += [
-                weight_share(weight, total_weight),
-                pdf_safe(component_condition(component, config)),
-                pdf_safe(component ? component["submits"].keys.join(", ") : t("archive.final_grades.not_defined"))
-            ]
+            row += [ weight_share(weight, total_weight), pdf_safe(component_condition(component, config)) ]
             rows << row
         end
         draw_table(pdf, rows, single ? SINGLE_COMPONENT_COLUMNS : COMPONENT_COLUMNS, padding: 4)
