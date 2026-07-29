@@ -206,7 +206,7 @@ nl:
                 share: "aandeel"
                 condition: "minimumeis"
                 assignment: "opdracht"
-                points_available: "te behalen punten"
+                points: "punten"
                 type: "soort"
                 parts: "onderdelen van het cijfer"
                 formula: "formule"

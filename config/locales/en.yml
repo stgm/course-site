@@ -204,7 +204,7 @@ en:
                 share: "share"
                 condition: "requirement"
                 assignment: "assignment"
-                points_available: "points available"
+                points: "points"
                 type: "type"
                 parts: "parts of the grade"
                 formula: "formula"

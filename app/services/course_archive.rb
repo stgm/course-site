@@ -409,13 +409,15 @@ class CourseArchive
     #                     assignment  weight
     SUBMITS_COLUMNS =    [ 0.72,      0.28 ].freeze
 
-    def draw_table(pdf, rows, columns, width: pdf.bounds.width, padding: 3)
+    def draw_table(pdf, rows, columns, width: pdf.bounds.width, padding: 3, right: [])
         pdf.table(rows,
             header: true,
             width: width,
             column_widths: columns.map { |part| part * width },
             cell_style: { size: 8, padding: padding }) do
             row(0).font_style = :bold
+            # numbers read better against the right edge of their column
+            right.each { |index| column(index).align = :right }
         end
     end
 
@@ -476,7 +478,9 @@ class CourseArchive
             row += [ weight_share(weight, total_weight), pdf_safe(component_condition(component, config)) ]
             rows << row
         end
-        draw_table(pdf, rows, single ? SINGLE_COMPONENT_COLUMNS : COMPONENT_COLUMNS, padding: 4)
+        # the weight and its share of the total, or just the share when there is one component
+        draw_table(pdf, rows, single ? SINGLE_COMPONENT_COLUMNS : COMPONENT_COLUMNS,
+            padding: 4, right: single ? [ 1 ] : [ 1, 2 ])
         pdf.move_down 10
 
         # only worth comparing when the two grades actually have components in common;
@@ -651,7 +655,7 @@ class CourseArchive
             return
         end
 
-        label = component["type"] == "points" ? "points_available" : "weight"
+        label = component["type"] == "points" ? "points" : "weight"
         rows = [ [
             pdf_safe(t("archive.final_grades.header.assignment")),
             pdf_safe(t("archive.final_grades.header.#{label}"))
@@ -661,7 +665,7 @@ class CourseArchive
             rows << [ pdf_safe(t("archive.final_grades.bonus_label", name: name)), weight.to_s ]
         end
 
-        draw_table(pdf, rows, SUBMITS_COLUMNS, width: pdf.bounds.width / 2)
+        draw_table(pdf, rows, SUBMITS_COLUMNS, width: pdf.bounds.width / 2, right: [ 1 ])
         pdf.move_down 10
     end
 
