@@ -210,8 +210,8 @@ en:
                 formula: "formula"
             strategy:
                 points:
-                    one: "points earned divided by the single point available, converted to a grade from 1 to 10"
-                    other: "points earned divided by the maximum of %{count}, converted to a grade from 1 to 10"
+                    one: "points earned divided by the single point available, converted to 1--10"
+                    other: "points earned divided by the maximum of %{count}, converted to 1--10"
                 maximum: "the highest of the assignment grades"
                 average: "the weighted average of the assignment grades"
             condition:
@@ -236,10 +236,12 @@ en:
                 minimum: "A grade of %{minimum} or higher is required; below that the final grade becomes NAV."
                 maximum: "At most %{maximum} points count towards this component, any more are not counted."
                 attempt_required:
-                    one: "The assignment must have been attempted and submitted; if it is missing, this final grade is not calculated."
-                    other: "All assignments must have been attempted; if any is missing, this final grade is not calculated."
-                missing_cancels: "If the grade for any assignment is missing, this final grade is not calculated."
-                missing_scores_zero: "An assignment that is missing scores 0 points."
+                    one: "The assignment must have been attempted and submitted; if it is missing, the final grade is not calculated."
+                    other: "All assignments must have been attempted; if any is missing, the final grade is not calculated."
+                missing_cancels: "If the grade for any assignment is missing, the final grade is not calculated."
+                missing_scores_zero:
+                    one: "If the assignment was not made at all, it scores 0 points."
+                    other: "An assignment that is missing scores 0 points."
                 missing_counts_as: "An assignment that is missing counts as the grade %{value}."
                 missing_allowed: "An assignment that is missing does not block the calculation."
                 required: "Any assignment graded 0 makes the final grade NAV."

@@ -212,8 +212,8 @@ nl:
                 formula: "formule"
             strategy:
                 points:
-                    one: "het aantal behaalde punten gedeeld door het ene te behalen punt, omgerekend naar een cijfer van 1 tot 10"
-                    other: "het aantal behaalde punten gedeeld door het maximum van %{count}, omgerekend naar een cijfer van 1 tot 10"
+                    one: "het aantal behaalde punten gedeeld door het ene te behalen punt, omgerekend naar 1--10"
+                    other: "het aantal behaalde punten gedeeld door het maximum van %{count}, omgerekend naar 1--10"
                 maximum: "het hoogste van de cijfers voor de opdrachten"
                 average: "het gewogen gemiddelde van de cijfers voor de opdrachten"
             condition:
@@ -238,10 +238,12 @@ nl:
                 minimum: "Een cijfer van %{minimum} of hoger is vereist; daaronder wordt het eindcijfer NAV."
                 maximum: "Er tellen maximaal %{maximum} punten mee voor dit onderdeel, daarboven wordt afgekapt."
                 attempt_required:
-                    one: "Het onderdeel moet zijn gemaakt en ingeleverd; ontbreekt het, dan wordt dit eindcijfer niet berekend."
-                    other: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt dit eindcijfer niet berekend."
-                missing_cancels: "Ontbreekt het cijfer voor een van de opdrachten, dan wordt dit eindcijfer niet berekend."
-                missing_scores_zero: "Een opdracht die ontbreekt levert 0 punten op."
+                    one: "Het onderdeel moet zijn gemaakt en ingeleverd; ontbreekt het, dan wordt het eindcijfer niet berekend."
+                    other: "Alle opdrachten moeten zijn gemaakt; ontbreekt er één, dan wordt het eindcijfer niet berekend."
+                missing_cancels: "Ontbreekt het cijfer voor een van de opdrachten, dan wordt het eindcijfer niet berekend."
+                missing_scores_zero:
+                    one: "Als de opdracht helemaal niet gemaakt is levert deze 0 punten op."
+                    other: "Een opdracht die ontbreekt levert 0 punten op."
                 missing_counts_as: "Een opdracht die ontbreekt telt als het cijfer %{value}."
                 missing_allowed: "Een opdracht die ontbreekt blokkeert de berekening niet."
                 required: "Een opdracht met een 0 maakt het eindcijfer NAV."

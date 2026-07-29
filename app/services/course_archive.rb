@@ -688,7 +688,9 @@ class CourseArchive
     # always counted as 0 when missing, and the maximum strategy always cancels
     #
     def missing_rule(component)
-        return rule(:missing_scores_zero) if component["type"] == "points"
+        if component["type"] == "points"
+            return rule(:missing_scores_zero, count: component["submits"].to_h.size)
+        end
         return rule(:missing_cancels) if component["type"] == "maximum"
 
         fill = component["fill_missing"]
