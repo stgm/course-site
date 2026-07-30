@@ -1,4 +1,4 @@
-<% if Settings.hands_embed_enabled && Settings.hands_embed_url.present? && current_user.valid_profile? %>
+<% if Settings.hands_embed_enabled && AppConfig.hands_embed_url.present? && current_user.valid_profile? %>
     <%# All widget logic (JS, Action Cable, markup) is served by the hands app;
         course-site only provides a mount point, the same-origin token endpoint,
         and loads the hands app's widget script. Kept alive across Turbo
@@ -24,11 +24,11 @@
     <script>
         window.HandsEmbed = {
             tokenUrl: <%= hands_embed_token_path.to_json.html_safe %>,
-            handsUrl: <%= Settings.hands_embed_url.to_s.to_json.html_safe %>,
+            handsUrl: <%= AppConfig.hands_embed_url.to_s.to_json.html_safe %>,
             mount: "#hands-embed-widget"
         };
     </script>
-    <script src="<%= Settings.hands_embed_url %>/embed/widget.js" async></script>
+    <script src="<%= AppConfig.hands_embed_url %>/embed/widget.js" async></script>
 
     <%# Popping the menu open unprompted is a decision split across the two apps:
         the widget reports when it is showing something worth interrupting for,

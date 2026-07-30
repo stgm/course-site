@@ -16,13 +16,12 @@ class Settings < RailsSettings::Base
     end
 
     scope :site do
-        field :git_repo, default: ENV["GITHUB_BASE"]
-        field :git_branch, default: ENV["GITHUB_BRANCH"]
+        field :git_repo
+        field :git_branch
         field :send_grade_mails, default: false
+        field :mailer_from
         field :room_for_toc
         field :public_schedule
-
-        field :exam_base_url, default: ENV["COURSE_SITE_EXAM_SERVER"] || "https://ide.proglab.nl/exam.html"
 
         field :hands_allow
         field :hands_only
@@ -38,10 +37,10 @@ class Settings < RailsSettings::Base
     # is additive: the local hands feature above is unaffected.
     scope :hands_embed do
         field :hands_embed_enabled, default: false
-        field :hands_embed_url, default: ENV["HANDS_EMBED_URL"]
-        field :hands_embed_slug, default: ENV["HANDS_EMBED_SLUG"]
-        field :hands_embed_secret, default: ENV["HANDS_EMBED_SECRET"]
-        field :hands_embed_site_label, default: ENV["HANDS_EMBED_SITE_LABEL"]
+        field :hands_embed_url
+        field :hands_embed_slug
+        field :hands_embed_secret
+        field :hands_embed_site_label
     end
 
     scope :grading do

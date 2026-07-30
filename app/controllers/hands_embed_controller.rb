@@ -8,7 +8,7 @@ class HandsEmbedController < ApplicationController
     before_action :require_embed_enabled
 
     def token
-        slug = Settings.hands_embed_slug.to_s
+        slug = AppConfig.hands_embed_slug.to_s
         payload = {
             "email"          => current_user.mail.to_s.downcase,
             "name"           => current_user.name.to_s,
@@ -29,17 +29,17 @@ class HandsEmbedController < ApplicationController
         # Only the token is returned: the widget already knows where the hands app
         # lives (window.HandsEmbed), and the slug/site_label travel inside the
         # encrypted payload.
-        render json: { token: Embed::Token.encode(payload, Settings.hands_embed_secret, slug) }
+        render json: { token: Embed::Token.encode(payload, AppConfig.hands_embed_secret, slug) }
     end
 
     private
 
     def site_label
-        Settings.hands_embed_site_label.presence || request.host
+        AppConfig.hands_embed_site_label.presence || request.host
     end
 
     def require_embed_enabled
-        head :not_found unless Settings.hands_embed_enabled && Settings.hands_embed_secret.present?
+        head :not_found unless Settings.hands_embed_enabled && AppConfig.hands_embed_secret.present?
     end
 
 end

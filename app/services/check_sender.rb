@@ -1,12 +1,12 @@
 class CheckSender
 
     def self.enabled?
-        ENV["CHECK_SERVER_URL"].present? && ENV["CHECK_SERVER_SECRET"].present?
+        AppConfig.check_server_configured?
     end
 
     def initialize(zipped_attachments, tool_config:, callback_url:)
-        @server_url = ENV["CHECK_SERVER_URL"]
-        @server_secret = ENV["CHECK_SERVER_SECRET"]
+        @server_url = AppConfig.check_server_url
+        @server_secret = AppConfig.check_server_secret
 
         @zipped_attachments = zipped_attachments
         @tool_config = tool_config

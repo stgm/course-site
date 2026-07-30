@@ -87,7 +87,7 @@ class Course::Git
     end
 
     def get_remote_branch
-        remote_branch = Settings.git_branch
+        remote_branch = AppConfig.github_branch
         remote_branch = "master" if remote_branch.blank?
         return remote_branch
     end

@@ -20,10 +20,13 @@
 .DS_Store
 .dir-locals.el
 
-# The course contents should not be included in this source code
+# The course contents should not be included in this source repo
 /public/course
 /public/materials
 /public/assets
 /public/dev-assets
 
+# Encrypted credentials
 /config/master.key
+/config/credentials/*.key
+/config/credentials/development.key

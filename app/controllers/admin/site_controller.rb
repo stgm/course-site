@@ -11,12 +11,12 @@ class Admin::SiteController < ApplicationController
     end
 
     # Allows changing arbitrary settings in the settings model.
+    # Restricted to keys declared as fields.
     def settings
-        if setting = params["settings"]
-            setting.each do |k, v|
-                v = v == "1" if v == "1" or v == "0"
-                Settings.send "#{k}=", v
-            end
+        (params["settings"] || {}).each do |k, v|
+            return head :bad_request unless Settings.keys.include?(k)
+            v = v == "1" if v == "1" or v == "0"
+            Settings.send "#{k}=", v
         end
         if params["redirect"]
             redirect_to params["redirect"]
@@ -35,7 +35,7 @@ class Admin::SiteController < ApplicationController
 
     # Set git repository, cloning if needed.
     def set_git_repo
-        if Settings.git_repo.present?
+        if AppConfig.github_url.present?
             # refuse to set new repo if already present (because we don't have delete/replace functionality)
             redirect_back fallback_location: "/", alert: "You already cloned a repo once!"
         else

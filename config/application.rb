@@ -18,6 +18,11 @@ require "action_view/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Read API for secrets and per-installation config.
+# Required here rather than leave it to be autoloaded, so it's available here
+# and for database/storage config, as well as in the app code itself.
+require_relative "app_config"
+
 module CourseSite
 
     class Application < Rails::Application
@@ -38,11 +43,11 @@ module CourseSite
         config.time_zone = "Amsterdam"
 
         config.action_mailer.smtp_settings = {
-            address: ENV["MAILER_ADDRESS"],
-            domain: ENV["MAILER_DOMAIN"],
+            address: AppConfig.mailer_address,
+            domain: AppConfig.mailer_domain,
             port: 465,
-            user_name: ENV["MAILER_USER"],
-            password: ENV["MAILER_PASS"]
+            user_name: AppConfig.mailer_user,
+            password: AppConfig.mailer_password
         }
 
         config.active_record.yaml_column_permitted_classes = [ HashWithIndifferentAccess ]

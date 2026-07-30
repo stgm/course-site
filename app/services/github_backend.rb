@@ -1,7 +1,7 @@
 class GithubBackend
     def initialize(git_repo)
         @repo = git_repo
-        @client = Octokit::Client.new(access_token: ENV["GITHUB_TOKEN"])
+        @client = Octokit::Client.new(access_token: AppConfig.github_token)
         @full_name = "#{@repo.org}/#{@repo.repo}"
     end
 

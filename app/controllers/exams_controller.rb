@@ -45,7 +45,7 @@ class ExamsController < ApplicationController
 
         # redirect to external editor with post url and code
         params = "url=#{json_exam_url}&code=#{code}"
-        redirect_to "#{Settings.exam_base_url}?#{params}", allow_other_host: true
+        redirect_to "#{AppConfig.exam_base_url}?#{params}", allow_other_host: true
     end
 
     def json

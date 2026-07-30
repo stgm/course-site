@@ -44,7 +44,7 @@ class HomeController < ApplicationController
     end
 
     def clone
-        if Settings.git_repo.present?
+        if AppConfig.github_url.present?
             Course::Loader.new.run
             User.first.update(schedule: Schedule.first)
             return redirect_to :root

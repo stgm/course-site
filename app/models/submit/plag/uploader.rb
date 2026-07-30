@@ -1,8 +1,8 @@
 class Submit::Plag::Uploader
 
     def initialize(config)
-        raise if ENV["PLAG_SERVER_KEY"].blank?
-        @config_items = config.merge({ 'api-token': ENV["PLAG_SERVER_KEY"] })
+        raise if AppConfig.plag_server_key.blank?
+        @config_items = config.merge({ 'api-token': AppConfig.plag_server_key })
         @c = Curl::Easy.new(@config_items["server"])
         @c.multipart_form_post = true
     end

@@ -1,8 +1,8 @@
 <p class="text-center">Course materials will be downloaded from this git repository.</p>
 
-<% if Settings.git_repo.present? %>
+<% if AppConfig.github_url.present? %>
 
-<p><%= Settings.git_repo %> @ <%= Settings.git_branch %></p>
+<p><%= AppConfig.github_url %> @ <%= AppConfig.github_branch %></p>
 <p>
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#hiddenReset" aria-expanded="false" aria-controls="hiddenReset">
         Advanced...
@@ -23,12 +23,12 @@
 <%= form_tag(admin_site_set_git_repo_path, class:'form d-flex') do %>
 <div class="flex-fill">
     <label for="repo_url">Repo URL</label>
-    <%= text_field_tag 'repo_url', Settings.git_repo, required: true, class: 'form-control' %>
+    <%= text_field_tag 'repo_url', AppConfig.github_url, required: true, class: 'form-control' %>
 </div>
 <div class="ms-3">
     <label for="repo_branch">Branch</label>
     <div class="input-group">
-        <%= text_field_tag 'repo_branch', Settings.git_branch, class: 'form-control' %>
+        <%= text_field_tag 'repo_branch', AppConfig.github_branch, class: 'form-control' %>
         <%= submit_tag 'Clone', class:'btn btn-primary' %>
     </div>
 </div>

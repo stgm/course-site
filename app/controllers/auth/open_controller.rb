@@ -3,9 +3,7 @@ class Auth::OpenController < ApplicationController
     # Facilitates login by OpenID as configured in the environment
 
     def self.available?
-        ENV["OIDC_CLIENT_ID"].present? &&
-        ENV["OIDC_CLIENT_SECRET"].present? &&
-        ENV["OIDC_HOST"].present?
+        AppConfig.oidc_configured?
     end
 
     def login
@@ -72,10 +70,10 @@ class Auth::OpenController < ApplicationController
 
     def client
         @client ||= OpenIDConnect::Client.new(
-        identifier: ENV["OIDC_CLIENT_ID"],
-        secret: ENV["OIDC_CLIENT_SECRET"],
+        identifier: AppConfig.oidc_client_id,
+        secret: AppConfig.oidc_client_secret,
         redirect_uri: auth_open_callback_url,
-        host: ENV["OIDC_HOST"],
+        host: AppConfig.oidc_host,
         authorization_endpoint: "/oidc/authorize",
         token_endpoint: "/oidc/token",
         userinfo_endpoint: "/oidc/userinfo"
