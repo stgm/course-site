@@ -54,7 +54,6 @@ Rails.application.configure do
 
   # ActiveJob
   config.active_job.queue_adapter = :async
-  # config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
