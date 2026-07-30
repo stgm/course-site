@@ -26,6 +26,13 @@ class UsersController < ApplicationController
         end
     end
 
+    # Note: we use methods like `group_by_day` from the GroupDate gem. It
+    # did not work with timezones + sqlite before, though now it should.
+    # If any problems arise: previously timezones were disabled in dev
+    # config by:
+    #
+    # # Remove time zone for Groupdate because it does not support SQLite
+    # Groupdate.time_zone = false
     def show
         @student = @user_scope.includes(:hands, :notes).find(params[:id])
         @note = Note.new(student_id: @student.id)
