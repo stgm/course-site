@@ -8,5 +8,3 @@
 <% if Schedule.any? %>
 <%= render partial: 'registration', layout: 'modal_card', locals: { title: 'Schedule registration', subtitle: 'Allow students to register for the following schedules' } %>
 <% end %>
-
-<%= render partial: 'export', layout: 'modal_card', locals: { title: 'Export results', subtitle: 'Download student results from all schedules for archival' }%>

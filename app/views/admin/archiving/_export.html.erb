@@ -1,0 +1,9 @@
+<%= toggle_setting_form('export_nap_final_grades', 'Export NAP for empty final grades') %>
+
+<%= link_to 'Export grades XSLX', admin_archiving_export_grades_path(format: 'xlsx'), class: 'btn btn-outline-primary', data: { turbo: false } %>
+<%= link_to 'Export grades overview', admin_archiving_export_grades_path(format: 'html'), class: 'btn btn-outline-primary', data: { turbo: false } %>
+<%= link_to 'Download course archive', admin_archiving_archive_path, class: 'btn btn-primary', data: { turbo: false } %>
+
+<div class="mt-2">
+    <small class="text-muted">The archive is a zip with the grades (XLSX and PDF) and a syllabus and announcements PDF per schedule.</small>
+</div>

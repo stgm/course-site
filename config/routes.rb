@@ -42,12 +42,17 @@ Rails.application.routes.draw do
         # course settings, not often used
         get "course", to: "course#index"
         namespace :course do
-            get	  "export_grades"		  # done
-            get	  "archive"				  # done
             patch "schedule_registration" # done
             patch "schedule_self_service" # done
             patch "page_update"			  # done
             patch "update_schedule_span"
+        end
+
+        # shutting the course down: archival phase and the exports
+        get "archiving", to: "archiving#index"
+        namespace :archiving do
+            get "export_grades"
+            get "archive"
         end
 
         resources :users, only: [ :index, :new, :create ] do

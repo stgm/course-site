@@ -22,7 +22,7 @@
 <%= link_to insert_icon(title).html_safe, url, class:"", target: url =~ /^http/i ? '_blank' : nil %>
 <% end %>
 
-<% if Settings.hands_allow %>
+<% if Hand.available? %>
 <% unless current_user.assistant? %>
 <a href="/assistance" class="d-md-none">
     <%= bootstrap_icon "question-circle" %>

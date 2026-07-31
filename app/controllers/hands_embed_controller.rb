@@ -39,7 +39,7 @@ class HandsEmbedController < ApplicationController
     end
 
     def require_embed_enabled
-        head :not_found unless Settings.hands_embed_enabled && AppConfig.hands_embed_secret.present?
+        head :not_found unless Embed::Widget.available? && AppConfig.hands_embed_secret.present?
     end
 
 end

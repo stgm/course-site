@@ -1,0 +1,24 @@
+<ul>
+    <li>Only admins can login</li>
+    <li>No one can self-register</li>
+    <li>No one can submit assignments</li>
+    <li>The question queue is switched off</li>
+</ul>
+
+<% if Settings.registration_phase_archival? %>
+    <div class="text-end fw-bold">✅ The course is in archival phase</div>
+<% elsif Settings.registration_phase == 'exam' %>
+    <div class="text-end">
+        <%= bootstrap_icon('exclamation-triangle') %>
+        Exam mode is active — stop it first at <%= link_to "Exams", admin_exams_path, data: { turbo: false } %>.
+    </div>
+<% else %>
+    <%= settings_form '' do %>
+        <%= hidden_field_tag 'redirect', admin_archiving_path %>
+        <div class="d-flex justify-content-end">
+            <button type="submit" name="settings[registration_phase]" value="archival" class="btn btn-primary">
+                Put course in archival phase
+            </button>
+        </div>
+    <% end %>
+<% end %>

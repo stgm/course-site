@@ -28,6 +28,12 @@ class Hand < ApplicationRecord
         )
     end
 
+    # the question queue is off once the course is archived, exactly as if the
+    # admin had unchecked it
+    def self.available?
+        Settings.hands_allow && !Settings.registration_phase_archival?
+    end
+
     def self.remove_all_stale
         Hand.waiting.update_all(done: true,
             evaluation: "Stale question removed from queue at night",

@@ -83,4 +83,9 @@ class Settings < RailsSettings::Base
 
     field :git_version, default: {}
 
+    # the course is closed down: only admins may be around, nothing may change anymore
+    def self.registration_phase_archival?
+        registration_phase == "archival"
+    end
+
 end

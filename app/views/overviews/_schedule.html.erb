@@ -117,7 +117,7 @@
         <td class="bar">
             <% if current_user.senior? %>
             <%= user.attendance_graph %>
-            <% if Settings.hands_allow %><br>
+            <% if Hand.available? %><br>
             <%= user.hands_count %> hands,
             <%= user.hands_duration_count %> mins
             <% end %>

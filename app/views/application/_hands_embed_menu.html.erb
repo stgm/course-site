@@ -1,4 +1,4 @@
-<% if Settings.hands_embed_enabled && AppConfig.hands_embed_url.present? && current_user.valid_profile? %>
+<% if Embed::Widget.available? && AppConfig.hands_embed_url.present? && current_user.valid_profile? %>
     <%# All widget logic (JS, Action Cable, markup) is served by the hands app;
         course-site only provides a mount point, the same-origin token endpoint,
         and loads the hands app's widget script. Kept alive across Turbo

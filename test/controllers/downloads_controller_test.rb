@@ -65,7 +65,7 @@ class DownloadsControllerTest < ActionController::TestCase
 
 
     class CourseArchiveDownloadTest < DownloadsControllerTest
-        tests Admin::CourseController
+        tests Admin::ArchivingController
 
         setup do
             @admin = users(:test_user)

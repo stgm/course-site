@@ -17,7 +17,7 @@
 #
 class CourseArchive
 
-    # the scopes for the grade exports, shared with Admin::CourseController#export_grades;
+    # the scopes for the grade exports, shared with Admin::ArchivingController#export_grades;
     # without a schedule these cover the whole course
     #
     # everything the grade exports touch per student; without this the exports fire a
@@ -131,13 +131,13 @@ class CourseArchive
     def grades_xlsx(io, schedule = nil)
         users, psets, students = self.class.grade_export_scopes(schedule)
         io.write(ApplicationController.render(
-            template: "admin/course/export_grades",
+            template: "admin/archiving/export_grades",
             formats: [ :xlsx ],
             assigns: { users: users, psets: psets, students: students, title: "Export grades" }
         ))
     end
 
-    # the PDF equivalent of admin/course/export_grades.html.erb: a page per student
+    # the PDF equivalent of admin/archiving/export_grades.html.erb: a page per student
     # with all their submits and grades
     #
     def grades_overview_pdf(io, schedule = nil)

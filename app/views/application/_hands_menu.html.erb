@@ -1,4 +1,4 @@
-<% if Settings.hands_allow && current_user.valid_profile? %>
+<% if Hand.available? && current_user.valid_profile? %>
 
 <div class="dropdown d-none d-md-block">
     <button id="ama-dd" class="btn btn-link dropdown-toggle" type="button"

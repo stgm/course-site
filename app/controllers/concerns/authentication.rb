@@ -5,6 +5,15 @@ module Authentication
     included do
         helper_method :authenticated?, :logged_in?, :current_user
         before_action :current_user
+        before_action :enforce_lockout
+    end
+
+    # the phase is only checked when logging in, so a session that predates the
+    # switch to archival would otherwise keep working; drop it on the next request
+    def enforce_lockout
+        return unless Settings.registration_phase_archival? && logged_in? && !current_user.admin?
+        reset_session
+        redirect_to main_app.root_path, alert: t("account.not_everyone_can_login")
     end
 
     # decides if any of the auth methods is satisfied

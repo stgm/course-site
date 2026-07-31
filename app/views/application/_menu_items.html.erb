@@ -4,7 +4,7 @@
 <%= menu_group(Schedule.many? ? current_schedule.name : nil) do %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns' %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
-	<% if Settings.hands_allow %>
+	<% if Hand.available? %>
 	<%= menu_link 'Hands', hands_path, icon: 'people-fill' %>
 	<% end %>
 	<%= menu_link 'Exams', admin_exams_path, icon: 'droplet', condition: Exam.any? %>
@@ -24,9 +24,10 @@
 
 <%= menu_group 'Course' do %>
 	<%= menu_link 'Course administration...', admin_course_path, icon: 'inboxes', target: 'modal', accesskey: 's' %>
+	<%= menu_link 'Archiving...', admin_archiving_path, icon: 'archive', target: 'modal' %>
 	<%= menu_link 'Site configuration...', admin_site_path, icon: 'wrench', target: 'modal' %>
 	<%= menu_link 'Edit permissions...', admin_users_path, icon: 'unlock', target: 'modal' %>
-	<% if Settings.hands_allow %>
+	<% if Hand.available? %>
 	<%= menu_link 'Hands statistics...', hands_statistics_path, icon: 'bar-chart-line', target: 'modal' %>
 	<% end %>
 	<%= menu_link 'Update courseware', admin_update_path, icon: 'download', method: :post, data: { turbo: "false" } %>
@@ -35,8 +36,8 @@
 <% elsif current_user.head? %>
 
 <%= menu_group do %>
-	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
-<% end if Settings.hands_allow %>
+	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Hand.available? %>
+<% end if Hand.available? %>
 
 <% if current_user.accessible_schedules.any? || current_user.groups.any? %>
 <%= menu_group current_schedule.name do %>
@@ -57,7 +58,7 @@
 <% elsif current_user.assistant? %>
 
 <%= menu_group do %>
-	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Settings.hands_allow %>
+	<%= menu_link 'Hands', hands_path, icon: 'people-fill', condition: Hand.available? %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns', condition: Settings.grading_overview_for_tas && (current_user.groups.any? || current_user.schedules.any?) %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen', condition: !Schedule.exists? || current_user.groups.any? || current_user.schedules.any? %>
 <% end %>

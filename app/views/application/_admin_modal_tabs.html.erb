@@ -7,7 +7,8 @@
 if current_schedule.grading_config.tests.any?
   tabs.merge!({ "Test admin": "/tests" })
 end
-tabs.merge!({ "Hands statistics": "/hands/statistics" }) if Settings.hands_allow %>
+tabs.merge!({ "Hands statistics": "/hands/statistics" }) if Hand.available?
+tabs.merge!({ Archiving: "/admin/archiving" }) %>
 
 <ul class="nav nav-tabs">
   <% tabs.each_with_index do |(tab_name, route), index| %>
