@@ -1,0 +1,21 @@
+<% staff = User.revocable_staff.order(:role, :name) %>
+
+<% if staff.any? %>
+    <ul>
+        <% staff.each do |user| %>
+        <li><%= user.name %> <span class="text-muted">(<%= user.role %>)</span></li>
+        <% end %>
+    </ul>
+
+    <p><small class="text-muted">They become guests: no role, and no groups or schedules assigned
+    to them anymore. Admins are left alone. This cannot be undone.</small></p>
+
+    <div class="d-flex justify-content-end">
+        <%= button_to "Remove rights from #{pluralize(staff.size, 'assistant or head')}",
+            admin_archiving_revoke_staff_rights_path,
+            class: 'btn btn-primary',
+            data: { confirm: "Remove all rights from #{pluralize(staff.size, 'assistant or head')}? This cannot be undone." } %>
+    </div>
+<% else %>
+    <div class="text-end fw-bold">✅ No one is an assistant or head anymore</div>
+<% end %>

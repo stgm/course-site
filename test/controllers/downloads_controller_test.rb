@@ -90,8 +90,8 @@ class DownloadsControllerTest < ActionController::TestCase
         end
 
         test "is refused for non-admins" do
-            @admin.update!(role: :student)
-            sign_in(@admin)
+            # a separate user: the last admin cannot be demoted to make this point
+            sign_in(users(:test_user_2))
             get :archive
 
             assert_response :forbidden

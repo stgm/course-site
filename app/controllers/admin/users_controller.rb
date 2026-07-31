@@ -7,7 +7,7 @@ class Admin::UsersController < ApplicationController
 
     layout "modal"
 
-    # Show user permissions modal.
+    # Show user permissions modal
     def index
         @users = User.staff.order(:role, :name)
         @schedules = Schedule.order(:name)
@@ -23,7 +23,7 @@ class Admin::UsersController < ApplicationController
         end
     end
 
-    # Create a new user if self-signups are not allowed.
+    # Create a new user if self-signups are not allowed
     def create
         if params[:user][:infos]
             # bulk user invite, assume everything is valid
@@ -53,11 +53,15 @@ class Admin::UsersController < ApplicationController
         end
     end
 
-    # Sets or unsets user role.
+    # Sets or unsets user role
     def set_role
         user = User.find(params[:user_id])
-        user.update!(params.require(:user).permit(:role))
-        redirect_to user
+        if user.update(params.require(:user).permit(:role))
+            redirect_to user, notice: "#{user.name} is now #{user.role}."
+        else
+            # last admin cannot be removed, so report
+            redirect_to user, alert: user.errors.full_messages.join(", ")
+        end
     end
 
     def add_group_permission

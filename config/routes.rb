@@ -51,8 +51,9 @@ Rails.application.routes.draw do
         # shutting the course down: archival phase and the exports
         get "archiving", to: "archiving#index"
         namespace :archiving do
-            get "export_grades"
-            get "archive"
+            get	 "export_grades"
+            get	 "archive"
+            post "revoke_staff_rights"
         end
 
         resources :users, only: [ :index, :new, :create ] do

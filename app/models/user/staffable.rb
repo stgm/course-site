@@ -15,10 +15,31 @@ module User::Staffable
 
         scope :staff, -> { where(role: [ :admin, :assistant, :head ]) }
         scope :not_staff, -> { where.not(role: [ :admin, :assistant, :head ]) }
+
+        # ensure last admin stays it!
+        validate :last_admin_keeps_the_role
+        before_destroy :refuse_to_destroy_last_admin
+
+        # for site cleanup we can remove all non-admin staff in one go
+        scope :revocable_staff, -> { where(role: [ :assistant, :head ]) }
+        def self.revoke_staff_rights!
+            transaction do
+                revocable_staff.find_each do |user|
+                    user.groups.clear
+                    user.schedules.clear
+                    user.update!(role: :guest)
+                end
+            end
+        end
     end
 
     def staff?
         admin? or assistant? or head?
+    end
+
+    # the only admin left, so the one who may not lose the role
+    def last_admin?
+        admin? && persisted? && !User.admin.where.not(id: id).exists?
     end
 
     def senior?
@@ -59,6 +80,19 @@ module User::Staffable
         ].compact
 
         scopes.any? ? scopes.reduce { |combined, s| combined.or(s) } : User.none
+    end
+
+    private
+
+    def last_admin_keeps_the_role
+        # role_was represents current database
+        return unless persisted? && role_was == "admin" && !admin?
+        return if User.admin.where.not(id: id).exists?
+        errors.add(:role, "cannot be taken away from the last admin")
+    end
+
+    def refuse_to_destroy_last_admin
+        throw :abort if last_admin?
     end
 
 end

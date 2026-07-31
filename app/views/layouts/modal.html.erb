@@ -14,6 +14,9 @@
       ></button>
     </div>
     <div id="modal-browser-body">
+      <%# the app layout's flash sits outside the turbo frame, so a redirect that
+          lands back in the modal would drop its message on the floor %>
+      <%= render partial: "alerts" %>
       <%= yield %>
     </div>
     <% if content_for?(:footer) %>

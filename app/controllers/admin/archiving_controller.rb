@@ -11,6 +11,16 @@ class Admin::ArchivingController < ApplicationController
     end
 
     #
+    # take the course away from the assistants and heads who ran it
+    #
+    def revoke_staff_rights
+        User.revoke_staff_rights!
+        # no flash: the modal frame does not render one, and it would surface stale
+        # on the next full page load. The card reports the result instead
+        redirect_to admin_archiving_path
+    end
+
+    #
     # export all course grades in XLSX or HTML format (archiving)
     #
     def export_grades

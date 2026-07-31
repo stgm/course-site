@@ -52,6 +52,40 @@ class ArchivingControllerTest < ActionController::TestCase
         assert_match "The course is in archival phase", response.body
     end
 
+    test "strips assistants and heads of their role and their scope" do
+        group = Group.create!(name: "Group A", schedule: @schedule)
+        assistant = User.create!(name: "Ann Assistant", mail: "assistant@example.com", role: :assistant,
+                                 groups: [ group ], schedules: [ @schedule ])
+
+        sign_in(@admin)
+        post :revoke_staff_rights
+
+        assert_redirected_to admin_archiving_path
+        assistant.reload
+        assert assistant.guest?
+        assert_empty assistant.groups
+        assert_empty assistant.schedules
+    end
+
+    test "leaves admins alone" do
+        sign_in(@admin)
+        post :revoke_staff_rights
+
+        assert @admin.reload.admin?
+    end
+
+    test "reports when there is no one left to revoke" do
+        User.create!(name: "Ann Assistant", mail: "assistant@example.com", role: :assistant)
+
+        sign_in(@admin)
+        get :index
+        assert_match "Remove rights from 1 assistant or head", response.body
+
+        post :revoke_staff_rights
+        get :index
+        assert_match "No one is an assistant or head anymore", response.body
+    end
+
     test "is refused for non-admins" do
         sign_in(@student)
         get :index
