@@ -64,7 +64,7 @@ gem "katex", "~> 0.10.0"
 gem "kramdown-math-katex"
 
 # XLSX generation
-gem "rubyzip", "~> 2.3.0", require: "zip"
+gem "rubyzip", "~> 3.4", require: "zip"
 gem "caxlsx_rails"
 
 # PDF generation

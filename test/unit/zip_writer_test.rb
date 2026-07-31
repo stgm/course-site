@@ -1,6 +1,9 @@
 require 'test_helper'
+require_relative '../support/zip_inspection'
 
 class ZipWriterTest < ActiveSupport::TestCase
+
+    include ZipInspection
 
     def entries(path)
         Zip::File.open(path) { |zip| zip.to_h { |e| [ e.name, e.get_input_stream.read ] } }
@@ -60,6 +63,64 @@ class ZipWriterTest < ActiveSupport::TestCase
         end
 
         assert_equal({ "x.py" => "contents" }, entries(file.path))
+    ensure
+        file&.close!
+    end
+
+    #
+    # the format itself, checked with something other than rubyzip
+    #
+
+    test "writes an archive that other unzippers can read" do
+        file = ZipWriter.to_tempfile(basename: "external") do |zip|
+            ZipWriter.add_stream(zip, "a.txt", StringIO.new("hello"))
+            ZipWriter.add_stream(zip, "dir/b.txt", StringIO.new("world" * 1000))
+        end
+
+        assert_readable_by_unzip(file.path)
+    ensure
+        file&.close!
+    end
+
+    test "does not mark entries as Zip64" do
+        file = ZipWriter.to_tempfile(basename: "plain") do |zip|
+            ZipWriter.add_stream(zip, "a.txt", StringIO.new("hello"))
+        end
+
+        assert_not_zip64(file.path)
+    ensure
+        file&.close!
+    end
+
+    # students hand in files called "opgave-café.py"; the name has to come back out with
+    # the bytes it went in with, whatever encoding rubyzip labels it
+    #
+    test "round-trips a non-ASCII entry name" do
+        name = "opgave-café.py"
+
+        file = ZipWriter.to_tempfile(basename: "unicode") do |zip|
+            ZipWriter.add_stream(zip, name, StringIO.new("print(1)"))
+        end
+
+        written = entries(file.path).keys.first
+        assert_equal name.b, written.b
+        assert_readable_by_unzip(file.path)
+    ensure
+        file&.close!
+    end
+
+    # a submit can contain an empty file, and an entry of unknown-then-zero length is the
+    # edge the Zip64 "might not know the size yet" branch keys off
+    #
+    test "writes an empty entry" do
+        file = ZipWriter.to_tempfile(basename: "empty") do |zip|
+            ZipWriter.add_stream(zip, "empty.txt", StringIO.new(""))
+            ZipWriter.add_stream(zip, "a.txt", StringIO.new("hello"))
+        end
+
+        assert_equal({ "empty.txt" => "", "a.txt" => "hello" }, entries(file.path))
+        assert_readable_by_unzip(file.path)
+        assert_not_zip64(file.path)
     ensure
         file&.close!
     end
