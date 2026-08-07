@@ -16,15 +16,8 @@ class Tests::ResultsController < Tests::TestsController
         @pset_config = Submit.find_or_initialize_by(user: current_user, pset: @pset).grading_config
         @psets = Pset.all
 
-        if current_user.groups.any?
-            @groups = current_user.groups
-        elsif current_user.schedule.present?
-            @groups = current_user.schedule.groups
-        else
-            render plain: "No students" and return
-        end
-
-        @students = User.student.where(group: @groups).order("lower(name)")
+        @students = current_user.accessible_students.student.order("lower(name)")
+        render plain: "No students" and return if @students.none?
 
         @config = @pset.grading_config(current_schedule)
         @subgrade_names = (@config&.dig("subgrades") || {}).keys
