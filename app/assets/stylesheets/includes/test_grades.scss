@@ -1,0 +1,57 @@
+// The grade entry grid at /tests/:id/results. Dense on purpose: a grader works
+// through it by keyboard, so every row of the list should stay on screen.
+
+.grade-grid
+{
+	table-layout: fixed;
+	width: 100%;
+
+	// no padding anywhere; the inputs are the cells
+	> :not(caption) > * > *
+	{
+		padding: 0;
+	}
+
+	th
+	{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	// fixed columns; the subgrade columns share whatever is left over, and the
+	// table's own min-width (set in the view) keeps them above their floor
+	.col-student { width: 12rem; }
+	.col-notes, .col-feedback { width: 9rem; }
+	.col-aggregate, .col-grade { width: 4rem; }
+	.col-subgrade { min-width: 3rem; }
+
+	// flush cells should read as one grid, not as a row of pills
+	.form-control,
+	.form-control-plaintext
+	{
+		border-radius: 0;
+		// adjacent 1px borders would otherwise stack into a 2px seam
+		margin: 0 -1px -1px 0;
+		width: calc(100% + 1px);
+	}
+
+	// the focus ring has to sit above the neighbours it now overlaps
+	.form-control:focus
+	{
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// the save confirmation in the footer; auto-dismiss adds .dismissed after a
+// second. Bootstrap's own .fade is no use here, $enable-transitions is off.
+.grade-saved
+{
+	transition: opacity 0.4s ease-out;
+
+	&.dismissed
+	{
+		opacity: 0;
+	}
+}

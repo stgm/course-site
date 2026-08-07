@@ -3,71 +3,136 @@
     <%= @pset.name %></h1>
 <% end %>
 
-<%= form_with url: test_results_path(@pset), id: 'test_grades_form', method: :patch do |f| %>
-  <table
-    class="table table-borderless w-100"
-    data-controller="grid-nav"
-    data-action="keydown->grid-nav#navigate"
-  >
-    <tr>
-      <th class="p-1">Name</th>
-      <% if @pset.grading_config(current_schedule) %>
-        <% @pset.grading_config(current_schedule)['subgrades'].each do |subgrade_name, subgrade_type| %>
-          <th class="p-1"><%= subgrade_name.capitalize %></th>
-        <% end %>
-      <% end %>
-      <th class="p-1">Notes</th>
-    </tr>
-    <% @students.each do |s| %>
+<%# the columns that keep a fixed width -- name 12, notes 9, feedback 9, grade 4
+    and the aggregate another 4 -- and the floor for the subgrade columns that
+    share what is left; the table stops shrinking there and starts scrolling %>
+<% fixed_width = 30 + (@aggregate_function ? 8 : 4) %>
+<% least_width = fixed_width + 3 * @subgrade_names.size %>
+
+<div
+  data-controller="modal-size test-grades"
+  data-modal-size-size-value="<%= @subgrade_names.size > 6 ? "xl" : "lg" %>"
+  data-test-grades-url-value="<%= calculate_test_results_path(test_id: @pset.id) %>"
+  data-test-grades-key-value="test-results:<%= @pset.id %>"
+  data-action="input->test-grades#preview focusin->test-grades#remember submit->test-grades#store"
+>
+  <%= form_with url: test_results_path(@pset), id: 'test_grades_form', method: :patch do |f| %>
+    <%# no scrolling wrapper of its own: past its minimum width the table
+        overflows the modal body, which is the one thing that scrolls %>
+    <table
+      class="table table-borderless grade-grid"
+      style="min-width: <%= least_width %>rem"
+      data-controller="grid-nav"
+      data-action="keydown->grid-nav#navigate"
+    >
       <tr>
-        <td class="p-1">
-          <input
-            type="text"
-            readonly
-            class="form-control-plaintext"
-            value="<%= s.name %>"
-            autocomplete="off"
-          >
-        </td>
-        <% if @pset.grading_config(current_schedule) %>
-          <% bla = s.submits.where(pset_id: @pset.id).first %>
-          <% @pset.grading_config(current_schedule)['subgrades'].each do |subgrade_name, subgrade_type| %>
-            <td class="p-1">
+        <th class="col-student">Name</th>
+        <% @subgrade_names.each do |subgrade_name| %>
+          <th class="col-subgrade" title="<%= subgrade_name.capitalize %>"><%= subgrade_header(subgrade_name) %></th>
+        <% end %>
+        <% if @aggregate_function %>
+          <th class="col-aggregate"><%= @aggregate_function == :sum_all ? "Sum" : "Count" %></th>
+        <% end %>
+        <th class="col-grade">Grade</th>
+        <th class="col-notes" title="Internal, not shown to the student">Notes</th>
+        <th class="col-feedback" title="Published to the student">Feedback</th>
+      </tr>
+      <% @students.each do |s| %>
+        <% grade = @submits[s.id]&.grade %>
+        <tr data-user-id="<%= s.id %>">
+          <td class="col-student">
+            <input
+              type="text"
+              readonly
+              tabindex="-1"
+              class="form-control-plaintext form-control-sm"
+              value="<%= s.name %>"
+              autocomplete="off"
+            >
+          </td>
+          <% @subgrade_names.each do |subgrade_name| %>
+            <td class="col-subgrade">
               <input
                 type="text"
                 name="grades[<%= s.id %>][subgrades][<%= subgrade_name %>]"
                 class="form-control form-control-sm"
-                placeholder=""
-                value="<%= bla.grade.subgrades[subgrade_name] if bla && bla.grade %>"
+                value="<%= grade&.subgrades&.[](subgrade_name) %>"
                 autocomplete="off"
                 data-grid-nav-target="cell"
+                data-subgrade="<%= subgrade_name %>"
               >
             </td>
           <% end %>
-          <td class="p-1">
+          <% if @aggregate_function %>
+            <td class="col-aggregate">
+              <input
+                type="text"
+                readonly
+                tabindex="-1"
+                class="form-control form-control-sm"
+                <%# a whole sum or count shows as 24, not 24.0, matching what
+                    the live update writes into this cell %>
+                value="<%= to_i_if_whole(grade.aggregate_value) if grade&.aggregate_value %>"
+                autocomplete="off"
+                data-aggregate
+              >
+            </td>
+          <% end %>
+          <td class="col-grade">
+            <input
+              type="text"
+              readonly
+              tabindex="-1"
+              class="form-control form-control-sm"
+              value="<%= Grade::Formatter.format_value(grade.calculated_grade, grade.type) if grade&.calculated_grade %>"
+              autocomplete="off"
+              data-calculated
+            >
+          </td>
+          <td class="col-notes">
             <input
               type="text"
               name="grades[<%= s.id %>][notes]"
               class="form-control form-control-sm"
-              placeholder=""
-              value="<%= bla.grade.notes if bla && bla.grade %>"
+              value="<%= grade&.notes %>"
               autocomplete="off"
               data-grid-nav-target="cell"
               data-caret-guard
             >
           </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
-<% end %>
+          <td class="col-feedback">
+            <input
+              type="text"
+              name="grades[<%= s.id %>][comments]"
+              class="form-control form-control-sm"
+              value="<%= grade&.comments %>"
+              autocomplete="off"
+              data-grid-nav-target="cell"
+              data-caret-guard
+            >
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>
 
 <% content_for :footer do %>
   <%= link_to "Back to list", tests_path, class: "btn btn-light" %>
   Note: nothing is autosaved. ENTER also saves and reloads.
+  <%# the outer span is always rendered, so that the save button keeps its
+      place at the right whether or not there is anything to report %>
+  <span class="ms-auto me-2 text-success">
+    <% if flash[:saved] %>
+      <span class="grade-saved" data-controller="auto-dismiss">
+        <%= bootstrap_icon "check-circle-fill", width: 16, height: 16 %>
+        <%= flash[:saved] %>
+      </span>
+    <% end %>
+  </span>
   <%= submit_tag "Save",
   form: "test_grades_form",
-  class: "ms-auto btn btn-primary",
+  class: "btn btn-primary",
   data: {
     loading: "Saving!",
   } %>

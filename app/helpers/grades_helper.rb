@@ -37,6 +37,26 @@ module GradesHelper
         return ""
     end
 
+    # Column headers in the grade entry grid get very little room, so a name
+    # built out of several parts is shortened to the initial of every worded
+    # part plus every number in full: vraag_1 -> V1, vraag_1_bonus -> V1B,
+    # xx11 -> X11, deel_a -> D.A. Parts are split on anything that is not a
+    # letter or a digit, and also where letters meet digits. A name of one
+    # single part carries no structure to shorten, so it is left as it was.
+    #
+    def subgrade_header(name)
+        parts = name.scan(/\d+|[[:alpha:]]+/)
+        return name.capitalize if parts.size < 2
+
+        parts.map { |part| part.match?(/\A\d/) ? part : part[0].upcase }.
+            inject do |header, part|
+                # two initials running together would read as one word; a number
+                # beside a letter already shows where the break is
+                joint = header.match?(/[[:alpha:]]\z/) && part.match?(/\A[[:alpha:]]/) ? "." : ""
+                header + joint + part
+            end
+    end
+
     def translate_grade(grade)
         return t("grading.error") if grade.nil? || grade < -1
         return t("grading.sufficient") if grade == -1

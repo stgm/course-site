@@ -34,7 +34,9 @@ module Grade::SubGrades
             when "integer", "pass", "boolean"
                 val[k] = v.to_i unless v == ""
             when "float"
-                val[k] = v.sub(",", ".").to_f unless v == ""
+                # to_s because already-coerced values come back through here
+                # whenever a caller merges new entries into the existing hash
+                val[k] = v.to_s.sub(",", ".").to_f unless v == ""
             end
         end if val
 

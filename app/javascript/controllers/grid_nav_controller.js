@@ -37,7 +37,7 @@ export default class extends Controller {
         if (!destination) return;
 
         event.preventDefault();
-        this.enter(destination, event.key);
+        this.enter(destination);
     }
 
     // the cells of the grid, grouped per table row, in document order
@@ -58,15 +58,11 @@ export default class extends Controller {
         return cell.selectionStart !== edge;
     }
 
-    enter(cell, key) {
+    // typing replaces what is already there, in the text cells as much as in
+    // the grades. A text cell still guards its caret on the way out, so the
+    // next arrow press collapses the selection before it hands over focus.
+    enter(cell) {
         cell.focus();
-        if (cell.hasAttribute("data-caret-guard")) {
-            // keep the caret going the way we were travelling
-            var caret = key === "ArrowLeft" ? 0 : cell.value.length;
-            cell.setSelectionRange(caret, caret);
-        } else {
-            // typing replaces the grade that is already there
-            cell.select();
-        }
+        cell.select();
     }
 }

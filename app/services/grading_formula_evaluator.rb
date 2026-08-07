@@ -26,14 +26,29 @@ class GradingFormulaEvaluator
 
   MAX_PARENS = 10
 
+  # Names that aggregate over a whole set of variables instead of naming one.
+  # They are written like variables, so they need no pattern of their own, but
+  # they are reserved: a subgrade may not shadow them.
+  AGGREGATES = %w[ sum_all count_all ].freeze
+
   # Returns a Float rounded to 1 decimal, or nil on any error.
-  def self.evaluate(formula, variables = {})
+  #
+  # aggregate_keys limits which of the variables sum_all and count_all range
+  # over; it defaults to all of them.
+  def self.evaluate(formula, variables = {}, aggregate_keys: nil)
     return nil if formula.blank?
     return nil if formula.count("(") > MAX_PARENS
     tokens = tokenize(formula).reject { |t| t.type == :space }
-    Evaluator.new(tokens, variables).evaluate.to_f.round(1)
+    Evaluator.new(tokens, variables, aggregate_keys || variables.keys).evaluate.to_f.round(1)
   rescue
     nil
+  end
+
+  # Which aggregate a formula uses, if any, so callers can decide whether to
+  # show its value alongside the grade.
+  def self.aggregate_function(formula)
+    return nil if formula.blank?
+    AGGREGATES.find { |name| formula.to_s.match?(/\b#{name}\b/) }&.to_sym
   end
 
   def self.tokenize(formula)
@@ -53,10 +68,11 @@ class GradingFormulaEvaluator
   end
 
   class Evaluator
-    def initialize(tokens, variables)
-      @tokens = tokens
-      @pos    = 0
-      @vars   = variables
+    def initialize(tokens, variables, aggregate_keys = nil)
+      @tokens         = tokens
+      @pos            = 0
+      @vars           = variables
+      @aggregate_keys = aggregate_keys || variables.keys
     end
 
     def evaluate
@@ -163,6 +179,7 @@ class GradingFormulaEvaluator
         tok.value.include?(".") ? tok.value.to_f : tok.value.to_i.to_f
       when :name
         consume
+        return eval_aggregate(tok.value) if AGGREGATES.include?(tok.value)
         key_sym = tok.value.to_sym
         if @vars.key?(key_sym)
           raise "nil variable: #{tok.value}" if @vars[key_sym].nil?
@@ -182,6 +199,26 @@ class GradingFormulaEvaluator
       else
         raise "unexpected token: #{tok.inspect}"
       end
+    end
+
+    def eval_aggregate(name)
+      values = @aggregate_keys.map { |key| lookup(key) }
+      case name
+      when "sum_all"
+        # only meaningful once every part has been given a value
+        raise "sum_all over incomplete variables" if values.any?(&:nil?)
+        values.sum(&:to_f)
+      when "count_all"
+        # -1 is a pass throughout this codebase, see Grade::Formatter.
+        # A Float like every other value here, so that no combination of
+        # operators can fall into integer division.
+        values.count { |value| value.to_f == -1.0 }.to_f
+      end
+    end
+
+    # the value of a variable, or nil when it has none
+    def lookup(key)
+      @vars.fetch(key.to_sym) { @vars[key.to_s] }
     end
   end
 end

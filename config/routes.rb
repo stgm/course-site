@@ -122,7 +122,9 @@ Rails.application.routes.draw do
 
     # test management
     resources :tests, only: :index, shallow_prefix: "tests", module: :tests do
-        resource :results, only: [ :show, :update ]
+        resource :results, only: [ :show, :update ] do
+            get "calculate"
+        end
         collection do
             resource :overview, as: "test_overview", only: [ :show ]
         end

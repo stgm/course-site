@@ -93,6 +93,87 @@ class GradingFormulaEvaluatorTest < ActiveSupport::TestCase
     assert_equal  0.0, ev("(points >= 9) && points || 0", points: 5)
   end
 
+  # sum_all and count_all
+
+  test "sum_all adds every variable" do
+    assert_equal 9.0, ev("sum_all", a: 2, b: 3, c: 4)
+  end
+
+  test "sum_all with string keys" do
+    assert_equal 9.0, ev("sum_all", "a" => 2, "b" => 3, "c" => 4)
+  end
+
+  test "sum_all is nil when a variable has no value" do
+    assert_nil ev("sum_all", a: 2, b: nil, c: 4)
+  end
+
+  test "sum_all inside a larger expression" do
+    assert_equal 7.0, ev("(sum_all / 6.0 * 9 + 1).round(1)", a: 1, b: 3)
+  end
+
+  test "count_all counts passes" do
+    assert_equal 2.0, ev("count_all", a: -1, b: 0, c: -1)
+  end
+
+  test "count_all counts filled variables only, without failing on blanks" do
+    assert_equal 1.0, ev("count_all", a: -1, b: nil, c: 0)
+  end
+
+  test "count_all is zero when nothing has passed" do
+    assert_equal 0.0, ev("count_all", a: 0, b: 0)
+  end
+
+  test "count_all inside a larger expression" do
+    assert_equal(-1.0, ev("(count_all >= 2) && -1 || 0", a: -1, b: -1, c: nil))
+    assert_equal  0.0, ev("(count_all >= 2) && -1 || 0", a: -1, b: 0, c: nil)
+  end
+
+  test "aggregate_keys limits which variables the aggregates range over" do
+    vars = { a: 2, b: 3, leftover: 100 }
+    assert_equal 5.0, GradingFormulaEvaluator.evaluate("sum_all", vars, aggregate_keys: [ :a, :b ])
+  end
+
+  test "aggregate_keys naming a variable that has no value makes sum_all nil" do
+    assert_nil GradingFormulaEvaluator.evaluate("sum_all", { a: 2 }, aggregate_keys: [ :a, :b ])
+  end
+
+  test "aggregates coexist with plain variables in one formula" do
+    assert_equal 7.0, GradingFormulaEvaluator.evaluate(
+      "sum_all + bonus", { a: 2, b: 3, bonus: 2 }, aggregate_keys: [ :a, :b ]
+    )
+  end
+
+  test "an unscoped aggregate ranges over every variable, bonus included" do
+    assert_equal 9.0, ev("sum_all + bonus", a: 2, b: 3, bonus: 2)
+  end
+
+  test "aggregate_function reports which aggregate a formula uses" do
+    assert_equal :sum_all, GradingFormulaEvaluator.aggregate_function("(sum_all / 6.0).round(1)")
+    assert_equal :count_all, GradingFormulaEvaluator.aggregate_function("count_all >= 3 && -1 || 0")
+    assert_nil GradingFormulaEvaluator.aggregate_function("(points / 6.0 * 9 + 1).round(1)")
+    assert_nil GradingFormulaEvaluator.aggregate_function(nil)
+  end
+
+  test "aggregate_function is not fooled by a longer name containing one" do
+    assert_nil GradingFormulaEvaluator.aggregate_function("my_sum_all_total")
+  end
+
+  # Aggregates divide as floats, never as integers
+
+  test "sum_all divides as a float" do
+    # integer division would collapse 24 / 48 to 0 and give 1.0
+    assert_equal 5.5, ev("sum_all / 48 * 9 + 1", a: 10, b: 14)
+  end
+
+  test "count_all divides as a float" do
+    assert_equal 0.7, ev("count_all / 3", a: -1, b: -1, c: 0)
+  end
+
+  test "an aggregate divided by an aggregate stays a float" do
+    assert_equal 1.0, ev("count_all / count_all", a: -1, b: -1)
+    assert_equal 1.0, ev("sum_all / sum_all", a: 3, b: 4)
+  end
+
   # Grading formula patterns from actual YAML files
 
   test "automatic grade: -(correctness_score.floor) when all checks pass" do

@@ -25,6 +25,8 @@ function hookupModals()
 	modalBrowserElement = document.getElementById('modal-browser');
 	modalBrowser = new bootstrap.Modal(modalBrowserElement);
 	modalBrowserElement.addEventListener('show.bs.modal', function (e) {
+		// back to the default width, in case the last modal widened itself
+		document.getElementById('modal-browser-dialog').className = 'modal-dialog modal-dialog-scrollable modal-lg modal-fullscreen-sm-down';
 		// clear modal upon load
 		// document.getElementById('modal-browser-header').innerHTML = '';
 		document.getElementById('modal-browser-dialog').innerHTML = '<turbo-frame id="modal"><div class="modal-content"><div id="modal-browser-body"><div class="text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div></div></div></div></turbo-frame>';
