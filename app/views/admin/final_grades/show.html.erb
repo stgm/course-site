@@ -1,0 +1,81 @@
+<% content_for :title do %>
+<h1>
+    <%= link_to bootstrap_icon('chevron-left'), admin_final_grades_path %>
+    <%= @name %>
+</h1>
+<% end %>
+
+<h5>Pending (<%= @pending_grades.size %>)</h5>
+<% if @pending_grades.any? %>
+<%= form_with url: admin_final_grade_export_path(@name, format: :xlsx), method: :post,
+      data: { controller: 'checkbox-all' } do %>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th><input type="checkbox" checked data-checkbox-all-target="all" data-action="checkbox-all#toggle"></th>
+            <th>Schedule</th>
+            <th>Group</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @pending_grades.each do |g| %>
+        <tr>
+            <td><input type="checkbox" name="grade_ids[]" value="<%= g.id %>" checked data-checkbox-all-target="item"></td>
+            <td><%= g.user&.schedule&.name %></td>
+            <td><%= g.user&.group&.name %></td>
+            <td><%= g.user&.defacto_student_identifier %></td>
+            <td><%= g.user_name %></td>
+            <td><%= g.assigned_grade %></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<div class="mb-3">
+    <label for="exported_at" class="ms-1 small">Export date/time</label>
+    <input type="datetime-local" name="exported_at" id="exported_at" class="form-control"
+           value="<%= Time.current.strftime('%Y-%m-%dT%H:%M') %>">
+</div>
+
+<%= submit_tag "Export & mark as submitted", class: 'btn btn-primary',
+      data: { turbo: false, confirm: "Download the selected grades and mark them as submitted?" } %>
+<% end %>
+<% else %>
+<p class="text-muted">No pending grades for this type.</p>
+<% end %>
+
+<h5 class="mt-4">Already submitted (<%= @exported_grades.size %>)</h5>
+<% if @exported_grades.any? %>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Schedule</th>
+            <th>Group</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Grade</th>
+            <th>Exported</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @exported_grades.each do |g| %>
+        <tr>
+            <td><%= g.user&.schedule&.name %></td>
+            <td><%= g.user&.group&.name %></td>
+            <td><%= g.user&.defacto_student_identifier %></td>
+            <td><%= g.user_name %></td>
+            <td><%= g.assigned_grade %></td>
+            <td><%= g.exported_at&.strftime("%d-%m-%Y %H:%M") %></td>
+            <td><%= button_to "Undo", undo_export_grade_path(g), method: :patch, class: 'btn btn-outline-danger btn-sm',
+                    data: { turbo: false, confirm: "Undo export for #{g.user_name}?" } %></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+<% else %>
+<p class="text-muted">Nothing submitted yet.</p>
+<% end %>

@@ -1,0 +1,11 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: @name) do |sheet|
+    sheet.add_row [ "id", "name", "grade" ]
+    @grades.each do |g|
+        sheet.add_row [
+            g.user&.defacto_student_identifier || "",
+            g.user_name,
+            g.assigned_grade,
+        ]
+    end
+end

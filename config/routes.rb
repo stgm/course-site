@@ -56,6 +56,11 @@ Rails.application.routes.draw do
             post "revoke_staff_rights"
         end
 
+        # final grade submission to the external registration system, one grade type at a time
+        resources :final_grades, only: [ :index, :show ], param: :name do
+            post "export"
+        end
+
         resources :users, only: [ :index, :new, :create ] do
             post   "add_group_permission"
             delete "remove_group_permission"
@@ -83,7 +88,6 @@ Rails.application.routes.draw do
         get "(/status/:status)", action: :index, as: "", defaults: { status: "active" }
 
         resource :current_module, only: [ :edit, :update ]
-        resource :export_final_grades, only: [ :new, :create ]
         resource :import_groups, only: [ :new, :create ] do
             post "propose"
         end
@@ -188,6 +192,7 @@ Rails.application.routes.draw do
                 patch "publish"
                 patch "reopen"
                 patch "reject"
+                patch "undo_export"
             end
         end
     end

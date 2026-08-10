@@ -7,6 +7,9 @@
 if current_schedule.grading_config.tests.any?
   tabs.merge!({ "Test admin": "/tests" })
 end
+if GradingConfig.base.final_grade_names.any?
+  tabs.merge!({ "Final grades": "/admin/final_grades" })
+end
 tabs.merge!({ "Hands statistics": "/hands/statistics" }) if Hand.available?
 tabs.merge!({ Archiving: "/admin/archiving" }) %>
 

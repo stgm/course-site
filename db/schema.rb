@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_173354) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_10_120212) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -123,6 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_173354) do
     t.integer "grader_id"
     t.text "auto_grades"
     t.text "notes"
+    t.datetime "exported_at"
     t.index ["submit_id"], name: "index_grades_on_submit_id"
   end
 
