@@ -187,6 +187,7 @@ en:
             none: "No final grade is calculated automatically for this schedule."
             heading: "Final grade calculation: %{name}"
             weighted_average: "This grade is the weighted average of the components below, where the weight is the number of points the component contributes."
+            all_components_passed: "This grade is a pass or a fail, and is only a pass when every component below has been passed. Nothing is weighed."
             single_component: "This grade consists of a single component, described below, which therefore counts for the whole."
             same_as: "This grade is calculated in exactly the same way as %{name}: the same components, with the same weights, described above."
             compared_to: "Components as compared to %{name}: %{differences}."
@@ -214,6 +215,12 @@ en:
                     other: "points earned divided by the maximum of %{count}, converted to 1--10"
                 maximum: "the highest of the assignment grades"
                 average: "the weighted average of the assignment grades"
+                pass_all:
+                    one: "a pass, when the assignment below has been passed"
+                    other: "a pass, when all %{count} assignments below have been passed"
+                pass_any:
+                    one: "a pass, when the assignment below has been passed"
+                    other: "a pass, when any one of the %{count} assignments below has been passed"
             condition:
                 none: "-"
                 minimum: "at least %{minimum}"
@@ -223,6 +230,12 @@ en:
                     one: "attempted and submitted"
                     other: "all assignments attempted"
                 zero_weight_required: "one or more assignments are required to receive a course grade"
+                pass_all:
+                    one: "the assignment passed"
+                    other: "all %{count} assignments passed"
+                pass_any:
+                    one: "the assignment passed"
+                    other: "one of the %{count} assignments passed"
             difference:
                 used_instead: "%{name} (weight %{weight}) is added"
                 not_used: "%{name} is removed"
@@ -244,6 +257,8 @@ en:
                     other: "An assignment that is missing scores 0 points."
                 missing_counts_as: "An assignment that is missing counts as the grade %{value}."
                 missing_allowed: "An assignment that is missing does not block the calculation."
+                missing_undecided: "An assignment that has not been graded yet leaves this component undecided, and the final grade is not calculated. An assignment that has been failed makes the final grade a fail."
+                missing_undecided_any: "As long as none of the assignments has been graded, this component is undecided and the final grade is not calculated. Once one of them has been graded and none has been passed, the final grade is a fail."
                 required: "Any assignment graded 0 makes the final grade NAV."
                 drop_lowest: "The lowest assignment grade is dropped."
                 bonus: "Bonus assignments are added on top, up to a maximum grade of 10."

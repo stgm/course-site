@@ -404,6 +404,8 @@ class CourseArchive
     COMPONENT_COLUMNS =  [ 0.28,     0.10,   0.10,  0.52 ].freeze
     #                            component  share  condition
     SINGLE_COMPONENT_COLUMNS = [ 0.30,      0.10,  0.60 ].freeze
+    #                          component  condition
+    PASS_COMPONENT_COLUMNS = [ 0.30,      0.70 ].freeze
     #                     assignment  type  parts  formula
     ASSIGNMENT_COLUMNS = [ 0.26,      0.12, 0.31,  0.31 ].freeze
     #                     assignment  weight
@@ -443,17 +445,19 @@ class CourseArchive
             described = []
             reference = nil
 
-            config.calculation.each do |final_name, components|
-                describe_final_grade(pdf, config, final_name, components, reference, described)
-                reference ||= [ final_name, components ]
+            config.calculation.each do |final_name, spec|
+                describe_final_grade(pdf, config, final_name, spec, reference, described)
+                reference ||= [ final_name, spec["components"] ]
             end
 
-            describe_rounding(pdf)
+            # there is nothing to round when every final grade is a pass or a fail
+            describe_rounding(pdf) if config.calculation.any? { |_, spec| spec["type"] != "pass" }
             describe_assignment_grades(pdf, config)
         end
     end
 
-    def describe_final_grade(pdf, config, final_name, components, reference, described)
+    def describe_final_grade(pdf, config, final_name, spec, reference, described)
+        components = spec["components"]
         pdf.text pdf_safe(t("archive.final_grades.heading", name: final_name)), size: 14, style: :bold
         pdf.move_down 4
 
@@ -463,24 +467,31 @@ class CourseArchive
             return
         end
 
-        # a single component has nothing to weigh against anything
-        single = components.size == 1
-        pdf.text pdf_safe(t("archive.final_grades.#{single ? 'single_component' : 'weighted_average'}")), size: 10
+        # a pass/fail grade weighs nothing: every component simply has to be passed.
+        # Otherwise, a single component has nothing to weigh against anything
+        passfail = spec["type"] == "pass"
+        single = !passfail && components.size == 1
+        intro = passfail ? "all_components_passed" : (single ? "single_component" : "weighted_average")
+        pdf.text pdf_safe(t("archive.final_grades.#{intro}")), size: 10
         pdf.move_down 6
 
-        headers = single ? %w[component share condition] : %w[component weight share condition]
+        headers = %w[component weight share condition]
+        headers -= %w[weight] if single
+        headers -= %w[weight share] if passfail
         rows = [ headers.map { |key| pdf_safe(t("archive.final_grades.header.#{key}")) } ]
         total_weight = components.values.sum
         components.each do |component_name, weight|
             component = config.components[component_name]
             row = [ pdf_safe(component_name) ]
-            row << weight.to_s unless single
-            row += [ weight_share(weight, total_weight), pdf_safe(component_condition(component, config)) ]
+            row << weight.to_s if headers.include?("weight")
+            row << weight_share(weight, total_weight) if headers.include?("share")
+            row << pdf_safe(component_condition(component, config))
             rows << row
         end
         # the weight and its share of the total, or just the share when there is one component
-        draw_table(pdf, rows, single ? SINGLE_COMPONENT_COLUMNS : COMPONENT_COLUMNS,
-            padding: 4, right: single ? [ 1 ] : [ 1, 2 ])
+        columns = passfail ? PASS_COMPONENT_COLUMNS : (single ? SINGLE_COMPONENT_COLUMNS : COMPONENT_COLUMNS)
+        draw_table(pdf, rows, columns,
+            padding: 4, right: passfail ? [] : (single ? [ 1 ] : [ 1, 2 ]))
         pdf.move_down 10
 
         # only worth comparing when the two grades actually have components in common;
@@ -535,6 +546,9 @@ class CourseArchive
             conditions << t("archive.final_grades.condition.minimum", minimum: component["minimum"])
         end
         conditions << t("archive.final_grades.condition.required") if component["required"]
+        if component["type"].in?([ "pass_all", "pass_any" ])
+            conditions << t("archive.final_grades.condition.#{component['type']}", count: component["submits"].to_h.size)
+        end
         if component["type"] == "points" && component["submits"].value?(0)
             conditions << t("archive.final_grades.condition.zero_weight_required")
         end
@@ -574,9 +588,11 @@ class CourseArchive
     #
     def component_strategy(component, config)
         strategy = component["type"]
-        strategy = "average" unless strategy.in?([ "points", "maximum" ])
+        strategy = "average" unless strategy.in?([ "points", "maximum", "pass_all", "pass_any" ])
         # the points available are worth naming: they are what the grade is measured against
         return t("archive.final_grades.strategy.points", count: points_available(component)) if strategy == "points"
+        # how many assignments there are is what "all" and "one of them" are about
+        return t("archive.final_grades.strategy.#{strategy}", count: component["submits"].to_h.size) if strategy.start_with?("pass_")
 
         t("archive.final_grades.strategy.#{strategy}")
     end
@@ -655,6 +671,15 @@ class CourseArchive
             return
         end
 
+        # a pass/fail component weighs nothing, so a column of ones would only mislead
+        if component["type"].in?([ "pass_all", "pass_any" ])
+            rows = [ [ pdf_safe(t("archive.final_grades.header.assignment")) ] ]
+            component["submits"].each_key { |name| rows << [ pdf_safe(name) ] }
+            draw_table(pdf, rows, [ 1.0 ], width: pdf.bounds.width / 2)
+            pdf.move_down 10
+            return
+        end
+
         label = component["type"] == "points" ? "points" : "weight"
         rows = [ [
             pdf_safe(t("archive.final_grades.header.assignment")),
@@ -696,6 +721,9 @@ class CourseArchive
             return rule(:missing_scores_zero, count: component["submits"].to_h.size)
         end
         return rule(:missing_cancels) if component["type"] == "maximum"
+        # a pass/fail component waits: only a failed assignment is a definitive result
+        return rule(:missing_undecided) if component["type"] == "pass_all"
+        return rule(:missing_undecided_any) if component["type"] == "pass_any"
 
         fill = component["fill_missing"]
         return rule(:missing_cancels) if fill.blank?
@@ -722,8 +750,8 @@ class CourseArchive
     # how the grade of a single assignment comes about, from its subgrades
     #
     def describe_assignment_grades(pdf, config)
-        assignments = config.calculation.values.flat_map do |components|
-            components.keys.flat_map { |name| config.components[name]&.dig("submits")&.keys || [] }
+        assignments = config.calculation.values.flat_map do |spec|
+            spec["components"].keys.flat_map { |name| config.components[name]&.dig("submits")&.keys || [] }
         end.uniq
 
         return if assignments.empty?

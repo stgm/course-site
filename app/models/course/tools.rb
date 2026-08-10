@@ -20,8 +20,8 @@ class Course::Tools
             self.register_grade(name, counter)
             counter += 1
         end
-        config.calculation.each do |name, formula|
-            self.register_final_grade(name, counter)
+        config.calculation.each do |name, spec|
+            self.register_final_grade(name, counter, spec["type"])
             counter += 1
         end
 
@@ -31,8 +31,8 @@ class Course::Tools
                 self.register_grade(name, counter)
                 counter += 1
             end
-            schedule_config.calculation.each do |name, formula|
-                self.register_final_grade(name, counter)
+            schedule_config.calculation.each do |name, spec|
+                self.register_final_grade(name, counter, spec["type"])
                 counter += 1
             end
         end
@@ -80,11 +80,13 @@ class Course::Tools
         exam.save
     end
 
-    def self.register_final_grade(name, order)
+    # the type decides how the grade is displayed: a pass/fail final grade shows as
+    # v or x, see Grade::Formatter
+    def self.register_final_grade(name, order, type = "float")
         p = Pset.where(name: name).first_or_create
         p.order = order
         p.final = true
-        p.config = { "type" => "float" }
+        p.config = { "type" => type || "float" }
         p.save
     end
 

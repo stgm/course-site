@@ -16,11 +16,20 @@ class GradingConfig
         Settings.schedule_grading.keys.each(&block)
     end
 
+    # Component strategies of User::FinalGradeCalculator. An absent type means
+    # "average", which is why it is in here as well.
+    COMPONENT_TYPES = [ nil, "average", "maximum", "points", "pass_all", "pass_any" ].freeze
+
+    # Components that report a pass (-1) instead of a grade on a 1--10 scheme,
+    # and so only make sense inside a pass/fail final grade
+    PASS_COMPONENT_TYPES = [ "pass_all", "pass_any" ].freeze
+
     def initialize(schedule_name = nil)
         # takes content from the base grading.yml
         # and overwrites with content from the schedule grading.yml
         @config = merge_configs Settings.grading || {},
                                 Settings.schedule_grading[schedule_name] || {}
+        @config = normalize_lists @config
         @schedule_name = schedule_name || "Base"
     end
 
@@ -28,6 +37,7 @@ class GradingConfig
         @config["grades"] || {}
     end
 
+    # final grade name => { "type" => "float"|"pass", "components" => { name => weight } }
     def calculation
         @config["calculation"] || {}
     end
@@ -63,7 +73,7 @@ class GradingConfig
     end
 
     def categories
-        calculation.map { |final_grade, cat| cat.keys }.flatten.sort.uniq
+        calculation.map { |final_grade, spec| spec["components"].keys }.flatten.sort.uniq
     end
 
     def categories_with_psets
@@ -92,10 +102,30 @@ class GradingConfig
             end
         end
 
-        grade_components = self.calculation.values.map(&:keys).flatten
+        grade_components = self.calculation.values.map { |spec| spec["components"].keys }.flatten
         missing_components = grade_components.select { |name| !name.in? self.components.keys }
         if missing_components.size > 0
             @errors << "Problem loading grading.yml for #{@schedule_name}. Final grade component definitions are used but undefined: #{missing_components.join('; ')}."
+        end
+
+        unknown_types = self.components.reject { |name, component| component["type"].in? COMPONENT_TYPES }
+        if unknown_types.any?
+            @errors << "Problem loading grading.yml for #{@schedule_name}. Components #{unknown_types.map { |name, c| "#{name}/#{c['type']}" }.join('; ')} have an unknown type. Choose from: #{COMPONENT_TYPES.compact.join(', ')}."
+        end
+
+        # a pass component reports -1, which is meaningless inside a weighted average
+        self.calculation.each do |final_name, spec|
+            next if spec["type"] == "pass"
+            pass_components = spec["components"].keys.select { |name| self.components[name].to_h["type"].in? PASS_COMPONENT_TYPES }
+            if pass_components.any?
+                @errors << "Problem loading grading.yml for #{@schedule_name}. Final grade #{final_name} is not of type pass, but uses pass/fail components: #{pass_components.join('; ')}."
+            end
+        end
+
+        # weights say nothing about a pass, so those components are written as a list
+        map_components = self.calculation.select { |final_name, spec| spec["type"] == "pass" && !spec["listed"] }
+        if map_components.any?
+            @errors << "Problem loading grading.yml for #{@schedule_name}. Final grades #{map_components.keys.join('; ')} are of type pass, so their components should be written as a list of names, without weights."
         end
 
         return @errors
@@ -160,6 +190,41 @@ class GradingConfig
     end
 
     private
+
+    # The assignments of a component, its bonus assignments and the components of a
+    # final grade may each be written as a plain list of names, for when there is
+    # nothing to weigh. Everything downstream reads all three as name => weight maps,
+    # so the lists are converted here, once, right after merging.
+    #
+    def normalize_lists(config)
+        config.to_h do |key, section|
+            next [ key, section ] unless section.is_a?(Hash)
+
+            if key == "calculation"
+                [ key, section.transform_values { |spec| normalize_final_grade(spec) } ]
+            else
+                [ key, listed_as_weights(section, "submits", "bonus") ]
+            end
+        end
+    end
+
+    # A final grade is { "type" => ..., "components" => { name => weight } }. Without a
+    # components key the whole map is the components, which is how numeric final grades
+    # have always been written.
+    #
+    def normalize_final_grade(spec)
+        return spec unless spec.is_a?(Hash)
+
+        spec = { "components" => spec.except("type") }.merge(spec.slice("type")) if !spec.key?("components")
+        listed_as_weights(spec, "components").
+            merge("type" => spec["type"] || "float", "listed" => spec["components"].is_a?(Array))
+    end
+
+    def listed_as_weights(section, *keys)
+        keys.inject(section) do |result, key|
+            result[key].is_a?(Array) ? result.merge(key => result[key].index_with(1)) : result
+        end
+    end
 
     def merge_configs(grades1, grades2)
         result = grades1.except(:templates)

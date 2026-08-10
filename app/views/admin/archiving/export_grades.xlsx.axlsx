@@ -28,7 +28,12 @@ wb.add_worksheet(name: "Grades") do |sheet|
                     data << ""
                 end
             elsif g == -1
-                data << t("grading.sufficient")
+                # final grades are reported in the codes the registration system uses
+                if pset.final
+                    data << "AVV"
+                else
+                    data << t("grading.sufficient")
+                end
             elsif g == 0
                 if pset.final
                     data << "NAV"

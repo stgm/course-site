@@ -123,4 +123,95 @@ namespace :dev do
             puts "  /tests/#{pset.id}/results".ljust(24) + "#{name} -- #{entry['note']}"
         end
     end
+
+    desc "Load the SP course from a local checkout and seed students covering every pass/fail case"
+    task sp_seed: :environment do
+        abort "dev:sp_seed only runs in development" unless Rails.env.development?
+
+        repo = ENV["COURSE_REPO"] || File.expand_path("~/dev/spcourse/website")
+        branch = ENV["COURSE_BRANCH"] || "2026"
+        schedule_name = ENV["SCHEDULE"] || "SP S1"
+        final_name = "sp1"
+
+        # Every student's expected final grade, so that the task itself says whether the
+        # calculation still does what it is supposed to do. A grade of -1 is a pass, 0 a
+        # fail, and nil means no final grade can be assigned yet.
+        students = {
+            "pass@example.test" => [ "Paula Pass", -1, {
+                "m1-passed" => -1, "m2-passed" => -1, "m3-passed" => -1, "sp1_exam2" => -1
+            } ],
+            "failedexam@example.test" => [ "Frits Failedexam", 0, {
+                "m1-passed" => -1, "m2-passed" => -1, "m3-passed" => -1, "sp1_exam1" => 0
+            } ],
+            "noexam@example.test" => [ "Nora Noexam", nil, {
+                "m1-passed" => -1, "m2-passed" => -1, "m3-passed" => -1
+            } ],
+            "failedcheck@example.test" => [ "Ferdi Failedcheck", 0, {
+                "m1-passed" => -1, "m2-passed" => 0, "m3-passed" => -1, "sp1_exam1" => -1
+            } ],
+            "halfway@example.test" => [ "Hilde Halfway", nil, {
+                "m1-passed" => -1, "m2-passed" => -1, "sp1_exam1" => -1
+            } ]
+        }
+
+        # a local path is a valid git remote, so the course does not have to be pushed;
+        # note that Course::Git diffs against HEAD, so commit before running this
+        Settings.git_repo = repo
+        Settings.git_branch = branch
+        puts "Course: #{repo} @ #{branch}"
+
+        errors = Course::Loader.new.run
+        errors.each { |error| puts "! #{error}" }
+        puts
+
+        schedule = Schedule.find_by(name: schedule_name)
+        abort "No schedule named #{schedule_name}; the course repo did not load" if schedule.blank?
+        schedule.update!(self_register: true)
+        group = Group.where(name: "SP Group", schedule: schedule).first_or_create!
+        puts "Schedule: #{schedule.name}, group: #{group.name}"
+
+        # grades need a grader, and only an admin may calculate final grades
+        admin = User.where(mail: "admin@example.test").first_or_initialize
+        admin.update!(name: "Ada Admin", role: :admin, schedule: schedule)
+        Current.user = admin
+        puts "Admin: #{admin.name} <#{admin.mail}>"
+        puts
+
+        students.each do |mail, (name, _expected, grades)|
+            student = User.where(mail: mail).first_or_initialize
+            student.update!(name: name, role: :student, schedule: schedule)
+            # the group goes in a second save on purpose: User::Schedulizable
+            # clears it again whenever the schedule changes
+            student.update!(group: group)
+
+            grades.each do |pset_name, value|
+                pset = Pset.find_by(name: pset_name)
+                raise "no pset #{pset_name}" if pset.blank?
+
+                submit = student.submits.where(pset: pset).first_or_create!
+                submit.create_grade if submit.grade.blank?
+                # the grade follows from the subgrades, exactly as a grader would enter them
+                submit.grade.subgrades = { "passed" => value }
+                submit.grade.grader = admin
+                submit.grade.status = :published
+                submit.grade.save!
+            end
+
+            student.assign_final_grade(admin)
+        end
+
+        puts "#{final_name} per student:"
+        failures = 0
+        students.each do |mail, (name, expected, _grades)|
+            student = User.find_by(mail: mail)
+            actual = student.all_submits[final_name]&.assigned_grade
+            ok = actual == expected
+            failures += 1 unless ok
+            puts "  #{ok ? 'ok  ' : 'FAIL'} #{name.ljust(20)} #{actual.inspect.ljust(6)} (expected #{expected.inspect})"
+        end
+
+        puts
+        puts failures.zero? ? "All #{students.size} students match." : "#{failures} of #{students.size} students do not match."
+        puts "Log in as #{admin.mail} and open the #{schedule.name} overview."
+    end
 end

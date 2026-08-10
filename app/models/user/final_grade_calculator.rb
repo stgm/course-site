@@ -2,6 +2,23 @@
 
 class User::FinalGradeCalculator
 
+    # a pass is the value -1 throughout this codebase, see Grade::Formatter
+    PASS = -1
+    # and -2 is a resubmit exception, which is not a grade at all
+    RESUBMIT_EXCEPTION = -2
+    # the lowest numeric grade that counts as a pass, like Grade#sufficient?
+    SUFFICIENT = 5.5
+
+    # how a component turns its assignment grades into a component grade; anything
+    # without a type of its own is an average
+    STRATEGIES = {
+        "points"   => :grade_from_points_from_submits,
+        "maximum"  => :maximum_grade_from_submits,
+        "pass_all" => :pass_all_from_submits,
+        "pass_any" => :pass_any_from_submits,
+        "average"  => :average_grade_from_submits
+    }.freeze
+
     def initialize(grading_config)
         @grading_config = grading_config
         @debug = []
@@ -11,9 +28,9 @@ class User::FinalGradeCalculator
         # tries to calculate all kinds of final grades
 
         grades = {}
-        @grading_config.calculation.each do |name, relevant_parts|
+        @grading_config.calculation.each do |name, spec|
             @debug << "#{name} #{DateTime.current}\n"
-            grades[name] = final_grade_from_partial_grades(relevant_parts, user_grade_list)
+            grades[name] = final_grade_from_partial_grades(spec, user_grade_list)
         end
 
         if @debug
@@ -23,29 +40,31 @@ class User::FinalGradeCalculator
         return grades # { final: '6.0', resit: '0.0' }
     end
 
-    def final_grade_from_partial_grades(relevant_parts, user_grade_list)
+    def final_grade_from_partial_grades(spec, user_grade_list)
         # attempt to calculate each partial grade
-        weighted_partial_grades = relevant_parts.collect do |partial_name, weight|
+        weighted_partial_grades = spec["components"].collect do |partial_name, weight|
             partial_config = @grading_config.components[partial_name]
-            if partial_config["type"] == "points"
-                res = grade_from_points_from_submits(partial_config, user_grade_list)
-                @debug << "- #{partial_name}: grade_from_points_from_submits -> #{res}"
-                [ partial_name, res, weight ]
-            elsif partial_config["type"] == "maximum"
-                res = maximum_grade_from_submits(partial_config, user_grade_list)
-                @debug << "- #{partial_name}: maximum_grade_from_submits -> #{res}"
-                [ partial_name, res, weight ]
-            else
-                res = average_grade_from_submits(partial_config, user_grade_list)
-                @debug << "- #{partial_name}: average_grade_from_submits -> #{res}"
-                [ partial_name, res, weight ]
-            end
+            strategy = STRATEGIES.fetch(partial_config["type"], :average_grade_from_submits)
+            res = send(strategy, partial_config, user_grade_list)
+            @debug << "- #{partial_name}: #{strategy} -> #{res}"
+            [ partial_name, res, weight ]
         end
 
         @debug << "\n\n"
 
-        # if any of the partial grades has failed, propagate this result immediately
         partial_grades = weighted_partial_grades.map { |g| g[1] }
+
+        # a pass/fail final grade is not weighed: every component has to be a pass. A
+        # failed component outranks an undecided one, because the pass can no longer happen
+        if spec["type"] == "pass"
+            return :insufficient  if partial_grades.include? :insufficient
+            return :not_attempted if partial_grades.include? :not_attempted
+            return :missing_data  if partial_grades.include? :missing_data
+            return PASS if partial_grades.all? { |grade| grade == PASS }
+            return :insufficient
+        end
+
+        # if any of the partial grades has failed, propagate this result immediately
         return :not_attempted if partial_grades.include? :not_attempted
         return :missing_data  if partial_grades.include? :missing_data
         return :insufficient  if partial_grades.include? :insufficient
@@ -90,7 +109,7 @@ class User::FinalGradeCalculator
     def get_points_total(grades, maximum)
         grades = fill_missing(grades, 0)
         base_points = grades.map do |g|
-            if g[1] == -1
+            if g[1] == PASS
                 # pass means they get full credit
                 g[2]
             else
@@ -174,13 +193,44 @@ class User::FinalGradeCalculator
         return grade
     end
 
+    # every assignment has to be passed. A failed assignment is a definitive result,
+    # an ungraded one only means the component is not decided yet
+    def pass_all_from_submits(config, user_grade_list)
+        grades = collect_grades_from_submits(config["submits"], user_grade_list).map(&:second)
+
+        return :insufficient  if grades.any? { |grade| failed?(grade) }
+        return :not_attempted if grades.any? { |grade| !passed?(grade) }
+
+        return PASS
+    end
+
+    # one passed assignment is enough. As long as nothing has been graded at all there
+    # is no verdict, because the remaining attempts are still to come
+    def pass_any_from_submits(config, user_grade_list)
+        grades = collect_grades_from_submits(config["submits"], user_grade_list).map(&:second)
+
+        return PASS if grades.any? { |grade| passed?(grade) }
+        return :not_attempted if grades.none? { |grade| failed?(grade) }
+
+        return :insufficient
+    end
+
+    def passed?(grade)
+        grade == PASS || (grade.present? && grade >= SUFFICIENT)
+    end
+
+    # a resubmit exception is not a grade, so it does not fail anything
+    def failed?(grade)
+        grade.present? && grade != RESUBMIT_EXCEPTION && !passed?(grade)
+    end
+
     def total_bonus(grades)
         # remove any zero/non grades from the bonus list
         bonuses = grades.reject { |g| g[1] == nil || g[1] == 0 }
 
         # sum all and add to grade
         count_bonuses = bonuses.map do |g|
-            if g[1] == -1
+            if g[1] == PASS
                 # in case of a "pass" just add the weight from grading.yml
                 g[2]
             else
@@ -201,7 +251,7 @@ class User::FinalGradeCalculator
     end
 
     def convert_pass_to_10(grade)
-        if grade == -1
+        if grade == PASS
             return 10
         else
             return grade

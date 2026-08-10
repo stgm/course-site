@@ -189,6 +189,7 @@ nl:
             none: "Voor dit schema wordt geen eindcijfer automatisch berekend."
             heading: "Eindcijferberekening: %{name}"
             weighted_average: "Dit cijfer is het gewogen gemiddelde van de onderdelen hieronder, waarbij het gewicht het aantal punten is dat het onderdeel bijdraagt."
+            all_components_passed: "Dit cijfer is behaald of niet behaald, en is alleen behaald wanneer elk onderdeel hieronder is behaald. Er wordt niets gewogen."
             single_component: "Dit cijfer bestaat uit één onderdeel, dat hieronder wordt beschreven en dus voor het geheel meetelt."
             same_as: "Dit cijfer wordt op precies dezelfde manier berekend als %{name}: dezelfde onderdelen, met dezelfde gewichten, hierboven beschreven."
             compared_to: "Onderdelen ten opzichte van %{name}: %{differences}."
@@ -216,6 +217,12 @@ nl:
                     other: "het aantal behaalde punten gedeeld door het maximum van %{count}, omgerekend naar 1--10"
                 maximum: "het hoogste van de cijfers voor de opdrachten"
                 average: "het gewogen gemiddelde van de cijfers voor de opdrachten"
+                pass_all:
+                    one: "behaald, wanneer de opdracht hieronder is behaald"
+                    other: "behaald, wanneer alle %{count} opdrachten hieronder zijn behaald"
+                pass_any:
+                    one: "behaald, wanneer de opdracht hieronder is behaald"
+                    other: "behaald, wanneer één van de %{count} opdrachten hieronder is behaald"
             condition:
                 none: "-"
                 minimum: "minimaal %{minimum}"
@@ -225,6 +232,12 @@ nl:
                     one: "gemaakt en ingeleverd"
                     other: "alle opdrachten gemaakt"
                 zero_weight_required: "één of meer opdrachten zijn verplicht om een eindcijfer te verkrijgen"
+                pass_all:
+                    one: "de opdracht behaald"
+                    other: "alle %{count} opdrachten behaald"
+                pass_any:
+                    one: "de opdracht behaald"
+                    other: "één van de %{count} opdrachten behaald"
             difference:
                 used_instead: "%{name} (gewicht %{weight}) is toegevoegd"
                 not_used: "%{name} is verwijderd"
@@ -246,6 +259,8 @@ nl:
                     other: "Een opdracht die ontbreekt levert 0 punten op."
                 missing_counts_as: "Een opdracht die ontbreekt telt als het cijfer %{value}."
                 missing_allowed: "Een opdracht die ontbreekt blokkeert de berekening niet."
+                missing_undecided: "Een opdracht die nog niet is nagekeken laat dit onderdeel onbeslist, en dan wordt het eindcijfer niet berekend. Een opdracht die niet is behaald maakt het eindcijfer een onvoldoende."
+                missing_undecided_any: "Zolang geen van de opdrachten is nagekeken is dit onderdeel onbeslist en wordt het eindcijfer niet berekend. Zodra één ervan is nagekeken en geen is behaald, is het eindcijfer een onvoldoende."
                 required: "Een opdracht met een 0 maakt het eindcijfer NAV."
                 drop_lowest: "Het laagste cijfer voor een opdracht telt niet mee."
                 bonus: "Bonusopdrachten komen er bovenop, tot een maximumcijfer van 10."
