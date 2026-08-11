@@ -18,11 +18,12 @@ class GradingConfig
 
     # Component strategies of User::FinalGradeCalculator. An absent type means
     # "average", which is why it is in here as well.
-    COMPONENT_TYPES = [ nil, "average", "maximum", "points", "pass_all", "pass_any" ].freeze
+    COMPONENT_TYPES = [ nil, "average", "maximum", "points",
+                        "pass_all", "pass_any", "pass_first", "pass_last" ].freeze
 
     # Components that report a pass (-1) instead of a grade on a 1--10 scheme,
     # and so only make sense inside a pass/fail final grade
-    PASS_COMPONENT_TYPES = [ "pass_all", "pass_any" ].freeze
+    PASS_COMPONENT_TYPES = [ "pass_all", "pass_any", "pass_first", "pass_last" ].freeze
 
     def initialize(schedule_name = nil)
         # takes content from the base grading.yml
@@ -70,6 +71,13 @@ class GradingConfig
 
     def final_grade_names
         calculation.keys
+    end
+
+    # Report all final grades defined in the course, from
+    # all schedules together
+    def self.all_final_grade_names
+        configs = [ base ] + Settings.schedule_grading.keys.map { |name| with_schedule(name) }
+        configs.flat_map(&:final_grade_names).uniq.sort
     end
 
     def categories

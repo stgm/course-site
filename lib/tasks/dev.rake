@@ -131,27 +131,39 @@ namespace :dev do
         repo = ENV["COURSE_REPO"] || File.expand_path("~/dev/spcourse/website")
         branch = ENV["COURSE_BRANCH"] || "2026"
         schedule_name = ENV["SCHEDULE"] || "SP S1"
-        final_name = "sp1"
+        registrations = [ "sp1_final", "sp1_resit" ]
 
-        # Every student's expected final grade, so that the task itself says whether the
-        # calculation still does what it is supposed to do. A grade of -1 is a pass, 0 a
-        # fail, and nil means no final grade can be assigned yet.
+        # the four exam sittings, so that the dates in an overwrite note can be checked
+        exam_dates = {
+            "sp1_exam1" => Date.new(2025, 10, 20),
+            "sp1_exam2" => Date.new(2025, 12, 15),
+            "sp1_exam3" => Date.new(2026, 3, 6),
+            "sp1_exam4" => Date.new(2026, 6, 29)
+        }
+        checks = { "m1_passed" => -1, "m2_passed" => -1, "m3_passed" => -1 }
+
+        # Every student's expected pair of registrations, so that the task itself says
+        # whether the calculation still does what it is supposed to do. A grade of -1 is a
+        # pass, 0 a fail, and nil means no grade can be registered yet.
         students = {
-            "pass@example.test" => [ "Paula Pass", -1, {
-                "m1-passed" => -1, "m2-passed" => -1, "m3-passed" => -1, "sp1_exam2" => -1
-            } ],
-            "failedexam@example.test" => [ "Frits Failedexam", 0, {
-                "m1-passed" => -1, "m2-passed" => -1, "m3-passed" => -1, "sp1_exam1" => 0
-            } ],
-            "noexam@example.test" => [ "Nora Noexam", nil, {
-                "m1-passed" => -1, "m2-passed" => -1, "m3-passed" => -1
-            } ],
-            "failedcheck@example.test" => [ "Ferdi Failedcheck", 0, {
-                "m1-passed" => -1, "m2-passed" => 0, "m3-passed" => -1, "sp1_exam1" => -1
-            } ],
-            "halfway@example.test" => [ "Hilde Halfway", nil, {
-                "m1-passed" => -1, "m2-passed" => -1, "sp1_exam1" => -1
-            } ]
+            "pass@example.test" => [ "Paula Pass", [ -1, nil ],
+                checks.merge("sp1_exam1" => -1) ],
+            "failedexam@example.test" => [ "Frits Failedexam", [ 0, nil ],
+                checks.merge("sp1_exam1" => 0) ],
+            "resitpass@example.test" => [ "Rita Resitpass", [ 0, -1 ],
+                checks.merge("sp1_exam1" => 0, "sp1_exam2" => -1) ],
+            "resitfail@example.test" => [ "Rudi Resitfail", [ 0, 0 ],
+                checks.merge("sp1_exam1" => 0, "sp1_exam2" => 0) ],
+            "thirdtime@example.test" => [ "Tess Thirdtime", [ 0, -1 ],
+                checks.merge("sp1_exam1" => 0, "sp1_exam2" => 0, "sp1_exam3" => -1) ],
+            "noexam@example.test" => [ "Nora Noexam", [ nil, nil ],
+                checks ],
+            "failedcheck@example.test" => [ "Ferdi Failedcheck", [ 0, nil ],
+                checks.merge("m2_passed" => 0, "sp1_exam1" => -1) ],
+            "nocheck@example.test" => [ "Nina Nocheck", [ nil, nil ],
+                checks.merge("m2_passed" => 0) ],
+            "halfway@example.test" => [ "Hilde Halfway", [ nil, nil ],
+                checks.except("m3_passed").merge("sp1_exam1" => -1) ]
         }
 
         # a local path is a valid git remote, so the course does not have to be pushed;
@@ -195,23 +207,39 @@ namespace :dev do
                 submit.grade.grader = admin
                 submit.grade.status = :published
                 submit.grade.save!
+
+                # an exam was graded on the day it was sat, which is what the note about an
+                # overwritten resit reports
+                if date = exam_dates[pset_name]
+                    submit.grade.update_columns(updated_at: date.noon)
+                end
             end
 
-            student.assign_final_grade(admin)
+            # the grades association is cached from the writes above
+            student.reload.assign_final_grade(admin)
         end
 
-        puts "#{final_name} per student:"
+        puts registrations.join(" / ") + " per student:"
         failures = 0
         students.each do |mail, (name, expected, _grades)|
-            student = User.find_by(mail: mail)
-            actual = student.all_submits[final_name]&.assigned_grade
+            grades = User.find_by(mail: mail).all_submits
+            actual = registrations.map { |registration| grades[registration]&.assigned_grade }
             ok = actual == expected
             failures += 1 unless ok
-            puts "  #{ok ? 'ok  ' : 'FAIL'} #{name.ljust(20)} #{actual.inspect.ljust(6)} (expected #{expected.inspect})"
+            puts "  #{ok ? 'ok  ' : 'FAIL'} #{name.ljust(20)} #{actual.inspect.ljust(16)} (expected #{expected.inspect})"
         end
 
         puts
         puts failures.zero? ? "All #{students.size} students match." : "#{failures} of #{students.size} students do not match."
+
+        # the one student whose resit moved from one attempt to another
+        if notes = User.find_by(mail: "thirdtime@example.test").all_submits["sp1_resit"]&.notes
+            puts
+            puts "Notes on Tess Thirdtime's sp1_resit:"
+            notes.lines.each { |line| puts "  #{line.chomp}" unless line.strip.empty? }
+        end
+
+        puts
         puts "Log in as #{admin.mail} and open the #{schedule.name} overview."
     end
 end

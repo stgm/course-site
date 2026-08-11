@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         resources :final_grades, only: [ :index, :show ], param: :name do
             post "export"
         end
+        patch "final_grade_undo_export/:grade_id", to: "final_grades#undo_export", as: "undo_export_final_grade"
 
         resources :users, only: [ :index, :new, :create ] do
             post   "add_group_permission"
@@ -192,7 +193,6 @@ Rails.application.routes.draw do
                 patch "publish"
                 patch "reopen"
                 patch "reject"
-                patch "undo_export"
             end
         end
     end

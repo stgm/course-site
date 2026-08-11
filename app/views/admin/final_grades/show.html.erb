@@ -1,57 +1,27 @@
-<% content_for :title do %>
-<h1>
-    <%= link_to bootstrap_icon('chevron-left'), admin_final_grades_path %>
-    <%= @name %>
-</h1>
-<% end %>
+<ul class="nav nav-pills small mb-3">
+    <% @final_grade_names.each do |name| %>
+    <li class="nav-item">
+        <%= link_to "#{name} (#{@pending_counts[name]})", admin_final_grade_path(name),
+              class: "nav-link py-1 #{'active' if name == @name}" %>
+    </li>
+    <% end %>
+</ul>
 
-<h5>Pending (<%= @pending_grades.size %>)</h5>
-<% if @pending_grades.any? %>
+<%# the download happens in this hidden iframe %>
+<iframe name="final_grades_export_frame" style="display: none;"></iframe>
+
+<%# empty on purpose: the checkboxes and footer fields below all point back at this
+    form via their own "form" attribute, since they don't live inside it in the DOM
+    (the checkboxes sit in the table, the date field and button sit in the footer) %>
 <%= form_with url: admin_final_grade_export_path(@name, format: :xlsx), method: :post,
-      data: { controller: 'checkbox-all' } do %>
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th><input type="checkbox" checked data-checkbox-all-target="all" data-action="checkbox-all#toggle"></th>
-            <th>Schedule</th>
-            <th>Group</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Grade</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% @pending_grades.each do |g| %>
-        <tr>
-            <td><input type="checkbox" name="grade_ids[]" value="<%= g.id %>" checked data-checkbox-all-target="item"></td>
-            <td><%= g.user&.schedule&.name %></td>
-            <td><%= g.user&.group&.name %></td>
-            <td><%= g.user&.defacto_student_identifier %></td>
-            <td><%= g.user_name %></td>
-            <td><%= g.assigned_grade %></td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
-
-<div class="mb-3">
-    <label for="exported_at" class="ms-1 small">Export date/time</label>
-    <input type="datetime-local" name="exported_at" id="exported_at" class="form-control"
-           value="<%= Time.current.strftime('%Y-%m-%dT%H:%M') %>">
-</div>
-
-<%= submit_tag "Export & mark as submitted", class: 'btn btn-primary',
-      data: { turbo: false, confirm: "Download the selected grades and mark them as submitted?" } %>
-<% end %>
-<% else %>
-<p class="text-muted">No pending grades for this type.</p>
+      target: 'final_grades_export_frame', id: 'final_grade_export_form' do %>
 <% end %>
 
-<h5 class="mt-4">Already submitted (<%= @exported_grades.size %>)</h5>
-<% if @exported_grades.any? %>
-<table class="table table-sm">
+<% if @pending_grades.any? || @exported_grades.any? %>
+<table class="table table-sm" data-controller="checkbox-all">
     <thead>
-        <tr>
+        <tr style="height: 2.25rem;">
+            <th><input type="checkbox" data-checkbox-all-target="all" data-action="checkbox-all#toggleAll"></th>
             <th>Schedule</th>
             <th>Group</th>
             <th>ID</th>
@@ -62,20 +32,61 @@
         </tr>
     </thead>
     <tbody>
-        <% @exported_grades.each do |g| %>
-        <tr>
+        <% if @pending_grades.any? %>
+        <tr style="height: 2.25rem;">
+            <td colspan="8" class="text-muted small align-middle">Pending (<%= @pending_grades.size %>)</td>
+        </tr>
+        <% @pending_grades.each do |g| %>
+        <tr style="height: 2.25rem;">
+            <td><input type="checkbox" name="grade_ids[]" value="<%= g.id %>" form="final_grade_export_form"
+                    data-checkbox-all-target="item" data-action="checkbox-all#itemChanged"></td>
             <td><%= g.user&.schedule&.name %></td>
             <td><%= g.user&.group&.name %></td>
             <td><%= g.user&.defacto_student_identifier %></td>
             <td><%= g.user_name %></td>
-            <td><%= g.assigned_grade %></td>
-            <td><%= g.exported_at&.strftime("%d-%m-%Y %H:%M") %></td>
-            <td><%= button_to "Undo", undo_export_grade_path(g), method: :patch, class: 'btn btn-outline-danger btn-sm',
-                    data: { turbo: false, confirm: "Undo export for #{g.user_name}?" } %></td>
+            <td><%= translate_final_grade_for_export(g.assigned_grade) %></td>
+            <td></td>
+            <td></td>
         </tr>
+        <% end %>
+        <% end %>
+
+        <% if @exported_grades.any? %>
+        <tr style="height: 2.25rem;">
+            <td colspan="8" class="text-muted small align-middle">Already submitted (<%= @exported_grades.size %>)</td>
+        </tr>
+        <% @exported_grades.each do |g| %>
+        <tr style="height: 2.25rem;">
+            <td></td>
+            <td><%= g.user&.schedule&.name %></td>
+            <td><%= g.user&.group&.name %></td>
+            <td><%= g.user&.defacto_student_identifier %></td>
+            <td><%= g.user_name %></td>
+            <td><%= translate_final_grade_for_export(g.assigned_grade) %></td>
+            <td><%= g.exported_at&.strftime("%d-%m-%Y %H:%M") %></td>
+            <%# turbo stays on: the form sits inside the modal frame, so the redirect it
+                follows is swapped back into that frame instead of taking over the page %>
+            <td><%= button_to "Undo", admin_undo_export_final_grade_path(g.id), method: :patch, class: 'btn btn-outline-danger btn-sm py-0',
+                    data: { turbo_confirm: "Undo export for #{g.user_name}?" } %></td>
+        </tr>
+        <% end %>
         <% end %>
     </tbody>
 </table>
 <% else %>
-<p class="text-muted">Nothing submitted yet.</p>
+<p class="text-muted">No grades for this type.</p>
+<% end %>
+
+<% content_for :footer do %>
+<div class="d-flex align-items-center gap-2 ms-auto">
+    <label for="exported_at" class="small mb-0">Export date/time</label>
+    <input type="datetime-local" name="exported_at" id="exported_at" class="form-control" style="width: auto;"
+           value="<%= Time.current.strftime('%Y-%m-%dT%H:%M') %>" form="final_grade_export_form">
+    <%# the reload has to hang off the button's click, not the form's submit: data-turbo="false"
+        makes Turbo hand the submission to form.submit(), which never dispatches a submit event %>
+    <%= submit_tag "Export selected...", class: 'btn btn-primary', form: 'final_grade_export_form', disabled: true,
+          data: { turbo: false, confirm: "Download the selected grades and mark them as submitted?",
+                  controller: 'reload-frame toggle-button', reload_frame_frame_value: 'modal',
+                  action: "click->reload-frame#clicked grades:selection@window->toggle-button#updateFromSelection" } %>
+</div>
 <% end %>

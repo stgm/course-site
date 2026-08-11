@@ -36,23 +36,37 @@ class FinalGradesControllerTest < ActionController::TestCase
         session[:user_mail] = user.mail
     end
 
-    test "lists final grade types with pending counts" do
+    test "index redirects to the first final grade type" do
         sign_in(@admin)
         get :index
 
-        assert_response :success
-        assert_match "final", response.body
-        assert_match "1", response.body
+        assert_redirected_to admin_final_grade_path("final")
     end
 
-    test "splits pending and already-exported grades for a type" do
+    test "shows a tab per final grade type with its pending count, and lists pending grades unchecked" do
         sign_in(@admin)
         get :show, params: { name: "final" }
 
         assert_response :success
+        assert_match "final (1)", response.body
         assert_match "Pending (1)", response.body
-        assert_match "Already submitted (0)", response.body
+        assert_no_match(/Already submitted/, response.body)
         assert_match @student.name, response.body
+        assert_match "AVV", response.body
+        assert_no_match(/type="checkbox" name="grade_ids\[\]"[^>]*checked/, response.body,
+            "nothing should be pre-selected")
+    end
+
+    test "lists already-exported grades below pending ones, with an undo button" do
+        @grade.update!(status: :exported, exported_at: Time.current)
+
+        sign_in(@admin)
+        get :show, params: { name: "final" }
+
+        assert_response :success
+        assert_no_match(/Pending/, response.body)
+        assert_match "Already submitted (1)", response.body
+        assert_match "Undo", response.body
     end
 
     test "export marks selected grades as exported with the given timestamp and returns xlsx" do
@@ -98,6 +112,28 @@ class FinalGradesControllerTest < ActionController::TestCase
         get :index
 
         assert_response :forbidden
+    end
+
+    test "undo_export reverts a grade to pending" do
+        @grade.update!(status: :exported, exported_at: Time.current)
+
+        sign_in(@admin)
+        patch :undo_export, params: { grade_id: @grade.id }
+
+        assert_redirected_to admin_final_grade_path("final")
+        @grade.reload
+        assert @grade.published?
+        assert_nil @grade.exported_at
+    end
+
+    test "undo_export is refused for non-admins" do
+        @grade.update!(status: :exported, exported_at: Time.current)
+
+        sign_in(@student)
+        patch :undo_export, params: { grade_id: @grade.id }
+
+        assert_response :forbidden
+        assert @grade.reload.exported?
     end
 
 end

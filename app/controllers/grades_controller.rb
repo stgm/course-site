@@ -19,11 +19,6 @@ class GradesController < ApplicationController
         redirect_to @grade.submit
     end
 
-    def undo_export
-        @grade.update!(status: :published, exported_at: nil)
-        redirect_back fallback_location: "/"
-    end
-
     def destroy
         @submit = @grade.submit
         @grade.destroy

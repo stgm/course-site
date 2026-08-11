@@ -191,11 +191,17 @@ class CourseArchive
         submits = student.submits.to_a
         return submits.flat_map { |submit| submit_rows(submit) } if groups.blank?
 
+        # an assignment may well be named in more than one component -- the exam attempts
+        # are, once a resit has a component of its own -- and repeating the whole row under
+        # a second heading only reads as if the student handed it in twice
+        shown = []
         rows = groups.flat_map do |title, assignments|
             matching = submits.select { |submit| assignments.include?(submit.pset&.name) }
+                .reject { |submit| shown.include?(submit.pset.name) }
                 .sort_by { |submit| [ assignments.index(submit.pset.name), submit.created_at ] }
             next [] if matching.empty?
 
+            shown += matching.map { |submit| submit.pset.name }
             [ [ :section, title ] ] + matching.flat_map { |submit| submit_rows(submit) }
         end
 
@@ -496,7 +502,7 @@ class CourseArchive
 
         # only worth comparing when the two grades actually have components in common;
         # a resit built from entirely different parts is not a variation on the first
-        differences = shares_components?(reference, components) ? component_differences(reference.last, components) : []
+        differences = shares_components?(reference, components) ? component_differences(reference.last, components, passfail) : []
         if differences.any?
             pdf.text pdf_safe(t("archive.final_grades.compared_to",
                 name: reference.first, differences: differences.join("; "))), size: 10
@@ -546,7 +552,7 @@ class CourseArchive
             conditions << t("archive.final_grades.condition.minimum", minimum: component["minimum"])
         end
         conditions << t("archive.final_grades.condition.required") if component["required"]
-        if component["type"].in?([ "pass_all", "pass_any" ])
+        if component["type"].in?([ "pass_all", "pass_any", "pass_first", "pass_last" ])
             conditions << t("archive.final_grades.condition.#{component['type']}", count: component["submits"].to_h.size)
         end
         if component["type"] == "points" && component["submits"].value?(0)
@@ -563,11 +569,13 @@ class CourseArchive
 
     # what sets this final grade apart from the one described earlier
     #
-    def component_differences(reference, components)
+    def component_differences(reference, components, passfail = false)
         differences = []
 
         (components.keys - reference.keys).each do |name|
-            differences << t("archive.final_grades.difference.used_instead", name: name, weight: components[name])
+            # a pass/fail grade weighs nothing, so naming a weight would only puzzle a reader
+            key = passfail ? "added" : "used_instead"
+            differences << t("archive.final_grades.difference.#{key}", name: name, weight: components[name])
         end
         (reference.keys - components.keys).each do |name|
             differences << t("archive.final_grades.difference.not_used", name: name)
@@ -588,7 +596,7 @@ class CourseArchive
     #
     def component_strategy(component, config)
         strategy = component["type"]
-        strategy = "average" unless strategy.in?([ "points", "maximum", "pass_all", "pass_any" ])
+        strategy = "average" unless strategy.in?([ "points", "maximum", "pass_all", "pass_any", "pass_first", "pass_last" ])
         # the points available are worth naming: they are what the grade is measured against
         return t("archive.final_grades.strategy.points", count: points_available(component)) if strategy == "points"
         # how many assignments there are is what "all" and "one of them" are about
@@ -672,7 +680,7 @@ class CourseArchive
         end
 
         # a pass/fail component weighs nothing, so a column of ones would only mislead
-        if component["type"].in?([ "pass_all", "pass_any" ])
+        if component["type"].in?([ "pass_all", "pass_any", "pass_first", "pass_last" ])
             rows = [ [ pdf_safe(t("archive.final_grades.header.assignment")) ] ]
             component["submits"].each_key { |name| rows << [ pdf_safe(name) ] }
             draw_table(pdf, rows, [ 1.0 ], width: pdf.bounds.width / 2)
@@ -724,6 +732,9 @@ class CourseArchive
         # a pass/fail component waits: only a failed assignment is a definitive result
         return rule(:missing_undecided) if component["type"] == "pass_all"
         return rule(:missing_undecided_any) if component["type"] == "pass_any"
+        # an attempt component registers nothing at all until the attempt has been made
+        return rule(:attempt_not_made) if component["type"] == "pass_first"
+        return rule(:resit_not_made) if component["type"] == "pass_last"
 
         fill = component["fill_missing"]
         return rule(:missing_cancels) if fill.blank?

@@ -33,6 +33,10 @@ en:
         sufficient: "sufficient"
         done_yes: "yes"
         done_no: "no"
+        attempt_note:
+            based_on: "%{date}: %{name} is now based on %{attempt} (%{result}, graded %{graded})."
+            overwritten: "The previous result from %{attempt} (%{result}, graded %{graded}) was overwritten."
+            unchanged: "%{date}: not changed, because this grade is already %{status}. A recalculation gives %{result}."
 
     sign_in: "Sign in"
 
@@ -221,6 +225,10 @@ en:
                 pass_any:
                     one: "a pass, when the assignment below has been passed"
                     other: "a pass, when any one of the %{count} assignments below has been passed"
+                pass_first:
+                    one: "a pass, when the attempt below has been passed"
+                    other: "a pass, when the first of the %{count} attempts below that the student made has been passed"
+                pass_last: "a pass, when the most recent attempt the student made after the first one has been passed"
             condition:
                 none: "-"
                 minimum: "at least %{minimum}"
@@ -236,8 +244,11 @@ en:
                 pass_any:
                     one: "the assignment passed"
                     other: "one of the %{count} assignments passed"
+                pass_first: "the first attempt passed"
+                pass_last: "the resit attempt passed"
             difference:
                 used_instead: "%{name} (weight %{weight}) is added"
+                added: "%{name} is added"
                 not_used: "%{name} is removed"
                 other_weight: "%{name} counts for %{weight} instead of %{previous}"
             rule:
@@ -259,6 +270,8 @@ en:
                 missing_allowed: "An assignment that is missing does not block the calculation."
                 missing_undecided: "An assignment that has not been graded yet leaves this component undecided, and the final grade is not calculated. An assignment that has been failed makes the final grade a fail."
                 missing_undecided_any: "As long as none of the assignments has been graded, this component is undecided and the final grade is not calculated. Once one of them has been graded and none has been passed, the final grade is a fail."
+                attempt_not_made: "The attempts are counted in the order listed above, and the first one the student made determines this component. As long as no attempt has been made, no grade is registered at all."
+                resit_not_made: "This is the resit registration: the most recent attempt the student made after the first one determines it, and an attempt in between is overwritten, which is recorded in the notes on the grade. As long as no second attempt has been made, no grade is registered at all."
                 required: "Any assignment graded 0 makes the final grade NAV."
                 drop_lowest: "The lowest assignment grade is dropped."
                 bonus: "Bonus assignments are added on top, up to a maximum grade of 10."

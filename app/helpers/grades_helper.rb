@@ -64,6 +64,15 @@ module GradesHelper
         return grade.to_s
     end
 
+    # Specialized codes for the UvA grading system: AVV for a pass, NAV for a
+    # fail, NAP when nothing was submitted (if enabled).
+    def translate_final_grade_for_export(grade)
+        return Settings.export_nap_final_grades ? "NAP" : "" if grade.blank?
+        return "AVV" if grade == -1
+        return "NAV" if grade == 0
+        grade.to_s
+    end
+
     def translate_subgrade(grade)
         return "" if grade.nil?
         return "NaN" if grade.is_a?(Float) and grade.nan?
@@ -80,12 +89,14 @@ module GradesHelper
                 link_to \
                     make_label(pset.name, formatted_grade, include_name),
                     submit,
+                    title: pset.name,
                     class: "grade-button btn btn-sm #{'late' if submit.late?}",
                     data: { trigger: "modal", "turbo-frame" => "modal" }
             else
                 link_to \
                     make_label(pset.name, "S", include_name),
                     submit,
+                    title: pset.name,
                     class: "grade-button btn btn-sm #{'late' if submit.late?}",
                     data: { trigger: "modal", "turbo-frame" => "modal" }
             end
@@ -95,12 +106,13 @@ module GradesHelper
                 button_tag \
                     form: "new_grade_form",
                     formaction: submits_path(submit: { pset_id: pset.id, user_id: user.id }),
+                    title: pset.name,
                     class: "grade-button btn btn-sm btn-light auto-hide",
                     data: { "turbo-frame" => "modal", trigger: "modal", confirm: "Would you like to enter a grade for this unsubmitted pset?" } do
                         make_label(pset.name, "--", include_name)
                     end
             else
-                tag.div(class: "grade-button btn btn-sm") do
+                tag.div(title: pset.name, class: "grade-button btn btn-sm") do
                     make_label(pset.name, "--", include_name)
                 end
             end

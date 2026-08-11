@@ -35,6 +35,10 @@ nl:
         sufficient: "voldoende"
         done_yes: "ja"
         done_no: "nee"
+        attempt_note:
+            based_on: "%{date}: %{name} is nu gebaseerd op %{attempt} (%{result}, nagekeken %{graded})."
+            overwritten: "Het eerdere resultaat van %{attempt} (%{result}, nagekeken %{graded}) is overschreven."
+            unchanged: "%{date}: niet gewijzigd, want dit cijfer is al %{status}. Een herberekening geeft %{result}."
 
     sign_in: "Inloggen"
 
@@ -223,6 +227,10 @@ nl:
                 pass_any:
                     one: "behaald, wanneer de opdracht hieronder is behaald"
                     other: "behaald, wanneer één van de %{count} opdrachten hieronder is behaald"
+                pass_first:
+                    one: "behaald, wanneer de poging hieronder is behaald"
+                    other: "behaald, wanneer de eerste van de %{count} pogingen hieronder die de student heeft gedaan is behaald"
+                pass_last: "behaald, wanneer de meest recente poging na de eerste die de student heeft gedaan is behaald"
             condition:
                 none: "-"
                 minimum: "minimaal %{minimum}"
@@ -238,8 +246,11 @@ nl:
                 pass_any:
                     one: "de opdracht behaald"
                     other: "één van de %{count} opdrachten behaald"
+                pass_first: "de eerste poging behaald"
+                pass_last: "de herkansing behaald"
             difference:
                 used_instead: "%{name} (gewicht %{weight}) is toegevoegd"
+                added: "%{name} is toegevoegd"
                 not_used: "%{name} is verwijderd"
                 other_weight: "%{name} telt voor %{weight} in plaats van %{previous}"
             rule:
@@ -261,6 +272,8 @@ nl:
                 missing_allowed: "Een opdracht die ontbreekt blokkeert de berekening niet."
                 missing_undecided: "Een opdracht die nog niet is nagekeken laat dit onderdeel onbeslist, en dan wordt het eindcijfer niet berekend. Een opdracht die niet is behaald maakt het eindcijfer een onvoldoende."
                 missing_undecided_any: "Zolang geen van de opdrachten is nagekeken is dit onderdeel onbeslist en wordt het eindcijfer niet berekend. Zodra één ervan is nagekeken en geen is behaald, is het eindcijfer een onvoldoende."
+                attempt_not_made: "De pogingen worden geteld in de volgorde hierboven, en de eerste die de student heeft gedaan bepaalt dit onderdeel. Zolang er geen poging is gedaan wordt er helemaal geen cijfer geregistreerd."
+                resit_not_made: "Dit is de herkansing: de meest recente poging na de eerste bepaalt het resultaat, en een poging daartussen wordt overschreven, wat in de notities bij het cijfer wordt vastgelegd. Zolang er geen tweede poging is gedaan wordt er helemaal geen cijfer geregistreerd."
                 required: "Een opdracht met een 0 maakt het eindcijfer NAV."
                 drop_lowest: "Het laagste cijfer voor een opdracht telt niet mee."
                 bonus: "Bonusopdrachten komen er bovenop, tot een maximumcijfer van 10."

@@ -85,6 +85,26 @@ class GradingConfigTest < ActiveSupport::TestCase
         assert_match "written as a list of names", config.validate.join
     end
 
+    test "final grade names are collected across every schedule" do
+        # the SP course keeps its root grading.yml empty and defines everything per
+        # schedule, and registering grades has to cover all of them
+        Settings.grading = {}
+        Settings.schedule_grading = {
+            "SP S1" => { "calculation" => { "sp1_resit" => { "sp1_checks" => 1 },
+                                            "sp1_final" => { "sp1_checks" => 1 } } },
+            "DP S1" => { "calculation" => { "dp_final" => { "dp_grades" => 1 } } }
+        }
+
+        assert_equal [ "dp_final", "sp1_final", "sp1_resit" ], GradingConfig.all_final_grade_names
+    end
+
+    test "a final grade named in the base config counts once" do
+        Settings.grading = { "calculation" => { "eindcijfer" => { "punten" => 1 } } }
+        Settings.schedule_grading = { "Standard" => {} }
+
+        assert_equal [ "eindcijfer" ], GradingConfig.all_final_grade_names
+    end
+
     test "a list of components passes validation" do
         config = config_for({
             "checks" => { "type" => "pass_all", "submits" => [ "check_1" ] },

@@ -100,7 +100,7 @@ Notes:
 
 ## Pass/fail
 
-A component can also be pass/fail, in which case it produces a pass ("v") or a fail ("x") instead of a grade on the 1--10 scheme. There are two strategies: `pass_all` requires every assignment to be passed, `pass_any` requires one of them. Neither weighs anything, so the assignments are written as a list.
+A component can also be pass/fail, in which case it produces a pass ("v") or a fail ("x") instead of a grade on the 1--10 scheme. There are four strategies: `pass_all` requires every assignment to be passed, `pass_any` requires any one of them, and `pass_first` and `pass_last` pick one attempt out of a series (see "Attempts and resits" below). None of them weighs anything, so the assignments are written as a list.
 
     sp1_checks:
         type: pass_all
@@ -135,16 +135,16 @@ For `pass_any`, as long as nothing has been graded there is no verdict, because 
 | nothing graded at all                             | not decided    |
 | otherwise (something graded, nothing passed)      | fail           |
 
-Both strategies only make sense inside a pass/fail final grade, which is declared with `type: pass` and lists its components:
+These strategies only make sense inside a pass/fail final grade, which is declared with `type: pass` and lists its components:
 
     calculation:
-        sp1:
+        sp1_final:
             type: pass
             components:
                 - sp1_checks
                 - sp1_exams
 
-Such a final grade is a pass only when every one of its components is a pass. Nothing is weighed and no rounding is applied. A failed component makes the final grade a fail, even when another component is not decided yet: the pass can no longer happen. A component that is not decided, with nothing failed, means no final grade is assigned at all.
+Such a final grade is a pass only when every one of its components is a pass. Nothing is weighed and no rounding is applied. As with every final grade, a component that is not decided yet comes first: no grade is assigned at all then, not even a failing one. Only when every component has something to report does a failed component make the final grade a fail.
 
 Note that "all assignments passed" can also be written with the `average` strategy, because the average of a series of passes is a pass:
 
@@ -158,3 +158,64 @@ Note that "all assignments passed" can also be written with the `average` strate
             m3-passed: 1
 
 This still works, but `pass_all` says the same thing directly.
+
+
+## Attempts and resits
+
+An exam usually has several sittings, and the registration system takes two results per course: a first one and a resit. Which sitting fills which registration differs per student, because it depends on which sittings they turned up for. The `pass_first` and `pass_last` strategies express that: both take the same list of attempts, and each picks a different one out of it.
+
+    sp1_exams:                  # the first registration
+        type: pass_first
+        show_progress: true
+        submits:
+            - sp1_exam1
+            - sp1_exam2
+            - sp1_exam3
+            - sp1_exam4
+
+    sp1_exams_resit:            # the resit registration
+        type: pass_last
+        submits:
+            - sp1_exam1
+            - sp1_exam2
+            - sp1_exam3
+            - sp1_exam4
+
+    calculation:
+        sp1_final:
+            type: pass
+            components:
+                - sp1_checks
+                - sp1_exams
+        sp1_resit:
+            type: pass
+            components:
+                - sp1_checks
+                - sp1_exams_resit
+
+An assignment counts as an **attempt made** once it has a grade with a value, whether that is a pass or a fail. An assignment that has not been graded yet is not an attempt, and neither is a resubmit exception (-2). Attempts are counted in the order they are listed, not by date, so which attempt counts as the first does not change when a grader enters an earlier one late.
+
+- `pass_first` is decided by the first attempt made.
+- `pass_last` is decided by the most recent attempt made *after* the first one. With two attempts that is the second; with three it is the third, and the second is overwritten.
+
+Neither is decided at all when the attempt it needs was not made, and then no grade is registered — a student who never sat the exam gets no result, and a student who sat it once gets a first result and no resit. That is why the second component above needs no `show_progress`: it covers the same assignments as the first one, which already shows them.
+
+| student                                          | sp1_final | sp1_resit |
+| ------------------------------------------------ | --------- | --------- |
+| checks passed, first attempt passed              | pass      | –         |
+| checks passed, attempt 1 failed                  | fail      | –         |
+| checks passed, attempt 1 failed, 2 passed        | fail      | pass      |
+| checks passed, attempts 1 and 2 failed           | fail      | fail      |
+| checks passed, attempts 1, 2 failed, 3 passed    | fail      | pass      |
+| a check failed, an attempt made                  | fail      | –         |
+| a check failed, no attempt made                  | –         | –         |
+| checks not finished, attempt passed              | –         | –         |
+| nothing made                                     | –         | –         |
+
+When `pass_last` skips over an earlier attempt, that is recorded in the internal notes on the final grade, with the date each result was graded:
+
+    6 March 2026: sp1_resit is now based on sp1_exam3 (sufficient, graded 6 March 2026).
+
+    The previous result from sp1_exam2 (insufficient, graded 15 December 2025) was overwritten.
+
+A grade that has been published or exported is never overwritten by a recalculation. When the calculation no longer agrees with such a grade, the grade is left exactly as it is and a note says what a recalculation would give, so that a teacher can decide whether the registration has to be corrected.

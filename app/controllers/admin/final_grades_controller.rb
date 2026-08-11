@@ -7,12 +7,19 @@ class Admin::FinalGradesController < ApplicationController
 
     layout "modal"
 
+    # every schedule's final grades, because a submission to the registration system
+    # covers the whole course rather than one schedule
     def index
-        @final_grade_names = GradingConfig.base.final_grade_names
-        @pending_counts = @final_grade_names.index_with { |name| pending_grades(name).count }
+        @final_grade_names = GradingConfig.all_final_grade_names
+        if @final_grade_names.any?
+            redirect_to admin_final_grade_path(@final_grade_names.first)
+        end
     end
 
     def show
+        @final_grade_names = GradingConfig.all_final_grade_names
+        @pending_counts = @final_grade_names.index_with { |name| pending_grades(name).count }
+
         @name = params[:name]
         @pending_grades = pending_grades(@name).
             includes(user: [ :schedule, :group ]).
@@ -42,10 +49,21 @@ class Admin::FinalGradesController < ApplicationController
         end
     end
 
+    # Reverts a single grade back to pending, in case it was exported by mistake.
+    def undo_export
+        # scoped to exported grades on a final pset, not Grade.find, so this can't be
+        # used to tamper with grades outside the final-grades export workflow
+        grade = Grade.joins(submit: :pset).where(psets: { final: true }).exported.find(params[:grade_id])
+        grade.update!(status: :published, exported_at: nil)
+        redirect_to admin_final_grade_path(grade.pset_name)
+    end
+
     private
 
+    # final: true keeps this to grades that are actually registered somewhere, so that a
+    # name that is not a final grade cannot be exported and marked as such through the URL
     def psets(name)
-        Pset.where(name: name)
+        Pset.where(name: name, final: true)
     end
 
     def pending_grades(name)

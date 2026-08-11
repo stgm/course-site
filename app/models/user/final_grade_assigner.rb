@@ -25,22 +25,45 @@ module User::FinalGradeAssigner
                 final = self.submits.where(pset: Pset.where(name: name).first).first_or_create
                 final.create_grade if !final.grade
 
-                # only change if grade hasn't been published yet
-                if not [ "published", "exported" ].include?(final.grade.status)
-                    final.grade.grade = grade
+                notes = debug_results[name].to_a
 
-                    final.grade.notes ||= ""
-                    final.grade.notes += debug_results.join("\n")
+                # only change if grade hasn't been published yet
+                if [ "published", "exported" ].include?(final.grade.status)
+                    # the registered grade stands, but a calculation that would now give
+                    # something else is exactly what a teacher has to decide about
+                    record_unchanged(final.grade, grade, notes)
+                else
+                    final.grade.grade = grade
 
                     # only if the grade is different from before we go through
                     if final.grade.grade_changed?
                         final.grade.grader = grader
                         final.grade.status = Grade.statuses["finished"]
+                        final.grade.notes = append_notes(final.grade.notes, notes)
                         final.grade.save
                     end
                 end
             end
         end
+    end
+
+    # A published or exported grade is never overwritten, so the only thing left to do is
+    # to say so in the internal notes. update_columns on purpose: this is an annotation,
+    # not a regrading, and it should not move the "last graded" time or run any callback.
+    def record_unchanged(final_grade, grade, notes)
+        return if final_grade.assigned_grade == grade
+
+        headline = I18n.t("grading.attempt_note.unchanged",
+            date: User::FinalGradeCalculator.on_date(Date.current),
+            status: final_grade.status,
+            result: User::FinalGradeCalculator.result_word(grade))
+
+        final_grade.update_columns(notes: append_notes(final_grade.notes, [ headline ] + notes))
+    end
+
+    # notes are rendered as markdown, so lines need a blank line between them to stay lines
+    def append_notes(existing, lines)
+        [ existing.presence, lines.join("\n\n") ].compact.join("\n\n")
     end
 
     def number_grade(grade)

@@ -5,7 +5,7 @@ wb.add_worksheet(name: @name) do |sheet|
         sheet.add_row [
             g.user&.defacto_student_identifier || "",
             g.user_name,
-            g.assigned_grade,
+            translate_final_grade_for_export(g.assigned_grade),
         ]
     end
 end
