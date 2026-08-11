@@ -10,7 +10,6 @@ end
 if GradingConfig.all_final_grade_names.any?
   tabs.merge!({ "Final grades": "/admin/final_grades" })
 end
-tabs.merge!({ "Hands statistics": "/hands/statistics" }) if Hand.available?
 tabs.merge!({ Archiving: "/admin/archiving" }) %>
 
 <ul class="nav nav-tabs">

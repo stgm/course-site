@@ -22,19 +22,9 @@ class Settings < RailsSettings::Base
         field :mailer_from
         field :room_for_toc
         field :public_schedule
-
-        field :hands_allow
-        field :hands_only
-        field :hands_location
-        field :hands_location_type, default: "tafelnummer"
-        field :hands_location_bumper
-        field :hands_link
-        field :hands_groups
-        field :hands_show_non_questions
     end
 
-    # Embedding the separate multi-tenant "hands" app as a student widget. This
-    # is additive: the local hands feature above is unaffected.
+    # Embedding the separate multi-tenant "hands" app as a student widget.
     scope :hands_embed do
         field :hands_embed_enabled, default: false
         field :hands_embed_url
@@ -57,7 +47,6 @@ class Settings < RailsSettings::Base
 
     scope :features do
         field :qa_allow
-        field :hands_allow
         field :pages_enable_math
         field :webhook_secret
     end
@@ -75,10 +64,6 @@ class Settings < RailsSettings::Base
 
     scope :export do
        field :export_nap_final_grades, default: true
-    end
-
-    scope :cleanup do
-        field :reset_stale_locations, default: DateTime.new(1970)
     end
 
     field :git_version, default: {}

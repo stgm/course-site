@@ -142,36 +142,16 @@ Rails.application.routes.draw do
     # one button in the grading interface
     post "grading/finish", as: "finish_grading"
 
-    # question queuing
-    resources :hands, only: [ :index, :show, :new, :create, :update ], module: "hands" do
-        collection do
-            # students
-            resource :raise, as: "hands_raise", only: [ :show, :create, :destroy ] do
-                patch "set_location"
-            end
-            # assistants
-            resource :availability, as: "hands_availability", only: [ :edit, :update ]
-            # heads
-            resource :statistics, as: "hands_statistics", only: [ :show ]
-            post "confirm_location"
-            post "clear_all_locations"
-        end
-        member do
-            put "dib"
-            put "helpline"
-            put "done"
-        end
-    end
-
-    get "attendance", to: "hands/attendance#index"
+    # taking attendance by hand
+    get "attendance", to: "attendance#index"
+    post "attendance/confirm", to: "attendance#confirm", as: :attendance_confirm
+    post "attendance/clear_all", to: "attendance#clear_all", as: :attendance_clear_all
 
     # Mints a short-lived signed token for the embedded (separate app) hands widget.
     get "hands_embed/token", to: "hands_embed#token", as: :hands_embed_token
 
     resources :questions
     resources :answers
-
-    resources :assistance, only: [ :index ]
 
     #--RESOURCES--------------------------------------------------------------------------------
 

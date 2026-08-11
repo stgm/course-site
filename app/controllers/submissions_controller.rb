@@ -10,7 +10,7 @@ class SubmissionsController < ApplicationController
 
     # Presents an overview of all submissions for the current user.
     def index
-        @student = User.includes(:hands, :notes).find(current_user.id)
+        @student = User.includes(:notes).find(current_user.id)
         @items = @student.items
         raise ActionController::RoutingError.new("Not Found") if @items.empty?
 

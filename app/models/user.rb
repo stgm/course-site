@@ -4,7 +4,7 @@ class User < ApplicationRecord
     include Authenticatable, Loginable, Staffable, Groupable, Schedulizable, Profileable
 
     # Activities
-    include Submitter, HandRaiser, Attendee, Notee
+    include Submitter, Attendee, Notee
 
     # Utilities
     include ChangeLogger, FinalGradeAssigner
@@ -22,7 +22,6 @@ class User < ApplicationRecord
         # show all submits for psets that are _not_ a module
         items += submits.includes(:pset).to_a
         # items += grades.includes(:pset, :submit, :grader).showable.to_a
-        # items += hands.includes(:assist).to_a if with_private
         items += notes.includes(:author).to_a if with_private
         items = items.sort { |a, b| b.sortable_date <=> a.sortable_date }
     end

@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     # # Remove time zone for Groupdate because it does not support SQLite
     # Groupdate.time_zone = false
     def show
-        @student = @user_scope.includes(:hands, :notes).find(params[:id])
+        @student = @user_scope.includes(:notes).find(params[:id])
         @note = Note.new(student_id: @student.id)
 
         if current_user.senior?

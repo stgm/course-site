@@ -10,7 +10,7 @@
             <% if current_user.designation %>
             <%= '&middot;'.html_safe %>
             <%= current_user.designation %>
-            <% if logged_in? && current_user.location_confirmed? %>📌<% end %>
+            <% if logged_in? && current_user.attendance_confirmed? %>📌<% end %>
             <% end %>
         </small>
         <% end %>

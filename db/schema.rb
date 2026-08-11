@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_10_120212) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_11_103000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -72,7 +72,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_10_120212) do
     t.integer "user_id"
     t.datetime "cutoff"
     t.boolean "local", default: false
-    t.string "location"
     t.string "ip"
     t.boolean "confirmed", default: false, null: false
     t.index ["user_id"], name: "index_attendance_records_on_user_id"
@@ -142,27 +141,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_10_120212) do
     t.integer "group_id"
     t.index ["group_id"], name: "index_groups_users_on_group_id"
     t.index ["user_id"], name: "index_groups_users_on_user_id"
-  end
-
-  create_table "hands", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "location"
-    t.text "help_question"
-    t.boolean "done", default: false
-    t.integer "assist_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text "note"
-    t.string "evaluation"
-    t.boolean "success", default: false
-    t.boolean "helpline", default: false
-    t.string "progress"
-    t.datetime "claimed_at"
-    t.datetime "closed_at"
-    t.string "subject"
-    t.string "hint"
-    t.index ["assist_id"], name: "index_hands_on_assist_id"
-    t.index ["user_id"], name: "index_hands_on_user_id"
   end
 
   create_table "logins", force: :cascade do |t|
@@ -326,12 +304,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_10_120212) do
     t.string "attendance", default: "", null: false
     t.datetime "last_seen_at"
     t.datetime "last_spoken_at"
-    t.datetime "available"
     t.string "avatar"
     t.text "notes"
     t.integer "role", default: 0, null: false
     t.integer "schedule_id"
-    t.string "last_known_location"
     t.boolean "alarm", default: false, null: false
     t.datetime "last_submitted_at"
     t.datetime "started_at"
@@ -339,8 +315,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_10_120212) do
     t.integer "current_module_id"
     t.text "progress"
     t.integer "status"
-    t.integer "hands_count", default: 0, null: false
-    t.integer "hands_duration_count", default: 0, null: false
     t.integer "notes_count", default: 0, null: false
     t.integer "submits_count", default: 0, null: false
     t.string "login"
@@ -351,7 +325,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_10_120212) do
     t.string "pronouns"
     t.string "pin"
     t.string "last_known_ip"
-    t.boolean "location_confirmed", default: false, null: false
+    t.boolean "attendance_confirmed", default: false, null: false
     t.index ["current_module_id"], name: "index_users_on_current_module_id"
     t.index ["schedule_id"], name: "index_users_on_schedule_id"
     t.index ["status"], name: "index_users_on_status"

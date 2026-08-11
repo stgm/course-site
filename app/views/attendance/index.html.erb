@@ -1,0 +1,11 @@
+<ul class="list-unstyled mt-4" style="font-size:14px;">
+  <% @students.each do |user| %>
+    <li style="margin:4px 0;">
+      <%= toggle_checkin_form(user) %>
+      <%= link_to user.name, user, data: { toggle: "modal" }, target: "modal", style: "text-decoration:none;" %>
+      <span class="text-muted"><%= user.last_seen_at&.to_fs(:time) %></span>
+    </li>
+  <% end %>
+</ul>
+
+<%= button_to 'Clear all confirmations (end of class)', attendance_clear_all_path, method: :post, data: { confirm: "Dangerous game you're playing!", turbo: false }, class: 'btn btn-sm btn-danger mt-5' %>

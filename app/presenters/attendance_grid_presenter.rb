@@ -73,7 +73,7 @@ class AttendanceGridPresenter
         if f == 0
             "background-color: rgba(25, 135, 84, #{t});"
         else
-            "background-color: rgba(25, 135, 194, #{c});"
+            "background-color: rgba(25, 135, 194, #{t});"
         end
     end
 

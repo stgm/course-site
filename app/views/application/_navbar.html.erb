@@ -1,7 +1,7 @@
 <div id="navbar"
     class="navbar navbar-expand-md flex-wrap column-gap-3 row-gap-2 justify-items-start dropdown" style="grid-area: navbar;">
 
-    <% unless Settings.hands_only && !current_user.senior? || !logged_in? %>
+    <% if logged_in? %>
         <button class="navbar-toggler" type="button"
             data-bs-toggle="collapse" data-bs-target="#navbar_links" aria-controls="navbar_links">
             <%= bootstrap_icon 'grid-3x3-gap-fill' %>
@@ -20,33 +20,29 @@
     <% end %>
     <% end %>
 
-    <% unless Settings.hands_only && !current_user.senior? || content_for(:navbar_items) %>
+    <% unless content_for(:navbar_items) %>
         <ul id="navbar_links"
             class="navbar-nav button-bar collapse navbar-collapse drsopdown-menu">
             <%= render 'course_links' %>
         </ul>
     <% end %>
 
-    <% unless Settings.hands_only && !current_user.senior? %>
-        <%# additional items as defined by the page template %>
-        <%= yield :navbar_items %>
+    <%# additional items as defined by the page template %>
+    <%= yield :navbar_items %>
 
-            <%# spacer %>
-            <div class="flex-fill d-none d-md-block"></div>
+    <%# spacer %>
+    <div class="flex-fill d-none d-md-block"></div>
 
-            <%# default toolbar items %>
-            <% if current_user.senior? %>
-            <%= render partial: 'search' %>
-            <% end %>
-
-            <ul class="navbar-nav button-bar <% if logged_in? %> collapse navbar-collapse <% end %>">
-                <% unless defined?(remove_content) %>
-                <%= render partial: 'hands_menu' %>
-                <%= render partial: 'hands_embed_menu' %>
-                <% end %>
-                <%= render 'menu' %>
-            </ul>
-
+    <%# default toolbar items %>
+    <% if current_user.senior? %>
+    <%= render partial: 'search' %>
     <% end %>
+
+    <ul class="navbar-nav button-bar <% if logged_in? %> collapse navbar-collapse <% end %>">
+        <% unless defined?(remove_content) %>
+        <%= render partial: 'hands_embed_menu' %>
+        <% end %>
+        <%= render 'menu' %>
+    </ul>
 
 </div>

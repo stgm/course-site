@@ -15,7 +15,6 @@ class Schedule < ApplicationRecord
     has_many :students, -> { student }, class_name: "User"
     has_many :submits, through: :users
     has_many :grades, through: :users
-    has_many :hands, through: :users
 
     # These are the staff that may have been assigned to grade this group
     has_and_belongs_to_many :graders, class_name: "User"

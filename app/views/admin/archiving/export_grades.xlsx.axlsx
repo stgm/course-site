@@ -1,6 +1,6 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Grades") do |sheet|
-    labels = [ "ID", "Name", "Attendance", "Spoken" ]
+    labels = [ "ID", "Name", "Attendance" ]
     labels << "schedule"
     labels << "group"
     labels << "status"
@@ -16,7 +16,6 @@ wb.add_worksheet(name: "Grades") do |sheet|
         data << user.defacto_student_identifier
         data << user.name
         data << user.attendance_records.count
-        data << user.hands.where(success: true).count
         data << (user.schedule && user.schedule.name || "")
         data << (user.group && user.group.name || "")
         data << user.status.to_s
