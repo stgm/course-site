@@ -107,6 +107,7 @@ GEM
     caxlsx_rails (0.7.2)
       actionpack (>= 6.1)
       caxlsx (>= 4.0)
+    cgi (0.5.2)
     coderay (1.1.3)
     concurrent-ruby (1.3.8)
     connection_pool (3.0.2)
@@ -493,6 +494,7 @@ DEPENDENCIES
   bootstrap (~> 5.3.3)
   brakeman
   caxlsx_rails
+  cgi
   coderay
   curb
   dartsass-sprockets

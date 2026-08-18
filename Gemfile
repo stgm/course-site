@@ -3,6 +3,7 @@ source "https://rubygems.org"
 # for ruby
 gem "ostruct"
 gem "matrix"  # no longer a default gem in ruby 4, needed by prawn
+gem "cgi"     # CGI.parse etc removed from ruby 4 stdlib, needed by azure-storage-common
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~>8.0.1"
