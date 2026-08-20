@@ -12,8 +12,9 @@ class HandsEmbedController < ApplicationController
             "name"           => current_user.name.to_s,
             "student_number" => current_user.student_number.to_s,
 
-            # staff role transfers to the hands site
-            "staff"          => current_user.staff?,
+            # role transfers to the hands site — it maps course-site's
+            # student/assistant/head/admin to hands' own role vocabulary
+            "role"           => current_user.role,
             "slug"           => slug,
             "site_label"     => site_label,
             "locale"         => I18n.locale.to_s,
