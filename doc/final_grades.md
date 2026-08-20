@@ -45,6 +45,12 @@ Notes:
 
 - Not having 0 for any grade can also be required by setting `required: true`. A zero grade will then fail the calculation and assign a 0 final grade. This is related to `minimum:` but more useful when using pass/fail-scenarios.
 
+- Instead of cancelling the calculation, a missing grade can be filled in with a default by setting `fill_missing: <value>`, e.g. `fill_missing: 1`.
+
+- The lowest-scoring assignment can be dropped from the average (weight and all) by setting `drop: lowest`. Nothing is dropped if there is only one assignment.
+
+- As with the other strategies, `attempt_required: true` means the component is not decided at all — instead of counting a missing grade as data — until every listed assignment has a grade. See the `sp1_checks` example under "Pass/fail" below.
+
 
 ## Maximum grade
 
@@ -74,6 +80,8 @@ Notes:
 
 - A minimum can be applied, which means that the component "fails" if the threshold for the calculated grade is not met. In that case a 0 final grade for the course is automatically assigned.
 
+- Unlike average grade, a missing grade for any of the submits always cancels this calculation; there is no `fill_missing` option here.
+
 
 ## Points
 
@@ -93,9 +101,13 @@ Notes:
 
 - If "pass" (-1) is assigned in the grade, the maximum number of points is counted, as specified in the component (e.g. 4 for hangman in the example).
 
-- Any missing grades will be counted as 0 points and thus will *not* prevent a grade to be calculated.
+- Any missing grades will be counted as 0 points and thus will *not* prevent a grade to be calculated. Setting `attempt_required: true` changes this: the component is then not decided at all until every submit has a grade, just like `attempt_required` for average grade.
 
 - A minimum can be applied, which means that the component "fails" if the threshold for the calculated grade is not met. In that case a 0 final grade is assigned.
+
+- A maximum number of points that count towards the component can be set with `maximum: <points>`. Points earned beyond that are not counted, and the total available for the 1--10 conversion is capped at the same number, even if the submits above add up to more.
+
+- Giving a submit a weight of `0` makes it required in a different sense: it earns no points itself, but a missing grade or a grade of 0 for it forces the whole component grade to 1, however many points were earned elsewhere.
 
 
 ## Pass/fail

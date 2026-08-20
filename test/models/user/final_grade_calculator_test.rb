@@ -94,6 +94,29 @@ class User::FinalGradeCalculatorTest < ActiveSupport::TestCase
         assert_equal :insufficient, User::FinalGradeCalculator.new(GradingConfig.base).run(submits)["final"]
     end
 
+    test "a maximum component with a minimum fails below the threshold" do
+        Settings.grading = {
+            "best" => { "type" => "maximum", "submits" => [ "m1", "m2" ], "minimum" => 5.5 },
+            "calculation" => { "final" => { "type" => "pass", "components" => [ "best" ] } }
+        }
+        submits = { "m1" => FakeGrade.new(4.0), "m2" => FakeGrade.new(5.0) }
+        assert_equal :insufficient, User::FinalGradeCalculator.new(GradingConfig.base).run(submits)["final"]
+    end
+
+    test "drop: lowest drops the lowest-scoring submit from the average" do
+        Settings.grading = {
+            "average" => { "submits" => { "m1" => 1, "m2" => 1, "m3" => 1 }, "drop" => "lowest" },
+            "calculation" => { "final" => { "average" => 1 } }
+        }
+        submits = {
+            "m1" => FakeGrade.new(4.0),
+            "m2" => FakeGrade.new(8.0),
+            "m3" => FakeGrade.new(10.0)
+        }
+        # m1 (the lowest) is dropped, so the average is (8 + 10) / 2 = 9, not (4 + 8 + 10) / 3
+        assert_equal 9, User::FinalGradeCalculator.new(GradingConfig.base).run(submits)["final"]
+    end
+
     # Two registrations off the same list of exam attempts: the first attempt a student made
     # decides sp1_final, every later one decides sp1_resit.
     ATTEMPT_CONFIG = {

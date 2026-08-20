@@ -195,7 +195,7 @@ class User::FinalGradeCalculator
             grade = [ 10, grade ].min
         end
 
-        if config["minimum"] && average < config["minimum"]
+        if config["minimum"] && grade < config["minimum"]
             return :insufficient
         end
 
@@ -218,7 +218,7 @@ class User::FinalGradeCalculator
         # zeroed data for something like tests receives an "insufficient"
         return :insufficient if config["required"] && zeroed_data?(grades)
 
-        grades = drop_lowest_from(grades) if config["drop"] == :lowest
+        grades = drop_lowest_from(grades) if config["drop"] == "lowest"
         grade = calculate_average(grades)
 
         # add any bonus grades
