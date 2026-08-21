@@ -5,6 +5,17 @@ export default class extends Controller {
     activeIndex = -1;
 
     connect() {
+        this.onGlobalKeydown = (e) => {
+            if (e.key !== "/") return;
+            if (e.metaKey || e.ctrlKey || e.altKey) return;
+            const t = e.target;
+            if (t.isContentEditable) return;
+            if (t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement) return;
+            e.preventDefault();
+            this.inputTarget.focus();
+        };
+        document.addEventListener("keydown", this.onGlobalKeydown);
+
         this.widgetTarget.addEventListener("focusout", () => { console.log('hide');
             setTimeout(() => {
                 if (!this.widgetTarget.contains(document.activeElement)) {
@@ -40,6 +51,10 @@ export default class extends Controller {
         this.element.addEventListener("turbo:frame-load", (e) => {
             if (e.target.id !== "search-results-frame") return;
         });
+    }
+
+    disconnect() {
+        document.removeEventListener("keydown", this.onGlobalKeydown);
     }
 
     // --- helpers ---
