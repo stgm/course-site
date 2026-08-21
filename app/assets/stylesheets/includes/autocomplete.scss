@@ -1,0 +1,18 @@
+//****************************************************************************
+// dropdown menu used by the "Find student" search box
+
+.autocomplete-menu
+{
+    @extend .dropdown-menu;
+    display: block;
+}
+
+.autocomplete-menu:empty
+{
+    display: none;
+}
+
+.autocomplete-menu.hidden
+{
+    display: none;
+}
