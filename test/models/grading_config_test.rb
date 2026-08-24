@@ -148,4 +148,39 @@ class GradingConfigTest < ActiveSupport::TestCase
         assert_empty psets
     end
 
+    test "a schedule override merges into an existing category instead of replacing it" do
+        Pset.create!(name: "check_1", order: 1)
+
+        Settings.grading = { "checks" => { "type" => "pass_all", "submits" => { "check_1" => 1 } } }
+        Settings.schedule_grading = { "S1" => { "checks" => { "show_progress" => true } } }
+
+        config = GradingConfig.with_schedule("S1")
+
+        assert_equal "pass_all", config.components["checks"]["type"]
+        name, flag, psets = config.overview.first
+        assert_equal "checks", name
+        assert_equal [ "check_1" ], psets.map { |pset, weight| pset.name }
+    end
+
+    test "overview does not crash for a category with no submits key" do
+        config = config_for({
+            "checks" => { "show_progress" => true }
+        })
+
+        name, flag, psets = config.overview.first
+        assert_equal "checks", name
+        assert_empty psets
+    end
+
+    test "overview_config does not crash for a category with no submits key" do
+        config = config_for({
+            "checks" => { "show_progress" => true }
+        })
+
+        content = config.overview_config["checks"]
+        assert_empty content["submits"]
+        assert_empty content["subgrades"]
+        assert_equal false, content["show_calculated"]
+    end
+
 end

@@ -149,7 +149,7 @@ class GradingConfig
         # than crashing the overview)
         r = @config.
             select { |c, v| v["show_progress"] || v["show_overview"] }.
-            map { |c, v| [ c, should_summarize(v), v["submits"].filter_map { |name, weight| [ psets[name], weight ] if psets[name] } ] }
+            map { |c, v| [ c, should_summarize(v), (v["submits"] || {}).filter_map { |name, weight| [ psets[name], weight ] if psets[name] } ] }
 
         # include all final grades at the end
         r = r + [ [ "Final", nil, final_grade_names.filter_map { |k| psets[k] } ] ] if final_grade_names.any?
@@ -170,7 +170,7 @@ class GradingConfig
 
         overview.each do |category, content|
             # remove psets having weight 0 or bonus, only select pset names
-            content["submits"] = content["submits"]
+            content["submits"] = (content["submits"] || {})
                 .reject { |submit, weight| (weight == 0 || weight == "bonus") }
 
             # determine subgrades if any
@@ -247,6 +247,8 @@ class GradingConfig
                     result["grades"][grade] ||= {}
                     result["grades"][grade].merge!(props) if props.is_a?(Hash)
                 end
+            elsif value.is_a?(Hash) && result[key].is_a?(Hash)
+                result[key] = result[key].merge(value)
             else
                 result[key] = value
             end
