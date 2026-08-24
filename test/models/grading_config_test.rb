@@ -116,4 +116,26 @@ class GradingConfigTest < ActiveSupport::TestCase
         assert_empty config.validate
     end
 
+    test "overview skips a submit that has no matching pset" do
+        Pset.create!(name: "check_1", order: 1)
+
+        config = config_for({
+            "checks" => { "show_progress" => true, "submits" => { "check_1" => 1, "check_missing" => 1 } }
+        })
+
+        name, flag, psets = config.overview.first
+        assert_equal "checks", name
+        assert_equal [ "check_1" ], psets.map { |pset, weight| pset.name }
+    end
+
+    test "overview skips a final grade that has no matching pset" do
+        config = config_for({
+            "calculation" => { "eindcijfer" => { "punten" => 1 } }
+        })
+
+        name, flag, psets = config.overview.last
+        assert_equal "Final", name
+        assert_empty psets
+    end
+
 end

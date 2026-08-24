@@ -144,12 +144,14 @@ class GradingConfig
         psets = Pset.order(:order).index_by &:name
 
         # include final grade components that were marked as "show progress"
+        # (submits naming a pset that no longer exists are skipped, rather
+        # than crashing the overview)
         r = @config.
             select { |c, v| v["show_progress"] || v["show_overview"] }.
-            map { |c, v| [ c, should_summarize(v), v["submits"].map { |name, weight| [ psets[name], weight ] } ] }
+            map { |c, v| [ c, should_summarize(v), v["submits"].filter_map { |name, weight| [ psets[name], weight ] if psets[name] } ] }
 
         # include all final grades at the end
-        r = r + [ [ "Final", nil, final_grade_names.map { |k, v| psets[k] } ] ] if final_grade_names.any?
+        r = r + [ [ "Final", nil, final_grade_names.filter_map { |k| psets[k] } ] ] if final_grade_names.any?
 
         # if nothing's there, include all assignments
         r = [ [ "Assignments", nil, Pset.order(:order) ] ] if r.blank?
