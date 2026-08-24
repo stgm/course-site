@@ -147,7 +147,7 @@ For `pass_any`, as long as nothing has been graded there is no verdict, because 
 | nothing graded at all                             | not decided    |
 | otherwise (something graded, nothing passed)      | fail           |
 
-These strategies only make sense inside a pass/fail final grade, which is declared with `type: pass` and lists its components:
+These strategies normally belong inside a pass/fail final grade, which is declared with `type: pass` and lists its components:
 
     calculation:
         sp1_final:
@@ -170,6 +170,14 @@ Note that "all assignments passed" can also be written with the `average` strate
             m3-passed: 1
 
 This still works, but `pass_all` says the same thing directly.
+
+A pass/fail component can also be used inside a weighted (non-`type: pass`) final grade, but only at weight `0`. It then contributes nothing to the numeric average when it passes — only a fail or an ungraded state affects the result, by forcing the whole final grade to a fail or to "not decided" respectively. This is useful for a mandatory sign-off that must be completed to pass the course but should not itself earn points:
+
+    calculation:
+        eindcijfer:
+            punten: 25
+            tentamen: 75
+            schrijfopdrachten: 0
 
 
 ## Attempts and resits

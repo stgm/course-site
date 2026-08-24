@@ -74,6 +74,16 @@ class GradingConfigTest < ActiveSupport::TestCase
         assert_match "pass/fail components: checks", errors
     end
 
+    test "a pass component at weight 0 in a numeric final grade is allowed" do
+        config = config_for({
+            "checks" => { "type" => "pass_all", "submits" => [ "check_1" ] },
+            "punten" => { "submits" => { "m2" => 1 } },
+            "calculation" => { "eindcijfer" => { "checks" => 0, "punten" => 1 } }
+        })
+
+        assert_empty config.validate
+    end
+
     test "weighed components in a pass final grade are reported" do
         config = config_for({
             "checks" => { "type" => "pass_all", "submits" => [ "check_1" ] },

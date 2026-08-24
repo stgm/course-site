@@ -83,6 +83,34 @@ class User::FinalGradeCalculatorTest < ActiveSupport::TestCase
         assert_equal :not_attempted, pass_grade("check_1" => -1, "check_2" => -1, "exam_1" => -2)
     end
 
+    # a weight-0 pass/fail component inside a weighted final grade: a mandatory sign-off
+    # that earns no points and does not move the average, but can still block the result
+    WEIGHTED_WITH_PASS_CONFIG = {
+        "average" => { "submits" => { "m2" => 1 } },
+        "signoff" => { "type" => "pass_all", "submits" => [ "check_1" ] },
+        "calculation" => {
+            "final" => { "average" => 1, "signoff" => 0 }
+        }
+    }.freeze
+
+    def weighted_pass_grade(grades)
+        Settings.grading = WEIGHTED_WITH_PASS_CONFIG.deep_dup
+        submits = grades.transform_values { |grade| FakeGrade.new(grade) }
+        User::FinalGradeCalculator.new(GradingConfig.base).run(submits)["final"]
+    end
+
+    test "a weight-0 pass_all component that passes doesn't change the numeric final grade" do
+        assert_equal 9, weighted_pass_grade("m2" => 9.0, "check_1" => -1)
+    end
+
+    test "a weight-0 pass_all component that fails forces the final grade to insufficient" do
+        assert_equal :insufficient, weighted_pass_grade("m2" => 9.0, "check_1" => 0)
+    end
+
+    test "a weight-0 pass_all component that is ungraded forces not_attempted" do
+        assert_equal :not_attempted, weighted_pass_grade("m2" => 9.0)
+    end
+
     test "a pass final grade is a fail when a component reports a number" do
         # a numeric component inside a pass/fail final grade cannot be a pass, however
         # high it is: only the pass sentinel counts

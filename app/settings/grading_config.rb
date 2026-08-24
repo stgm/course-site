@@ -121,10 +121,11 @@ class GradingConfig
             @errors << "Problem loading grading.yml for #{@schedule_name}. Components #{unknown_types.map { |name, c| "#{name}/#{c['type']}" }.join('; ')} have an unknown type. Choose from: #{COMPONENT_TYPES.compact.join(', ')}."
         end
 
-        # a pass component reports -1, which is meaningless inside a weighted average
+        # a pass component reports -1, which is meaningless inside a weighted average,
+        # unless its weight is 0: then only a fail or missing grade can affect the result
         self.calculation.each do |final_name, spec|
             next if spec["type"] == "pass"
-            pass_components = spec["components"].keys.select { |name| self.components[name].to_h["type"].in? PASS_COMPONENT_TYPES }
+            pass_components = spec["components"].select { |name, weight| weight != 0 && self.components[name].to_h["type"].in?(PASS_COMPONENT_TYPES) }.keys
             if pass_components.any?
                 @errors << "Problem loading grading.yml for #{@schedule_name}. Final grade #{final_name} is not of type pass, but uses pass/fail components: #{pass_components.join('; ')}."
             end
