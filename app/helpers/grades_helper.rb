@@ -57,6 +57,15 @@ module GradesHelper
             end
     end
 
+    # A boolean subgrade in the grade entry grid is tinted:
+    #    done (-1) is dark, not done (0) is light, other is no background
+    def subgrade_fill_class(value)
+        case value.to_s
+        when "-1" then "subgrade-yes"
+        when "0" then "subgrade-no"
+        end
+    end
+
     def translate_grade(grade)
         return t("grading.error") if grade.nil? || grade < -1
         return t("grading.sufficient") if grade == -1

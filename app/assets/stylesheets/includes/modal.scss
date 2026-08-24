@@ -13,6 +13,14 @@
 	}
 }
 
+@media (min-width: 992px)
+{
+	.modal-xl
+	{
+		max-width: 80vw;
+	}
+}
+
 #modal-browser-header
 {
 	@extend .modal-header;

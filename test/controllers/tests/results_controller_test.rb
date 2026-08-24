@@ -55,6 +55,19 @@ class Tests::ResultsControllerTest < ActionController::TestCase
         assert_match "grades[#{@student.id}][subgrades][points]", response.body
     end
 
+    test "show marks boolean subgrades and tints the ones already filled in" do
+        grade_m2_with({ "type" => "pass", "subgrades" => { "done" => "boolean" }, "calculation" => "done" })
+        submit = Submit.create!(user: @student, pset: @pset)
+        submit.create_grade!(grader: @head, subgrades: { "done" => "-1" })
+
+        sign_in @head
+        get :show, params: { test_id: @pset.id }
+
+        assert_response :success
+        assert_match "data-boolean", response.body
+        assert_match "subgrade-yes", response.body
+    end
+
     test "show is closed to students" do
         sign_in @student
         get :show, params: { test_id: @pset.id }

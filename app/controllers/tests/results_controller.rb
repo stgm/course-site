@@ -20,7 +20,8 @@ class Tests::ResultsController < Tests::TestsController
         render plain: "No students" and return if @students.none?
 
         @config = @pset.grading_config(current_schedule)
-        @subgrade_names = (@config&.dig("subgrades") || {}).keys
+        @subgrade_types = @config&.dig("subgrades") || {}
+        @subgrade_names = @subgrade_types.keys
         @aggregate_function = GradingFormulaEvaluator.aggregate_function(@config&.dig("calculation"))
 
         # one query for the whole list rather than one per student; user and

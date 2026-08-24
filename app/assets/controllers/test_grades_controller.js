@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Two jobs in the grade entry grid: show what each row would come out as while
-// it is being typed, and put the grader back where they were after a save.
+// Three features for the grade entry grid:
+//   - calculate each row while it is being typed
+//   - let a boolean subgrade be toggled with the spacebar
+//   - restore entry position after a save
 
 const DEBOUNCE_MS = 150;
 
@@ -26,8 +28,34 @@ export default class extends Controller {
         var row = event.target.closest("tr[data-user-id]");
         if (!row) return;
 
+        this.paint(event.target);
+
         clearTimeout(this.timers.get(row));
         this.timers.set(row, setTimeout(() => this.calculate(row), DEBOUNCE_MS));
+    }
+
+    // boolean subgrades: spacebar cycles empty -> -1 (done) -> 0 (not done)
+    // -> -1, so a column of checks can be filled in without leaving the row
+
+    toggle(event) {
+        if (event.key !== " ") return;
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        var field = event.target;
+        if (!field.hasAttribute("data-boolean")) return;
+
+        event.preventDefault();
+        field.value = field.value.trim() === "-1" ? "0" : "-1";
+        field.select();
+        // the preview listens for input, and repaints the cell along the way
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    // the green tint on a boolean cell, matching what the view renders
+    paint(field) {
+        if (!field.hasAttribute("data-boolean")) return;
+        var value = field.value.trim();
+        field.classList.toggle("subgrade-yes", value === "-1");
+        field.classList.toggle("subgrade-no", value === "0");
     }
 
     async calculate(row) {

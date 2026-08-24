@@ -11,10 +11,10 @@
 
 <div
   data-controller="modal-size test-grades"
-  data-modal-size-size-value="<%= @subgrade_names.size > 6 ? "xl" : "lg" %>"
+  data-modal-size-size-value="<%= @subgrade_names.size > 3 ? "xl" : "lg" %>"
   data-test-grades-url-value="<%= calculate_test_results_path(test_id: @pset.id) %>"
   data-test-grades-key-value="test-results:<%= @pset.id %>"
-  data-action="input->test-grades#preview focusin->test-grades#remember submit->test-grades#store"
+  data-action="input->test-grades#preview keydown->test-grades#toggle focusin->test-grades#remember submit->test-grades#store"
 >
   <%= form_with url: test_results_path(@pset), id: 'test_grades_form', method: :patch do |f| %>
     <%# no scrolling wrapper of its own: past its minimum width the table
@@ -51,15 +51,18 @@
             >
           </td>
           <% @subgrade_names.each do |subgrade_name| %>
+            <% subgrade_value = grade&.subgrades&.[](subgrade_name) %>
+            <% boolean = @subgrade_types[subgrade_name] == "boolean" %>
             <td class="col-subgrade">
               <input
                 type="text"
                 name="grades[<%= s.id %>][subgrades][<%= subgrade_name %>]"
-                class="form-control form-control-sm"
-                value="<%= grade&.subgrades&.[](subgrade_name) %>"
+                class="form-control form-control-sm <%= subgrade_fill_class(subgrade_value) if boolean %>"
+                value="<%= subgrade_value %>"
                 autocomplete="off"
                 data-grid-nav-target="cell"
                 data-subgrade="<%= subgrade_name %>"
+                <%= "data-boolean" if boolean %>
               >
             </td>
           <% end %>

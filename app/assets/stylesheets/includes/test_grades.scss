@@ -36,6 +36,19 @@
 		width: calc(100% + 1px);
 	}
 
+	// a boolean subgrade is tinted
+	.subgrade-yes,
+	.subgrade-yes:focus
+	{
+		background-color: rgba($success, 0.4);
+	}
+
+	.subgrade-no,
+	.subgrade-no:focus
+	{
+		background-color: rgba($success, 0.1);
+	}
+
 	// the focus ring has to sit above the neighbours it now overlaps
 	.form-control:focus
 	{
