@@ -183,4 +183,56 @@ class GradingConfigTest < ActiveSupport::TestCase
         assert_equal false, content["show_calculated"]
     end
 
+    test "a single requirement name becomes a one-element list" do
+        config = config_for({
+            "arrays" => { "submits" => [ "sort" ], "requirement" => "intro" }
+        })
+
+        assert_equal [ "intro" ], config.components["arrays"]["requirement"]
+    end
+
+    test "a list of requirement names is left alone" do
+        config = config_for({
+            "arrays" => { "submits" => [ "sort" ], "requirement" => [ "intro", "quiz" ] }
+        })
+
+        assert_equal [ "intro", "quiz" ], config.components["arrays"]["requirement"]
+    end
+
+    test "required_submits_for returns the requirement of the component the pset belongs to" do
+        config = config_for({
+            "arrays" => { "submits" => [ "sort" ], "requirement" => "intro" },
+            "other" => { "submits" => [ "unrelated" ] }
+        })
+
+        assert_equal [ "intro" ], config.required_submits_for("sort")
+        assert_empty config.required_submits_for("unrelated")
+    end
+
+    test "required_submits_for is empty for a pset that isn't in any component" do
+        config = config_for({
+            "arrays" => { "submits" => [ "sort" ], "requirement" => "intro" }
+        })
+
+        assert_empty config.required_submits_for("nowhere")
+    end
+
+    test "validate flags a requirement naming a grade that doesn't exist" do
+        config = config_for({
+            "grades" => { "sort" => {}, "intro" => {} },
+            "arrays" => { "submits" => [ "sort" ], "requirement" => "typo_intro" }
+        })
+
+        assert_match "Requirements arrays/typo_intro", config.validate.join
+    end
+
+    test "validate accepts a requirement naming an existing grade" do
+        config = config_for({
+            "grades" => { "sort" => {}, "intro" => {} },
+            "arrays" => { "submits" => [ "sort" ], "requirement" => "intro" }
+        })
+
+        assert_empty config.validate
+    end
+
 end

@@ -36,6 +36,11 @@
         <%= bootstrap_icon('exclamation-diamond') %>
         <strong><%= t 'submit.cant_not_logged_in' %></strong>
     </p>
+    <% elsif @submit.unmet_requirements.any? %>
+    <p>
+        <%= bootstrap_icon('exclamation-diamond') %>
+        <strong><%= t 'submit.requires_prior_pass', names: @submit.unmet_requirements.join(', ') %></strong>
+    </p>
     <% elsif not @allow_submit %>
     <p>
         <%= bootstrap_icon('exclamation-diamond') %>

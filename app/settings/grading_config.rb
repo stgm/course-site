@@ -61,6 +61,14 @@ class GradingConfig
         @config.select { |k, v| v["submits"] }
     end
 
+    # submits that must be passed before the given pset may be submitted
+    def required_submits_for(pset_name)
+        components.
+            select { |k, v| v["submits"].key?(pset_name) }.
+            flat_map { |k, v| v["requirement"] || [] }.
+            uniq
+    end
+
     def self.load(new_settings, schedule_name = nil)
         if schedule_name.blank?
             Settings.grading = new_settings
@@ -119,6 +127,16 @@ class GradingConfig
         unknown_types = self.components.reject { |name, component| component["type"].in? COMPONENT_TYPES }
         if unknown_types.any?
             @errors << "Problem loading grading.yml for #{@schedule_name}. Components #{unknown_types.map { |name, c| "#{name}/#{c['type']}" }.join('; ')} have an unknown type. Choose from: #{COMPONENT_TYPES.compact.join(', ')}."
+        end
+
+        if @config["grades"].present?
+            invalid_requirement_names = self.components.
+                filter_map { |k, v| [ k, v["requirement"].reject { |name| @config["grades"].include?(name) } ] if v["requirement"] }.
+                select { |k, v| v.any? }.
+                map { |k, v| "#{k}/#{v.join(',')}" }
+            if invalid_requirement_names.any?
+                @errors << "Problem loading grading.yml for #{@schedule_name}. Requirements #{invalid_requirement_names.join('; ')} are defined, but matching names could not be found in the grades section."
+            end
         end
 
         # a pass component reports -1, which is meaningless inside a weighted average,
@@ -214,9 +232,18 @@ class GradingConfig
             if key == "calculation"
                 [ key, section.transform_values { |spec| normalize_final_grade(spec) } ]
             else
-                [ key, listed_as_weights(section, "submits", "bonus") ]
+                [ key, normalize_requirement(listed_as_weights(section, "submits", "bonus")) ]
             end
         end
+    end
+
+    # A component's "requirement" may be written as a single submit name or
+    # a list of names; everything downstream reads it as a list.
+    #
+    def normalize_requirement(section)
+        return section unless section.key?("requirement")
+
+        section.merge("requirement" => Array(section["requirement"]))
     end
 
     # A final grade is { "type" => ..., "components" => { name => weight } }. Without a

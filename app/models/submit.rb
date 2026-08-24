@@ -57,6 +57,7 @@ class Submit < ApplicationRecord
         return false if !Submit.available?
         return false if !user.can_submit?
         return false if pset.exam.present?
+        return false if unmet_requirements.any?
 
         (self.submittable? && !self.persisted?) ||
         (self.submittable? && !self.grade_sufficient?) ||
@@ -65,6 +66,22 @@ class Submit < ApplicationRecord
 
         # false if generally submittable but already sufficient+published
         # false if not submittable anymore and not exception
+    end
+
+    # names of prerequisite submits (from this pset's module "requirement")
+    # that the user has not yet passed
+    def unmet_requirements
+        required = user.grading_config.required_submits_for(pset.name)
+        return [] if required.empty?
+
+        required_psets = Pset.where(name: required).index_by(&:name)
+        required.select do |name|
+            prior_pset = required_psets[name]
+            # a required name without a matching pset is a config problem
+            # (caught by GradingConfig#validate) but we also fail the
+            # requirement here, to not allow students to simply pass
+            !prior_pset || !user.submit(prior_pset)&.grade_sufficient?
+        end
     end
 
     def to_partial_path

@@ -68,6 +68,7 @@ nl:
         course_not_open: 'Deze cursus is op dit moment niet geopend voor inzendingen.'
         cant_not_logged_in: "Je kunt geen opdrachten insturen omdat je account niet geactiveerd is als een studentaccount. Check dat je het juiste account gebruikt of neem contact op met de docent."
         cant_not_active: "Je kunt geen opdrachten insturen omdat je als inactief gemarkeerd bent voor deze cursus. Neem alsjeblieft contact op met de docent."
+        requires_prior_pass: "Je moet eerst een voldoende halen voor: %{names}"
         cant_resubmit: "Je kunt op dit moment niet insturen."
         cant_resubmit_explainer: "Je oplossing staat in de rij voor beoordeling, dus je kunt nu geen nieuwe oplossing insturen. Check later nog eens om de resultaten te zien of opnieuw in te sturen. Als je denkt dat je op dit moment al zou moeten kunnen insturen, laat het dan gerust weten!"
         submit_closed: "Deze opdracht is gesloten voor verdere inzendingen."
