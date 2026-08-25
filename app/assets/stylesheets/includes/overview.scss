@@ -14,11 +14,31 @@
     padding:0;
     white-space:nowrap;
     width:1.7rem;
+    position:relative;
 }
 
 #grade-table td:nth-child(n+2), #grade-table th:nth-child(n+2)
 {
     text-align:center;
+}
+
+// Custom positioning for the tooltip we borrowed from Bootstrap.
+.grade-tooltip .tooltip-arrow
+{
+    position:absolute;
+    left:50%;
+    margin-left:calc(var(--bs-tooltip-arrow-width, 0.8rem) / -2);
+}
+
+#grade-table td.grade-col-pf
+{
+    width:0.9rem;
+}
+
+#grade-table td.grade-col-pf .grade-button
+{
+    font-size:11px;
+    padding:0.15rem 0.2rem;
 }
 
 #grade-table tr:first-child

@@ -8,7 +8,7 @@
 <% schedule_overview_config = schedule.grading_config.overview %>
 <% groups = schedule.grouped_users(params[:status], @accessible_schedules, @accessible_groups) %>
 
-<table id="grade-table" class="table table-sm table-borderless table-responsive">
+<table id="grade-table" class="table table-sm table-borderless table-responsive" data-controller="grade-tooltip">
 
     <%# bulk ops header row %>
     <% if current_user.admin? %>
@@ -25,7 +25,7 @@
                 <th></th>
             <% else %>
                 <% psets.each_with_index do |(pset, weight), index| %>
-                <th style="<%= 'border-left: 1.5px solid black;' if index==0 %>">
+                <th style="<%= 'border-left: 1px solid black;' if index==0 %>">
                     <div class="dropdown">
                         <button id="overviewsTableColumnDropdown" class="btn px-1 py-0 btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewsTableColumnDropdown">
@@ -66,13 +66,13 @@
 
         <% schedule_overview_config.each do |group, flag, psets| %>
             <% if flag == :blocks %>
-            <th style="border-left: 1.5px solid black; width: 3rem;">
+            <th style="border-left: 1px solid black; width: 3rem;">
                 <%= group.titleize.split.last.first(5) %>
             </th>
             <% else %>
             <th colspan="<%= psets.length %>"
-                style="border-left: 1.5px solid black;">
-                <%= group.humanize %>
+                style="border-left: 1px solid black;">
+                <%= group.humanize.first(2 * psets.length) %>
             </th>
             <% end %>
         <% end %>
@@ -133,9 +133,10 @@
                 <%= render partial: 'submits_block', locals: { user: user, name: name, flag: flag, psets: psets } %>
             <% else %>
             <% psets.each_with_index do |(pset, weight), index| %>
-                <td class="<%= grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present? %>"
-                    style="<%= 'border-left: 1.5px solid black;' if index==0 %>">
-                    <%= grade_button(user, pset, @subs[[pset.id, user.id]], weight, true, true) %>
+                <% pass_fail = pset.grading_config(schedule).to_h["type"] == "pass" %>
+                <td class="<%= [('grade-col-pf' if pass_fail), (grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present?)].compact.join(' ') %>"
+                    style="<%= 'border-left: 1px solid black;' if index==0 %>">
+                    <%= grade_button(user, pset, @subs[[pset.id, user.id]], weight, true, !pass_fail, compact: pass_fail) %>
                 </td>
             <% end %>
             <% end %>

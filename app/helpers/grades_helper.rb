@@ -91,23 +91,22 @@ module GradesHelper
         return grade.to_s
     end
 
-    def grade_button(user, pset, submit, weight = nil, change = true, include_name = false)
+    def grade_button(user, pset, submit, weight = nil, change = true, include_name = false, compact: false)
+        empty_label = compact ? "-" : "--"
         if submit
             if grade = submit.grade
                 formatted_grade = grade.format(weight)
                 link_to \
                     make_label(pset.name, formatted_grade, include_name),
                     submit,
-                    title: pset.name,
-                    class: "grade-button btn btn-sm #{'late' if submit.late?}",
-                    data: { trigger: "modal", "turbo-frame" => "modal" }
+                    class: "grade-button btn btn-sm stretched-link #{'late' if submit.late?}",
+                    data: { pset_name: pset.name, trigger: "modal", "turbo-frame" => "modal" }
             else
                 link_to \
                     make_label(pset.name, "S", include_name),
                     submit,
-                    title: pset.name,
-                    class: "grade-button btn btn-sm #{'late' if submit.late?}",
-                    data: { trigger: "modal", "turbo-frame" => "modal" }
+                    class: "grade-button btn btn-sm stretched-link #{'late' if submit.late?}",
+                    data: { pset_name: pset.name, trigger: "modal", "turbo-frame" => "modal" }
             end
         else
             if current_user.senior?
@@ -115,14 +114,13 @@ module GradesHelper
                 button_tag \
                     form: "new_grade_form",
                     formaction: submits_path(submit: { pset_id: pset.id, user_id: user.id }),
-                    title: pset.name,
                     class: "grade-button btn btn-sm btn-light auto-hide",
-                    data: { "turbo-frame" => "modal", trigger: "modal", confirm: "Would you like to enter a grade for this unsubmitted pset?" } do
-                        make_label(pset.name, "--", include_name)
+                    data: { pset_name: pset.name, "turbo-frame" => "modal", trigger: "modal", confirm: "Would you like to enter a grade for this unsubmitted pset?" } do
+                        make_label(pset.name, empty_label, include_name)
                     end
             else
-                tag.div(title: pset.name, class: "grade-button btn btn-sm") do
-                    make_label(pset.name, "--", include_name)
+                tag.div(class: "grade-button btn btn-sm", data: { pset_name: pset.name }) do
+                    make_label(pset.name, empty_label, include_name)
                 end
             end
         end
