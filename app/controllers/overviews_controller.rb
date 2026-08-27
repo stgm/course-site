@@ -40,17 +40,7 @@ class OverviewsController < ApplicationController
         load_selected_schedule_or_default
         load_data
 
-        if @users.blank?
-            redirect_back fallback_location: "/",
-                alert: "You have no students yet!"
-            return
-        end
-
-        begin
-            render "overview"
-        # rescue
-        #     redirect_to :root, alert: "Overview CRASHED, please reload courseware to check config files if needed."
-        end
+        render "overview"
     end
 
     private
@@ -125,6 +115,8 @@ class OverviewsController < ApplicationController
             # single schedule selected
             @users = @selected_schedule.users.not_staff
         end
+
+        @users ||= User.none
     end
 
     def load_status_counts
