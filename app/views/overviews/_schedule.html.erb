@@ -27,7 +27,7 @@
                 <% psets.each_with_index do |(pset, weight), index| %>
                 <th style="<%= 'border-left: 1px solid black;' if index==0 %>">
                     <div class="dropdown">
-                        <button id="overviewsTableColumnDropdown" class="btn px-1 py-0 btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                        <button id="overviewsTableColumnDropdown" class="btn w-100 px-0 py-0 btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewsTableColumnDropdown">
                             <li><h6 class="dropdown-header"><%= pset.name %></h6></li>
                             <li>
