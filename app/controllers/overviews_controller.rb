@@ -102,6 +102,7 @@ class OverviewsController < ApplicationController
 
         # load relevant submits
         @subs = Submit.indexed_by_pset_and_user_for @users
+        @recent_submit_counts = Submit.recent_count_by_user @users
     end
 
     def load_relevant_users

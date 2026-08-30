@@ -2,3 +2,18 @@
 {
 	min-width:10em;
 }
+
+.in_place_editable.saving
+{
+	animation:in-place-saving 1s ease-in-out infinite;
+}
+
+.in_place_editable.error
+{
+	color:var(--bs-warning);
+}
+
+@keyframes in-place-saving
+{
+	50% { opacity:0.4; }
+}

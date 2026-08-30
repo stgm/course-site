@@ -197,6 +197,7 @@ Rails.application.routes.draw do
         post "prev" # set user schedule
         post "set_module"
         post "save_progress"
+        post "collapsed_modules"
         patch "set_schedule"
     end
 

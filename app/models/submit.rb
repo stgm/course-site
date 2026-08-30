@@ -213,6 +213,12 @@ class Submit < ApplicationRecord
         )
     end
 
+    # Number of submits touched in the last few hours, per user id. Users
+    # without a recent submit are absent from the hash.
+    def self.recent_count_by_user(users)
+        where(user: users).where("updated_at > ?", 3.hours.ago).group(:user_id).count
+    end
+
     def self.indexed_by_pset_and_user_for(users)
         # @all_indexed_by_pset_and_user ||=
         where(user: users).

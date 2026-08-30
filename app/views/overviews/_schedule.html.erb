@@ -1,4 +1,4 @@
-<h5 style="background-color: lightgray">
+<h5 class="schedule-header">
   <%= schedule.name %>
   <% if @selected_schedule.blank? %>
   <%= render partial: 'schedule_operations', locals: { schedule: schedule } %>
@@ -6,9 +6,35 @@
 </h5>
 
 <% schedule_overview_config = schedule.grading_config.overview %>
+<% git_repos_present = GitRepo.any? %>
 <% groups = schedule.grouped_users(params[:status], @accessible_schedules, @accessible_groups) %>
 
-<table id="grade-table" class="table table-sm table-borderless table-responsive" data-controller="grade-tooltip">
+<table id="grade-table" class="table table-sm table-borderless table-responsive" data-controller="grade-tooltip module-collapse grade-cell edit-in-place"
+       data-module-collapse-schedule-value="<%= schedule.slug %>"
+       data-module-collapse-url-value="<%= profile_collapsed_modules_path %>"
+       data-module-collapse-collapsed-value="<%= current_user.collapsed_modules(schedule).to_json %>">
+
+    <%# The table is laid out with fixed column widths, so these widths are the
+        authoritative ones: a width on a cell further down is ignored. The
+        module columns carry data-module as well, so collapsing a module
+        narrows the column itself. %>
+    <colgroup>
+        <col class="col-name">
+        <col class="col-bar">
+        <% if git_repos_present %>
+        <col class="col-git">
+        <% end %>
+        <% schedule_overview_config.each do |name, flag, psets| %>
+            <% if flag == :blocks %>
+            <col data-module="<%= name %>" class="module-block-col">
+            <% else %>
+                <% psets.each do |pset, weight| %>
+                <col data-module="<%= name %>" class="<%= 'grade-col-pf' if pset.grading_config(schedule).to_h['type'] == 'pass' %>">
+                <% end %>
+            <% end %>
+        <% end %>
+    </colgroup>
+
 
     <%# bulk ops header row %>
     <% if current_user.admin? %>
@@ -16,16 +42,16 @@
         <th>&nbsp;</th>
         <th>&nbsp;</th>
 
-        <% if GitRepo.any? %>
+        <% if git_repos_present %>
         <th></th>
         <% end %>
 
-        <% schedule_overview_config.each do |name, flag, psets| %>
+        <% schedule_overview_config.each_with_index do |(name, flag, psets), module_index| %>
             <% if flag == :blocks %>
-                <th></th>
+                <th data-module="<%= name %>" class="<%= 'module-tint' if module_index.odd? %>"></th>
             <% else %>
                 <% psets.each_with_index do |(pset, weight), index| %>
-                <th style="<%= 'border-left: 1px solid gray;' if index==0 %>">
+                <th data-module="<%= name %>" class="<%= 'module-tint' if module_index.odd? %>">
                     <div class="dropdown">
                         <button id="overviewsTableColumnDropdown" class="btn w-100 px-0 py-0 btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewsTableColumnDropdown">
@@ -60,18 +86,20 @@
         <th>&nbsp;</th>
         <th>&nbsp;</th>
 
-        <% if GitRepo.any? %>
+        <% if git_repos_present %>
         <th>git</th>
         <% end %>
 
-        <% schedule_overview_config.each do |group, flag, psets| %>
+        <% schedule_overview_config.each_with_index do |(group, flag, psets), module_index| %>
             <% if flag == :blocks %>
-            <th style="border-left: 1px solid gray; width: 3rem;">
+            <th data-module="<%= group %>" data-action="click->module-collapse#toggle"
+                class="module-toggle <%= 'module-tint' if module_index.odd? %>">
                 <span class="module-header"><%= group.titleize.split.last %></span>
             </th>
             <% else %>
-            <th colspan="<%= psets.length %>"
-                style="border-left: 1px solid gray;">
+            <th colspan="<%= psets.length %>" data-module="<%= group %>"
+                data-action="click->module-collapse#toggle"
+                class="module-toggle <%= 'module-tint' if module_index.odd? %>">
                 <span class="module-header"><%= group.humanize %></span>
             </th>
             <% end %>
@@ -90,59 +118,26 @@
             <% end %>
             (<%= user_list.size %>)
         </th>
-        <% if GitRepo.any? %>
+        <% if git_repos_present %>
             <th>
                 <%= link_to bootstrap_icon('git'), group.git_repos.first.url, target: '_new' if group&.git_repos&.any? %>
             </th>
         <% end %>
-    </tr>
-    <% user_list.each do |user| %>
-    <% cache [user, current_user], expires_in: 6.hours do %>
-    <tr>
-        <td>
-            <%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
-            <% if user.alarm %>
-            <%= bootstrap_icon 'exclamation-triangle-fill', width: 12, height: 12 %>
-            <% end %>
-            <% if user.attendance_confirmed? %>C<% end %>
-            <%= x = user.recent_submit_count; x != 0 && x || '' %>
-            <br>
-            <% if current_user.senior? %>
-                <%= best_in_place user, :status_description, as: :input %>
-            <% end %>
-        </td>
-        <td class="bar">
-            <% if current_user.senior? %>
-            <%= user.attendance_graph %>
-            <% end %>
-        </td>
-        <% if GitRepo.any? %>
-        <td>
-            <% if user.git_repos.any? %>
-            <%= link_to bootstrap_icon('git'), user.git_repos.first.url, target: '_new' %>
-            <%= link_to \
-                make_label('git', 'git', false),
-                user.git_repos.first,
-                class: "grade-button btn btn-sm",
-                data: { trigger: "modal", "turbo-frame" => "modal" } %>
-            <% end %>
-        </td>
-        <% end %>
-        <% schedule_overview_config.each do |name, flag, psets| %>
-            <% if flag == :blocks %>
-                <%= render partial: 'submits_block', locals: { user: user, name: name, flag: flag, psets: psets } %>
-            <% else %>
-            <% psets.each_with_index do |(pset, weight), index| %>
-                <% pass_fail = pset.grading_config(schedule).to_h["type"] == "pass" %>
-                <td class="<%= [('grade-col-pf' if pass_fail), (grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present?)].compact.join(' ') %>"
-                    style="<%= 'border-left: 1px solid gray;' if index==0 %>">
-                    <%= grade_button(user, pset, @subs[[pset.id, user.id]], weight, true, !pass_fail, compact: pass_fail) %>
-                </td>
-            <% end %>
-            <% end %>
+        <%# empty cells so the module bands run through the group header row %>
+        <% schedule_overview_config.each_with_index do |(name, flag, psets), module_index| %>
+        <th colspan="<%= flag == :blocks ? 1 : psets.length %>" data-module="<%= name %>"
+            class="<%= 'module-tint' if module_index.odd? %>"></th>
         <% end %>
     </tr>
-    <% end %>
-    <% end %>
+    <%# One multi-read for the whole group instead of a cache lookup per row.
+        The row is cached per user and per viewer, since it shows more to
+        seniors, and expires within six hours through the time bucket. %>
+    <%= render partial: 'user_row',
+               collection: user_list,
+               as: :user,
+               cached: ->(user) { [ user, current_user, Time.current.to_i / 6.hours.to_i ] },
+               locals: { schedule: schedule,
+                         schedule_overview_config: schedule_overview_config,
+                         git_repos_present: git_repos_present } %>
     <% end %>
 </table>

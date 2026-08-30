@@ -1,4 +1,4 @@
-<td style="border-left: 1px solid gray;">
+<td data-module="<%= name %>" class="<%= 'module-tint' if module_index.odd? %>">
   <div class="activity-grid">
     <% psets.each do |pset, weight| %>
       <% completed = @subs[[pset.id, user.id]].present? %>

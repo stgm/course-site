@@ -48,6 +48,15 @@ class ProfileController < ApplicationController
         head :ok
     end
 
+    def collapsed_modules
+        schedule = Schedule.friendly.find(params[:schedule])
+        if current_user.collapse_modules(schedule, params[:modules])
+            head :ok
+        else
+            head :unprocessable_entity
+        end
+    end
+
     def save # POST
         # remove leading and trailing space to give the user some slack
         params[:user][:name].strip! if params[:user][:name]

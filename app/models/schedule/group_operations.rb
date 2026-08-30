@@ -54,7 +54,7 @@ module Schedule::GroupOperations
 
     def grouped_users(status, accessible_schedules, accessible_groups=nil)
         selected_users = users.not_staff.
-            includes(:group).
+            includes(:git_repos, group: :git_repos).
             order("groups.name").
             order(:name)
 

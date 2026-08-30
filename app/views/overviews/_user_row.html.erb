@@ -1,0 +1,44 @@
+<tr>
+    <td>
+        <%= link_to user.name, user, data: { toggle: "modal" }, target: "modal" %>
+        <% if user.alarm %>
+        <%= bootstrap_icon 'exclamation-triangle-fill', width: 12, height: 12 %>
+        <% end %>
+        <% if user.attendance_confirmed? %>C<% end %>
+        <%= @recent_submit_counts[user.id]&.nonzero? %>
+        <br>
+        <% if current_user.senior? %>
+            <%= edit_in_place user, :status_description %>
+        <% end %>
+    </td>
+    <td class="bar">
+        <% if current_user.senior? %>
+        <%= user.attendance_graph %>
+        <% end %>
+    </td>
+    <% if git_repos_present %>
+    <td>
+        <% if user.git_repos.any? %>
+        <%= link_to bootstrap_icon('git'), user.git_repos.first.url, target: '_new' %>
+        <%= link_to \
+            make_label('git', 'git', false),
+            user.git_repos.first,
+            class: "grade-button btn btn-sm",
+            data: { trigger: "modal", "turbo-frame" => "modal" } %>
+        <% end %>
+    </td>
+    <% end %>
+    <% schedule_overview_config.each_with_index do |(name, flag, psets), module_index| %>
+        <% if flag == :blocks %>
+            <%= render partial: 'submits_block', locals: { user: user, name: name, flag: flag, psets: psets, module_index: module_index } %>
+        <% else %>
+        <% psets.each_with_index do |(pset, weight), index| %>
+            <% pass_fail = pset.grading_config(schedule).to_h["type"] == "pass" %>
+            <td data-module="<%= name %>"
+                class="<%= [('grade-col-pf' if pass_fail), ('module-tint' if module_index.odd?), (grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present?)].compact.join(' ') %>">
+                <%= grade_button(user, pset, @subs[[pset.id, user.id]], weight, true, !pass_fail, compact: pass_fail) %>
+            </td>
+        <% end %>
+        <% end %>
+    <% end %>
+</tr>

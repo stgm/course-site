@@ -27,22 +27,30 @@ export default class extends Controller {
         this.tip.remove();
     }
 
+    // The whole cell carries the tooltip, not just the label inside it: the
+    // label is empty for a collapsed module and does not fill the cell.
+    cell(event) {
+        var cell = event.target.closest("td");
+        if (!cell || !cell.querySelector("[data-pset-name]")) return null;
+        return cell;
+    }
+
     onOver(event) {
-        var target = event.target.closest("[data-pset-name]");
-        if (!target || target === this.current) return;
-        this.show(target);
+        var cell = this.cell(event);
+        if (!cell || cell === this.current) return;
+        this.show(cell);
     }
 
     onOut(event) {
-        var target = event.target.closest("[data-pset-name]");
-        if (!target || target !== this.current) return;
-        if (event.relatedTarget && target.contains(event.relatedTarget)) return;
+        var cell = this.cell(event);
+        if (!cell || cell !== this.current) return;
+        if (event.relatedTarget && cell.contains(event.relatedTarget)) return;
         this.hide();
     }
 
     show(target) {
         this.current = target;
-        this.tip.querySelector(".tooltip-inner").textContent = target.dataset.psetName;
+        this.tip.querySelector(".tooltip-inner").textContent = target.querySelector("[data-pset-name]").dataset.psetName;
         this.tip.style.display = "block";
 
         var rect = target.getBoundingClientRect();

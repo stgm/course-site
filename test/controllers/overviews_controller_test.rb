@@ -58,7 +58,8 @@ class OverviewsControllerTest < ActionController::TestCase
         assert_response :success
         assert_match "Sam Student", response.body
         assert_match "8.5", response.body                    # wave: (5 / 6.0 * 9 + 1).round(1)
-        assert_match "border-left: 1px solid gray;", response.body
+        # modules are separated by an alternating background band
+        assert_no_match %r{border-left: 1px solid gray}, response.body
         # module header carries the clipping wrapper and the full (un-truncated) label
         assert_match %r{<span class="module-header">Week 1</span>}, response.body
     ensure

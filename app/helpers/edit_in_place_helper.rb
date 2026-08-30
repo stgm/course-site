@@ -26,29 +26,21 @@ module EditInPlaceHelper
         end
     end
 
-    def best_in_place(object, property, options = {})
+    # Editing is driven by a delegated handler, so a field is a single element
+    # with no handlers of its own: there is one per student in the overview.
+    def edit_in_place(object, property)
         property = property.to_s
-        real_object = best_in_place_real_object_for object
+        real_object = edit_in_place_real_object_for object
 
-        display_value = real_object.send(property).to_s
-
-        tag.div(class: "d-flex") do
-            tag.div(
-                display_value,
-                contenteditable: true,
-                data: { url: url_for(real_object), id: real_object.id, model: real_object.class.name.downcase, property: property },
-                onkeypress: "if(event.keyCode==13) { this.blur(); return false }",
-                onfocus: 'window.setTimeout(() => document.execCommand("selectAll", false, null))',
-                onblur: "save_in_place(this)",
-                class: "in_place_editable"
-            ) +
-            tag.div(class: "spinner-grow spinner-grow-sm collapse ms-1", role: "status") do
-                tag.span("Saving...", class: "visually-hidden")
-            end
-        end
+        tag.div(
+            real_object.send(property).to_s,
+            contenteditable: true,
+            data: { url: url_for(real_object), id: real_object.id, model: real_object.class.name.downcase, property: property },
+            class: "in_place_editable"
+        )
     end
 
-    def best_in_place_real_object_for(object)
+    def edit_in_place_real_object_for(object)
         (object.is_a?(Array) && object.last.class.respond_to?(:model_name)) ? object.last : object
     end
 

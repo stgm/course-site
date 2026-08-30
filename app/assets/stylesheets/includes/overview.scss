@@ -2,10 +2,56 @@
 
 //****************************************************************************
 
+// The heading sits directly on top of its table.
+h5.schedule-header
+{
+    background-color:lightgray;
+    margin-bottom:0;
+}
+
 #grade-table
 {
     font-size:small;
     width:auto;
+    table-layout:fixed;
+}
+
+// Column widths, applied through the colgroup because the table has a fixed
+// layout. The leading columns hold the student name, the attendance bar and
+// the git link; the rest is one column per pset.
+#grade-table col
+{
+    width:1.7rem;
+}
+
+#grade-table col.col-name
+{
+    width:12rem;
+}
+
+#grade-table col.col-bar
+{
+    width:5rem;
+}
+
+#grade-table col.col-git
+{
+    width:2.5rem;
+}
+
+#grade-table col.grade-col-pf
+{
+    width:0.9rem;
+}
+
+#grade-table col.module-block-col
+{
+    width:3rem;
+}
+
+#grade-table col.module-collapsed
+{
+    width:0.25rem;
 }
 
 #grade-table td, #grade-table th
@@ -13,7 +59,10 @@
     vertical-align:middle;
     padding:0;
     white-space:nowrap;
-    width:1.7rem;
+}
+
+#grade-table th
+{
     position:relative;
 }
 
@@ -28,11 +77,6 @@
     position:absolute;
     left:50%;
     margin-left:calc(var(--bs-tooltip-arrow-width, 0.8rem) / -2);
-}
-
-#grade-table td.grade-col-pf
-{
-    width:0.9rem;
 }
 
 #grade-table td.grade-col-pf .grade-button
@@ -60,6 +104,46 @@
     position: sticky;
     top:0rem;
     z-index:1;
+}
+
+// Modules are separated by an alternating background band rather than a rule.
+// The band is an overlay rather than a background colour, so it also darkens
+// cells that already carry a grade colour and stays visible on the sticky
+// header rows, which paint their own opaque background.
+#grade-table .module-tint
+{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.14));
+}
+
+// A module header toggles its own columns between full and collapsed. When
+// collapsed only the grade colours are left: the columns shrink to a sliver,
+// the per-pset dropdowns disappear and the button labels are sized away.
+#grade-table th.module-toggle
+{
+    cursor:pointer;
+    user-select:none;
+}
+
+#grade-table th.module-collapsed .dropdown
+{
+    display:none;
+}
+
+#grade-table td.module-collapsed .grade-button
+{
+    font-size:0;
+    padding:0;
+}
+
+#grade-table td.module-collapsed .activity-grid
+{
+    display:none;
+}
+
+// A cell that forwards its click to the button inside it looks clickable.
+#grade-table td:has(a.grade-button), #grade-table td:has(button.grade-button)
+{
+    cursor:pointer;
 }
 
 // The module header spans a group of columns. Its label is clipped to that
@@ -168,22 +252,10 @@ span.bubble {
     background-color: #ccc !important;
 }
 
+// A rejected grade is struck through corner to corner.
 #grade-table div.bg-danger
 {
-    position: relative;
-}
-
-#grade-table div.bg-danger::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    border-top: 1px solid black;
-    transform: rotate(45deg) translate(2px, -0.75px) ;
-    transform-origin: top left;
-    pointer-events: none;
+    background-image:linear-gradient(to top right, transparent calc(50% - 0.5px), black calc(50% - 0.5px), black calc(50% + 0.5px), transparent calc(50% + 0.5px));
 }
 
 .grade-button.btn-warning, #grade-table td.bg-warning

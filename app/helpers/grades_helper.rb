@@ -99,13 +99,13 @@ module GradesHelper
                 link_to \
                     make_label(pset.name, formatted_grade, include_name),
                     submit,
-                    class: "grade-button btn btn-sm stretched-link #{'late' if submit.late?}",
+                    class: "grade-button btn btn-sm #{'late' if submit.late?}",
                     data: { pset_name: pset.name, trigger: "modal", "turbo-frame" => "modal" }
             else
                 link_to \
                     make_label(pset.name, "S", include_name),
                     submit,
-                    class: "grade-button btn btn-sm stretched-link #{'late' if submit.late?}",
+                    class: "grade-button btn btn-sm #{'late' if submit.late?}",
                     data: { pset_name: pset.name, trigger: "modal", "turbo-frame" => "modal" }
             end
         else
