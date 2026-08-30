@@ -25,7 +25,7 @@
                 <th></th>
             <% else %>
                 <% psets.each_with_index do |(pset, weight), index| %>
-                <th style="<%= 'border-left: 1px solid black;' if index==0 %>">
+                <th style="<%= 'border-left: 1px solid gray;' if index==0 %>">
                     <div class="dropdown">
                         <button id="overviewsTableColumnDropdown" class="btn w-100 px-0 py-0 btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="overviewsTableColumnDropdown">
@@ -66,13 +66,13 @@
 
         <% schedule_overview_config.each do |group, flag, psets| %>
             <% if flag == :blocks %>
-            <th style="border-left: 1px solid black; width: 3rem;">
-                <%= group.titleize.split.last.first(5) %>
+            <th style="border-left: 1px solid gray; width: 3rem;">
+                <span class="module-header"><%= group.titleize.split.last %></span>
             </th>
             <% else %>
             <th colspan="<%= psets.length %>"
-                style="border-left: 1px solid black;">
-                <%= group.humanize.first(2 * psets.length) %>
+                style="border-left: 1px solid gray;">
+                <span class="module-header"><%= group.humanize %></span>
             </th>
             <% end %>
         <% end %>
@@ -135,7 +135,7 @@
             <% psets.each_with_index do |(pset, weight), index| %>
                 <% pass_fail = pset.grading_config(schedule).to_h["type"] == "pass" %>
                 <td class="<%= [('grade-col-pf' if pass_fail), (grade_bg_type(@subs[[pset.id, user.id]].grade) if @subs[[pset.id, user.id]].present?)].compact.join(' ') %>"
-                    style="<%= 'border-left: 1px solid black;' if index==0 %>">
+                    style="<%= 'border-left: 1px solid gray;' if index==0 %>">
                     <%= grade_button(user, pset, @subs[[pset.id, user.id]], weight, true, !pass_fail, compact: pass_fail) %>
                 </td>
             <% end %>
