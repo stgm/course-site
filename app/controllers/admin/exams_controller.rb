@@ -66,6 +66,13 @@ class Admin::ExamsController < ApplicationController
         end
     end
 
+    def reset_student_ip
+        pset = Exam.find(params[:id]).pset
+        submit = pset.submits.find(params[:submit_id])
+        submit.user.update(last_known_ip: nil)
+        redirect_to admin_exam_path(params[:id])
+    end
+
     def assign_codes
         users = User.not_staff
         unique_codes = (1111..9999).to_a.sample(users.size)

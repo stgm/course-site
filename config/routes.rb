@@ -226,6 +226,7 @@ Rails.application.routes.draw do
                 post "run_checks"
                 patch "toggle"
                 patch "toggle_student"
+                patch "reset_student_ip"
             end
         end
     end

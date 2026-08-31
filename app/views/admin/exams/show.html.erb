@@ -18,11 +18,23 @@
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <%= link_to submit, class: "text-decoration-none flex-grow-1", data: { 'turbo-frame' => 'modal' } do %>
             <div>
-                <p class="mb-1 mb-0"><%= submit.user_name %> <small class="text-body-secondary"><%= submit.user.pin %> / <%= submit.user.last_known_ip %></small></p>
+                <p class="mb-1 mb-0"><%= submit.user_name %> <small class="text-body-secondary"><%= submit.user&.pin %></small></p>
 
             </div>
             <small class="text-body-secondary"><%= time_ago_in_words(submit.submitted_at) %> geleden</small>
             <% end %>
+
+            <div class="ms-3">
+                <% if submit.user&.last_known_ip.present? %>
+                <%= button_to submit.user.last_known_ip,
+                    reset_student_ip_admin_exam_path(@exam, submit_id: submit.id),
+                    method: :patch,
+                    class: "btn btn-link btn-sm p-0 text-body-secondary text-decoration-none",
+                    data: { turbo: false, confirm: "Reset the locked IP address for #{submit.user_name}? They can then log in from another computer." } %>
+                <% else %>
+                <small class="text-body-secondary">no IP</small>
+                <% end %>
+            </div>
 
             <div class="ms-3">
                 <div class="form-check form-switch">
@@ -42,11 +54,23 @@
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <%= link_to submit, class: "text-decoration-none flex-grow-1", data: { 'turbo-frame' => 'modal' } do %>
             <div>
-                <p class="mb-1 mb-0"><%= submit.user_name %> <small class="text-body-secondary"><%= submit.user.pin %> / <%= submit.user.last_known_ip %></small></p>
+                <p class="mb-1 mb-0"><%= submit.user_name %> <small class="text-body-secondary"><%= submit.user&.pin %></small></p>
 
             </div>
             <small class="text-body-secondary"><%= time_ago_in_words(submit.submitted_at) %> geleden</small>
             <% end %>
+
+            <div class="ms-3">
+                <% if submit.user&.last_known_ip.present? %>
+                <%= button_to submit.user.last_known_ip,
+                    reset_student_ip_admin_exam_path(@exam, submit_id: submit.id),
+                    method: :patch,
+                    class: "btn btn-link btn-sm p-0 text-body-secondary text-decoration-none",
+                    data: { turbo: false, confirm: "Reset the locked IP address for #{submit.user_name}? They can then log in from another computer." } %>
+                <% else %>
+                <small class="text-body-secondary">no IP</small>
+                <% end %>
+            </div>
 
             <div class="ms-3">
                 <div class="form-check form-switch">
