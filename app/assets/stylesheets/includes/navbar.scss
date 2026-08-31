@@ -17,6 +17,13 @@
     max-width:10rem;
 }
 
+.navbar-brand #course-title *
+{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
 #course-name
 {
     font-size: 1.4rem;
@@ -42,13 +49,6 @@
         padding:0.1rem;
     }
 
-    .navbar-brand #course-title *
-    {
-        overflow-x:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-    }
-
     #schedule-navbar-items
     {
         margin-top:1rem;
@@ -66,13 +66,6 @@
     .navbar-brand
     {
         white-space:normal;
-    }
-
-    .navbar-brand.logged_in #course-title *
-    {
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
     }
 }
 
