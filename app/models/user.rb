@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
     validates :mail, email: true
     validates_uniqueness_of :mail
-    validates_format_of :name, with: /\A\S{2,}(\s+\S+)+\z/, unless: Proc.new { |u| u.name.blank? }, message: ->(a, e) { "#{e[:value]} #{I18n.t('errors.messages.invalid')} #{a.student_number}" }
+    validates_format_of :name, with: /\A\S{2,}(\s+\S+)+\z/, unless: Proc.new { |u| u.name.blank? }, message: "must have at least two parts, i.e. a first and last name"
 
     has_secure_token :unsubscribe_token
 

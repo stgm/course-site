@@ -60,24 +60,33 @@ class UsersController < ApplicationController
     end
 
     def update
-        @user = @user_scope.find(params[:id])
-        @user.update!(params.require(:user).permit(
+        @user = @student = @user_scope.find(params[:id])
+        if @user.update(params.require(:user).permit(
             :name,
             :pronouns,
             :status,
             :alarm,
             :status_description,
             :mail,
-            :avatar,
             :notes,
             :schedule_id,
             :group_id,
-            :student_number,
-            :pin,
-            :last_known_ip))
-        respond_to do |format|
-            format.js { head :ok }
-            format.html { redirect_to @user }
+            :student_number))
+            respond_to do |format|
+                format.js { head :ok }
+                format.html { redirect_to @user }
+            end
+        else
+            respond_to do |format|
+                format.js { render plain: @user.errors.full_messages.to_sentence, status: :unprocessable_entity }
+                format.html do
+                    if turbo_frame_request_id == "user_form"
+                        render :edit, status: :unprocessable_entity
+                    else
+                        redirect_to @user, alert: @user.errors.full_messages.to_sentence
+                    end
+                end
+            end
         end
     end
 
