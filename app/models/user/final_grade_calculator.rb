@@ -12,14 +12,18 @@ class User::FinalGradeCalculator
     # how a component turns its assignment grades into a component grade; anything
     # without a type of its own is an average
     STRATEGIES = {
-        "points"     => :grade_from_points_from_submits,
-        "maximum"    => :maximum_grade_from_submits,
-        "pass_all"   => :pass_all_from_submits,
-        "pass_any"   => :pass_any_from_submits,
-        "pass_first" => :pass_first_from_submits,
-        "pass_last"  => :pass_last_from_submits,
-        "average"    => :average_grade_from_submits
+        "points"      => :grade_from_points_from_submits,
+        "points_last" => :points_last_from_submits,
+        "maximum"     => :maximum_grade_from_submits,
+        "pass_all"    => :pass_all_from_submits,
+        "pass_any"    => :pass_any_from_submits,
+        "pass_first"  => :pass_first_from_submits,
+        "pass_last"   => :pass_last_from_submits,
+        "average"     => :average_grade_from_submits
     }.freeze
+
+    # the strategies that score in points, where a grade of 1 means nothing was earned
+    POINTS_STRATEGIES = [ "points", "points_last" ].freeze
 
     # A calculated result in words, for the internal notes on a final grade. A pass/fail
     # result reads better as "sufficient" than as the v and x the grade columns show.
@@ -54,8 +58,7 @@ class User::FinalGradeCalculator
             # notes are per final grade: they end up on that one grade, and a resit says
             # something a first registration does not
             @debug = [ "#{name} #{DateTime.current}" ]
-            @deciding = nil
-            @superseded = []
+            @attempts = []
 
             grades[name] = final_grade_from_partial_grades(spec, user_grade_list)
             notes[name] = attempt_lines(name) + @debug
@@ -66,28 +69,35 @@ class User::FinalGradeCalculator
         return grades # { final: '6.0', resit: '0.0' }
     end
 
-    # Which attempt a resit came out of, and which earlier attempt it replaced. Only a
-    # pass_last component skips over anything, so this is empty for everything else.
+    # Which attempt each attempt-based component came out of, and which earlier attempts
+    # it replaced. A component that skipped over nothing has nothing to report, and a final
+    # grade may hold more than one such component, so every one of them gets its own block.
     def attempt_lines(final_name)
-        return [] if @superseded.blank?
+        @attempts.flat_map do |deciding, superseded|
+            next [] if superseded.blank?
 
-        name, grade = @deciding
-        lines = [ I18n.t("grading.attempt_note.based_on",
-            date: self.class.on_date(Date.current), name: final_name, attempt: name,
-            result: self.class.result_word(grade.assigned_grade),
-            graded: self.class.graded_on(grade)) ]
+            name, record, value = deciding
+            lines = [ I18n.t("grading.attempt_note.based_on",
+                date: self.class.on_date(Date.current), name: final_name, attempt: name,
+                result: self.class.result_word(value),
+                graded: self.class.graded_on(record)) ]
 
-        @superseded.each do |previous_name, previous_grade|
-            lines << I18n.t("grading.attempt_note.overwritten",
-                attempt: previous_name,
-                result: self.class.result_word(previous_grade.assigned_grade),
-                graded: self.class.graded_on(previous_grade))
+            superseded.each do |previous_name, previous_record, previous_value|
+                lines << I18n.t("grading.attempt_note.overwritten",
+                    attempt: previous_name,
+                    result: self.class.result_word(previous_value),
+                    graded: self.class.graded_on(previous_record))
+            end
+
+            lines
         end
-
-        lines
     end
 
     def final_grade_from_partial_grades(spec, user_grade_list)
+        # a student who sat no part of the exam gets no grade at all, rather than one
+        # built out of the zeros for everything they missed
+        return :not_attempted unless attempted?(spec, user_grade_list)
+
         # attempt to calculate each partial grade
         weighted_partial_grades = spec["components"].collect do |partial_name, weight|
             partial_config = @grading_config.components[partial_name]
@@ -96,6 +106,11 @@ class User::FinalGradeCalculator
             @debug << "- #{partial_name}: #{strategy} -> #{res}"
             [ partial_name, res, weight ]
         end
+
+        weighted_partial_grades = optionals_that_yielded(spec, weighted_partial_grades)
+
+        # every component the final grade rests on may be optional, and none have yielded
+        return :not_attempted if weighted_partial_grades.empty?
 
         partial_grades = weighted_partial_grades.map { |g| g[1] }
 
@@ -116,6 +131,46 @@ class User::FinalGradeCalculator
     end
 
     # calculate subgrade based on per-assignment points
+    # A component the final grade marks optional is left out of it when it yielded
+    # nothing, and the weights of the components that are left then carry the whole grade.
+    # Anything it did yield counts in full.
+    def optionals_that_yielded(spec, weighted_partial_grades)
+        optional = Array(spec["optional"])
+        return weighted_partial_grades if optional.empty?
+
+        weighted_partial_grades.reject do |name, result, _weight|
+            next false unless optional.include?(name)
+
+            dropped = yielded_nothing?(name, result)
+            @debug << "- #{name}: optional and yielded nothing -> left out" if dropped
+            dropped
+        end
+    end
+
+    # A points component that earned nothing scores a 1, which is what "nothing yielded"
+    # looks like from the outside; every other strategy says so in as many words. A failed
+    # minimum is a result rather than an absence, so it still fails the final grade.
+    def yielded_nothing?(name, result)
+        return true if result == :not_attempted || result == :missing_data
+
+        type = @grading_config.components[name]["type"]
+        POINTS_STRATEGIES.include?(type) && (result == 1 || result == 0)
+    end
+
+    # Whether the student sat any part of the exam. An exam is not something anybody can
+    # be graded on without sitting it, so a final grade holding components marked
+    # "exam: true" waits for one of them; a final grade holding none is not held back at
+    # all. A component counts as attempted once any of its assignments, or any part of one,
+    # has a value, a 0 included.
+    def attempted?(spec, user_grade_list)
+        exams = spec["components"].keys & @grading_config.exam_components
+        return true if exams.empty?
+
+        exams.any? do |name|
+            attempts_made(@grading_config.components[name], user_grade_list).any?
+        end
+    end
+
     def grade_from_points_from_submits(config, user_grade_list)
         grades = collect_grades_from_submits(config["submits"], user_grade_list)
 
@@ -267,6 +322,7 @@ class User::FinalGradeCalculator
         return :not_attempted if attempts.empty?
 
         decided_by attempts.first, []
+        verdict_for attempts.first
     end
 
     # Every attempt after the first belongs to the resit registration, and the most recent
@@ -279,28 +335,81 @@ class User::FinalGradeCalculator
         return :not_attempted if attempts.size < 2
 
         decided_by attempts.last, attempts[1..-2].reverse
+        verdict_for attempts.last
     end
 
-    # The attempts a student actually made, in the order the component lists them. An
-    # assignment counts as an attempt once it has a grade with a value, pass or fail; a
-    # resubmit exception is not a result. The order is the configured one rather than the
-    # order of the dates, so which attempt counts as the first does not change when a
-    # grader enters an earlier one late.
+    # The last attempt a student made decides this component, and the points of that
+    # attempt are rescaled through the weight it was listed with. Unlike pass_last, which
+    # registers a resit and therefore needs a second attempt, one attempt is enough here:
+    # this is "the last opportunity counts", not "the resit".
+    def points_last_from_submits(config, user_grade_list)
+        attempts = attempts_made(config, user_grade_list)
+
+        if attempts.empty?
+            return :not_attempted if config["attempt_required"]
+
+            # no attempt scores no points, exactly as a missing grade does under "points"
+            return points_to_grade(0, config["submits"].values.max)
+        end
+
+        decided_by attempts.last, attempts[0..-2].reverse
+
+        name, _record, value = attempts.last
+        potential = config["submits"][name]
+        # a pass means full marks for that attempt, as it does under "points"
+        points = value == PASS ? potential : value
+        grade = points_to_grade(points, potential)
+
+        if config["minimum"] && grade < config["minimum"]
+            return :insufficient
+        end
+
+        return grade
+    end
+
+    # The attempts a student actually made, in the order the component lists them, as
+    # [ name, grade record, value ] triples. An assignment counts as an attempt once it
+    # has a value, pass or fail; a resubmit exception is not a result. The order is the
+    # configured one rather than the order of the dates, so which attempt counts as the
+    # first does not change when a grader enters an earlier one late.
     def attempts_made(config, user_grade_list)
         config["submits"].keys.filter_map do |name|
-            grade = user_grade_list[name]
-            value = grade&.assigned_grade
+            value = grade_value(name, user_grade_list)
             next if value.nil? || value == RESUBMIT_EXCEPTION
-            [ name, grade ]
+            [ name, user_grade_list[test_of(name)], value ]
         end
     end
 
-    # remembers which attempt the component came out of, for the note on the final grade
-    def decided_by(attempt, superseded)
-        @deciding = attempt
-        @superseded = superseded
+    # A component names either a whole test or, written as "test.part", one of its
+    # subgrades, so that the parts of a single exam can be weighed separately or count as
+    # attempts of their own. A part that was left empty is not an attempt: a blank subgrade
+    # means the student did not sit that part, where a 0 means they sat it and scored
+    # nothing.
+    def grade_value(name, user_grade_list)
+        test, part = name.split(".", 2)
+        grade = user_grade_list[test]
+        return nil if grade.nil?
+        return grade.assigned_grade if part.nil?
 
-        passed?(attempt.second.assigned_grade) ? PASS : :insufficient
+        # a resubmit exception covers the whole test, so none of its parts was attempted
+        return nil if grade.assigned_grade == RESUBMIT_EXCEPTION
+
+        value = grade.subgrades.to_h[part.to_sym]
+        value.is_a?(String) ? value.presence : value
+    end
+
+    def test_of(name)
+        name.split(".", 2).first
+    end
+
+    # remembers which attempt a component came out of, for the note on the final grade.
+    # A final grade may have several attempt-based components, so these accumulate.
+    def decided_by(attempt, superseded)
+        @attempts << [ attempt, superseded ]
+    end
+
+    def verdict_for(attempt)
+        passed?(attempt.last) ? PASS : :insufficient
     end
 
     def passed?(grade)
@@ -331,8 +440,8 @@ class User::FinalGradeCalculator
 
     def collect_grades_from_submits(config, user_grade_list, **kwargs)
         grades = config.collect do |grade_name, weight|
-            # if no user_grade_list[grade_name] exists this will enter 'nil' into the resulting array
-            grade = user_grade_list[grade_name] && user_grade_list[grade_name].assigned_grade
+            # a name with nothing graded behind it enters 'nil' into the resulting array
+            grade = grade_value(grade_name, user_grade_list)
             grade = convert_pass_to_10(grade) if kwargs.key?(:convert_pass_to_10)
             [ grade_name, grade, weight ]
         end

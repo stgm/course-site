@@ -18,7 +18,7 @@ class GradingConfig
 
     # Component strategies of User::FinalGradeCalculator. An absent type means
     # "average", which is why it is in here as well.
-    COMPONENT_TYPES = [ nil, "average", "maximum", "points",
+    COMPONENT_TYPES = [ nil, "average", "maximum", "points", "points_last",
                         "pass_all", "pass_any", "pass_first", "pass_last" ].freeze
 
     # Components that report a pass (-1) instead of a grade on a 1--10 scheme,
@@ -61,10 +61,16 @@ class GradingConfig
         @config.select { |k, v| v["submits"] }
     end
 
+    # Components holding exam material. A final grade waits for one of them to be
+    # attempted before it is registered: see User::FinalGradeCalculator#attempted?
+    def exam_components
+        components.select { |name, config| config["exam"] == true }.keys
+    end
+
     # submits that must be passed before the given pset may be submitted
     def required_submits_for(pset_name)
         components.
-            select { |k, v| v["submits"].key?(pset_name) }.
+            select { |k, v| v["submits"].keys.any? { |name| test_of(name) == pset_name } }.
             flat_map { |k, v| v["requirement"] || [] }.
             uniq
     end
@@ -112,7 +118,7 @@ class GradingConfig
                 submits = v["submits"]
                 [ k, submits.keys ] if submits
             end
-            invalid_grade_names = all_submit_names.map { |k, v| [ k, v.select { |name| !@config["grades"].include?(name) } ] }.select { |k, v| v.any? }.map { |k, v| "#{k}/#{v.join(',')}" }
+            invalid_grade_names = all_submit_names.map { |k, v| [ k, v.select { |name| !@config["grades"].include?(test_of(name)) } ] }.select { |k, v| v.any? }.map { |k, v| "#{k}/#{v.join(',')}" }
             if invalid_grade_names.any?
                 @errors << "Problem loading grading.yml for #{@schedule_name}. Grades #{invalid_grade_names.join('; ')} are defined, but matching names could not be found in the grades section."
             end
@@ -136,6 +142,21 @@ class GradingConfig
                 map { |k, v| "#{k}/#{v.join(',')}" }
             if invalid_requirement_names.any?
                 @errors << "Problem loading grading.yml for #{@schedule_name}. Requirements #{invalid_requirement_names.join('; ')} are defined, but matching names could not be found in the grades section."
+            end
+        end
+
+        # a component may name a part of a test as "test.part", and that part has to be
+        # declared as a subgrade of it: a typo would otherwise read as "not attempted"
+        if @config["grades"].present?
+            unknown_parts = self.components.filter_map do |name, component|
+                parts = (component["submits"] || {}).keys.select { |s| s.include?(".") }.reject do |s|
+                    test, part = s.split(".", 2)
+                    @config["grades"][test].to_h["subgrades"].to_h.key?(part)
+                end
+                "#{name}/#{parts.join(',')}" if parts.any?
+            end
+            if unknown_parts.any?
+                @errors << "Problem loading grading.yml for #{@schedule_name}. Subgrades #{unknown_parts.join('; ')} are used, but matching subgrades could not be found in the grades section."
             end
         end
 
@@ -167,7 +188,7 @@ class GradingConfig
         # than crashing the overview)
         r = @config.
             select { |c, v| v["show_progress"] || v["show_overview"] }.
-            map { |c, v| [ c, should_summarize(v), (v["submits"] || {}).filter_map { |name, weight| [ psets[name], weight ] if psets[name] } ] }
+            map { |c, v| [ c, should_summarize(v), tests_with_weights(v["submits"]).filter_map { |name, weight| [ psets[name], weight ] if psets[name] } ] }
 
         # include all final grades at the end
         r = r + [ [ "Final", nil, final_grade_names.filter_map { |k| psets[k] } ] ] if final_grade_names.any?
@@ -186,15 +207,21 @@ class GradingConfig
         # determine the overall categories to show
         overview = @config.select { |category, value| value["show_progress"] }
 
-        overview.each do |category, content|
+        # the result is built up fresh rather than written back into the config, which
+        # a second call would otherwise read as its input
+        overview.to_h do |category, content|
+            # a component that names parts of a test shows only those parts, not every
+            # subgrade the test happens to have
+            named_parts = (content["submits"] || {}).keys.filter_map { |name| name.split(".", 2)[1] }
+
             # remove psets having weight 0 or bonus, only select pset names
-            content["submits"] = (content["submits"] || {})
-                .reject { |submit, weight| (weight == 0 || weight == "bonus") }
+            submits = tests_with_weights((content["submits"] || {})
+                .reject { |submit, weight| (weight == 0 || weight == "bonus") })
 
             # determine subgrades if any
             subgrades = []
             show_calculated = false
-            content["submits"].each do |submit, weight|
+            submits.each do |submit, weight|
                 if grades[submit].present?
                     if may_show_subgrades?(submit)
                         subgrades += self.grades[submit]["subgrades"].keys
@@ -202,11 +229,35 @@ class GradingConfig
                     show_calculated = true if !self.grades[submit]["hide_calculated"]
                 end
             end
-            content["subgrades"] = subgrades.uniq
-            content["show_calculated"] = show_calculated
-        end
+            subgrades = subgrades & named_parts if named_parts.any?
 
-        return overview
+            [ category, content.merge(
+                "submits" => submits,
+                "subgrades" => subgrades.uniq,
+                "show_calculated" => show_calculated) ]
+        end
+    end
+
+    # The test a component's submit belongs to: a plain name is the test itself, and
+    # "test.part" names one of its subgrades.
+    def test_of(name)
+        name.split(".", 2).first
+    end
+
+    # For display the parts of one test collapse back into the test itself, with their
+    # weights added up, so that a component listing several parts shows one row per test.
+    def tests_with_weights(submits)
+        (submits || {}).each_with_object({}) do |(name, weight), result|
+            test = test_of(name)
+            result[test] =
+                if result[test].is_a?(Numeric) && weight.is_a?(Numeric)
+                    result[test] + weight
+                elsif result.key?(test)
+                    result[test]
+                else
+                    weight
+                end
+        end
     end
 
     def may_show_subgrades?(submit)
@@ -254,8 +305,22 @@ class GradingConfig
         return spec unless spec.is_a?(Hash)
 
         spec = { "components" => spec.except("type") }.merge(spec.slice("type")) if !spec.key?("components")
-        listed_as_weights(spec, "components").
+        normalized = listed_as_weights(spec, "components").
             merge("type" => spec["type"] || "float", "listed" => spec["components"].is_a?(Array))
+        optional_marked(normalized)
+    end
+
+    # A component whose name carries a "?" is optional in that final grade: it is left out
+    # when the student made nothing in it. The mark is stripped here and collected under
+    # "optional", so nothing downstream has to know how it was written.
+    #
+    def optional_marked(spec)
+        optional = spec["components"].keys.select { |name| name.end_with?("?") }
+        return spec if optional.empty?
+
+        spec.merge(
+            "components" => spec["components"].transform_keys { |name| name.delete_suffix("?") },
+            "optional" => optional.map { |name| name.delete_suffix("?") })
     end
 
     def listed_as_weights(section, *keys)

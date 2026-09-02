@@ -145,11 +145,13 @@ class Submit < ApplicationRecord
     # compose grading config for this pset+user combo
     def grading_config
         # get config for this pset from general grading config
-        gc = user.schedule.grading_config.grades[pset.name]&.to_h || {}
+        config = user.schedule.grading_config
+        gc = config.grades[pset.name]&.to_h || {}
 
-        # get grade component config (ONLY for deadline currently)
-        cc = user.schedule.grading_config.components.
-            select { |k, v| v["submits"][pset.name] }.
+        # get grade component config (ONLY for deadline currently). A component may name
+        # a part of this pset as "pset.part", which belongs to it just the same.
+        cc = config.components.
+            select { |k, v| v["submits"].keys.any? { |name| config.test_of(name) == pset.name } }.
             map { |k, v| v }&.first&.
             # select{ |k,v| !k.in? ['show_progress', 'submits'] } || {}
             select { |k, v| k.in? [ "deadline", "deadline_hard" ] } || {}

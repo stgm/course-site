@@ -235,4 +235,133 @@ class GradingConfigTest < ActiveSupport::TestCase
         assert_empty config.validate
     end
 
+    test "validate accepts a component naming a declared part of a test" do
+        config = config_for({
+            "grades" => { "tentamen" => { "subgrades" => { "python" => "integer" } } },
+            "python" => { "submits" => { "tentamen.python" => 6 } },
+            "calculation" => { "eindcijfer" => { "python" => 6 } }
+        })
+
+        assert_empty config.validate
+    end
+
+    test "validate flags a component naming a part that is not declared" do
+        config = config_for({
+            "grades" => { "tentamen" => { "subgrades" => { "python" => "integer" } } },
+            "python" => { "submits" => { "tentamen.pyton" => 6 } },
+            "calculation" => { "eindcijfer" => { "python" => 6 } }
+        })
+
+        assert_match "Subgrades python/tentamen.pyton", config.validate.join
+    end
+
+    test "validate flags a part of a test that does not exist" do
+        config = config_for({
+            "grades" => { "tentamen" => { "subgrades" => { "python" => "integer" } } },
+            "python" => { "submits" => { "tussentoets.python" => 6 } },
+            "calculation" => { "eindcijfer" => { "python" => 6 } }
+        })
+
+        assert_match "Subgrades python/tussentoets.python", config.validate.join
+    end
+
+    test "the parts of one test collapse into a single row in the overview" do
+        Pset.create!(name: "hertentamen", order: 1)
+
+        config = config_for({
+            "hertentamen" => { "show_progress" => true, "submits" => {
+                "hertentamen.karel" => 3, "hertentamen.python" => 6,
+                "hertentamen.advanced_python" => 9 } }
+        })
+
+        name, flag, psets = config.overview.first
+        assert_equal [ [ "hertentamen", 18 ] ], psets.map { |pset, weight| [ pset.name, weight ] }
+    end
+
+    test "overview_config names the test a part belongs to" do
+        config = config_for({
+            "python" => { "show_progress" => true, "submits" => {
+                "tussentoets_2.python" => 6, "tentamen.python" => 6 } }
+        })
+
+        assert_equal({ "tussentoets_2" => 6, "tentamen" => 6 },
+            config.overview_config["python"]["submits"])
+    end
+
+    test "overview_config shows only the parts a component names" do
+        config = config_for({
+            "grades" => { "tussentoets_2" => { "subgrades" => { "karel" => "integer", "python" => "integer" } } },
+            "karel" => { "show_progress" => true, "submits" => { "tussentoets_2.karel" => 3 } }
+        })
+
+        assert_equal [ "karel" ], config.overview_config["karel"]["subgrades"]
+    end
+
+    test "overview_config shows every subgrade of a test named as a whole" do
+        config = config_for({
+            "grades" => { "tussentoets_2" => { "subgrades" => { "karel" => "integer", "python" => "integer" } } },
+            "toetsen" => { "show_progress" => true, "submits" => { "tussentoets_2" => 9 } }
+        })
+
+        assert_equal [ "karel", "python" ], config.overview_config["toetsen"]["subgrades"]
+    end
+
+    test "overview_config gives the same answer when it is called again" do
+        config = config_for({
+            "grades" => { "tussentoets_2" => { "subgrades" => { "karel" => "integer", "python" => "integer" } } },
+            "karel" => { "show_progress" => true, "submits" => { "tussentoets_2.karel" => 3 } }
+        })
+
+        assert_equal config.overview_config["karel"], config.overview_config["karel"]
+    end
+
+    test "a component marked optional loses the mark from its name" do
+        config = config_for({
+            "werkcolleges" => { "submits" => { "wc_1" => 1 } },
+            "tentamen" => { "submits" => { "exam_1" => 9 } },
+            "calculation" => { "eindcijfer" => { "werkcolleges?" => 6, "tentamen" => 18 } }
+        })
+
+        assert_equal({ "werkcolleges" => 6, "tentamen" => 18 }, config.calculation["eindcijfer"]["components"])
+        assert_equal [ "werkcolleges" ], config.calculation["eindcijfer"]["optional"]
+    end
+
+    test "a component marked optional in a list of components" do
+        config = config_for({
+            "checks" => { "type" => "pass_all", "submits" => [ "check_1" ] },
+            "exams" => { "type" => "pass_any", "submits" => [ "exam_1" ] },
+            "calculation" => { "final" => { "type" => "pass", "components" => [ "checks?", "exams" ] } }
+        })
+
+        assert_equal({ "checks" => 1, "exams" => 1 }, config.calculation["final"]["components"])
+        assert_equal [ "checks" ], config.calculation["final"]["optional"]
+    end
+
+    test "a final grade with nothing marked optional says so" do
+        config = config_for({
+            "tentamen" => { "submits" => { "exam_1" => 9 } },
+            "calculation" => { "eindcijfer" => { "tentamen" => 18 } }
+        })
+
+        assert_nil config.calculation["eindcijfer"]["optional"]
+    end
+
+    test "exam_components lists the components marked as exam material" do
+        config = config_for({
+            "werkcolleges" => { "submits" => { "wc_1" => 1 } },
+            "karel" => { "exam" => true, "submits" => { "tussentoets_1" => 3 } },
+            "calculation" => { "eindcijfer" => { "werkcolleges" => 6, "karel" => 3 } }
+        })
+
+        assert_equal [ "karel" ], config.exam_components
+    end
+
+    test "required_submits_for finds the test a part belongs to" do
+        config = config_for({
+            "python" => { "submits" => { "tentamen.python" => 6 }, "requirement" => "intro" }
+        })
+
+        assert_equal [ "intro" ], config.required_submits_for("tentamen")
+    end
+
 end
