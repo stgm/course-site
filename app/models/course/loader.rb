@@ -124,7 +124,7 @@ class Course::Loader
                     })
                 content = document.convert
             when ".ipynb"
-                content = GradingHelper::NBConverter.new(change.read).run
+                content = NotebookConverter.new(change.read).run
             end
 
             title ||= change.path.title
