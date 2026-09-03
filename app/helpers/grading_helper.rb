@@ -24,7 +24,7 @@ module GradingHelper
                     render_markdown(contents.download.bytes.pack("c*").force_encoding("UTF-8"))
                 when "html"
                     tag.div sanitize(contents.download), class: "ipynb"
-                when "txt", "sql", "c", "py"
+                when "txt", "sql", "c", "py", "karel"
                     if contents.blob.byte_size > 1.megabyte
                         tag.div "Attachment is weirdly large"
                     elsif contents.filename.extension == "txt"
