@@ -53,6 +53,7 @@
 <% elsif current_user.assistant? %>
 
 <%= menu_group do %>
+	<%= menu_link 'Attendance', attendance_path, icon: 'people-fill', condition: Settings.attendance_for_assistants %>
 	<%= menu_link 'Overview', overviews_path, icon: 'columns', condition: Settings.grading_overview_for_tas && (current_user.groups.any? || current_user.schedules.any?) %>
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen', condition: !Schedule.exists? || current_user.groups.any? || current_user.schedules.any? %>
 <% end %>

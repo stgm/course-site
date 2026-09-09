@@ -51,6 +51,11 @@ class Settings < RailsSettings::Base
         field :webhook_secret
     end
 
+    scope :attendance do
+        # who may open the attendance page: false = heads and higher, true = assistants and higher
+        field :attendance_for_assistants, default: false
+    end
+
     scope :submit_system do
         # "It's not possible to submit assignments this weekend. Try again from Monday at 10:00."
         # "Due to technical reasons submitting is not currently possible. It is hopefully fixed tomorrow morning. You can still work on your assignments, just not submit them."

@@ -3,7 +3,7 @@ class AttendanceController < ApplicationController
     include NavigationHelper
 
     before_action :authorize
-    before_action :require_admin
+    before_action :require_attendance_access
 
     layout "navbar"
 
@@ -27,6 +27,17 @@ class AttendanceController < ApplicationController
     def clear_all
         User.where(schedule: current_schedule).update_all(attendance_confirmed: false)
         redirect_back fallback_location: attendance_path
+    end
+
+    private
+
+    # Configurable access
+    def require_attendance_access
+        if Settings.attendance_for_assistants
+            require_staff
+        else
+            require_senior
+        end
     end
 
 end
