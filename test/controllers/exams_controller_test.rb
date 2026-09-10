@@ -106,6 +106,54 @@ class ExamsControllerTest < ActionController::TestCase
         assert_nil body["locked"]
     end
 
+    test "json hands the editor a lab_url when the pset config names a lab_config" do
+        @pset.update!(config: { "exam" => true, "lab_config" => "https://example.com/lab" })
+
+        @request.remote_addr = "1.2.3.4"
+        get :json, params: { id: @exam.id, code: "abc123" }
+
+        assert_response :success
+        body = JSON.parse(response.body)
+        assert_equal "https://example.com/lab", body["lab_url"]
+    end
+
+    test "json omits templates, hidden files and buttons for a lab-backed exam" do
+        @pset.update!(config: { "exam" => true, "lab_config" => "https://example.com/lab" })
+        @exam.update!(config: {
+            "files" => [ { "name" => "main.py", "template" => "x" } ],
+            "hidden_files" => [ { "name" => "check.py", "template" => "y" } ],
+            "buttons" => [ { "name" => "doctest", "commands" => "z" } ]
+        })
+
+        @request.remote_addr = "1.2.3.4"
+        get :json, params: { id: @exam.id, code: "abc123" }
+
+        body = JSON.parse(response.body)
+        assert_nil body["tabs"]
+        assert_nil body["hidden_tabs"]
+        assert_nil body["buttons"]
+    end
+
+    test "json has no lab_url for an ordinary exam" do
+        @request.remote_addr = "1.2.3.4"
+        get :json, params: { id: @exam.id, code: "abc123" }
+
+        body = JSON.parse(response.body)
+        assert_nil body["lab_url"]
+    end
+
+    test "a locked lab-backed exam still sends lab_url" do
+        @pset.update!(config: { "exam" => true, "lab_config" => "https://example.com/lab" })
+        @submit.update!(locked: true)
+
+        @request.remote_addr = "1.2.3.4"
+        get :json, params: { id: @exam.id, code: "abc123" }
+
+        body = JSON.parse(response.body)
+        assert_equal true, body["locked"]
+        assert_equal "https://example.com/lab", body["lab_url"]
+    end
+
     test "should fail json with wrong code" do
         get :json, params: { id: @exam.id, code: "wrong" }
 

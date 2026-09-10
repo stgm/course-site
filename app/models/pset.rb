@@ -29,6 +29,13 @@ class Pset < ApplicationRecord
         config['git_repo']
     end
 
+    # URL of a lab directory handed to the external editor for an exam; when set,
+    # the editor takes files and instructions from there instead of from the
+    # exam's own templates
+    def lab_config
+        config['lab_config']
+    end
+
     # provides the full grading config based on general and schedule-specific
     # configs
     def grading_config(schedule)

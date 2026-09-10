@@ -54,21 +54,30 @@ class ExamsController < ApplicationController
         config = {
             course_name: Course.short_name,
             exam_name: @submit.user.name, # @exam.pset.name.humanize,
-            postback: post_exam_url,
-            tabs: @exam.config["files"]&.map { |f| [ f["name"], f["template"] ] }.to_h,
-            hidden_tabs: @exam.config["hidden_files"]&.map { |f| [ f["name"], f["template"] ] }.to_h,
-            buttons: @exam.config["buttons"]&.map { |f| [ f["name"], f["commands"] ] }.to_h
+            postback: post_exam_url
         }
 
         if @exam.eval_code.present?
             config[:eval_link] = "https://studentfeedback.uva.nl/login?code=#{@exam.eval_code}"
         end
 
-        # if submitted previously, copy older contents into config
-        # this is particularly useful if an exam has to be resumed from
-        # another computer - which does not have a local cache of the files
-        # if the local cache is present, that will take precedence anyway
-        config[:tabs].merge! @submit.all_files.map { |x| [ x[0], x[1].download ] }.to_h
+        # files this student submitted before, so an exam can be resumed from
+        # another computer that has no local cache; a local cache still takes
+        # precedence in the editor
+        restored = @submit.all_files.map { |x| [ x[0], x[1].download ] }.to_h
+
+        if @exam.pset.lab_config.present?
+            # the exam is a lab: the editor fetches files, instructions and
+            # buttons straight from the lab directory, so we only hand over the
+            # lab URL and whatever the student already submitted
+            config[:lab_url] = @exam.pset.lab_config
+            config[:tabs] = restored if restored.any?
+        else
+            config[:tabs] = @exam.config["files"]&.map { |f| [ f["name"], f["template"] ] }.to_h
+            config[:hidden_tabs] = @exam.config["hidden_files"]&.map { |f| [ f["name"], f["template"] ] }.to_h
+            config[:buttons] = @exam.config["buttons"]&.map { |f| [ f["name"], f["commands"] ] }.to_h
+            config[:tabs].merge! restored
+        end
 
         # only allow initializing editor as long as no grade was created for this submit
         unless exam_is_open_for_user?
