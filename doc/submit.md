@@ -40,6 +40,34 @@ You can add text form fields in markdown files to add these to the web page. Ans
     <input name="form[q1a]" type="text" required>
     <textarea name="form[q2]" rows="8" required></textarea>
 
+## Exams
+
+Add `exam: true` to make the submit an exam: it then also shows up under Exams
+and is opened in the external editor rather than as a plain upload form.
+
+An exam may either carry its own file templates and buttons:
+
+    exam: true
+    files:
+        required:
+            main.py: |
+                # start here
+    buttons:
+        doctest: |
+            import doctest
+            doctest.testmod()
+
+or point at a lab directory with `lab_config`:
+
+    exam: true
+    lab_config: https://minprog.github.io/pyprog/tutorials/python
+
+`lab_config` must be a full URL to a directory that is served with a permissive
+`Access-Control-Allow-Origin` header (GitHub Pages is). The editor reads the
+lab's `lab.yml` from there and takes the file list, the instructions
+(`README.md`) and the toolbar buttons from the lab itself. When `lab_config` is
+set, the exam's own `files`, `hidden_files` and `buttons` are ignored.
+
 ## Checks
 
 The auto-check function is hardcoded to our local configuration. The key `tool` may be `checkpy` or `check50`. The configuration for `checkpy` would look like this:
