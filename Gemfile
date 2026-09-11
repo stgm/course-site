@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gem "ostruct"
 gem "matrix"  # no longer a default gem in ruby 4, needed by prawn
 gem "cgi"     # CGI.parse etc removed from ruby 4 stdlib, needed by azure-storage-common
+gem "json", "< 3"  # json 3 dropped JSON.parse(quirks_mode:), which activesupport 8.0 still passes
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~>8.0.1"
