@@ -20,8 +20,10 @@ class Admin::ExamsController < ApplicationController
         @longer_ago = @exam.stale_submits
 
         # the room map is a page of its own; the two are tabs on each other,
-        # and whichever was used last is where a bare link lands
-        if params[:view].blank? && session[:exam_view] != "list"
+        # and whichever was used last is where a bare link lands. Before either
+        # has been used, how students log in decides.
+        preferred = session[:exam_view].presence || default_exam_view
+        if params[:view].blank? && preferred != "list"
             return redirect_to admin_exam_room_path(@exam)
         end
         session[:exam_view] = "list"
@@ -113,7 +115,13 @@ class Admin::ExamsController < ApplicationController
 
     def start_exam_mode
         Settings.exam_current = params.expect :exam_id
+        login_method = params[:login_method]
+        Settings.exam_login_method = login_method == "student_number" ? "student_number" : "pin"
         Settings.registration_phase = "exam"
+
+        # the new choice decides which of the two views a bare link opens
+        session.delete(:exam_view)
+
         redirect_to admin_exams_path
     end
 
@@ -136,6 +144,16 @@ class Admin::ExamsController < ApplicationController
         # run checks for all unchecked submissions for an exam
         # use the exam check config
         # refactor check running in pset(?)
+    end
+
+    private
+
+    # Which view a bare link to an exam session opens when nobody has picked
+    # one yet. Generated codes are read off the printed list per student, so
+    # the list is what is being worked from; student IDs say nothing about who
+    # sits where, so the room map is.
+    def default_exam_view
+        Settings.exam_login_method == "student_number" ? "room" : "list"
     end
 
 end

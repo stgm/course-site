@@ -13,6 +13,10 @@ class Settings < RailsSettings::Base
         field :exam_current, type: :integer, default: nil
         field :exam_code, default: nil
         field :exam_show_personal, default: false
+
+        # how students identify themselves during an exam: with a generated
+        # personal code ("pin") or with their own student ID ("student_number")
+        field :exam_login_method, default: "pin"
     end
 
     scope :site do

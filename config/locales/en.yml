@@ -107,8 +107,10 @@ en:
         pronoun_examples: 'For example: she/her, they/them, he/him, ze/hir.'
         your_schedule: Your schedule
         enter_pin_code: Enter your exam code and PIN. If login does not work, please raise your hand to alert a teacher.
+        enter_student_number: Enter the exam code and your student ID. If login does not work, please raise your hand to alert a teacher.
         exam_code: Exam code
         pin_code: PIN
+        student_number: Student ID
         you_can_login_exam: Welcome! You can now login using your PIN to take the exam.
 
     # the pdf and xlsx files in the archive download

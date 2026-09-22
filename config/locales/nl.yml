@@ -109,8 +109,10 @@ nl:
         pronoun_examples: 'Bijvoorbeeld: zij/haar, hen/hun, hij/hem, die/die.'
         your_schedule: Jouw schema
         enter_pin_code: Vul je tentamencode en pincode in. Als het inloggen niet werkt, steek dan je hand op om een docent te waarschuwen.
+        enter_student_number: Vul de tentamencode en je studentnummer in. Als het inloggen niet werkt, steek dan je hand op om een docent te waarschuwen.
         exam_code: Tentamencode
         pin_code: Pincode
+        student_number: Studentnummer
         you_can_login_exam: Welkom! Je kunt nu inloggen met pincode om tentamen te doen.
 
     # de pdf- en xlsx-bestanden in de archiefdownload

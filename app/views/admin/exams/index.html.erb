@@ -4,7 +4,9 @@
     <div class="alert alert-warning d-flex align-items-center" role="alert">
         <%= bootstrap_icon('exclamation-triangle') %>
         <div class="ms-2">
-            Exam mode is active for <strong><%= Exam.find(Settings.exam_current).name.capitalize %></strong>!
+            Exam mode is active for <strong><%= Exam.find(Settings.exam_current).name.capitalize %></strong>,
+            students log in with
+            <strong><%= Settings.exam_login_method == 'student_number' ? 'their student ID' : 'a generated personal code' %></strong>.
             <%= link_to 'Go to exam session overview', admin_exam_path(id: Settings.exam_current) %>
         </div>
         <%= form_with url: stop_exam_mode_admin_exams_path, class: 'ms-auto' do |f| %>
@@ -72,8 +74,17 @@
                                 <%= b.label %>
                             </div>
                             <% end %>
+                            <p class="pt-2 mb-1">How students log in:</p>
+                            <div class="form-check">
+                                <%= f.radio_button :login_method, 'pin', class: 'form-check-input', checked: true %>
+                                <%= f.label :login_method_pin, 'Generated personal codes', class: 'form-check-label' %>
+                            </div>
+                            <div class="form-check">
+                                <%= f.radio_button :login_method, 'student_number', class: 'form-check-input' %>
+                                <%= f.label :login_method_student_number, 'Their own student ID', class: 'form-check-label' %>
+                            </div>
                             <p class="pt-2">
-                                <%= f.submit "Start Exam Mode".html_safe, class: 'btn btn-outline-warning', data: { turbo: false, confirm: 'You are starting exam mode. Students must login using a PIN and can only take the selected exam.' } %>
+                                <%= f.submit "Start Exam Mode".html_safe, class: 'btn btn-outline-warning', data: { turbo: false, confirm: 'You are starting exam mode. Students must login using the access code plus the chosen personal code, and can only take the selected exam.' } %>
                             </p>
                             <% end %>
                         </div>
@@ -84,7 +95,7 @@
             <div class="small">
                 <p class="mb-0">Note:</p>
                 <ul>
-                    <li>When in exam mode, (re-)logging in using an access code plus a personal PIN is required, or else the exam can't be opened.</li>
+                    <li>When in exam mode, (re-)logging in using the access code plus either the generated PIN or the student ID is required, or else the exam can't be opened.</li>
                     <li>When a student logs in using their assigned PIN for the first time, their current IP address is used to lock the session.</li>
                     <li>When logging in again using that same PIN, the IP address needs to be the same, or the login will not be accepted. IPs can be reset by exam admins.</li>
                 </ul>

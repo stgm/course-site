@@ -1,3 +1,4 @@
+<% by_student_number = Settings.exam_login_method == 'student_number' %>
 <% @page_name = t('account.login_or_register') %>
 
 <h1 class="fw-normal text-center"><%= Course.long_name %></h1>
@@ -5,7 +6,7 @@
 <div class="cards">
     <div>
         <p class="lead text-center">
-            <%= t('account.enter_pin_code') %>
+            <%= by_student_number ? t('account.enter_student_number') : t('account.enter_pin_code') %>
         </p>
     </div>
 
@@ -23,9 +24,10 @@
                 class="form-control" maxlength="6" size="6" autocomplete="off">
         </div>
         <div>
-            <label for="pin_code" class="mb-1"><%= t('account.pin_code') %></label>
+            <label for="pin_code" class="mb-1"><%= by_student_number ? t('account.student_number') : t('account.pin_code') %></label>
             <input name="pin_code" type="text" autofocus required
-                class="form-control" maxlength="4" size="4" autocomplete="off">
+                class="form-control" maxlength="<%= by_student_number ? 20 : 4 %>"
+                size="<%= by_student_number ? 12 : 4 %>" autocomplete="off">
         </div>
     </div>
 

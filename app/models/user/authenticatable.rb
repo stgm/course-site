@@ -11,9 +11,17 @@ module User::Authenticatable
             end
         end
 
-        def self.authenticate_by_pin(pin)
-            if Settings.registration_phase == "exam" && user = User.find_by_pin(pin)
-                return user
+        # During an exam a student identifies themselves either with the code
+        # generated for them, or with their own student ID, depending on what
+        # the exam was started with.
+        def self.authenticate_by_pin(code)
+            return unless Settings.registration_phase == "exam"
+            return if code.blank?
+
+            if Settings.exam_login_method == "student_number"
+                User.find_by_student_number(code)
+            else
+                User.find_by_pin(code)
             end
         end
 
