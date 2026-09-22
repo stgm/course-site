@@ -1,0 +1,52 @@
+<%#
+    The room itself. The grid is twice as fine as the room is wide, so a table
+    spans two columns and a staggered row can start half a table further along.
+    Row 1 is the front of the room, so it is drawn at the bottom.
+
+    The column labels are rows in this same grid rather than a grid of their
+    own: two grids side by side drift apart as soon as anything about the
+    layout changes.
+%>
+<%#
+    Half-width tracks, two to a table. The extra half track at the end only
+    exists when rows are indented, since it is there for the indented row to
+    end in; without it the room would sit against an empty gap.
+
+    The tracks stop growing at --room-half so that a small room does not turn
+    into a few enormous tables, and the grid centres what it does not fill.
+%>
+<% tracks = 2 * exam.room_cols + (exam.room_stagger? ? 1 : 0) %>
+<div class="room-grid" style="grid-template-columns: repeat(<%= tracks %>, minmax(0, var(--room-half)));">
+
+    <% (1..exam.room_rows).each do |row| %>
+    <% (1..exam.room_cols).each do |col| %>
+    <% seat = Exam.seat_for(row, col)
+       offset = (exam.room_stagger? && row.even?) ? 1 : 0 %>
+    <%= render "seat",
+        exam: exam, phase: phase, seat: seat,
+        submit: seating[seat],
+        ambiguous: ambiguous,
+        column_start: 2 * (col - 1) + 1 + offset,
+        grid_row: exam.room_rows - row + 1 %>
+    <% end %>
+    <% end %>
+
+    <% if labels %>
+    <p class="room-label-hint" style="grid-column: 1 / -1; grid-row: <%= exam.room_rows + 1 %>;">
+        Provide a label for each column:
+    </p>
+
+    <% (1..exam.room_cols).each do |col| %>
+    <div class="room-label"
+        style="grid-column: <%= 2 * (col - 1) + 1 %> / span 2; grid-row: <%= exam.room_rows + 2 %>;">
+        <%= text_field_tag "room[labels][#{col}]", exam.room["labels"][col.to_s],
+            class: "form-control form-control-sm text-center",
+            placeholder: Exam.default_column_label(col),
+            maxlength: 4,
+            "aria-label": "Label for column #{col}",
+            data: { action: "change->room-map#submitLabels" } %>
+    </div>
+    <% end %>
+    <% end %>
+
+</div>

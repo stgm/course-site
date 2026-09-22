@@ -1,0 +1,136 @@
+<div class="p-5 container-fluid">
+    <%= render "admin/exams/header", exam: @exam, tab: :room %>
+
+<%#
+    The room map: the tables as they stand in the exam hall, with a student on
+    each one. Three phases, one at a time, so that the controls for defining
+    the room are not in the way while placing students, and neither is in the
+    way while watching the exam run.
+
+    Everything lives in one turbo frame: each placement and each layout change
+    redirects back here and re-renders the whole room, so two people mapping at
+    once see each other's work.
+%>
+<% seating   = @exam.seating
+   unplaced  = @exam.unplaced_submits.sort_by { |s| s.user_name.to_s }
+   placed    = seating.values
+   ambiguous = exam_ambiguous_first_names(placed)
+   active    = @students.size %>
+
+<%#
+    The controller sits on a div inside the frame, not on the frame itself: a
+    turbo frame navigation replaces what is inside the frame and leaves the
+    frame's own attributes alone, so values set on the frame would go stale
+    the moment the phase changed.
+%>
+<%= turbo_frame_tag "room" do %>
+<div class="room" data-controller="room-map"
+    data-room-map-phase-value="<%= @phase %>"
+    data-room-map-students-value="<%= exam_placeable_students(@exam).to_json %>"
+    data-room-map-reload-value="<%= @phase == 'overview' ? 30 : 0 %>">
+
+    <%#
+        Messages float over the page rather than sitting above the room: in
+        the flow they would push everything down a line, which moves the
+        button you just clicked out from under the cursor. A confirmation
+        fades by itself; a refusal stays until the next thing happens.
+    %>
+    <% if flash[:alert].present? || flash[:notice].present? %>
+    <div class="room-messages">
+        <% if flash[:alert].present? %>
+        <div class="alert alert-danger py-2 small mb-2"><%= flash[:alert] %></div>
+        <% end %>
+        <% if flash[:notice].present? %>
+        <div class="alert alert-success py-2 small mb-0 room-message-fades"
+            data-controller="auto-dismiss" data-auto-dismiss-after-value="4000"><%= flash[:notice] %></div>
+        <% end %>
+    </div>
+    <% end %>
+
+    <%# the phase stepper: also the only way to move between phases %>
+    <div class="room-steps mt-3">
+        <% Exam::ROOM_PHASES.each_with_index do |phase, index| %>
+        <%= button_to phase_admin_exam_room_path(@exam, phase: phase),
+            method: :patch,
+            class: "room-step btn #{'active' if phase == @phase}" do %>
+            <span class="room-step-number"><%= index + 1 %></span>
+            <span class="room-step-name"><%= { "define" => "Define room", "place" => "Place students", "overview" => "Overview" }[phase] %></span>
+        <% end %>
+        <% end %>
+    </div>
+
+    <%= render "panel", exam: @exam, phase: @phase,
+        unplaced: unplaced, placed: placed, active: active %>
+
+    <% if @phase == "define" %>
+    <%#
+        The four buttons sit on the side of the room they add to, so that
+        adding a row at the front is a click on the front of the room rather
+        than a number typed somewhere else. The labels form wraps only the
+        grid: a button_to is a form of its own and cannot be nested in it.
+    %>
+    <div class="room-canvas">
+        <%#
+            The indent belongs with the other layout controls, on the room
+            rather than above it. It saves itself: it only changes where
+            tables are drawn, never which table anybody is at.
+        %>
+        <div class="room-canvas-top">
+            <%= form_with url: layout_admin_exam_room_path(@exam, phase: @phase), method: :patch,
+                class: "room-stagger", data: { controller: "toggle-form" } do %>
+                <div class="form-check form-switch mb-0">
+                    <%# no id: the checkbox below owns it, and the label points at that %>
+                    <%= hidden_field_tag "room[stagger]", "0", id: nil %>
+                    <%= check_box_tag "room[stagger]", "1", @exam.room_stagger?, class: "form-check-input", id: "room_stagger" %>
+                    <label class="form-check-label small text-nowrap" for="room_stagger">Indent every second row</label>
+                </div>
+            <% end %>
+
+            <%= render "side", exam: @exam, phase: @phase,
+                side: "back", name: "row at the back" %>
+        </div>
+
+        <%= render "side", exam: @exam, phase: @phase,
+            side: "left", name: "column on the left" %>
+
+        <div class="room-canvas-grid">
+            <%# the labels save themselves, so the form is only here for the round trip %>
+            <%= form_with url: layout_admin_exam_room_path(@exam, phase: @phase), method: :patch do |f| %>
+                <%= render "grid", exam: @exam, phase: @phase,
+                    seating: seating, ambiguous: ambiguous, labels: true %>
+                <noscript><%= f.submit "Save labels", class: "btn btn-sm btn-primary mt-2" %></noscript>
+            <% end %>
+        </div>
+
+        <%= render "side", exam: @exam, phase: @phase,
+            side: "right", name: "column on the right" %>
+        <%= render "side", exam: @exam, phase: @phase,
+            side: "front", name: "row at the front" %>
+    </div>
+    <p class="text-body-secondary small mt-2">
+        Row 1 and the column labels are at the front of the room. Adding at the
+        front or on the left renumbers the tables behind it, and moves anybody
+        already sitting there along with their table. Column labels are only
+        names: renaming a column never moves anybody.
+    </p>
+    <% else %>
+    <%= render "grid", exam: @exam, phase: @phase,
+        seating: seating, ambiguous: ambiguous, labels: false %>
+    <% end %>
+
+    <%# the forms the room map submits on your behalf %>
+    <%= form_with url: place_admin_exam_room_path(@exam, phase: @phase), method: :patch,
+        class: "d-none", data: { "room-map-target": "placeForm" } do %>
+        <%= hidden_field_tag "seat", "", data: { "room-map-target": "placeSeat" } %>
+        <%= hidden_field_tag "submit_id", "", data: { "room-map-target": "placeSubmit" } %>
+        <%= hidden_field_tag "replace", "", data: { "room-map-target": "placeReplace" } %>
+        <%= hidden_field_tag "swap", "", data: { "room-map-target": "placeSwap" } %>
+    <% end %>
+
+    <%= form_with url: layout_admin_exam_room_path(@exam, phase: @phase), method: :patch,
+        class: "d-none", data: { "room-map-target": "toggleForm" } do %>
+        <%= hidden_field_tag "room[toggle_seat]", "", data: { "room-map-target": "toggleSeat" } %>
+    <% end %>
+</div>
+<% end %>
+</div>

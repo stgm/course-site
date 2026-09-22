@@ -1,0 +1,43 @@
+<%#
+    The "+" and "−" for one side of the room, sitting on that side, so that
+    adding a row at the front is a click at the front of the room.
+
+    The minus is disabled while anybody is sitting on that side, and says who:
+    taking a row away would otherwise silently unplace them. The controller
+    refuses it as well, for the seat that gets taken while this page is open.
+%>
+<% occupants = exam.edge_occupants(side)
+   at_minimum = exam.room_at_minimum?(side)
+
+   remove_label =
+       if at_minimum
+           "A room needs at least one #{side.in?([ 'front', 'back' ]) ? 'row' : 'column'}"
+       elsif occupants.any?
+           "#{occupants.map(&:user_name).to_sentence} #{occupants.one? ? 'is' : 'are'} sitting there"
+       else
+           "Remove the #{name}"
+       end %>
+
+<div class="room-side room-side-<%= side %>">
+    <%= button_to layout_admin_exam_room_path(exam, phase: phase),
+        method: :patch,
+        params: { "room[add]" => side },
+        form_class: "room-side-form",
+        class: "room-side-button btn",
+        disabled: exam.room_at_limit?(side),
+        title: "Add a #{name}",
+        "aria-label": "Add a #{name}" do %>
+        <%= bootstrap_icon("plus-lg") %>
+    <% end %>
+
+    <%= button_to layout_admin_exam_room_path(exam, phase: phase),
+        method: :patch,
+        params: { "room[remove]" => side },
+        form_class: "room-side-form",
+        class: "room-side-button room-side-remove btn",
+        disabled: at_minimum || occupants.any?,
+        title: remove_label,
+        "aria-label": remove_label do %>
+        <%= bootstrap_icon("dash-lg") %>
+    <% end %>
+</div>

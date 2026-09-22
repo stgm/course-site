@@ -1,0 +1,31 @@
+<%#
+    The plain alphabetical view of everyone taking the exam. Kept alongside the
+    room map because it is the only view that works before a room is defined.
+%>
+<% if @students.any? %>
+<h6 class="mt-4">Active students:</h6>
+
+<div class="list-group">
+    <% @students.each do |submit| %>
+    <div class="list-group-item">
+        <%= render "admin/exams/student_row", exam: @exam, submit: submit, view: "list" %>
+    </div>
+    <% end %>
+</div>
+<% end %>
+
+<% if @longer_ago.any? %>
+<h6 class="mt-4">Older:</h6>
+
+<div class="list-group">
+    <% @longer_ago.each do |submit| %>
+    <div class="list-group-item">
+        <%= render "admin/exams/student_row", exam: @exam, submit: submit, view: "list" %>
+    </div>
+    <% end %>
+</div>
+<% end %>
+
+<% if @students.none? && @longer_ago.none? %>
+<p class="text-body-secondary mt-4">Nobody has started this exam yet.</p>
+<% end %>

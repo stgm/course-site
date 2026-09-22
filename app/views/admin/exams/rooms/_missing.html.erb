@@ -1,0 +1,37 @@
+<%#
+    Who is logged in and taking the exam but was not found at any table. The
+    names sit in a popup rather than on the page: it is a short list that
+    matters a great deal for a moment, and a block of names standing open
+    pushes the room down the page every time it changes length.
+
+    While more than ten are still to place the count stands on its own, with
+    no popup: at that stage it is just how far the mapping has got, and a list
+    of names would be a work list rather than a warning.
+%>
+<% if unplaced.empty? %>
+<span class="room-missing-none"><%= bootstrap_icon("check-circle") %> Everyone is accounted for.</span>
+
+<% elsif names_hidden %>
+<span class="room-missing-count"><strong><%= unplaced.size %></strong> still to place</span>
+
+<% else %>
+<details class="room-missing">
+    <summary>
+        <%= bootstrap_icon("exclamation-triangle") %>
+        <strong><%= unplaced.size %></strong>
+        <%= "student".pluralize(unplaced.size) %> not in the room
+    </summary>
+
+    <div class="room-missing-list">
+        <p class="room-missing-header">
+            Logged in and taking the exam, but not found at any table.
+        </p>
+        <% unplaced.each do |submit| %>
+        <div class="room-missing-student">
+            <%= link_to submit.user_name, submit, class: "text-decoration-none", data: { 'turbo-frame' => 'modal' } %>
+            <small class="text-body-secondary"><%= submit.user&.pin %></small>
+        </div>
+        <% end %>
+    </div>
+</details>
+<% end %>

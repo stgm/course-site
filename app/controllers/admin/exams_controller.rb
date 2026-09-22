@@ -16,8 +16,15 @@ class Admin::ExamsController < ApplicationController
     # exam is in session, show statistics and progress
     def show
         @exam = Exam.find(params[:id])
-        @students = @exam.pset.submits.where('submitted_at >= ?', 5.hours.ago)
-        @longer_ago = @exam.pset.submits.where('submitted_at < ?', 5.hours.ago)
+        @students = @exam.active_submits
+        @longer_ago = @exam.stale_submits
+
+        # the room map is a page of its own; the two are tabs on each other,
+        # and whichever was used last is where a bare link lands
+        if params[:view].blank? && session[:exam_view] != "list"
+            return redirect_to admin_exam_room_path(@exam)
+        end
+        session[:exam_view] = "list"
     end
 
     # edit exam templates + buttons
@@ -58,20 +65,34 @@ class Admin::ExamsController < ApplicationController
     end
 
     def toggle_student
-        pset = Exam.find(params[:id]).pset
-        @submit = pset.submits.find(params[:submit_id])
+        @exam = Exam.find(params[:id])
+        @submit = @exam.pset.submits.find(params[:submit_id])
         p = params.expect(submit: [ :locked ])
-        if @submit.update(p)
+        return unless @submit.update(p)
+
+        # From the room map the table itself has to change: a locked student
+        # gets a lock and stops being warned about. The list has nothing to
+        # redraw, so it stays a bare ok.
+        if params[:view] == "room"
+            redirect_to admin_exam_room_path(@exam, phase: params[:phase])
+        else
             head :ok
         end
     end
 
     def reset_student_ip
-        pset = Exam.find(params[:id]).pset
-        submit = pset.submits.find(params[:submit_id])
+        exam = Exam.find(params[:id])
+        submit = exam.pset.submits.find(params[:submit_id])
         submit.user.update(last_known_ip: nil)
-        redirect_to admin_exam_path(params[:id])
+
+        if params[:view] == "room"
+            redirect_to admin_exam_room_path(exam, phase: params[:phase])
+        else
+            redirect_to admin_exam_path(exam)
+        end
     end
+
+    #-- mapping the room -------------------------------------------------------
 
     def assign_codes
         users = User.not_staff

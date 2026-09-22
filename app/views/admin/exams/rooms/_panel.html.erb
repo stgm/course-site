@@ -1,0 +1,78 @@
+<%#
+    The controls that belong to the current phase only. Defining the room is a
+    form; placing is a progress report; the overview is the security check.
+%>
+<%#
+    The box is for the dimension controls while the room is being set up.
+    Everywhere else the panel is a line of text and, at most, a warning that
+    frames itself, so a box around it would be a box around nothing.
+%>
+<% plain = phase != "define" || placed.any? %>
+<div class="room-panel <%= 'room-panel-plain' if plain %>">
+
+    <% if phase == "define" %>
+    <%#
+        Typing a size is only useful for setting the room up. Once anybody is
+        at a table the boxes go away and the room is changed with the + and -
+        buttons around it, which know which tables they would take away.
+
+        The indent is a form of its own because it only changes where tables
+        are drawn, never which table anybody is at, so it can save itself.
+    %>
+    <% if placed.empty? %>
+    <%= form_with url: layout_admin_exam_room_path(exam, phase: phase), method: :patch,
+        class: "row g-3 align-items-end mb-3" do |f| %>
+        <div class="col-auto">
+            <label class="form-label small mb-1" for="room_rows">Rows</label>
+            <%= number_field_tag "room[rows]", exam.room_rows, in: 1..Exam::ROOM_LIMIT, class: "form-control form-control-sm", id: "room_rows" %>
+        </div>
+        <div class="col-auto">
+            <label class="form-label small mb-1" for="room_cols">Columns</label>
+            <%= number_field_tag "room[cols]", exam.room_cols, in: 1..Exam::ROOM_LIMIT, class: "form-control form-control-sm", id: "room_cols" %>
+        </div>
+        <div class="col-auto">
+            <%= f.submit "Apply", class: "btn btn-sm btn-primary" %>
+        </div>
+    <% end %>
+    <% end %>
+
+    <p class="text-body-secondary small mb-0">
+        Right-click a table to disable it. A table with somebody at it cannot be disabled.
+        <% if placed.any? %>
+        You can still use the + and - buttons around the room to change its size.
+        <% end %>
+    </p>
+
+    <% elsif phase == "place" %>
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+        <div class="room-progress">
+            <div class="d-flex justify-content-between small mb-1">
+                <span>Placed</span>
+                <span><%= placed.size %> of <%= active %></span>
+            </div>
+            <div class="progress" role="progressbar" aria-valuenow="<%= placed.size %>" aria-valuemin="0" aria-valuemax="<%= active %>">
+                <div class="progress-bar" style="width: <%= active.zero? ? 0 : (100.0 * placed.size / active).round %>%;"></div>
+            </div>
+        </div>
+
+        <%= render "missing", unplaced: unplaced, names_hidden: unplaced.size > 10 %>
+
+        <p class="text-body-secondary small mb-0 flex-grow-1" style="min-width: 18rem;">
+            Click a table to put somebody there, or drag a table onto another
+            one to move them. Dropping on an occupied table swaps the two.
+        </p>
+    </div>
+
+    <% else %>
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+        <p class="mb-0 small text-body-secondary">
+            <strong><%= active %></strong> taking the exam,
+            <strong><%= placed.size %></strong> in the room.
+        </p>
+
+        <%# placing is over, so the names are worth showing however many there are %>
+        <%= render "missing", unplaced: unplaced, names_hidden: false %>
+    </div>
+    <% end %>
+
+</div>

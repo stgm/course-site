@@ -228,6 +228,13 @@ Rails.application.routes.draw do
                 patch "toggle_student"
                 patch "reset_student_ip"
             end
+
+            # mapping the exam room: where each student is sitting
+            resource :room, only: [ :show ], controller: "exams/rooms" do
+                patch "place"
+                patch "layout"
+                patch "phase"
+            end
         end
     end
 

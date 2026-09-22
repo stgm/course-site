@@ -1,0 +1,11 @@
+{
+    "version": "0.0.1",
+    "configurations": [
+        {
+            "name": "course-site",
+            "runtimeExecutable": "rv",
+            "runtimeArgs": ["run", "--", "bin/rails", "server", "-p", "3000"],
+            "port": 3000
+        }
+    ]
+}

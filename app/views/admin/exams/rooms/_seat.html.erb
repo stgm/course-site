@@ -1,0 +1,74 @@
+<%#
+    One table in the room. What it shows depends on the phase: its own name
+    while defining, a student while placing, and that student's exam status
+    once the room is mapped.
+%>
+<% disabled = exam.seat_disabled?(seat)
+   label    = exam.seat_label(seat)
+   classes  = [ "room-seat" ]
+   classes << "room-seat-disabled" if disabled
+   classes << (submit.present? ? "room-seat-taken" : "room-seat-empty")
+   classes << "room-seat-#{exam_freshness(submit)}" if submit.present? && phase == "overview" %>
+
+<div class="<%= classes.join(' ') %>"
+    style="grid-column: <%= column_start %> / span 2; grid-row: <%= grid_row %>;"
+    data-seat="<%= seat %>"
+    data-seat-label="<%= label %>"
+    data-submit-id="<%= submit&.id %>"
+    <%# an occupied table can be dragged onto another one while placing %>
+    <%= "draggable=true".html_safe if submit.present? && phase == "place" %>
+    <%= "tabindex=0".html_safe unless disabled %>
+    title="<%= disabled ? "#{label}: not in the room" : (submit&.user_name || label) %>">
+
+    <span class="room-seat-label"><%= label %></span>
+
+    <% if submit.present? %>
+    <span class="room-seat-name"><%= exam_seat_name(submit, ambiguous) %></span>
+
+    <% if phase == "overview" %>
+    <span class="room-seat-status">
+        <span class="room-seat-dot"></span>
+        <%= exam_last_seen_short(submit) %>
+        <% if submit.user&.pin.present? %>
+        <span class="room-seat-pin"><%= submit.user.pin %></span>
+        <% end %>
+        <% if submit.locked? %>
+        <span class="room-seat-lock-icon" title="Locked out"><%= bootstrap_icon('lock-fill') %></span>
+        <% end %>
+    </span>
+
+    <%# shown as a popover when the table is clicked %>
+    <div class="room-seat-detail" hidden>
+        <p class="room-popover-header mb-2"><strong><%= submit.user_name %></strong> at <%= label %></p>
+
+        <p class="small mb-2">
+            Last seen <%= exam_last_seen(submit) %><% if submit.user&.pin.present? %>,
+            PIN <%= submit.user.pin %><% end %>.
+        </p>
+
+        <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+            <% if submit.user&.last_known_ip.present? %>
+            <%#
+                Turbo handles this one, unlike the list tab's copy: staying in
+                the frame is what lets the table redraw itself underneath.
+            %>
+            <%= button_to submit.user.last_known_ip,
+                reset_student_ip_admin_exam_path(exam, submit_id: submit.id, view: "room", phase: phase),
+                method: :patch,
+                class: "btn btn-link btn-sm p-0 text-body-secondary text-decoration-none",
+                data: { turbo_confirm: "Reset the locked IP address for #{submit.user_name}? They can then log in from another computer." } %>
+            <% else %>
+            <small class="text-body-secondary">no IP</small>
+            <% end %>
+
+            <div class="form-check form-switch mb-0">
+                <%= checkbox_for(submit, :locked, submit.locked, toggle_student_admin_exam_path(exam, submit_id: submit.id, view: "room", phase: phase), form: { class: 'form-switch' }, class: 'form-check-input' ) do 'Locked' end %>
+            </div>
+        </div>
+
+        <%= link_to "Open submission", submit, class: "btn btn-sm btn-outline-primary w-100", data: { 'turbo-frame' => 'modal' } %>
+    </div>
+    <% end %>
+    <% end %>
+
+</div>

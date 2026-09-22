@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_30_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_22_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -274,6 +274,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_30_120000) do
     t.boolean "locked", default: false, null: false
     t.string "exam_code"
     t.integer "attempts_count", default: 0, null: false
+    t.string "seat"
+    t.index ["pset_id", "seat"], name: "index_submits_on_pset_id_and_seat", unique: true, where: "seat IS NOT NULL"
     t.index ["pset_id"], name: "index_submits_on_pset_id"
     t.index ["user_id"], name: "index_submits_on_user_id"
   end

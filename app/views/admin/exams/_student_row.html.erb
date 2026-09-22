@@ -1,0 +1,29 @@
+<%#
+    One student taking the exam, as the session list shows them: name, PIN, how
+    long ago their editor last posted, the IP their session is locked to, and
+    whether they are locked out. Also used inside the room map's seat popover.
+%>
+<div class="d-flex justify-content-between align-items-center gap-3">
+    <%= link_to submit, class: "text-decoration-none flex-grow-1 d-flex justify-content-between align-items-center gap-3", data: { 'turbo-frame' => 'modal' } do %>
+        <span class="mb-0"><%= submit.user_name %> <small class="text-body-secondary"><%= submit.user&.pin %></small></span>
+        <small class="text-body-secondary text-nowrap"><%= exam_last_seen(submit) %></small>
+    <% end %>
+
+    <div>
+        <% if submit.user&.last_known_ip.present? %>
+        <%= button_to submit.user.last_known_ip,
+            reset_student_ip_admin_exam_path(exam, submit_id: submit.id, view: local_assigns[:view], phase: local_assigns[:phase]),
+            method: :patch,
+            class: "btn btn-link btn-sm p-0 text-body-secondary text-decoration-none",
+            data: { turbo: false, confirm: "Reset the locked IP address for #{submit.user_name}? They can then log in from another computer." } %>
+        <% else %>
+        <small class="text-body-secondary">no IP</small>
+        <% end %>
+    </div>
+
+    <div>
+        <div class="form-check form-switch">
+            <%= checkbox_for(submit, :locked, submit.locked, toggle_student_admin_exam_path(exam, submit_id: submit.id), form: { class: 'form-switch' }, class: 'form-check-input' ) do 'Locked' end %>
+        </div>
+    </div>
+</div>

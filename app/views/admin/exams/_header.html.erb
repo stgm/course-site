@@ -1,0 +1,23 @@
+<%#
+    The heading both views of an exam session share: which exam is running,
+    the room code, the way out of exam mode, and the two tabs. The room map
+    and the list are pages of their own, so the tabs are plain links.
+%>
+<% if Settings.registration_phase == 'exam' %>
+<%= form_with url: stop_exam_mode_admin_exams_path, class: "float-end" do |f| %>
+<%= f.submit "STOP Exam Mode".html_safe, class: 'btn btn-outline-warning', data: { turbo: false, confirm: 'You are exiting exam mode. No submissions are possible after doing that.' } %>
+<% end %>
+<% end %>
+
+<h5><%= exam.name.titlecase %></h5>
+
+<p>Code: <%= Settings.exam_code %></p>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <%= link_to "Room", admin_exam_room_path(exam), class: "nav-link #{'active' if tab == :room}" %>
+    </li>
+    <li class="nav-item">
+        <%= link_to "List", admin_exam_path(exam, view: "list"), class: "nav-link #{'active' if tab == :list}" %>
+    </li>
+</ul>
