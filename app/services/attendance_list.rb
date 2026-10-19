@@ -61,7 +61,7 @@ class AttendanceList
         @schedule = schedule
         @course_name = course_name
         @text = TEXT[language.to_s.downcase.start_with?("nl") ? :nl : :en]
-        @students = schedule.students.to_a
+        @students = schedule.students.includes(:logins).to_a
             .sort_by { |student| student.name.to_s.downcase }
     end
 
@@ -218,7 +218,7 @@ class AttendanceList
         return [ "", "", "" ] if student.nil?
 
         name = "<font size='#{NAME_SIZE}'>#{escape(pdf_safe(student.name))}</font>"
-        id = "<font size='#{ID_SIZE}' name='Helvetica'><color rgb='#{MUTED}'>#{escape(pdf_safe(student.login))}</color></font>"
+        id = "<font size='#{ID_SIZE}' name='Helvetica'><color rgb='#{MUTED}'>#{escape(pdf_safe(student.defacto_student_identifier))}</color></font>"
         [ "#{name}\n#{id}", "", "" ]
     end
 
