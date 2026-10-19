@@ -16,6 +16,7 @@
 #   CourseArchive.new.write_to("/tmp/archive.zip")   # from the console
 #
 class CourseArchive
+    include PdfText
 
     # the scopes for the grade exports, shared with Admin::ArchivingController#export_grades;
     # without a schedule these cover the whole course
@@ -796,18 +797,6 @@ class CourseArchive
     #
     # pdf plumbing
     #
-
-    # prawn's built-in fonts only cover Windows-1252, and there is no font shipped with
-    # the app; transliterate anything else (accents survive, exotic characters become ?)
-    #
-    def pdf_safe(text)
-        text.to_s.encode(
-            "Windows-1252",
-            fallback: ->(char) { I18n.transliterate(char, replacement: "?") }
-        ).encode("UTF-8")
-    rescue Encoding::UndefinedConversionError, Encoding::InvalidByteSequenceError
-        text.to_s.encode("Windows-1252", invalid: :replace, undef: :replace, replace: "?").encode("UTF-8")
-    end
 
     # renders straight into the given IO, so the finished PDF is never also held as a
     # String; prawn still keeps the document itself in memory until it is rendered

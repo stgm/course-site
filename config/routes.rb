@@ -224,6 +224,7 @@ Rails.application.routes.draw do
             end
             member do
                 post "run_checks"
+                get "report"
                 patch "toggle"
                 patch "toggle_student"
                 patch "reset_student_ip"

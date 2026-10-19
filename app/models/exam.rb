@@ -34,6 +34,12 @@ class Exam < ApplicationRecord
         (Settings.registration_phase != "exam" && !self.locked?)
     end
 
+    # Tells whether this exam has taken place: it is a real exam, it is not the
+    # one running now, and somebody was registered at a table.
+    def held?
+        locked? && Settings.exam_current != id && pset.submits.where.not(seat: nil).exists?
+    end
+
     # lock the submit of anyone who took this exam
     # so if we re-open the exam they cannot automatically open it
     def lock_existing_students

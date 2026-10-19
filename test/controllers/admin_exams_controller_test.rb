@@ -39,6 +39,34 @@ class AdminExamsControllerTest < ActionController::TestCase
         session[:user_mail] = user.mail
     end
 
+    #-- the report -------------------------------------------------------------
+
+    test "the report of an exam that was held is a pdf" do
+        sign_in @admin
+        @exam.update!(locked: true)
+        @first.update!(seat: "1-1")
+
+        get :report, params: { id: @exam.id }
+
+        assert_response :success
+        assert_equal "application/pdf", response.media_type
+        assert response.body.start_with?("%PDF")
+    end
+
+    test "there is no report of a practice exam or one without placement" do
+        sign_in @admin
+        @first.update!(seat: "1-1")
+
+        get :report, params: { id: @exam.id }
+        assert_response :not_found
+
+        @exam.update!(locked: true)
+        @first.update!(seat: nil)
+
+        get :report, params: { id: @exam.id }
+        assert_response :not_found
+    end
+
     #-- the page ---------------------------------------------------------------
 
     test "a bare link lands on whichever tab was used last" do

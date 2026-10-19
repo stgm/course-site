@@ -228,4 +228,17 @@ class ExamTest < ActiveSupport::TestCase
         assert_not_includes @exam.active_submits, long_gone
     end
 
+    test "an exam is held when it is a real exam that is not running and has placed students" do
+        assert_not @exam.held?
+
+        @exam.update!(locked: true)
+        assert_not @exam.held?
+
+        Submit.create!(user: users(:test_user), pset: @exam.pset, submitted_at: 1.day.ago, seat: "1-1")
+        assert @exam.held?
+
+        @exam.update!(locked: false)
+        assert_not @exam.held?
+    end
+
 end

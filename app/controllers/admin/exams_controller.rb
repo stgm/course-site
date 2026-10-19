@@ -106,6 +106,17 @@ class Admin::ExamsController < ApplicationController
         render json: true
     end
 
+    # PDF with the registered placement and submit times of an exam that was held
+    def report
+        exam = Exam.find(params[:id])
+        return head(:not_found) unless exam.held?
+
+        send_data ExamReport.new(exam).render,
+            type: "application/pdf",
+            disposition: "inline",
+            filename: "#{exam.name.parameterize}-report.pdf"
+    end
+
     def list_codes
         @users = User.includes(:group, :schedule).not_admin # .order(:name)
         @schedules = @users.order("users.name").group_by { |u| u.schedule_name }

@@ -30,6 +30,9 @@
 
 
                             <div class="button-bar ms-auto me-0" style="display: inline-flex; gap: 0.5rem;">
+                                <% if exam.held? %>
+                                <%= link_to "#{bootstrap_icon('file-earmark-pdf')} <label>Report</label>".html_safe, report_admin_exam_path(exam), target: '_blank', data: { turbo: false }, class: 'btn' %>
+                                <% end %>
                                 <%= link_to "#{bootstrap_icon('menu-button-wide')} <label>Settings</label>".html_safe, edit_admin_exam_path(exam), data: { 'turbo-frame' => 'modal' }, class: 'btn' %>
                                 <%= button_to "#{bootstrap_icon('layout-text-window-reverse')} <label>Test in IDE</label>".html_safe, exam_path(id: exam.id), method: :post, class: 'btn ', data: { turbo: false } %>
                             </div>
