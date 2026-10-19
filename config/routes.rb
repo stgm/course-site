@@ -121,6 +121,7 @@ Rails.application.routes.draw do
         end
 
         resource :status, only: [ :show ]
+        resource :attendance_list, only: [ :show ]
     end
 
     #--APPS-------------------------------------------------------------------------------------

@@ -48,6 +48,14 @@
             target: "modal" %>
           <% end %>
         <% end %>
+        <div class="dropdown-divider"></div>
+        <%= link_to "Download exam attendance list (PDF)",
+        schedule_attendance_list_path(schedule_slug: schedule),
+        target: "_blank",
+        data: {
+          turbo: false,
+        },
+        class: "dropdown-item" %>
         <% if current_user.admin? && current_schedule.defines_final_grades? %>
           <div class="dropdown-divider"></div>
           <%= link_to "Calculate all final grades",
