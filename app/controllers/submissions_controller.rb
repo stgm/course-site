@@ -31,7 +31,16 @@ class SubmissionsController < ApplicationController
         upload_files_to_plag_server   if should_upload_to_plag_server?
         redirect_to submissions_path, notice: "Submit successful." unless performed?
     rescue WebdavUploader::Error => e
-        ExceptionNotifier.notify_exception(e)
+        ExceptionNotifier.notify_exception(
+            e,
+            env: request.env,
+            email_prefix: "[ERROR] IT SEEMS THE SURFDRIVE IS OFFLINE! ",
+            data: {
+                warning: "IT SEEMS THE SURFDRIVE IS OFFLINE",
+                pset: @pset&.name,
+                student: current_user&.defacto_student_identifier
+            }
+        )
         redirect_back_or_to submissions_path, alert: (
             "NOTE: The submit <strong>FAILED</strong> for technical reasons.<br>" \
             "Please try once more in a few minutes.<br>" \
