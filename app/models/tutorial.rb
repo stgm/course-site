@@ -34,10 +34,9 @@ class Tutorial < ApplicationRecord
         return :running if submit.check_token.present?
 
         summary = submit.check_results.try(:dig, "summary")
-        return nil unless summary.is_a?(Array) && summary.size == 2
+        return nil unless summary.is_a?(Hash) && summary["total_check_count"]
 
-        total, passed = summary
-        I18n.t("tutorial.checks", passed: passed, total: total)
+        I18n.t("tutorial.checks", passed: summary["passed_check_count"].to_i, total: summary["total_check_count"])
     end
 
     private

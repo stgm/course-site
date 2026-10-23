@@ -104,7 +104,7 @@ en:
         participants:
             one: 1 participant
             other: "%{count} participants"
-        checks: "%{passed} of %{total}"
+        checks: "%{passed}/%{total}"
         checks_running: running
         run_checks: Run checks
         run_all_checks: Run all checks

@@ -106,7 +106,7 @@ nl:
         participants:
             one: 1 deelnemer
             other: "%{count} deelnemers"
-        checks: "%{passed} van %{total}"
+        checks: "%{passed}/%{total}"
         checks_running: bezig
         run_checks: Check uitvoeren
         run_all_checks: Alle checks uitvoeren

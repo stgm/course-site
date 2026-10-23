@@ -213,7 +213,7 @@ class TutorialsControllerTest < ActionController::TestCase
 
     test "the participant list shows how many checks passed" do
         join
-        submits(:points_one).update!(check_results: { "summary" => [ 5, 3 ] })
+        submits(:points_one).update!(check_results: { "summary" => { "total_check_count" => 5, "passed_check_count" => 3 } })
         sign_in(@teacher)
         get :show, params: { id: @tutorial.id }
         assert_match I18n.t("tutorial.checks", passed: 3, total: 5), response.body
@@ -221,7 +221,7 @@ class TutorialsControllerTest < ActionController::TestCase
 
     test "check summary covers passed, running and unchecked" do
         submit = submits(:points_one)
-        submit.update!(check_results: { "summary" => [ 5, 3 ] }, check_token: nil)
+        submit.update!(check_results: { "summary" => { "total_check_count" => 5, "passed_check_count" => 3 } }, check_token: nil)
         assert_equal I18n.t("tutorial.checks", passed: 3, total: 5), @tutorial.check_summary(submit)
 
         submit.update!(check_token: "abc")
