@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_22_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_23_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -85,6 +85,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_22_120000) do
     t.datetime "updated_at", null: false
     t.boolean "current_exam", default: false
     t.string "eval_code"
+    t.string "kind", default: "exam", null: false
     t.index ["pset_id"], name: "index_exams_on_pset_id"
   end
 
@@ -292,6 +293,28 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_22_120000) do
     t.index ["slug"], name: "index_subpages_on_slug", unique: true
   end
 
+  create_table "tutorial_memberships", force: :cascade do |t|
+    t.integer "tutorial_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tutorial_id", "user_id"], name: "index_tutorial_memberships_on_tutorial_id_and_user_id", unique: true
+    t.index ["tutorial_id"], name: "index_tutorial_memberships_on_tutorial_id"
+    t.index ["user_id"], name: "index_tutorial_memberships_on_user_id"
+  end
+
+  create_table "tutorials", force: :cascade do |t|
+    t.integer "exam_id", null: false
+    t.integer "user_id", null: false
+    t.string "pin", null: false
+    t.boolean "open", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exam_id"], name: "index_tutorials_on_exam_id"
+    t.index ["pin"], name: "index_tutorials_on_pin", unique: true
+    t.index ["user_id"], name: "index_tutorials_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "mail"
@@ -342,4 +365,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_22_120000) do
   add_foreign_key "questions", "pages"
   add_foreign_key "questions", "users"
   add_foreign_key "schedules", "pages"
+  add_foreign_key "tutorial_memberships", "tutorials"
+  add_foreign_key "tutorial_memberships", "users"
+  add_foreign_key "tutorials", "exams"
+  add_foreign_key "tutorials", "users"
 end

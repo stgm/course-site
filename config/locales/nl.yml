@@ -84,6 +84,24 @@ nl:
     exam:
         is_currently_locked: "\"%{exam_name}\" staat momenteel dicht."
 
+    tutorial:
+        menu: Start een tutorial...
+        title: Tutorials
+        yours: Jouw tutorial-codes
+        students:
+            one: 1 student
+            other: "%{count} studenten"
+        open: Open
+        start: Start
+        start_new: Maak een nieuwe tutorial-code aan
+        confirm_create: "Een tutorial-code aanmaken voor \"%{name}\"?"
+        confirm_again: "LET OP: je hebt al een tutorial-code voor \"%{name}\". Studenten met de oude code houden hun toegang, maar een tweede code geeft een tweede groep. Weet je zeker dat je nog een code wilt aanmaken?"
+        create: Maak aan
+        enter_pin: Vul de pincode in die je van je docent kreeg
+        claim: Toevoegen
+        unknown_pin: Deze pincode is onbekend of de tutorial is gesloten.
+        claimed: "\"%{name}\" is toegevoegd aan je tutorials."
+
     hands:
         assistance: Assistentie
 

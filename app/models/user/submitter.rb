@@ -4,6 +4,8 @@ module User::Submitter
 
     included do
         has_many :submits
+        has_many :tutorial_memberships
+        has_many :tutorials, through: :tutorial_memberships
         has_many :grades, through: :submits
         has_many :psets, through: :submits
 

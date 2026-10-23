@@ -5,6 +5,12 @@ class Exam < ApplicationRecord
 
     serialize :config, coder: YAML, type: Hash
 
+    # A "practice" exam is never listed as an exam: students reach it through
+    # tutorials, or directly once it is unlocked.
+    enum :kind, { exam: "exam", practice: "practice" }
+
+    has_many :tutorials, dependent: :destroy
+
     # How long after their last editor postback a student still counts as
     # taking this exam. The same window the session overview calls "active".
     ACTIVE_WINDOW = 5.hours
@@ -50,8 +56,15 @@ class Exam < ApplicationRecord
         @open_for_user ||= {}
         @open_for_user[user.id] ||= begin
             submit = Submit.find_by(user: user, pset: pset)
-            user.admin? || allow_taking? && (submit.nil? || !submit.locked?)
+            user.admin? || (allow_taking? || tutorial_member?(user)) && (submit.nil? || !submit.locked?)
         end
+    end
+
+    # Tells whether this user claimed a tutorial for this exam. A claim stays valid
+    # when the tutorial is closed, but never counts while exam mode is active.
+    def tutorial_member?(user)
+        Settings.registration_phase != "exam" &&
+            TutorialMembership.joins(:tutorial).exists?(user_id: user.id, tutorials: { exam_id: id })
     end
 
     def name_with_code

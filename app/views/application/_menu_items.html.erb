@@ -6,6 +6,7 @@
 	<%= menu_link 'Grading', grading_index_path, icon: 'pen' %>
 	<%= menu_link 'Attendance', attendance_path, icon: 'people-fill' %>
 	<%= menu_link 'Exams', admin_exams_path, icon: 'droplet', condition: Exam.any? %>
+	<%= menu_link 'Tutorials', tutorials_path, icon: 'mortarboard', condition: Settings.registration_phase != "exam" && Exam.practice.exists? %>
 	<%= menu_link 'Announcements...', alerts_path, icon: 'bell-fill', target: 'modal', accesskey: 'a' %>
 	<%= menu_link 'Tests...', tests_path, icon: 'check', target: 'modal', condition: current_schedule.grading_config.tests.any? %>
 	<%= menu_link 'Set module...', edit_schedule_current_module_path(current_schedule), icon: 'calendar', target: 'modal', condition: current_schedule.can_admin_set_module? %>
@@ -32,6 +33,7 @@
 
 <%= menu_group do %>
 	<%= menu_link 'Attendance', attendance_path, icon: 'people-fill' %>
+	<%= menu_link 'Tutorials', tutorials_path, icon: 'mortarboard', condition: Settings.registration_phase != "exam" && Exam.practice.exists? %>
 <% end %>
 
 <% if current_user.accessible_schedules.any? || current_user.groups.any? %>
@@ -59,6 +61,12 @@
 <% end %>
 
 <% end%>
+
+<% if logged_in? && Settings.registration_phase != "exam" && current_user.student? %>
+<%= menu_group do %>
+	<%= menu_link t('tutorial.menu'), tutorials_path, icon: 'mortarboard' %>
+<% end %>
+<% end %>
 
 <% if !logged_in? %>
 <% if Auth::PinController.available? %>

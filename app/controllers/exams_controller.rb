@@ -18,8 +18,8 @@ class ExamsController < ApplicationController
             @exams = Exam.where(id: Settings.exam_current)
             render layout: "blank"
         else
-            # list all practice exams
-            @exams = Exam.joins(:pset).order(:name).where(locked: false)
+            # list all exams that are open outside exam mode
+            @exams = Exam.exam.joins(:pset).order(:name).where(locked: false)
             render layout: "sidebar"
         end
     end
@@ -29,7 +29,8 @@ class ExamsController < ApplicationController
         @exam = Exam.includes(:pset).find(params[:id])
 
         if  @exam.locked? &&
-            !(Settings.registration_phase == "exam" && @exam.id == Settings.exam_current) && !current_user.senior?
+            !(Settings.registration_phase == "exam" && @exam.id == Settings.exam_current) &&
+            !current_user.senior? && !@exam.tutorial_member?(current_user)
             redirect_back_or_to root_path,
                 alert: t('exam.is_currently_locked', exam_name: @exam.name.humanize)
             return

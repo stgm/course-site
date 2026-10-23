@@ -215,6 +215,12 @@ Rails.application.routes.draw do
         end
     end
 
+    resources :tutorials, only: [ :index, :create, :update ] do
+        collection do
+            post "claim"
+        end
+    end
+
     namespace :admin do
         resources :exams, only: [ :show, :index, :edit, :update ] do
             collection do

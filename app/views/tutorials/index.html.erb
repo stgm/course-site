@@ -1,0 +1,69 @@
+<section class="markdown" id="exams-content">
+    <h1><%= t('tutorial.title') %></h1>
+
+    <% if current_user.senior? %>
+
+    <% if @tutorials.any? %>
+    <h4 class="mt-4"><%= t('tutorial.yours') %></h4>
+    <ul class="list-group mb-4">
+        <% @tutorials.each do |tutorial| %>
+        <li class="list-group-item d-flex align-items-center gap-3">
+            <p class="mb-0">
+                <strong class="fs-5 me-3"><%= tutorial.name.titleize %></strong>
+                <code class="fs-5"><%= tutorial.pin %></code>
+            </p>
+            <small class="text-muted"><%= t('tutorial.students', count: tutorial.memberships.size) %></small>
+
+            <div class="ms-auto me-0 d-flex align-items-center gap-3">
+                <div class="form-check form-switch mb-0">
+                    <%= checkbox_for(tutorial, :open, tutorial.open, tutorial_path(tutorial), form: { class: 'form-switch' }, class: 'form-check-input') do t('tutorial.open') end %>
+                </div>
+                <%= button_to t('tutorial.start'), exam_url(id: tutorial.exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
+            </div>
+        </li>
+        <% end %>
+    </ul>
+    <% end %>
+
+    <h4 class="mt-4"><%= t('tutorial.start_new') %></h4>
+    <ul class="list-group">
+        <% @exams.each do |exam| %>
+        <li class="list-group-item d-flex align-items-center gap-3">
+            <strong class="fs-5"><%= exam.name.titleize %></strong>
+            <div class="ms-auto me-0 d-flex align-items-center gap-2">
+                <%= button_to t('tutorial.start'), exam_url(id: exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
+                <%= button_to t('tutorial.create'), tutorials_path(exam_id: exam.id), method: :post, class: 'btn btn-secondary',
+                    data: { confirm: t(@tutorials.any? { |tutorial| tutorial.exam_id == exam.id } ? 'tutorial.confirm_again' : 'tutorial.confirm_create', name: exam.name.humanize) } %>
+            </div>
+        </li>
+        <% end %>
+    </ul>
+
+    <% else %>
+
+    <%= form_with url: claim_tutorials_path, class: 'mb-4' do |f| %>
+        <label for="pin" class="form-label"><%= t('tutorial.enter_pin') %></label>
+        <div class="input-group" style="max-width: 20em">
+            <%= text_field_tag :pin, nil, id: 'pin', class: 'form-control', inputmode: 'numeric', maxlength: 4, pattern: '[0-9]{4}', autocomplete: 'off' %>
+            <%= f.submit t('tutorial.claim'), class: 'btn btn-secondary' %>
+        </div>
+    <% end %>
+
+    <% available = (@tutorials.map(&:exam) + @exams).uniq %>
+    <% if available.any? %>
+    <ul class="list-group">
+        <% available.each do |exam| %>
+        <li class="list-group-item d-flex align-items-center gap-3">
+            <strong class="fs-5"><%= exam.name.titleize %></strong>
+            <div class="ms-auto me-0">
+                <% if exam.open_for_user?(current_user) %>
+                <%= button_to t('tutorial.start'), exam_url(id: exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
+                <% end %>
+            </div>
+        </li>
+        <% end %>
+    </ul>
+    <% end %>
+
+    <% end %>
+</section>

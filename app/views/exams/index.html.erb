@@ -4,7 +4,7 @@
     Persoonlijke code: <%= current_user.pin || 'onbekend' %>
     <% end %>
 
-    <table class="table table-hover table-borderless align-middle">
+    <table class="table table-borderless align-middle">
         <% @exams.each do |exam| %>
         <tr>
             <td><%= exam.name.humanize %></td>

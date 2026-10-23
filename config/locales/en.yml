@@ -82,6 +82,24 @@ en:
     exam:
         is_currently_locked: "\"%{exam_name}\" is currently locked."
 
+    tutorial:
+        menu: Start a tutorial...
+        title: Tutorials
+        yours: Your tutorial codes
+        students:
+            one: 1 student
+            other: "%{count} students"
+        open: Open
+        start: Start
+        start_new: Create a new tutorial code
+        confirm_create: "Create a tutorial code for \"%{name}\"?"
+        confirm_again: "WARNING: you already have a tutorial code for \"%{name}\". Students with the old code keep their access, but a second code starts a second group. Are you sure you want to create another one?"
+        create: Create
+        enter_pin: Enter the PIN you got from your teacher
+        claim: Add
+        unknown_pin: This PIN is not known or its tutorial is closed.
+        claimed: "\"%{name}\" was added to your tutorials."
+
     hands:
         assistance: Assistance
 

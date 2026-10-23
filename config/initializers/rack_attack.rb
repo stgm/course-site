@@ -18,6 +18,14 @@ class Rack::Attack
     req.ip if req.path == "/auth/pin/validate" && req.post?
   end
 
+  # Throttle tutorial PIN claims: only 10,000 possible PINs.
+  # 5 attempts per user per minute; keyed on the user because a class shares one IP.
+  throttle("tutorials/claim", limit: 5, period: 1.minute) do |req|
+    if req.path == "/tutorials/claim" && req.post?
+      req.session[:user_id] || req.ip
+    end
+  end
+
   # Return 429 with a plain-text body instead of the default binary response.
   self.throttled_responder = lambda do |_req|
     [429, { "Content-Type" => "text/plain" }, ["Too many requests. Please try again later."]]
