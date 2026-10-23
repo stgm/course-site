@@ -217,6 +217,10 @@ class Course::Loader
         page = load_page(file.parent_path)
         if file.type != "D" && submit_config = read_config(file)
             if name = submit_config["name"]
+                if submit_config["type"].present? && !Exam.kinds.key?(submit_config["type"])
+                    @errors << "#{file.path} has type #{submit_config["type"].inspect}, which is not known. Use exam or practice; until then #{name} is not treated as an exam."
+                end
+
                 pset = Pset.where(name: name).first_or_initialize
 
                 pset.description = file.parent_path.title.parameterize
