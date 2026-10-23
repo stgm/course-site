@@ -101,6 +101,17 @@ nl:
         claim: Toevoegen
         unknown_pin: Deze pincode is onbekend of de tutorial is gesloten.
         claimed: "\"%{name}\" is toegevoegd aan je tutorials."
+        list: Lijst
+        back: Terug naar tutorials
+        participants:
+            one: 1 deelnemer
+            other: "%{count} deelnemers"
+        checks: "%{passed} van %{total}"
+        checks_running: bezig
+        run_checks: Check uitvoeren
+        run_all_checks: Alle checks uitvoeren
+        running_checks: De checks worden uitgevoerd. Deze pagina ververst zolang ze bezig zijn.
+        wrong_schedule: Deze code is voor een ander rooster, dus je kunt hem niet toevoegen.
 
     hands:
         assistance: Assistentie

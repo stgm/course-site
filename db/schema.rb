@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_23_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_23_140000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -310,8 +310,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_23_120000) do
     t.boolean "open", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "schedule_id"
     t.index ["exam_id"], name: "index_tutorials_on_exam_id"
     t.index ["pin"], name: "index_tutorials_on_pin", unique: true
+    t.index ["schedule_id"], name: "index_tutorials_on_schedule_id"
     t.index ["user_id"], name: "index_tutorials_on_user_id"
   end
 
@@ -368,5 +370,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_23_120000) do
   add_foreign_key "tutorial_memberships", "tutorials"
   add_foreign_key "tutorial_memberships", "users"
   add_foreign_key "tutorials", "exams"
+  add_foreign_key "tutorials", "schedules"
   add_foreign_key "tutorials", "users"
 end

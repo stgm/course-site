@@ -215,6 +215,17 @@ class Submit < ApplicationRecord
         )
     end
 
+    # Like recheck, but sends the files from a background job, so that a request
+    # that checks a whole group does not wait for every upload.
+    def recheck_later(host)
+        SubmitCheckJob.perform_later(
+            id,
+            tool_config: pset.submit_config["check"],
+            callback_url: host,
+            run_immediately: true
+        )
+    end
+
     # Number of submits touched in the last few hours, per user id. Users
     # without a recent submit are absent from the hash.
     def self.recent_count_by_user(users)

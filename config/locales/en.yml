@@ -99,6 +99,17 @@ en:
         claim: Add
         unknown_pin: This PIN is not known or its tutorial is closed.
         claimed: "\"%{name}\" was added to your tutorials."
+        list: List
+        back: Back to tutorials
+        participants:
+            one: 1 participant
+            other: "%{count} participants"
+        checks: "%{passed} of %{total}"
+        checks_running: running
+        run_checks: Run checks
+        run_all_checks: Run all checks
+        running_checks: Running checks. This page refreshes while they run.
+        wrong_schedule: This code is for another schedule, so you cannot add it.
 
     hands:
         assistance: Assistance

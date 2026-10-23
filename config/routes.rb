@@ -215,9 +215,13 @@ Rails.application.routes.draw do
         end
     end
 
-    resources :tutorials, only: [ :index, :create, :update ] do
+    resources :tutorials, only: [ :index, :create, :update, :show ] do
         collection do
             post "claim"
+        end
+        member do
+            post "recheck"
+            patch "participation"
         end
     end
 

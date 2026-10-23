@@ -11,6 +11,7 @@
             <p class="mb-0">
                 <strong class="fs-5 me-3"><%= tutorial.name.titleize %></strong>
                 <code class="fs-5"><%= tutorial.pin %></code>
+                <% if tutorial.schedule && Schedule.many? %><small class="text-muted ms-2"><%= tutorial.schedule.name %></small><% end %>
             </p>
             <small class="text-muted"><%= t('tutorial.students', count: tutorial.memberships.size) %></small>
 
@@ -18,6 +19,7 @@
                 <div class="form-check form-switch mb-0">
                     <%= checkbox_for(tutorial, :open, tutorial.open, tutorial_path(tutorial), form: { class: 'form-switch' }, class: 'form-check-input') do t('tutorial.open') end %>
                 </div>
+                <%= link_to t('tutorial.list'), tutorial_path(tutorial), class: 'btn btn-secondary' %>
                 <%= button_to t('tutorial.start'), exam_url(id: tutorial.exam.id), method: :post, class: 'btn btn-secondary', data: { turbo: false } %>
             </div>
         </li>
