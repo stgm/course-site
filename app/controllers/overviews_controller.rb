@@ -109,11 +109,13 @@ class OverviewsController < ApplicationController
         if @accessible_schedules&.any? && present_single_overview?
             # all schedules on single page
             @users = User.not_staff.where(schedule: @accessible_schedules)
+        elsif @selected_schedule.present? && @accessible_schedules&.include?(@selected_schedule)
+            # single schedule selected, which takes precedence over group access
+            @users = @selected_schedule.users.not_staff
         elsif @accessible_groups&.any?
             # for staff who only have access to a few groups
             @users = User.not_staff.where(group: @accessible_groups)
         elsif @selected_schedule.present?
-            # single schedule selected
             @users = @selected_schedule.users.not_staff
         end
 
