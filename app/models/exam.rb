@@ -33,11 +33,29 @@ class Exam < ApplicationRecord
 
     ROOM_LIMIT = 40
 
+    # Tells whether exam mode is on and this is the exam it is set to.
+    def current?
+        Settings.registration_phase == "exam" && Settings.exam_current == id
+    end
+
     def allow_taking?
         # in exam mode, only show "current" exams
-        (Settings.registration_phase == "exam" && Settings.exam_current == self.id) ||
+        current? ||
         # outside of exam mode, only show unlocked exams (e.g. practice)
         (Settings.registration_phase != "exam" && !self.locked?)
+    end
+
+    # Tells whether this user may start a session although the exam is locked:
+    # seniors, staff for a practice exam, and members of a tutorial for it.
+    def lock_exempt?(user)
+        user.senior? || (practice? && user.staff?) || tutorial_member?(user)
+    end
+
+    # Tells whether the lock keeps this user from starting a session. The
+    # exam that exam mode is set to is never locked, and the exemptions in
+    # lock_exempt? apply.
+    def locked_for?(user)
+        locked? && !current? && !lock_exempt?(user)
     end
 
     # Tells whether this exam has taken place: it is a real exam, it is not the
@@ -56,7 +74,7 @@ class Exam < ApplicationRecord
         @open_for_user ||= {}
         @open_for_user[user.id] ||= begin
             submit = Submit.find_by(user: user, pset: pset)
-            user.admin? || (allow_taking? || tutorial_member?(user)) && (submit.nil? || !submit.locked?)
+            user.admin? || (allow_taking? || lock_exempt?(user)) && (submit.nil? || !submit.locked?)
         end
     end
 
