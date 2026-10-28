@@ -124,6 +124,12 @@ class Admin::ExamsController < ApplicationController
         render layout: false
     end
 
+    # Clears the IP lock of every student, keeping their personal codes.
+    def reset_ip_locks
+        User.not_staff.update_all(last_known_ip: nil)
+        redirect_to admin_exams_path
+    end
+
     def start_exam_mode
         Settings.exam_current = params.expect :exam_id
         login_method = params[:login_method]

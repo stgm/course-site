@@ -65,6 +65,11 @@
                             <% unless Settings.registration_phase == 'exam' %>
                             <%= toggle_setting_form('exam_show_personal', 'Show personal code on exam page') %>
                             <% end %>
+                            <div class="d-flex align-items-center gap-2 mt-2">
+                                <%= button_to 'Reset IP locks', reset_ip_locks_admin_exams_path, method: :post, data:
+                                { confirm: 'Students will be able to log in from any computer again.' }, class: 'btn btn-primary' %>
+                                <span class="small"><%= pluralize(User.not_staff.where.not(last_known_ip: [ nil, "" ]).count, 'student') %> with an IP lock</span>
+                            </div>
                         </div>
                     </div>
                     <% unless Settings.registration_phase == 'exam' %>
