@@ -1,0 +1,49 @@
+    <div class="d-flex align-items-center gap-3 mt-4 mb-2">
+        <h4 class="mb-0"><%= t('tutorial.participants', count: @participants.size) %></h4>
+        <% if @checkable && @submits.any? %>
+        <div class="ms-auto">
+            <%= button_to t('tutorial.run_all_checks'), recheck_tutorial_path(@tutorial), method: :post, class: 'btn btn-secondary' %>
+        </div>
+        <% end %>
+    </div>
+
+    <ul class="list-group">
+        <% @participants.each do |user| %>
+        <% submit = @submits[user.id] %>
+        <% attendance = @tutorial.attendance_subgrade(user) %>
+        <li id="participant_<%= user.id %>" class="list-group-item d-flex align-items-center gap-3">
+            <strong class="fs-5">
+                <% if submit %>
+                <%= link_to user.name, submit_path(submit), data: { 'turbo-frame' => 'modal' } %>
+                <% else %>
+                <%= user.name %>
+                <% end %>
+            </strong>
+
+            <% summary = @tutorial.check_summary(submit) %>
+            <% results = submit&.check_results.try(:dig, "summary") %>
+            <% all_passed = summary.is_a?(String) && results["passed_check_count"].to_i == results["total_check_count"].to_i %>
+            <small class="<%= summary == :running ? 'text-muted' : (summary ? (all_passed ? 'text-success' : 'text-danger') : 'text-muted') %>">
+                <% if summary == :running %><%= t('tutorial.checks_running') %>
+                <% elsif summary %><%= summary %>
+                <% elsif submit.nil? %><%= t('tutorial.not_started') %>
+                <% else %>&ndash;<% end %>
+            </small>
+
+            <div class="ms-auto me-0 d-flex align-items-center gap-3">
+                <% if @checkable && submit %>
+                <%= button_to t('tutorial.run_checks'), recheck_tutorial_path(@tutorial, user_id: user.id), method: :post, class: 'btn btn-secondary' %>
+                <% end %>
+
+                <% if attendance %>
+                <%= form_with url: participation_tutorial_path(@tutorial), method: :patch, class: 'form-check form-switch mb-0', data: { controller: 'toggle-form' } do |f| %>
+                    <%= hidden_field_tag :user_id, user.id, id: nil %>
+                    <%= hidden_field_tag :checked, 0, id: nil %>
+                    <%= check_box_tag :checked, 1, submit&.grade&.subgrades.to_h[attendance.to_sym].to_i != 0, id: "attendance_#{user.id}", class: 'form-check-input' %>
+                    <label for="attendance_<%= user.id %>"><%= attendance.humanize.downcase %></label>
+                <% end %>
+                <% end %>
+            </div>
+        </li>
+        <% end %>
+    </ul>

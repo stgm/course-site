@@ -1,57 +1,13 @@
-<% if @submits.values.any? { |submit| submit.check_token.present? } %>
-<% content_for :meta do %><meta http-equiv="refresh" content="5"><% end %>
-<% end %>
-
 <section class="markdown" id="exams-content">
     <h1><%= @tutorial.name.titleize %> <code><%= @tutorial.pin %></code></h1>
     <p><%= link_to t('tutorial.back'), tutorials_path %></p>
 
     <% if flash[:notice] %><p class="text-muted"><%= flash[:notice] %></p><% end %>
 
-    <div class="d-flex align-items-center gap-3 mt-4 mb-2">
-        <h4 class="mb-0"><%= t('tutorial.participants', count: @participants.size) %></h4>
-        <% if @checkable && @submits.any? %>
-        <div class="ms-auto">
-            <%= button_to t('tutorial.run_all_checks'), recheck_tutorial_path(@tutorial), method: :post, class: 'btn btn-secondary' %>
-        </div>
-        <% end %>
+    <%# Links and buttons inside leave the frame; frame_poll reloads it while the page is open. %>
+    <%= turbo_frame_tag "participants", target: "_top" do %>
+    <div data-controller="frame-poll" data-frame-poll-url-value="<%= tutorial_path(@tutorial) %>" data-frame-poll-interval-value="5">
+        <%= render "participants" %>
     </div>
-
-    <ul class="list-group">
-        <% @participants.each do |user| %>
-        <% submit = @submits[user.id] %>
-        <% attendance = @tutorial.attendance_subgrade(user) %>
-        <li class="list-group-item d-flex align-items-center gap-3">
-            <strong class="fs-5">
-                <% if submit %>
-                <%= link_to user.name, submit_path(submit), data: { 'turbo-frame' => 'modal' } %>
-                <% else %>
-                <%= user.name %>
-                <% end %>
-            </strong>
-
-            <% summary = @tutorial.check_summary(submit) %>
-            <small class="text-muted">
-                <% if summary == :running %><%= t('tutorial.checks_running') %>
-                <% elsif summary %><%= summary %>
-                <% else %>&ndash;<% end %>
-            </small>
-
-            <div class="ms-auto me-0 d-flex align-items-center gap-3">
-                <% if @checkable && submit %>
-                <%= button_to t('tutorial.run_checks'), recheck_tutorial_path(@tutorial, user_id: user.id), method: :post, class: 'btn btn-secondary' %>
-                <% end %>
-
-                <% if attendance %>
-                <%= form_with url: participation_tutorial_path(@tutorial), method: :patch, class: 'form-check form-switch mb-0', data: { controller: 'toggle-form' } do |f| %>
-                    <%= hidden_field_tag :user_id, user.id, id: nil %>
-                    <%= hidden_field_tag :checked, 0, id: nil %>
-                    <%= check_box_tag :checked, 1, submit&.grade&.subgrades.to_h[attendance.to_sym].to_i != 0, id: "attendance_#{user.id}", class: 'form-check-input' %>
-                    <label for="attendance_<%= user.id %>"><%= attendance.humanize.downcase %></label>
-                <% end %>
-                <% end %>
-            </div>
-        </li>
-        <% end %>
-    </ul>
+    <% end %>
 </section>

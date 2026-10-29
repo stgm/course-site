@@ -6,7 +6,8 @@ class TutorialsController < ApplicationController
     before_action :load_own_tutorial, only: [ :update, :show, :recheck, :participation ]
     before_action :redirect_in_exam_mode
 
-    layout "sidebar"
+    # A reload of the participants frame needs none of the page around it.
+    layout -> { turbo_frame_request? ? false : "sidebar" }
 
     # Staff see their own tutorials and the practice exams to start one from.
     # Students see the tutorials they claimed and a field to enter a PIN.
@@ -38,12 +39,19 @@ class TutorialsController < ApplicationController
     end
 
     # Lists the participants of one tutorial, with their checks and attendance.
+    # The page reloads its participants frame every few seconds, and that request
+    # answers 304 when nothing in the list has changed.
     def show
         @body_class = "exam_list"
         @pset = @tutorial.exam.pset
         @participants = @tutorial.users.includes(:schedule).order(:name)
         @submits = Submit.where(pset: @pset, user: @participants).includes(:grade).index_by(&:user_id)
         @checkable = @pset.submit_config["check"].present? && CheckSender.enabled?
+
+        if turbo_frame_request?
+            fresh_when etag: [ @tutorial.id, I18n.locale, @checkable, @participants.map(&:id),
+                               @submits.values.map { |s| [ s.id, s.updated_at, s.check_token, s.grade&.updated_at ] } ]
+        end
     end
 
     # Runs the automatic checks for one participant, or for all of them.

@@ -23,8 +23,11 @@ class Tutorial < ApplicationRecord
     # "meegedaan". The grading config is per schedule, so it is read through the
     # student's own schedule. Returns nil if the pset has no boolean subgrade.
     def attendance_subgrade(user)
+        @attendance_subgrades ||= {}
+        return @attendance_subgrades[user.schedule_id] if @attendance_subgrades.key?(user.schedule_id)
+
         subgrades = user.grading_config.grades.dig(exam.pset.name, "subgrades") || {}
-        subgrades.find { |_name, type| type == "boolean" }&.first
+        @attendance_subgrades[user.schedule_id] = subgrades.find { |_name, type| type == "boolean" }&.first
     end
 
     # Tells how many automatic checks of a submit passed: "3 of 5", "running" while

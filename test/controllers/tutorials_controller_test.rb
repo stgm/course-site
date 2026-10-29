@@ -219,6 +219,25 @@ class TutorialsControllerTest < ActionController::TestCase
         assert_match I18n.t("tutorial.checks", passed: 3, total: 5), response.body
     end
 
+    test "the participants frame can be reloaded by the owner only" do
+        join
+        sign_in(@teacher)
+        @request.headers["Turbo-Frame"] = "participants"
+        get :show, params: { id: @tutorial.id }
+        assert_response :success
+        assert_match @student.name, response.body
+        assert_no_match "<html", response.body
+
+        etag = response.headers["ETag"]
+        @request.headers["If-None-Match"] = etag
+        get :show, params: { id: @tutorial.id }
+        assert_response :not_modified
+
+        sign_in(users(:test_user_2).tap { |u| u.update!(role: :student) })
+        get :show, params: { id: @tutorial.id }
+        assert_response :forbidden
+    end
+
     test "check summary covers passed, running and unchecked" do
         submit = submits(:points_one)
         submit.update!(check_results: { "summary" => { "total_check_count" => 5, "passed_check_count" => 3 } }, check_token: nil)

@@ -109,6 +109,7 @@ en:
         run_checks: Run checks
         run_all_checks: Run all checks
         running_checks: Running checks. This page refreshes while they run.
+        not_started: not started
         wrong_schedule: This code is for another schedule, so you cannot add it.
 
     hands:

@@ -111,6 +111,7 @@ nl:
         run_checks: Check uitvoeren
         run_all_checks: Alle checks uitvoeren
         running_checks: De checks worden uitgevoerd. Deze pagina ververst zolang ze bezig zijn.
+        not_started: nog niet gestart
         wrong_schedule: Deze code is voor een ander rooster, dus je kunt hem niet toevoegen.
 
     hands:
