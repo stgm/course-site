@@ -231,6 +231,7 @@ Rails.application.routes.draw do
                 post "start_exam_mode"
                 post "stop_exam_mode"
                 post "assign_codes"
+                post "reset_ip_locks"
                 get "list_codes"
             end
             member do
