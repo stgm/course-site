@@ -24,6 +24,7 @@ en:
     materials: "materials"
     modules: "modules"
     other: "other"
+    module_closed: "closed"
 
     cancel: "Cancel"
 
@@ -108,8 +109,8 @@ en:
         checks_running: running
         run_checks: Run checks
         run_all_checks: Run all checks
-        running_checks: Running checks. This page refreshes while they run.
         not_started: not started
+        running_checks: Running checks. This page refreshes while they run.
         wrong_schedule: This code is for another schedule, so you cannot add it.
 
     hands:
