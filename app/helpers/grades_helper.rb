@@ -82,11 +82,14 @@ module GradesHelper
         grade.to_s
     end
 
-    def translate_subgrade(grade)
+    def translate_subgrade(grade, type = nil)
         return "" if grade.nil?
         return "NaN" if grade.is_a?(Float) and grade.nan?
-        return t("grading.done_yes") if grade == -1 && !grade.is_a?(Float)
-        return t("grading.done_no") if grade == 0
+        if type == "boolean"
+            # boolean subgrades are shown as yes/no
+            return t("grading.done_yes") if grade == -1
+            return t("grading.done_no") if grade == 0
+        end
         return grade.to_i.to_s if grade == grade.to_i
         return grade.to_s
     end

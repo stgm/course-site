@@ -32,7 +32,7 @@
               		<% grade.grading_config['subgrades'].each_pair do |subgrade_name, unin| %>
               		<% k=subgrade_name %>
               		<% v=grade.subgrades[k] %>
-              		<li><%= k.capitalize %> → <%= translate_subgrade(v) %></li>
+              		<li><%= k.capitalize %> → <%= translate_subgrade(v, unin) %></li>
               		<% end %>
                	<% end %>
 

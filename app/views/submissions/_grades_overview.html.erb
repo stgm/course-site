@@ -32,7 +32,7 @@
                 <%# Print each subgrade if it exists for this grade, subgrades are not hidden, and the grade isn't unpublished. %>
                 <%# Else, print a dash. %>
                 <% if @grades_by_pset.key?(submit) && !current_schedule.grading_config.grades[submit]['hide_subgrades'] && @grades_by_pset[submit].subgrades[subgrade] %>
-                <td><%= translate_subgrade(@grades_by_pset[submit].subgrades[subgrade]) %></td>
+                <td><%= translate_subgrade(@grades_by_pset[submit].subgrades[subgrade], current_schedule.grading_config.grades.dig(submit, 'subgrades', subgrade)) %></td>
                 <% else %>
                 <td>-</td>
                 <% end %>
