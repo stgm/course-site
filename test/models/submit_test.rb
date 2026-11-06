@@ -74,4 +74,18 @@ class SubmitTest < ActiveSupport::TestCase
         assert @submit.allow_new_submit?
     end
 
+    test "submissions stay available during exam mode" do
+        Settings.registration_phase = "exam"
+
+        assert Submit.available?
+    end
+
+    test "submissions are not available before the course opens or after archival" do
+        [ "before", "archival" ].each do |phase|
+            Settings.registration_phase = phase
+
+            assert_not Submit.available?, "submissions should be closed in phase #{phase}"
+        end
+    end
+
 end

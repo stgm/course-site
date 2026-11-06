@@ -48,7 +48,7 @@ class Submit < ApplicationRecord
 
     def self.available?
         !Settings.submit_disabled &&
-        Settings.registration_phase.in?([ "during", "after" ]) &&
+        Settings.registration_phase.in?([ "during", "after", "exam" ]) &&
         (WebdavUploader.fully_configured? ||
             Rails.env.development?)
     end
