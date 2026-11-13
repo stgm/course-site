@@ -51,7 +51,7 @@
         </div>
     <% end %>
 
-    <% available = (@tutorials.map(&:exam) + @exams).uniq %>
+    <% available = @tutorials.map(&:exam).uniq %>
     <% if available.any? %>
     <ul class="list-group">
         <% available.each do |exam| %>

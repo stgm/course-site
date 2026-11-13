@@ -10,7 +10,7 @@ class TutorialsController < ApplicationController
     layout -> { turbo_frame_request? ? false : "sidebar" }
 
     # Staff see their own tutorials and the practice exams to start one from.
-    # Students see the tutorials they claimed and a field to enter a PIN.
+    # Students see only the tutorials they claimed and a field to enter a PIN.
     def index
         @body_class = "exam_list"
         if current_user.senior?
@@ -18,7 +18,6 @@ class TutorialsController < ApplicationController
             @exams = Exam.practice.includes(:pset).order("psets.name")
         else
             @tutorials = current_user.tutorials.includes(:exam).order(created_at: :desc)
-            @exams = Exam.practice.joins(:pset).where(locked: false).order("psets.name")
         end
     end
 
