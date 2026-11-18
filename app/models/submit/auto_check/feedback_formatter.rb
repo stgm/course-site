@@ -6,6 +6,15 @@ module Submit::AutoCheck::FeedbackFormatter
         self.check_results.present?
     end
 
+    # Tells whether the student may see the check results. They stay hidden
+    # while exam mode is on, and for a declared exam until its grade is published.
+    def auto_feedback_visible_to_student?
+        return false unless has_auto_feedback?
+        return false if Settings.registration_phase == "exam"
+        return false if pset.exam&.exam? && !(grade&.published? || grade&.exported?)
+        true
+    end
+
     def formatted_auto_feedback
         return "" if self.check_results.blank?
         runs = self.check_results["runs"]

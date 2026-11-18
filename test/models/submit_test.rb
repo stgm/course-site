@@ -80,6 +80,43 @@ class SubmitTest < ActiveSupport::TestCase
         assert Submit.available?
     end
 
+    def checked_submit(pset)
+        Submit.create!(user: @user, pset: pset, check_results: { "runs" => [] })
+    end
+
+    test "check results are visible to the student in a normal phase" do
+        assert checked_submit(@prereq).auto_feedback_visible_to_student?
+    end
+
+    test "check results are not visible without results" do
+        assert_not Submit.create!(user: @user, pset: @prereq).auto_feedback_visible_to_student?
+    end
+
+    test "check results are hidden from the student in exam mode" do
+        submit = checked_submit(@prereq)
+        Settings.registration_phase = "exam"
+
+        assert_not submit.auto_feedback_visible_to_student?
+    end
+
+    test "check results of a declared exam are hidden until the grade is published" do
+        Exam.create!(pset: @prereq, kind: "exam", config: {})
+        submit = checked_submit(@prereq)
+        assert_not submit.auto_feedback_visible_to_student?
+
+        grade = Grade.create!(submit: submit, grader: @user, grade: 7, status: :finished)
+        assert_not submit.reload.auto_feedback_visible_to_student?
+
+        grade.update!(status: :published)
+        assert submit.reload.auto_feedback_visible_to_student?
+    end
+
+    test "check results of a practice exam are visible without a published grade" do
+        Exam.create!(pset: @prereq, kind: "practice", config: {})
+
+        assert checked_submit(@prereq).auto_feedback_visible_to_student?
+    end
+
     test "submissions are not available before the course opens or after archival" do
         [ "before", "archival" ].each do |phase|
             Settings.registration_phase = phase

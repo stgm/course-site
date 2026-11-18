@@ -54,6 +54,7 @@ class SubmissionsController < ApplicationController
     # Shows automatic check feedback for a single submission.
     def feedback
         submit = current_user.submits.find(params[:submission_id])
+        raise ActionController::RoutingError.new("Not Found") unless submit.auto_feedback_visible_to_student?
         @formatted_feedback = submit.formatted_auto_feedback
         @formatted_feedback = "(no data)" if @formatted_feedback.blank?
         render layout: "modal"

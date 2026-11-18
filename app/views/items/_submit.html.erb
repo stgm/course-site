@@ -58,12 +58,12 @@
 
 <%# ----footer---- %>
 
-<% if submit.filenames.any? || submit.has_auto_feedback? %>
+<% if submit.filenames.any? || submit.auto_feedback_visible_to_student? %>
     <div class="card-footer">
     <% if submit.filenames.any? && Settings.registration_phase != 'exam' %>
         <%= link_to 'Download', submission_download_path(submit), class: 'btn btn-sm btn-secondary', data: { turbo: false } %>
     <% end %>
-    <% if submit.has_auto_feedback? %>
+    <% if submit.auto_feedback_visible_to_student? %>
         <%= link_to t("check_results"), submission_feedback_path(submit), class:"btn btn-sm btn-secondary", target: 'modal' %>
     <% end %>
     </div>
